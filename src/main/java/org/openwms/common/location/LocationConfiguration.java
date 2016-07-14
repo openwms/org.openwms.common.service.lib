@@ -19,32 +19,32 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common;
+package org.openwms.common.location;
 
-import org.ameba.annotation.EnableAspects;
-import org.ameba.app.SolutionApp;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import java.util.Arrays;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 /**
- * A Starter.
+ * A LocationConfiguration.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version 1.0
  * @since 1.0
  */
-@SpringBootApplication(scanBasePackageClasses = {Starter.class, SolutionApp.class})
-@EnableAspects
-@EnableJpaAuditing
-public class Starter {
+@Profile("default")
+@Configuration
+class LocationConfiguration {
 
-    /**
-     * Boot up!
-     *
-     * @param args Some args
-     */
-    public static void main(String[] args) {
-        SpringApplication.run(Starter.class, args);
+    @Bean
+    CommandLineRunner runner(LocationRepository lr) {
+        return args -> {
+            lr.deleteAll();
+            Arrays.asList("ERR_/0000/0000/0000/0000,AKL_/0001/0000/0000/0000".split(","))
+                    .forEach(x -> lr.save(new Location(LocationPK.fromString(x))));
+        };
     }
 }
