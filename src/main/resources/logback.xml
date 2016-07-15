@@ -1,18 +1,37 @@
-<configuration>
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true">
 
-  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
-    <encoder>
-      <pattern>
-        %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
-      </pattern>
-    </encoder>
-  </appender>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>TRACE</level>
+        </filter>
+    </appender>
 
-  <logger name="org.openwms" level="debug"/>
-  <logger name="org.hibernate" level="warn"/>
+    <logger name="org.openwms" level="DEBUG" additivity="false"/>
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.hibernate" level="warn"/>
 
-  <root level="info">
-    <appender-ref ref="stdout"/>
-  </root>
+    <!-- Specialized loggers -->
+    <logger name="PRESENTATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
+    </logger>
+    <logger name="SERVICE_LAYER_ACCESS" level="INFO" additivity="false">
+    </logger>
+    <logger name="SERVICE_LAYER_EXCEPTION" level="ERROR" additivity="false">
+    </logger>
+    <logger name="INTEGRATION_LAYER_ACCESS" level="INFO" additivity="false">
+    </logger>
+    <logger name="INTEGRATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
+    </logger>
+    <logger name="MEASURED" level="INFO" additivity="false">
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
 
 </configuration>
