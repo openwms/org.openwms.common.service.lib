@@ -21,31 +21,33 @@
  */
 package org.openwms.common.transport;
 
-import org.ameba.mapping.BeanMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import java.io.Serializable;
 
 /**
- * A TransportUnitController.
+ * A TransportUnitVO.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version 1.0
  * @since 1.0
  */
-@RestController
-public class TransportUnitController {
+public class TransportUnitVO implements Serializable{
 
-    @Autowired
-    private TransportUnitService<TransportUnit> service;
-    @Autowired
-    private BeanMapper mapper;
+    String barcode;
+    String actualLocation;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/transportUnits", params = {"bk"})
-    public @ResponseBody TransportUnitVO getTransportUnit(@RequestParam("bk") String transportUnitBK) {
-        return mapper.map(service.findByBarcode(new Barcode(transportUnitBK)), TransportUnitVO.class);
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
+    }
+
+    public String getActualLocation() {
+        return actualLocation;
+    }
+
+    public void setActualLocation(String actualLocation) {
+        this.actualLocation = actualLocation;
     }
 }

@@ -19,33 +19,32 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.transport;
+package org.openwms.common.location;
 
-import org.ameba.mapping.BeanMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.Arrays;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 /**
- * A TransportUnitController.
+ * A LocationConfiguration.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version 1.0
  * @since 1.0
  */
-@RestController
-public class TransportUnitController {
+@Profile("default")
+@Configuration
+class LocationConfig {
 
-    @Autowired
-    private TransportUnitService<TransportUnit> service;
-    @Autowired
-    private BeanMapper mapper;
-
-    @RequestMapping(method = RequestMethod.GET, value = "/transportUnits", params = {"bk"})
-    public @ResponseBody TransportUnitVO getTransportUnit(@RequestParam("bk") String transportUnitBK) {
-        return mapper.map(service.findByBarcode(new Barcode(transportUnitBK)), TransportUnitVO.class);
+    @Bean
+    CommandLineRunner locationRunner(LocationRepository lr) {
+        return args -> {
+            lr.deleteAll();
+            Arrays.asList("ERR_/0000/0000/0000/0000,AKL_/0001/0000/0000/0000".split(","))
+                    .forEach(x -> lr.save(new Location(LocationPK.fromString(x))));
+        };
     }
 }
