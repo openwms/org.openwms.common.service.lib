@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*
+ * openwms.org, the Open Warehouse Management System.
+ * Copyright (C) 2014 Heiko Scherrer
+ *
+ * This file is part of openwms.org.
+ *
+ * openwms.org is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * openwms.org is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this software. If not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.openwms</groupId>
+        <artifactId>org.openwms</artifactId>
+        <version>1.1.0-SNAPSHOT</version>
+        <relativePath />
+    </parent>
+    <artifactId>org.openwms.services</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>OpenWMS.org Service Registry</name>
+
+    <properties>
+        <spring-boot.version>1.4.0.RELEASE</spring-boot.version>
+        <spring-cloud-dependencies.version>Brixton.SR5</spring-cloud-dependencies.version>
+    </properties>
+
+
+    <distributionManagement>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>OpenWMS.org Release Repository</name>
+            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+        <snapshotRepository>
+            <id>sonatype-nexus-staging</id>
+            <name>OpenWMS.org Snapshot Repository</name>
+            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <site>
+            <id>${distribution.serverId}</id>
+            <name>OpenWMS.org WebSite</name>
+            <url>${distribution.serverProtocol}://${distribution.serverUrl.sourcePath}/org.openwms.tms</url>
+        </site>
+    </distributionManagement>
+
+    <scm>
+        <url>https://github.com/spring-labs/org.openwms.configuration</url>
+        <connection>scm:git:git://github.com/spring-labs/org.openwms.configuration.git</connection>
+        <developerConnection>scm:git:git@github.com:spring-labs/org.openwms.configuration.git</developerConnection>
+    </scm>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-server</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Snapshot Repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>bintray</id>
+            <name>Bintray Openwms</name>
+            <url>https://dl.bintray.com/openwms/github</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <name>Maven Plugin Repository</name>
+            <url>http://repo.maven.apache.org/maven2</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>typescript-maven-plugin</id>
+            <url>https://raw.github.com/ppedregal/typescript-maven-plugin/master/repo</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>bintray</id>
+            <name>Bintray Openwms</name>
+            <url>https://dl.bintray.com/openwms/github</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>
