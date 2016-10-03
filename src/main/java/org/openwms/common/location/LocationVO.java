@@ -21,29 +21,14 @@
  */
 package org.openwms.common.location;
 
-import org.ameba.mapping.BeanMapper;
-import org.openwms.common.CommonConstants;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import java.io.Serializable;
 
 /**
- * A LocationController.
+ * A LocationVO.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @since 2.0
  */
-@RestController(CommonConstants.API_LOCATIONS)
-class LocationController {
+public class LocationVO implements Serializable {
 
-    @Autowired
-    private LocationService<Location> locationService;
-    @Autowired
-    private BeanMapper mapper;
-
-    @GetMapping(params = {"locationPK"})
-    public LocationVO getLocation(@RequestParam("locationPK") String locationPk) {
-        return mapper.map(locationService.findByLocationId(LocationPK.fromString(locationPk)), LocationVO.class);
-    }
+    private String locationId;
 }

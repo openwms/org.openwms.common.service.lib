@@ -21,29 +21,35 @@
  */
 package org.openwms.common.location;
 
-import org.ameba.mapping.BeanMapper;
-import org.openwms.common.CommonConstants;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.dozer.DozerConverter;
 
 /**
- * A LocationController.
+ * A LocationConverter.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @since 2.0
  */
-@RestController(CommonConstants.API_LOCATIONS)
-class LocationController {
+public class LocationPKConverter extends DozerConverter<String, LocationPK> {
 
-    @Autowired
-    private LocationService<Location> locationService;
-    @Autowired
-    private BeanMapper mapper;
+    /**
+     * {@inheritDoc}
+     */
+    public LocationPKConverter() {
+        super(String.class, LocationPK.class);
+    }
 
-    @GetMapping(params = {"locationPK"})
-    public LocationVO getLocation(@RequestParam("locationPK") String locationPk) {
-        return mapper.map(locationService.findByLocationId(LocationPK.fromString(locationPk)), LocationVO.class);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public LocationPK convertTo(String source, LocationPK destination) {
+        return LocationPK.fromString(source);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String convertFrom(LocationPK source, String destination) {
+        return source.toString();
     }
 }
