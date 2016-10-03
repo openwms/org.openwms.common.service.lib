@@ -36,8 +36,8 @@
     <name>OpenWMS.org Service Registry</name>
 
     <properties>
-        <spring-boot.version>1.4.0.RELEASE</spring-boot.version>
-        <spring-cloud-dependencies.version>Brixton.SR5</spring-cloud-dependencies.version>
+        <spring-boot.version>1.4.1.RELEASE</spring-boot.version>
+        <spring-cloud-dependencies.version>Brixton.SR6</spring-cloud-dependencies.version>
     </properties>
 
 
@@ -68,7 +68,15 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-config-server</artifactId>
+            <artifactId>spring-cloud-starter-eureka-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.interface21</groupId>
+            <artifactId>ameba-lib</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
         </dependency>
     </dependencies>
 
