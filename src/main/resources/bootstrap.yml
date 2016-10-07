@@ -1,8 +1,6 @@
 spring:
   application:
     name: openwms-services
-  main:
-    banner-mode: "off"
 
 server:
   port: ${PORT:8761}

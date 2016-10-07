@@ -33,7 +33,7 @@
     </parent>
     <artifactId>org.openwms.services</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>OpenWMS.org Service Registry</name>
+    <name>OpenWMS.org Cloud: Service Registry</name>
 
     <properties>
         <spring-boot.version>1.4.1.RELEASE</spring-boot.version>
@@ -55,24 +55,20 @@
         <site>
             <id>${distribution.serverId}</id>
             <name>OpenWMS.org WebSite</name>
-            <url>${distribution.serverProtocol}://${distribution.serverUrl.sourcePath}/org.openwms.tms</url>
+            <url>${distribution.serverProtocol}://${distribution.serverUrl.sourcePath}/org.openwms.cloud</url>
         </site>
     </distributionManagement>
 
     <scm>
-        <url>https://github.com/spring-labs/org.openwms.configuration</url>
-        <connection>scm:git:git://github.com/spring-labs/org.openwms.configuration.git</connection>
-        <developerConnection>scm:git:git@github.com:spring-labs/org.openwms.configuration.git</developerConnection>
+        <url>https://github.com/spring-labs/org.openwms.services</url>
+        <connection>scm:git:git://github.com/spring-labs/org.openwms.services.git</connection>
+        <developerConnection>scm:git:git@github.com:spring-labs/org.openwms.services.git</developerConnection>
     </scm>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.interface21</groupId>
-            <artifactId>ameba-lib</artifactId>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -108,55 +104,5 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>https://repo.spring.io/snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>bintray</id>
-            <name>Bintray Openwms</name>
-            <url>https://dl.bintray.com/openwms/github</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
     </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>central</id>
-            <name>Maven Plugin Repository</name>
-            <url>http://repo.maven.apache.org/maven2</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>typescript-maven-plugin</id>
-            <url>https://raw.github.com/ppedregal/typescript-maven-plugin/master/repo</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>https://repo.spring.io/snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>bintray</id>
-            <name>Bintray Openwms</name>
-            <url>https://dl.bintray.com/openwms/github</url>
-        </pluginRepository>
-    </pluginRepositories>
-
 </project>

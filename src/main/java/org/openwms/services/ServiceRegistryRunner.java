@@ -43,5 +43,4 @@ public class ServiceRegistryRunner {
     public static void main(String[] args) {
         SpringApplication.run(ServiceRegistryRunner.class, args);
     }
-
 }
