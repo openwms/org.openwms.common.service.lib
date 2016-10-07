@@ -1,0 +1,20 @@
+spring:
+  main:
+    banner-mode: "off"
+
+management:
+  port: 8990
+
+logging:
+  level:
+    root: INFO
+    com.netflix.discovery: 'OFF'
+
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+
+info:
+  component: Turbine
