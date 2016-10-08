@@ -59,6 +59,16 @@
         <developerConnection>scm:git:git@github.com:spring-labs/org.openwms.services.git</developerConnection>
     </scm>
 
+    <build>
+        <finalName>openwms-services</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
