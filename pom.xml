@@ -35,12 +35,6 @@
     <version>1.0.0-SNAPSHOT</version>
     <name>OpenWMS.org Cloud: Service Registry</name>
 
-    <properties>
-        <spring-boot.version>1.4.1.RELEASE</spring-boot.version>
-        <spring-cloud-dependencies.version>Brixton.SR6</spring-cloud-dependencies.version>
-    </properties>
-
-
     <distributionManagement>
         <repository>
             <id>sonatype-nexus-staging</id>
@@ -75,25 +69,6 @@
             <artifactId>logback-classic</artifactId>
         </dependency>
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud-dependencies.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <repositories>
         <repository>
