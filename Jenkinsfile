@@ -13,7 +13,7 @@ node {
    }
    stage('Publish') {
       sh "git remote add heroku git@heroku.com:openwms-services.git"
-      sh "git push heroku"
+      sh "git push heroku master"
    }
    stage('Results') {
 
