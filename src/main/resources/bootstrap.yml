@@ -14,4 +14,6 @@ eureka:
 
 security:
   basic:
-    enabled: false
+    enabled: true
+  user:
+    password: sa

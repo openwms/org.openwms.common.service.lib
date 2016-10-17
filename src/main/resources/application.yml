@@ -16,11 +16,3 @@ endpoints:
   shutdown:
     enabled: true
 
-info:
-  component: Turbine
-
-spring:
-  oauth2:
-    resource:
-      userInfoUri: https://api.github.com/user
-      preferTokenInfo: false
