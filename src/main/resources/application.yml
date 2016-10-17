@@ -18,3 +18,9 @@ endpoints:
 
 info:
   component: Turbine
+
+spring:
+  oauth2:
+    resource:
+      userInfoUri: https://api.github.com/user
+      preferTokenInfo: false
