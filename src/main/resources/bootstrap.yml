@@ -13,7 +13,5 @@ eureka:
       waitTimeInMsWhenSyncEmpty: 0
 
 security:
-  basic:
-    enabled: true
   user:
     password: sa
