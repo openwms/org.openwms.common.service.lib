@@ -11,7 +11,3 @@ eureka:
     fetchRegistry: false
     server:
       waitTimeInMsWhenSyncEmpty: 0
-
-security:
-  user:
-    password: sa
