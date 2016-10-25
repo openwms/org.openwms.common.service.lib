@@ -3,16 +3,20 @@ spring:
     name: openwms-services
   main:
     banner-mode: "off"
-
 server:
   port: ${PORT:8761}
 
 eureka:
+  server:
   client:
     registerWithEureka: false
     fetchRegistry: false
     server:
       waitTimeInMsWhenSyncEmpty: 0
+    eureka-server-connect-timeout-seconds:
+    serviceUrl:
+# The address clients can access the service registry
+      defaultZone: ${cloud.services.eureka.uri:http://user:sa@127.0.0.1:8761}/eureka/
 
 management:
   port: ${MGMTPORT:8990}
