@@ -17,6 +17,7 @@ eureka:
   instance:
     secure-port-enabled: true
     hostname: localhost
+    non-secure-port-enabled: false
 
 management:
   port: ${MGMTPORT:8990}
