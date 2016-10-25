@@ -5,7 +5,6 @@ spring:
     banner-mode: "off"
 server:
   port: ${PORT:8761}
-
 eureka:
   client:
     registerWithEureka: false
@@ -14,7 +13,9 @@ eureka:
       waitTimeInMsWhenSyncEmpty: 0
     serviceUrl:
 # The address clients can access the service registry
-      defaultZone: ${cloud.services.eureka.uri:http://user:sa@127.0.0.1}:${server.port}/eureka/
+      defaultZone: ${cloud.services.eureka.uri:http://user:sa@127.0.0.1}:${server.port}/eureka
+  instance:
+    secure-port-enabled: true
 
 management:
   port: ${MGMTPORT:8990}
