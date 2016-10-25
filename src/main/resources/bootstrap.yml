@@ -7,7 +7,6 @@ server:
   port: ${PORT:8761}
 
 eureka:
-  server:
   client:
     registerWithEureka: false
     fetchRegistry: false
