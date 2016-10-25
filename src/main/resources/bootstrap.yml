@@ -1,6 +1,8 @@
 spring:
   application:
     name: openwms-services
+  main:
+    banner-mode: "off"
 
 server:
   port: ${PORT:8761}
@@ -11,3 +13,17 @@ eureka:
     fetchRegistry: false
     server:
       waitTimeInMsWhenSyncEmpty: 0
+
+management:
+  port: ${MGMTPORT:8990}
+
+logging:
+  level:
+    root: INFO
+    com.netflix.discovery: 'OFF'
+
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
