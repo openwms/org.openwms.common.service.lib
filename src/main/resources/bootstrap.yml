@@ -3,8 +3,15 @@ spring:
     name: openwms-services
   main:
     banner-mode: "off"
+
 server:
   port: ${PORT:8761}
+
+logging:
+  level:
+    root: INFO
+    com.netflix.discovery: 'OFF'
+
 eureka:
   client:
     registerWithEureka: false
@@ -12,8 +19,7 @@ eureka:
     server:
       waitTimeInMsWhenSyncEmpty: 0
     serviceUrl:
-# The address clients can access the service registry
-      defaultZone: ${owms.services.eureka.uri:http://user:sa@127.0.0.1}:${server.port}/eureka
+      defaultZone: ${owms.services.eureka.uri:http://user:sa@127.0.0.1}:${server.port}/eureka/
   instance:
     secure-port-enabled: true
     hostname: localhost
@@ -24,11 +30,6 @@ eureka:
 
 management:
   port: ${MGMTPORT:8990}
-
-logging:
-  level:
-    root: INFO
-    com.netflix.discovery: 'OFF'
 
 endpoints:
   restart:
