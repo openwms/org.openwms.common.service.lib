@@ -19,7 +19,7 @@ eureka:
     server:
       waitTimeInMsWhenSyncEmpty: 0
     serviceUrl:
-      defaultZone: ${owms.services.eureka.uri:http://user:sa@127.0.0.1}:${server.port}/eureka/
+      defaultZone: ${owms.eureka.url:http://user:sa@127.0.0.1}:${server.port}/eureka/
   instance:
     secure-port-enabled: true
     hostname: localhost
