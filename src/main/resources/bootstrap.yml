@@ -18,6 +18,9 @@ eureka:
     secure-port-enabled: true
     hostname: localhost
     non-secure-port-enabled: false
+    statusPageUrl: https://${eureka.instance.hostName}/info
+    healthCheckUrl: https://${eureka.instance.hostName}/health
+    homePageUrl: https://${eureka.instance.hostName}/
 
 management:
   port: ${MGMTPORT:8990}
