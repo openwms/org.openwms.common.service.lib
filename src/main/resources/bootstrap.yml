@@ -13,7 +13,7 @@ eureka:
       waitTimeInMsWhenSyncEmpty: 0
     serviceUrl:
 # The address clients can access the service registry
-      defaultZone: ${cloud.services.eureka.uri:http://user:sa@127.0.0.1}:${server.port}/eureka
+      defaultZone: ${owms.services.eureka.uri:http://user:sa@127.0.0.1}:${server.port}/eureka
   instance:
     secure-port-enabled: true
     hostname: localhost
