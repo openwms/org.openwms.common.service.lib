@@ -3,6 +3,11 @@ spring:
     name: openwms-services
   main:
     banner-mode: "off"
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        serviceId: openwms-config
 
 server:
   port: ${PORT:8761}
