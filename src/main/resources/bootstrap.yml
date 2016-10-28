@@ -15,11 +15,6 @@ spring:
 server:
   port: ${PORT:8761}
 
-logging:
-  level:
-    root: INFO
-    com.netflix.discovery: OFF
-
 eureka:
   client:
     registerWithEureka: false
