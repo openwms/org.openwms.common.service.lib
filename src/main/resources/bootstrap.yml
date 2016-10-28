@@ -9,6 +9,8 @@ spring:
         # Provide a config server discovery to clients
         enabled: true
         serviceId: openwms-config
+      username: user
+      password: sa
 
 server:
   port: ${PORT:8761}
