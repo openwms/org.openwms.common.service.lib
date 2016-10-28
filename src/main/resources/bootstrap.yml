@@ -2,7 +2,7 @@ spring:
   application:
     name: openwms-services
   main:
-    banner-mode: "off"
+    banner-mode: off
   cloud:
     config:
       discovery:
