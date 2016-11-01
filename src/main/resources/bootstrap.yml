@@ -10,6 +10,7 @@ spring:
         enabled: true
         serviceId: openwms-config
       username: user
+      # Override this in cloud environment!
       password: sa
 
 server:
@@ -22,15 +23,16 @@ eureka:
     server:
       waitTimeInMsWhenSyncEmpty: 0
     serviceUrl:
-      defaultZone: ${owms.eureka.url:https://user:sa@127.0.0.1}:${server.port}/eureka/
+      defaultZone: ${owms.eureka.url}/eureka/
   instance:
-    hostname: localhost
+    hostname: openwms-services.herokuapp.com
     secure-port-enabled: true
     non-secure-port-enabled: false
-#    statusPageUrl: https://${eureka.instance.hostName}/info
-#    healthCheckUrl: https://${eureka.instance.hostName}/health
-#    homePageUrl: https://${eureka.instance.hostName}/
+    statusPageUrl: https://${eureka.instance.hostName}/info
+    healthCheckUrl: https://${eureka.instance.hostName}/health
+    homePageUrl: https://${eureka.instance.hostName}/
     metadata-map:
+      # Override both in cloud environment!
       username: user
       password: sa
 
@@ -42,3 +44,23 @@ endpoints:
     enabled: true
   shutdown:
     enabled: false
+
+---
+spring:
+  profiles: DEV
+
+security:
+  user:
+    password: sa
+
+owms:
+  eureka:
+    url: http://user:sa@127.0.0.1:8761
+  config:
+    password: sa
+
+eureka:
+  instance:
+    hostname: localhost
+    secure-port-enabled: false
+    non-secure-port-enabled: true
