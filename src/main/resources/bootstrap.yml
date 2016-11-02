@@ -29,6 +29,9 @@ eureka:
     statusPageUrl: https://${eureka.instance.hostName}/info
     healthCheckUrl: https://${eureka.instance.hostName}/health
     homePageUrl: https://${eureka.instance.hostName}/
+    metadata-map:
+      username: user
+      password: ${owms.eureka.password}
 
 ---
 spring:
