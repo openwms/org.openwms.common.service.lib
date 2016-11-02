@@ -37,6 +37,7 @@
     <properties>
         <moduleDir>../..</moduleDir>
         <commons-lang3.version>3.4</commons-lang3.version>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
 
     <profiles>
