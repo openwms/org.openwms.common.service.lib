@@ -19,11 +19,9 @@ server:
 eureka:
   client:
     serviceUrl:
-      # need to be overridden in the cloud environment props!
       defaultZone: ${owms.eureka.url}/eureka
   instance:
     hostname: openwms-common-services.herokuapp.com
-    # need to be overridden in the cloud environment props!
     secure-port-enabled: true
     non-secure-port-enabled: false
     statusPageUrl: https://${eureka.instance.hostName}/info
