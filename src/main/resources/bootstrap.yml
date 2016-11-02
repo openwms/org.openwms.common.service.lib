@@ -20,8 +20,6 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${owms.eureka.url}/eureka
-    healthcheck:
-      enabled: true
   instance:
     hostname: openwms-common-services.herokuapp.com
     secure-port-enabled: true
