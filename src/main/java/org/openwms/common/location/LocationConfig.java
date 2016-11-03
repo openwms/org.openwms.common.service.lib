@@ -45,7 +45,7 @@ class LocationConfig {
             lr.deleteAll();
             Stream.of("INIT/0000/0000/0000/0000,ERR_/0000/0000/0000/0000,EXT_/0000/0000/0000/0000,AKL_/0001/0000/0000/0000".split(","))
                     .forEach(x -> {
-                        LocationGroup lg = lgr.findAll().get(0);
+                        LocationGroup lg = lgr.findByName("ROOT");
                         Location l = new Location(LocationPK.fromString(x));
                         l.setLocationGroup(lg);
                         lr.save(l);
