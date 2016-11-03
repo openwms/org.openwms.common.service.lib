@@ -26,7 +26,6 @@ import java.util.stream.Stream;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 /**
  * A LocationGroupConfig is a Spring managed configuration class the defines a bean to load a few LocationGroups upfront.
@@ -36,7 +35,7 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 class LocationGroupConfig {
 
-    @Profile("default")
+//    @Profile("default")
     @Bean
     CommandLineRunner locationGroupRunner(LocationGroupRepository lgr) {
         return args -> {
