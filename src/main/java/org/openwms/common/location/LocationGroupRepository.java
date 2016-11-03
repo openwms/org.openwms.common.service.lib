@@ -27,9 +27,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * A LocationGroupRepository adds particular functionality regarding {@link LocationGroup} entity classes.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @version 0.2
- * @since 0.1
- * @see LocationGroup
  */
 interface LocationGroupRepository extends JpaRepository<LocationGroup, Long> {
 

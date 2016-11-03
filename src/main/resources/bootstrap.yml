@@ -31,11 +31,10 @@ eureka:
     serviceUrl:
       defaultZone: ${owms.eureka.url}/eureka
   instance:
-    secure-port-enabled: false
-    non-secure-port-enabled: true
     metadata-map:
       username: user
       password: ${security.user.password}
+      protocol: http
 
 ---
 spring:
@@ -49,3 +48,5 @@ eureka:
     statusPageUrl: https://${eureka.instance.hostName}/info
     healthCheckUrl: https://${eureka.instance.hostName}/health
     homePageUrl: https://${eureka.instance.hostName}/
+    metadata-map:
+      protocol: https

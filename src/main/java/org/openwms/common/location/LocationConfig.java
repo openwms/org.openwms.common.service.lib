@@ -27,6 +27,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Profile;
 
 /**
  * A LocationConfig is a Spring managed configuration class the defines a bean to load a few Locations upfront.
@@ -36,7 +37,7 @@ import org.springframework.context.annotation.DependsOn;
 @Configuration
 class LocationConfig {
 
-//    @Profile("default")
+    @Profile("H2")
     @Bean
     @DependsOn("locationGroupRunner")
     CommandLineRunner locationRunner(LocationRepository lr) {
