@@ -13,8 +13,40 @@ spring:
       # Override this in cloud environment!
       password: sa
 
+owms:
+  eureka:
+    url: http://user:sa@127.0.0.1:8761
+  config:
+    password: sa
+
 server:
   port: ${PORT:8761}
+
+security:
+  user:
+    # Override both in cloud environment!
+    password: sa
+
+eureka:
+  instance:
+    secure-port-enabled: false
+    non-secure-port-enabled: true
+    metadata-map:
+      username: user
+      password: ${security.user.password}
+
+management:
+  port: ${MGMTPORT:8990}
+
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: false
+
+---
+spring:
+  profiles: CLOUD
 
 eureka:
   client:
@@ -31,36 +63,4 @@ eureka:
     statusPageUrl: https://${eureka.instance.hostName}/info
     healthCheckUrl: https://${eureka.instance.hostName}/health
     homePageUrl: https://${eureka.instance.hostName}/
-    metadata-map:
-      # Override both in cloud environment!
-      username: user
-      password: sa
 
-management:
-  port: ${MGMTPORT:8990}
-
-endpoints:
-  restart:
-    enabled: true
-  shutdown:
-    enabled: false
-
----
-spring:
-  profiles: DEV
-
-security:
-  user:
-    password: sa
-
-owms:
-  eureka:
-    url: http://user:sa@127.0.0.1:8761
-  config:
-    password: sa
-
-eureka:
-  instance:
-    hostname: localhost
-    secure-port-enabled: false
-    non-secure-port-enabled: true
