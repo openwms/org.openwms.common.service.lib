@@ -1,8 +1,8 @@
 spring:
-  main:
-    banner-mode: off
   application:
     name: common-service
+  main:
+    banner-mode: OFF
   cloud:
     config:
       label: ${owms.tenant:master}
@@ -13,13 +13,35 @@ spring:
 #      username: ${owms.config.username:user}
 #      password: ${owms.config.password:sa}
 
+owms:
+  eureka:
+    # Override this in cloud environment!
+    url: http://user:sa@localhost:8761
+
 server:
   port: ${PORT:8082}
+
+security:
+  user:
+    # Override this in cloud environment!
+    password: sa
 
 eureka:
   client:
     serviceUrl:
       defaultZone: ${owms.eureka.url}/eureka
+  instance:
+    secure-port-enabled: false
+    non-secure-port-enabled: true
+    metadata-map:
+      username: user
+      password: ${security.user.password}
+
+---
+spring:
+  profiles: CLOUD
+
+eureka:
   instance:
     hostname: openwms-common-services.herokuapp.com
     secure-port-enabled: true
@@ -27,28 +49,3 @@ eureka:
     statusPageUrl: https://${eureka.instance.hostName}/info
     healthCheckUrl: https://${eureka.instance.hostName}/health
     homePageUrl: https://${eureka.instance.hostName}/
-    metadata-map:
-      username: user
-      password: ${owms.eureka.password}
-
----
-spring:
-  profiles: DEV
-
-owms:
-  eureka:
-    url: http://user:sa@localhost:8761
-
-eureka:
-  instance:
-    hostname: localhost
-    secure-port-enabled: false
-    non-secure-port-enabled: true
-    non-secure-port: ${server.port}
-    statusPageUrl: http://${eureka.instance.hostName}/info
-    healthCheckUrl: http://${eureka.instance.hostName}/health
-    homePageUrl: http://${eureka.instance.hostName}/
-
-security:
-  user:
-    password: sa
