@@ -41,6 +41,7 @@ import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.Ordered;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * A Starter.
@@ -53,6 +54,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableSpringConfigured
 @EnableJpaAuditing
 @EnableMultiTenancy
+@EnableTransactionManagement
 @EnableDiscoveryClient
 public class CommonStarter {
 
