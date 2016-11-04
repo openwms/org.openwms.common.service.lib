@@ -13,6 +13,8 @@ spring:
   h2:
     console:
       enabled: true
+  jpa:
+    generate-ddl: true
 #      username: ${owms.config.username:user}
 #      password: ${owms.config.password:sa}
 

@@ -16,7 +16,7 @@ node {
        }
        stage('\u27A1 Heroku Staging') {
           sh '''
-              if git remote | grep faraway > /dev/null; then
+              if git remote | grep heroku > /dev/null; then
                  git remote remove heroku
               fi
               git remote add heroku https://:${HEROKU_API_KEY}@git.heroku.com/openwms-common-services.git
