@@ -21,8 +21,12 @@
  */
 package org.openwms.common.location;
 
+import java.util.List;
 import java.util.stream.Stream;
 
+import org.ameba.LoggingCategories;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,17 +41,23 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 class LocationConfig {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoggingCategories.BOOT);
+
     @Profile("H2")
     @Bean
     @DependsOn("locationGroupRunner")
     CommandLineRunner locationRunner(LocationRepository lr, LocationGroupRepository lgr) {
         return args -> {
             lr.deleteAll();
+            List<LocationGroup> lgs = lgr.findAll();
+            if (lgs == null || lgs.isEmpty()) {
+                LOGGER.warn("No LocationGroups exist, therefore no Locations will be inserted !!");
+                return;
+            }
             Stream.of("INIT/0000/0000/0000/0000,ERR_/0000/0000/0000/0000,EXT_/0000/0000/0000/0000,AKL_/0001/0000/0000/0000".split(","))
                     .forEach(x -> {
-                        LocationGroup lg = lgr.findAll().get(0);
                         Location l = new Location(LocationPK.fromString(x));
-                        l.setLocationGroup(lg);
+                        l.setLocationGroup(lgs.get(0));
                         lr.save(l);
                     });
         };
