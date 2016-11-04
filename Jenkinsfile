@@ -6,9 +6,18 @@ node {
       git 'git@github.com:spring-labs/org.openwms.services.git'
       mvnHome = tool 'M3'
    }
-   stage('\u27A1 Build') {
-         sh "'${mvnHome}/bin/mvn' clean package -U"
-   }
+   parallel (
+     "default-build": {
+       stage('\u27A1 Build') {
+          sh "'${mvnHome}/bin/mvn' clean install -Psordocs,sonatype -U"
+       }
+     },
+     "sonar-build": {
+       stage('\u27A1 Sonar') {
+          sh "'${mvnHome}/bin/mvn' clean org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Djacoco.propertyName=jacocoArgLine -Dbuild.number=${BUILD_NUMBER} -Dbuild.date=${BUILD_ID} -Pjenkins"
+       }
+     }
+   )
    stage('\u27A1 Results') {
       archive 'target/*.jar'
    }
