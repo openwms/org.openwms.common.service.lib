@@ -10,6 +10,9 @@ spring:
       discovery:
         enabled: true
         service-id: openwms-config
+  h2:
+    console:
+      enabled: true
 #      username: ${owms.config.username:user}
 #      password: ${owms.config.password:sa}
 
@@ -25,7 +28,6 @@ security:
   user:
     # Override this in cloud environment!
     password: sa
-
 eureka:
   client:
     serviceUrl:
