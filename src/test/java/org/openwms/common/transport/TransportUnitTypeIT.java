@@ -25,7 +25,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
+import org.ameba.test.categories.IntegrationTests;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.openwms.common.location.LocationType;
@@ -39,10 +41,9 @@ import org.springframework.test.context.junit4.SpringRunner;
  * A TransportUnitTypeTest.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @version 1.0
- * @since 0.1
  */
 @RunWith(SpringRunner.class)
+@Category(IntegrationTests.class)
 @IntegrationTest
 public class TransportUnitTypeIT {
 

@@ -25,8 +25,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import javax.persistence.Query;
 
+import org.ameba.test.categories.IntegrationTests;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.openwms.common.location.Location;
@@ -41,10 +43,9 @@ import org.springframework.test.context.junit4.SpringRunner;
  * A TransportUnitIT.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @version 1.0
- * @since 1.0
  */
 @RunWith(SpringRunner.class)
+@Category(IntegrationTests.class)
 @IntegrationTest
 public class TransportUnitIT {
 

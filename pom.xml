@@ -32,12 +32,12 @@
         <relativePath />
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
-    <name>${project.artifactId}</name>
+    <name>OpenWMS.org COMMON: Services</name>
 
     <properties>
         <moduleDir>../..</moduleDir>
         <commons-lang3.version>3.4</commons-lang3.version>
-        <maven.test.skip>true</maven.test.skip>
+        <sonar.projectKey>OpenWMS.org_COMMON:Services</sonar.projectKey>
     </properties>
 
     <profiles>
@@ -65,6 +65,12 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <excludedGroups>org.ameba.test.categories.IntegrationTests</excludedGroups>
+                </configuration>
             </plugin>
         </plugins>
     </build>

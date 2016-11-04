@@ -21,9 +21,11 @@
  */
 package org.openwms.common.location;
 
+import org.ameba.test.categories.IntegrationTests;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.openwms.core.test.IntegrationTest;
@@ -40,6 +42,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @since 1.0
  */
 @RunWith(SpringRunner.class)
+@Category(IntegrationTests.class)
 @IntegrationTest
 public class LocationGroupIT {
 
