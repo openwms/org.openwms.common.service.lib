@@ -40,21 +40,6 @@
         <sonar.projectKey>OpenWMS.org_COMMON:Services</sonar.projectKey>
     </properties>
 
-    <profiles>
-        <profile>
-            <id>H2</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
-
     <build>
         <finalName>openwms-common-services</finalName>
         <plugins>
@@ -123,6 +108,11 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- Project dependencies -->
