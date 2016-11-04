@@ -11,6 +11,14 @@ node {
        stage('\u27A1 Build') {
           sh "'${mvnHome}/bin/mvn' clean install -Ddocumentation.dir=${WORKSPACE} -Psordocs,sonatype -U"
        }
+       stage('\u27A1 Results') {
+          archive '**/target/*.jar'
+       }
+       stage('\u27A1 Heroku Staging') {
+          sh "git remote remove heroku"
+          sh "git remote add heroku https://:${HEROKU_API_KEY}@git.heroku.com/openwms-common-services.git"
+          sh "git push heroku master -f"
+       }
      },
      "sonar-build": {
        stage('\u27A1 Sonar') {
@@ -18,13 +26,5 @@ node {
        }
      }
    )
-   stage('\u27A1 Results') {
-      archive '**/target/*.jar'
-   }
-   stage('\u27A1 Heroku Staging') {
-      sh "git remote remove heroku"
-      sh "git remote add heroku https://:${HEROKU_API_KEY}@git.heroku.com/openwms-common-services.git"
-      sh "git push heroku master -f"
-   }
 }
 
