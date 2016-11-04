@@ -17,8 +17,6 @@ spring:
       enabled: true
       settings:
         web-allow-others: true
-  jpa:
-    generate-ddl: true
 
 owms:
   eureka:
