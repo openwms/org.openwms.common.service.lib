@@ -15,9 +15,13 @@ node {
           archive '**/target/*.jar'
        }
        stage('\u27A1 Heroku Staging') {
-          sh "git remote remove heroku"
-          sh "git remote add heroku https://:${HEROKU_API_KEY}@git.heroku.com/openwms-common-services.git"
-          sh "git push heroku master -f"
+          sh '''
+              if git remote | grep faraway > /dev/null; then
+                 git remote remove heroku
+              fi
+              git remote add heroku https://:${HEROKU_API_KEY}@git.heroku.com/openwms-common-services.git
+              git push heroku master -f
+          '''
        }
      },
      "sonar-build": {
