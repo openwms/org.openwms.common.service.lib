@@ -12,11 +12,11 @@ spring:
         service-id: openwms-config
 #      username: ${owms.config.username:user}
 #      password: ${owms.config.password:sa}
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: true
+#  h2:
+#    console:
+#      enabled: true
+#      settings:
+#        web-allow-others: true
 
 owms:
   eureka:
@@ -41,9 +41,22 @@ eureka:
       password: ${security.user.password}
       protocol: http
 
+flyway:
+  baseline-on-migrate: true
+
 ---
 spring:
   profiles: CLOUD
+  jpa:
+    database: postgresql
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: OPENWMS
+    password: OPENWMS
+    url: jdbc:postgresql:OPENWMSDB
 
 eureka:
   instance:
