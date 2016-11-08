@@ -47,16 +47,6 @@ flyway:
 ---
 spring:
   profiles: CLOUD
-  jpa:
-    database: postgresql
-    generate-ddl: true
-    hibernate:
-      ddl-auto: create-drop
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    username: OPENWMS
-    password: OPENWMS
-    url: jdbc:postgresql:OPENWMSDB
 
 eureka:
   instance:
