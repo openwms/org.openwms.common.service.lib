@@ -47,3 +47,4 @@ insert into com_location_group (c_pk,c_name,c_group_state_in,c_group_state_out,c
 insert into com_location_group (c_pk,c_name,c_group_state_in,c_group_state_out,c_max_fill_level,c_parent,c_description,c_group_counting_active,c_no_locations,c_ol,c_pid) values (10041,'PAISLE2RIGHT','AVAILABLE','AVAILABLE',80,10038,'Highbay pallet locations on the right side in aisle 2','1',0,10041,673781181265);
 
 -- Locations
+insert into com_location (c_pk,c_area,c_aisle,c_x,c_y,c_z,c_description,c_location_type,c_no_max_transport_units,c_counting_active,c_location_group,c_plc_state,c_ol,c_pid,c_considered_in_allocation,c_incoming_active,c_outgoing_active,c_lg_counting_active,c_created,c_updated) values ('0','EXT_','0000','0000','0000','0000','Virtual external location',1,'1','0','10000',0,'0','285070723673',true,true,true,true,now(),now());
