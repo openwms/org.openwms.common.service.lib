@@ -31,10 +31,8 @@ import org.openwms.common.location.LocationPK;
  *
  * @param <T> Any kind of {@link TransportUnit}
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @version 1.0
- * @since 0.1
  */
-interface TransportUnitService<T extends TransportUnit> {
+public interface TransportUnitService<T extends TransportUnit> {
 
     /**
      * Create a new {@link TransportUnit} with the type {@link TransportUnitType} placed on an initial {@code Location}. The new {@link

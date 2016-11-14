@@ -19,35 +19,34 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.location;
+package org.openwms.common.location.api;
 
-import java.io.Serializable;
-
-import org.springframework.hateoas.ResourceSupport;
+import org.ameba.mapping.BeanMapper;
+import org.openwms.common.CommonConstants;
+import org.openwms.common.location.Location;
+import org.openwms.common.location.LocationPK;
+import org.openwms.common.location.LocationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
- * A LocationVO.
+ * A LocationController.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @since 2.0
  */
-public class LocationVO extends ResourceSupport implements Serializable {
+@RestController(CommonConstants.API_LOCATIONS)
+class LocationController {
 
-    private String locationId;
-    private String locationGroupName;
+    @Autowired
+    private LocationService<Location> locationService;
+    @Autowired
+    private BeanMapper mapper;
 
-    public String getLocationGroupName() {
-        return locationGroupName;
-    }
-
-    public void setLocationGroupName(String locationGroupName) {
-        this.locationGroupName = locationGroupName;
-    }
-
-    public String getLocationId() {
-        return locationId;
-    }
-
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
+    @GetMapping(params = {"locationPK"})
+    public LocationVO getLocation(@RequestParam("locationPK") String locationPk) {
+        return mapper.map(locationService.findByLocationId(LocationPK.fromString(locationPk)), LocationVO.class);
     }
 }

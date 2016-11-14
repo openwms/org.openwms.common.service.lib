@@ -19,31 +19,35 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.location;
+package org.openwms.common.location.api;
 
-import org.ameba.mapping.BeanMapper;
-import org.openwms.common.CommonConstants;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import java.io.Serializable;
+
+import org.springframework.hateoas.ResourceSupport;
 
 /**
- * A LocationController.
+ * A LocationVO.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @since 2.0
  */
-@RestController(CommonConstants.API_LOCATIONS)
-class LocationController {
+public class LocationVO extends ResourceSupport implements Serializable {
 
-    @Autowired
-    private LocationService<Location> locationService;
-    @Autowired
-    private BeanMapper mapper;
+    private String locationId;
+    private String locationGroupName;
 
-    @GetMapping(params = {"locationPK"})
-    public LocationVO getLocation(@RequestParam("locationPK") String locationPk) {
-        return mapper.map(locationService.findByLocationId(LocationPK.fromString(locationPk)), LocationVO.class);
+    public String getLocationGroupName() {
+        return locationGroupName;
+    }
+
+    public void setLocationGroupName(String locationGroupName) {
+        this.locationGroupName = locationGroupName;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
     }
 }

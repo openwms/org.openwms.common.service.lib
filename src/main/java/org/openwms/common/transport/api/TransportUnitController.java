@@ -19,12 +19,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.transport;
+package org.openwms.common.transport.api;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.CommonConstants;
+import org.openwms.common.transport.Barcode;
+import org.openwms.common.transport.TransportUnit;
+import org.openwms.common.transport.TransportUnitService;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

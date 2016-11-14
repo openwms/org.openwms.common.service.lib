@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.location;
+package org.openwms.common.location.api;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -33,6 +33,9 @@ import org.ameba.mapping.BeanMapper;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.openwms.common.CommonConstants;
 import org.openwms.common.CommonMessageCodes;
+import org.openwms.common.location.LocationGroup;
+import org.openwms.common.location.LocationGroupService;
+import org.openwms.common.location.LocationGroupState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -50,7 +53,7 @@ import org.springframework.web.util.UriTemplate;
  * @since 2.0
  */
 @RestController(CommonConstants.API_LOCATIONGROUPS)
-class LocationGroupController {
+class LocationGroupController implements LocationApi {
 
     @Autowired
     private LocationGroupService<LocationGroup> locationGroupService;
@@ -59,12 +62,14 @@ class LocationGroupController {
     @Autowired
     private BeanMapper mapper;
 
+    @Override
     @PatchMapping(value = CommonConstants.API_LOCATIONGROUPS + "/{id}")
     public void save(@PathVariable String id, @RequestParam(name = "statein", required = false) LocationGroupState stateIn, @RequestParam(name = "stateout", required = false) LocationGroupState stateOut, HttpServletRequest req, HttpServletResponse res) {
         locationGroupService.changeGroupState(id, stateIn, stateOut);
         res.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req, id));
     }
 
+    @Override
     @RequestMapping(value = CommonConstants.API_LOCATIONGROUPS, method = RequestMethod.GET, params = {"name"})
     public LocationGroupVO getLocationGroup(@RequestParam("name") String name) {
         Optional<LocationGroup> opt = locationGroupService.findByName(name);
@@ -76,7 +81,8 @@ class LocationGroupController {
         return result;
     }
 
-    private String getLocationForCreatedResource(javax.servlet.http.HttpServletRequest req, String objId) {
+    @Override
+    public String getLocationForCreatedResource(HttpServletRequest req, String objId) {
         StringBuffer url = req.getRequestURL();
         UriTemplate template = new UriTemplate(url.append("/{objId}/").toString());
         return template.expand(objId).toASCIIString();
