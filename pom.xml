@@ -68,7 +68,7 @@
                         <configuration>
                             <classifier>client</classifier>
                             <includes>
-                                <include>**/*Api.class</include>
+                                <include>**/api/*.class</include>
                             </includes>
                         </configuration>
                     </execution>

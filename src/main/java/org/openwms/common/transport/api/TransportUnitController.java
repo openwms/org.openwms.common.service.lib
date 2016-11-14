@@ -45,18 +45,20 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2.0
  */
 @RestController(CommonConstants.API_TRANSPORTUNITS)
-public class TransportUnitController extends AbstractWebController {
+public class TransportUnitController extends AbstractWebController implements TransportUnitApi {
 
     @Autowired
     private TransportUnitService<TransportUnit> service;
     @Autowired
     private BeanMapper mapper;
 
+    @Override
     @GetMapping(params = {"bk"})
     public @ResponseBody TransportUnitVO getTransportUnit(@RequestParam("bk") String transportUnitBK) {
         return mapper.map(service.findByBarcode(new Barcode(transportUnitBK)), TransportUnitVO.class);
     }
 
+    @Override
     @PostMapping(params = {"bk"})
     public @ResponseBody void createTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu, HttpServletRequest req) {
 
@@ -68,6 +70,7 @@ public class TransportUnitController extends AbstractWebController {
         getLocationForCreatedResource(req, created.getPersistentKey());
     }
 
+    @Override
     @PutMapping(params = {"bk"})
     public @ResponseBody TransportUnitVO updateTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu) {
         return mapper.map(service.update(new Barcode(transportUnitBK), mapper.map(tu, TransportUnit.class)), TransportUnitVO.class);
