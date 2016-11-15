@@ -31,6 +31,7 @@ import org.openwms.common.transport.TransportUnitService;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,13 +55,17 @@ public class TransportUnitController extends AbstractWebController implements Tr
 
     @Override
     @GetMapping(params = {"bk"})
-    public @ResponseBody TransportUnitVO getTransportUnit(@RequestParam("bk") String transportUnitBK) {
+    public
+    @ResponseBody
+    TransportUnitVO getTransportUnit(@RequestParam("bk") String transportUnitBK) {
         return mapper.map(service.findByBarcode(new Barcode(transportUnitBK)), TransportUnitVO.class);
     }
 
     @Override
     @PostMapping(params = {"bk"})
-    public @ResponseBody void createTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu, HttpServletRequest req) {
+    public
+    @ResponseBody
+    void createTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu, HttpServletRequest req) {
 
         // check if already exists ...
         service.findByBarcode(Barcode.of(transportUnitBK));
@@ -72,7 +77,18 @@ public class TransportUnitController extends AbstractWebController implements Tr
 
     @Override
     @PutMapping(params = {"bk"})
-    public @ResponseBody TransportUnitVO updateTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu) {
+    public
+    @ResponseBody
+    TransportUnitVO updateTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu) {
         return mapper.map(service.update(new Barcode(transportUnitBK), mapper.map(tu, TransportUnit.class)), TransportUnitVO.class);
+    }
+
+    @Override
+    @PatchMapping(params = {"bk"})
+    public
+    @ResponseBody
+    TransportUnitVO updateActualLocation(@RequestParam("bk") String transportUnitBK, @RequestBody String actualLocation) {
+        System.out.println("Location updated");
+        return null;
     }
 }
