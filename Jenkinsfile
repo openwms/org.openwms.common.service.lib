@@ -9,7 +9,10 @@ node {
    parallel (
      "default-build": {
        stage('\u27A1 Build') {
-          sh "'${mvnHome}/bin/mvn' clean install -Ddocumentation.dir=${WORKSPACE} -Psordocs,sonatype -U"
+          configFileProvider(
+              [configFile(fileId: 'oss-settings', variable: 'MAVEN_SETTINGS')]) {
+              sh "'${mvnHome}/bin/mvn' -s $MAVEN_SETTINGS clean deploy -Ddocumentation.dir=${WORKSPACE} -Psordocs,sonatype -U"
+          }
        }
        stage('\u27A1 Results') {
           archive '**/target/*.jar'
