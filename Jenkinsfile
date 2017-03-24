@@ -28,6 +28,6 @@ node {
       sh "git push heroku master -f"
     }
   } finally {
-    junit '**/target/surefire-reports/TEST-*.xml'
+    junit allowEmptyResults: true, testResults: '**/target/surefire-reports/TEST-*.xml'
   }
 }
