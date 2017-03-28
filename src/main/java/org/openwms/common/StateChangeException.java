@@ -22,7 +22,7 @@
 package org.openwms.common;
 
 /**
- * A StateChangeException.
+ * A StateChangeException signals that the request to change the state of an entity was not allowed.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version 1.0
@@ -31,9 +31,11 @@ package org.openwms.common;
 public class StateChangeException extends RuntimeException {
 
     /**
-     * {@inheritDoc}
+     * Create a new with a message text.
+     *
+     * @param message The message text
      */
-    public StateChangeException(String s) {
-        super(s);
+    public StateChangeException(String message) {
+        super(message);
     }
 }
