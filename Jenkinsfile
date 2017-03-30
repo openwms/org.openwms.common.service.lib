@@ -7,7 +7,7 @@ node {
       git 'git@github.com:openwms/org.openwms.common.service.git'
       mvnHome = tool 'M3'
     }
-    stage('\u27A1 Build & Deploy') {
+    stage('\u27A1 Build') {
       configFileProvider(
           [configFile(fileId: 'maven-local-settings', variable: 'MAVEN_SETTINGS')]) {
             sh "'${mvnHome}/bin/mvn' -s $MAVEN_SETTINGS clean install -Dci.buildNumber=${BUILD_NUMBER} -Ddocumentation.dir=${WORKSPACE}/target -Psordocs,sonatype -U"
