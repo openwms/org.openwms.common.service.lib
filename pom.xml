@@ -85,7 +85,7 @@
 
     <ciManagement>
         <system>Jenkins</system>
-        <url>http://openwms.mooo.com/jenkins/job/org.openwms.common.services</url>
+        <url>https://openwms.mooo.com/jenkins/job/org.openwms.common.services</url>
         <notifiers>
             <notifier>
                 <type>mail</type>
