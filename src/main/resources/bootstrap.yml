@@ -1,8 +1,6 @@
 spring:
   application:
     name: openwms-services
-  main:
-    banner-mode: "OFF"
   cloud:
     config:
       discovery:
@@ -15,7 +13,7 @@ spring:
 
 owms:
   eureka:
-    url: http://user:sa@127.0.0.1:8761
+    url: http://user:sa@localhost:8761
   config:
     password: sa
 
@@ -47,6 +45,8 @@ endpoints:
 ---
 spring:
   profiles: CLOUD
+  main:
+    banner-mode: "OFF"
 
 eureka:
   client:
