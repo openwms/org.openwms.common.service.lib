@@ -1,12 +1,10 @@
 spring:
   application:
     name: common-service
-  main:
-    banner-mode: "OFF"
   cloud:
     config:
       label: ${owms.tenant:master}
-      fail-fast: true
+      fail-fast: true # true means retry
       discovery:
         enabled: true
         service-id: openwms-config
@@ -47,6 +45,8 @@ flyway:
 ---
 spring:
   profiles: CLOUD
+  main:
+    banner-mode: "OFF"
 
 eureka:
   instance:
