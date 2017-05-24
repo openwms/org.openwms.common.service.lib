@@ -35,6 +35,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
@@ -66,6 +67,13 @@ public class CommonStarter {
     public static void main(String[] args) {
         SpringApplication.run(CommonStarter.class, args);
     }
+
+    public
+    @Bean
+    AlwaysSampler sampler() {
+        return new AlwaysSampler();
+    }
+
 
     public
     @Bean
