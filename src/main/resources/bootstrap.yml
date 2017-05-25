@@ -28,7 +28,6 @@ security:
   user:
     # Override this in cloud environment!
     password: sa
-
 eureka:
   client:
     serviceUrl:
