@@ -32,8 +32,6 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${owms.eureka.url}/eureka
-    healthcheck:
-      enabled: true
   instance:
     metadata-map:
       username: user

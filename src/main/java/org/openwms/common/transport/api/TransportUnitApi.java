@@ -21,9 +21,6 @@
  */
 package org.openwms.common.transport.api;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,12 +29,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * A TransportUnitApi.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-@FeignClient("${owms.common-service.protocol}://${owms.common-service.name}")
+//@FeignClient("${owms.common-service.protocol}://${owms.common-service.name}")
 public interface TransportUnitApi {
 
     @GetMapping(params = {"bk"})

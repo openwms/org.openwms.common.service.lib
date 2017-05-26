@@ -21,10 +21,7 @@
  */
 package org.openwms.common.transport.api;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.ameba.mapping.BeanMapper;
-import org.openwms.common.CommonConstants;
 import org.openwms.common.transport.Barcode;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
@@ -37,7 +34,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * A TransportUnitController.
@@ -45,7 +43,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @since 2.0
  */
-@RestController(CommonConstants.API_TRANSPORTUNITS)
+//@RestController(CommonConstants.API_TRANSPORTUNITS)
 public class TransportUnitController extends AbstractWebController implements TransportUnitApi {
 
     @Autowired
