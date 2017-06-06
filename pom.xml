@@ -47,9 +47,9 @@
             <url>http://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <site>
-            <id>${distribution.serverId}</id>
+            <id>ftp-io</id>
             <name>OpenWMS.org WebSite</name>
-            <url>${distribution.serverProtocol}://${distribution.serverUrl.sourcePath}/org.openwms.cloud</url>
+            <url>ftp://ftp.interface21.io/tms/transportation</url>
         </site>
     </distributionManagement>
 
