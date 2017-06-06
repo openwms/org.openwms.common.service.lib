@@ -10,7 +10,7 @@ node {
     stage('\u27A1 Build') {
       configFileProvider(
           [configFile(fileId: 'maven-local-settings', variable: 'MAVEN_SETTINGS')]) {
-            sh "'${mvnHome}/bin/mvn' -s $MAVEN_SETTINGS clean deploy ${cmdLine} -Psonatype -U"
+            sh "'${mvnHome}/bin/mvn' -s $MAVEN_SETTINGS clean install ${cmdLine} -Psonatype -U"
       }
     }
     stage('\u27A1 Heroku Staging') {
