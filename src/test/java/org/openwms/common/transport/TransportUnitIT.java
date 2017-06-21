@@ -21,10 +21,6 @@
  */
 package org.openwms.common.transport;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import javax.persistence.Query;
-
 import org.ameba.test.categories.IntegrationTests;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,6 +34,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.persistence.Query;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * A TransportUnitIT.
