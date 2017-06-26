@@ -49,7 +49,7 @@
         <site>
             <id>ftp-io</id>
             <name>OpenWMS.org WebSite</name>
-            <url>ftp://ftp.interface21.io/tms/transportation</url>
+            <url>ftp://ftp.interface21.io/docs/core/registry</url>
         </site>
     </distributionManagement>
 
