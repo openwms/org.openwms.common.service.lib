@@ -35,7 +35,7 @@
     <name>OpenWMS.org COMMON: Services</name>
 
     <properties>
-        <core.version>1.1.0-SNAPSHOT</core.version>
+        <core.version>1.1.0</core.version>
         <commons-lang3.version>3.4</commons-lang3.version>
         <sonar.projectKey>OpenWMS.org_COMMON:Services</sonar.projectKey>
     </properties>
