@@ -32,6 +32,7 @@
         <relativePath/>
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
+    <version>1.1.0</version>
     <name>OpenWMS.org COMMON: Services</name>
 
     <properties>
