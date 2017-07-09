@@ -49,7 +49,7 @@ eureka:
     hostname: ${OWMS_REGISTRYSRV_URL:openwms-services.herokuapp.com}
     secure-port-enabled: true
     non-secure-port-enabled: false
-    statusPageUrl: https://${eureka.instance.hostName}/info
-    healthCheckUrl: https://${eureka.instance.hostName}/health
-    homePageUrl: https://${eureka.instance.hostName}/
+    statusPageUrl: ${OWMS_REGISTRYSRV_PROTOCOL:https}://${eureka.instance.hostName}/info
+    healthCheckUrl: ${OWMS_REGISTRYSRV_PROTOCOL:https}://${eureka.instance.hostName}/health
+    homePageUrl: ${OWMS_REGISTRYSRV_PROTOCOL:https}://${eureka.instance.hostName}/
 
