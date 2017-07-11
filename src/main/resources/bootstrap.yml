@@ -13,13 +13,14 @@ security:
   user:
     # Override both in cloud environment!
     password: ${OWMS_SECURITY_BASIC_PASSWORD:sa}
+    name: ${OWMS_SECURITY_BASIC_NAME:user}
 
 eureka:
   instance:
     secure-port-enabled: false
     non-secure-port-enabled: true
     metadata-map:
-      username: user
+      username: ${security.user.name}
       password: ${security.user.password}
 
 management:
