@@ -3,8 +3,11 @@ spring:
     name: openwms-services
 
 owms:
+  srv:
+    protocol: http
+    hostname: localhost
   eureka:
-    url: ${OWMS_EUREKA_URL:http://user:sa@localhost:8761}
+    url: http://user:sa@localhost:8761
 
 server:
   port: ${PORT:8761}
@@ -12,8 +15,7 @@ server:
 security:
   user:
     # Override both in cloud environment!
-    password: ${OWMS_SECURITY_BASIC_PASSWORD:sa}
-    name: ${OWMS_SECURITY_BASIC_NAME:user}
+    password: sa
 
 eureka:
   instance:
@@ -38,6 +40,11 @@ spring:
   main:
     banner-mode: "OFF"
 
+owms:
+  srv:
+    protocol: https
+    hostname: openwms-services.herokuapp.com
+
 eureka:
   client:
     registerWithEureka: false
@@ -47,10 +54,10 @@ eureka:
     serviceUrl:
       defaultZone: ${owms.eureka.url}/eureka/
   instance:
-    hostname: ${OWMS_REGISTRYSRV_URL:openwms-services.herokuapp.com}
+    hostname: ${owms.srv.hostname}
     secure-port-enabled: true
     non-secure-port-enabled: false
-    statusPageUrl: ${OWMS_REGISTRYSRV_PROTOCOL:https}://${eureka.instance.hostName}/info
-    healthCheckUrl: ${OWMS_REGISTRYSRV_PROTOCOL:https}://${eureka.instance.hostName}/health
-    homePageUrl: ${OWMS_REGISTRYSRV_PROTOCOL:https}://${eureka.instance.hostName}/
+    statusPageUrl: ${owms.srv.hostname}://${eureka.instance.hostname}/info
+    healthCheckUrl: ${owms.srv.hostname}://${eureka.instance.hostname}/health
+    homePageUrl: ${owms.srv.hostname}://${eureka.instance.hostname}/
 
