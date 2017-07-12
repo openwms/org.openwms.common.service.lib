@@ -18,6 +18,7 @@ spring:
 
 owms:
   eureka:
+    # todo: Do we realy need this?
     # Override this in cloud environment!
     url: http://user:sa@localhost:8761
 
