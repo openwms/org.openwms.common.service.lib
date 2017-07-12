@@ -7,7 +7,7 @@ owms:
     protocol: http
     hostname: localhost
   eureka:
-    url: http://user:sa@localhost:8761
+    url: ${owms.srv.protocol}://${security.user.name}:${security.user.password}@${owms.srv.hostname}:${server.port}
 
 server:
   port: ${PORT:8761}
