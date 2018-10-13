@@ -21,14 +21,14 @@
  */
 package org.openwms.common.transport;
 
-import java.util.Arrays;
-
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+
+import java.util.Arrays;
 
 /**
  * A TransportConfig.
@@ -47,7 +47,7 @@ class TransportConfig {
      * @param ls
      * @return
      */
-    @Profile("default")
+    @Profile("DEMO")
     @Bean
     CommandLineRunner transportRunner(TransportUnitRepository tur, TransportUnitTypeRepository tutr, LocationService ls) {
         TransportUnitType tut = tutr.save(new TransportUnitType(("Carton")));
