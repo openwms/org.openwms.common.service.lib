@@ -22,6 +22,7 @@
 package org.openwms.common.transport.api;
 
 import org.ameba.mapping.BeanMapper;
+import org.openwms.common.CommonConstants;
 import org.openwms.common.transport.Barcode;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -43,7 +45,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @since 2.0
  */
-//@RestController(CommonConstants.API_TRANSPORTUNITS)
+@RestController(CommonConstants.API_TRANSPORTUNITS)
 public class TransportUnitController extends AbstractWebController implements TransportUnitApi {
 
     @Autowired
@@ -56,20 +58,33 @@ public class TransportUnitController extends AbstractWebController implements Tr
     public
     @ResponseBody
     TransportUnitVO getTransportUnit(@RequestParam("bk") String transportUnitBK) {
-        return mapper.map(service.findByBarcode(new Barcode(transportUnitBK)), TransportUnitVO.class);
+        TransportUnit transportUnit = service.findByBarcode(new Barcode(transportUnitBK));
+        return mapper.map(transportUnit, TransportUnitVO.class);
     }
 
     @Override
     @PostMapping(params = {"bk"})
     public
     @ResponseBody
-    void createTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu, HttpServletRequest req) {
-
-        // check if already exists ...
-        service.findByBarcode(Barcode.of(transportUnitBK));
-
+    void createTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
+        if (Boolean.TRUE == strict) {
+            // check if already exists ...
+            service.findByBarcode(Barcode.of(transportUnitBK));
+        }
         TransportUnit toCreate = mapper.map(tu, TransportUnit.class);
-        TransportUnit created = service.create(new Barcode(transportUnitBK), toCreate.getTransportUnitType(), toCreate.getActualLocation().getLocationId());
+        TransportUnit created = service.create(new Barcode(transportUnitBK), toCreate.getTransportUnitType(), toCreate.getActualLocation().getLocationId(), strict);
+        getLocationForCreatedResource(req, created.getPersistentKey());
+    }
+
+    @PostMapping(params = {"bk", "actualLocation", "tut"})
+    public
+    @ResponseBody
+    void createTU(@RequestParam("bk") String transportUnitBK, @RequestParam("actualLocation") String actualLocation, @RequestParam("tut") String tut, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
+        if (Boolean.TRUE == strict) {
+            // check if already exists ...
+            service.findByBarcode(Barcode.of(transportUnitBK));
+        }
+        TransportUnit created = service.create(new Barcode(transportUnitBK), tut, actualLocation, strict);
         getLocationForCreatedResource(req, created.getPersistentKey());
     }
 

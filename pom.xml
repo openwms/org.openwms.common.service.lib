@@ -253,6 +253,10 @@
             <artifactId>aspectjweaver</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.interface21</groupId>
+            <artifactId>ameba-lib</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>

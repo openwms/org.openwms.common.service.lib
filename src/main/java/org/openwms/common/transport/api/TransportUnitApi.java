@@ -5,7 +5,7 @@
  * This file is part of openwms.org.
  *
  * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
+ * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -45,7 +45,11 @@ public interface TransportUnitApi {
 
     @PostMapping(params = {"bk"})
     @ResponseBody
-    void createTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu, HttpServletRequest req);
+    void createTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req);
+
+    @PostMapping(params = {"bk"})
+    @ResponseBody
+    void createTU(@RequestParam("bk") String transportUnitBK, @RequestParam("actualLocation") String actualLocation, @RequestParam("tut") String tut, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req);
 
     @PutMapping(params = {"bk"})
     @ResponseBody

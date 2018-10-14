@@ -21,9 +21,10 @@
  */
 package org.openwms.common.location.api;
 
-import java.io.Serializable;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.ResourceSupport;
+
+import java.io.Serializable;
 
 /**
  * A LocationGroupVO is the view object of a Location.
@@ -32,7 +33,9 @@ import org.springframework.hateoas.ResourceSupport;
  */
 public class LocationGroupVO extends ResourceSupport implements Serializable {
 
+    @JsonProperty
     private String name;
+    @JsonProperty
     private String parent;
 
     protected LocationGroupVO() {

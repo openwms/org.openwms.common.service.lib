@@ -21,9 +21,9 @@
  */
 package org.openwms.common.transport;
 
-import java.util.List;
-
 import org.openwms.common.location.LocationPK;
+
+import java.util.List;
 
 /**
  * A TransportService offers functionality to create, read, update and delete {@link TransportUnit}s. Additionally it defines useful methods
@@ -43,7 +43,18 @@ public interface TransportUnitService<T extends TransportUnit> {
      * @param actualLocation The {@code Location} where the {@link TransportUnit} is placed on
      * @return The new created {@link TransportUnit} instance
      */
-    T create(Barcode barcode, TransportUnitType transportUnitType, LocationPK actualLocation);
+    T create(Barcode barcode, TransportUnitType transportUnitType, LocationPK actualLocation, Boolean strict);
+
+    /**
+     * Create a new {@link TransportUnit} with the type {@link TransportUnitType} placed on an initial {@code Location}. The new {@link
+     * TransportUnit} has the given {@link Barcode} as identifier.
+     *
+     * @param barcode {@link Barcode} of the new {@link TransportUnit}
+     * @param transportUnitType The type of the new {@link TransportUnit}
+     * @param actualLocation The {@code Location} where the {@link TransportUnit} is placed on
+     * @return The new created {@link TransportUnit} instance
+     */
+    T create(Barcode barcode, String transportUnitType, String actualLocation, Boolean strict);
 
     T update(Barcode barcode, T tu);
 

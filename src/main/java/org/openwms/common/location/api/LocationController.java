@@ -21,6 +21,7 @@
  */
 package org.openwms.common.location.api;
 
+import org.ameba.exception.NotFoundException;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.CommonConstants;
 import org.openwms.common.location.Location;
@@ -47,6 +48,11 @@ class LocationController {
 
     @GetMapping(params = {"locationPK"})
     public LocationVO getLocation(@RequestParam("locationPK") String locationPk) {
-        return mapper.map(locationService.findByLocationId(LocationPK.fromString(locationPk)), LocationVO.class);
+        try {
+            return mapper.map(locationService.findByLocationId(LocationPK.fromString(locationPk)), LocationVO.class);
+
+        } catch (IllegalArgumentException iae) {
+            throw new NotFoundException(iae.getMessage());
+        }
     }
 }

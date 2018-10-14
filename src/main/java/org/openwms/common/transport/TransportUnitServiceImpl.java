@@ -21,12 +21,6 @@
  */
 package org.openwms.common.transport;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
@@ -42,7 +36,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.web.servlet.LocaleResolver;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+
+import static java.lang.String.format;
 
 /**
  * A TransportUnitServiceImpl.
@@ -82,24 +86,51 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
      * {@inheritDoc}
      */
     @Override
-    public TransportUnit create(Barcode barcode, TransportUnitType transportUnitType, LocationPK actualLocation) {
+    public TransportUnit create(Barcode barcode, TransportUnitType transportUnitType, LocationPK actualLocation, Boolean strict) {
+        Assert.notNull(barcode, "The barcode must be given in order to create a TransportUnit");
+        Assert.notNull(transportUnitType, "The transportUnitType must be given in order to create a TransportUnit");
+        Assert.notNull(actualLocation, "The actualLocation must be given in order to create a TransportUnit");
+
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Creating a TransportUnit with Barcode " + barcode + " of Type " + transportUnitType.getType()
-                    + " on Location " + actualLocation);
+            LOGGER.debug("Creating a TransportUnit with Barcode {} of Type {} on Location ", barcode, transportUnitType.getType(), actualLocation);
         }
-        TransportUnit transportUnit = dao.findByBarcode(barcode).get();
-        if (transportUnit != null) {
-            throw new ServiceLayerException("TransportUnit with id " + barcode + " not found");
+        TransportUnit transportUnit;
+        if (Boolean.TRUE == strict) {
+            dao.findByBarcode(barcode).ifPresent(tu -> {throw new ServiceLayerException(format("TransportUnit with id %s not found", barcode));});
         }
         Location location = locationService.findByLocationId(actualLocation);
-        if (location == null) {
-            throw new ServiceLayerException("Location " + actualLocation + " not found");
-        }
-        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType.getType()).get();
-        if (null == type) {
-            throw new ServiceLayerException("TransportUnitType " + transportUnitType + " not found");
-        }
+        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType.getType()).orElseThrow(() -> new ServiceLayerException(format("TransportUnitType %s not found", transportUnitType)));
         transportUnit = new TransportUnit(barcode);
+        transportUnit.setTransportUnitType(type);
+        transportUnit.setActualLocation(location);
+        dao.save(transportUnit);
+        return transportUnit;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public TransportUnit create(Barcode barcode, String transportUnitType, String actualLocation, Boolean strict) {
+        Assert.notNull(barcode, "The barcode must be given in order to create a TransportUnit");
+        Assert.notNull(transportUnitType, "The transportUnitType must be given in order to create a TransportUnit");
+        Assert.notNull(actualLocation, "The actualLocation must be given in order to create a TransportUnit");
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Creating a TransportUnit with Barcode {} of Type {} on Location ", barcode, transportUnitType, actualLocation);
+        }
+        Optional<TransportUnit> opt = dao.findByBarcode(barcode);
+        if (Boolean.TRUE == strict) {
+            opt.ifPresent(tu -> {throw new ServiceLayerException(format("TransportUnit with id %s not found", barcode));});
+        } else {
+            if (opt.isPresent()) {
+                LOGGER.info("TransportUnit with Barcode {} already exists, silently returning the existing one and continue", barcode);
+                return opt.get();
+            }
+        }
+        Location location = locationService.findByLocationId(actualLocation);
+        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -> new ServiceLayerException(format("TransportUnitType %s not found", transportUnitType)));
+        TransportUnit transportUnit = new TransportUnit(barcode);
         transportUnit.setTransportUnitType(type);
         transportUnit.setActualLocation(location);
         dao.save(transportUnit);

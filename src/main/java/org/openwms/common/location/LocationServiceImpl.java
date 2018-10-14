@@ -21,14 +21,14 @@
  */
 package org.openwms.common.location;
 
-import java.util.Date;
-import java.util.List;
-
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * A LocationServiceImpl.
@@ -123,5 +123,13 @@ class LocationServiceImpl implements LocationService<Location> {
     @Override
     public Location findByLocationId(LocationPK locationPK) {
         return locationRepository.findByLocationId(locationPK).orElseThrow(() -> new NotFoundException(String.format("No Location with locationPk %s found", locationPK), null));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Location findByLocationId(String locationPK) {
+        return locationRepository.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -> new NotFoundException(String.format("No Location with locationPk %s found", locationPK), null));
     }
 }
