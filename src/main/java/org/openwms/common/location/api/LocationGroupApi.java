@@ -21,28 +21,40 @@
  */
 package org.openwms.common.location.api;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.openwms.common.CommonConstants;
 import org.openwms.common.location.LocationGroupState;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
- * A LocationApi.
+ * A LocationGroupApi.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 @FeignClient("${owms.common-service.protocol}://${owms.common-service.name}")
-public interface LocationApi {
+public interface LocationGroupApi {
 
     @PatchMapping(value = CommonConstants.API_LOCATIONGROUPS + "/{id}")
     void save(@PathVariable String id, @RequestParam(name = "statein", required = false) LocationGroupState stateIn, @RequestParam(name = "stateout", required = false) LocationGroupState stateOut, HttpServletRequest req, HttpServletResponse res);
+
+    /**
+     * This method is used to update the state of a LocationGroup with an errorCode String, usually coming from a SYSU telegram.
+     *
+     * @param locationGroupName The name of the LocationGroup
+     * @param errorCode The error code as String
+     * @param req HttpRequest
+     * @param res HttpResponse
+     */
+    @PatchMapping(value = CommonConstants.API_LOCATIONGROUPS, params = {"name"})
+    void updateState(@RequestParam(name = "name") String locationGroupName, @RequestBody ErrorCodeVO errorCode, HttpServletRequest req, HttpServletResponse res);
 
     @RequestMapping(value = CommonConstants.API_LOCATIONGROUPS, method = RequestMethod.GET, params = {"name"})
     LocationGroupVO getLocationGroup(@RequestParam("name") String name);

@@ -1,11 +1,11 @@
 /*
  * openwms.org, the Open Warehouse Management System.
- * Copyright (C) 2014 Heiko Scherrer
+ * Copyright (C) 2018 Heiko Scherrer
  *
  * This file is part of openwms.org.
  *
  * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
+ * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -19,18 +19,21 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.location;
+package org.openwms.common.location.api;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
-import java.util.Optional;
+import java.io.Serializable;
 
 /**
- * A LocationGroupRepository adds particular functionality regarding {@link LocationGroup} entity classes.
- * 
+ * A ErrorCodeVO.
+ *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-interface LocationGroupRepository extends JpaRepository<LocationGroup, Long> {
+@Data
+class ErrorCodeVO implements Serializable {
 
-    Optional<LocationGroup> findByName(String name);
+    @JsonProperty
+    String errorCode;
 }

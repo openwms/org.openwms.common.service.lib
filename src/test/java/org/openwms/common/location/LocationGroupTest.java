@@ -21,15 +21,15 @@
  */
 package org.openwms.common.location;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.openwms.common.StateChangeException;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * A LocationGroupTest.
@@ -100,7 +100,7 @@ public class LocationGroupTest {
     void testAddLocationGroupToChild() {
         LocationGroup parent = new LocationGroup("Warehouse");
         LocationGroup lg = new LocationGroup("Error zone");
-        lg.setGroupStateIn(LocationGroupState.NOT_AVAILABLE);
+        lg.changeGroupStateIn(LocationGroupState.NOT_AVAILABLE);
         LocationGroup child = new LocationGroup("Picking");
 
         // test ...
@@ -117,8 +117,8 @@ public class LocationGroupTest {
     @Test
     void testAddLocationGroupWithStateChange() {
         LocationGroup parent = new LocationGroup("Warehouse");
-        parent.setGroupStateIn(LocationGroupState.NOT_AVAILABLE);
-        parent.setGroupStateOut(LocationGroupState.NOT_AVAILABLE, parent);
+        parent.changeGroupStateIn(LocationGroupState.NOT_AVAILABLE);
+        parent.changeGroupStateOut(LocationGroupState.NOT_AVAILABLE, parent);
         LocationGroup lg = new LocationGroup("Error zone");
         parent.addLocationGroup(lg);
         assertThat(parent.getLocationGroups()).hasSize(1);
@@ -134,14 +134,14 @@ public class LocationGroupTest {
         LocationGroup lg = new LocationGroup("Error zone");
         parent.addLocationGroup(lg);
 
-        parent.setGroupStateIn(LocationGroupState.NOT_AVAILABLE);
+        parent.changeGroupStateIn(LocationGroupState.NOT_AVAILABLE);
         assertThat(lg.getGroupStateIn()).isEqualTo(parent.getGroupStateIn()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
-        parent.setGroupStateOut(LocationGroupState.NOT_AVAILABLE, parent);
+        parent.changeGroupStateOut(LocationGroupState.NOT_AVAILABLE, parent);
         assertThat(lg.getGroupStateOut()).isEqualTo(parent.getGroupStateOut()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
 
-        parent.setGroupStateIn(LocationGroupState.AVAILABLE);
+        parent.changeGroupStateIn(LocationGroupState.AVAILABLE);
         assertThat(lg.getGroupStateIn()).isEqualTo(parent.getGroupStateIn()).isEqualTo(LocationGroupState.AVAILABLE);
-        parent.setGroupStateOut(LocationGroupState.AVAILABLE, parent);
+        parent.changeGroupStateOut(LocationGroupState.AVAILABLE, parent);
         assertThat(lg.getGroupStateOut()).isEqualTo(parent.getGroupStateOut()).isEqualTo(LocationGroupState.AVAILABLE);
     }
 
@@ -151,11 +151,11 @@ public class LocationGroupTest {
         LocationGroup parent = new LocationGroup("Warehouse");
         LocationGroup lg = new LocationGroup("Error zone");
         parent.addLocationGroup(lg);
-        parent.setGroupStateIn(LocationGroupState.NOT_AVAILABLE);
-        parent.setGroupStateOut(LocationGroupState.NOT_AVAILABLE, parent);
+        parent.changeGroupStateIn(LocationGroupState.NOT_AVAILABLE);
+        parent.changeGroupStateOut(LocationGroupState.NOT_AVAILABLE, parent);
 
         thrown.expect(StateChangeException.class);
-        lg.setGroupStateIn(LocationGroupState.AVAILABLE);
+        lg.changeGroupStateIn(LocationGroupState.AVAILABLE);
     }
 
     public

@@ -42,6 +42,15 @@ public interface LocationGroupService<T extends LocationGroup> {
     void changeGroupState(String id, LocationGroupState stateIn, LocationGroupState stateOut);
 
     /**
+     * Tries to change the infeed and outfeed state of a {@link LocationGroup}.
+     *
+     * @param locationGroupName The name of the LocationGroup to change
+     * @param stateIn The new infeed state
+     * @param stateOut The new outfeed state
+     */
+    void changeGroupStates(String locationGroupName, LocationGroupState stateIn, LocationGroupState stateOut);
+
+    /**
      * Find and return a {@link LocationGroup} by its unique {@code name}.
      *
      * @param name The name to search for

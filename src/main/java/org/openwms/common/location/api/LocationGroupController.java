@@ -21,12 +21,6 @@
  */
 package org.openwms.common.location.api;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-
-import javax.servlet.http.HttpServletResponse;
-import java.util.Optional;
-
 import org.ameba.exception.NotFoundException;
 import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
@@ -36,37 +30,58 @@ import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.location.LocationGroup;
 import org.openwms.common.location.LocationGroupService;
 import org.openwms.common.location.LocationGroupState;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriTemplate;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 /**
  * A LocationGroupController.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @since 2.0
  */
 @RestController(CommonConstants.API_LOCATIONGROUPS)
-class LocationGroupController implements LocationApi {
+class LocationGroupController implements LocationGroupApi {
 
-    @Autowired
-    private LocationGroupService<LocationGroup> locationGroupService;
-    @Autowired
-    private Translator translator;
-    @Autowired
-    private BeanMapper mapper;
+    private final LocationGroupService<LocationGroup> locationGroupService;
+    private final Translator translator;
+    private final BeanMapper mapper;
+    private final ErrorCodeTransformers.GroupStateIn groupStateIn;
+    private final ErrorCodeTransformers.GroupStateOut groupStateOut;
+
+    LocationGroupController(LocationGroupService<LocationGroup> locationGroupService, Translator translator, BeanMapper mapper, ErrorCodeTransformers.GroupStateIn groupStateIn, ErrorCodeTransformers.GroupStateOut groupStateOut) {
+        this.locationGroupService = locationGroupService;
+        this.translator = translator;
+        this.mapper = mapper;
+        this.groupStateIn = groupStateIn;
+        this.groupStateOut = groupStateOut;
+    }
 
     @Override
     @PatchMapping(value = CommonConstants.API_LOCATIONGROUPS + "/{id}")
     public void save(@PathVariable String id, @RequestParam(name = "statein", required = false) LocationGroupState stateIn, @RequestParam(name = "stateout", required = false) LocationGroupState stateOut, HttpServletRequest req, HttpServletResponse res) {
         locationGroupService.changeGroupState(id, stateIn, stateOut);
         res.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req, id));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @PatchMapping(value = CommonConstants.API_LOCATIONGROUPS, params = {"name"})
+    public void updateState(@RequestParam(name = "name") String locationGroupName, @RequestBody ErrorCodeVO errorCode, HttpServletRequest req, HttpServletResponse res) {
+        locationGroupService.changeGroupStates(locationGroupName, groupStateIn.transform(errorCode.errorCode), groupStateOut.transform(errorCode.errorCode));
     }
 
     @Override

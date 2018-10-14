@@ -21,27 +21,32 @@
  */
 package org.openwms.common.location;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.ameba.annotation.TxService;
+import org.ameba.exception.NotFoundException;
+import org.ameba.i18n.Translator;
+import org.openwms.common.CommonMessageCodes;
 import org.openwms.core.util.TreeNode;
 import org.openwms.core.util.TreeNodeImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * A LocationGroupServiceImpl.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @version 0.2
- * @since 0.1
  */
 @TxService
 class LocationGroupServiceImpl implements LocationGroupService<LocationGroup> {
 
-    @Autowired
-    private LocationGroupRepository locationGroupRepository;
+    private final LocationGroupRepository locationGroupRepository;
+    private final Translator translator;
+
+    LocationGroupServiceImpl(LocationGroupRepository locationGroupRepository, Translator translator) {
+        this.locationGroupRepository = locationGroupRepository;
+        this.translator = translator;
+    }
 
     /**
      * {@inheritDoc}
@@ -56,8 +61,18 @@ class LocationGroupServiceImpl implements LocationGroupService<LocationGroup> {
      * {@inheritDoc}
      */
     @Override
+    public void changeGroupStates(String locationGroupName, LocationGroupState stateIn, LocationGroupState stateOut) {
+        LocationGroup locationGroup = locationGroupRepository.findByName(locationGroupName).orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{locationGroupName}, locationGroupName));
+        locationGroup.changeGroupStateIn(stateIn);
+        locationGroup.changeGroupStateOut(stateOut);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Optional<LocationGroup> findByName(String name) {
-        return Optional.ofNullable(locationGroupRepository.findByName(name));
+        return locationGroupRepository.findByName(name);
     }
 
     /**
