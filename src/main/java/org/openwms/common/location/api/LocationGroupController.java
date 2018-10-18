@@ -41,6 +41,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriTemplate;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -68,6 +70,7 @@ class LocationGroupController implements LocationGroupApi {
         this.groupStateOut = groupStateOut;
     }
 
+
     @Override
     @PatchMapping(value = CommonConstants.API_LOCATIONGROUPS + "/{id}")
     public void save(@PathVariable String id, @RequestParam(name = "statein", required = false) LocationGroupState stateIn, @RequestParam(name = "stateout", required = false) LocationGroupState stateOut, HttpServletRequest req, HttpServletResponse res) {
@@ -94,6 +97,15 @@ class LocationGroupController implements LocationGroupApi {
             result.add(linkTo(methodOn(LocationGroupController.class).getLocationGroup(locationGroup.getParent().getName())).withRel("_parent"));
         }
         return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<LocationGroupVO> findAll() {
+        List<LocationGroup> all = locationGroupService.findAll();
+        return all == null ? Collections.emptyList() : mapper.map(all, LocationGroupVO.class);
     }
 
     @Override

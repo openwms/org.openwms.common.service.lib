@@ -78,6 +78,14 @@ class LocationGroupServiceImpl implements LocationGroupService<LocationGroup> {
     /**
      * {@inheritDoc}
      */
+    @Override
+    public List<LocationGroup> findAll() {
+        return locationGroupRepository.findAll();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Transactional(readOnly = true)
     //@Override
     public TreeNode<LocationGroup> getLocationGroupsAsTree() {

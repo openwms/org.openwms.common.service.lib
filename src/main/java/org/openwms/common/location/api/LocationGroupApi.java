@@ -25,14 +25,14 @@ import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.openwms.common.CommonConstants;
 import org.openwms.common.location.LocationGroupState;
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * A LocationGroupApi.
@@ -42,6 +42,20 @@ import javax.servlet.http.HttpServletResponse;
 @FeignClient("${owms.common-service.protocol}://${owms.common-service.name}")
 public interface LocationGroupApi {
 
+    /* reads */
+    @GetMapping(value = CommonConstants.API_LOCATIONGROUPS, params = {"name"})
+    LocationGroupVO getLocationGroup(@RequestParam("name") String name);
+
+    @GetMapping(value = CommonConstants.API_LOCATIONGROUPS)
+    List<LocationGroupVO> findAll();
+
+    String getLocationForCreatedResource(HttpServletRequest req, String objId);
+
+
+
+
+
+    /* writes */
     @PatchMapping(value = CommonConstants.API_LOCATIONGROUPS + "/{id}")
     void save(@PathVariable String id, @RequestParam(name = "statein", required = false) LocationGroupState stateIn, @RequestParam(name = "stateout", required = false) LocationGroupState stateOut, HttpServletRequest req, HttpServletResponse res);
 
@@ -55,9 +69,4 @@ public interface LocationGroupApi {
      */
     @PatchMapping(value = CommonConstants.API_LOCATIONGROUPS, params = {"name"})
     void updateState(@RequestParam(name = "name") String locationGroupName, @RequestBody ErrorCodeVO errorCode, HttpServletRequest req, HttpServletResponse res);
-
-    @RequestMapping(value = CommonConstants.API_LOCATIONGROUPS, method = RequestMethod.GET, params = {"name"})
-    LocationGroupVO getLocationGroup(@RequestParam("name") String name);
-
-    String getLocationForCreatedResource(HttpServletRequest req, String objId);
 }

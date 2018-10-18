@@ -21,6 +21,7 @@
  */
 package org.openwms.common.location;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -57,6 +58,13 @@ public interface LocationGroupService<T extends LocationGroup> {
      * @return The optional LocationGroup
      */
     Optional<LocationGroup> findByName(String name);
+
+    /**
+     * Find and return all {@link LocationGroup}s.
+     *
+     * @return All existing instances
+     */
+    List<LocationGroup> findAll();
 
     /**
      * Returns a hierarchical Tree of all {@link LocationGroup}s. Used by the user interface to show all {@link LocationGroup}s in a tree
