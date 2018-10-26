@@ -1,6 +1,6 @@
 /*
  * openwms.org, the Open Warehouse Management System.
- * Copyright (C) 2014 Heiko Scherrer
+ * Copyright (C) 2018 Heiko Scherrer
  *
  * This file is part of openwms.org.
  *
@@ -22,31 +22,32 @@
 package org.openwms.common.location.api;
 
 import org.ameba.mapping.BeanMapper;
-import org.openwms.common.CommonConstants;
-import org.openwms.common.location.LocationPK;
-import org.openwms.common.location.LocationService;
+import org.openwms.common.location.Location;
+import org.openwms.common.location.stock.StockService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * A LocationController.
+ * A StockLocationController.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-@RestController(CommonConstants.API_LOCATIONS)
-class LocationController {
+@RestController("/stock")
+class StockLocationController implements StockLocationApi {
 
-    private final LocationService locationService;
+    private final StockService stockService;
     private final BeanMapper mapper;
 
-    LocationController(LocationService locationService, BeanMapper mapper) {
-        this.locationService = locationService;
+    StockLocationController(StockService stockService, BeanMapper mapper) {
+        this.stockService = stockService;
         this.mapper = mapper;
     }
 
-    @GetMapping(params = {"locationPK"})
-    public LocationVO getLocation(@RequestParam("locationPK") String locationPk) {
-        return mapper.map(locationService.findByLocationId(LocationPK.fromString(locationPk)), LocationVO.class);
+    @Override
+    @GetMapping(params = {"tuId", "stockLocationGroupName"})
+    public LocationVO findStockLocationSimple(@RequestParam("tuId") String tuId, @RequestParam("stockLocationGroupName") String stockLocationGroupName) {
+        Location location = stockService.findNextAscending(tuId, stockLocationGroupName);
+        return mapper.map(location, LocationVO.class);
     }
 }

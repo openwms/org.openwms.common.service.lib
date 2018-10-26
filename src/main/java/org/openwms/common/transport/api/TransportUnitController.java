@@ -39,6 +39,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static org.openwms.common.location.LocationPK.fromString;
+
 /**
  * A TransportUnitController.
  *
@@ -97,11 +99,11 @@ public class TransportUnitController extends AbstractWebController implements Tr
     }
 
     @Override
-    @PatchMapping(params = {"bk"})
+    @PatchMapping(params = {"bk", "newLocation"})
     public
     @ResponseBody
-    TransportUnitVO updateActualLocation(@RequestParam("bk") String transportUnitBK, @RequestBody String actualLocation) {
-        System.out.println("Location updated");
-        return null;
+    TransportUnitVO moveTU(@RequestParam("bk") String transportUnitBK, @RequestParam("newLocation") String newLocation) {
+        TransportUnit tu = service.moveTransportUnit(new Barcode(transportUnitBK), fromString(newLocation));
+        return mapper.map(tu, TransportUnitVO.class);
     }
 }

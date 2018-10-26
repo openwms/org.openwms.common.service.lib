@@ -5,7 +5,7 @@
  * This file is part of openwms.org.
  *
  * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
+ * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -24,40 +24,33 @@ package org.openwms.common.location;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 
 /**
  * A LocationServiceImpl.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @version 0.2
- * @since 0.1
  */
 @TxService
-class LocationServiceImpl implements LocationService<Location> {
+class LocationServiceImpl implements LocationService {
 
-    @Autowired
-    private LocationRepository locationRepository;
+    private final LocationRepository locationRepository;
+    private final LocationTypeRepository locationTypeRepository;
 
-    @Autowired
-    private LocationTypeRepository locationTypeRepository;
+    LocationServiceImpl(LocationRepository locationRepository, LocationTypeRepository locationTypeRepository) {
+        this.locationRepository = locationRepository;
+        this.locationTypeRepository = locationTypeRepository;
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = true)
     public List<Location> getAllLocations() {
-        List<Location> list = locationRepository.findAll();
-        for (Location location : list) {
-            location.setLastMovement(new Date());
-            locationRepository.save(location);
-        }
-        return list;
+        return locationRepository.findAll();
     }
 
     /**
@@ -69,7 +62,7 @@ class LocationServiceImpl implements LocationService<Location> {
         if (null == location) {
             throw new ServiceLayerException("Location with pk " + id + " not found, probably it was removed before");
         }
-        location.removeMessages(messages.toArray(new Message[messages.size()]));
+        location.removeMessages(messages.toArray(new Message[0]));
         return location;
     }
 
@@ -85,28 +78,13 @@ class LocationServiceImpl implements LocationService<Location> {
     /**
      * {@inheritDoc}
      * <p>
-     * If the {@code locationType} is a transient one, it will be persisted otherwise saved.
-     */
-    @Override
-    public void createLocationType(LocationType locationType) {
-        if (locationType.isNew()) {
-            locationTypeRepository.save(locationType);
-        } else {
-            locationTypeRepository.save(locationType);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
      * The implementation uses the id to find the {@link LocationType} to be removed and will removed the type when found.
      */
     @Override
     public void deleteLocationTypes(List<LocationType> locationTypes) {
-        for (LocationType locationType : locationTypes) {
-            LocationType lt = locationTypeRepository.findOne(locationType.getPk());
-            locationTypeRepository.delete(lt);
-        }
+        locationTypes.stream()
+                .map(locationType -> locationTypeRepository.findOne(locationType.getPk()))
+                .forEach(locationTypeRepository::delete);
     }
 
     /**
@@ -122,7 +100,7 @@ class LocationServiceImpl implements LocationService<Location> {
      */
     @Override
     public Location findByLocationId(LocationPK locationPK) {
-        return locationRepository.findByLocationId(locationPK).orElseThrow(() -> new NotFoundException(String.format("No Location with locationPk %s found", locationPK), null));
+        return locationRepository.findByLocationId(locationPK).orElseThrow(() -> new NotFoundException(String.format("No Location with locationPk [%s] found", locationPK), null));
     }
 
     /**
@@ -130,6 +108,6 @@ class LocationServiceImpl implements LocationService<Location> {
      */
     @Override
     public Location findByLocationId(String locationPK) {
-        return locationRepository.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -> new NotFoundException(String.format("No Location with locationPk %s found", locationPK), null));
+        return locationRepository.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -> new NotFoundException(String.format("No Location with locationPk [%s] found", locationPK), null));
     }
 }

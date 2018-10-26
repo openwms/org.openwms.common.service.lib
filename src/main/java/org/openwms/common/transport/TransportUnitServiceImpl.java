@@ -21,6 +21,7 @@
  */
 package org.openwms.common.transport;
 
+import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
@@ -62,7 +63,7 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
     @Autowired
     private TransportUnitRepository dao;
     @Autowired
-    private LocationService<Location> locationService;
+    private LocationService locationService;
     @Autowired
     private TransportUnitTypeRepository transportUnitTypeRepository;
     @Autowired(required = false)
@@ -161,26 +162,15 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
     /**
      * {@inheritDoc}
      */
+    @Measured
     @Override
-    public void moveTransportUnit(Barcode barcode, LocationPK targetLocationPK) {
-        TransportUnit transportUnit = dao.findByBarcode(barcode).get();
-        if (transportUnit == null) {
-            throw new ServiceLayerException("TransportUnit with id " + barcode + " not found");
+    public TransportUnit moveTransportUnit(Barcode barcode, LocationPK targetLocationPK) {
+        TransportUnit transportUnit = dao.findByBarcode(barcode).orElseThrow(() -> new ServiceLayerException("TransportUnit with id " + barcode + " not found"));
+        transportUnit.setActualLocation(locationService.findByLocationId(targetLocationPK));
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info(format("Moving TransportUnit with barcode [%s] to Location [%s]", barcode, targetLocationPK));
         }
-        Location actualLocation = locationService.findByLocationId(targetLocationPK);
-        // if (actualLocation == null) {
-        // throw new ServiceException("Location with id " + newLocationPk +
-        // " not found");
-        // }
-        transportUnit.setActualLocation(actualLocation);
-        // try {
-        dao.save(transportUnit);
-        // }
-        // catch (RuntimeException e) {
-        // throw new ServiceException("Cannot move TransportUnit with barcode "
-        // + barcode + " to location "
-        // + newLocationPk, e);
-        // }
+        return dao.save(transportUnit);
     }
 
     /**

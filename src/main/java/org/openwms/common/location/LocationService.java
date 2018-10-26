@@ -32,14 +32,14 @@ import java.util.List;
  * @version $Revision$
  * @since 0.1
  */
-public interface LocationService<T extends Location> {
+public interface LocationService {
 
     /**
      * Return a list of all {@link Location}s not sorted and not filtered in natural order.
      *
      * @return All {@link Location}s as a list
      */
-    List<T> getAllLocations();
+    List<Location> getAllLocations();
 
     /**
      * Removes a list of {@link Message}s from a Location.
@@ -56,13 +56,6 @@ public interface LocationService<T extends Location> {
      * @return All {@link LocationType}s as a list
      */
     List<LocationType> getAllLocationTypes();
-
-    /**
-     * Create a new {@link LocationType}.
-     *
-     * @param locationType The type to be created
-     */
-    void createLocationType(LocationType locationType);
 
     /**
      * Delete already persisted {@link LocationType} instances.
