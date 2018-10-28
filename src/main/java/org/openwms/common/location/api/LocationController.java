@@ -21,13 +21,19 @@
  */
 package org.openwms.common.location.api;
 
+import org.ameba.exception.NotFoundException;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.CommonConstants;
+import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+import static java.lang.String.format;
 
 /**
  * A LocationController.
@@ -46,7 +52,17 @@ class LocationController {
     }
 
     @GetMapping(params = {"locationPK"})
-    public LocationVO getLocation(@RequestParam("locationPK") String locationPk) {
-        return mapper.map(locationService.findByLocationId(LocationPK.fromString(locationPk)), LocationVO.class);
+    LocationVO getLocation(@RequestParam("locationPK") String locationPk) {
+        if (!LocationPK.isValid(locationPk)) {
+            throw new NotFoundException(format("Invalid location [%s]", locationPk));
+        }
+        Location location = locationService.findByLocationId(LocationPK.fromString(locationPk));
+        return mapper.map(location, LocationVO.class);
+    }
+
+    @GetMapping(params = {"locationGroupName"})
+    List<LocationVO> getLocationsForLocationGroup(@RequestParam("locationGroupName") String locationGroupName) {
+        List<Location> locations = locationService.findAllOf(locationGroupName);
+        return mapper.map(locations, LocationVO.class);
     }
 }

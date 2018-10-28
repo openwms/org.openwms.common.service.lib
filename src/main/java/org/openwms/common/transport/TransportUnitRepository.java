@@ -21,10 +21,12 @@
  */
 package org.openwms.common.transport;
 
-import java.util.Optional;
-
+import org.openwms.common.location.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * A TransportUnitRepository adds particular functionality regarding {@link TransportUnit} entity classes.
@@ -38,4 +40,6 @@ interface TransportUnitRepository extends JpaRepository<TransportUnit, Long> {
     Optional<TransportUnit> findByPKey(String pKey);
 
     Optional<TransportUnit> findByBarcode(Barcode barcode);
+
+    List<TransportUnit> findByActualLocationOrderByActualLocationDate(Location actualLocation);
 }

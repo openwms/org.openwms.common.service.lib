@@ -21,19 +21,19 @@
  */
 package org.openwms.common.location;
 
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * A LocationRepository adds particular functionality regarding {@link Location} entity classes.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @version 0.2
- * @since 0.1
- * @see Location
  */
 interface LocationRepository extends JpaRepository<Location, Long> {
 
-    Optional<Location> findByLocationId(LocationPK locationPK);
+    Optional<Location> findByLocationId(LocationPK locationId);
+
+    List<Location> findByLocationGroup_Name(String locationGroupName);
 }

@@ -110,4 +110,12 @@ class LocationServiceImpl implements LocationService {
     public Location findByLocationId(String locationPK) {
         return locationRepository.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -> new NotFoundException(String.format("No Location with locationPk [%s] found", locationPK), null));
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Location> findAllOf(String locationGroupName) {
+        return locationRepository.findByLocationGroup_Name(locationGroupName);
+    }
 }

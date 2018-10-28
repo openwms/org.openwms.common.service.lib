@@ -89,4 +89,12 @@ public interface LocationService {
      * @throws org.ameba.exception.NotFoundException if entity not found
      */
     Location findByLocationId(String locationPK);
+
+    /**
+     * Find and return all Locations that belong to a LocationGroup with the name {@code locationGroupName}.
+     *
+     * @param locationGroupName The name of the LocationGroup
+     * @return All LocationGroups or an empty list, never {@literal null}
+     */
+    List<Location> findAllOf(String locationGroupName);
 }

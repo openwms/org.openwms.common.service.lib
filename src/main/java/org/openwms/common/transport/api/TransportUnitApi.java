@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * A TransportUnitApi.
@@ -42,6 +43,9 @@ public interface TransportUnitApi {
     @GetMapping(params = {"bk"})
     @ResponseBody
     TransportUnitVO getTransportUnit(@RequestParam("bk") String transportUnitBK);
+
+    @GetMapping(params = {"actualLocation"})
+    List<TransportUnitVO> getTransportUnitsOn(@RequestParam("actualLocation") String actualLocation);
 
     @PostMapping(params = {"bk"})
     @ResponseBody

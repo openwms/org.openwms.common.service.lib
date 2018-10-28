@@ -239,4 +239,11 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
     public TransportUnit findByBarcode(Barcode barcode) {
         return dao.findByBarcode(barcode).orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.BARCODE_NOT_FOUND, new Serializable[]{barcode}, barcode));
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TransportUnit> findOnLocation(String actualLocation) {
+        List<TransportUnit> tus = dao.findByActualLocationOrderByActualLocationDate(locationService.findByLocationId(actualLocation));
+        return tus;
+    }
 }

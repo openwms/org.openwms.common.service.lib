@@ -92,4 +92,6 @@ public interface TransportUnitService<T extends TransportUnit> {
      * @throws org.ameba.exception.NotFoundException may throw if not found
      */
     T findByBarcode(Barcode barcode);
+
+    List<T> findOnLocation(String actualLocation);
 }
