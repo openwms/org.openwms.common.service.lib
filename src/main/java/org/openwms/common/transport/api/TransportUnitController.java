@@ -38,15 +38,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
+import static org.openwms.common.location.LocationPK.fromString;
 
 /**
  * A TransportUnitController.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @since 2.0
  */
 @RestController(CommonConstants.API_TRANSPORTUNITS)
-public class TransportUnitController extends AbstractWebController implements TransportUnitApi {
+class TransportUnitController extends AbstractWebController implements TransportUnitApi {
 
     @Autowired
     private TransportUnitService<TransportUnit> service;
@@ -60,6 +62,13 @@ public class TransportUnitController extends AbstractWebController implements Tr
     TransportUnitVO getTransportUnit(@RequestParam("bk") String transportUnitBK) {
         TransportUnit transportUnit = service.findByBarcode(new Barcode(transportUnitBK));
         return mapper.map(transportUnit, TransportUnitVO.class);
+    }
+
+    @GetMapping(params = {"actualLocation"})
+    @Override
+    public List<TransportUnitVO> getTransportUnitsOn(@RequestParam("actualLocation") String actualLocation) {
+        List<TransportUnit> tus = service.findOnLocation(actualLocation);
+        return mapper.map(tus, TransportUnitVO.class);
     }
 
     @Override
@@ -97,11 +106,11 @@ public class TransportUnitController extends AbstractWebController implements Tr
     }
 
     @Override
-    @PatchMapping(params = {"bk"})
+    @PatchMapping(params = {"bk", "newLocation"})
     public
     @ResponseBody
-    TransportUnitVO updateActualLocation(@RequestParam("bk") String transportUnitBK, @RequestBody String actualLocation) {
-        System.out.println("Location updated");
-        return null;
+    TransportUnitVO moveTU(@RequestParam("bk") String transportUnitBK, @RequestParam("newLocation") String newLocation) {
+        TransportUnit tu = service.moveTransportUnit(new Barcode(transportUnitBK), fromString(newLocation));
+        return mapper.map(tu, TransportUnitVO.class);
     }
 }

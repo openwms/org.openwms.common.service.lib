@@ -3,16 +3,33 @@
 
     <property name="LOG_TEMP" value="/tmp/owms"/>
     <property name="MODULE_NAME" value="COMMON"/>
+    <property name="SERVICE_NAME" value="COMMON-Service" />
 
     <include resource="logback-appenders.xml" />
     <include resource="logback-loggers.xml" />
 
     <logger name="org.dozer" level="ERROR"/>
-    <logger name="org.hibernate.SQL" level="OFF"/>
-    <logger name="org.hibernate.type" level="OFF"/>
-    <logger name="org.openwms" level="DEBUG"/>
+    <logger name="org.hibernate.SQL" level="DEBUG"/>
+    <logger name="org.hibernate.type" level="DEBUG"/>
     <logger name="org.springframework" level="WARN"/>
+    <logger name="org.openwms" level="DEBUG"/>
 
+    <logger name="PRESENTATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="LOGFILE"/>
+    </logger>
+    <logger name="SERVICE_LAYER_EXCEPTION" level="ERROR" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="LOGFILE"/>
+    </logger>
+    <logger name="INTEGRATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="LOGFILE"/>
+    </logger>
+    <logger name="MEASURED" level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="TSL"/>
+    </logger>
     <logger name="CORE_INTEGRATION_MESSAGING" level="DEBUG"/>
 
     <root level="INFO">

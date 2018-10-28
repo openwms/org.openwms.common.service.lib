@@ -124,6 +124,10 @@ public class LocationPK implements Serializable {
         return new LocationPK(s.split("/"));
     }
 
+    public static boolean isValid(String locationPk) {
+        return locationPk != null && locationPk.split("/").length == NUMBER_OF_KEYS;
+    }
+
     /**
      * Create a new builder instance to create LocationPK from.
      *

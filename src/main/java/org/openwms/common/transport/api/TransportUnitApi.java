@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * A TransportUnitApi.
@@ -43,6 +44,9 @@ public interface TransportUnitApi {
     @ResponseBody
     TransportUnitVO getTransportUnit(@RequestParam("bk") String transportUnitBK);
 
+    @GetMapping(params = {"actualLocation"})
+    List<TransportUnitVO> getTransportUnitsOn(@RequestParam("actualLocation") String actualLocation);
+
     @PostMapping(params = {"bk"})
     @ResponseBody
     void createTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req);
@@ -55,7 +59,7 @@ public interface TransportUnitApi {
     @ResponseBody
     TransportUnitVO updateTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu);
 
-    @PatchMapping(params = {"bk"})
+    @PatchMapping(params = {"bk", "newLocation"})
     @ResponseBody
-    TransportUnitVO updateActualLocation(@RequestParam("bk") String transportUnitBK, @RequestBody String actualLocation);
+    TransportUnitVO moveTU(@RequestParam("bk") String transportUnitBK, @RequestParam("newLocation") String newLocation);
 }
