@@ -25,7 +25,6 @@ import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.openwms.common.location.Location;
-import org.openwms.common.transport.Barcode;
 
 import java.util.List;
 
@@ -45,11 +44,11 @@ class StockServiceImpl implements StockService {
 
     @Measured
     @Override
-    public Location findNextAscending(String tuId, String stockLocationGroupName) {
-        List<Location> locations = stockLocationRepository.findBy(Barcode.of(tuId), stockLocationGroupName);
-        if (locations == null || locations.isEmpty()) {
+    public List<Location> findNextAscending(List<String> stockLocationGroupNames, int count) {
+        List<Location> locations = stockLocationRepository.findBy(stockLocationGroupNames);
+        if (locations.isEmpty()) {
             throw new NotFoundException("No free location found in stock");
         }
-        return locations.get(0);
+        return locations.subList(0, count);
     }
 }

@@ -23,6 +23,8 @@ package org.openwms.common.location.stock;
 
 import org.openwms.common.location.Location;
 
+import java.util.List;
+
 /**
  * A StockService.
  *
@@ -30,5 +32,5 @@ import org.openwms.common.location.Location;
  */
 public interface StockService {
 
-    Location findNextAscending(String tuId, String stockLocationGroupName);
+    List<Location> findNextAscending(List<String> stockLocationGroupName, int count);
 }
