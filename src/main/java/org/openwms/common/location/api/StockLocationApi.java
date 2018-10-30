@@ -21,13 +21,20 @@
  */
 package org.openwms.common.location.api;
 
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+
 /**
  * A StockLocationApi.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
+@FeignClient("${owms.common-service.protocol}://${owms.common-service.name}")
 public interface StockLocationApi {
 
-    LocationVO findStockLocationSimple(String tuId, String stockLocationGroupName);
-
+    @GetMapping(value = "/stock", params = {"stockLocationGroupNames", "count"})
+    List<LocationVO> findStockLocationSimple(@RequestParam("stockLocationGroupNames") List<String> stockLocationGroupNames, @RequestParam("count") int count);
 }

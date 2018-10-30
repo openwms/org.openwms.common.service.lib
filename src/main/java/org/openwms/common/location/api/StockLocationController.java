@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * A StockLocationController.
  *
@@ -45,9 +47,9 @@ class StockLocationController implements StockLocationApi {
     }
 
     @Override
-    @GetMapping(params = {"tuId", "stockLocationGroupName"})
-    public LocationVO findStockLocationSimple(@RequestParam("tuId") String tuId, @RequestParam("stockLocationGroupName") String stockLocationGroupName) {
-        Location location = stockService.findNextAscending(tuId, stockLocationGroupName);
+    @GetMapping(params = {"stockLocationGroupNames", "count"})
+    public List<LocationVO> findStockLocationSimple(@RequestParam("stockLocationGroupNames") List<String> stockLocationGroupNames, @RequestParam("count") int count) {
+        List<Location> location = stockService.findNextAscending(stockLocationGroupNames, count);
         return mapper.map(location, LocationVO.class);
     }
 }

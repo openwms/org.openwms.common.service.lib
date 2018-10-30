@@ -22,7 +22,6 @@
 package org.openwms.common.location.stock;
 
 import org.openwms.common.location.Location;
-import org.openwms.common.transport.Barcode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -37,12 +36,11 @@ import java.util.List;
 interface StockLocationRepository extends JpaRepository<Location, Long> {
 
     @Query("select l " +
-            "from Location l, TransportUnit tu " +
-            "where l.locationGroup.name = :locationGroupName " +
+            "from Location l " +
+            "where l.locationGroup.name in :locationGroupNames " +
             "and l.locationGroup.groupStateIn = org.openwms.common.location.LocationGroupState.AVAILABLE " +
             "and l.incomingActive = true " +
-            "and tu.barcode is not :barcode " +
-            "and l is not tu.actualLocation " +
+            "and l not in (select distinct t.actualLocation from TransportUnit t) " +
             "order by l.locationId.area, l.locationId.aisle, l.locationId.x, l.locationId.y, l.locationId.z DESC")
-    List<Location> findBy(@Param("barcode") Barcode barcode, @Param("locationGroupName") String locationGroupName);
+    List<Location> findBy(@Param("locationGroupNames") List<String> locationGroupNames);
 }
