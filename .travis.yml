@@ -4,7 +4,10 @@ jdk:
   - openjdk8
 
 services:
-- docker
+  - docker
+
+after_success:
+  - docker build -t openwms/org.openwms.common.service .
 
 deploy:
   provider: script
