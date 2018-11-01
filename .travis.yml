@@ -6,9 +6,6 @@ jdk:
 services:
 - docker
 
-before_install:
-- docker build -t openwms/org.openwms.common.service .
-
 deploy:
   provider: script
   script: bash docker_push
