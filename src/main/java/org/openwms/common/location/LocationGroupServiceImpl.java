@@ -21,6 +21,7 @@
  */
 package org.openwms.common.location;
 
+import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.ameba.i18n.Translator;
@@ -52,6 +53,7 @@ class LocationGroupServiceImpl implements LocationGroupService<LocationGroup> {
      * {@inheritDoc}
      */
     @Override
+    @Measured
     public void changeGroupState(String id, LocationGroupState stateIn, LocationGroupState stateOut) {
         LocationGroup locationGroup = locationGroupRepository.findOne(Long.valueOf(id));
         locationGroup.changeState(stateIn, stateOut);
@@ -61,6 +63,7 @@ class LocationGroupServiceImpl implements LocationGroupService<LocationGroup> {
      * {@inheritDoc}
      */
     @Override
+    @Measured
     public void changeGroupStates(String locationGroupName, LocationGroupState stateIn, LocationGroupState stateOut) {
         LocationGroup locationGroup = locationGroupRepository.findByName(locationGroupName).orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{locationGroupName}, locationGroupName));
         locationGroup.changeGroupStateIn(stateIn);
@@ -71,6 +74,7 @@ class LocationGroupServiceImpl implements LocationGroupService<LocationGroup> {
      * {@inheritDoc}
      */
     @Override
+    @Measured
     public Optional<LocationGroup> findByName(String name) {
         return locationGroupRepository.findByName(name);
     }
@@ -79,6 +83,7 @@ class LocationGroupServiceImpl implements LocationGroupService<LocationGroup> {
      * {@inheritDoc}
      */
     @Override
+    @Measured
     public List<LocationGroup> findAll() {
         return locationGroupRepository.findAll();
     }

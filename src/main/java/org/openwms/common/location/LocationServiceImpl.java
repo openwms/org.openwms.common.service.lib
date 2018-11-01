@@ -21,12 +21,15 @@
  */
 package org.openwms.common.location;
 
+import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static java.lang.String.format;
 
 /**
  * A LocationServiceImpl.
@@ -48,6 +51,7 @@ class LocationServiceImpl implements LocationService {
      * {@inheritDoc}
      */
     @Override
+    @Measured
     @Transactional(readOnly = true)
     public List<Location> getAllLocations() {
         return locationRepository.findAll();
@@ -57,10 +61,11 @@ class LocationServiceImpl implements LocationService {
      * {@inheritDoc}
      */
     @Override
+    @Measured
     public Location removeMessages(Long id, List<Message> messages) {
         Location location = locationRepository.findOne(id);
         if (null == location) {
-            throw new ServiceLayerException("Location with pk " + id + " not found, probably it was removed before");
+            throw new ServiceLayerException(format("Location with pk [%s] not found, probably it was removed before", id));
         }
         location.removeMessages(messages.toArray(new Message[0]));
         return location;
@@ -70,6 +75,7 @@ class LocationServiceImpl implements LocationService {
      * {@inheritDoc}
      */
     @Override
+    @Measured
     @Transactional(readOnly = true)
     public List<LocationType> getAllLocationTypes() {
         return locationTypeRepository.findAll();
@@ -81,6 +87,7 @@ class LocationServiceImpl implements LocationService {
      * The implementation uses the id to find the {@link LocationType} to be removed and will removed the type when found.
      */
     @Override
+    @Measured
     public void deleteLocationTypes(List<LocationType> locationTypes) {
         locationTypes.stream()
                 .map(locationType -> locationTypeRepository.findOne(locationType.getPk()))
@@ -91,6 +98,7 @@ class LocationServiceImpl implements LocationService {
      * {@inheritDoc}
      */
     @Override
+    @Measured
     public LocationType saveLocationType(LocationType locationType) {
         return locationTypeRepository.save(locationType);
     }
@@ -99,22 +107,25 @@ class LocationServiceImpl implements LocationService {
      * {@inheritDoc}
      */
     @Override
+    @Measured
     public Location findByLocationId(LocationPK locationPK) {
-        return locationRepository.findByLocationId(locationPK).orElseThrow(() -> new NotFoundException(String.format("No Location with locationPk [%s] found", locationPK), null));
+        return locationRepository.findByLocationId(locationPK).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", locationPK), null));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Measured
     public Location findByLocationId(String locationPK) {
-        return locationRepository.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -> new NotFoundException(String.format("No Location with locationPk [%s] found", locationPK), null));
+        return locationRepository.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", locationPK), null));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Measured
     public List<Location> findAllOf(String locationGroupName) {
         return locationRepository.findByLocationGroup_Name(locationGroupName);
     }
