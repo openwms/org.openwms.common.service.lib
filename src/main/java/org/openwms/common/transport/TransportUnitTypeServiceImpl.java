@@ -21,15 +21,15 @@
  */
 package org.openwms.common.transport;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.ameba.annotation.TxService;
 import org.openwms.common.location.LocationType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A TransportUnitTypeServiceImpl.
@@ -69,10 +69,9 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
     @Override
     public void deleteType(TransportUnitType... transportUnitTypes) {
         for (TransportUnitType transportUnitType : transportUnitTypes) {
-            TransportUnitType tut = transportUnitTypeRepository.findByType(transportUnitType.getType()).get();
-            if (tut != null) {
-                transportUnitTypeRepository.delete(tut);
-            }
+            transportUnitTypeRepository
+                    .findByType(transportUnitType.getType())
+                    .ifPresent(transportUnitType1 -> transportUnitTypeRepository.delete(transportUnitType1));
         }
     }
 
