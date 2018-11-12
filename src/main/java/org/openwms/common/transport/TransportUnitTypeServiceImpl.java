@@ -22,10 +22,10 @@
 package org.openwms.common.transport;
 
 import org.ameba.annotation.TxService;
+import org.ameba.exception.NotFoundException;
 import org.openwms.common.location.LocationType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -35,15 +35,16 @@ import java.util.List;
  * A TransportUnitTypeServiceImpl.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @since 0.2
  */
 @TxService
 class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitTypeServiceImpl.class);
+    private final TransportUnitTypeRepository transportUnitTypeRepository;
 
-    @Autowired
-    private TransportUnitTypeRepository transportUnitTypeRepository;
+    public TransportUnitTypeServiceImpl(TransportUnitTypeRepository transportUnitTypeRepository) {
+        this.transportUnitTypeRepository = transportUnitTypeRepository;
+    }
 
     /**
      * {@inheritDoc}
@@ -71,7 +72,7 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
         for (TransportUnitType transportUnitType : transportUnitTypes) {
             transportUnitTypeRepository
                     .findByType(transportUnitType.getType())
-                    .ifPresent(transportUnitType1 -> transportUnitTypeRepository.delete(transportUnitType1));
+                    .ifPresent(transportUnitTypeRepository::delete);
         }
     }
 
@@ -91,7 +92,7 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
     @Override
     public TransportUnitType updateRules(String type, List<LocationType> newAssigned, List<LocationType> newNotAssigned) {
 
-        TransportUnitType tut = transportUnitTypeRepository.findByType(type).get();
+        TransportUnitType tut = transportUnitTypeRepository.findByType(type).orElseThrow(NotFoundException::new);
         boolean found = false;
         if (newAssigned != null && !newAssigned.isEmpty()) {
             for (LocationType locationType : newAssigned) {
@@ -127,13 +128,11 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
      */
     @Override
     public List<Rule> loadRules(String transportUnitType) {
-        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).get();
+        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(NotFoundException::new);
         List<Rule> rules = new ArrayList<>();
-        if (type != null) {
-            LOGGER.debug("Found type " + type);
-            rules.addAll(type.getTypePlacingRules());
-            rules.addAll(type.getTypeStackingRules());
-        }
+        LOGGER.debug("Found type " + type);
+        rules.addAll(type.getTypePlacingRules());
+        rules.addAll(type.getTypeStackingRules());
         LOGGER.debug("returning a list with items" + rules.size());
         return rules;
     }
