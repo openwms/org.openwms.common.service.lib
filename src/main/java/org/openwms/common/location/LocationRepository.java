@@ -22,6 +22,8 @@
 package org.openwms.common.location;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,5 +37,6 @@ interface LocationRepository extends JpaRepository<Location, Long> {
 
     Optional<Location> findByLocationId(LocationPK locationId);
 
-    List<Location> findByLocationGroup_Name(String locationGroupName);
+    @Query("select l from Location l where l.locationGroup.name in :locationGroupNames")
+    List<Location> findByLocationGroup_Name(@Param("locationGroupNames") List<String> locationGroupNames);
 }

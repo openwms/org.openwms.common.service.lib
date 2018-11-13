@@ -60,9 +60,9 @@ class LocationController {
         return mapper.map(location, LocationVO.class);
     }
 
-    @GetMapping(params = {"locationGroupName"})
-    List<LocationVO> getLocationsForLocationGroup(@RequestParam("locationGroupName") String locationGroupName) {
-        List<Location> locations = locationService.findAllOf(locationGroupName);
+    @GetMapping(params = {"locationGroupNames"})
+    List<LocationVO> getLocationsForLocationGroup(@RequestParam("locationGroupNames") List<String> locationGroupNames) {
+        List<Location> locations = locationService.findAllOf(locationGroupNames);
         return mapper.map(locations, LocationVO.class);
     }
 }

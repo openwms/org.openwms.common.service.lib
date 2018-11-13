@@ -96,5 +96,5 @@ public interface LocationService {
      * @param locationGroupName The name of the LocationGroup
      * @return All LocationGroups or an empty list, never {@literal null}
      */
-    List<Location> findAllOf(String locationGroupName);
+    List<Location> findAllOf(List<String> locationGroupName);
 }

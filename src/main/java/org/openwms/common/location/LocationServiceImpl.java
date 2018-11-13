@@ -126,7 +126,7 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
-    public List<Location> findAllOf(String locationGroupName) {
-        return locationRepository.findByLocationGroup_Name(locationGroupName);
+    public List<Location> findAllOf(List<String> locationGroupNames) {
+        return locationRepository.findByLocationGroup_Name(locationGroupNames);
     }
 }
