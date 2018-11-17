@@ -22,10 +22,9 @@ import java.util.Optional;
  * A LocationGroupService offers some useful methods regarding the general handling of {@link LocationGroup}s. <p> This interface is
  * declared generic typed that implementation classes can use any extension of {@link LocationGroup}s. </p>
  *
- * @param <T> Any kind of {@link LocationGroup}
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-public interface LocationGroupService<T extends LocationGroup> {
+public interface LocationGroupService {
 
     /**
      * Tries to change the infeed and outfeed state of a {@link LocationGroup}.

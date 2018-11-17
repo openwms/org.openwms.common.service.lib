@@ -57,10 +57,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public Location removeMessages(Long id, List<Message> messages) {
-        Location location = locationRepository.findOne(id);
-        if (null == location) {
-            throw new ServiceLayerException(format("Location with pk [%s] not found, probably it was removed before", id));
-        }
+        Location location = locationRepository.findById(id).orElseThrow(() -> new ServiceLayerException(format("Location with pk [%s] not found, probably it was removed before", id)));
         location.removeMessages(messages.toArray(new Message[0]));
         return location;
     }
@@ -83,9 +80,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public void deleteLocationTypes(List<LocationType> locationTypes) {
-        locationTypes.stream()
-                .map(locationType -> locationTypeRepository.findOne(locationType.getPk()))
-                .forEach(locationTypeRepository::delete);
+        locationTypes.forEach(locationType -> locationTypeRepository.deleteById(locationType.getPk()));
     }
 
     /**

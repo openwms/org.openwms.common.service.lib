@@ -33,7 +33,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A LocationGroup is a logical group of {@code Location}s, grouping together {@code Location}s with same characteristics.
+ * A LocationGroup is a logical group of {@code Location}s, grouping together
+ * {@code Location}s with same characteristics.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @GlossaryTerm
@@ -58,9 +59,7 @@ public class LocationGroup extends Target implements Serializable {
     private String groupType;
 
     /**
-     * Is the {@code LocationGroup} included in the calculation of {@code TransportUnit}s? <p> {@literal true} : Location is included in the
-     * calculation of {@code TransportUnit}s.<br> {@literal false}: Location is not included in the calculation of {@code TransportUnit}s.
-     * </p>
+     * Is the {@code LocationGroup} included in the calculation of {@code TransportUnit}s.
      */
     @Column(name = "C_GROUP_COUNTING_ACTIVE")
     private boolean locationGroupCountingActive = true;
@@ -74,7 +73,10 @@ public class LocationGroup extends Target implements Serializable {
     @Enumerated(EnumType.STRING)
     private LocationGroupState groupStateIn = LocationGroupState.AVAILABLE;
 
-    /** References the {@code LocationGroup} that locked this {@code LocationGroup} for infeed. */
+    /**
+     * References the {@code LocationGroup} that locked this {@code LocationGroup} for
+     * infeed.
+     */
     @ManyToOne
     @JoinColumn(name = "C_IN_LOCKER")
     private LocationGroup stateInLocker;
@@ -84,7 +86,10 @@ public class LocationGroup extends Target implements Serializable {
     @Enumerated(EnumType.STRING)
     private LocationGroupState groupStateOut = LocationGroupState.AVAILABLE;
 
-    /** References the {@code LocationGroup} that locked this {@code LocationGroup} for outfeed. */
+    /**
+     * References the {@code LocationGroup} that locked this {@code LocationGroup} for
+     * outfeed.
+     */
     @ManyToOne
     @JoinColumn(name = "C_OUT_LOCKER")
     private LocationGroup stateOutLocker;
@@ -248,16 +253,14 @@ public class LocationGroup extends Target implements Serializable {
      * @param lockLg The {@code LocationGroup} that wants to lock/unlock this {@code LocationGroup}.
      */
     void changeGroupStateOut(LocationGroupState gStateOut, LocationGroup lockLg) {
-        if (this.groupStateOut == LocationGroupState.NOT_AVAILABLE && gStateOut == LocationGroupState.AVAILABLE
-                && (this.stateOutLocker == null || this.stateOutLocker.equals(lockLg))) {
+        if (this.groupStateOut == LocationGroupState.NOT_AVAILABLE && gStateOut == LocationGroupState.AVAILABLE && (this.stateOutLocker == null || this.stateOutLocker.equals(lockLg))) {
             this.groupStateOut = gStateOut;
             this.stateOutLocker = null;
             for (LocationGroup child : locationGroups) {
                 child.changeGroupStateOut(gStateOut, lockLg);
             }
         }
-        if (this.groupStateOut == LocationGroupState.AVAILABLE && gStateOut == LocationGroupState.NOT_AVAILABLE
-                && (this.stateOutLocker == null || this.stateOutLocker.equals(lockLg))) {
+        if (this.groupStateOut == LocationGroupState.AVAILABLE && gStateOut == LocationGroupState.NOT_AVAILABLE && (this.stateOutLocker == null || this.stateOutLocker.equals(lockLg))) {
             this.groupStateOut = gStateOut;
             this.stateOutLocker = lockLg;
             for (LocationGroup child : locationGroups) {
@@ -526,28 +529,21 @@ public class LocationGroup extends Target implements Serializable {
     void changeState(LocationGroupState stateIn, LocationGroupState stateOut) {
         if (groupStateIn != stateIn && stateIn != null) {
             // GroupStateIn changed
-            if (parent != null
-                    && parent.getGroupStateIn() == LocationGroupState.NOT_AVAILABLE
-                    && groupStateIn == LocationGroupState.AVAILABLE) {
-                throw new ServiceLayerException(
-                        "Not allowed to change GroupStateIn, parent locationGroup is not available");
+            if (parent != null && parent.getGroupStateIn() == LocationGroupState.NOT_AVAILABLE && groupStateIn == LocationGroupState.AVAILABLE) {
+                throw new ServiceLayerException("Not allowed to change GroupStateIn, parent locationGroup is not available");
             }
             changeGroupStateIn(stateIn, this);
         }
         if (groupStateOut != stateOut && stateOut != null) {
             // GroupStateOut changed
-            if (parent != null
-                    && parent.getGroupStateOut() == LocationGroupState.NOT_AVAILABLE
-                    && groupStateOut == LocationGroupState.AVAILABLE) {
-                throw new ServiceLayerException(
-                        "Not allowed to change GroupStateOut, parent locationGroup is not available");
+            if (parent != null && parent.getGroupStateOut() == LocationGroupState.NOT_AVAILABLE && groupStateOut == LocationGroupState.AVAILABLE) {
+                throw new ServiceLayerException("Not allowed to change GroupStateOut, parent locationGroup is not available");
             }
             changeGroupStateOut(stateOut, this);
         }
     }
 
     /**
-     *
      * @return
      */
     public boolean hasParent() {

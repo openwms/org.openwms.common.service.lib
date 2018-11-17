@@ -17,28 +17,33 @@ spring:
 #      enabled: true
 #      settings:
 #        web-allow-others: true
+  security:
+    user:
+      # Override this in cloud environment!
+      password: sa
 
 owms:
   eureka:
-    # todo: Do we realy need this?
+    # todo: Do we really need this?
     # Override this in cloud environment!
     url: http://user:sa@localhost:8761
-
-server:
-  port: ${PORT:8120}
 
 security:
   user:
     # Override this in cloud environment!
     password: sa
+
+server:
+  port: ${PORT:8120}
+
 eureka:
   client:
     serviceUrl:
       defaultZone: ${owms.eureka.url}/eureka
   instance:
     metadata-map:
-      username: user
-      password: ${security.user.password}
+      username: ${spring.security.user.name:user}
+      password: ${spring.security.user.password}
       protocol: http
 
 flyway:

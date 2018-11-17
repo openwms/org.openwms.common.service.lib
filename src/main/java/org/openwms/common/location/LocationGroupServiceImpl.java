@@ -33,7 +33,7 @@ import java.util.Optional;
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 @TxService
-class LocationGroupServiceImpl implements LocationGroupService<LocationGroup> {
+class LocationGroupServiceImpl implements LocationGroupService {
 
     private final LocationGroupRepository locationGroupRepository;
     private final Translator translator;
@@ -49,7 +49,7 @@ class LocationGroupServiceImpl implements LocationGroupService<LocationGroup> {
     @Override
     @Measured
     public void changeGroupState(String id, LocationGroupState stateIn, LocationGroupState stateOut) {
-        LocationGroup locationGroup = locationGroupRepository.findOne(Long.valueOf(id));
+        LocationGroup locationGroup = locationGroupRepository.findById(Long.valueOf(id)).orElseThrow(NotFoundException::new);
         locationGroup.changeState(stateIn, stateOut);
     }
 

@@ -11,11 +11,16 @@ addons:
     organization: "openwms-github"
 
 script:
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Pit
   - sonar-scanner
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
 
 after_success:
   - docker build -t openwms/org.openwms.common.service:latest .
+
+cache:
+  directories:
+  - '$HOME/.m2/repository'
+  - '$HOME/.sonar/cache'
 
 deploy:
   provider: script

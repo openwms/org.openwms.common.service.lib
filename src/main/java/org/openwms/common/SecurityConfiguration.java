@@ -13,22 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location.api;
+package org.openwms.common;
 
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 /**
- * A StockLocationApi.
+ * A SecurityConfiguration.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-@FeignClient("${owms.common-service.protocol}://${owms.common-service.name}")
-public interface StockLocationApi {
+@Configuration
+class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @GetMapping(value = "/stock", params = {"stockLocationGroupNames", "count"})
-    List<LocationVO> findStockLocationSimple(@RequestParam("stockLocationGroupNames") List<String> stockLocationGroupNames, @RequestParam("count") int count);
+    /**
+     * {@inheritDoc}
+     * <p>
+     * API is for non browser clients!
+     */
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
+    }
 }

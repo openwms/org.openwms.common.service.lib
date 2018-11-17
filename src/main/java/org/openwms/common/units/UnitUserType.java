@@ -17,7 +17,7 @@ package org.openwms.common.units;
 
 import org.hibernate.HibernateException;
 import org.hibernate.TypeMismatchException;
-import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.type.Type;
 import org.hibernate.usertype.CompositeUserType;
@@ -32,8 +32,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static java.lang.String.format;
+
 /**
- * An UnitUserType is used by Hibernate as converter for custom <code>Unit</code> types. Only subclasses of {@link AbstractMeasure} are
+ * An UnitUserType is used by Hibernate as converter for custom {@code Unit} types. Only subclasses of {@link AbstractMeasure} are
  * supported by this type converter.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
@@ -45,7 +47,7 @@ public class UnitUserType implements CompositeUserType {
     /**
      * {@inheritDoc}
      * <p>
-     * We expect that every unit has two fields, named <code>unitType</code> and <code>amount</code>.
+     * We expect that every unit has two fields, named {@code unitType} and {@code amount}.
      */
     @Override
     public String[] getPropertyNames() {
@@ -74,7 +76,7 @@ public class UnitUserType implements CompositeUserType {
             Weight weight = (Weight) component;
             return property == 0 ? weight.getUnitType() : weight.getMagnitude();
         }
-        throw new TypeMismatchException("Incompatible type:" + component.getClass());
+        throw new TypeMismatchException(format("Incompatible type [%s]", component.getClass()));
     }
 
     /**
@@ -126,14 +128,15 @@ public class UnitUserType implements CompositeUserType {
     /**
      * {@inheritDoc}
      * <p>
-     * Try to re-assign the value read from the database to some type of Unit. Currently supported types: <ul> <li>Piece</li>
-     * <li>Weight</li> </ul>
-     *
-     * @throws SQLException in case of database errors
+     * Try to re-assign the value read from the database to some type of Unit. Currently supported types:
+     * <ul>
+     * <li>Piece</li>
+     * <li>Weight</li>
+     * </ul>
      */
     @Override
-    public Object nullSafeGet(ResultSet rs, String[] strings, SessionImplementor sessionImplementor, Object o) throws HibernateException, SQLException {
-        String rs0 = rs.getString(strings[0]);
+    public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner) throws HibernateException, SQLException {
+        String rs0 = rs.getString(names[0]);
         if (rs.wasNull()) {
             return null;
         }
@@ -141,24 +144,22 @@ public class UnitUserType implements CompositeUserType {
         String unitType = val[0];
         String unitTypeClass = val[1];
         if (Piece.class.getCanonicalName().equals(unitTypeClass)) {
-            int amount = rs.getInt(strings[1]);
+            int amount = rs.getInt(names[1]);
             return new Piece(amount, PieceUnit.valueOf(unitType));
         } else if (Weight.class.getCanonicalName().equals(unitTypeClass)) {
-            BigDecimal amount = rs.getBigDecimal(strings[1]);
+            BigDecimal amount = rs.getBigDecimal(names[1]);
             return new Weight(amount, WeightUnit.valueOf(unitType));
         }
-        throw new TypeMismatchException("Incompatible type: " + unitTypeClass);
+        throw new TypeMismatchException(format("Incompatible type: [%s]", unitTypeClass));
     }
 
     /**
      * {@inheritDoc}
      * <p>
      * We've to store the concrete classname as well.
-     *
-     * @throws SQLException in case of database errors
      */
     @Override
-    public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor sessionImplementor) throws HibernateException, SQLException {
+    public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws HibernateException, SQLException {
         if (value == null) {
             st.setNull(index, StandardBasicTypes.STRING.sqlType());
             st.setNull(index + 1, StandardBasicTypes.STRING.sqlType());
@@ -168,29 +169,25 @@ public class UnitUserType implements CompositeUserType {
                 st.setString(index, piece.getUnitType().toString() + "@" + Piece.class.getCanonicalName());
                 st.setString(index + 1, piece.getMagnitude().toPlainString());
                 if (LOGGER.isTraceEnabled()) {
-                    LOGGER.trace("Binding '" + piece.getUnitType().toString() + "@" + Piece.class.getCanonicalName()
-                            + "' to parameter: " + index);
-                    LOGGER.trace("Binding '" + piece.getMagnitude().toPlainString() + "' to parameter: " + (index + 1));
+                    LOGGER.trace("Binding [{}@{}] to parameter [{}]", piece.getUnitType().toString(), Piece.class.getCanonicalName(), index);
+                    LOGGER.trace("Binding [{}] to parameter [{}]", piece.getMagnitude().toPlainString(), (index + 1));
                 }
             } else if (value instanceof Weight) {
                 Weight weight = (Weight) value;
                 st.setString(index, weight.getUnitType().toString() + "@" + Weight.class.getCanonicalName());
                 st.setString(index + 1, weight.getMagnitude().toPlainString());
                 if (LOGGER.isTraceEnabled()) {
-                    LOGGER.trace("Binding '" + weight.getUnitType().toString() + "@" + Weight.class.getCanonicalName()
-                            + "' to parameter: " + index);
-                    LOGGER.trace("Binding '" + weight.getMagnitude().toPlainString() + "' to parameter: " + index + 1);
+                    LOGGER.trace("Binding [{}@{}] to parameter [{}]", weight.getUnitType().toString(), Weight.class.getCanonicalName(), index);
+                    LOGGER.trace("Binding [{}] to parameter [{}]", weight.getMagnitude().toPlainString(), (index + 1));
                 }
             } else {
-                throw new TypeMismatchException("Incompatible type: " + value.getClass().getCanonicalName());
+                throw new TypeMismatchException(format("Incompatible type: [%s]", value.getClass().getCanonicalName()));
             }
         }
     }
 
     /**
      * {@inheritDoc}
-     * <p>
-     * No deep copy -> Immutable types.
      */
     @Override
     public Object deepCopy(Object value) {
@@ -200,7 +197,7 @@ public class UnitUserType implements CompositeUserType {
     /**
      * {@inheritDoc}
      * <p>
-     * All Unit types aren't mutable.
+     * Non Unit type is mutable.
      */
     @Override
     public boolean isMutable() {
@@ -211,7 +208,7 @@ public class UnitUserType implements CompositeUserType {
      * {@inheritDoc}
      */
     @Override
-    public Serializable disassemble(Object value, SessionImplementor sessionImplementor) throws HibernateException {
+    public Serializable disassemble(Object value, SharedSessionContractImplementor session) throws HibernateException {
         return (Serializable) value;
     }
 
@@ -219,7 +216,7 @@ public class UnitUserType implements CompositeUserType {
      * {@inheritDoc}
      */
     @Override
-    public Object assemble(Serializable cached, SessionImplementor sessionImplementor, Object o) throws HibernateException {
+    public Object assemble(Serializable cached, SharedSessionContractImplementor session, Object owner) throws HibernateException {
         return cached;
     }
 
@@ -227,7 +224,7 @@ public class UnitUserType implements CompositeUserType {
      * {@inheritDoc}
      */
     @Override
-    public Object replace(Object original, Object o1, SessionImplementor sessionImplementor, Object o2) throws HibernateException {
+    public Object replace(Object original, Object target, SharedSessionContractImplementor session, Object owner) throws HibernateException {
         return original;
     }
 }

@@ -25,11 +25,10 @@ import org.openwms.common.location.LocationGroup;
 import org.openwms.common.location.LocationGroupService;
 import org.openwms.common.location.LocationGroupState;
 import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriTemplate;
@@ -50,13 +49,13 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RestController(CommonConstants.API_LOCATIONGROUPS)
 class LocationGroupController implements LocationGroupApi {
 
-    private final LocationGroupService<LocationGroup> locationGroupService;
+    private final LocationGroupService locationGroupService;
     private final Translator translator;
     private final BeanMapper mapper;
     private final ErrorCodeTransformers.GroupStateIn groupStateIn;
     private final ErrorCodeTransformers.GroupStateOut groupStateOut;
 
-    LocationGroupController(LocationGroupService<LocationGroup> locationGroupService, Translator translator, BeanMapper mapper, ErrorCodeTransformers.GroupStateIn groupStateIn, ErrorCodeTransformers.GroupStateOut groupStateOut) {
+    LocationGroupController(LocationGroupService locationGroupService, Translator translator, BeanMapper mapper, ErrorCodeTransformers.GroupStateIn groupStateIn, ErrorCodeTransformers.GroupStateOut groupStateOut) {
         this.locationGroupService = locationGroupService;
         this.translator = translator;
         this.mapper = mapper;
@@ -82,7 +81,7 @@ class LocationGroupController implements LocationGroupApi {
     }
 
     @Override
-    @RequestMapping(value = CommonConstants.API_LOCATIONGROUPS, method = RequestMethod.GET, params = {"name"})
+    @GetMapping(value = CommonConstants.API_LOCATIONGROUPS, params = {"name"})
     public LocationGroupVO getLocationGroup(@RequestParam("name") String name) {
         Optional<LocationGroup> opt = locationGroupService.findByName(name);
         LocationGroup locationGroup = opt.orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{name}, name));
