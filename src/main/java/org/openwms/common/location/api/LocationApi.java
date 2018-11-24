@@ -15,32 +15,25 @@
  */
 package org.openwms.common.location.api;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.Serializable;
+import java.util.Optional;
 
 /**
- * A ErrorCodeVO.
+ * A LocationApi.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-public class ErrorCodeVO implements Serializable {
+@FeignClient(name = "common-service", qualifier = "locationApi", decode404 = true)
+public interface LocationApi {
 
-    @JsonProperty
-    private String errorCode;
-
-    public ErrorCodeVO() {
-    }
-
-    public ErrorCodeVO(String errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public String getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
-    }
+    /**
+     * Find and return all existing {@code LocationGroup} representations.
+     *
+     * @return Never {@literal null}
+     */
+    @GetMapping(value = "/v1/locations", params = {"locationPK"})
+    Optional<LocationVO> findLocationByCoordinate(@RequestParam("locationPK") String locationPK);
 }

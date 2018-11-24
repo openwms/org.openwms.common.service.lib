@@ -13,15 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.transport.api;
+package org.openwms.common.transport;
 
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.CommonConstants;
-import org.openwms.common.transport.Barcode;
-import org.openwms.common.transport.TransportUnit;
-import org.openwms.common.transport.TransportUnitService;
+import org.openwms.common.transport.api.TransportUnitVO;
 import org.openwms.core.http.AbstractWebController;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,16 +39,17 @@ import static org.openwms.common.location.LocationPK.fromString;
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 @RestController(CommonConstants.API_TRANSPORTUNITS)
-class TransportUnitController extends AbstractWebController implements TransportUnitApi {
+class TransportUnitController extends AbstractWebController {
 
-    @Autowired
-    private TransportUnitService<TransportUnit> service;
-    @Autowired
-    private BeanMapper mapper;
+    private final TransportUnitService<TransportUnit> service;
+    private final BeanMapper mapper;
 
-    @Override
+    public TransportUnitController(TransportUnitService<TransportUnit> service, BeanMapper mapper) {
+        this.service = service;
+        this.mapper = mapper;
+    }
+
     @GetMapping(params = {"bk"})
-    public
     @ResponseBody
     TransportUnitVO getTransportUnit(@RequestParam("bk") String transportUnitBK) {
         TransportUnit transportUnit = service.findByBarcode(new Barcode(transportUnitBK));
@@ -59,15 +57,12 @@ class TransportUnitController extends AbstractWebController implements Transport
     }
 
     @GetMapping(params = {"actualLocation"})
-    @Override
-    public List<TransportUnitVO> getTransportUnitsOn(@RequestParam("actualLocation") String actualLocation) {
+    List<TransportUnitVO> getTransportUnitsOn(@RequestParam("actualLocation") String actualLocation) {
         List<TransportUnit> tus = service.findOnLocation(actualLocation);
         return mapper.map(tus, TransportUnitVO.class);
     }
 
-    @Override
     @PostMapping(params = {"bk"})
-    public
     @ResponseBody
     void createTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
         if (Boolean.TRUE == strict) {
@@ -80,7 +75,6 @@ class TransportUnitController extends AbstractWebController implements Transport
     }
 
     @PostMapping(params = {"bk", "actualLocation", "tut"})
-    public
     @ResponseBody
     void createTU(@RequestParam("bk") String transportUnitBK, @RequestParam("actualLocation") String actualLocation, @RequestParam("tut") String tut, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
         if (Boolean.TRUE == strict) {
@@ -91,17 +85,13 @@ class TransportUnitController extends AbstractWebController implements Transport
         getLocationForCreatedResource(req, created.getPersistentKey());
     }
 
-    @Override
     @PutMapping(params = {"bk"})
-    public
     @ResponseBody
     TransportUnitVO updateTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu) {
         return mapper.map(service.update(new Barcode(transportUnitBK), mapper.map(tu, TransportUnit.class)), TransportUnitVO.class);
     }
 
-    @Override
     @PatchMapping(params = {"bk", "newLocation"})
-    public
     @ResponseBody
     TransportUnitVO moveTU(@RequestParam("bk") String transportUnitBK, @RequestParam("newLocation") String newLocation) {
         TransportUnit tu = service.moveTransportUnit(new Barcode(transportUnitBK), fromString(newLocation));

@@ -149,7 +149,7 @@
                         <configuration>
                             <classifier>client</classifier>
                             <includes>
-                                <include>**/api/*Api.class</include>
+                                <include>**/api/*.class</include>
                             </includes>
                         </configuration>
                     </execution>

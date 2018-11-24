@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location.api;
+package org.openwms.common.location;
 
 import org.ameba.exception.NotFoundException;
 import org.ameba.i18n.Translator;
@@ -21,9 +21,9 @@ import org.ameba.mapping.BeanMapper;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.openwms.common.CommonConstants;
 import org.openwms.common.CommonMessageCodes;
-import org.openwms.common.location.LocationGroup;
-import org.openwms.common.location.LocationGroupService;
-import org.openwms.common.location.LocationGroupState;
+import org.openwms.common.location.api.ErrorCodeTransformers;
+import org.openwms.common.location.api.ErrorCodeVO;
+import org.openwms.common.location.api.LocationGroupVO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -47,7 +47,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 @RestController(CommonConstants.API_LOCATIONGROUPS)
-class LocationGroupController implements LocationGroupApi {
+class LocationGroupController {
 
     private final LocationGroupService locationGroupService;
     private final Translator translator;
@@ -63,45 +63,34 @@ class LocationGroupController implements LocationGroupApi {
         this.groupStateOut = groupStateOut;
     }
 
-
-    @Override
-    @PatchMapping(value = CommonConstants.API_LOCATIONGROUPS + "/{id}")
-    public void save(@PathVariable String id, @RequestParam(name = "statein", required = false) LocationGroupState stateIn, @RequestParam(name = "stateout", required = false) LocationGroupState stateOut, HttpServletRequest req, HttpServletResponse res) {
-        locationGroupService.changeGroupState(id, stateIn, stateOut);
-        res.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req, id));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @PatchMapping(value = CommonConstants.API_LOCATIONGROUPS, params = {"name"})
-    public void updateState(@RequestParam(name = "name") String locationGroupName, @RequestBody ErrorCodeVO errorCode, HttpServletRequest req, HttpServletResponse res) {
-        locationGroupService.changeGroupStates(locationGroupName, groupStateIn.transform(errorCode.errorCode), groupStateOut.transform(errorCode.errorCode));
-    }
-
-    @Override
     @GetMapping(value = CommonConstants.API_LOCATIONGROUPS, params = {"name"})
-    public LocationGroupVO getLocationGroup(@RequestParam("name") String name) {
+    LocationGroupVO findByName(@RequestParam("name") String name) {
         Optional<LocationGroup> opt = locationGroupService.findByName(name);
         LocationGroup locationGroup = opt.orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{name}, name));
         LocationGroupVO result = mapper.map(locationGroup, LocationGroupVO.class);
         if (locationGroup.hasParent()) {
-            result.add(linkTo(methodOn(LocationGroupController.class).getLocationGroup(locationGroup.getParent().getName())).withRel("_parent"));
+            result.add(linkTo(methodOn(LocationGroupController.class).findByName(locationGroup.getParent().getName())).withRel("_parent"));
         }
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<LocationGroupVO> findAll() {
+    @GetMapping(value = CommonConstants.API_LOCATIONGROUPS)
+    List<LocationGroupVO> findAll() {
         List<LocationGroup> all = locationGroupService.findAll();
         return all == null ? Collections.emptyList() : mapper.map(all, LocationGroupVO.class);
     }
 
-    @Override
+    @PatchMapping(value = CommonConstants.API_LOCATIONGROUPS, params = {"name"})
+    void updateState(@RequestParam(name = "name") String locationGroupName, @RequestBody ErrorCodeVO errorCode) {
+        locationGroupService.changeGroupStates(locationGroupName, groupStateIn.transform(errorCode.getErrorCode()), groupStateOut.transform(errorCode.getErrorCode()));
+    }
+
+    @PatchMapping(value = CommonConstants.API_LOCATIONGROUPS + "/{id}")
+    void save(@PathVariable String id, @RequestParam(name = "statein", required = false) LocationGroupState stateIn, @RequestParam(name = "stateout", required = false) LocationGroupState stateOut, HttpServletRequest req, HttpServletResponse res) {
+        locationGroupService.changeGroupState(id, stateIn, stateOut);
+        res.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req, id));
+    }
+
     public String getLocationForCreatedResource(HttpServletRequest req, String objId) {
         StringBuffer url = req.getRequestURL();
         UriTemplate template = new UriTemplate(url.append("/{objId}/").toString());

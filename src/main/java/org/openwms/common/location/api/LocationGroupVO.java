@@ -18,6 +18,7 @@ package org.openwms.common.location.api;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.beans.ConstructorProperties;
 import java.io.Serializable;
 
 /**
@@ -35,6 +36,16 @@ public class LocationGroupVO extends ResourceSupport implements Serializable {
     protected LocationGroupVO() {
     }
 
+    public LocationGroupVO(String name) {
+        this.name = name;
+    }
+
+    @ConstructorProperties({"name", "parent"})
+    public LocationGroupVO(String name, String parent) {
+        this.name = name;
+        this.parent = parent;
+    }
+
     public String getName() {
         return name;
     }
@@ -49,5 +60,9 @@ public class LocationGroupVO extends ResourceSupport implements Serializable {
 
     public void setParent(String parent) {
         this.parent = parent;
+    }
+
+    public boolean hasParent() {
+        return parent != null && !parent.isEmpty();
     }
 }

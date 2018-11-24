@@ -15,7 +15,6 @@
  */
 package org.openwms.common.location.api;
 
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.openwms.common.CommonConstants;
 import org.openwms.common.location.LocationGroupState;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -25,42 +24,44 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A LocationGroupApi.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-@FeignClient("${owms.common-service.protocol}://${owms.common-service.name}")
+@FeignClient(name = "common-service", qualifier = "locationGroupApi", decode404 = true)
 public interface LocationGroupApi {
 
-    /* reads */
+    /**
+     * Find a {@code LocationGroup} with the given {@code name}.
+     *
+     * @param name The name of the LocationGroup
+     * @return The instance or may result in a 404-Not Found
+     */
     @GetMapping(value = CommonConstants.API_LOCATIONGROUPS, params = {"name"})
-    LocationGroupVO getLocationGroup(@RequestParam("name") String name);
+    Optional<LocationGroupVO> findByName(@RequestParam("name") String name);
 
+    /**
+     * Find and return all existing {@code LocationGroup} representations.
+     *
+     * @return Never {@literal null}
+     */
     @GetMapping(value = CommonConstants.API_LOCATIONGROUPS)
     List<LocationGroupVO> findAll();
 
-    String getLocationForCreatedResource(HttpServletRequest req, String objId);
-
-
-
-
-
-    /* writes */
-    @PatchMapping(value = CommonConstants.API_LOCATIONGROUPS + "/{id}")
-    void save(@PathVariable String id, @RequestParam(name = "statein", required = false) LocationGroupState stateIn, @RequestParam(name = "stateout", required = false) LocationGroupState stateOut, HttpServletRequest req, HttpServletResponse res);
-
     /**
-     * This method is used to update the state of a LocationGroup with an errorCode String, usually coming from a SYSU telegram.
+     * This method is used to update the state of a {@code LocationGroup} with an
+     * {@code errorCode}.
      *
-     * @param locationGroupName The name of the LocationGroup
+     * @param name The name of the LocationGroup
      * @param errorCode The error code as String
-     * @param req HttpRequest
-     * @param res HttpResponse
      */
     @PatchMapping(value = CommonConstants.API_LOCATIONGROUPS, params = {"name"})
-    void updateState(@RequestParam(name = "name") String locationGroupName, @RequestBody ErrorCodeVO errorCode, HttpServletRequest req, HttpServletResponse res);
+    void updateState(@RequestParam(name = "name") String name, @RequestBody ErrorCodeVO errorCode);
+
+    @PatchMapping(value = CommonConstants.API_LOCATIONGROUPS + "/{id}")
+    void save(@PathVariable("id") String id, @RequestParam(name = "statein", required = false) LocationGroupState stateIn, @RequestParam(name = "stateout", required = false) LocationGroupState stateOut);
 }

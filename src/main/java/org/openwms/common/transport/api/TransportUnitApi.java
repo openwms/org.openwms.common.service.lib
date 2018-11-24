@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport.api;
 
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -31,29 +31,66 @@ import java.util.List;
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-//@FeignClient("${owms.common-service.protocol}://${owms.common-service.name}")
+@FeignClient(name = "common-service", qualifier = "transportUnitApi")
 public interface TransportUnitApi {
 
+    /**
+     * Find and return a {@code TransportUnit} identified by its {@code barcode}.
+     *
+     * @param barcode The unique (physical) identifier
+     * @return The instance or the implementation may return a 404-Not Found
+     */
     @GetMapping(params = {"bk"})
     @ResponseBody
-    TransportUnitVO getTransportUnit(@RequestParam("bk") String transportUnitBK);
+    TransportUnitVO getTransportUnit(@RequestParam("bk") String barcode);
 
     @GetMapping(params = {"actualLocation"})
     List<TransportUnitVO> getTransportUnitsOn(@RequestParam("actualLocation") String actualLocation);
 
+    /**
+     * Create a {@code TransportUnit} with the given {@code barcode}.
+     *
+     * @param barcode The unique (physical) identifier
+     * @param tu Detailed information of the {@code TransportUnit} to create
+     * @param strict If the {@code TransportUnit} already exists and this is {@code true}
+     * an error is thrown. If {@code false}, the implementation exists silently
+     */
     @PostMapping(params = {"bk"})
     @ResponseBody
-    void createTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req);
+    void createTU(@RequestParam("bk") String barcode, @RequestBody TransportUnitVO tu, @RequestParam(value = "strict", required = false) Boolean strict);
 
+    /**
+     * Create a {@code TransportUnit} with the given minimal information.
+     *
+     * @param barcode The unique (physical) identifier
+     * @param actualLocation The current location of the {@code TransportUnit}
+     * @param tut The type ({@code TransportUnitType}
+     * @param strict If the {@code TransportUnit} already exists and this is {@code true}
+     * an error is thrown. If {@code false}, the implementation exists silently
+     */
     @PostMapping(params = {"bk"})
     @ResponseBody
-    void createTU(@RequestParam("bk") String transportUnitBK, @RequestParam("actualLocation") String actualLocation, @RequestParam("tut") String tut, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req);
+    void createTU(@RequestParam("bk") String barcode, @RequestParam("actualLocation") String actualLocation, @RequestParam("tut") String tut, @RequestParam(value = "strict", required = false) Boolean strict);
 
+    /**
+     * Update a {@code TransportUnit}.
+     *
+     * @param barcode The unique (physical) identifier
+     * @param tu Detailed information of the {@code TransportUnit} to create
+     * @return The updated instance
+     */
     @PutMapping(params = {"bk"})
     @ResponseBody
-    TransportUnitVO updateTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu);
+    TransportUnitVO updateTU(@RequestParam("bk") String barcode, @RequestBody TransportUnitVO tu);
 
+    /**
+     * Move a {@code TransportUnit} from its actual location to the {@code newLocation}.
+     *
+     * @param barcode The unique (physical) identifier
+     * @param newLocation The new {@code Location} to move to
+     * @return The updated instance
+     */
     @PatchMapping(params = {"bk", "newLocation"})
     @ResponseBody
-    TransportUnitVO moveTU(@RequestParam("bk") String transportUnitBK, @RequestParam("newLocation") String newLocation);
+    TransportUnitVO moveTU(@RequestParam("bk") String barcode, @RequestParam("newLocation") String newLocation);
 }

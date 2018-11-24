@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location.api;
+package org.openwms.common.location;
 
 import org.ameba.mapping.BeanMapper;
-import org.openwms.common.location.Location;
+import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.location.stock.StockService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +30,7 @@ import java.util.List;
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 @RestController("/stock")
-class StockLocationController implements StockLocationApi {
+class StockLocationController {
 
     private final StockService stockService;
     private final BeanMapper mapper;
@@ -40,9 +40,8 @@ class StockLocationController implements StockLocationApi {
         this.mapper = mapper;
     }
 
-    @Override
     @GetMapping(params = {"stockLocationGroupNames", "count"})
-    public List<LocationVO> findStockLocationSimple(@RequestParam("stockLocationGroupNames") List<String> stockLocationGroupNames, @RequestParam("count") int count) {
+    List<LocationVO> findStockLocationSimple(@RequestParam("stockLocationGroupNames") List<String> stockLocationGroupNames, @RequestParam("count") int count) {
         List<Location> location = stockService.findNextAscending(stockLocationGroupNames, count);
         return mapper.map(location, LocationVO.class);
     }

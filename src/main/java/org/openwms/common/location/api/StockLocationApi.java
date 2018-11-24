@@ -26,7 +26,7 @@ import java.util.List;
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-@FeignClient("${owms.common-service.protocol}://${owms.common-service.name}")
+@FeignClient(name = "common-service", qualifier = "stockLocationApi", decode404 = true)
 public interface StockLocationApi {
 
     @GetMapping(value = "/stock", params = {"stockLocationGroupNames", "count"})
