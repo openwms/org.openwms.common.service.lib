@@ -37,6 +37,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -53,7 +54,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "COM_TRANSPORT_UNIT", uniqueConstraints = @UniqueConstraint(columnNames = {"C_BARCODE"}))
-public class TransportUnit extends ApplicationEntity {
+public class TransportUnit extends ApplicationEntity implements Serializable {
 
     /** Unique natural key. */
     @Embedded

@@ -17,6 +17,9 @@ package org.openwms.common.transport;
 
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
+import org.openwms.core.SpringProfiles;
+import org.springframework.amqp.core.TopicExchange;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,10 +31,15 @@ import java.util.Arrays;
  * A TransportConfig.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @since 1.0
  */
 @Configuration
 class TransportConfig {
+
+    @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
+    @Bean
+    public TopicExchange emailExchange(@Value("${owms.events.common.tu.exchange-name}") String exchangeName) {
+        return new TopicExchange(exchangeName, true, false);
+    }
 
     /**
      * This bean is responsible to generate some test data, only in default Spring environment.

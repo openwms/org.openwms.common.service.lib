@@ -62,10 +62,12 @@ public interface TransportUnitService<T extends TransportUnit> {
     TransportUnit moveTransportUnit(Barcode barcode, LocationPK targetLocationPK);
 
     /**
-     * Delete already persisted {@link TransportUnit}s from the persistence storage. It is not allowed in all cases to delete a {@link
-     * TransportUnit} , potentially an active {@code TransportOrder} exists or Inventory is still linked with the {@code transportUnit}.
+     * Delete already persisted {@link TransportUnit}s from the persistence storage. It is
+     * not allowed in all cases to delete a {@link TransportUnit}, potentially an active
+     * {@code TransportOrder} could exist or Inventory is still linked with one of the
+     * {@code transportUnit}s.
      *
-     * @param transportUnits The collection of {@link TransportUnit}s to delete
+     * @param transportUnits A collection of {@link TransportUnit}s to delete
      */
     void deleteTransportUnits(List<T> transportUnits);
 

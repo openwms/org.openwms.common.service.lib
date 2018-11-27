@@ -29,15 +29,12 @@ import org.openwms.core.listener.RemovalNotAllowedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.servlet.LocaleResolver;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,27 +50,23 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitServiceImpl.class);
 
-    @Autowired
-    private TransportUnitRepository dao;
-    @Autowired
-    private LocationService locationService;
-    @Autowired
-    private TransportUnitTypeRepository transportUnitTypeRepository;
-    @Autowired(required = false)
-    @Qualifier("onRemovalListener")
-    private OnRemovalListener<TransportUnit> onRemovalListener;
+    private final TransportUnitRepository repository;
+    private final LocationService locationService;
+    private final TransportUnitTypeRepository transportUnitTypeRepository;
+    private List<OnRemovalListener<TransportUnit>> onRemovalListeners;
     //@Autowired
     private LocaleResolver localeResolver;
-    @Autowired
-    private Translator translator;
+    private final Translator translator;
+    private final ApplicationContext ctx;
 
-    /**
-     * Attach an OnRemovalListener.
-     *
-     * @param onRemovalListener The listener to attach
-     */
-    void setOnRemovalListener(OnRemovalListener<TransportUnit> onRemovalListener) {
-        this.onRemovalListener = onRemovalListener;
+    @Autowired
+    TransportUnitServiceImpl(Translator translator, TransportUnitTypeRepository transportUnitTypeRepository, LocationService locationService, TransportUnitRepository repository, @Autowired(required = false) List<OnRemovalListener<TransportUnit>> onRemovalListeners, ApplicationContext ctx) {
+        this.translator = translator;
+        this.transportUnitTypeRepository = transportUnitTypeRepository;
+        this.locationService = locationService;
+        this.repository = repository;
+        this.onRemovalListeners = onRemovalListeners;
+        this.ctx = ctx;
     }
 
     /**
@@ -90,14 +83,17 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
         }
         TransportUnit transportUnit;
         if (Boolean.TRUE == strict) {
-            dao.findByBarcode(barcode).ifPresent(tu -> {throw new ServiceLayerException(format("TransportUnit with id %s not found", barcode));});
+            repository.findByBarcode(barcode).ifPresent(tu -> {
+                throw new ServiceLayerException(format("TransportUnit with id %s not found", barcode));
+            });
         }
         Location location = locationService.findByLocationId(actualLocation);
         TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType.getType()).orElseThrow(() -> new ServiceLayerException(format("TransportUnitType %s not found", transportUnitType)));
         transportUnit = new TransportUnit(barcode);
         transportUnit.setTransportUnitType(type);
         transportUnit.setActualLocation(location);
-        dao.save(transportUnit);
+        transportUnit = repository.save(transportUnit);
+        ctx.publishEvent(TransportUnitEvent.of(transportUnit, TransportUnitEvent.TransportUnitEventType.CREATED));
         return transportUnit;
     }
 
@@ -113,12 +109,14 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Creating a TransportUnit with Barcode {} of Type {} on Location ", barcode, transportUnitType, actualLocation);
         }
-        Optional<TransportUnit> opt = dao.findByBarcode(barcode);
+        Optional<TransportUnit> opt = repository.findByBarcode(barcode);
         if (Boolean.TRUE == strict) {
-            opt.ifPresent(tu -> {throw new ServiceLayerException(format("TransportUnit with id %s not found", barcode));});
+            opt.ifPresent(tu -> {
+                throw new ServiceLayerException(format("TransportUnit with id %s not found", barcode));
+            });
         } else {
             if (opt.isPresent()) {
-                LOGGER.info("TransportUnit with Barcode {} already exists, silently returning the existing one and continue", barcode);
+                LOGGER.debug("TransportUnit with Barcode {} already exists, silently returning the existing one and continue", barcode);
                 return opt.get();
             }
         }
@@ -127,7 +125,8 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
         TransportUnit transportUnit = new TransportUnit(barcode);
         transportUnit.setTransportUnitType(type);
         transportUnit.setActualLocation(location);
-        dao.save(transportUnit);
+        transportUnit = repository.save(transportUnit);
+        ctx.publishEvent(TransportUnitEvent.of(transportUnit, TransportUnitEvent.TransportUnitEventType.CREATED));
         return transportUnit;
     }
 
@@ -136,11 +135,9 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
      */
     @Override
     public TransportUnit update(Barcode barcode, TransportUnit tu) {
-        TransportUnit savedTu = dao.findByBarcode(barcode).orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.BARCODE_NOT_FOUND, new String[]{barcode.toString()}, barcode));
-        //if (savedTu.get)
-        // TODO [openwms]: 25/07/16
-
-        return savedTu;
+        TransportUnit saved = repository.save(tu);
+        ctx.publishEvent(TransportUnitEvent.of(saved, TransportUnitEvent.TransportUnitEventType.CHANGED));
+        return saved;
     }
 
     /**
@@ -149,7 +146,7 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
     @Override
     @Transactional(readOnly = true)
     public List<TransportUnit> findAll() {
-        return dao.findAll();
+        return repository.findAll();
     }
 
     /**
@@ -158,70 +155,43 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
     @Measured
     @Override
     public TransportUnit moveTransportUnit(Barcode barcode, LocationPK targetLocationPK) {
-        TransportUnit transportUnit = dao.findByBarcode(barcode).orElseThrow(() -> new ServiceLayerException("TransportUnit with id " + barcode + " not found"));
+        TransportUnit transportUnit = repository.findByBarcode(barcode).orElseThrow(() -> new ServiceLayerException("TransportUnit with id " + barcode + " not found"));
         transportUnit.setActualLocation(locationService.findByLocationId(targetLocationPK));
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info(format("Moving TransportUnit with barcode [%s] to Location [%s]", barcode, targetLocationPK));
         }
-        return dao.save(transportUnit);
+        TransportUnit saved = repository.save(transportUnit);
+        ctx.publishEvent(TransportUnitEvent.of(saved, TransportUnitEvent.TransportUnitEventType.MOVED));
+        return saved;
     }
 
     /**
      * {@inheritDoc}
-     * <p>
-     * A ServiceRuntimeException is thrown when other {@link TransportUnit}s are placed on a {@link TransportUnit} that shall be removed.
-     * Also {@link TransportUnit} with active TransportOrders won't be removed, if a proper delegate exists.
+     *
+     * All or nothing. Either all TransportUnits are allowed to be deleted or none is.
      */
     @Override
     public void deleteTransportUnits(List<TransportUnit> transportUnits) {
-        if (transportUnits != null && transportUnits.size() > 0) {
-            // FIXME [openwms]: 29/04/16 !!!!
-//            List<TransportUnit> tus = ServiceHelper.managedEntities(transportUnits, dao);
-            List<TransportUnit> tus = new ArrayList<>();
-            // FIXME [openwms]: 29/04/16
-
-            // first try to delete depending ones, afterwards the parent
-            // units...
-            Collections.sort(tus, new Comparator<TransportUnit>() {
-                @Override
-                public int compare(TransportUnit o1, TransportUnit o2) {
-                    return o1.getChildren().isEmpty() ? -1 : 1;
-                }
-
-                ;
-            });
-            for (TransportUnit tu : tus) {
-                if (!tu.getChildren().isEmpty()) {
-                    throw new ServiceLayerException("Other TransportUnits are placed on this TransportUnit");
-                }
-                try {
-                    delete(tu);
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Successfully marked TransportUnit for removal : " + tu.getPk());
-                    }
-                } catch (RemovalNotAllowedException rnae) {
-                    LOGGER.error("Not allowed to remove TransportUnit with id : " + tu.getPk() + " with reason: "
-                            + rnae.getLocalizedMessage());
-                    throw new ServiceLayerException(rnae.getLocalizedMessage());
+        if (transportUnits != null && !transportUnits.isEmpty()) {
+            transportUnits.sort((o1, o2) -> o1.getChildren().isEmpty() ? -1 : 1);
+            for (TransportUnit tu : transportUnits) {
+                boolean delete = delete(tu);
+                if (delete) {
+                    LOGGER.debug("Successfully marked TransportUnit for removal : [{}]", tu.getPk());
+                } else {
+                    throw new ServiceLayerException(format("Not allowed to remove TransportUnit with id [%s]", tu.getPk()));
                 }
             }
         }
     }
 
-    /**
-     * Try to remove when there is no listener defined or a defined listener votes for removal.
-     *
-     * @param transportUnit The TransportUnit to be removed
-     * @throws RemovalNotAllowedException In case it is not allowed to remove the TransportUnit, probably because depending items exist
-     * (like TransportOrders).
-     */
-    private void delete(TransportUnit transportUnit) throws RemovalNotAllowedException {
-        if (LOGGER.isDebugEnabled() && onRemovalListener == null) {
-            LOGGER.debug("No listener onRemove defined, just try to delete it");
+    private boolean delete(TransportUnit transportUnit) throws RemovalNotAllowedException {
+        if (null != onRemovalListeners) {
+            return onRemovalListeners.stream().allMatch(l -> l.preRemove(transportUnit));
         }
-        if (null == onRemovalListener || onRemovalListener.preRemove(transportUnit)) {
-            dao.delete(transportUnit);
-        }
+        repository.delete(transportUnit);
+        ctx.publishEvent(TransportUnitEvent.of(transportUnit, TransportUnitEvent.TransportUnitEventType.DELETED));
+        return true;
     }
 
     /**
@@ -230,13 +200,13 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
     @Override
     @Transactional(readOnly = true)
     public TransportUnit findByBarcode(Barcode barcode) {
-        return dao.findByBarcode(barcode).orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.BARCODE_NOT_FOUND, new Serializable[]{barcode}, barcode));
+        return repository.findByBarcode(barcode).orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.BARCODE_NOT_FOUND, new Serializable[]{barcode}, barcode));
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<TransportUnit> findOnLocation(String actualLocation) {
-        List<TransportUnit> tus = dao.findByActualLocationOrderByActualLocationDate(locationService.findByLocationId(actualLocation));
+        List<TransportUnit> tus = repository.findByActualLocationOrderByActualLocationDate(locationService.findByLocationId(actualLocation));
         return tus;
     }
 }
