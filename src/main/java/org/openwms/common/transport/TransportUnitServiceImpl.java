@@ -87,7 +87,7 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
                 throw new ServiceLayerException(format("TransportUnit with id %s not found", barcode));
             });
         }
-        Location location = locationService.findByLocationId(actualLocation);
+        Location location = locationService.findByLocationId(actualLocation).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", actualLocation)));
         TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType.getType()).orElseThrow(() -> new ServiceLayerException(format("TransportUnitType %s not found", transportUnitType)));
         transportUnit = new TransportUnit(barcode);
         transportUnit.setTransportUnitType(type);
@@ -156,7 +156,7 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
     @Override
     public TransportUnit moveTransportUnit(Barcode barcode, LocationPK targetLocationPK) {
         TransportUnit transportUnit = repository.findByBarcode(barcode).orElseThrow(() -> new ServiceLayerException("TransportUnit with id " + barcode + " not found"));
-        transportUnit.setActualLocation(locationService.findByLocationId(targetLocationPK));
+        transportUnit.setActualLocation(locationService.findByLocationId(targetLocationPK).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", targetLocationPK))));
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info(format("Moving TransportUnit with barcode [%s] to Location [%s]", barcode, targetLocationPK));
         }

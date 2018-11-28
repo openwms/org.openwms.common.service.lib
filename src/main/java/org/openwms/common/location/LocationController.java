@@ -43,14 +43,27 @@ class LocationController {
         this.mapper = mapper;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @GetMapping(params = {"locationPK"})
     LocationVO getLocation(@RequestParam("locationPK") String locationPk) {
         if (!LocationPK.isValid(locationPk)) {
             throw new NotFoundException(format("Invalid location [%s]", locationPk));
         }
-        Location location = locationService.findByLocationId(LocationPK.fromString(locationPk));
+        Location location = locationService.findByLocationId(LocationPK.fromString(locationPk)).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", locationPk)));
         return mapper.map(location, LocationVO.class);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @GetMapping(value = "/v1/locations", params = {"plcCode"})
+    LocationVO findLocationByPlcCode(@RequestParam("plcCode") String plcCode) {
+        Location location = locationService.findByPlcCode(plcCode).orElseThrow(() -> new NotFoundException(format("No Location with PLC Code [%s] found", plcCode)));
+        return mapper.map(location, LocationVO.class);
+    }
+
 
     @GetMapping(params = {"locationGroupNames"})
     List<LocationVO> getLocationsForLocationGroup(@RequestParam("locationGroupNames") List<String> locationGroupNames) {

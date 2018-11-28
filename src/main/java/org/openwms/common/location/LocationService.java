@@ -16,6 +16,7 @@
 package org.openwms.common.location;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A LocationService offers some useful methods regarding the general handling of {@link Location}s. <p> This interface is declared generic
@@ -70,7 +71,15 @@ public interface LocationService {
      * @return The Location
      * @throws org.ameba.exception.NotFoundException if entity not found
      */
-    Location findByLocationId(LocationPK locationPK);
+    Optional<Location> findByLocationId(LocationPK locationPK);
+
+    /**
+     * Find and return a {@link Location} by the given {@code plcCode}.
+     *
+     * @param plcCode The PLC Code
+     * @return The Location
+     */
+    Optional<Location> findByPlcCode(String plcCode);
 
     /**
      * Find and return a Location identified by the given {@code locationPK}.

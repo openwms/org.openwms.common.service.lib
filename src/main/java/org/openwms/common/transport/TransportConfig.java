@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport;
 
+import org.ameba.exception.NotFoundException;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
 import org.openwms.core.SpringProfiles;
@@ -59,7 +60,7 @@ class TransportConfig {
                     .forEach(bc -> {
                         TransportUnit tu = new TransportUnit(new Barcode(bc));
                         tu.setTransportUnitType(tut);
-                        tu.setActualLocation(ls.findByLocationId(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+                        tu.setActualLocation(ls.findByLocationId(LocationPK.fromString("EXT_/0000/0000/0000/0000")).orElseThrow(NotFoundException::new));
                         tur.save(tu);
                     });
         };

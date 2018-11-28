@@ -28,6 +28,7 @@ public class LocationVO extends ResourceSupport implements Serializable {
 
     private String locationId;
     private String locationGroupName;
+    private String plcCode;
 
     public String getLocationGroupName() {
         return locationGroupName;
@@ -43,5 +44,13 @@ public class LocationVO extends ResourceSupport implements Serializable {
 
     public void setLocationId(String locationId) {
         this.locationId = locationId;
+    }
+
+    public String getPlcCode() {
+        return plcCode;
+    }
+
+    public void setPlcCode(String plcCode) {
+        this.plcCode = plcCode;
     }
 }

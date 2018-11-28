@@ -44,7 +44,7 @@ class TransportUnitController extends AbstractWebController {
     private final TransportUnitService<TransportUnit> service;
     private final BeanMapper mapper;
 
-    public TransportUnitController(TransportUnitService<TransportUnit> service, BeanMapper mapper) {
+    TransportUnitController(TransportUnitService<TransportUnit> service, BeanMapper mapper) {
         this.service = service;
         this.mapper = mapper;
     }

@@ -20,7 +20,6 @@ import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.openwms.common.CommonConstants;
-import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationGroupVO;
@@ -38,6 +37,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static java.lang.String.format;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -66,12 +66,15 @@ class LocationGroupController {
     @GetMapping(value = CommonConstants.API_LOCATIONGROUPS, params = {"name"})
     LocationGroupVO findByName(@RequestParam("name") String name) {
         Optional<LocationGroup> opt = locationGroupService.findByName(name);
-        LocationGroup locationGroup = opt.orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{name}, name));
-        LocationGroupVO result = mapper.map(locationGroup, LocationGroupVO.class);
-        if (locationGroup.hasParent()) {
-            result.add(linkTo(methodOn(LocationGroupController.class).findByName(locationGroup.getParent().getName())).withRel("_parent"));
+        if (opt.isPresent()) {
+            LocationGroup locationGroup = opt.get();
+            LocationGroupVO result = mapper.map(locationGroup, LocationGroupVO.class);
+            if (locationGroup.hasParent()) {
+                result.add(linkTo(methodOn(LocationGroupController.class).findByName(locationGroup.getParent().getName())).withRel("_parent"));
+            }
+            return result;
         }
-        return result;
+        throw new NotFoundException(format("LocationGroup with name [%s] does not exist", name));
     }
 
     @GetMapping(value = CommonConstants.API_LOCATIONGROUPS)

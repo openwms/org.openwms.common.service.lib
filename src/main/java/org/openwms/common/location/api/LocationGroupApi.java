@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * A LocationGroupApi.
@@ -42,7 +41,7 @@ public interface LocationGroupApi {
      * @return The instance or may result in a 404-Not Found
      */
     @GetMapping(value = CommonConstants.API_LOCATIONGROUPS, params = {"name"})
-    Optional<LocationGroupVO> findByName(@RequestParam("name") String name);
+    LocationGroupVO findByName(@RequestParam("name") String name);
 
     /**
      * Find and return all existing {@code LocationGroup} representations.

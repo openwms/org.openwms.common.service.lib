@@ -19,10 +19,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Optional;
-
 /**
- * A LocationApi.
+ * A LocationApi deals with {@code Location}s.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
@@ -30,10 +28,20 @@ import java.util.Optional;
 public interface LocationApi {
 
     /**
-     * Find and return all existing {@code LocationGroup} representations.
+     * Find and return a {@code Location} representation by the given {@code locationPK}.
      *
+     * @param locationPK The persistent key of the Location; not the technical primary key
      * @return Never {@literal null}
      */
     @GetMapping(value = "/v1/locations", params = {"locationPK"})
-    Optional<LocationVO> findLocationByCoordinate(@RequestParam("locationPK") String locationPK);
+    LocationVO findLocationByCoordinate(@RequestParam("locationPK") String locationPK);
+
+    /**
+     * Find and return a {@code Location} representation by the given {@code plcCode}.
+     *
+     * @param plcCode The PLC code
+     * @return Never {@literal null}
+     */
+    @GetMapping(value = "/v1/locations", params = {"plcCode"})
+    LocationVO findLocationByPlcCode(@RequestParam("plcCode") String plcCode);
 }

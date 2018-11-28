@@ -22,6 +22,7 @@ import org.ameba.exception.ServiceLayerException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.lang.String.format;
 
@@ -97,8 +98,17 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
-    public Location findByLocationId(LocationPK locationPK) {
-        return locationRepository.findByLocationId(locationPK).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", locationPK), null));
+    public Optional<Location> findByLocationId(LocationPK locationPK) {
+        return locationRepository.findByLocationId(locationPK);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public Optional<Location> findByPlcCode(String plcCode) {
+        return locationRepository.findByPlcCode(plcCode);
     }
 
     /**

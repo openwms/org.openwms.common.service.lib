@@ -64,6 +64,14 @@ public class Location extends ApplicationEntity implements Serializable {
     })
     private LocationPK locationId;
 
+    /** PLC code of the Location. */
+    @Column(name = "C_PLC_CODE")
+    private String plcCode;
+
+    /** ERP code of the Location. */
+    @Column(name = "C_ERP_CODE")
+    private String erpCode;
+
     /** Description of the Location. */
     @Column(name = "C_DESCRIPTION")
     private String description;
@@ -188,6 +196,24 @@ public class Location extends ApplicationEntity implements Serializable {
         return new Location(locationId);
     }
     /*~ ----------------------------- methods ------------------- */
+
+    /**
+     * Get the ERP Code of the Location.
+     *
+     * @return The ERP code
+     */
+    public String getErpCode() {
+        return erpCode;
+    }
+
+    /**
+     * Get the PLC Code of the Location.
+     *
+     * @return The PLC code
+     */
+    public String getPlcCode() {
+        return plcCode;
+    }
 
     /**
      * Add a new {@link Message} to this Location.
