@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location;
+package org.openwms.common.location.api;
 
 /**
  * A LocationGroupState defines possible states used for {@code LocationGroup}s.
  * 
  * @GlossaryTerm
  * @author <a href="mailto:russelltina@users.sourceforge.net">Tina Russell</a>
- * @see LocationGroup
  */
 public enum LocationGroupState {
 

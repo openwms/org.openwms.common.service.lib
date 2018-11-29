@@ -3,7 +3,6 @@ spring:
     name: common-service
   cloud:
     config:
-      label: ${owms.tenant:master}
       fail-fast: true # true means retry
       discovery:
         enabled: true
@@ -28,11 +27,6 @@ owms:
     # Override this in cloud environment!
     url: http://user:sa@localhost:8761
 
-security:
-  user:
-    # Override this in cloud environment!
-    password: sa
-
 server:
   port: ${PORT:8120}
 
@@ -45,9 +39,6 @@ eureka:
       username: ${spring.security.user.name:user}
       password: ${spring.security.user.password}
       protocol: http
-
-flyway:
-  baseline-on-migrate: true
 
 ---
 spring:

@@ -20,6 +20,7 @@ import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.ameba.i18n.Translator;
 import org.openwms.common.CommonMessageCodes;
+import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.core.util.TreeNode;
 import org.openwms.core.util.TreeNodeImpl;
 import org.springframework.transaction.annotation.Transactional;

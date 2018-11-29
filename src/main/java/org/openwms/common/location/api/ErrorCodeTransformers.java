@@ -15,8 +15,6 @@
  */
 package org.openwms.common.location.api;
 
-import org.openwms.common.location.LocationGroupState;
-
 /**
  * A ErrorCodeTransformer.
  *

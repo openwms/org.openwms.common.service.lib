@@ -15,6 +15,8 @@
  */
 package org.openwms.common.location;
 
+import org.openwms.common.location.api.LocationGroupState;
+
 import java.util.List;
 import java.util.Optional;
 

@@ -17,6 +17,7 @@ package org.openwms.common.location;
 
 import org.ameba.exception.ServiceLayerException;
 import org.openwms.common.StateChangeException;
+import org.openwms.common.location.api.LocationGroupState;
 import org.springframework.util.Assert;
 
 import javax.persistence.CascadeType;

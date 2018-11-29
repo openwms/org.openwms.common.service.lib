@@ -19,6 +19,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.openwms.common.StateChangeException;
+import org.openwms.common.location.api.LocationGroupState;
 
 import java.util.HashSet;
 import java.util.Set;

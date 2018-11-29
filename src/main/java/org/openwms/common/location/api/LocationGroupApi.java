@@ -16,7 +16,6 @@
 package org.openwms.common.location.api;
 
 import org.openwms.common.CommonConstants;
-import org.openwms.common.location.LocationGroupState;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;

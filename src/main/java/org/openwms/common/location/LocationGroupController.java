@@ -22,6 +22,7 @@ import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.openwms.common.CommonConstants;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
+import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.LocationGroupVO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;

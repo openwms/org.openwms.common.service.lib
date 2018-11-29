@@ -32,7 +32,7 @@ interface StockLocationRepository extends JpaRepository<Location, Long> {
     @Query("select l " +
             "from Location l " +
             "where l.locationGroup.name in :locationGroupNames " +
-            "and l.locationGroup.groupStateIn = org.openwms.common.location.LocationGroupState.AVAILABLE " +
+            "and l.locationGroup.groupStateIn = org.openwms.common.location.api.LocationGroupState.AVAILABLE " +
             "and l.incomingActive = true " +
             "and l not in (select distinct t.actualLocation from TransportUnit t) " +
             "order by l.locationId.area, l.locationId.aisle, l.locationId.x, l.locationId.y, l.locationId.z DESC")

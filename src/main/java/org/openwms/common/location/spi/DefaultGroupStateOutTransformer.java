@@ -15,8 +15,8 @@
  */
 package org.openwms.common.location.spi;
 
-import org.openwms.common.location.LocationGroupState;
 import org.openwms.common.location.api.ErrorCodeTransformers;
+import org.openwms.common.location.api.LocationGroupState;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
