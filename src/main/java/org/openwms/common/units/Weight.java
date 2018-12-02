@@ -27,7 +27,6 @@ import java.math.BigDecimal;
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 public class Weight implements Measurable<BigDecimal, Weight, WeightUnit>, UnitType, Serializable {
-    private static final long serialVersionUID = -8849107834046064278L;
 
     /** The unit of the <code>Weight</code>. */
     private WeightUnit unit;

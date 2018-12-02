@@ -45,6 +45,39 @@
     </mapping>
 
 	<mapping>
+		<class-a>org.openwms.common.transport.TransportUnit</class-a>
+		<class-b>org.openwms.common.transport.TransportUnitMO</class-b>
+		<field>
+			<a is-accessible="true">barcode.value</a>
+			<b is-accessible="true">barcode</b>
+		</field>
+		<field>
+			<a is-accessible="true">actualLocationDate</a>
+			<b is-accessible="true">actualLocationDate</b>
+		</field>
+		<field>
+			<a is-accessible="true">state</a>
+			<b is-accessible="true">state</b>
+		</field>
+		<field>
+			<a is-accessible="true">actualLocation.locationId</a>
+			<b is-accessible="true">actualLocation</b>
+		</field>
+		<field>
+			<a is-accessible="true">targetLocation.locationId</a>
+			<b is-accessible="true">targetLocation</b>
+		</field>
+		<field>
+			<a is-accessible="true">transportUnitType</a>
+			<b is-accessible="true">transportUnitType</b>
+		</field>
+		<field>
+			<a is-accessible="true">parent.barcode.value</a>
+			<b is-accessible="true">parent</b>
+		</field>
+	</mapping>
+
+	<mapping>
 		<class-a>org.openwms.common.location.Location</class-a>
 		<class-b>org.openwms.common.location.api.LocationVO</class-b>
 		<field>

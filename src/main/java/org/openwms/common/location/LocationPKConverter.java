@@ -44,6 +44,6 @@ public class LocationPKConverter extends DozerConverter<String, LocationPK> {
      */
     @Override
     public String convertFrom(LocationPK source, String destination) {
-        return source.toString();
+        return source != null ? source.toString() : null;
     }
 }

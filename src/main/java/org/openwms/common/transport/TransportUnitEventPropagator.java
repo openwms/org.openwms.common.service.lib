@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport;
 
+import org.ameba.mapping.BeanMapper;
 import org.openwms.core.SpringProfiles;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,26 +36,28 @@ class TransportUnitEventPropagator {
 
     private final AmqpTemplate amqpTemplate;
     private final String exchangeName;
+    private final BeanMapper mapper;
 
-    TransportUnitEventPropagator(AmqpTemplate amqpTemplate, @Value("${owms.events.common.tu.exchange-name}") String exchangeName) {
+    TransportUnitEventPropagator(AmqpTemplate amqpTemplate, @Value("${owms.events.common.tu.exchange-name}") String exchangeName, BeanMapper mapper) {
         this.amqpTemplate = amqpTemplate;
         this.exchangeName = exchangeName;
+        this.mapper = mapper;
     }
 
     @TransactionalEventListener(fallbackExecution = true)
     public void onEvent(TransportUnitEvent event) {
         switch (event.getType()) {
             case CREATED:
-                amqpTemplate.convertAndSend(exchangeName, "tu.event.created", event.getSource());
+                amqpTemplate.convertAndSend(exchangeName, "tu.event.created", mapper.map(event.getSource(), TransportUnitMO.class));
                 break;
             case CHANGED:
-                amqpTemplate.convertAndSend(exchangeName, "tu.event.changed", event.getSource());
+                amqpTemplate.convertAndSend(exchangeName, "tu.event.changed", mapper.map(event.getSource(), TransportUnitMO.class));
                 break;
             case DELETED:
-                amqpTemplate.convertAndSend(exchangeName, "tu.event.deleted", event.getSource());
+                amqpTemplate.convertAndSend(exchangeName, "tu.event.deleted", mapper.map(event.getSource(), TransportUnitMO.class));
                 break;
             case MOVED:
-                amqpTemplate.convertAndSend(exchangeName, "tu.event.moved", event.getSource());
+                amqpTemplate.convertAndSend(exchangeName, "tu.event.moved", mapper.map(event.getSource(), TransportUnitMO.class));
                 break;
             default:
                 throw new UnsupportedOperationException(format("Eventtype [%s] currently not supported", event.getType()));
