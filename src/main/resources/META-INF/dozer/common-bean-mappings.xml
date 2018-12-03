@@ -64,6 +64,10 @@
 			<b is-accessible="true">actualLocation</b>
 		</field>
 		<field>
+			<a is-accessible="true">actualLocation.plcCode</a>
+			<b is-accessible="true">plcCode</b>
+		</field>
+		<field>
 			<a is-accessible="true">targetLocation.locationId</a>
 			<b is-accessible="true">targetLocation</b>
 		</field>

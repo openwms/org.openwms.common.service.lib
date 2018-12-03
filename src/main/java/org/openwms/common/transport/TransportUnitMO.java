@@ -29,6 +29,7 @@ class TransportUnitMO implements Serializable {
     private Date actualLocationDate;
     private String state;
     private String actualLocation;
+    private String plcCode;
     private String targetLocation;
     private String transportUnitType;
     private String parent;
@@ -63,6 +64,14 @@ class TransportUnitMO implements Serializable {
 
     public void setActualLocation(String actualLocation) {
         this.actualLocation = actualLocation;
+    }
+
+    public String getPlcCode() {
+        return plcCode;
+    }
+
+    public void setPlcCode(String plcCode) {
+        this.plcCode = plcCode;
     }
 
     public String getTargetLocation() {
