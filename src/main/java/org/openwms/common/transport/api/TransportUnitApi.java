@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport.api;
 
+import org.openwms.common.CommonConstants;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -40,11 +41,21 @@ public interface TransportUnitApi {
      * @param barcode The unique (physical) identifier
      * @return The instance or the implementation may return a 404-Not Found
      */
-    @GetMapping(params = {"bk"})
+    @GetMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"bk"})
     @ResponseBody
-    TransportUnitVO getTransportUnit(@RequestParam("bk") String barcode);
+    TransportUnitVO findTransportUnit(@RequestParam("bk") String barcode);
 
-    @GetMapping(params = {"actualLocation"})
+    /**
+     * Find and return a {@code TransportUnitType} identified by its {@code type}.
+     *
+     * @param type The unique identifier
+     * @return The instance or the implementation may return a 404-Not Found
+     */
+    @GetMapping(value = CommonConstants.API_TRANSPORT_UNIT_TYPES, params = {"type"})
+    @ResponseBody
+    TransportUnitTypeVO findTransportUnitType(@RequestParam("type") String type);
+
+    @GetMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"actualLocation"})
     List<TransportUnitVO> getTransportUnitsOn(@RequestParam("actualLocation") String actualLocation);
 
     /**
@@ -55,7 +66,7 @@ public interface TransportUnitApi {
      * @param strict If the {@code TransportUnit} already exists and this is {@code true}
      * an error is thrown. If {@code false}, the implementation exists silently
      */
-    @PostMapping(params = {"bk"})
+    @PostMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"bk"})
     @ResponseBody
     void createTU(@RequestParam("bk") String barcode, @RequestBody TransportUnitVO tu, @RequestParam(value = "strict", required = false) Boolean strict);
 
@@ -68,7 +79,7 @@ public interface TransportUnitApi {
      * @param strict If the {@code TransportUnit} already exists and this is {@code true}
      * an error is thrown. If {@code false}, the implementation exists silently
      */
-    @PostMapping(params = {"bk"})
+    @PostMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"bk"})
     @ResponseBody
     void createTU(@RequestParam("bk") String barcode, @RequestParam("actualLocation") String actualLocation, @RequestParam("tut") String tut, @RequestParam(value = "strict", required = false) Boolean strict);
 
@@ -79,7 +90,7 @@ public interface TransportUnitApi {
      * @param tu Detailed information of the {@code TransportUnit} to create
      * @return The updated instance
      */
-    @PutMapping(params = {"bk"})
+    @PutMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"bk"})
     @ResponseBody
     TransportUnitVO updateTU(@RequestParam("bk") String barcode, @RequestBody TransportUnitVO tu);
 
@@ -90,7 +101,7 @@ public interface TransportUnitApi {
      * @param newLocation The new {@code Location} to move to
      * @return The updated instance
      */
-    @PatchMapping(params = {"bk", "newLocation"})
+    @PatchMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"bk", "newLocation"})
     @ResponseBody
     TransportUnitVO moveTU(@RequestParam("bk") String barcode, @RequestParam("newLocation") String newLocation);
 }

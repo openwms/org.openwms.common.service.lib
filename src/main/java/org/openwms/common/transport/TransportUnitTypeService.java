@@ -18,6 +18,7 @@ package org.openwms.common.transport;
 import org.openwms.common.location.LocationType;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A TransportUnitTypeService offers methods to deal with {@link TransportUnitType}s.
@@ -25,6 +26,14 @@ import java.util.List;
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 interface TransportUnitTypeService {
+
+    /**
+     * Find and return a {@link TransportUnitType} identified by its unique business key.
+     *
+     * @param type The type as String
+     * @return The instance.
+     */
+    Optional<TransportUnitType> findByType(String type);
 
     /**
      * Returns a List of all {@link TransportUnitType}s.

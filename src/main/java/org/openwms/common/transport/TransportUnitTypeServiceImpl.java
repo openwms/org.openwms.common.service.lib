@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A TransportUnitTypeServiceImpl.
@@ -38,6 +39,14 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
 
     public TransportUnitTypeServiceImpl(TransportUnitTypeRepository transportUnitTypeRepository) {
         this.transportUnitTypeRepository = transportUnitTypeRepository;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional<TransportUnitType> findByType(String type) {
+        return transportUnitTypeRepository.findByType(type);
     }
 
     /**

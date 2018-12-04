@@ -47,7 +47,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-@RestController(CommonConstants.API_LOCATIONGROUPS)
+@RestController(CommonConstants.API_LOCATION_GROUPS)
 class LocationGroupController {
 
     private final LocationGroupService locationGroupService;
@@ -64,7 +64,7 @@ class LocationGroupController {
         this.groupStateOut = groupStateOut;
     }
 
-    @GetMapping(value = CommonConstants.API_LOCATIONGROUPS, params = {"name"})
+    @GetMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"name"})
     LocationGroupVO findByName(@RequestParam("name") String name) {
         Optional<LocationGroup> opt = locationGroupService.findByName(name);
         if (opt.isPresent()) {
@@ -78,18 +78,18 @@ class LocationGroupController {
         throw new NotFoundException(format("LocationGroup with name [%s] does not exist", name));
     }
 
-    @GetMapping(value = CommonConstants.API_LOCATIONGROUPS)
+    @GetMapping(value = CommonConstants.API_LOCATION_GROUPS)
     List<LocationGroupVO> findAll() {
         List<LocationGroup> all = locationGroupService.findAll();
         return all == null ? Collections.emptyList() : mapper.map(all, LocationGroupVO.class);
     }
 
-    @PatchMapping(value = CommonConstants.API_LOCATIONGROUPS, params = {"name"})
+    @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"name"})
     void updateState(@RequestParam(name = "name") String locationGroupName, @RequestBody ErrorCodeVO errorCode) {
         locationGroupService.changeGroupStates(locationGroupName, groupStateIn.transform(errorCode.getErrorCode()), groupStateOut.transform(errorCode.getErrorCode()));
     }
 
-    @PatchMapping(value = CommonConstants.API_LOCATIONGROUPS + "/{id}")
+    @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS + "/{id}")
     void save(@PathVariable String id, @RequestParam(name = "statein", required = false) LocationGroupState stateIn, @RequestParam(name = "stateout", required = false) LocationGroupState stateOut, HttpServletRequest req, HttpServletResponse res) {
         locationGroupService.changeGroupState(id, stateIn, stateOut);
         res.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req, id));

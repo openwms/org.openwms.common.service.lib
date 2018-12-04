@@ -38,7 +38,7 @@ import static org.openwms.common.location.LocationPK.fromString;
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-@RestController(CommonConstants.API_TRANSPORTUNITS)
+@RestController
 class TransportUnitController extends AbstractWebController {
 
     private final TransportUnitService<TransportUnit> service;
@@ -49,20 +49,20 @@ class TransportUnitController extends AbstractWebController {
         this.mapper = mapper;
     }
 
-    @GetMapping(params = {"bk"})
+    @GetMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"bk"})
     @ResponseBody
-    TransportUnitVO getTransportUnit(@RequestParam("bk") String transportUnitBK) {
+    TransportUnitVO findTransportUnit(@RequestParam("bk") String transportUnitBK) {
         TransportUnit transportUnit = service.findByBarcode(new Barcode(transportUnitBK));
         return mapper.map(transportUnit, TransportUnitVO.class);
     }
 
-    @GetMapping(params = {"actualLocation"})
+    @GetMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"actualLocation"})
     List<TransportUnitVO> getTransportUnitsOn(@RequestParam("actualLocation") String actualLocation) {
         List<TransportUnit> tus = service.findOnLocation(actualLocation);
         return mapper.map(tus, TransportUnitVO.class);
     }
 
-    @PostMapping(params = {"bk"})
+    @PostMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"bk"})
     @ResponseBody
     void createTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
         if (Boolean.TRUE == strict) {
@@ -74,7 +74,7 @@ class TransportUnitController extends AbstractWebController {
         getLocationForCreatedResource(req, created.getPersistentKey());
     }
 
-    @PostMapping(params = {"bk", "actualLocation", "tut"})
+    @PostMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"bk", "actualLocation", "tut"})
     @ResponseBody
     void createTU(@RequestParam("bk") String transportUnitBK, @RequestParam("actualLocation") String actualLocation, @RequestParam("tut") String tut, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
         if (Boolean.TRUE == strict) {
@@ -85,13 +85,13 @@ class TransportUnitController extends AbstractWebController {
         getLocationForCreatedResource(req, created.getPersistentKey());
     }
 
-    @PutMapping(params = {"bk"})
+    @PutMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"bk"})
     @ResponseBody
     TransportUnitVO updateTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu) {
         return mapper.map(service.update(new Barcode(transportUnitBK), mapper.map(tu, TransportUnit.class)), TransportUnitVO.class);
     }
 
-    @PatchMapping(params = {"bk", "newLocation"})
+    @PatchMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"bk", "newLocation"})
     @ResponseBody
     TransportUnitVO moveTU(@RequestParam("bk") String transportUnitBK, @RequestParam("newLocation") String newLocation) {
         TransportUnit tu = service.moveTransportUnit(new Barcode(transportUnitBK), fromString(newLocation));
