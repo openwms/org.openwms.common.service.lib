@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 import static java.lang.String.format;
 
 /**
@@ -49,4 +51,12 @@ class TransportUnitTypeController extends AbstractWebController {
         TransportUnitType optType = service.findByType(type).orElseThrow(() -> new NotFoundException(format("No TransportUniType with type [%s] found", type)));
         return mapper.map(optType, TransportUnitTypeVO.class);
     }
+
+    @GetMapping(value = CommonConstants.API_TRANSPORT_UNIT_TYPES)
+    @ResponseBody
+    List<TransportUnitTypeVO> findTransportUnitTypes() {
+        List<TransportUnitType> all = service.findAll();
+        return mapper.map(all, TransportUnitTypeVO.class);
+    }
+
 }

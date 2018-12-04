@@ -73,9 +73,7 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
     @Override
     public void deleteType(TransportUnitType... transportUnitTypes) {
         for (TransportUnitType transportUnitType : transportUnitTypes) {
-            transportUnitTypeRepository
-                    .findByType(transportUnitType.getType())
-                    .ifPresent(transportUnitTypeRepository::delete);
+            transportUnitTypeRepository.findByType(transportUnitType.getType()).ifPresent(transportUnitTypeRepository::delete);
         }
     }
 

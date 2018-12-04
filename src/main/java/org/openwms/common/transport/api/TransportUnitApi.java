@@ -55,6 +55,15 @@ public interface TransportUnitApi {
     @ResponseBody
     TransportUnitTypeVO findTransportUnitType(@RequestParam("type") String type);
 
+    /**
+     * Find and return all {@code TransportUnitType}s.
+     *
+     * @return All instances or an empty list, never {@literal null}
+     */
+    @GetMapping(value = CommonConstants.API_TRANSPORT_UNIT_TYPES)
+    @ResponseBody
+    List<TransportUnitTypeVO> findTransportUnitTypes();
+
     @GetMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"actualLocation"})
     List<TransportUnitVO> getTransportUnitsOn(@RequestParam("actualLocation") String actualLocation);
 
