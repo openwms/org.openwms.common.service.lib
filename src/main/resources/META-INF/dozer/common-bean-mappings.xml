@@ -44,6 +44,31 @@
 		</field>
     </mapping>
 
+    <mapping>
+        <class-a>org.openwms.common.transport.api.TransportUnitTypeVO</class-a>
+        <class-b>org.openwms.common.transport.TransportUnitType</class-b>
+        <field>
+            <a is-accessible="true">type</a>
+            <b is-accessible="true">type</b>
+        </field>
+        <field>
+            <a is-accessible="true">description</a>
+            <b is-accessible="true">description</b>
+        </field>
+        <field>
+            <a is-accessible="true">height</a>
+            <b is-accessible="true">height</b>
+        </field>
+		<field>
+			<a is-accessible="true">width</a>
+			<b is-accessible="true">width</b>
+		</field>
+		<field>
+			<a is-accessible="true">length</a>
+			<b is-accessible="true">length</b>
+		</field>
+    </mapping>
+
 	<mapping>
 		<class-a>org.openwms.common.transport.TransportUnit</class-a>
 		<class-b>org.openwms.common.transport.TransportUnitMO</class-b>
