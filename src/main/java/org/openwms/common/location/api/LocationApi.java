@@ -19,6 +19,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 /**
  * A LocationApi deals with {@code Location}s.
  *
@@ -44,4 +46,14 @@ public interface LocationApi {
      */
     @GetMapping(value = "/v1/locations", params = {"plcCode"})
     LocationVO findLocationByPlcCode(@RequestParam("plcCode") String plcCode);
+
+    /**
+     * Find and return all {@link LocationVO}s that belong to one or more of the given
+     * {@link LocationGroupVO}s.
+     *
+     * @param locationGroupNames A list of LocationGroup names.
+     * @return All Location instances or an empty list
+     */
+    @GetMapping(value = "/v1/locations", params = {"locationGroupNames"})
+    List<LocationVO> findLocationsForLocationGroups(@RequestParam("locationGroupNames") List<String> locationGroupNames);
 }

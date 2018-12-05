@@ -24,11 +24,29 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-public class LocationVO extends ResourceSupport implements Serializable {
+public class LocationVO extends ResourceSupport implements Target, Serializable {
 
     private String locationId;
     private String locationGroupName;
     private String plcCode;
+    private boolean incomingActive = true;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String asString() {
+        return locationId;
+    }
+
+    /**
+     * Checks whether the LocationGroup is blocked for incoming goods.
+     *
+     * @return {@literal true} if blocked, otherwise {@literal false}
+     */
+    public boolean isInfeedBlocked() {
+        return !incomingActive;
+    }
 
     public String getLocationGroupName() {
         return locationGroupName;
@@ -52,5 +70,13 @@ public class LocationVO extends ResourceSupport implements Serializable {
 
     public void setPlcCode(String plcCode) {
         this.plcCode = plcCode;
+    }
+
+    public boolean isIncomingActive() {
+        return incomingActive;
+    }
+
+    public void setIncomingActive(boolean incomingActive) {
+        this.incomingActive = incomingActive;
     }
 }

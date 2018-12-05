@@ -26,12 +26,14 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-public class LocationGroupVO extends ResourceSupport implements Serializable {
+public class LocationGroupVO extends ResourceSupport implements Target, Serializable {
 
     @JsonProperty
     private String name;
     @JsonProperty
     private String parent;
+    @JsonProperty
+    private boolean incomingActive = true;
 
     protected LocationGroupVO() {
     }
@@ -40,10 +42,37 @@ public class LocationGroupVO extends ResourceSupport implements Serializable {
         this.name = name;
     }
 
-    @ConstructorProperties({"name", "parent"})
-    public LocationGroupVO(String name, String parent) {
+    @ConstructorProperties({"name", "parent", "incomingActive"})
+    public LocationGroupVO(String name, String parent, boolean incomingActive) {
         this.name = name;
         this.parent = parent;
+        this.incomingActive = incomingActive;
+    }
+
+    /**
+     * Check whether the LocationGroup has a parent.
+     *
+     * @return {@literal true} if it has a parent, otherwise {@literal false}
+     */
+    public boolean hasParent() {
+        return parent != null && !parent.isEmpty();
+    }
+
+    /**
+     * Checks whether the LocationGroup is blocked for incoming goods.
+     *
+     * @return {@literal true} if blocked, otherwise {@literal false}
+     */
+    public boolean isInfeedBlocked() {
+        return !incomingActive;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String asString() {
+        return name;
     }
 
     public String getName() {
@@ -62,7 +91,11 @@ public class LocationGroupVO extends ResourceSupport implements Serializable {
         this.parent = parent;
     }
 
-    public boolean hasParent() {
-        return parent != null && !parent.isEmpty();
+    public boolean isIncomingActive() {
+        return incomingActive;
+    }
+
+    public void setIncomingActive(boolean incomingActive) {
+        this.incomingActive = incomingActive;
     }
 }
