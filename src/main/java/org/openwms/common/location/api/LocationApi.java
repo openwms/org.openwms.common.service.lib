@@ -15,11 +15,13 @@
  */
 package org.openwms.common.location.api;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A LocationApi deals with {@code Location}s.
@@ -36,7 +38,8 @@ public interface LocationApi {
      * @return Never {@literal null}
      */
     @GetMapping(value = "/v1/locations", params = {"locationPK"})
-    LocationVO findLocationByCoordinate(@RequestParam("locationPK") String locationPK);
+    @Cacheable("locations")
+    Optional<LocationVO> findLocationByCoordinate(@RequestParam("locationPK") String locationPK);
 
     /**
      * Find and return a {@code Location} representation by the given {@code plcCode}.
@@ -45,7 +48,8 @@ public interface LocationApi {
      * @return Never {@literal null}
      */
     @GetMapping(value = "/v1/locations", params = {"plcCode"})
-    LocationVO findLocationByPlcCode(@RequestParam("plcCode") String plcCode);
+    @Cacheable("locations")
+    Optional<LocationVO> findLocationByPlcCode(@RequestParam("plcCode") String plcCode);
 
     /**
      * Find and return all {@link LocationVO}s that belong to one or more of the given
@@ -55,5 +59,6 @@ public interface LocationApi {
      * @return All Location instances or an empty list
      */
     @GetMapping(value = "/v1/locations", params = {"locationGroupNames"})
+    @Cacheable("locations")
     List<LocationVO> findLocationsForLocationGroups(@RequestParam("locationGroupNames") List<String> locationGroupNames);
 }

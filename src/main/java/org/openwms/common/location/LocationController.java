@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.lang.String.format;
 
@@ -32,7 +33,7 @@ import static java.lang.String.format;
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-@RestController(CommonConstants.API_LOCATIONS)
+@RestController
 class LocationController {
 
     private final LocationService locationService;
@@ -46,26 +47,26 @@ class LocationController {
     /**
      * {@inheritDoc}
      */
-    @GetMapping(params = {"locationPK"})
-    LocationVO getLocation(@RequestParam("locationPK") String locationPk) {
+    @GetMapping(value = CommonConstants.API_LOCATIONS, params = {"locationPK"})
+    Optional<LocationVO> findLocation(@RequestParam("locationPK") String locationPk) {
         if (!LocationPK.isValid(locationPk)) {
             throw new NotFoundException(format("Invalid location [%s]", locationPk));
         }
         Location location = locationService.findByLocationId(LocationPK.fromString(locationPk)).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", locationPk)));
-        return mapper.map(location, LocationVO.class);
+        return Optional.ofNullable(mapper.map(location, LocationVO.class));
     }
 
     /**
      * {@inheritDoc}
      */
-    @GetMapping(value = "/v1/locations", params = {"plcCode"})
-    LocationVO findLocationByPlcCode(@RequestParam("plcCode") String plcCode) {
+    @GetMapping(value = CommonConstants.API_LOCATIONS, params = {"plcCode"})
+    Optional<LocationVO> findLocationByPlcCode(@RequestParam("plcCode") String plcCode) {
         Location location = locationService.findByPlcCode(plcCode).orElseThrow(() -> new NotFoundException(format("No Location with PLC Code [%s] found", plcCode)));
-        return mapper.map(location, LocationVO.class);
+        return Optional.ofNullable(mapper.map(location, LocationVO.class));
     }
 
 
-    @GetMapping(params = {"locationGroupNames"})
+    @GetMapping(value = CommonConstants.API_LOCATIONS, params = {"locationGroupNames"})
     List<LocationVO> findLocationsForLocationGroups(@RequestParam("locationGroupNames") List<String> locationGroupNames) {
         List<Location> locations = locationService.findAllOf(locationGroupNames);
         return mapper.map(locations, LocationVO.class);

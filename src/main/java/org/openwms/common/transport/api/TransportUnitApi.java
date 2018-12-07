@@ -16,6 +16,7 @@
 package org.openwms.common.transport.api;
 
 import org.openwms.common.CommonConstants;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -53,6 +54,7 @@ public interface TransportUnitApi {
      */
     @GetMapping(value = CommonConstants.API_TRANSPORT_UNIT_TYPES, params = {"type"})
     @ResponseBody
+    @Cacheable("transportUnitTypes")
     TransportUnitTypeVO findTransportUnitType(@RequestParam("type") String type);
 
     /**
@@ -62,6 +64,7 @@ public interface TransportUnitApi {
      */
     @GetMapping(value = CommonConstants.API_TRANSPORT_UNIT_TYPES)
     @ResponseBody
+    @Cacheable("transportUnitTypes")
     List<TransportUnitTypeVO> findTransportUnitTypes();
 
     @GetMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"actualLocation"})

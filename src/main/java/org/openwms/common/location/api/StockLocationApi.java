@@ -15,6 +15,7 @@
  */
 package org.openwms.common.location.api;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,5 +31,6 @@ import java.util.List;
 public interface StockLocationApi {
 
     @GetMapping(value = "/stock", params = {"stockLocationGroupNames", "count"})
+    @Cacheable("locations")
     List<LocationVO> findStockLocationSimple(@RequestParam("stockLocationGroupNames") List<String> stockLocationGroupNames, @RequestParam("count") int count);
 }
