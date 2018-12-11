@@ -116,6 +116,7 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
+    @Transactional(noRollbackFor = IllegalArgumentException.class)
     public Location findByLocationId(String locationPK) {
         return locationRepository.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", locationPK), null));
     }
