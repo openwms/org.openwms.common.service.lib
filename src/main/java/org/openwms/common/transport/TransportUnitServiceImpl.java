@@ -120,7 +120,8 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
                 return opt.get();
             }
         }
-        Location location = findByLocationId(actualLocation);
+
+        Location location = locationService.findByLocationIdOrPlcCode(actualLocation).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", actualLocation), null));
         TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -> new ServiceLayerException(format("TransportUnitType %s not found", transportUnitType)));
         TransportUnit transportUnit = new TransportUnit(barcode);
         transportUnit.setTransportUnitType(type);
@@ -192,16 +193,6 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
         repository.delete(transportUnit);
         ctx.publishEvent(TransportUnitEvent.of(transportUnit, TransportUnitEvent.TransportUnitEventType.DELETED));
         return true;
-    }
-
-    private Location findByLocationId(String actualLocation) {
-        try {
-            Location locationById = locationService.findByLocationId(actualLocation);
-            return locationById;
-        } catch (Exception ex) {
-            Optional<Location> locationByPlcCode = locationService.findByPlcCode(actualLocation);
-            return locationByPlcCode.orElseThrow(() -> new NotFoundException(format("No Location with plc code [%s] found", actualLocation)));
-        }
     }
 
 

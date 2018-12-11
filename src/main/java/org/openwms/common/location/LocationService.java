@@ -91,6 +91,14 @@ public interface LocationService {
     Location findByLocationId(String locationPK);
 
     /**
+     * Find and return a Location {@link Location} by the given {@code location}.
+     *
+     * @param location The LocationPK or the PLC Code
+     * @return The Location
+     */
+    Optional<Location> findByLocationIdOrPlcCode(String location);
+
+    /**
      * Find and return all Locations that belong to a LocationGroup with the name {@code locationGroupName}.
      *
      * @param locationGroupName The name of the LocationGroup
