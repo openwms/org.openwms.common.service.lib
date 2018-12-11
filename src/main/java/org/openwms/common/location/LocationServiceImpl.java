@@ -124,6 +124,18 @@ class LocationServiceImpl implements LocationService {
      * {@inheritDoc}
      */
     @Override
+    public Optional<Location> findByLocationIdOrPlcCode(String location) {
+        try {
+            return locationRepository.findByLocationId(LocationPK.fromString(location));
+        } catch (IllegalArgumentException ex) {
+            return locationRepository.findByPlcCode(location);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     @Measured
     public List<Location> findAllOf(List<String> locationGroupNames) {
         return locationRepository.findByLocationGroup_Name(locationGroupNames);
