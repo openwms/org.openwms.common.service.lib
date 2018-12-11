@@ -121,7 +121,7 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
             }
         }
 
-        Location location = locationService.findByLocationIdOrPlcCode(actualLocation).orElseThrow(() -> new NotFoundException(format("No Location with actual location [%s] found", actualLocation), null));
+        Location location = locationService.findByLocationIdOrPlcCode(actualLocation).orElseThrow(() -> new NotFoundException(format("No Location with actual location [%s] found", actualLocation)));
         TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -> new ServiceLayerException(format("TransportUnitType %s not found", transportUnitType)));
         TransportUnit transportUnit = new TransportUnit(barcode);
         transportUnit.setTransportUnitType(type);
