@@ -28,6 +28,7 @@ public class TransportUnitVO implements Serializable {
     private String actualLocation;
     private String target;
     private String transportUnitType;
+    private String actualPlcCode;
 
     public String getBarcode() {
         return barcode;
@@ -56,4 +57,18 @@ public class TransportUnitVO implements Serializable {
     public String getTransportUnitType() {
         return transportUnitType;
     }
+
+    public void setTransportUnitType(String transportUnitType) {
+        this.transportUnitType = transportUnitType;
+    }
+
+    public String getActualPlcCode() {
+        return actualPlcCode;
+    }
+
+    public void setActualPlcCode(String actualPlcCode) {
+        this.actualPlcCode = actualPlcCode;
+    }
+
+
 }
