@@ -125,9 +125,9 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     public Optional<Location> findByLocationIdOrPlcCode(String location) {
-        try {
+        if (LocationPK.isValid(location)) {
             return locationRepository.findByLocationId(LocationPK.fromString(location));
-        } catch (IllegalArgumentException ex) {
+        } else {
             return locationRepository.findByPlcCode(location);
         }
     }
