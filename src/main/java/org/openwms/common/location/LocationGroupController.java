@@ -16,7 +16,6 @@
 package org.openwms.common.location;
 
 import org.ameba.exception.NotFoundException;
-import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.openwms.common.CommonConstants;
@@ -51,14 +50,12 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 class LocationGroupController {
 
     private final LocationGroupService locationGroupService;
-    private final Translator translator;
     private final BeanMapper mapper;
     private final ErrorCodeTransformers.GroupStateIn groupStateIn;
     private final ErrorCodeTransformers.GroupStateOut groupStateOut;
 
-    LocationGroupController(LocationGroupService locationGroupService, Translator translator, BeanMapper mapper, ErrorCodeTransformers.GroupStateIn groupStateIn, ErrorCodeTransformers.GroupStateOut groupStateOut) {
+    LocationGroupController(LocationGroupService locationGroupService, BeanMapper mapper, ErrorCodeTransformers.GroupStateIn groupStateIn, ErrorCodeTransformers.GroupStateOut groupStateOut) {
         this.locationGroupService = locationGroupService;
-        this.translator = translator;
         this.mapper = mapper;
         this.groupStateIn = groupStateIn;
         this.groupStateOut = groupStateOut;
@@ -67,15 +64,12 @@ class LocationGroupController {
     @GetMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"name"})
     LocationGroupVO findByName(@RequestParam("name") String name) {
         Optional<LocationGroup> opt = locationGroupService.findByName(name);
-        if (opt.isPresent()) {
-            LocationGroup locationGroup = opt.get();
-            LocationGroupVO result = mapper.map(locationGroup, LocationGroupVO.class);
-            if (locationGroup.hasParent()) {
-                result.add(linkTo(methodOn(LocationGroupController.class).findByName(locationGroup.getParent().getName())).withRel("_parent"));
-            }
-            return result;
+        LocationGroup locationGroup = opt.orElseThrow(() -> new NotFoundException(format("LocationGroup with name [%s] does not exist", name)));
+        LocationGroupVO result = mapper.map(locationGroup, LocationGroupVO.class);
+        if (locationGroup.hasParent()) {
+            result.add(linkTo(methodOn(LocationGroupController.class).findByName(locationGroup.getParent().getName())).withRel("_parent"));
         }
-        throw new NotFoundException(format("LocationGroup with name [%s] does not exist", name));
+        return result;
     }
 
     @GetMapping(value = CommonConstants.API_LOCATION_GROUPS)

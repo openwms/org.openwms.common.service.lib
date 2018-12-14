@@ -23,6 +23,7 @@ import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.core.util.TreeNode;
 import org.openwms.core.util.TreeNodeImpl;
+import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -37,10 +38,12 @@ import java.util.Optional;
 class LocationGroupServiceImpl implements LocationGroupService {
 
     private final LocationGroupRepository locationGroupRepository;
+    private final ApplicationContext ctx;
     private final Translator translator;
 
-    LocationGroupServiceImpl(LocationGroupRepository locationGroupRepository, Translator translator) {
+    LocationGroupServiceImpl(LocationGroupRepository locationGroupRepository, ApplicationContext ctx, Translator translator) {
         this.locationGroupRepository = locationGroupRepository;
+        this.ctx = ctx;
         this.translator = translator;
     }
 
@@ -52,6 +55,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
     public void changeGroupState(String id, LocationGroupState stateIn, LocationGroupState stateOut) {
         LocationGroup locationGroup = locationGroupRepository.findById(Long.valueOf(id)).orElseThrow(NotFoundException::new);
         locationGroup.changeState(stateIn, stateOut);
+        ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));
     }
 
     /**
@@ -63,6 +67,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
         LocationGroup locationGroup = locationGroupRepository.findByName(locationGroupName).orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{locationGroupName}, locationGroupName));
         locationGroup.changeGroupStateIn(stateIn);
         locationGroup.changeGroupStateOut(stateOut);
+        ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));
     }
 
     /**
