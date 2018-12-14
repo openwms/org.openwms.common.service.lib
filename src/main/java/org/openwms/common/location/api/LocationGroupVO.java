@@ -15,10 +15,10 @@
  */
 package org.openwms.common.location.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.ResourceSupport;
 
-import java.beans.ConstructorProperties;
 import java.io.Serializable;
 
 /**
@@ -33,7 +33,9 @@ public class LocationGroupVO extends ResourceSupport implements Target, Serializ
     @JsonProperty
     private String parent;
     @JsonProperty
-    private boolean incomingActive = true;
+    private LocationGroupState groupStateIn;
+    @JsonProperty
+    private LocationGroupState groupStateOut;
 
     protected LocationGroupVO() {
     }
@@ -42,13 +44,7 @@ public class LocationGroupVO extends ResourceSupport implements Target, Serializ
         this.name = name;
     }
 
-    @ConstructorProperties({"name", "parent", "incomingActive"})
-    public LocationGroupVO(String name, String parent, boolean incomingActive) {
-        this.name = name;
-        this.parent = parent;
-        this.incomingActive = incomingActive;
-    }
-
+    /*~ ------------------ methods ----------------------*/
     /**
      * Check whether the LocationGroup has a parent.
      *
@@ -59,12 +55,32 @@ public class LocationGroupVO extends ResourceSupport implements Target, Serializ
     }
 
     /**
-     * Checks whether the LocationGroup is blocked for incoming goods.
+     * Checks whether the LocationGroup is blocked for infeed.
      *
      * @return {@literal true} if blocked, otherwise {@literal false}
      */
+    @JsonIgnore
     public boolean isInfeedBlocked() {
-        return !incomingActive;
+        return !isIncomingActive();
+    }
+
+    /**
+     * Checks whether the LocationGroup is available for infeed.
+     *
+     * @return {@literal true} if available, otherwise {@literal false}
+     */
+    @JsonIgnore
+    public boolean isIncomingActive() {
+        return this.groupStateIn == LocationGroupState.AVAILABLE;
+    }
+
+    /**
+     * Set the infeed mode.
+     *
+     * @param incomingActive {@literal true} if available for infeed otherwise {@literal false}
+     */
+    public void setIncomingActive(boolean incomingActive) {
+        this.groupStateIn = incomingActive ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;
     }
 
     /**
@@ -75,6 +91,7 @@ public class LocationGroupVO extends ResourceSupport implements Target, Serializ
         return name;
     }
 
+    /*~ ------------------ accessors ----------------------*/
     public String getName() {
         return name;
     }
@@ -91,11 +108,4 @@ public class LocationGroupVO extends ResourceSupport implements Target, Serializ
         this.parent = parent;
     }
 
-    public boolean isIncomingActive() {
-        return incomingActive;
-    }
-
-    public void setIncomingActive(boolean incomingActive) {
-        this.incomingActive = incomingActive;
-    }
 }

@@ -3,8 +3,13 @@ eureka:
     healthcheck:
       enabled: true
 
+---
+spring:
+  profiles: ASYNCHRONOUS
 owms:
   events:
     common:
+      lg:
+        exchange-name: common.lg
       tu:
         exchange-name: common.tu

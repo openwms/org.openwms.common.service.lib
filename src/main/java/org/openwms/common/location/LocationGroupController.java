@@ -72,6 +72,12 @@ class LocationGroupController {
         return result;
     }
 
+    @GetMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"names"})
+    List<LocationGroupVO> findByNames(@RequestParam("names") List<String> names) {
+        List<LocationGroup> locationGroups = locationGroupService.findByNames(names);
+        return mapper.map(locationGroups, LocationGroupVO.class);
+    }
+
     @GetMapping(value = CommonConstants.API_LOCATION_GROUPS)
     List<LocationGroupVO> findAll() {
         List<LocationGroup> all = locationGroupService.findAll();

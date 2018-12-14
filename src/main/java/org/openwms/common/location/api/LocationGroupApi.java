@@ -46,6 +46,16 @@ public interface LocationGroupApi {
     Optional<LocationGroupVO> findByName(@RequestParam("name") String name);
 
     /**
+     * Find the {@code LocationGroup}s with the given {@code name}s.
+     *
+     * @param names The name of the LocationGroup
+     * @return A list of instances or an empty list but never {@literal null}
+     */
+    @GetMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"names"})
+    @Cacheable("locationGroups")
+    List<LocationGroupVO> findByNames(@RequestParam("names") List<String> names);
+
+    /**
      * Find and return all existing {@code LocationGroup} representations.
      *
      * @return Never {@literal null}

@@ -23,6 +23,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+import javax.annotation.PostConstruct;
+
 import static java.lang.String.format;
 
 /**
@@ -42,6 +44,11 @@ class LocationGroupEventPropagator {
         this.amqpTemplate = amqpTemplate;
         this.exchangeName = exchangeName;
         this.mapper = mapper;
+    }
+
+    @PostConstruct
+    void onStartup() {
+        amqpTemplate.convertAndSend(exchangeName, "lg.event.boot", LocationGroupEvent.BOOT());
     }
 
     @TransactionalEventListener(fallbackExecution = true)

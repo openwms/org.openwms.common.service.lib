@@ -27,9 +27,9 @@ public class CommonConstants {
     /** API root to hit Locations (plural). */
     public static final String API_LOCATIONS = "/" + API_VERSION + "/locations";
     /** API root to hit LocationGroups (plural). */
-    public static final String API_LOCATION_GROUPS = "/" + API_VERSION + "/locationgroups";
+    public static final String API_LOCATION_GROUPS = "/" + API_VERSION + "/location-groups";
     /** API root to hit TransportUnits (plural). */
-    public static final String API_TRANSPORT_UNITS = "/" + API_VERSION + "/transportunits";
+    public static final String API_TRANSPORT_UNITS = "/" + API_VERSION + "/transport-units";
     /** API root to hit TransportUnitTypes (plural). */
     public static final String API_TRANSPORT_UNIT_TYPES = "/" + API_VERSION + "/transport-unit-types";
 }

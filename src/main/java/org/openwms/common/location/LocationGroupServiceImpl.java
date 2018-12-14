@@ -26,11 +26,13 @@ import org.openwms.core.util.TreeNodeImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * A LocationGroupServiceImpl.
+ * A LocationGroupServiceImpl is a Spring managed transactional Service that operates on
+ * {@link LocationGroup} entities and spans the tx boundary.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
@@ -86,6 +88,16 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Measured
     public List<LocationGroup> findAll() {
         return locationGroupRepository.findAll();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public List<LocationGroup> findByNames(List<String> names) {
+        List<LocationGroup> result = locationGroupRepository.findByNameIn(names);
+        return result == null ? Collections.emptyList() : result;
     }
 
     /**

@@ -17,6 +17,8 @@ package org.openwms.common.location;
 
 import org.openwms.core.event.RootApplicationEvent;
 
+import java.beans.ConstructorProperties;
+
 /**
  * A LocationGroupEvent.
  *
@@ -31,9 +33,14 @@ public class LocationGroupEvent extends RootApplicationEvent {
      *
      * @param source The event sender
      */
-    private LocationGroupEvent(Object source, LocationGroupEventType type) {
+    @ConstructorProperties({"source", "type"})
+    public LocationGroupEvent(Object source, LocationGroupEventType type) {
         super(source);
         this.type = type;
+    }
+
+    public static LocationGroupEvent BOOT() {
+        return new LocationGroupEvent("BOOT", LocationGroupEventType.BOOT);
     }
 
     public LocationGroupEventType getType() {
@@ -45,6 +52,6 @@ public class LocationGroupEvent extends RootApplicationEvent {
     }
 
     public static enum LocationGroupEventType {
-        CREATED, CHANGED, DELETED, STATE_CHANGE;
+        BOOT, CREATED, CHANGED, DELETED, STATE_CHANGE;
     }
 }

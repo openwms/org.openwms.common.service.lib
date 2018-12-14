@@ -62,6 +62,14 @@ public interface LocationGroupService {
     List<LocationGroup> findAll();
 
     /**
+     * Find and return all {@link LocationGroup}s with the given {@code names}.
+     *
+     * @param names The names of the LocationGroups to search for
+     * @return Always an list instance, never {@literal null}
+     */
+    List<LocationGroup> findByNames(List<String> names);
+
+    /**
      * Returns a hierarchical Tree of all {@link LocationGroup}s. Used by the user interface to show all {@link LocationGroup}s in a tree
      * form.
      *
