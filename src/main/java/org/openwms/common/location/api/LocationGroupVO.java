@@ -40,8 +40,10 @@ public class LocationGroupVO extends ResourceSupport implements Target, Serializ
     protected LocationGroupVO() {
     }
 
-    public LocationGroupVO(String name) {
+    public LocationGroupVO(String name, LocationGroupState groupStateIn, LocationGroupState groupStateOut) {
         this.name = name;
+        this.groupStateIn = groupStateIn;
+        this.groupStateOut = groupStateOut;
     }
 
     /*~ ------------------ methods ----------------------*/
