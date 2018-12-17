@@ -27,10 +27,25 @@ import java.util.List;
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-@FeignClient(name = "common-service", qualifier = "stockLocationApi", decode404 = true)
+@FeignClient(name = "common-service", qualifier = "stockLocationApi", decode404 = false)
 public interface StockLocationApi {
 
-    @GetMapping(value = "/stock", params = {"stockLocationGroupNames", "count"})
+    /**
+     * Find and return all {@code Location}s that belong to the {@code LocationGroup}s
+     * identified by the given {@code stockLocationGroupNames} and that match the applied
+     * filter criteria.
+     *
+     * @param stockLocationGroupNames The names of the LocationGroups to search Locations
+     * for
+     * @param groupStateIn If {@literal null} this criterion is not applied, otherwise
+     * only Locations are considered that match the demanded groupStateIn
+     * @param groupStateOut If {@literal null} this criterion is not applied, otherwise
+     * only Locations are considered that match the demanded groupStateOut
+     * @param count A number of Locations to return. Useful to limit the result set
+     * @return All Locations
+     * @throws org.ameba.exception.NotFoundException if no Locations exist
+     */
     @Cacheable("locations")
-    List<LocationVO> findStockLocationSimple(@RequestParam("stockLocationGroupNames") List<String> stockLocationGroupNames, @RequestParam("count") int count);
+    @GetMapping(value = "/stock", params = {"stockLocationGroupNames", "count"})
+    List<LocationVO> findAvailableStockLocations(@RequestParam("stockLocationGroupNames") List<String> stockLocationGroupNames, @RequestParam(value = "groupStateIn", required = false) LocationGroupState groupStateIn, @RequestParam(value = "groupStateOut", required = false) LocationGroupState groupStateOut, @RequestParam("count") int count);
 }

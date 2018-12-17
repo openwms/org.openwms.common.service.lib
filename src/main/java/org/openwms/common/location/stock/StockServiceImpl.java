@@ -19,6 +19,9 @@ import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.openwms.common.location.Location;
+import org.openwms.common.location.api.LocationGroupState;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -36,13 +39,20 @@ class StockServiceImpl implements StockService {
         this.stockLocationRepository = stockLocationRepository;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Measured
     @Override
-    public List<Location> findNextAscending(List<String> stockLocationGroupNames, int count) {
-        List<Location> locations = stockLocationRepository.findBy(stockLocationGroupNames);
+    public List<Location> findAvailableStockLocations(List<String> stockLocationGroupNames, LocationGroupState groupStateIn, LocationGroupState groupStateOut, int count) {
+        List<Location> locations = stockLocationRepository.findBy(
+                count > 0 ? PageRequest.of(0, count) : Pageable.unpaged(),
+                stockLocationGroupNames,
+                groupStateIn,
+                groupStateOut);
         if (locations.isEmpty()) {
-            throw new NotFoundException("No free location found in stock");
+            throw new NotFoundException("No locations found");
         }
-        return locations.subList(0, count);
+        return locations;
     }
 }

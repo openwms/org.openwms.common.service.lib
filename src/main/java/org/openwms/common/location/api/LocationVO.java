@@ -15,6 +15,7 @@
  */
 package org.openwms.common.location.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.io.Serializable;
@@ -44,6 +45,7 @@ public class LocationVO extends ResourceSupport implements Target, Serializable 
      *
      * @return {@literal true} if blocked, otherwise {@literal false}
      */
+    @JsonIgnore
     public boolean isInfeedBlocked() {
         return !incomingActive;
     }

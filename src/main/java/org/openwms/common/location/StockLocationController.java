@@ -16,6 +16,7 @@
 package org.openwms.common.location;
 
 import org.ameba.mapping.BeanMapper;
+import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.location.stock.StockService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,9 +41,13 @@ class StockLocationController {
         this.mapper = mapper;
     }
 
-    @GetMapping(params = {"stockLocationGroupNames", "count"})
-    List<LocationVO> findStockLocationSimple(@RequestParam("stockLocationGroupNames") List<String> stockLocationGroupNames, @RequestParam("count") int count) {
-        List<Location> location = stockService.findNextAscending(stockLocationGroupNames, count);
-        return mapper.map(location, LocationVO.class);
+    @GetMapping(value = "/stock", params = {"stockLocationGroupNames", "count"})
+    List<LocationVO> findAvailableStockLocations(
+            @RequestParam("stockLocationGroupNames") List<String> stockLocationGroupNames,
+            @RequestParam(value = "groupStateIn", required = false) LocationGroupState groupStateIn,
+            @RequestParam(value = "groupStateOut", required = false) LocationGroupState groupStateOut,
+            @RequestParam("count") int count) {
+        List<Location> locations = stockService.findAvailableStockLocations(stockLocationGroupNames, groupStateIn, groupStateOut, count);
+        return mapper.map(locations, LocationVO.class);
     }
 }

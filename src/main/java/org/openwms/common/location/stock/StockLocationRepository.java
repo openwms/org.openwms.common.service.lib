@@ -16,6 +16,8 @@
 package org.openwms.common.location.stock;
 
 import org.openwms.common.location.Location;
+import org.openwms.common.location.api.LocationGroupState;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -32,9 +34,9 @@ interface StockLocationRepository extends JpaRepository<Location, Long> {
     @Query("select l " +
             "from Location l " +
             "where l.locationGroup.name in :locationGroupNames " +
-            "and l.locationGroup.groupStateIn = org.openwms.common.location.api.LocationGroupState.AVAILABLE " +
-            "and l.incomingActive = true " +
+            "and ((l.locationGroup.groupStateIn = :groupStateIn and l.incomingActive = true) or :groupStateIn is null) " +
+            "and ((l.locationGroup.groupStateOut = :groupStateOut and l.outgoingActive = true) or :groupStateOut is null) " +
             "and l not in (select distinct t.actualLocation from TransportUnit t) " +
             "order by l.locationId.area, l.locationId.aisle, l.locationId.x, l.locationId.y, l.locationId.z DESC")
-    List<Location> findBy(@Param("locationGroupNames") List<String> locationGroupNames);
+    List<Location> findBy(Pageable pageable, @Param("locationGroupNames") List<String> locationGroupNames,  @Param("groupStateIn") LocationGroupState groupStateIn, @Param("groupStateOut") LocationGroupState groupStateOut);
 }
