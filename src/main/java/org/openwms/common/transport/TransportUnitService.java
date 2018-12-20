@@ -35,6 +35,7 @@ public interface TransportUnitService<T extends TransportUnit> {
      * @param barcode           {@link Barcode} of the new {@link TransportUnit}
      * @param transportUnitType The type of the new {@link TransportUnit}
      * @param actualLocation    The {@code Location} where the {@link TransportUnit} is placed on
+     * @param strict Whether the implementation shall throw an xception when a {@link TransportUnit} already exists ({@literal true}) or not ({@literal false}
      * @return The new created {@link TransportUnit} instance
      */
     T create(Barcode barcode, TransportUnitType transportUnitType, LocationPK actualLocation, Boolean strict);
@@ -46,6 +47,7 @@ public interface TransportUnitService<T extends TransportUnit> {
      * @param barcode           {@link Barcode} of the new {@link TransportUnit}
      * @param transportUnitType The type of the new {@link TransportUnit}
      * @param actualLocation    The {@code Location} where the {@link TransportUnit} is placed on
+     * @param strict Whether the implementation shall throw an xception when a {@link TransportUnit} already exists ({@literal true}) or not ({@literal false}
      * @return The new created {@link TransportUnit} instance
      */
     T create(Barcode barcode, String transportUnitType, String actualLocation, Boolean strict);
@@ -58,6 +60,7 @@ public interface TransportUnitService<T extends TransportUnit> {
      *
      * @param barcode          {@link Barcode} of the {@link TransportUnit} to move
      * @param targetLocationPK Unique identifier of the target {@code Location}
+     * @return The moved instance
      */
     TransportUnit moveTransportUnit(Barcode barcode, LocationPK targetLocationPK);
 

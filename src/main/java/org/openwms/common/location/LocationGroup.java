@@ -545,7 +545,9 @@ public class LocationGroup extends Target implements Serializable {
     }
 
     /**
-     * @return
+     * Whether this LocationGroup has a parent LocationGroup or not.
+     *
+     * @return {@literal true} If it has a parent
      */
     public boolean hasParent() {
         return parent != null;

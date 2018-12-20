@@ -27,9 +27,6 @@ import java.math.BigDecimal;
  */
 public class PieceTest {
 
-    /**
-     * Test method for {@link org.openwms.common.domain.units.Piece#compareTo(org.openwms.common.domain.units.Piece)} .
-     */
     @Test
     public final void testCompareTo() {
         Piece p30 = new Piece(30);
@@ -38,9 +35,6 @@ public class PieceTest {
         Assert.assertEquals(-1, p30.compareTo(p50));
     }
 
-    /**
-     * Test method for {@link org.openwms.common.domain.units.Piece#convertTo(org.openwms.common.domain.units.PieceUnit)} .
-     */
     @Test
     public final void testConvertToPieceUnit() {
         Piece p30 = new Piece(30);

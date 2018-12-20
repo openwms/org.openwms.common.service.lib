@@ -32,6 +32,7 @@ public class LocationGroupEvent extends RootApplicationEvent {
      * Create a new RootApplicationEvent.
      *
      * @param source The event sender
+     * @param type The event type
      */
     @ConstructorProperties({"source", "type"})
     public LocationGroupEvent(Object source, LocationGroupEventType type) {

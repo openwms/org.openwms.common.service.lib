@@ -23,7 +23,6 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
-import org.openwms.core.test.IntegrationTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataAccessException;
@@ -40,7 +39,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(SpringRunner.class)
 @Category(IntegrationTests.class)
-@IntegrationTest
 public class TransportUnitIT {
 
     @org.junit.Rule
