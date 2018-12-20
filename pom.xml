@@ -9,7 +9,7 @@
         <relativePath/>
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0-SNAPSHOT</version>
     <name>OpenWMS.org COMMON: Services</name>
     <url>https://www.interface21.io/docs/common/base/index.html</url>
 
