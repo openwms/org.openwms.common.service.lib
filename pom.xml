@@ -83,21 +83,6 @@
         </notifiers>
     </ciManagement>
 
-    <profiles>
-        <profile>
-            <id>it</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <properties>
         <core.version>1.3.0</core.version>
         <feign-httpclient.version>9.7.0</feign-httpclient.version>
