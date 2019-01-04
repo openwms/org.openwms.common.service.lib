@@ -20,6 +20,7 @@ import org.ameba.mapping.BeanMapper;
 import org.openwms.common.CommonConstants;
 import org.openwms.common.transport.api.TransportUnitTypeVO;
 import org.openwms.core.http.AbstractWebController;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,6 +35,7 @@ import static java.lang.String.format;
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
+@Profile("!INMEM")
 @RestController
 class TransportUnitTypeController extends AbstractWebController {
 

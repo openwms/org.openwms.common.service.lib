@@ -16,6 +16,7 @@
 package org.openwms.common.transport;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
@@ -24,6 +25,7 @@ import java.util.Optional;
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
+@Repository
 interface TransportUnitTypeRepository extends JpaRepository<TransportUnitType, Long> {
 
     /**

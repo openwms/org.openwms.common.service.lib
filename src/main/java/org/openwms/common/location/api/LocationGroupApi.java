@@ -46,9 +46,9 @@ public interface LocationGroupApi {
     Optional<LocationGroupVO> findByName(@RequestParam("name") String name);
 
     /**
-     * Find the {@code LocationGroup}s with the given {@code name}s.
+     * Find all {@code LocationGroup}s with the given {@code name}s.
      *
-     * @param names The name of the LocationGroup
+     * @param names Names of all LocationGroups
      * @return A list of instances or an empty list but never {@literal null}
      */
     @GetMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"names"})
@@ -64,11 +64,10 @@ public interface LocationGroupApi {
     List<LocationGroupVO> findAll();
 
     /**
-     * This method is used to update the state of a {@code LocationGroup} with an
-     * {@code errorCode}.
+     * Update the state of a {@code LocationGroup} with the given {@code errorCode}.
      *
      * @param name The name of the LocationGroup
-     * @param errorCode The error code as String
+     * @param errorCode The error code
      */
     @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"name"})
     void updateState(@RequestParam(name = "name") String name, @RequestBody ErrorCodeVO errorCode);

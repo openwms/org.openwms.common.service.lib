@@ -20,12 +20,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 /**
- * A SecurityConfiguration.
+ * A CommonSecurityConfiguration.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 @Configuration
-class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+class CommonSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     /**
      * {@inheritDoc}

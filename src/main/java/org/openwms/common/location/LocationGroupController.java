@@ -23,6 +23,7 @@ import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.LocationGroupVO;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -46,7 +47,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-@RestController(CommonConstants.API_LOCATION_GROUPS)
+@Profile("!INMEM")
+@RestController
 class LocationGroupController {
 
     private final LocationGroupService locationGroupService;
@@ -85,8 +87,8 @@ class LocationGroupController {
     }
 
     @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"name"})
-    void updateState(@RequestParam(name = "name") String locationGroupName, @RequestBody ErrorCodeVO errorCode) {
-        locationGroupService.changeGroupStates(locationGroupName, groupStateIn.transform(errorCode.getErrorCode()), groupStateOut.transform(errorCode.getErrorCode()));
+    void updateState(@RequestParam(name = "name") String name, @RequestBody ErrorCodeVO errorCode) {
+        locationGroupService.changeGroupStates(name, groupStateIn.transform(errorCode.getErrorCode()), groupStateOut.transform(errorCode.getErrorCode()));
     }
 
     @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS + "/{id}")

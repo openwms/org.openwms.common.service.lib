@@ -36,7 +36,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * A Starter.
+ * A CommonModuleConfiguration.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
@@ -47,7 +47,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableMultiTenancy
 @EnableTransactionManagement
 @EnableDiscoveryClient
-public class ModuleConfiguration {
+public class CommonModuleConfiguration {
 
     public
     @Bean
