@@ -81,4 +81,9 @@ public class LocationVO extends ResourceSupport implements Target, Serializable 
     public void setIncomingActive(boolean incomingActive) {
         this.incomingActive = incomingActive;
     }
+
+    @Override
+    public String toString() {
+        return "LocationVO{" + "locationId='" + locationId + '\'' + ", locationGroupName='" + locationGroupName + '\'' + ", plcCode='" + plcCode + '\'' + ", incomingActive=" + incomingActive + "} " + super.toString();
+    }
 }

@@ -93,7 +93,7 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
         transportUnit.setTransportUnitType(type);
         transportUnit.setActualLocation(location);
         transportUnit = repository.save(transportUnit);
-        ctx.publishEvent(TransportUnitEvent.of(transportUnit, TransportUnitEvent.TransportUnitEventType.CREATED));
+        ctx.publishEvent(TransportUnitEvent.newBuilder().tu(transportUnit).type(TransportUnitEvent.TransportUnitEventType.CREATED).build());
         return transportUnit;
     }
 
@@ -127,7 +127,7 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
         transportUnit.setTransportUnitType(type);
         transportUnit.setActualLocation(location);
         transportUnit = repository.save(transportUnit);
-        ctx.publishEvent(TransportUnitEvent.of(transportUnit, TransportUnitEvent.TransportUnitEventType.CREATED));
+        ctx.publishEvent(TransportUnitEvent.newBuilder().tu(transportUnit).type(TransportUnitEvent.TransportUnitEventType.CREATED).build());
         return transportUnit;
     }
 
@@ -137,7 +137,7 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
     @Override
     public TransportUnit update(Barcode barcode, TransportUnit tu) {
         TransportUnit saved = repository.save(tu);
-        ctx.publishEvent(TransportUnitEvent.of(saved, TransportUnitEvent.TransportUnitEventType.CHANGED));
+        ctx.publishEvent(TransportUnitEvent.newBuilder().tu(saved).type(TransportUnitEvent.TransportUnitEventType.CHANGED).build());
         return saved;
     }
 
@@ -162,7 +162,7 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
             LOGGER.info(format("Moving TransportUnit with barcode [%s] to Location [%s]", barcode, targetLocationPK));
         }
         TransportUnit saved = repository.save(transportUnit);
-        ctx.publishEvent(TransportUnitEvent.of(saved, TransportUnitEvent.TransportUnitEventType.MOVED));
+        ctx.publishEvent(TransportUnitEvent.newBuilder().tu(saved).type(TransportUnitEvent.TransportUnitEventType.MOVED).actualLocation(transportUnit.getActualLocation()).build());
         return saved;
     }
 
@@ -191,7 +191,7 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
             return onRemovalListeners.stream().allMatch(l -> l.preRemove(transportUnit));
         }
         repository.delete(transportUnit);
-        ctx.publishEvent(TransportUnitEvent.of(transportUnit, TransportUnitEvent.TransportUnitEventType.DELETED));
+        ctx.publishEvent(TransportUnitEvent.newBuilder().tu(transportUnit).type(TransportUnitEvent.TransportUnitEventType.DELETED).build());
         return true;
     }
 

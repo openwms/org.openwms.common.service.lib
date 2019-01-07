@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport;
 
+import org.openwms.common.location.Location;
 import org.openwms.core.event.RootApplicationEvent;
 
 /**
@@ -25,6 +26,7 @@ import org.openwms.core.event.RootApplicationEvent;
 public class TransportUnitEvent extends RootApplicationEvent {
 
     private TransportUnitEventType type;
+    private Location actualLocation;
 
     /**
      * Create a new RootApplicationEvent.
@@ -36,8 +38,22 @@ public class TransportUnitEvent extends RootApplicationEvent {
         this.type = type;
     }
 
+    private TransportUnitEvent(Builder builder) {
+        super(builder.source);
+        type = builder.type;
+        actualLocation = builder.actualLocation;
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
     public TransportUnitEventType getType() {
         return type;
+    }
+
+    public Location getActualLocation() {
+        return actualLocation;
     }
 
     public static TransportUnitEvent of(TransportUnit tu, TransportUnitEventType type) {
@@ -46,5 +62,37 @@ public class TransportUnitEvent extends RootApplicationEvent {
 
     public static enum TransportUnitEventType {
         CREATED, CHANGED, DELETED, MOVED;
+    }
+
+
+    public static final class Builder {
+        private Object source;
+        private TransportUnitEventType type;
+        private Location actualLocation;
+
+        private Builder() {
+        }
+
+        public Builder tu(TransportUnit val) {
+            source = val;
+            return this;
+        }
+
+        public Builder type(TransportUnitEventType val) {
+            type = val;
+            return this;
+        }
+
+        public Builder actualLocation(Location val) {
+            actualLocation = val;
+            return this;
+        }
+
+        public TransportUnitEvent build() {
+            if (type == TransportUnitEventType.MOVED && actualLocation == null) {
+                throw new IllegalArgumentException("TU MOVED events must contain the actualLocation");
+            }
+            return new TransportUnitEvent(this);
+        }
     }
 }

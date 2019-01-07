@@ -57,7 +57,7 @@ class TransportUnitEventPropagator {
                 amqpTemplate.convertAndSend(exchangeName, "tu.event.deleted", mapper.map(event.getSource(), TransportUnitMO.class));
                 break;
             case MOVED:
-                amqpTemplate.convertAndSend(exchangeName, "tu.event.moved", mapper.map(event.getSource(), TransportUnitMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "tu.event.moved."+event.getActualLocation().getLocationId(), mapper.map(event.getSource(), TransportUnitMO.class));
                 break;
             default:
                 throw new UnsupportedOperationException(format("Eventtype [%s] currently not supported", event.getType()));
