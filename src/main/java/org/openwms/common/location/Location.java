@@ -65,11 +65,11 @@ public class Location extends ApplicationEntity implements Serializable {
     private LocationPK locationId;
 
     /** PLC code of the Location. */
-    @Column(name = "C_PLC_CODE")
+    @Column(name = "C_PLC_CODE", unique = true)
     private String plcCode;
 
     /** ERP code of the Location. */
-    @Column(name = "C_ERP_CODE")
+    @Column(name = "C_ERP_CODE", unique = true)
     private String erpCode;
 
     /** Description of the Location. */
