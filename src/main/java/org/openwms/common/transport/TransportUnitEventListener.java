@@ -32,7 +32,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 @TxService
 class TransportUnitEventListener {
 
-    private final TransportUnitService service;
+    private final TransportUnitService<TransportUnit> service;
     private final LocationService locationService;
 
     TransportUnitEventListener(TransportUnitService service, LocationService locationService) {
@@ -45,9 +45,8 @@ class TransportUnitEventListener {
     void handle(@Payload TransportUnitMO msg, @Header("amqp_receivedRoutingKey") String routingKey) {
         try {
             if ("tu.event.change.target".equals(routingKey)) {
-                TransportUnitMO tumo = msg;
-                Location location = locationService.findByLocationId(tumo.getTargetLocation());
-                Barcode barcode = Barcode.of(tumo.getBarcode());
+                Location location = locationService.findByLocationId(msg.getTargetLocation());
+                Barcode barcode = Barcode.of(msg.getBarcode());
                 TransportUnit saved = service.findByBarcode(barcode);
                 saved.setTargetLocation(location);
                 service.update(barcode, saved);
