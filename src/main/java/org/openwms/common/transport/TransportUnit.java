@@ -133,7 +133,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @param unitId The unique identifier of the {@code TransportUnit}
      */
     TransportUnit(String unitId) {
-        Assert.hasText(unitId);
+        Assert.hasText(unitId, "Not allowed to create a TransportUnit without an ID");
         this.barcode = new Barcode(unitId);
     }
 
@@ -165,6 +165,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     public void setActualLocation(Location actualLocation) {
         this.actualLocation = actualLocation;
         this.actualLocationDate = new Date();
+        this.actualLocation.setLastMovement(this.actualLocationDate);
     }
 
     /**

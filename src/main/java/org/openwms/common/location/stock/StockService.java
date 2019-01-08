@@ -39,8 +39,7 @@ public interface StockService {
      * @param groupStateOut If {@literal null} this criterion is not applied, otherwise
      * only Locations are considered that match the demanded groupStateOut
      * @param count A number of Locations to return. Useful to limit the result set
-     * @return All Locations
-     * @throws org.ameba.exception.NotFoundException if no Locations exist
+     * @return All Locations, never {@literal null}
      */
     List<Location> findAvailableStockLocations(List<String> stockLocationGroupNames, LocationGroupState groupStateIn, LocationGroupState groupStateOut, int count);
 }

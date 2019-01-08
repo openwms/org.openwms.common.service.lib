@@ -13,3 +13,4 @@ owms:
         exchange-name: common.lg
       tu:
         exchange-name: common.tu
+        change-target: tu.event.change.target

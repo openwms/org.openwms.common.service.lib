@@ -37,6 +37,7 @@ interface StockLocationRepository extends JpaRepository<Location, Long> {
             "and ((l.locationGroup.groupStateIn = :groupStateIn and l.incomingActive = true) or :groupStateIn is null) " +
             "and ((l.locationGroup.groupStateOut = :groupStateOut and l.outgoingActive = true) or :groupStateOut is null) " +
             "and l not in (select distinct t.actualLocation from TransportUnit t) " +
+            "and l not in (select distinct t.targetLocation from TransportUnit t) " +
             "order by l.locationId.area, l.locationId.aisle, l.locationId.x, l.locationId.y, l.locationId.z DESC")
     List<Location> findBy(Pageable pageable, @Param("locationGroupNames") List<String> locationGroupNames,  @Param("groupStateIn") LocationGroupState groupStateIn, @Param("groupStateOut") LocationGroupState groupStateOut);
 }

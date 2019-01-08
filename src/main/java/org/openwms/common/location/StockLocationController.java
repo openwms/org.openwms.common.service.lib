@@ -15,6 +15,7 @@
  */
 package org.openwms.common.location;
 
+import org.ameba.exception.NotFoundException;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.LocationVO;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static java.lang.String.format;
 
 /**
  * A StockLocationController.
@@ -48,6 +51,9 @@ class StockLocationController {
             @RequestParam(value = "groupStateOut", required = false) LocationGroupState groupStateOut,
             @RequestParam("count") int count) {
         List<Location> locations = stockService.findAvailableStockLocations(stockLocationGroupNames, groupStateIn, groupStateOut, count);
+        if (locations.isEmpty() && count != 0) {
+            throw new NotFoundException(format("No locations found in [%s]", stockLocationGroupNames));
+        }
         return mapper.map(locations, LocationVO.class);
     }
 }

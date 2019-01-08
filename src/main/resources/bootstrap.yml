@@ -9,22 +9,13 @@ spring:
         service-id: openwms-config
       retry:
         max-attempts: 120
-#      username: ${owms.config.username:user}
-#      password: ${owms.config.password:sa}
-#  h2:
-#    console:
-#      enabled: true
-#      settings:
-#        web-allow-others: true
   security:
     user:
-      # Override this in cloud environment!
       password: sa
+      name: user
 
 owms:
   eureka:
-    # todo: Do we really need this?
-    # Override this in cloud environment!
     url: http://user:sa@localhost:8761
 
 server:

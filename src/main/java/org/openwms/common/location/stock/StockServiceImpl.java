@@ -17,22 +17,25 @@ package org.openwms.common.location.stock;
 
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
-import org.ameba.exception.NotFoundException;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.api.LocationGroupState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 /**
- * A StockServiceImpl.
+ * A StockServiceImpl is a Spring managed transactional Service.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @see org.openwms.common.location.stock.StockService
  */
 @TxService
 class StockServiceImpl implements StockService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(StockServiceImpl.class);
     private final StockLocationRepository stockLocationRepository;
 
     StockServiceImpl(StockLocationRepository stockLocationRepository) {
@@ -50,8 +53,8 @@ class StockServiceImpl implements StockService {
                 stockLocationGroupNames,
                 groupStateIn,
                 groupStateOut);
-        if (locations.isEmpty()) {
-            throw new NotFoundException("No locations found");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Found [{}] locations in [{}]", locations.size(), stockLocationGroupNames);
         }
         return locations;
     }
