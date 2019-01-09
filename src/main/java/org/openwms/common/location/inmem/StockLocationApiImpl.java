@@ -13,49 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location;
+package org.openwms.common.location.inmem;
 
-import org.ameba.exception.NotFoundException;
+import org.ameba.annotation.TxService;
 import org.ameba.mapping.BeanMapper;
+import org.openwms.common.location.Location;
 import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.LocationVO;
+import org.openwms.common.location.api.StockLocationApi;
 import org.openwms.common.location.stock.StockService;
 import org.springframework.context.annotation.Profile;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static java.lang.String.format;
-
 /**
- * A StockLocationController.
+ * A StockLocationApiImpl is a Spring managed transactional Service that is activated in
+ * case of non-microservice deployments when the Spring Profile INMEM is activated.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-@Profile("!INMEM")
-@RestController
-class StockLocationController {
+@Profile("INMEM")
+@TxService
+class StockLocationApiImpl implements StockLocationApi {
 
     private final StockService stockService;
     private final BeanMapper mapper;
 
-    StockLocationController(StockService stockService, BeanMapper mapper) {
+    StockLocationApiImpl(StockService stockService, BeanMapper mapper) {
         this.stockService = stockService;
         this.mapper = mapper;
     }
 
-    @GetMapping(value = "/stock", params = {"stockLocationGroupNames", "count"})
-    List<LocationVO> findAvailableStockLocations(
-            @RequestParam("stockLocationGroupNames") List<String> stockLocationGroupNames,
-            @RequestParam(value = "groupStateIn", required = false) LocationGroupState groupStateIn,
-            @RequestParam(value = "groupStateOut", required = false) LocationGroupState groupStateOut,
-            @RequestParam("count") int count) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<LocationVO> findAvailableStockLocations(List<String> stockLocationGroupNames, LocationGroupState groupStateIn, LocationGroupState groupStateOut, int count) {
         List<Location> locations = stockService.findAvailableStockLocations(stockLocationGroupNames, groupStateIn, groupStateOut, count);
-        if (locations.isEmpty() && count != 0) {
-            throw new NotFoundException(format("No locations found in [%s]", stockLocationGroupNames));
-        }
         return mapper.map(locations, LocationVO.class);
     }
 }

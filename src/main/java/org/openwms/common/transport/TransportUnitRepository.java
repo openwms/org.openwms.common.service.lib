@@ -18,6 +18,7 @@ package org.openwms.common.transport;
 import org.openwms.common.location.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,7 @@ import java.util.Optional;
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
+@Repository
 interface TransportUnitRepository extends JpaRepository<TransportUnit, Long> {
 
     @Query("select tu from TransportUnit tu where tu.pKey = ?1")

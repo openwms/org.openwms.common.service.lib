@@ -34,8 +34,9 @@ public interface LocationApi {
     /**
      * Find and return a {@code Location} representation by the given {@code locationPK}.
      *
-     * @param locationPK The persistent key of the Location; not the technical primary key
+     * @param locationPK The business key of the Location
      * @return Never {@literal null}
+     * @throws IllegalArgumentException in case the given locationPK is not valid
      */
     @GetMapping(value = "/v1/locations", params = {"locationPK"})
     @Cacheable("locations")
@@ -52,8 +53,8 @@ public interface LocationApi {
     Optional<LocationVO> findLocationByPlcCode(@RequestParam("plcCode") String plcCode);
 
     /**
-     * Find and return all {@link LocationVO}s that belong to one or more of the given
-     * {@link LocationGroupVO}s.
+     * Find and return all {@link LocationVO}s that belong to one or more
+     * {@code LocationGroupVO}s identified by their {@code locationGroupNames}.
      *
      * @param locationGroupNames A list of LocationGroup names.
      * @return All Location instances or an empty list

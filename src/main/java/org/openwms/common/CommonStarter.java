@@ -20,7 +20,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * A Starter.
+ * A CommonStarter.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */

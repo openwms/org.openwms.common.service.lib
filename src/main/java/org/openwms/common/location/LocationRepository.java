@@ -18,6 +18,7 @@ package org.openwms.common.location;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,8 @@ import java.util.Optional;
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-interface LocationRepository extends JpaRepository<Location, Long> {
+@Repository
+public interface LocationRepository extends JpaRepository<Location, Long> {
 
     Optional<Location> findByLocationId(LocationPK locationId);
 

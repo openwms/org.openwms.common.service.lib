@@ -30,13 +30,13 @@ import org.springframework.util.Assert;
 @Component
 class DefaultGroupStateInTransformer implements ErrorCodeTransformers.GroupStateIn {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public LocationGroupState transform(String errorCode) {
         Assert.hasText(errorCode, "ErrorCode must be applied");
         // A Zero in the errorCode means no errors
-        if (errorCode.charAt(errorCode.length()-1) == 48) {
-            return LocationGroupState.AVAILABLE;
-        };
-        return LocationGroupState.NOT_AVAILABLE;
+        return errorCode.charAt(errorCode.length()-1) == 48 ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;
     }
 }
