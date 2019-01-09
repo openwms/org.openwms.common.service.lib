@@ -25,7 +25,6 @@ import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.ameba.mapping.DozerMapperImpl;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,16 +40,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 @Configuration
-@EnableAspects
+@EnableAspects(propagateRootCause = true)
 @EnableSpringConfigured
 @EnableJpaAuditing
 @EnableMultiTenancy
 @EnableTransactionManagement
-@EnableDiscoveryClient
 public class CommonModuleConfiguration {
 
-    public
-    @Bean
+    public @Bean
     Translator translator() {
         return new AbstractTranslator() {
             @Override
@@ -60,29 +57,25 @@ public class CommonModuleConfiguration {
         };
     }
 
-    public
-    @Bean
+    public @Bean
     MessageSource messageSource() {
         ResourceBundleMessageSource nrrbm = new ResourceBundleMessageSource();
         nrrbm.setBasename("i18n");
         return nrrbm;
     }
 
-    public
-    @Bean
+    public @Bean
     BeanMapper beanMapper() {
         return new DozerMapperImpl("classpath:/META-INF/dozer/common-bean-mappings.xml");
     }
 
     /*~ ------------- Request ID handling ----------- */
-    public
-    @Bean
+    public @Bean
     IDGenerator<String> uuidGenerator() {
         return new JdkIDGenerator();
     }
 
-    public
-    @Bean
+    public @Bean
     FilterRegistrationBean requestIDFilter(IDGenerator<String> uuidGenerator) {
         FilterRegistrationBean frb = new FilterRegistrationBean(new RequestIDFilter(uuidGenerator));
         frb.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
