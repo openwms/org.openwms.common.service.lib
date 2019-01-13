@@ -28,7 +28,7 @@ import java.util.List;
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-public enum WeightUnit implements BaseUnit<WeightUnit> {
+public enum WeightUnit implements BaseUnit<WeightUnit>, BaseUnitVO<WeightUnit> {
 
     /**
      * Milligram.

@@ -26,7 +26,7 @@ import java.util.List;
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-public enum PieceUnit implements BaseUnit<PieceUnit> {
+public enum PieceUnit implements BaseUnit<PieceUnit>, BaseUnitVO<PieceUnit> {
 
     /** A Piece. */
     PC(new BigDecimal(1)),

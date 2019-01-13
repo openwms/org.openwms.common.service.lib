@@ -27,7 +27,7 @@ import java.math.RoundingMode;
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-public class Piece implements Measurable<BigDecimal, Piece, PieceUnit>, UnitType, Serializable {
+public class Piece implements Measurable<BigDecimal, Piece, PieceUnit>, MeasurableVO, UnitType, Serializable {
 
     private static final long serialVersionUID = 5268725227649308401L;
     private static final BigDecimal SHIFTER = new BigDecimal(12);

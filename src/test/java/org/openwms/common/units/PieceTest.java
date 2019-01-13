@@ -15,6 +15,7 @@
  */
 package org.openwms.common.units;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -36,9 +37,11 @@ public class PieceTest {
     }
 
     @Test
-    public final void testConvertToPieceUnit() {
+    public final void testConvertToPieceUnit() throws Exception {
         Piece p30 = new Piece(30);
         Piece p50 = new Piece(50, PieceUnit.PC);
+        ObjectMapper om = new ObjectMapper();
+        System.out.println(om.writeValueAsString(p50));
 
         Piece p502 = p50.convertTo(PieceUnit.DOZ);
         Assert.assertFalse(p502.equals(p50));
