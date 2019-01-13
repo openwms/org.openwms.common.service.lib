@@ -32,7 +32,7 @@ eureka:
       defaultZone: ${owms.eureka.zone}  # Must be camelCase
   instance:
     metadata-map:
-      username: ${spring.security.user.name:user}
+      username: ${spring.security.user.name}
       password: ${spring.security.user.password}
       protocol: ${owms.srv.protocol}
       zone: ${owms.eureka.zone}
