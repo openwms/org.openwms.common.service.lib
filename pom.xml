@@ -269,6 +269,11 @@
                     <groupId>org.hdrhistogram</groupId>
                     <artifactId>HdrHistogram</artifactId>
                 </exclusion>
+                <exclusion>
+                    <!-- Several versions of Guava used internally, exclude all -->
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
