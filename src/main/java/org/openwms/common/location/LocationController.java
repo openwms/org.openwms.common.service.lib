@@ -52,7 +52,7 @@ class LocationController {
     @GetMapping(value = CommonConstants.API_LOCATIONS, params = {"locationPK"})
     Optional<LocationVO> findLocationByCoordinate(@RequestParam("locationPK") String locationPK) {
         if (!LocationPK.isValid(locationPK)) {
-            throw new IllegalArgumentException(format("Invalid location [%s]", locationPK));
+            throw new NotFoundException(format("Invalid location [%s]", locationPK));
         }
         Location location = locationService.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", locationPK)));
         return Optional.ofNullable(mapper.map(location, LocationVO.class));
