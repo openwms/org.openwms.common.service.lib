@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * A TransportUnitMO is a Message Object representing a TransportUnit.
+ * A TransportUnitMO is a Message Object representing a {@code TransportUnit}.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
@@ -31,7 +31,7 @@ class TransportUnitMO implements Serializable {
     private String actualLocation;
     private String plcCode;
     private String targetLocation;
-    private String transportUnitType;
+    private TransportUnitTypeMO transportUnitType;
     private String parent;
 
     public String getBarcode() {
@@ -82,11 +82,11 @@ class TransportUnitMO implements Serializable {
         this.targetLocation = targetLocation;
     }
 
-    public String getTransportUnitType() {
+    public TransportUnitTypeMO getTransportUnitType() {
         return transportUnitType;
     }
 
-    public void setTransportUnitType(String transportUnitType) {
+    public void setTransportUnitType(TransportUnitTypeMO transportUnitType) {
         this.transportUnitType = transportUnitType;
     }
 
