@@ -64,7 +64,7 @@ class LocationGroupEventPropagator {
                 amqpTemplate.convertAndSend(exchangeName, "lg.event.deleted", mapper.map(event.getSource(), LocationGroupMO.class));
                 break;
             case STATE_CHANGE:
-                amqpTemplate.convertAndSend(exchangeName, "lg.event.state-change", mapper.map(event.getSource(), LocationGroupMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "lg.event.state-changed", mapper.map(event.getSource(), LocationGroupMO.class));
                 break;
             default:
                 throw new UnsupportedOperationException(format("Eventtype [%s] currently not supported", event.getType()));
