@@ -15,72 +15,24 @@
  */
 package org.openwms.common;
 
-import org.openwms.core.SpringProfiles;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.retry.backoff.ExponentialBackOffPolicy;
-import org.springframework.retry.support.RetryTemplate;
 
 /**
- * A CommonAsyncConfiguration.
+ * A CommonAsyncConfiguration contains the modules asynchronous configuration that is
+ * always active.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Configuration
 @EnableRabbit
 class CommonAsyncConfiguration {
 
     @Bean
-    TopicExchange commonTuExchange(@Value("${owms.events.common.tu.exchange-name}") String exchangeName) {
-        return new TopicExchange(exchangeName, true, false);
-    }
-
-    @Bean
-    MessageConverter jsonConverter() {
-        return new Jackson2JsonMessageConverter();
-    }
-
-    @Bean
-    RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        ExponentialBackOffPolicy backOffPolicy = new ExponentialBackOffPolicy();
-        backOffPolicy.setMultiplier(2);
-        backOffPolicy.setMaxInterval(15000);
-        backOffPolicy.setInitialInterval(500);
-        RetryTemplate retryTemplate = new RetryTemplate();
-        retryTemplate.setBackOffPolicy(backOffPolicy);
-        rabbitTemplate.setRetryTemplate(retryTemplate);
-        rabbitTemplate.setMessageConverter(jsonConverter());
-        return rabbitTemplate;
-    }
-
-    @Bean
-    Queue queue(@Value("common.service") String queueName) {
+    Queue commandsQueue(@Value("common.commands") String queueName) {
         return new Queue(queueName);
     }
-
-    @Bean
-    Binding binding(
-            @Value("${owms.events.common.tu.exchange-name}") String exchangeName,
-            @Value("common.service") String queueName,
-            @Value("${owms.events.common.tu.change-target}") String routingKey
-    ) {
-        return BindingBuilder
-                .bind(queue(queueName))
-                .to(commonTuExchange(exchangeName))
-                .with(routingKey);
-    }
-
 }

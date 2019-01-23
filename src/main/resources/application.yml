@@ -7,10 +7,16 @@ eureka:
 spring:
   profiles: ASYNCHRONOUS
 owms:
+  commands:
+    common:
+      tu:
+        exchange-name: common.tu.commands
+        routing-key: tu.*
   events:
     common:
       lg:
         exchange-name: common.lg
+        routing-key: "lg.event.*"
       tu:
         exchange-name: common.tu
         change-target: tu.event.change.target
