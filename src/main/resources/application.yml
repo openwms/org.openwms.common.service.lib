@@ -16,7 +16,7 @@ owms:
     common:
       lg:
         exchange-name: common.lg
-        routing-key: "lg.event.*"
+        routing-key: lg.event.*
       tu:
         exchange-name: common.tu
-        change-target: tu.event.change.target
+        routing-key: tu.event.change.target
