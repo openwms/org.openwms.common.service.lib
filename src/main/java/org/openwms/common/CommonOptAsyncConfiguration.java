@@ -80,8 +80,8 @@ class CommonOptAsyncConfiguration {
     @Bean
     Binding binding(
             @Value("${owms.events.common.tu.exchange-name}") String exchangeName,
-            @Value("${owms.events.common.tu.routing-key}") String queueName,
-            @Value("${owms.events.common.tu.change-target}") String routingKey
+            @Value("common.service") String queueName,
+            @Value("${owms.events.common.tu.routing-key}") String routingKey
     ) {
         return BindingBuilder
                 .bind(eventsQueue(queueName))

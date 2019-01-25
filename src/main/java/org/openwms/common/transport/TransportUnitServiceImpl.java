@@ -156,10 +156,10 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
     @Measured
     @Override
     public TransportUnit moveTransportUnit(Barcode barcode, LocationPK targetLocationPK) {
-        TransportUnit transportUnit = repository.findByBarcode(barcode).orElseThrow(() -> new ServiceLayerException("TransportUnit with id " + barcode + " not found"));
+        TransportUnit transportUnit = repository.findByBarcode(barcode).orElseThrow(() -> new NotFoundException(format("TransportUnit with barcode [%s] not found", barcode)));
         transportUnit.setActualLocation(locationService.findByLocationId(targetLocationPK).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", targetLocationPK))));
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info(format("Moving TransportUnit with barcode [%s] to Location [%s]", barcode, targetLocationPK));
+            LOGGER.info("Moving TransportUnit with barcode [{}] to Location [{}]", barcode, targetLocationPK);
         }
         TransportUnit saved = repository.save(transportUnit);
         ctx.publishEvent(TransportUnitEvent.newBuilder().tu(saved).type(TransportUnitEvent.TransportUnitEventType.MOVED).actualLocation(transportUnit.getActualLocation()).build());
@@ -195,7 +195,6 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
         return true;
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -205,10 +204,21 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
         return repository.findByBarcode(barcode).orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.BARCODE_NOT_FOUND, new Serializable[]{barcode}, barcode));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public List<TransportUnit> findOnLocation(String actualLocation) {
         List<TransportUnit> tus = repository.findByActualLocationOrderByActualLocationDate(locationService.findByLocationId(actualLocation));
         return tus;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public TransportUnit findByPKey(String pKey) {
+        return repository.findByPKey(pKey).orElseThrow(() -> new NotFoundException(format("No TransportUnit with pKey [%s] found", pKey)));
     }
 }

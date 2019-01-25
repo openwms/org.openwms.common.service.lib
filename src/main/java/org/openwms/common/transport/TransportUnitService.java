@@ -92,5 +92,20 @@ public interface TransportUnitService<T extends TransportUnit> {
      */
     T findByBarcode(Barcode barcode);
 
+    /**
+     * Find and return all {@link TransportUnit}s that are located on the {@code Location}
+     * identified by the {@code actualLocation}.
+     *
+     * @param actualLocation The actualLocation field of the TransportUnit
+     * @return All TransportUnits or an empty List, never {@literal null}
+     */
     List<T> findOnLocation(String actualLocation);
+
+    /**
+     * Find and return a TransportUnit identified by the given {@code pKey}.
+     *
+     * @param pKey The persistent key
+     * @return The instance, never {@literal null}
+     */
+    TransportUnit findByPKey(String pKey);
 }
