@@ -29,6 +29,17 @@ public class TUCommand implements Serializable {
     private String actualLocation;
     private String target;
 
+    private TUCommand(Builder builder) {
+        setType(builder.type);
+        setId(builder.id);
+        setActualLocation(builder.actualLocation);
+        setTarget(builder.target);
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
     public enum Type {
         CREATE,
         CHANGE_TARGET,
@@ -67,8 +78,44 @@ public class TUCommand implements Serializable {
         this.target = target;
     }
 
+    
+
     @Override
     public String toString() {
         return "TUCommand{" + "type=" + type + ", id='" + id + '\'' + ", actualLocation='" + actualLocation + '\'' + ", target='" + target + '\'' + '}';
+    }
+
+    public static final class Builder {
+        private Type type;
+        private String id;
+        private String actualLocation;
+        private String target;
+
+        private Builder() {
+        }
+
+        public Builder withType(Type val) {
+            type = val;
+            return this;
+        }
+
+        public Builder withId(String val) {
+            id = val;
+            return this;
+        }
+
+        public Builder withActualLocation(String val) {
+            actualLocation = val;
+            return this;
+        }
+
+        public Builder withTarget(String val) {
+            target = val;
+            return this;
+        }
+
+        public TUCommand build() {
+            return new TUCommand(this);
+        }
     }
 }
