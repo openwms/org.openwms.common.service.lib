@@ -16,6 +16,7 @@
 package org.openwms.common;
 
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +33,12 @@ import org.springframework.context.annotation.Configuration;
 class CommonAsyncConfiguration {
 
     @Bean
-    Queue commandsQueue(@Value("common.commands") String queueName) {
+    Queue commandsQueue(@Value("${owms.commands.common.tu.queue-name}") String queueName) {
         return new Queue(queueName);
+    }
+
+    @Bean
+    TopicExchange lgExchange(@Value("${owms.events.common.lg.exchange-name}") String exchangeName) {
+        return new TopicExchange(exchangeName, true, false);
     }
 }

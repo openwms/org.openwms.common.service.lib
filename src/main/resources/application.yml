@@ -12,11 +12,11 @@ owms:
       tu:
         exchange-name: common.tu.commands
         routing-key: tu.*
+        queue-name: common-tu-commands-queue
   events:
     common:
       lg:
         exchange-name: common.lg
-        routing-key: lg.event.*
       tu:
         exchange-name: common.tu
         routing-key: tu.event.change.target

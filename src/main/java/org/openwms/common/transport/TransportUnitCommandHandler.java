@@ -41,7 +41,7 @@ class TransportUnitCommandHandler {
     }
 
     @Measured
-    @RabbitListener(queues = "common.commands")
+    @RabbitListener(queues = "${owms.commands.common.tu.queue-name}")
     void handle(@Payload TUCommand command) {
         try {
             switch(command.getType()) {
