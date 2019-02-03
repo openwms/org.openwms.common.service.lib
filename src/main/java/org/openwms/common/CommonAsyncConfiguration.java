@@ -15,12 +15,14 @@
  */
 package org.openwms.common;
 
+import org.openwms.core.SpringProfiles;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 /**
  * A CommonAsyncConfiguration contains the modules asynchronous configuration that is
@@ -28,6 +30,7 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
+@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Configuration
 @EnableRabbit
 class CommonAsyncConfiguration {

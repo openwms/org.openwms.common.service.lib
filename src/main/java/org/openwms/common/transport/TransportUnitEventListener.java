@@ -19,8 +19,10 @@ import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationService;
+import org.openwms.core.SpringProfiles;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 
@@ -29,6 +31,7 @@ import org.springframework.messaging.handler.annotation.Payload;
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
+@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @TxService
 class TransportUnitEventListener {
 
