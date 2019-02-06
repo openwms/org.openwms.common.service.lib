@@ -26,7 +26,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 import static java.lang.String.format;
 
 /**
- * A AmqpEventPropagator.
+ * A TransportUnitEventPropagator.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
