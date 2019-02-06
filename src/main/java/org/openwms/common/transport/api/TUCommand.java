@@ -15,6 +15,10 @@
  */
 package org.openwms.common.transport.api;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -24,13 +28,22 @@ import java.io.Serializable;
  */
 public class TUCommand implements Serializable {
 
+    @NotNull
     private Type type;
+    @NotEmpty
+    private String pKey;
+    @NotEmpty
     private String id;
     private String actualLocation;
     private String target;
 
+    @JsonCreator
+    protected TUCommand() {
+    }
+
     private TUCommand(Builder builder) {
         setType(builder.type);
+        setpKey(builder.pKey);
         setId(builder.id);
         setActualLocation(builder.actualLocation);
         setTarget(builder.target);
@@ -42,6 +55,8 @@ public class TUCommand implements Serializable {
 
     public enum Type {
         CREATE,
+        REMOVING,
+        REMOVE,
         CHANGE_TARGET,
         CHANGE_ACTUAL_LOCATION
     }
@@ -52,6 +67,14 @@ public class TUCommand implements Serializable {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public String getpKey() {
+        return pKey;
+    }
+
+    public void setpKey(String pKey) {
+        this.pKey = pKey;
     }
 
     public String getId() {
@@ -78,15 +101,14 @@ public class TUCommand implements Serializable {
         this.target = target;
     }
 
-    
-
     @Override
     public String toString() {
-        return "TUCommand{" + "type=" + type + ", id='" + id + '\'' + ", actualLocation='" + actualLocation + '\'' + ", target='" + target + '\'' + '}';
+        return "TUCommand{" + "type=" + type + ", pKey='" + pKey + '\'' + ", id='" + id + '\'' + ", actualLocation='" + actualLocation + '\'' + ", target='" + target + '\'' + '}';
     }
 
     public static final class Builder {
         private Type type;
+        private String pKey;
         private String id;
         private String actualLocation;
         private String target;
@@ -96,6 +118,11 @@ public class TUCommand implements Serializable {
 
         public Builder withType(Type val) {
             type = val;
+            return this;
+        }
+
+        public Builder withPKey(String val) {
+            pKey = val;
             return this;
         }
 
