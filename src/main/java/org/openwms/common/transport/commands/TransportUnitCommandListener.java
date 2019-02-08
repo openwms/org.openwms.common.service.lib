@@ -18,8 +18,10 @@ package org.openwms.common.transport.commands;
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.openwms.common.transport.api.commands.TUCommand;
+import org.openwms.core.SpringProfiles;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.handler.annotation.Payload;
 
 /**
@@ -28,6 +30,7 @@ import org.springframework.messaging.handler.annotation.Payload;
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @see TUCommand
  */
+@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @TxService
 class TransportUnitCommandListener {
 

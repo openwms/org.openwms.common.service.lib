@@ -52,6 +52,9 @@ class TransportUnitCommandHandler {
                 service.moveTransportUnit(Barcode.of(command.getId()), LocationPK.fromString(command.getActualLocation()));
                 break;
             case REMOVE:
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Got command to REMOVE TransportUnit with id [{}]", command.getId());
+                }
                 ctx.publishEvent(command);
                 break;
             default:

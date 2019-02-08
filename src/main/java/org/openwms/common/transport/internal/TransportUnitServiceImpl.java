@@ -226,10 +226,4 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
     public TransportUnit findByPKey(String pKey) {
         return repository.findByPKey(pKey).orElseThrow(() -> new NotFoundException(format("No TransportUnit with pKey [%s] found", pKey)));
     }
-
-    @Override
-    public void deleteTUByBarcode(String bk) {
-        TransportUnit transportUnit = findByBarcode(Barcode.of(bk));
-        delete(transportUnit);
-    }
 }
