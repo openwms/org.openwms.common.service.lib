@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.transport;
+package org.openwms.common.transport.internal;
 
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
@@ -24,8 +24,12 @@ import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
-import org.openwms.common.transport.api.TUCommand;
-import org.openwms.core.listener.OnRemovalListener;
+import org.openwms.common.transport.Barcode;
+import org.openwms.common.transport.TransportUnit;
+import org.openwms.common.transport.TransportUnitService;
+import org.openwms.common.transport.TransportUnitType;
+import org.openwms.common.transport.api.commands.TUCommand;
+import org.openwms.common.transport.events.TransportUnitEvent;
 import org.openwms.core.listener.RemovalNotAllowedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +38,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.util.Assert;
-import org.springframework.web.servlet.LocaleResolver;
 
 import java.io.Serializable;
 import java.util.List;
@@ -55,19 +58,15 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
     private final TransportUnitRepository repository;
     private final LocationService locationService;
     private final TransportUnitTypeRepository transportUnitTypeRepository;
-    private List<OnRemovalListener<TransportUnit>> onRemovalListeners;
-    //@Autowired
-    private LocaleResolver localeResolver;
     private final Translator translator;
     private final ApplicationContext ctx;
 
     @Autowired
-    TransportUnitServiceImpl(Translator translator, TransportUnitTypeRepository transportUnitTypeRepository, LocationService locationService, TransportUnitRepository repository, @Autowired(required = false) List<OnRemovalListener<TransportUnit>> onRemovalListeners, ApplicationContext ctx) {
+    TransportUnitServiceImpl(Translator translator, TransportUnitTypeRepository transportUnitTypeRepository, LocationService locationService, TransportUnitRepository repository, ApplicationContext ctx) {
         this.translator = translator;
         this.transportUnitTypeRepository = transportUnitTypeRepository;
         this.locationService = locationService;
         this.repository = repository;
-        this.onRemovalListeners = onRemovalListeners;
         this.ctx = ctx;
     }
 
@@ -182,11 +181,11 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
     }
 
     @TransactionalEventListener(fallbackExecution = true)
-    protected void onEvent(TUCommand command) {
+    public void onEvent(TUCommand command) {
         switch (command.getType()) {
             case REMOVE:
                 if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Command REMOVE");
+                    LOGGER.debug("Got command to REMOVE TransportUnit with id [{}]", command.getId());
                 }
                 repository.findByPKey(command.getpKey()).ifPresent(tu -> {
                     repository.delete(tu);
@@ -226,5 +225,11 @@ class TransportUnitServiceImpl implements TransportUnitService<TransportUnit> {
     @Override
     public TransportUnit findByPKey(String pKey) {
         return repository.findByPKey(pKey).orElseThrow(() -> new NotFoundException(format("No TransportUnit with pKey [%s] found", pKey)));
+    }
+
+    @Override
+    public void deleteTUByBarcode(String bk) {
+        TransportUnit transportUnit = findByBarcode(Barcode.of(bk));
+        delete(transportUnit);
     }
 }

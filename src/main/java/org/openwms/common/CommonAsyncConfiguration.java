@@ -15,12 +15,16 @@
  */
 package org.openwms.common;
 
+import org.openwms.core.SpringProfiles;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 /**
  * A CommonAsyncConfiguration contains the modules asynchronous configuration that is
@@ -28,17 +32,26 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
+@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Configuration
 @EnableRabbit
 class CommonAsyncConfiguration {
 
     @Bean
-    Queue commandsQueue(@Value("${owms.commands.common.tu.queue-name}") String queueName) {
+    TopicExchange lgExchange(@Value("${owms.events.common.lg.exchange-name}") String exchangeName) {
+        return new TopicExchange(exchangeName, true, false);
+    }
+
+    @Bean
+    Queue lgQueue(@Value("${owms.events.common.lg.queue-name}") String queueName) {
         return new Queue(queueName, true);
     }
 
     @Bean
-    TopicExchange lgExchange(@Value("${owms.events.common.lg.exchange-name}") String exchangeName) {
-        return new TopicExchange(exchangeName, true, false);
+    Binding lgBinding(TopicExchange lgExchange, Queue lgQueue, @Value("${owms.events.common.lg.routing-key}") String routingKey) {
+        return BindingBuilder
+                .bind(lgQueue)
+                .to(lgExchange)
+                .with(routingKey);
     }
 }

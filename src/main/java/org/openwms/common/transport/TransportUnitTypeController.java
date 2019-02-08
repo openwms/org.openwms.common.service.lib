@@ -60,5 +60,4 @@ class TransportUnitTypeController extends AbstractWebController {
         List<TransportUnitType> all = service.findAll();
         return mapper.map(all, TransportUnitTypeVO.class);
     }
-
 }

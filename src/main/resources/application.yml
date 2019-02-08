@@ -11,12 +11,15 @@ owms:
     common:
       tu:
         exchange-name: common.tu.commands
-        routing-key: tu.*
+        routing-key: common.tu.command.remove
         queue-name: common-tu-commands-queue
   events:
     common:
       lg:
         exchange-name: common.lg
+        routing-key: lg.event.*
+        queue-name: common-lg-queue
       tu:
         exchange-name: common.tu
         routing-key: tu.event.change.target
+        queue-name: common-service

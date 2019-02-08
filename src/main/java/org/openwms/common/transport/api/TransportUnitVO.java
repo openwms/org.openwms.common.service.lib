@@ -69,6 +69,4 @@ public class TransportUnitVO implements Serializable {
     public void setActualPlcCode(String actualPlcCode) {
         this.actualPlcCode = actualPlcCode;
     }
-
-
 }

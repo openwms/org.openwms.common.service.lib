@@ -30,7 +30,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "COM_UNIT_ERROR")
-class UnitError extends BaseEntity implements Serializable {
+public class UnitError extends BaseEntity implements Serializable {
 
     /** Separator to use in toString method. */
     static final String SEPARATOR = "::";

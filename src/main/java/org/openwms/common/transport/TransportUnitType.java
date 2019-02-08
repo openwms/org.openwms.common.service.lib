@@ -41,7 +41,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "COM_TRANSPORT_UNIT_TYPE")
-class TransportUnitType extends BaseEntity implements Serializable {
+public class TransportUnitType extends BaseEntity implements Serializable {
 
     /** Unique natural key. */
     @Column(name = "C_TYPE", unique = true, nullable = false)
@@ -117,8 +117,8 @@ class TransportUnitType extends BaseEntity implements Serializable {
      *
      * @param type Unique name
      */
-    TransportUnitType(String type) {
-        Assert.hasText(type);
+    public TransportUnitType(String type) {
+        Assert.hasText(type, "Type must not be null when creating a TransportUnitType");
         this.type = type;
     }
 

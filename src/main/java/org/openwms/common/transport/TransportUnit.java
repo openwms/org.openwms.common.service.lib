@@ -118,7 +118,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     /** A Map of errors occurred on the {@code TransportUnit}. */
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "COM_TRANSPORT_UNIT_ERROR", joinColumns = @JoinColumn(name = "C_TRANSPORT_UNIT_ID"), inverseJoinColumns = @JoinColumn(name = "C_ERROR_ID"))
-    // TODO [openwms]: 12/07/16 refactor into a JPA2 map withou using Date as key!
+    // TODO [openwms]: 12/07/16 refactor into a JPA2 map without using Date as key!
     private Map<Date, UnitError> errors = new HashMap<>();
 
     /*~ ----------------------------- constructors ------------------- */
@@ -132,9 +132,9 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      *
      * @param unitId The unique identifier of the {@code TransportUnit}
      */
-    TransportUnit(String unitId) {
+    public TransportUnit(String unitId) {
         Assert.hasText(unitId, "Not allowed to create a TransportUnit without an ID");
-        this.barcode = new Barcode(unitId);
+        this.barcode = Barcode.of(unitId);
     }
 
     /**
@@ -142,8 +142,8 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      *
      * @param barcode The unique identifier of this {@code TransportUnit} is the {@link Barcode}
      */
-    TransportUnit(Barcode barcode) {
-        this.barcode = new Barcode(barcode.adjustBarcode(barcode.getValue()));
+    public TransportUnit(Barcode barcode) {
+        this.barcode = Barcode.of(barcode.adjustBarcode(barcode.getValue()));
     }
 
     /*~ ----------------------------- methods ------------------- */

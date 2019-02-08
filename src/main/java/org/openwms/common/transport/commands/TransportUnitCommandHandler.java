@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.transport;
+package org.openwms.common.transport.commands;
 
 import org.ameba.annotation.TxService;
 import org.openwms.common.location.LocationPK;
-import org.openwms.common.transport.api.TUCommand;
+import org.openwms.common.transport.Barcode;
+import org.openwms.common.transport.TransportUnitService;
+import org.openwms.common.transport.api.commands.TUCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -50,9 +52,6 @@ class TransportUnitCommandHandler {
                 service.moveTransportUnit(Barcode.of(command.getId()), LocationPK.fromString(command.getActualLocation()));
                 break;
             case REMOVE:
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Got command to REMOVE TransportUnit with id [{}]", command.getId());
-                }
                 ctx.publishEvent(command);
                 break;
             default:

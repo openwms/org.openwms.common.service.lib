@@ -20,7 +20,7 @@
 				<class-a>java.lang.String</class-a>
 				<class-b>org.openwms.common.location.LocationPK</class-b>
 			</converter>
-			<converter type="org.openwms.common.transport.TransportUnitTypeConverter">
+			<converter type="org.openwms.common.transport.internal.TransportUnitTypeConverter">
 				<class-a>java.lang.String</class-a>
 				<class-b>org.openwms.common.transport.TransportUnitType</class-b>
 			</converter>
@@ -75,7 +75,7 @@
 
 	<mapping>
 		<class-a>org.openwms.common.transport.TransportUnit</class-a>
-		<class-b>org.openwms.common.transport.TransportUnitMO</class-b>
+		<class-b>org.openwms.common.transport.api.messages.TransportUnitMO</class-b>
 		<field>
 			<a is-accessible="true">barcode.value</a>
 			<b is-accessible="true">barcode</b>

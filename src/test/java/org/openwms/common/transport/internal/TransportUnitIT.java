@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.transport;
+package org.openwms.common.transport.internal;
 
 import org.ameba.test.categories.IntegrationTests;
 import org.junit.Before;
@@ -23,6 +23,11 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
+import org.openwms.common.transport.Barcode;
+import org.openwms.common.transport.ObjectFactory;
+import org.openwms.common.transport.TransportUnit;
+import org.openwms.common.transport.TransportUnitType;
+import org.openwms.common.transport.UnitError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataAccessException;
@@ -144,9 +149,9 @@ public class TransportUnitIT {
         transportUnit.setActualLocation(knownLocation1);
         transportUnit.setTargetLocation(knownLocation1);
 
-        transportUnit.addError(new UnitError());
+        transportUnit.addError(UnitError.newBuilder().build());
         Thread.sleep(100);
-        transportUnit.addError(new UnitError());
+        transportUnit.addError(UnitError.newBuilder().build());
         entityManager.persist(transportUnit);
 
         Query query = entityManager.getEntityManager().createQuery("select count(ue) from UnitError ue", Long.class);

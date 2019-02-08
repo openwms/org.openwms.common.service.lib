@@ -37,7 +37,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "COM_TYPE_STACKING_RULE", uniqueConstraints = @UniqueConstraint(columnNames = {"C_TRANSPORT_UNIT_TYPE",
         "C_NO_TRANSPORT_UNITS", "C_ALLOWED_TRANSPORT_UNIT_TYPE"}))
-class TypeStackingRule extends BaseEntity implements Serializable, Rule {
+public class TypeStackingRule extends BaseEntity implements Serializable, Rule {
 
     /** To separate fields in toString method. */
     static final String SEPARATOR = "::";

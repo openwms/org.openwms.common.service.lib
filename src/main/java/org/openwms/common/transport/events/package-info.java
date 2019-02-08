@@ -13,23 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.transport;
-
 /**
- * A TransportUnitState defines a set of states for {@code TransportUnit}s.
- * 
- * @GlossaryTerm
- * @author <a href="mailto:russelltina@users.sourceforge.net">Tina Russell</a>
- * @see TransportUnit
+ * This package contains all types required for asynchronous Event handling.
  */
-public enum TransportUnitState {
-
-    /** The {@code TransportUnit} is available. */
-    AVAILABLE,
-
-    /** The {@code TransportUnit} is okay. */
-    OK,
-
-    /** The {@code TransportUnit} is not okay. */
-    NOT_OK
-}
+package org.openwms.common.transport.events;

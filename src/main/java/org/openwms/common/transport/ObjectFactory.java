@@ -26,7 +26,7 @@ import javax.persistence.EntityManager;
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 @Configurable
-class ObjectFactory {
+public class ObjectFactory {
 
     @Autowired
     private static EntityManager em;

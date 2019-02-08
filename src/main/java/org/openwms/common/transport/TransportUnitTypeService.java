@@ -25,7 +25,7 @@ import java.util.Optional;
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-interface TransportUnitTypeService {
+public interface TransportUnitTypeService {
 
     /**
      * Find and return a {@link TransportUnitType} identified by its unique business key.

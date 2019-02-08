@@ -39,7 +39,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "COM_TYPE_PLACING_RULE", uniqueConstraints = @UniqueConstraint(columnNames = {"C_TUT_ID",
         "C_PRIVILEGE_LEVEL", "C_ALLOWED_LOCATION_TYPE"}))
-class TypePlacingRule extends BaseEntity implements Serializable, Rule {
+public class TypePlacingRule extends BaseEntity implements Serializable, Rule {
 
     /** To separate fields in toString method. */
     static final String SEPARATOR = "::";
@@ -77,7 +77,7 @@ class TypePlacingRule extends BaseEntity implements Serializable, Rule {
      * @param allowedLocationType The allowed {@link LocationType}
      * @param privilegeLevel The privilege level
      */
-    TypePlacingRule(TransportUnitType transportUnitType, LocationType allowedLocationType, int privilegeLevel) {
+    public TypePlacingRule(TransportUnitType transportUnitType, LocationType allowedLocationType, int privilegeLevel) {
         Assert.notNull(transportUnitType);
         Assert.notNull(allowedLocationType);
         this.transportUnitType = transportUnitType;
@@ -91,7 +91,7 @@ class TypePlacingRule extends BaseEntity implements Serializable, Rule {
      * @param transportUnitType The {@link TransportUnitType} for this rule
      * @param allowedLocationType The allowed {@link LocationType}
      */
-    TypePlacingRule(TransportUnitType transportUnitType, LocationType allowedLocationType) {
+    public TypePlacingRule(TransportUnitType transportUnitType, LocationType allowedLocationType) {
         Assert.notNull(transportUnitType);
         Assert.notNull(allowedLocationType);
         this.transportUnitType = transportUnitType;

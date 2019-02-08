@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.transport;
+package org.openwms.common.transport.internal;
 
 import org.ameba.test.categories.IntegrationTests;
 import org.junit.Test;
@@ -21,6 +21,9 @@ import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.openwms.common.location.LocationType;
+import org.openwms.common.transport.ObjectFactory;
+import org.openwms.common.transport.TransportUnitType;
+import org.openwms.common.transport.TypePlacingRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;

@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location;
+package org.openwms.common.transport.events;
 
 import org.ameba.mapping.BeanMapper;
-import org.openwms.common.location.api.messages.LocationGroupMO;
+import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.core.SpringProfiles;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,48 +24,41 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-import javax.annotation.PostConstruct;
-
 import static java.lang.String.format;
 
 /**
- * A LocationGroupEventPropagator.
+ * A TransportUnitEventPropagator.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Component
-class LocationGroupEventPropagator {
+class TransportUnitEventPropagator {
 
     private final AmqpTemplate amqpTemplate;
     private final String exchangeName;
     private final BeanMapper mapper;
 
-    LocationGroupEventPropagator(AmqpTemplate amqpTemplate, @Value("${owms.events.common.lg.exchange-name}") String exchangeName, BeanMapper mapper) {
+    TransportUnitEventPropagator(AmqpTemplate amqpTemplate, @Value("${owms.events.common.tu.exchange-name}") String exchangeName, BeanMapper mapper) {
         this.amqpTemplate = amqpTemplate;
         this.exchangeName = exchangeName;
         this.mapper = mapper;
     }
 
-    @PostConstruct
-    void onStartup() {
-        amqpTemplate.convertAndSend(exchangeName, "lg.event.boot", LocationGroupEvent.BOOT());
-    }
-
     @TransactionalEventListener(fallbackExecution = true)
-    public void onEvent(LocationGroupEvent event) {
+    public void onEvent(TransportUnitEvent event) {
         switch (event.getType()) {
             case CREATED:
-                amqpTemplate.convertAndSend(exchangeName, "lg.event.created", mapper.map(event.getSource(), LocationGroupMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "tu.event.created", mapper.map(event.getSource(), TransportUnitMO.class));
                 break;
             case CHANGED:
-                amqpTemplate.convertAndSend(exchangeName, "lg.event.changed", mapper.map(event.getSource(), LocationGroupMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "tu.event.changed", mapper.map(event.getSource(), TransportUnitMO.class));
                 break;
             case DELETED:
-                amqpTemplate.convertAndSend(exchangeName, "lg.event.deleted", mapper.map(event.getSource(), LocationGroupMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "tu.event.deleted", mapper.map(event.getSource(), TransportUnitMO.class));
                 break;
-            case STATE_CHANGE:
-                amqpTemplate.convertAndSend(exchangeName, "lg.event.state-changed", mapper.map(event.getSource(), LocationGroupMO.class));
+            case MOVED:
+                amqpTemplate.convertAndSend(exchangeName, "tu.event.moved."+event.getActualLocation().getLocationId(), mapper.map(event.getSource(), TransportUnitMO.class));
                 break;
             default:
                 throw new UnsupportedOperationException(format("Eventtype [%s] currently not supported", event.getType()));

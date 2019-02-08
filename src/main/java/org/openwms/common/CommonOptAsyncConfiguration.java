@@ -62,31 +62,38 @@ class CommonOptAsyncConfiguration {
         return rabbitTemplate;
     }
 
+    /*~ ------------ Events ------------- */
     @Bean
     TopicExchange commonTuExchange(@Value("${owms.events.common.tu.exchange-name}") String exchangeName) {
         return new TopicExchange(exchangeName, true, false);
     }
 
     @Bean
-    TopicExchange commonTuCommandsExchange(@Value("${owms.commands.common.tu.exchange-name}") String exchangeName) {
-        return new TopicExchange(exchangeName, true, false);
-    }
-
-    @Bean
-    Queue eventsQueue(@Value("common.service") String queueName) {
+    Queue eventsQueue(@Value("${owms.events.common.tu.queue-name}") String queueName) {
         return new Queue(queueName);
     }
 
     @Bean
     Binding binding(
-            @Value("${owms.events.common.tu.exchange-name}") String exchangeName,
-            @Value("common.service") String queueName,
+            TopicExchange commonTuExchange,
+            Queue eventsQueue,
             @Value("${owms.events.common.tu.routing-key}") String routingKey
     ) {
         return BindingBuilder
-                .bind(eventsQueue(queueName))
-                .to(commonTuExchange(exchangeName))
+                .bind(eventsQueue)
+                .to(commonTuExchange)
                 .with(routingKey);
+    }
+
+    /*~ ------------ Commands ------------- */
+    @Bean
+    Queue commandsQueue(@Value("${owms.commands.common.tu.queue-name}") String queueName) {
+        return new Queue(queueName, true);
+    }
+
+    @Bean
+    TopicExchange commonTuCommandsExchange(@Value("${owms.commands.common.tu.exchange-name}") String exchangeName) {
+        return new TopicExchange(exchangeName, true, false);
     }
 
     @Bean
