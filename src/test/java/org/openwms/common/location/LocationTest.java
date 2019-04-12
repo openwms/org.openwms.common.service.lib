@@ -46,8 +46,8 @@ public class LocationTest {
         assertThat(l.isCountingActive()).isFalse();
         assertThat(l.getCheckState()).isEqualTo(Location.DEF_CHECK_STATE);
         assertThat(l.isLocationGroupCountingActive()).isEqualTo(Location.DEF_LG_COUNTING_ACTIVE);
-        assertThat(l.isIncomingActive()).isEqualTo(Location.DEF_INCOMING_ACTIVE);
-        assertThat(l.isOutgoingActive()).isEqualTo(Location.DEF_OUTGOING_ACTIVE);
+        assertThat(l.isInfeedActive()).isEqualTo(Location.DEF_INCOMING_ACTIVE);
+        assertThat(l.isOutfeedActive()).isEqualTo(Location.DEF_OUTGOING_ACTIVE);
         assertThat(l.getPlcState()).isEqualTo(Location.DEF_PLC_STATE);
         assertThat(l.isConsideredInAllocation()).isEqualTo(Location.DEF_CONSIDERED_IN_ALLOCATION);
     }

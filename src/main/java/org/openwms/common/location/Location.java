@@ -165,6 +165,9 @@ public class Location extends ApplicationEntity implements Serializable {
     @JoinColumn(name = "C_LOCATION_GROUP")
     private LocationGroup locationGroup;
 
+    @Column(name = "C_SORT")
+    private int sortOrder;
+
     /** Stored {@link Message}s on this Location. */
     @OneToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "COM_LOCATION_MESSAGE", joinColumns = @JoinColumn(name = "C_LOCATION_ID"), inverseJoinColumns = @JoinColumn(name = "C_MESSAGE_ID"))
@@ -267,8 +270,17 @@ public class Location extends ApplicationEntity implements Serializable {
      *
      * @return {@literal true} when incoming mode is activated, otherwise {@literal false}
      */
-    public boolean isIncomingActive() {
+    public boolean isInfeedActive() {
         return this.incomingActive;
+    }
+
+    /**
+     * Set the incoming mode of this Location.
+     *
+     * @param infeedActive {@literal true} means Infeed movements are possible, {@literal false} means Infeed movements are blocked
+     */
+    public void setInfeed(boolean infeedActive) {
+        this.incomingActive = infeedActive;
     }
 
     /**
@@ -366,7 +378,7 @@ public class Location extends ApplicationEntity implements Serializable {
      *
      * @return {@literal true} when outgoing mode is activated, otherwise {@literal false}
      */
-    public boolean isOutgoingActive() {
+    public boolean isOutfeedActive() {
         return this.outgoingActive;
     }
 
@@ -380,12 +392,31 @@ public class Location extends ApplicationEntity implements Serializable {
     }
 
     /**
+     * Set the outfeed mode of this Location.
+     *
+     * @param outfeedActive {@literal true} means Outfeed movements are possible, {@literal false} means Outfeed movements are blocked
+     */
+    public void setOutfeed(boolean outfeedActive) {
+        this.outgoingActive = outfeedActive;
+    }
+
+
+    /**
      * Return the current set plc state.
      *
      * @return the plc state
      */
     public int getPlcState() {
         return plcState;
+    }
+
+    /**
+     * Set the plc state.
+     *
+     * @param plcState the plc state
+     */
+    public void setPlcState(int plcState) {
+        this.plcState = plcState;
     }
 
     /**
@@ -447,6 +478,15 @@ public class Location extends ApplicationEntity implements Serializable {
      */
     void unsetLocationGroup() {
         this.locationGroup = null;
+    }
+
+    /**
+     * Get the sortOrder.
+     *
+     * @return The sortOrder
+     */
+    public int getSortOrder() {
+        return sortOrder;
     }
 
     /**

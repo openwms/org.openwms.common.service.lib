@@ -8,6 +8,9 @@
     <include resource="logback-appenders.xml" />
     <include resource="logback-loggers.xml" />
 
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+
+    <logger name="com.netflix.discovery" level="OFF" />
     <logger name="org.dozer" level="ERROR"/>
     <logger name="org.hibernate.SQL" level="OFF"/>
     <logger name="org.hibernate.type" level="OFF"/>

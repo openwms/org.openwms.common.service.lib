@@ -37,7 +37,7 @@ import static java.lang.String.format;
  */
 @Profile("!INMEM")
 @RestController
-class TransportUnitTypeController extends AbstractWebController {
+public class TransportUnitTypeController extends AbstractWebController {
 
     private final TransportUnitTypeService service;
     private final BeanMapper mapper;
@@ -49,14 +49,14 @@ class TransportUnitTypeController extends AbstractWebController {
 
     @GetMapping(value = CommonConstants.API_TRANSPORT_UNIT_TYPES, params = {"type"})
     @ResponseBody
-    TransportUnitTypeVO findTransportUnitType(@RequestParam("type") String type) {
+    public TransportUnitTypeVO findTransportUnitType(@RequestParam("type") String type) {
         TransportUnitType optType = service.findByType(type).orElseThrow(() -> new NotFoundException(format("No TransportUniType with type [%s] found", type)));
         return mapper.map(optType, TransportUnitTypeVO.class);
     }
 
     @GetMapping(value = CommonConstants.API_TRANSPORT_UNIT_TYPES)
     @ResponseBody
-    List<TransportUnitTypeVO> findTransportUnitTypes() {
+    public List<TransportUnitTypeVO> findTransportUnitTypes() {
         List<TransportUnitType> all = service.findAll();
         return mapper.map(all, TransportUnitTypeVO.class);
     }

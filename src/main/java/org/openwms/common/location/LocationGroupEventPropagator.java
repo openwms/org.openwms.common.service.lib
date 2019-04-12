@@ -16,7 +16,10 @@
 package org.openwms.common.location;
 
 import org.ameba.mapping.BeanMapper;
+import org.openwms.common.location.api.events.LocationEvent;
+import org.openwms.common.location.api.events.LocationGroupEvent;
 import org.openwms.common.location.api.messages.LocationGroupMO;
+import org.openwms.common.location.api.messages.LocationMO;
 import org.openwms.core.SpringProfiles;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,6 +69,26 @@ class LocationGroupEventPropagator {
                 break;
             case STATE_CHANGE:
                 amqpTemplate.convertAndSend(exchangeName, "lg.event.state-changed", mapper.map(event.getSource(), LocationGroupMO.class));
+                break;
+            default:
+                throw new UnsupportedOperationException(format("Eventtype [%s] currently not supported", event.getType()));
+        }
+    }
+
+    @TransactionalEventListener(fallbackExecution = true)
+    public void onLocationEvent(LocationEvent event) {
+        switch (event.getType()) {
+            case CREATED:
+                amqpTemplate.convertAndSend(exchangeName, "loc.event.created", mapper.map(event.getSource(), LocationMO.class));
+                break;
+            case CHANGED:
+                amqpTemplate.convertAndSend(exchangeName, "loc.event.changed", mapper.map(event.getSource(), LocationMO.class));
+                break;
+            case DELETED:
+                amqpTemplate.convertAndSend(exchangeName, "loc.event.deleted", mapper.map(event.getSource(), LocationMO.class));
+                break;
+            case STATE_CHANGE:
+                amqpTemplate.convertAndSend(exchangeName, "loc.event.state-changed", mapper.map(event.getSource(), LocationMO.class));
                 break;
             default:
                 throw new UnsupportedOperationException(format("Eventtype [%s] currently not supported", event.getType()));

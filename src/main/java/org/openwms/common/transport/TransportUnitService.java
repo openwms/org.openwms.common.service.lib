@@ -20,92 +20,122 @@ import org.openwms.common.location.LocationPK;
 import java.util.List;
 
 /**
- * A TransportService offers functionality to create, read, update and delete {@link TransportUnit}s. Additionally it defines useful methods
- * regarding the general handling with {@link TransportUnit}s.
+ * A TransportService offers functionality to create, read, update and delete
+ * {@link TransportUnit}s. Additionally it defines useful methods regarding the general
+ * handling with {@link TransportUnit}s.
  *
- * @param <T> Any kind of {@link TransportUnit}
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-public interface TransportUnitService<T extends TransportUnit> {
+public interface TransportUnitService {
 
     /**
-     * Create a new {@link TransportUnit} with the type {@link TransportUnitType} placed on an initial {@code Location}. The new {@link
-     * TransportUnit} has the given {@link Barcode} as identifier.
+     * Create a new {@link TransportUnit} with the type {@link TransportUnitType} placed
+     * on an initial {@code Location}. The new {@link TransportUnit} has the given
+     * {@link Barcode} as identifier.
      *
-     * @param barcode           {@link Barcode} of the new {@link TransportUnit}
-     * @param transportUnitType The type of the new {@link TransportUnit}
-     * @param actualLocation    The {@code Location} where the {@link TransportUnit} is placed on
-     * @param strict Whether the implementation shall throw an xception when a {@link TransportUnit} already exists ({@literal true}) or not ({@literal false}
-     * @return The new created {@link TransportUnit} instance
+     * @param barcode The business identifier of the TransportUnit
+     * @param transportUnitType The type of the TransportUnit
+     * @param actualLocation The Location where the TransportUnit is placed on
+     * @param strict Whether the implementation shall throw an exception when a
+     *               TransportUnit already exists ({@literal true}) or not
+     *               ({@literal false}
+     * @return The newly created instance
      */
-    T create(Barcode barcode, TransportUnitType transportUnitType, LocationPK actualLocation, Boolean strict);
+    TransportUnit create(Barcode barcode, TransportUnitType transportUnitType,
+            LocationPK actualLocation, Boolean strict);
 
     /**
-     * Create a new {@link TransportUnit} with the type {@link TransportUnitType} placed on an initial {@code Location}. The new {@link
-     * TransportUnit} has the given {@link Barcode} as identifier.
+     * Create a new {@link TransportUnit} with the {@link TransportUnitType} placed on the
+     * given {@code actualLocation}. The new {@link TransportUnit} has the given
+     * {@link Barcode} as identifier.
      *
-     * @param barcode           {@link Barcode} of the new {@link TransportUnit}
-     * @param transportUnitType The type of the new {@link TransportUnit}
-     * @param actualLocation    The {@code Location} where the {@link TransportUnit} is placed on
-     * @param strict Whether the implementation shall throw an xception when a {@link TransportUnit} already exists ({@literal true}) or not ({@literal false}
-     * @return The new created {@link TransportUnit} instance
+     * @param barcode The business identifier of the TransportUnit
+     * @param transportUnitType The type of the TransportUnit
+     * @param actualLocation The Location where the TransportUnit is placed on
+     * @param strict Whether the implementation shall throw an exception when a
+     *               TransportUnit already exists ({@literal true}) or not
+     *               ({@literal false}
+     * @return The newly created instance
      */
-    T create(Barcode barcode, String transportUnitType, String actualLocation, Boolean strict);
-
-    T update(Barcode barcode, T tu);
+    TransportUnit create(Barcode barcode, String transportUnitType, String actualLocation,
+            Boolean strict);
 
     /**
-     * Move a {@link TransportUnit} identified by its {@link Barcode} to the given target {@code Location} identified by the {@code
-     * LocationPK}.
+     * Take the TransportUnit {@code tu} and try to update it as-is in the persistent
+     * storage.
+     * <p>
+     * The implementation does not require any further checks. Assume that it tries to
+     * detach the entity class with the persistence context and save the given state.
      *
-     * @param barcode          {@link Barcode} of the {@link TransportUnit} to move
-     * @param targetLocationPK Unique identifier of the target {@code Location}
+     * @param barcode The business identifier of the TransportUnit
+     * @param tu The TransportUnit instance to save
+     * @return The updated instance
+     */
+    TransportUnit update(Barcode barcode, TransportUnit tu);
+
+    /**
+     * Move a {@link TransportUnit} identified by its {@link Barcode} to the
+     * {@code Location} identified by the given {@code targetLocationPK}.
+     *
+     * @param barcode The business identifier of the TransportUnit
+     * @param targetLocationPK Unique identifier of the target Location
      * @return The moved instance
      */
     TransportUnit moveTransportUnit(Barcode barcode, LocationPK targetLocationPK);
 
     /**
-     * Delete already persisted {@link TransportUnit}s from the persistence storage. It is
-     * not allowed in all cases to delete a {@link TransportUnit}, potentially an active
+     * Change the target of the {@link TransportUnit} identified with its {@code barcode}
+     * to the Location identified by the {@code targetLocationId}.
+     *
+     * @param barcode The business identifier of the TransportUnit
+     * @param targetLocationId The LocationPK or {@literal null} to reset the current
+     *                         target
+     */
+    TransportUnit changeTarget(Barcode barcode, String targetLocationId);
+
+    /**
+     * Delete already persisted {@link TransportUnit}s from the persistent storage. It is
+     * not allowed in every case to delete a {@link TransportUnit}, potentially an active
      * {@code TransportOrder} could exist or Inventory is still linked with one of the
      * {@code transportUnit}s.
      *
      * @param transportUnits A collection of {@link TransportUnit}s to delete
      */
-    void deleteTransportUnits(List<T> transportUnits);
-
-    /**
-     * Returns a List of all {@link TransportUnit}s.
-     *
-     * @return A List of all {@link TransportUnit}s
-     * @deprecated Move to UI specific interface
-     */
-    @Deprecated
-    List<T> findAll();
+    void deleteTransportUnits(List<TransportUnit> transportUnits);
 
     /**
      * Find and return a {@link TransportUnit} with a particular {@link Barcode}.
      *
-     * @param barcode {@link Barcode} of the {@link TransportUnit} to search for
-     * @return The {@link TransportUnit} or {@literal null} when no {@link TransportUnit} with this {@link Barcode} exists
+     * @param barcode The business identifier of the TransportUnit
+     * @return The TransportUnit
      * @throws org.ameba.exception.NotFoundException may throw if not found
      */
-    T findByBarcode(Barcode barcode);
+    TransportUnit findByBarcode(Barcode barcode, Boolean withErrorCode);
+
+    /**
+     * Find and return all {@link TransportUnit}s identified by their particular
+     * {@link Barcode}.
+     *
+     * @param barcodes A list of business identifiers of the TransportUnits
+     * @return A List of TransportUnits or an empty List, never {@literal null}
+     */
+    List<TransportUnit> findByBarcodes(List<Barcode> barcodes);
 
     /**
      * Find and return all {@link TransportUnit}s that are located on the {@code Location}
-     * identified by the {@code actualLocation}.
+     * identified by the given {@code actualLocation}.
      *
-     * @param actualLocation The actualLocation field of the TransportUnit
+     * @param actualLocation The Location where the TransportUnits are placed on
      * @return All TransportUnits or an empty List, never {@literal null}
      */
-    List<T> findOnLocation(String actualLocation);
+    List<TransportUnit> findOnLocation(String actualLocation);
 
     /**
-     * Find and return a TransportUnit identified by the given {@code pKey}.
+     * Find and return a {@link TransportUnit} identified by the given {@code pKey}.
      *
      * @param pKey The persistent key
      * @return The instance, never {@literal null}
+     * @throws org.ameba.exception.NotFoundException may throw if not found
      */
     TransportUnit findByPKey(String pKey);
 }

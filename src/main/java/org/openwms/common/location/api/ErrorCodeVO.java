@@ -27,7 +27,9 @@ import java.io.Serializable;
 public class ErrorCodeVO implements Serializable {
 
     @JsonProperty
-    private String errorCode;
+    private String errorCode = "********";
+    @JsonProperty
+    private int plcState;
 
     public ErrorCodeVO() {
     }
@@ -36,11 +38,28 @@ public class ErrorCodeVO implements Serializable {
         this.errorCode = errorCode;
     }
 
+    public ErrorCodeVO(int plcState) {
+        this.plcState = plcState;
+    }
+
+    public ErrorCodeVO(String errorCode, int plcState) {
+        this.errorCode = errorCode;
+        this.plcState = plcState;
+    }
+
     public String getErrorCode() {
         return errorCode;
     }
 
     public void setErrorCode(String errorCode) {
         this.errorCode = errorCode;
+    }
+
+    public int getPlcState() {
+        return plcState;
+    }
+
+    public void setPlcState(int plcState) {
+        this.plcState = plcState;
     }
 }

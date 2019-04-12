@@ -54,14 +54,13 @@ class TransportUnitCommandPropagator {
     @TransactionalEventListener(fallbackExecution = true)
     public void onEvent(TUCommand command) {
         Set<ConstraintViolation<TUCommand>> violations = validator.validate(command);
-        if (violations.isEmpty()) {
-            // FIXME [openwms]: 06.02.19 This is for testing negotiated!
+        if (!violations.isEmpty()) {
             throw new ValidationException(violations.iterator().next().getMessage());
         }
         switch (command.getType()) {
             case REMOVING:
                 if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Sending REMOVING command to announce the TransportUnit [{}] is going to be removed", command.getId());
+                    LOGGER.debug("Sending REMOVING command to announce the TransportUnit [{}] is going to be removed", command.getTransportUnit().getpKey());
                 }
                 amqpTemplate.convertAndSend(exchangeName, "common.tu.command.removing", command);
                 break;

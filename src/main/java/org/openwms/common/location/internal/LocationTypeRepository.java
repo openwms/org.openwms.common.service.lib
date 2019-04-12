@@ -13,23 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location;
+package org.openwms.common.location.internal;
 
+import org.openwms.common.location.LocationType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
-
 /**
- * A LocationGroupRepository adds particular functionality regarding {@link LocationGroup} entity classes.
+ * A LocationTypeRepository adds particular functionality regarding {@link LocationType} entity classes.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 @Repository
-interface LocationGroupRepository extends JpaRepository<LocationGroup, Long> {
+interface LocationTypeRepository extends JpaRepository<LocationType, Long> {
 
-    Optional<LocationGroup> findByName(String name);
-
-    List<LocationGroup> findByNameIn(List<String> names);
 }

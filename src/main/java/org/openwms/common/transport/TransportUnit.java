@@ -193,7 +193,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      *
      * @return {@literal true} if empty, {@literal false} if not empty, {@literal null} when not defined
      */
-    public Boolean isEmpty() {
+    public Boolean getEmpty() {
         return this.empty;
     }
 

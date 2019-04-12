@@ -16,26 +16,23 @@
 package org.openwms.common.transport.api.commands;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.openwms.common.transport.api.messages.TransportUnitMO;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.StringJoiner;
 
 /**
  * A TUCommand.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-public class TUCommand implements Serializable {
+public class TUCommand implements Command<TUCommand.Type>, Serializable {
 
     @NotNull
     private Type type;
-    @NotEmpty
-    private String pKey;
-    @NotEmpty
-    private String id;
-    private String actualLocation;
-    private String target;
+    @NotNull
+    private TransportUnitMO transportUnit;
 
     @JsonCreator
     protected TUCommand() {
@@ -43,10 +40,7 @@ public class TUCommand implements Serializable {
 
     private TUCommand(Builder builder) {
         setType(builder.type);
-        setpKey(builder.pKey);
-        setId(builder.id);
-        setActualLocation(builder.actualLocation);
-        setTarget(builder.target);
+        transportUnit = builder.transportUnit;
     }
 
     public static Builder newBuilder() {
@@ -69,75 +63,30 @@ public class TUCommand implements Serializable {
         this.type = type;
     }
 
-    public String getpKey() {
-        return pKey;
-    }
-
-    public void setpKey(String pKey) {
-        this.pKey = pKey;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getActualLocation() {
-        return actualLocation;
-    }
-
-    public void setActualLocation(String actualLocation) {
-        this.actualLocation = actualLocation;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
+    public TransportUnitMO getTransportUnit() {
+        return transportUnit;
     }
 
     @Override
     public String toString() {
-        return "TUCommand{" + "type=" + type + ", pKey='" + pKey + '\'' + ", id='" + id + '\'' + ", actualLocation='" + actualLocation + '\'' + ", target='" + target + '\'' + '}';
+        return new StringJoiner(", ", TUCommand.class.getSimpleName() + "[", "]").add("type=" + type).add("transportUnit=" + transportUnit).toString();
     }
 
+
     public static final class Builder {
-        private Type type;
-        private String pKey;
-        private String id;
-        private String actualLocation;
-        private String target;
+        private @NotNull Type type;
+        private @NotNull TransportUnitMO transportUnit;
 
         private Builder() {
         }
 
-        public Builder withType(Type val) {
+        public Builder withType(@NotNull Type val) {
             type = val;
             return this;
         }
 
-        public Builder withPKey(String val) {
-            pKey = val;
-            return this;
-        }
-
-        public Builder withId(String val) {
-            id = val;
-            return this;
-        }
-
-        public Builder withActualLocation(String val) {
-            actualLocation = val;
-            return this;
-        }
-
-        public Builder withTarget(String val) {
-            target = val;
+        public Builder withTransportUnit(@NotNull TransportUnitMO val) {
+            transportUnit = val;
             return this;
         }
 

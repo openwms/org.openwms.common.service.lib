@@ -225,9 +225,6 @@ public class LocationPK implements Serializable {
         private String y;
         private String z;
 
-        public Builder() {
-        }
-
         /**
          * Sets the {@code area} and returns a reference to this Builder so that the methods can be chained together.
          *

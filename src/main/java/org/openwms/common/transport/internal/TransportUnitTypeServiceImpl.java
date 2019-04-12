@@ -87,7 +87,9 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
     @Override
     public TransportUnitType save(TransportUnitType transportUnitType) {
         TransportUnitType tut = transportUnitTypeRepository.save(transportUnitType);
-        LOGGER.debug("Save a TransportUnitType, list of typePlacingRules:" + tut.getTypePlacingRules().size());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Save a TransportUnitType, list of typePlacingRules [{}]", tut.getTypePlacingRules().size());
+        }
         return tut;
     }
 

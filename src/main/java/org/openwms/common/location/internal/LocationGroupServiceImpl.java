@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location;
+package org.openwms.common.location.internal;
 
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.ameba.i18n.Translator;
 import org.openwms.common.CommonMessageCodes;
+import org.openwms.common.location.LocationGroup;
+import org.openwms.common.location.LocationGroupService;
 import org.openwms.common.location.api.LocationGroupState;
+import org.openwms.common.location.api.events.LocationGroupEvent;
 import org.openwms.core.util.TreeNode;
 import org.openwms.core.util.TreeNodeImpl;
 import org.springframework.context.ApplicationContext;
@@ -65,11 +68,13 @@ class LocationGroupServiceImpl implements LocationGroupService {
      */
     @Override
     @Measured
-    public void changeGroupStates(String locationGroupName, LocationGroupState stateIn, LocationGroupState stateOut) {
+    public void changeGroupStates(String locationGroupName, Optional<LocationGroupState> stateIn, Optional<LocationGroupState> stateOut) {
         LocationGroup locationGroup = locationGroupRepository.findByName(locationGroupName).orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{locationGroupName}, locationGroupName));
-        locationGroup.changeGroupStateIn(stateIn);
-        locationGroup.changeGroupStateOut(stateOut);
-        ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));
+        stateIn.ifPresent(locationGroup::changeGroupStateIn);
+        stateOut.ifPresent(locationGroup::changeGroupStateOut);
+        if (stateIn.isPresent() || stateOut.isPresent()) {
+            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));
+        }
     }
 
     /**

@@ -15,9 +15,13 @@
  */
 package org.openwms.common.location.api;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -62,4 +66,34 @@ public interface LocationApi {
     @GetMapping(value = "/v1/locations", params = {"locationGroupNames"})
     @Cacheable("locations")
     List<LocationVO> findLocationsForLocationGroups(@RequestParam("locationGroupNames") List<String> locationGroupNames);
+
+    /**
+     * Update the state of a {@code Location} with the given {@code errorCode}.
+     *
+     * @param pKey The persistent key of the Location
+     * @param errorCode The error code
+     */
+    @PatchMapping(value = "/v1/locations/{pKey}")
+    @CacheEvict(cacheNames = "locations", allEntries = true)
+    void updateState(@PathVariable(name = "pKey") String pKey, @RequestBody ErrorCodeVO errorCode);
+
+
+    /**
+     * Find and return all {@code Location}s that match the area/aisle/x/y/z criteria.
+     *
+     * @param area The Area to search for or '%'
+     * @param aisle The Aisle to search for or '%'
+     * @param x The X to search for or '%'
+     * @param y The Y to search for or '%'
+     * @param z The Z to search for or '%'
+     * @return All Location instances or an empty list
+     */
+    @GetMapping(value = "/v1/locations", params = {"area", "aisle", "x", "y", "z"})
+    List<LocationVO> findLocations(
+            @RequestParam(value = "area", required = false) String area,
+            @RequestParam(value = "aisle", required = false) String aisle,
+            @RequestParam(value = "x", required = false) String x,
+            @RequestParam(value = "y", required = false) String y,
+            @RequestParam(value = "z", required = false) String z
+    );
 }

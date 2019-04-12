@@ -36,7 +36,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 @TxService
 class TransportUnitEventListener {
 
-    private final TransportUnitService<TransportUnit> service;
+    private final TransportUnitService service;
     private final LocationService locationService;
 
     TransportUnitEventListener(TransportUnitService service, LocationService locationService) {
@@ -51,7 +51,7 @@ class TransportUnitEventListener {
             if ("tu.event.change.target".equals(routingKey)) {
                 Location location = locationService.findByLocationId(msg.getTargetLocation());
                 Barcode barcode = Barcode.of(msg.getBarcode());
-                TransportUnit saved = service.findByBarcode(barcode);
+                TransportUnit saved = service.findByBarcode(barcode, Boolean.FALSE);
                 saved.setTargetLocation(location);
                 service.update(barcode, saved);
             }

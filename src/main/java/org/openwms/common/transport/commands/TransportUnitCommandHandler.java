@@ -47,13 +47,19 @@ class TransportUnitCommandHandler {
         switch(command.getType()) {
             case CHANGE_ACTUAL_LOCATION:
                 if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Got command to MOVE TransportUnit with id [{}] to [{}]", command.getId(), command.getActualLocation());
+                    LOGGER.debug("Got command to MOVE TransportUnit with id [{}] to [{}]", command.getTransportUnit().getBarcode(), command.getTransportUnit().getActualLocation());
                 }
-                service.moveTransportUnit(Barcode.of(command.getId()), LocationPK.fromString(command.getActualLocation()));
+                service.moveTransportUnit(Barcode.of(command.getTransportUnit().getBarcode()), LocationPK.fromString(command.getTransportUnit().getActualLocation()));
+                break;
+            case CHANGE_TARGET:
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Got command to CHANGE the target of the TransportUnit with id [{}] to [{}]", command.getTransportUnit().getBarcode(), command.getTransportUnit().getTargetLocation());
+                }
+                service.changeTarget(Barcode.of(command.getTransportUnit().getBarcode()), command.getTransportUnit().getTargetLocation());
                 break;
             case REMOVE:
                 if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Got command to REMOVE TransportUnit with id [{}]", command.getId());
+                    LOGGER.debug("Got command to REMOVE TransportUnit with id [{}]", command.getTransportUnit().getBarcode());
                 }
                 ctx.publishEvent(command);
                 break;

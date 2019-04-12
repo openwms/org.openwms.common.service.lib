@@ -42,7 +42,7 @@ public class TransportUnitTest {
     @Test
     void testDefaultValues() {
         TransportUnit tu = ObjectFactory.createTransportUnit("4711");
-        assertThat(tu.getBarcode()).isEqualTo(ObjectFactory.createBarcode("4711"));
+        assertThat(tu.getBarcode()).isEqualTo(Barcode.of("4711"));
         assertThat(tu.getWeight()).isEqualTo(new Weight("0"));
         assertThat(tu.getState()).isEqualTo(TransportUnitState.AVAILABLE);
         assertThat(tu.getErrors()).hasSize(0);

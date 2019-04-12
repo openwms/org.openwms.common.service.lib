@@ -65,11 +65,7 @@ public class LocationGroup extends Target implements Serializable {
     @Column(name = "C_GROUP_COUNTING_ACTIVE")
     private boolean locationGroupCountingActive = true;
 
-    /** Number of {@code Location}s belonging to the {@code LocationGroup}. */
-    @Column(name = "C_NO_LOCATIONS")
-    private int noLocations = 0;
-
-    /** State of infeed. */
+    /** State of infeed, controlled by the subsystem only. */
     @Column(name = "C_GROUP_STATE_IN")
     @Enumerated(EnumType.STRING)
     private LocationGroupState groupStateIn = LocationGroupState.AVAILABLE;
@@ -276,7 +272,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return The count of {@link Location}s belonging to this {@code LocationGroup}
      */
     public int getNoLocations() {
-        return this.noLocations;
+        return this.locations != null ? this.locations.size() : 0;
     }
 
     /**
@@ -527,7 +523,7 @@ public class LocationGroup extends Target implements Serializable {
      * @param stateIn The new groupStateIn to set, or {@literal null}
      * @param stateOut The new groupStateOut to set, or {@literal null}
      */
-    void changeState(LocationGroupState stateIn, LocationGroupState stateOut) {
+    public void changeState(LocationGroupState stateIn, LocationGroupState stateOut) {
         if (groupStateIn != stateIn && stateIn != null) {
             // GroupStateIn changed
             if (parent != null && parent.getGroupStateIn() == LocationGroupState.NOT_AVAILABLE && groupStateIn == LocationGroupState.AVAILABLE) {

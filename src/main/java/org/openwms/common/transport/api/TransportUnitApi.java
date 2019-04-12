@@ -39,12 +39,31 @@ public interface TransportUnitApi {
     /**
      * Find and return a {@code TransportUnit} identified by its {@code barcode}.
      *
-     * @param barcode The unique (physical) identifier
+     * @param transportUnitBK The unique (physical) identifier
+     * @param withErorrs Flag for loading errors
      * @return The instance or the implementation may return a 404-Not Found
      */
-    @GetMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"bk"})
+    @GetMapping(value = "/v1/transport-units", params = {"bk"})
     @ResponseBody
-    TransportUnitVO findTransportUnit(@RequestParam("bk") String barcode);
+    TransportUnitVO findTransportUnit(@RequestParam("bk") String transportUnitBK, @RequestParam("withErrors") Boolean withErorrs);
+
+    /**
+     * Find and return all {@code TransportUnit} identified by its {@code barcode}s.
+     *
+     * @param barcodes The unique (physical) identifiers
+     * @return All TransportUnits or an empty List never {@literal null}
+     */
+    @GetMapping(value = "/v1/transport-units", params = {"bks"})
+    List<TransportUnitVO> findTransportUnits(@RequestParam("bks") List<String> barcodes);
+
+    /**
+     * Find and return all {@code TransportUnit}s that are booked onto the given Location.
+     *
+     * @param actualLocation The Location to search TransportUnits on
+     * @return All TransportUnits on that Location or an empty List never {@literal null}
+     */
+    @GetMapping(value = "/v1/transport-units", params = {"actualLocation"})
+    List<TransportUnitVO> findTransportUnitsOn(@RequestParam("actualLocation") String actualLocation);
 
     /**
      * Find and return a {@code TransportUnitType} identified by its {@code type}.
@@ -67,9 +86,6 @@ public interface TransportUnitApi {
     @Cacheable("transportUnitTypes")
     List<TransportUnitTypeVO> findTransportUnitTypes();
 
-    @GetMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"actualLocation"})
-    List<TransportUnitVO> getTransportUnitsOn(@RequestParam("actualLocation") String actualLocation);
-
     /**
      * Create a {@code TransportUnit} with the given {@code barcode}.
      *
@@ -78,7 +94,7 @@ public interface TransportUnitApi {
      * @param strict If the {@code TransportUnit} already exists and this is {@code true}
      * an error is thrown. If {@code false}, the implementation exists silently
      */
-    @PostMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"bk"})
+    @PostMapping(value = "/v1/transport-units", params = {"bk"})
     @ResponseBody
     void createTU(@RequestParam("bk") String barcode, @RequestBody TransportUnitVO tu, @RequestParam(value = "strict", required = false) Boolean strict);
 
@@ -91,7 +107,7 @@ public interface TransportUnitApi {
      * @param strict If the {@code TransportUnit} already exists and this is {@code true}
      * an error is thrown. If {@code false}, the implementation exists silently
      */
-    @PostMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"bk"})
+    @PostMapping(value = "/v1/transport-units", params = {"bk"})
     @ResponseBody
     void createTU(@RequestParam("bk") String barcode, @RequestParam("actualLocation") String actualLocation, @RequestParam("tut") String tut, @RequestParam(value = "strict", required = false) Boolean strict);
 
@@ -102,7 +118,7 @@ public interface TransportUnitApi {
      * @param tu Detailed information of the {@code TransportUnit} to create
      * @return The updated instance
      */
-    @PutMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"bk"})
+    @PutMapping(value = "/v1/transport-units", params = {"bk"})
     @ResponseBody
     TransportUnitVO updateTU(@RequestParam("bk") String barcode, @RequestBody TransportUnitVO tu);
 
@@ -113,7 +129,10 @@ public interface TransportUnitApi {
      * @param newLocation The new {@code Location} to move to
      * @return The updated instance
      */
-    @PatchMapping(value = CommonConstants.API_TRANSPORT_UNITS, params = {"bk", "newLocation"})
+    @PatchMapping(value = "/v1/transport-units", params = {"bk", "newLocation"})
     @ResponseBody
     TransportUnitVO moveTU(@RequestParam("bk") String barcode, @RequestParam("newLocation") String newLocation);
+
+    @PostMapping(value = "/v1/transport-unit/error", params = {"bk", "errorCode"})
+    void addErrorToTransportUnit(@RequestParam("bk") String transportUnitBK, @RequestParam(value = "errorCode") String errorCode);
 }

@@ -49,7 +49,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
  */
 @Profile("!INMEM")
 @RestController
-class LocationGroupController {
+public class LocationGroupController {
 
     private final LocationGroupService locationGroupService;
     private final BeanMapper mapper;
@@ -64,7 +64,7 @@ class LocationGroupController {
     }
 
     @GetMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"name"})
-    LocationGroupVO findByName(@RequestParam("name") String name) {
+    public LocationGroupVO findByName(@RequestParam("name") String name) {
         Optional<LocationGroup> opt = locationGroupService.findByName(name);
         LocationGroup locationGroup = opt.orElseThrow(() -> new NotFoundException(format("LocationGroup with name [%s] does not exist", name)));
         LocationGroupVO result = mapper.map(locationGroup, LocationGroupVO.class);
@@ -75,29 +75,29 @@ class LocationGroupController {
     }
 
     @GetMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"names"})
-    List<LocationGroupVO> findByNames(@RequestParam("names") List<String> names) {
+    public List<LocationGroupVO> findByNames(@RequestParam("names") List<String> names) {
         List<LocationGroup> locationGroups = locationGroupService.findByNames(names);
         return mapper.map(locationGroups, LocationGroupVO.class);
     }
 
     @GetMapping(value = CommonConstants.API_LOCATION_GROUPS)
-    List<LocationGroupVO> findAll() {
+    public List<LocationGroupVO> findAll() {
         List<LocationGroup> all = locationGroupService.findAll();
         return all == null ? Collections.emptyList() : mapper.map(all, LocationGroupVO.class);
     }
 
     @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"name"})
-    void updateState(@RequestParam(name = "name") String name, @RequestBody ErrorCodeVO errorCode) {
+    public void updateState(@RequestParam(name = "name") String name, @RequestBody ErrorCodeVO errorCode) {
         locationGroupService.changeGroupStates(name, groupStateIn.transform(errorCode.getErrorCode()), groupStateOut.transform(errorCode.getErrorCode()));
     }
 
     @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS + "/{id}")
-    void save(@PathVariable String id, @RequestParam(name = "statein", required = false) LocationGroupState stateIn, @RequestParam(name = "stateout", required = false) LocationGroupState stateOut, HttpServletRequest req, HttpServletResponse res) {
+    public void save(@PathVariable String id, @RequestParam(name = "statein", required = false) LocationGroupState stateIn, @RequestParam(name = "stateout", required = false) LocationGroupState stateOut, HttpServletRequest req, HttpServletResponse res) {
         locationGroupService.changeGroupState(id, stateIn, stateOut);
         res.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req, id));
     }
 
-    public String getLocationForCreatedResource(HttpServletRequest req, String objId) {
+    private String getLocationForCreatedResource(HttpServletRequest req, String objId) {
         StringBuffer url = req.getRequestURL();
         UriTemplate template = new UriTemplate(url.append("/{objId}/").toString());
         return template.expand(objId).toASCIIString();

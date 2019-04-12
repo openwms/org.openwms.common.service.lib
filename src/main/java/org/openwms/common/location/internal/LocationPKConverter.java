@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location;
+package org.openwms.common.location.internal;
 
 import org.dozer.DozerConverter;
+import org.openwms.common.location.LocationPK;
 
 /**
  * A LocationConverter.

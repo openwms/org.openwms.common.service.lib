@@ -15,6 +15,8 @@
  */
 package org.openwms.common.location.api;
 
+import java.util.Optional;
+
 /**
  * A ErrorCodeTransformer.
  *
@@ -24,12 +26,21 @@ public interface ErrorCodeTransformers {
 
     @FunctionalInterface
     interface GroupStateIn {
-        LocationGroupState transform(String errorCode);
+        Optional<LocationGroupState> transform(String errorCode);
     }
 
     @FunctionalInterface
     interface GroupStateOut {
-        LocationGroupState transform(String errorCode);
+        Optional<LocationGroupState> transform(String errorCode);
     }
 
+    @FunctionalInterface
+    interface LocationStateIn {
+        Boolean transform(String errorCode);
+    }
+
+    @FunctionalInterface
+    interface LocationStateOut {
+        Boolean transform(String errorCode);
+    }
 }

@@ -102,6 +102,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
 
     /** A Set of {@link TypePlacingRule}s store all possible {@code LocationType} s of the {@code TransportUnitType}. */
     @OneToMany(mappedBy = "transportUnitType", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OrderBy("privilegeLevel")
     private Set<TypePlacingRule> typePlacingRules = new HashSet<>();
 
     /*~ ----------------------------- constructors ------------------- */

@@ -21,6 +21,8 @@ import org.ameba.mapping.BeanMapper;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
+import org.openwms.common.location.api.ErrorCodeTransformers;
+import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationApi;
 import org.openwms.common.location.api.LocationVO;
 import org.springframework.context.annotation.Profile;
@@ -41,10 +43,14 @@ import static java.lang.String.format;
 class LocationApiImpl implements LocationApi {
 
     private final LocationService locationService;
+    private final ErrorCodeTransformers.LocationStateIn stateIn;
+    private final ErrorCodeTransformers.LocationStateOut stateOut;
     private final BeanMapper mapper;
 
-    LocationApiImpl(LocationService locationService, BeanMapper mapper) {
+    LocationApiImpl(LocationService locationService, ErrorCodeTransformers.LocationStateIn stateIn, ErrorCodeTransformers.LocationStateOut stateOut, BeanMapper mapper) {
         this.locationService = locationService;
+        this.stateIn = stateIn;
+        this.stateOut = stateOut;
         this.mapper = mapper;
     }
 
@@ -76,5 +82,27 @@ class LocationApiImpl implements LocationApi {
     public List<LocationVO> findLocationsForLocationGroups(List<String> locationGroupNames) {
         List<Location> locations = locationService.findAllOf(locationGroupNames);
         return mapper.map(locations, LocationVO.class);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateState(String pKey, ErrorCodeVO errorCode) {
+        locationService.changeState(pKey, stateIn, stateOut, errorCode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<LocationVO> findLocations(
+            String area,
+            String aisle,
+            String x,
+            String y,
+            String z) {
+        List<Location> craneList = locationService.findLocations(LocationPK.newBuilder().area(area).aisle(aisle).x(x).y(y).z(z).build());
+        return mapper.map(craneList, LocationVO.class);
     }
 }

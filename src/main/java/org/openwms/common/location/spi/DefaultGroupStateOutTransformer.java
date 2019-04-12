@@ -21,6 +21,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import java.util.Optional;
+
 /**
  * A DefaultGroupStateOutTransformer.
  *
@@ -34,9 +36,12 @@ class DefaultGroupStateOutTransformer implements ErrorCodeTransformers.GroupStat
      * {@inheritDoc}
      */
     @Override
-    public LocationGroupState transform(String errorCode) {
+    public Optional<LocationGroupState> transform(String errorCode) {
         Assert.hasText(errorCode, "ErrorCode must be applied");
+        if (errorCode.charAt(errorCode.length()-2) == 42 /* * */) {
+            return Optional.empty();
+        }
         // A Zero in the errorCode means no errors
-        return errorCode.charAt(errorCode.length()-2) == 48 ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;
+        return Optional.of(errorCode.charAt(errorCode.length()-2) == 48 ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE);
     }
 }

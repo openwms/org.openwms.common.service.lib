@@ -17,6 +17,8 @@ package org.openwms.common.transport.commands;
 
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
+import org.openwms.common.transport.api.commands.Command;
+import org.openwms.common.transport.api.commands.MessageCommand;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.core.SpringProfiles;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
@@ -35,16 +37,22 @@ import org.springframework.messaging.handler.annotation.Payload;
 class TransportUnitCommandListener {
 
     private final TransportUnitCommandHandler handler;
+    private final MessageCommandHandler messageCommandHandler;
 
-    TransportUnitCommandListener(TransportUnitCommandHandler handler) {
+    TransportUnitCommandListener(TransportUnitCommandHandler handler, MessageCommandHandler messageCommandHandler) {
         this.handler = handler;
+        this.messageCommandHandler = messageCommandHandler;
     }
 
     @Measured
     @RabbitListener(queues = "${owms.commands.common.tu.queue-name}")
-    public void onCommand(@Payload TUCommand command) {
+    public void onCommand(@Payload Command command) {
         try {
-            handler.handle(command);
+            if (command instanceof TUCommand) {
+                handler.handle((TUCommand) command);
+            } else if (command instanceof MessageCommand) {
+                messageCommandHandler.handle((MessageCommand) command);
+            }
         } catch (Exception e) {
             throw new AmqpRejectAndDontRequeueException(e.getMessage(), e);
         }

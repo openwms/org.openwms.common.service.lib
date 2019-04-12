@@ -31,8 +31,14 @@ import java.util.List;
 @Profile("INMEM")
 @TxService
 class TransportUnitApiImpl implements TransportUnitApi {
+
     @Override
-    public TransportUnitVO findTransportUnit(String barcode) {
+    public TransportUnitVO findTransportUnit(String transportUnitBK, Boolean withErorrs) {
+        return null;
+    }
+
+    @Override
+    public List<TransportUnitVO> findTransportUnits(List<String> barcodes) {
         return null;
     }
 
@@ -47,7 +53,7 @@ class TransportUnitApiImpl implements TransportUnitApi {
     }
 
     @Override
-    public List<TransportUnitVO> getTransportUnitsOn(String actualLocation) {
+    public List<TransportUnitVO> findTransportUnitsOn(String actualLocation) {
         return null;
     }
 
@@ -69,5 +75,10 @@ class TransportUnitApiImpl implements TransportUnitApi {
     @Override
     public TransportUnitVO moveTU(String barcode, String newLocation) {
         return null;
+    }
+
+    @Override
+    public void addErrorToTransportUnit(String transportUnitBK, String errorCode) {
+
     }
 }

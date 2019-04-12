@@ -24,6 +24,7 @@ import org.ameba.i18n.AbstractTranslator;
 import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.ameba.mapping.DozerMapperImpl;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -41,6 +42,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableAspects(propagateRootCause = true)
+@EnableConfigurationProperties
 @EnableSpringConfigured
 @EnableJpaAuditing
 @EnableMultiTenancy

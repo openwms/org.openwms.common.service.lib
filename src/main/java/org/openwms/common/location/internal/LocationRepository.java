@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location;
+package org.openwms.common.location.internal;
 
+import org.openwms.common.location.Location;
+import org.openwms.common.location.LocationPK;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -31,10 +33,21 @@ import java.util.Optional;
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
 
+    Optional<Location> findByPKey(String persistentKey);
+
     Optional<Location> findByLocationId(LocationPK locationId);
 
     @Query("select l from Location l where l.locationGroup.name in :locationGroupNames")
     List<Location> findByLocationGroup_Name(@Param("locationGroupNames") List<String> locationGroupNames);
 
     Optional<Location> findByPlcCode(String plcCode);
+
+    @Query("select l from Location l " +
+            "where l.locationId.area like :#{#locationPK.area} " +
+            "and l.locationId.aisle like :#{#locationPK.aisle} " +
+            "and l.locationId.x like :#{#locationPK.x} " +
+            "and l.locationId.y like :#{#locationPK.y} " +
+            "and l.locationId.z like :#{#locationPK.z} ")
+    List<Location> findByLocationIdContaining(@Param("locationPK")LocationPK locationPK);
+
 }

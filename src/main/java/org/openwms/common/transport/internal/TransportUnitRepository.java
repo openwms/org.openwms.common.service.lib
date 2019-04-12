@@ -20,6 +20,7 @@ import org.openwms.common.transport.Barcode;
 import org.openwms.common.transport.TransportUnit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,10 +34,14 @@ import java.util.Optional;
 @Repository
 interface TransportUnitRepository extends JpaRepository<TransportUnit, Long> {
 
-    @Query("select tu from TransportUnit tu where tu.pKey = ?1")
-    Optional<TransportUnit> findByPKey(String pKey);
+    @Query("select tu from TransportUnit tu where tu.pKey = :pKey")
+    Optional<TransportUnit> findByPKey(@Param("pKey") String pKey);
 
     Optional<TransportUnit> findByBarcode(Barcode barcode);
 
+    @Query("select tu from TransportUnit tu where tu.barcode in :barcodes")
+    List<TransportUnit> findByBarcodeIn(@Param("barcodes") List<Barcode> barcodes);
+
     List<TransportUnit> findByActualLocationOrderByActualLocationDate(Location actualLocation);
+
 }

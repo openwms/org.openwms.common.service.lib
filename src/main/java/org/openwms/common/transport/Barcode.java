@@ -37,14 +37,12 @@ public class Barcode implements Serializable {
     public static final int BARCODE_LENGTH = 20;
 
     /**
-     * A BARCODE_ALIGN defines whether the {@code Barcode} is applied {@code LEFT} or {@code RIGHT}. <p> Only be used when padding is
-     * activated. </p>
+     * A BARCODE_ALIGN defines whether the {@code Barcode} is applied {@code LEFT} or
+     * {@code RIGHT}. Only be used when padding is activated.
      *
      * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
-     * @version 1.0
-     * @since 0.1
      */
-    public static enum BARCODE_ALIGN {
+    public enum BARCODE_ALIGN {
         /** Barcode is left aligned. */
         LEFT,
         /** Barcode is right aligned. */
@@ -95,7 +93,7 @@ public class Barcode implements Serializable {
      * @return Formatted Barcode instance
      */
     public static Barcode of(String value) {
-        return new Barcode(value);
+        return Barcode.of(value);
     }
     /*~ ----------------------------- methods ------------------- */
 

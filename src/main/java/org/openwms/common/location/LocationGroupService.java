@@ -44,7 +44,7 @@ public interface LocationGroupService {
      * @param stateIn The new infeed state
      * @param stateOut The new outfeed state
      */
-    void changeGroupStates(String locationGroupName, LocationGroupState stateIn, LocationGroupState stateOut);
+    void changeGroupStates(String locationGroupName, Optional<LocationGroupState> stateIn, Optional<LocationGroupState> stateOut);
 
     /**
      * Find and return a {@link LocationGroup} by its unique {@code name}.
@@ -68,27 +68,4 @@ public interface LocationGroupService {
      * @return Always an list instance, never {@literal null}
      */
     List<LocationGroup> findByNames(List<String> names);
-
-    /**
-     * Returns a hierarchical Tree of all {@link LocationGroup}s. Used by the user interface to show all {@link LocationGroup}s in a tree
-     * form.
-     *
-     * @return All {@link LocationGroup}s as hierarchical tree
-     */
-    //TreeNode<T> getLocationGroupsAsTree();
-
-    /**
-     * Returns a List of all {@link LocationGroup}s.
-     *
-     * @return All {@link LocationGroup}s as a list
-     */
-    //List<T> getLocationGroupsAsList();
-
-    /**
-     * Save an already persisted {@link LocationGroup} and return the saved instance.
-     *
-     * @param locationGroup The {@link LocationGroup} to save
-     * @return The saved {@link LocationGroup}
-     */
-    //T save(T locationGroup);
 }

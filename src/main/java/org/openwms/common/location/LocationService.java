@@ -15,6 +15,9 @@
  */
 package org.openwms.common.location;
 
+import org.openwms.common.location.api.ErrorCodeTransformers;
+import org.openwms.common.location.api.ErrorCodeVO;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -74,6 +77,15 @@ public interface LocationService {
     Optional<Location> findByLocationId(LocationPK locationPK);
 
     /**
+     * Find and return all Locations that match the {@code locationPK} whereas the
+     * attributes of the LocationPK may include SQL wildcard operators, like '%', '_'.
+     *
+     * @param locationPK The LocationPK
+     * @return All Locations or an empty list, never {@literal null}
+     */
+    List<Location> findLocations(LocationPK locationPK);
+
+    /**
      * Find and return a {@link Location} by the given {@code plcCode}.
      *
      * @param plcCode The PLC Code
@@ -105,4 +117,14 @@ public interface LocationService {
      * @return All LocationGroups or an empty list, never {@literal null}
      */
     List<Location> findAllOf(List<String> locationGroupName);
+
+    /**
+     * Change the infeed and outfeed state of a {@link Location} in respect of the
+     * according {@code LocationGroup}.
+     *
+     * @param pKey     The persistent key identifier of the Location to change
+     * @param stateIn  The new infeed state
+     * @param stateOut The new outfeed state
+     */
+    void changeState(String pKey, ErrorCodeTransformers.LocationStateIn stateIn, ErrorCodeTransformers.LocationStateOut stateOut, ErrorCodeVO errorCode);
 }

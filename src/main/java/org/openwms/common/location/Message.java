@@ -30,7 +30,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "COR_MESSAGE")
-class Message extends BaseEntity implements Serializable {
+public class Message extends BaseEntity implements Serializable {
 
     /** String used to separate messageNo and messageText in toString. */
     public static final String SEPARATOR = " :: ";

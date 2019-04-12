@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A LocationGroupVO is the view object of a Location.
@@ -37,6 +38,7 @@ public class LocationGroupVO extends ResourceSupport implements Target, Serializ
     @JsonProperty
     private LocationGroupState groupStateOut;
 
+    /*~ ------------------ constructors ----------------------*/
     protected LocationGroupVO() {
     }
 
@@ -86,11 +88,22 @@ public class LocationGroupVO extends ResourceSupport implements Target, Serializ
     }
 
     /**
-     * {@inheritDoc}
+     * Checks whether the LocationGroup is available for outfeed.
+     *
+     * @return {@literal true} if available, otherwise {@literal false}
      */
-    @Override
-    public String asString() {
-        return name;
+    @JsonIgnore
+    public boolean isOutgoingActive() {
+        return this.groupStateOut == LocationGroupState.AVAILABLE;
+    }
+
+    /**
+     * Set the outfeed mode.
+     *
+     * @param outgoingActive {@literal true} if available for outfeed otherwise {@literal false}
+     */
+    public void setOutgoingActive(boolean outgoingActive) {
+        this.groupStateIn = outgoingActive ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;
     }
 
     /*~ ------------------ accessors ----------------------*/
@@ -110,4 +123,49 @@ public class LocationGroupVO extends ResourceSupport implements Target, Serializ
         this.parent = parent;
     }
 
+    /*~ ------------------ overrides ----------------------*/
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String asString() {
+        return name;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+        LocationGroupVO that = (LocationGroupVO) o;
+        return Objects.equals(name, that.name) && Objects.equals(parent, that.parent) && groupStateIn == that.groupStateIn && groupStateOut == that.groupStateOut;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, parent, groupStateIn, groupStateOut);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public String toString() {
+        return name;
+    }
 }

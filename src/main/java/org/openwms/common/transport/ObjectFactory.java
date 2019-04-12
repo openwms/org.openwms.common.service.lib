@@ -31,9 +31,7 @@ public class ObjectFactory {
     @Autowired
     private static EntityManager em;
 
-    public static Barcode createBarcode(String barcodeId) {
-        return new Barcode(barcodeId);
-    }
+    ObjectFactory() { }
 
     /**
      * Create a new TransportUnit.

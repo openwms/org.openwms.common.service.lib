@@ -9,18 +9,35 @@ spring:
         service-id: openwms-config
       retry:
         max-attempts: 120
+      label: local
   security:
     user:
       password: sa
       name: user
+  jpa:
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+  liquibase:
+    default-schema: tmsrtng
+  rabbitmq:
+    virtual-host: openwms
+
+feign:
+  httpclient:
+    connection-timeout: 30000
+    connection-timer-repeat: 30000
+ribbon:
+  connectTimeout: 30000
+  ReadTimeout: 30000
 
 owms:
-  srv:
-    protocol: http
-    hostname: localhost
   eureka:
     url: http://user:sa@localhost:8761
     zone: ${owms.eureka.url}/eureka/
+  srv:
+    protocol: http
+    hostname: localhost
 
 server:
   port: ${PORT:8120}
@@ -38,6 +55,13 @@ eureka:
       zone: ${owms.eureka.zone}
     hostname: ${owms.srv.hostname}
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+logging:
+  file: "/tmp/owms/BOOT-COMMON.log"
 ---
 spring:
   profiles: CLOUD

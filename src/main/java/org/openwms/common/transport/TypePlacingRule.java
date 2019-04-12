@@ -78,8 +78,8 @@ public class TypePlacingRule extends BaseEntity implements Serializable, Rule {
      * @param privilegeLevel The privilege level
      */
     public TypePlacingRule(TransportUnitType transportUnitType, LocationType allowedLocationType, int privilegeLevel) {
-        Assert.notNull(transportUnitType);
-        Assert.notNull(allowedLocationType);
+        Assert.notNull(transportUnitType, "When constructing a TypePlacingRule the TransportUnitType may not be null");
+        Assert.notNull(allowedLocationType, "When constructing a TypePlacingRule the LocationType may not be null");
         this.transportUnitType = transportUnitType;
         this.allowedLocationType = allowedLocationType;
         this.privilegeLevel = privilegeLevel;
@@ -92,10 +92,7 @@ public class TypePlacingRule extends BaseEntity implements Serializable, Rule {
      * @param allowedLocationType The allowed {@link LocationType}
      */
     public TypePlacingRule(TransportUnitType transportUnitType, LocationType allowedLocationType) {
-        Assert.notNull(transportUnitType);
-        Assert.notNull(allowedLocationType);
-        this.transportUnitType = transportUnitType;
-        this.allowedLocationType = allowedLocationType;
+        this(transportUnitType, allowedLocationType, DEF_PRIVILEGE_LEVEL);
     }
 
     /*~ ----------------------------- methods ------------------- */

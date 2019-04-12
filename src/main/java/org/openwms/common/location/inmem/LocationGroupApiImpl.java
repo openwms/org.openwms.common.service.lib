@@ -89,7 +89,9 @@ class LocationGroupApiImpl implements LocationGroupApi {
      */
     @Override
     public void updateState(String name, ErrorCodeVO errorCode) {
-        locationGroupService.changeGroupStates(name, groupStateIn.transform(errorCode.getErrorCode()), groupStateOut.transform(errorCode.getErrorCode()));
+        Optional<LocationGroupState> gsIn = groupStateIn.transform(errorCode.getErrorCode());
+        Optional<LocationGroupState> gsOut = groupStateOut.transform(errorCode.getErrorCode());
+        locationGroupService.changeGroupStates(name, gsIn, gsOut);
     }
 
     /**
