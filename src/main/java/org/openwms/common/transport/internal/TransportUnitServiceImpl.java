@@ -150,8 +150,8 @@ class TransportUnitServiceImpl implements TransportUnitService {
     /**
      * {@inheritDoc}
      */
-    @Measured
     @Override
+    @Measured
     public TransportUnit moveTransportUnit(Barcode barcode, LocationPK targetLocationPK) {
         TransportUnit transportUnit = repository.findByBarcode(barcode).orElseThrow(() -> new NotFoundException(format("TransportUnit with barcode [%s] not found", barcode)));
         transportUnit.setActualLocation(locationService.findByLocationId(targetLocationPK).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", targetLocationPK))));

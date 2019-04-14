@@ -13,30 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common;
+package org.openwms.common.location.spi;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.openwms.common.location.api.ErrorCodeTransformers;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 /**
- * A CommonSecurityConfiguration.
+ * A DefaultLocationStateInTransformer.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-@Configuration
-class CommonSecurityConfiguration extends WebSecurityConfigurerAdapter {
+@Order(5)
+@Component
+class DefaultLocationStateInTransformer implements ErrorCodeTransformers.LocationStateIn {
 
     /**
      * {@inheritDoc}
-     * <p>
-     * API is for non browser clients!
      */
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests().anyRequest().permitAll()
-            .and()
-            .csrf().disable();
+    public Boolean transform(String errorCode) {
+        Assert.hasText(errorCode, "ErrorCode must be applied");
+        if (errorCode.charAt(errorCode.length()-1) == 42 /* * */) {
+            return null;
+        }
+        // A Zero in the errorCode means no errors
+        return errorCode.charAt(errorCode.length()-1) == 48 /* 0 */;
     }
 }

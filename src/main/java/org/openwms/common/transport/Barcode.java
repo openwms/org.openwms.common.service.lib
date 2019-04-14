@@ -93,7 +93,7 @@ public class Barcode implements Serializable {
      * @return Formatted Barcode instance
      */
     public static Barcode of(String value) {
-        return Barcode.of(value);
+        return new Barcode(value);
     }
     /*~ ----------------------------- methods ------------------- */
 

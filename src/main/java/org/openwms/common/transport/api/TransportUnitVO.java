@@ -15,7 +15,12 @@
  */
 package org.openwms.common.transport.api;
 
+import org.openwms.common.location.api.LocationVO;
+
 import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A TransportUnitVO.
@@ -25,10 +30,15 @@ import java.io.Serializable;
 public class TransportUnitVO implements Serializable {
 
     private String barcode;
-    private String actualLocation;
+    private LocationVO actualLocation;
     private String target;
     private String transportUnitType;
+    private String length;
+    private String width;
+    private String height;
     private String actualPlcCode;
+    private Date actualLocationDate;
+    private Map<Date, UnitErrorVO> errors = new HashMap<>();
 
     public String getBarcode() {
         return barcode;
@@ -38,11 +48,11 @@ public class TransportUnitVO implements Serializable {
         this.barcode = barcode;
     }
 
-    public String getActualLocation() {
+    public LocationVO getActualLocation() {
         return actualLocation;
     }
 
-    public void setActualLocation(String actualLocation) {
+    public void setActualLocation(LocationVO actualLocation) {
         this.actualLocation = actualLocation;
     }
 
@@ -62,11 +72,51 @@ public class TransportUnitVO implements Serializable {
         this.transportUnitType = transportUnitType;
     }
 
+    public String getLength() {
+        return length;
+    }
+
+    public void setLength(String length) {
+        this.length = length;
+    }
+
+    public String getWidth() {
+        return width;
+    }
+
+    public void setWidth(String width) {
+        this.width = width;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
     public String getActualPlcCode() {
         return actualPlcCode;
     }
 
     public void setActualPlcCode(String actualPlcCode) {
         this.actualPlcCode = actualPlcCode;
+    }
+
+    public Date getActualLocationDate() {
+        return actualLocationDate;
+    }
+
+    public void setActualLocationDate(Date actualLocationDate) {
+        this.actualLocationDate = actualLocationDate;
+    }
+
+    public Map<Date, UnitErrorVO> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(Map<Date, UnitErrorVO> errors) {
+        this.errors = errors;
     }
 }

@@ -9,19 +9,10 @@ spring:
         service-id: openwms-config
       retry:
         max-attempts: 120
-      label: local
   security:
     user:
       password: sa
       name: user
-  jpa:
-    hibernate:
-      ddl-auto: update
-    generate-ddl: true
-  liquibase:
-    default-schema: tmsrtng
-  rabbitmq:
-    virtual-host: openwms
 
 feign:
   httpclient:
