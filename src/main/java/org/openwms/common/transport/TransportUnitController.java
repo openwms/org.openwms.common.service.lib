@@ -84,7 +84,7 @@ public class TransportUnitController extends AbstractWebController {
             service.findByBarcode(Barcode.of(transportUnitBK), Boolean.FALSE);
         }
         TransportUnit toCreate = mapper.map(tu, TransportUnit.class);
-        TransportUnit created = service.create(new Barcode(transportUnitBK), toCreate.getTransportUnitType(), toCreate.getActualLocation().getLocationId(), strict);
+        TransportUnit created = service.create(Barcode.of(transportUnitBK), toCreate.getTransportUnitType(), toCreate.getActualLocation().getLocationId(), strict);
         getLocationForCreatedResource(req, created.getPersistentKey());
     }
 
@@ -95,7 +95,7 @@ public class TransportUnitController extends AbstractWebController {
             // check if already exists ...
             service.findByBarcode(Barcode.of(transportUnitBK), Boolean.FALSE);
         }
-        TransportUnit created = service.create(new Barcode(transportUnitBK), tut, actualLocation, strict);
+        TransportUnit created = service.create(Barcode.of(transportUnitBK), tut, actualLocation, strict);
         getLocationForCreatedResource(req, created.getPersistentKey());
     }
 

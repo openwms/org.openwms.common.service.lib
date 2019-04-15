@@ -74,15 +74,7 @@ public class Barcode implements Serializable {
     protected Barcode() {
     }
 
-    /**
-     * Create a new {@code Barcode} with a String.
-     *
-     * @param value The value of the {@code Barcode} as String
-     * @throws IllegalArgumentException when the value is set to <code>null</code>.
-     * @deprecated Use {@link Barcode#of(String)} instead
-     */
-    @Deprecated
-    public Barcode(String value) {
+    private Barcode(String value) {
         adjustBarcode(value);
     }
 

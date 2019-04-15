@@ -21,6 +21,7 @@ import org.openwms.common.transport.api.TransportUnitTypeVO;
 import org.openwms.common.transport.api.TransportUnitVO;
 import org.springframework.context.annotation.Profile;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -39,7 +40,7 @@ class TransportUnitApiImpl implements TransportUnitApi {
 
     @Override
     public List<TransportUnitVO> findTransportUnits(List<String> barcodes) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
@@ -49,22 +50,22 @@ class TransportUnitApiImpl implements TransportUnitApi {
 
     @Override
     public List<TransportUnitTypeVO> findTransportUnitTypes() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public List<TransportUnitVO> findTransportUnitsOn(String actualLocation) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public void createTU(String barcode, TransportUnitVO tu, Boolean strict) {
-
+        // Implement this!
     }
 
     @Override
     public void createTU(String barcode, String actualLocation, String tut, Boolean strict) {
-
+        // Implement this!
     }
 
     @Override
@@ -79,6 +80,6 @@ class TransportUnitApiImpl implements TransportUnitApi {
 
     @Override
     public void addErrorToTransportUnit(String transportUnitBK, String errorCode) {
-
+        // Implement this!
     }
 }

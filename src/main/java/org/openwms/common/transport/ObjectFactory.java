@@ -31,6 +31,9 @@ public class ObjectFactory {
     @Autowired
     private static EntityManager em;
 
+    private ObjectFactory() {
+    }
+
     /**
      * Create a new TransportUnit.
      *

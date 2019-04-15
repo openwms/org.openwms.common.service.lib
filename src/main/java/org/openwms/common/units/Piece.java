@@ -29,12 +29,11 @@ import java.math.RoundingMode;
  */
 public class Piece implements Measurable<BigDecimal, Piece, PieceUnit>, UnitType, Serializable {
 
-    private static final long serialVersionUID = 5268725227649308401L;
     private static final BigDecimal SHIFTER = new BigDecimal(12);
 
-    /** The unit of the <code>Piece</code>. */
+    /** The unit of the Piece. */
     private PieceUnit unitType;
-    /** The magnitude of the <code>Piece</code>. */
+    /** The magnitude of the Piece. */
     private BigDecimal magnitude;
     /** Constant for a zero value. */
     public static final Piece ZERO = new Piece(0);
@@ -56,10 +55,10 @@ public class Piece implements Measurable<BigDecimal, Piece, PieceUnit>, UnitType
     }
 
     /**
-     * Create a new <code>Piece</code>.
+     * Create a new Piece.
      * 
      * @param magnitude
-     *            The magnitude of the <code>Piece</code>
+     *            The magnitude of the Piece
      * @param unitType
      *            The unit of measure
      */
@@ -69,10 +68,10 @@ public class Piece implements Measurable<BigDecimal, Piece, PieceUnit>, UnitType
     }
 
     /**
-     * Create a new <code>Piece</code>.
+     * Create a new Piece.
      * 
      * @param magnitude
-     *            The magnitude of the <code>Piece</code> as int
+     *            The magnitude of the Piece as int
      */
     public Piece(int magnitude) {
         this.magnitude = new BigDecimal(magnitude);
@@ -80,10 +79,10 @@ public class Piece implements Measurable<BigDecimal, Piece, PieceUnit>, UnitType
     }
 
     /**
-     * Create a new <code>Piece</code>.
+     * Create a new Piece.
      * 
      * @param magnitude
-     *            The magnitude of the <code>Piece</code>
+     *            The magnitude of the Piece
      * @param unitType
      *            The unit of measure
      */
@@ -93,10 +92,10 @@ public class Piece implements Measurable<BigDecimal, Piece, PieceUnit>, UnitType
     }
 
     /**
-     * Create a new <code>Piece</code>.
+     * Create a new Piece.
      * 
      * @param magnitude
-     *            The magnitude of the <code>Piece</code> as BigDecimal
+     *            The magnitude of the Piece as BigDecimal
      */
     public Piece(BigDecimal magnitude) {
         this.magnitude = magnitude;
@@ -104,7 +103,7 @@ public class Piece implements Measurable<BigDecimal, Piece, PieceUnit>, UnitType
     }
 
     /**
-     * Returns the magnitude of the <code>Piece</code>.
+     * Returns the magnitude of the Piece.
      * 
      * @return The magnitude
      */
@@ -114,7 +113,7 @@ public class Piece implements Measurable<BigDecimal, Piece, PieceUnit>, UnitType
     }
 
     /**
-     * Returns the unit of the <code>Piece</code>.
+     * Returns the unit of the Piece.
      * 
      * @return The unit
      */
@@ -214,12 +213,12 @@ public class Piece implements Measurable<BigDecimal, Piece, PieceUnit>, UnitType
                 return false;
             }
         }
-        return this.compareTo(other) == 0 ? true : false;
+        return this.compareTo(other) == 0;
 
     }
 
     private int compare(BigDecimal val1, BigDecimal val2) {
-        if (val1 == val2) {
+        if (val1.equals(val2)) {
             return 0;
         }
         return val1.compareTo(val2);

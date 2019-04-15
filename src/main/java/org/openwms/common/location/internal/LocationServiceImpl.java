@@ -158,21 +158,29 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
-    public void changeState(String pKey, ErrorCodeTransformers.LocationStateIn stateIn, ErrorCodeTransformers.LocationStateOut stateOut, ErrorCodeVO errorCode) {
-        Location location = locationRepository.findByPKey(pKey).orElseThrow(() -> new NotFoundException(format("No Location with persistent key [%s] found", pKey)));
+    public void changeState(String pKey, ErrorCodeTransformers.LocationStateIn stateIn,
+            ErrorCodeTransformers.LocationStateOut stateOut, ErrorCodeVO errorCode) {
+        Location location = locationRepository
+                .findByPKey(pKey)
+                .orElseThrow(() -> new NotFoundException(format("No Location with persistent key [%s] found", pKey)));
+
         boolean changed = false;
         if (errorCode.getPlcState() != location.getPlcState()) {
             location.setPlcState(errorCode.getPlcState());
             changed = true;
         }
-        Boolean infeedAvailable = stateIn.transform(errorCode.getErrorCode());
-        if (infeedAvailable != null && location.getLocationGroup().isInfeedAllowed() && location.isInfeedActive() != infeedAvailable) {
-            location.setInfeed(infeedAvailable);
+        Optional<Boolean> infeedAvailable = stateIn.available(errorCode.getErrorCode());
+        if (infeedAvailable.isPresent() &&
+                location.getLocationGroup().isInfeedAllowed() &&
+                location.isInfeedActive() != infeedAvailable.get()) {
+            location.setInfeed(infeedAvailable.get());
             changed = true;
         }
-        Boolean outfeedAvailable = stateOut.transform(errorCode.getErrorCode());
-        if (outfeedAvailable != null && location.getLocationGroup().isOutfeedAllowed() && location.isOutfeedActive() != outfeedAvailable) {
-            location.setOutfeed(outfeedAvailable);
+        Optional<Boolean> outfeedAvailable = stateOut.available(errorCode.getErrorCode());
+        if (outfeedAvailable.isPresent() &&
+                location.getLocationGroup().isOutfeedAllowed() &&
+                location.isOutfeedActive() != outfeedAvailable.get()) {
+            location.setOutfeed(outfeedAvailable.get());
             changed = true;
         }
         if (changed) {

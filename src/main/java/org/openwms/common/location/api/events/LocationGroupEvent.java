@@ -41,7 +41,7 @@ public class LocationGroupEvent extends RootApplicationEvent implements Serializ
         this.type = type;
     }
 
-    public static LocationGroupEvent BOOT() {
+    public static LocationGroupEvent boot() {
         return new LocationGroupEvent("BOOT", LocationGroupEventType.BOOT);
     }
 

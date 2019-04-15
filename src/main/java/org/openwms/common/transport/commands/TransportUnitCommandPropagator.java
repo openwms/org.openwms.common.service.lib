@@ -45,7 +45,8 @@ class TransportUnitCommandPropagator {
     private final Validator validator;
     private final String exchangeName;
 
-    TransportUnitCommandPropagator(AmqpTemplate amqpTemplate, Validator validator, @Value("${owms.commands.common.tu.exchange-name}") String exchangeName) {
+    TransportUnitCommandPropagator(AmqpTemplate amqpTemplate, Validator validator,
+            @Value("${owms.commands.common.tu.exchange-name}") String exchangeName) {
         this.amqpTemplate = amqpTemplate;
         this.validator = validator;
         this.exchangeName = exchangeName;
@@ -57,15 +58,15 @@ class TransportUnitCommandPropagator {
         if (!violations.isEmpty()) {
             throw new ValidationException(violations.iterator().next().getMessage());
         }
-        switch (command.getType()) {
-            case REMOVING:
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Sending REMOVING command to announce the TransportUnit [{}] is going to be removed", command.getTransportUnit().getpKey());
-                }
-                amqpTemplate.convertAndSend(exchangeName, "common.tu.command.removing", command);
-                break;
-            default:
-                //LOGGER.debug("Command [{}] not supported to be propagated", command.getType());
+        if (command.getType() == TUCommand.Type.REMOVING) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Sending REMOVING command to announce the TransportUnit [{}] is going to be removed", command.getTransportUnit().getpKey());
+            }
+            amqpTemplate.convertAndSend(
+                    exchangeName,
+                    "common.tu.command.removing",
+                    command
+            );
         }
     }
 }

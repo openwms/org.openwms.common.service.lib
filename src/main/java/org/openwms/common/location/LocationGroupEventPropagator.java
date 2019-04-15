@@ -52,7 +52,7 @@ class LocationGroupEventPropagator {
 
     @PostConstruct
     void onStartup() {
-        amqpTemplate.convertAndSend(exchangeName, "lg.event.boot", LocationGroupEvent.BOOT());
+        amqpTemplate.convertAndSend(exchangeName, "lg.event.boot", LocationGroupEvent.boot());
     }
 
     @TransactionalEventListener(fallbackExecution = true)

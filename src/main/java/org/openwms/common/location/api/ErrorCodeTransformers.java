@@ -26,21 +26,21 @@ public interface ErrorCodeTransformers {
 
     @FunctionalInterface
     interface GroupStateIn {
-        Optional<LocationGroupState> transform(String errorCode);
+        Optional<LocationGroupState> available(String errorCode);
     }
 
     @FunctionalInterface
     interface GroupStateOut {
-        Optional<LocationGroupState> transform(String errorCode);
+        Optional<LocationGroupState> available(String errorCode);
     }
 
     @FunctionalInterface
     interface LocationStateIn {
-        Boolean transform(String errorCode);
+        Optional<Boolean> available(String errorCode);
     }
 
     @FunctionalInterface
     interface LocationStateOut {
-        Boolean transform(String errorCode);
+        Optional<Boolean> available(String errorCode);
     }
 }

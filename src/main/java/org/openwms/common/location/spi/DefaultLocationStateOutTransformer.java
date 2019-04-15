@@ -20,6 +20,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import java.util.Optional;
+
 /**
  * A DefaultLocationStateOutTransformer.
  *
@@ -33,13 +35,13 @@ class DefaultLocationStateOutTransformer implements ErrorCodeTransformers.Locati
      * {@inheritDoc}
      */
     @Override
-    public Boolean transform(String errorCode) {
+    public Optional<Boolean> available(String errorCode) {
         Assert.hasText(errorCode, "ErrorCode must be applied");
         if (errorCode.charAt(errorCode.length()-2) == 42 /* * */) {
-            return null;
+            return Optional.empty();
         }
 
         // A Zero in the errorCode means no errors
-        return errorCode.charAt(errorCode.length()-2) == 48 /* 0 */;
+        return Optional.of(errorCode.charAt(errorCode.length()-2) == 48 /* 0 */);
     }
 }

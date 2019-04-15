@@ -179,17 +179,14 @@ class TransportUnitServiceImpl implements TransportUnitService {
 
     @EventListener
     public void onEvent(TUCommand command) {
-        switch (command.getType()) {
-            case REMOVE:
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Got command to REMOVE TransportUnit with id [{}]", command.getTransportUnit().getpKey());
-                }
-                repository.findByPKey(command.getTransportUnit().getpKey()).ifPresent(tu -> {
-                    repository.delete(tu);
-                    ctx.publishEvent(TransportUnitEvent.newBuilder().tu(tu).type(TransportUnitEvent.TransportUnitEventType.DELETED).build());
-                });
-                break;
-            default:
+        if (command.getType() == TUCommand.Type.REMOVE) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Got command to REMOVE TransportUnit with id [{}]", command.getTransportUnit().getpKey());
+            }
+            repository.findByPKey(command.getTransportUnit().getpKey()).ifPresent(tu -> {
+                repository.delete(tu);
+                ctx.publishEvent(TransportUnitEvent.newBuilder().tu(tu).type(TransportUnitEvent.TransportUnitEventType.DELETED).build());
+            });
         }
     }
 

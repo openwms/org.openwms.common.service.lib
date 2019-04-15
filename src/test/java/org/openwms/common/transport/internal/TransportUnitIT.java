@@ -143,7 +143,7 @@ public class TransportUnitIT {
     public final
     @Test
     void testTUwithErrors() throws Exception {
-        TransportUnit transportUnit = new TransportUnit(new Barcode("4711"));
+        TransportUnit transportUnit = new TransportUnit(Barcode.of("4711"));
 
         transportUnit.setTransportUnitType(knownType);
         transportUnit.setActualLocation(knownLocation1);

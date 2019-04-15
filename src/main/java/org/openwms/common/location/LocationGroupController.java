@@ -88,7 +88,11 @@ public class LocationGroupController {
 
     @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"name"})
     public void updateState(@RequestParam(name = "name") String name, @RequestBody ErrorCodeVO errorCode) {
-        locationGroupService.changeGroupStates(name, groupStateIn.transform(errorCode.getErrorCode()), groupStateOut.transform(errorCode.getErrorCode()));
+        locationGroupService.changeGroupStates(
+                name,
+                groupStateIn.available(errorCode.getErrorCode()),
+                groupStateOut.available(errorCode.getErrorCode())
+        );
     }
 
     @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS + "/{id}")
@@ -98,8 +102,9 @@ public class LocationGroupController {
     }
 
     private String getLocationForCreatedResource(HttpServletRequest req, String objId) {
-        StringBuffer url = req.getRequestURL();
-        UriTemplate template = new UriTemplate(url.append("/{objId}/").toString());
-        return template.expand(objId).toASCIIString();
+        return new UriTemplate(req.getRequestURL().append("/{objId}/")
+                .toString())
+                .expand(objId)
+                .toASCIIString();
     }
 }

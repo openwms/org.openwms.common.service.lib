@@ -41,7 +41,7 @@ public class LocationEvent extends RootApplicationEvent implements Serializable 
         this.type = type;
     }
 
-    public static LocationEvent BOOT() {
+    public static LocationEvent boot() {
         return new LocationEvent("BOOT", LocationEventType.BOOT);
     }
 
@@ -53,7 +53,7 @@ public class LocationEvent extends RootApplicationEvent implements Serializable 
         return new LocationEvent(obj, type);
     }
 
-    public static enum LocationEventType {
+    public enum LocationEventType {
         BOOT, CREATED, CHANGED, DELETED, STATE_CHANGE;
     }
 }

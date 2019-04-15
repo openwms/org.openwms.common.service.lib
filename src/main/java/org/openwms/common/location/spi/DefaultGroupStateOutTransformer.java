@@ -36,7 +36,7 @@ class DefaultGroupStateOutTransformer implements ErrorCodeTransformers.GroupStat
      * {@inheritDoc}
      */
     @Override
-    public Optional<LocationGroupState> transform(String errorCode) {
+    public Optional<LocationGroupState> available(String errorCode) {
         Assert.hasText(errorCode, "ErrorCode must be applied");
         if (errorCode.charAt(errorCode.length()-2) == 42 /* * */) {
             return Optional.empty();

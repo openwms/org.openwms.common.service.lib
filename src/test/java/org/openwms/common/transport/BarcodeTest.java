@@ -41,7 +41,7 @@ public class BarcodeTest {
     @Test
     public final void testBarcodeWithNull() {
         try {
-            new Barcode(null);
+            Barcode.of(null);
             fail("NOK:Barcode cannot instanciated with NULL");
         } catch (IllegalArgumentException iae) {
             logger.debug("OK:Not allowed to initiante a Barcode with null");
@@ -53,24 +53,24 @@ public class BarcodeTest {
      */
     @Test
     public final void testBarcode() {
-        new Barcode("TEST");
+        Barcode.of("TEST");
 
         Barcode.setLength(20);
         Barcode.setPadder('0');
 
-        Barcode bc3 = new Barcode("RIGHT");
+        Barcode bc3 = Barcode.of("RIGHT");
         logger.debug("Test left-padded, right-aligned:[" + bc3 + "]");
         assertTrue("Barcode length must be expanded to 20 characters.", (20 == Barcode.getLength()));
         assertTrue("Barcode must start with 0", bc3.toString().startsWith("0"));
 
         Barcode.setAlignment(BARCODE_ALIGN.LEFT);
-        Barcode bc2 = new Barcode("LEFT");
+        Barcode bc2 = Barcode.of("LEFT");
         logger.debug("Test right-padded, left-aligned:[" + bc2 + "]");
         assertTrue("Barcode must end with 0", bc2.toString().endsWith("0"));
         assertTrue("Barcode must start with LEFT", bc2.toString().startsWith("LEFT"));
 
         Barcode.setLength(2);
-        Barcode bc4 = new Barcode("A123456789");
+        Barcode bc4 = Barcode.of("A123456789");
         logger.debug("Test not-padded:[" + bc4 + "]");
         assertTrue("Barcode must end with 9", bc4.toString().endsWith("9"));
         assertTrue("Barcode must start with A", bc4.toString().startsWith("A"));

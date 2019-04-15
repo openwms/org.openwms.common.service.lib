@@ -23,10 +23,9 @@ import org.openwms.common.transport.UnitError;
 import org.openwms.common.transport.api.commands.MessageCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 
 /**
- * A MessageCommandHandler handles {@link MessageCommand}s.
+ * A MessageCommandHandlerImpl handles {@link MessageCommand}s.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @see MessageCommand
@@ -36,24 +35,28 @@ public class MessageCommandHandlerImpl implements MessageCommandHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageCommandHandlerImpl.class);
     private final TransportUnitService service;
-    private final ApplicationContext ctx;
 
-    MessageCommandHandlerImpl(TransportUnitService service, ApplicationContext ctx) {
+    MessageCommandHandlerImpl(TransportUnitService service) {
         this.service = service;
-        this.ctx = ctx;
     }
 
     public void handle(MessageCommand command) {
-        switch(command.getType()) {
-            case ADD_TO_TU:
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Got command to ADD a Message to the TransportUnit with id [{}]", command.getTransportUnitId());
-                }
-                TransportUnit tu = service.findByBarcode(Barcode.of(command.getTransportUnitId()), Boolean.FALSE);
-                tu.addError(UnitError.newBuilder().errorText(command.getMessageText()).errorNo(command.getMessageNumber()).build());
-                break;
-            default:
-                LOGGER.debug("MessageCommand [{}] not supported", command.getType());
+        if (command.getType() == MessageCommand.Type.ADD_TO_TU) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Got command to ADD a Message to the TransportUnit with id [{}]", command.getTransportUnitId());
+            }
+            TransportUnit tu = service.findByBarcode(
+                    Barcode.of(command.getTransportUnitId()),
+                    Boolean.FALSE
+            );
+            tu.addError(
+                    UnitError.newBuilder()
+                            .errorText(command.getMessageText())
+                            .errorNo(command.getMessageNumber())
+                            .build()
+            );
+        } else {
+            LOGGER.debug("MessageCommand [{}] not supported", command.getType());
         }
     }
 }

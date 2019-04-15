@@ -146,7 +146,6 @@ public class TransportUnitMO implements Serializable {
         private String targetLocation;
         private TransportUnitTypeMO transportUnitType;
         private String parent;
-        private String asNextLocation;
 
         private Builder() {
         }
