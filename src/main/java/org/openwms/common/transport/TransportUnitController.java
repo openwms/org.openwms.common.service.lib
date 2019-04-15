@@ -79,7 +79,7 @@ public class TransportUnitController extends AbstractWebController {
     @PostMapping(value = "/v1/transport-units", params = {"bk"})
     @ResponseBody
     public void createTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
-        if (Boolean.TRUE == strict) {
+        if (Boolean.TRUE.equals(strict)) {
             // check if already exists ...
             service.findByBarcode(Barcode.of(transportUnitBK), Boolean.FALSE);
         }
@@ -91,7 +91,7 @@ public class TransportUnitController extends AbstractWebController {
     @PostMapping(value = "/v1/transport-units", params = {"bk", "actualLocation", "tut"})
     @ResponseBody
     public void createTU(@RequestParam("bk") String transportUnitBK, @RequestParam("actualLocation") String actualLocation, @RequestParam("tut") String tut, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
-        if (Boolean.TRUE == strict) {
+        if (Boolean.TRUE.equals(strict)) {
             // check if already exists ...
             service.findByBarcode(Barcode.of(transportUnitBK), Boolean.FALSE);
         }

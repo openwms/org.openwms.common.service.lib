@@ -86,7 +86,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
             LOGGER.debug("Creating a TransportUnit with Barcode [{}] of Type [{}] on Location [{}]", barcode, transportUnitType.getType(), actualLocation);
         }
         TransportUnit transportUnit;
-        if (Boolean.TRUE == strict) {
+        if (Boolean.TRUE.equals(strict)) {
             repository.findByBarcode(barcode).ifPresent(tu -> {
                 throw new ServiceLayerException(format("TransportUnit with id [%s] not found", barcode));
             });
@@ -115,7 +115,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
             LOGGER.debug("Creating a TransportUnit with Barcode [{}] of Type [{}] on Location [{}]", barcode, transportUnitType, actualLocation);
         }
         Optional<TransportUnit> opt = repository.findByBarcode(barcode);
-        if (Boolean.TRUE == strict) {
+        if (Boolean.TRUE.equals(strict)) {
             opt.ifPresent(tu -> {
                 throw new ServiceLayerException(format("TransportUnit with id [%s] not found", barcode));
             });
