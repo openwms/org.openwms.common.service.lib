@@ -17,11 +17,6 @@ script:
 after_success:
   - docker build -t openwms/org.openwms.common.service:latest .
 
-cache:
-  directories:
-  - '$HOME/.m2/repository'
-  - '$HOME/.sonar/cache'
-
 deploy:
   provider: script
   script: bash docker_push
