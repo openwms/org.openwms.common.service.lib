@@ -1,6 +1,7 @@
 # Directories #
 /build/
 /bin/
+.scannerwork/
 target/
 **/${project.build.directory}/
 /null/
