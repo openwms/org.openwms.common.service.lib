@@ -13,27 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.transport.internal;
+package org.openwms.common.location.impl;
 
-import org.openwms.common.transport.TransportUnitType;
+import org.openwms.common.location.LocationGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
- * A TransportUnitTypeRepository adds particular functionality regarding {@link TransportUnitType} entity classes.
- *
+ * A LocationGroupRepository adds particular functionality regarding {@link LocationGroup} entity classes.
+ * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 @Repository
-interface TransportUnitTypeRepository extends JpaRepository<TransportUnitType, Long> {
+interface LocationGroupRepository extends JpaRepository<LocationGroup, Long> {
 
-    /**
-     * Find and return a TransportUnitType by the given {@literal type}.
-     *
-     * @param type The type to identify the TransportUnitType
-     * @return The TransportUnitType instance
-     */
-    Optional<TransportUnitType> findByType(String type);
+    Optional<LocationGroup> findByName(String name);
+
+    List<LocationGroup> findByNameIn(List<String> names);
 }

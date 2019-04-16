@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.transport.internal;
+package org.openwms.common.transport.impl;
 
 import org.ameba.test.categories.IntegrationTests;
 import org.junit.Test;

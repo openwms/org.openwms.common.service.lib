@@ -13,58 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location.internal;
+package org.openwms.common.location.impl;
 
 import org.ameba.test.categories.IntegrationTests;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.openwms.common.location.LocationGroup;
+import org.openwms.common.location.LocationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * A LocationGroupIT.
+ * A LocationTypeIT.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 @RunWith(SpringRunner.class)
 @Category(IntegrationTests.class)
-public class LocationGroupIT {
+public class LocationTypeIT {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private static final String KNOWN_LG = "KNOWN";
-    private LocationGroup knownLG;
     @Autowired
     private TestEntityManager entityManager;
     @Autowired
-    private LocationGroupRepository repository;
+    private LocationTypeRepository repository;
 
-    /**
-     * Setup data.
-     */
-    @Before
-    public void onBefore() {
-        knownLG = new LocationGroup(KNOWN_LG);
-        entityManager.persist(knownLG);
-        entityManager.flush();
-        entityManager.clear();
-    }
-
-
-    /**
-     * Creating two groups with same id must fail.
-     */
+    public final
     @Test
-    public final void testNameConstraint() {
+    void testUniqueConstraint() {
+        repository.save(new LocationType("conveyor"));
+
         thrown.expect(DataIntegrityViolationException.class);
-        repository.save(new LocationGroup(KNOWN_LG));
+        repository.save(new LocationType("conveyor"));
     }
 }

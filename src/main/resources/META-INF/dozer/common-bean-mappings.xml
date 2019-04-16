@@ -12,19 +12,19 @@
 				<class-a>java.time.LocalDateTime</class-a>
 				<class-b>java.time.LocalDateTime</class-b>
 			</converter>
-			<converter type="org.openwms.common.location.internal.LocationConverter">
+			<converter type="org.openwms.common.location.impl.LocationConverter">
 				<class-a>java.lang.String</class-a>
 				<class-b>org.openwms.common.location.Location</class-b>
 			</converter>
-			<converter type="org.openwms.common.location.internal.LocationGroupStateConverter">
+			<converter type="org.openwms.common.location.impl.LocationGroupStateConverter">
 				<class-a>java.lang.Boolean</class-a>
 				<class-b>org.openwms.common.location.api.LocationGroupState</class-b>
 			</converter>
-			<converter type="org.openwms.common.location.internal.LocationPKConverter">
+			<converter type="org.openwms.common.location.impl.LocationPKConverter">
 				<class-a>java.lang.String</class-a>
 				<class-b>org.openwms.common.location.LocationPK</class-b>
 			</converter>
-			<converter type="org.openwms.common.transport.internal.TransportUnitTypeConverter">
+			<converter type="org.openwms.common.transport.impl.TransportUnitTypeConverter">
 				<class-a>java.lang.String</class-a>
 				<class-b>org.openwms.common.transport.TransportUnitType</class-b>
 			</converter>

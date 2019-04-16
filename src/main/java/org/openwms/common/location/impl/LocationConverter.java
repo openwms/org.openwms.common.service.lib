@@ -13,24 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location.internal;
+package org.openwms.common.location.impl;
 
+import org.ameba.exception.NotFoundException;
+import org.ameba.i18n.Translator;
 import org.dozer.DozerConverter;
-import org.openwms.common.location.api.LocationGroupState;
+import org.openwms.common.CommonMessageCodes;
+import org.openwms.common.location.Location;
+import org.openwms.common.location.LocationPK;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
 /**
- * A LocationGroupStateConverter.
+ * A LocationConverter.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-public class LocationGroupStateConverter extends DozerConverter<Boolean, LocationGroupState> {
+@Configurable
+public class LocationConverter extends DozerConverter<String, Location> {
 
+    @Autowired
+    private LocationRepository locationRepository;
+    @Autowired
+    private Translator translator;
 
     /**
      * {@inheritDoc}
      */
-    public LocationGroupStateConverter() {
-        super(Boolean.class, LocationGroupState.class);
+    public LocationConverter() {
+        super(String.class, Location.class);
     }
 
     /**
@@ -41,11 +52,8 @@ public class LocationGroupStateConverter extends DozerConverter<Boolean, Locatio
      * @return the resulting value for the destination field
      */
     @Override
-    public LocationGroupState convertTo(Boolean source, LocationGroupState destination) {
-        if (source == null) {
-            return null;
-        }
-        return source ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;
+    public Location convertTo(String source, Location destination) {
+        return locationRepository.findByLocationId(LocationPK.fromString(source)).orElseThrow(()->new NotFoundException(translator, CommonMessageCodes.LOCATION_NOT_FOUND, new String[]{source}, source));
     }
 
     /**
@@ -56,10 +64,7 @@ public class LocationGroupStateConverter extends DozerConverter<Boolean, Locatio
      * @return the resulting value for the destination field
      */
     @Override
-    public Boolean convertFrom(LocationGroupState source, Boolean destination) {
-        if (source == null) {
-            return null;
-        }
-        return source == LocationGroupState.AVAILABLE;
+    public String convertFrom(Location source, String destination) {
+        return source.getLocationId().toString();
     }
 }

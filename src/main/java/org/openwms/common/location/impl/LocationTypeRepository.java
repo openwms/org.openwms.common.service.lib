@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location.internal;
+package org.openwms.common.location.impl;
 
 import org.openwms.common.location.LocationType;
 import org.springframework.data.jpa.repository.JpaRepository;
