@@ -13,8 +13,7 @@ spring:
     user:
       password: sa
       name: user
-  jpa:
-    database: h2
+
 feign:
   httpclient:
     connection-timeout: 30000
