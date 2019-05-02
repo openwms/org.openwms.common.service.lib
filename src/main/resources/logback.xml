@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="false" scan="true" scanPeriod="30 seconds">
+<configuration debug="false" scan="false" scanPeriod="30 seconds">
 
     <property name="LOG_TEMP" value="/tmp/owms"/>
-    <property name="MODULE_NAME" value="COMMON"/>
-    <property name="SERVICE_NAME" value="COMMON-Service" />
+    <property name="MODULE_NAME" value="COMMON-Service"/>
 
     <include resource="logback-appenders.xml" />
     <include resource="logback-loggers.xml" />

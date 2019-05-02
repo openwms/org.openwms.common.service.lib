@@ -6,6 +6,7 @@ eureka:
 ---
 spring:
   profiles: ASYNCHRONOUS
+
 owms:
   commands:
     common:

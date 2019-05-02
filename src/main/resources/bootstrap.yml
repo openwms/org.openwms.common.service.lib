@@ -51,8 +51,10 @@ management:
     web:
       exposure:
         include: "*"
+
 logging:
-  file: "/tmp/owms/BOOT-COMMON.log"
+  file: "/tmp/owms/BOOT-COMMON-Service.log"
+
 ---
 spring:
   profiles: CLOUD
