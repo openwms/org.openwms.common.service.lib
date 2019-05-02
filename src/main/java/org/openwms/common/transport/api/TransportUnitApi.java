@@ -40,12 +40,12 @@ public interface TransportUnitApi {
      * Find and return a {@code TransportUnit} identified by its {@code barcode}.
      *
      * @param transportUnitBK The unique (physical) identifier
-     * @param withErorrs Flag for loading errors
+     * @param withErrors Flag for loading errors
      * @return The instance or the implementation may return a 404-Not Found
      */
     @GetMapping(value = "/v1/transport-units", params = {"bk"})
     @ResponseBody
-    TransportUnitVO findTransportUnit(@RequestParam("bk") String transportUnitBK, @RequestParam("withErrors") Boolean withErorrs);
+    TransportUnitVO findTransportUnit(@RequestParam("bk") String transportUnitBK, @RequestParam("withErrors") Boolean withErrors);
 
     /**
      * Find and return all {@code TransportUnit} identified by its {@code barcode}s.
