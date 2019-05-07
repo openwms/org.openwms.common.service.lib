@@ -13,6 +13,8 @@ spring:
     user:
       password: sa
       name: user
+  jpa:
+    show-sql: false
 
 feign:
   httpclient:
@@ -35,6 +37,8 @@ server:
 
 eureka:
   client:
+    healthcheck:
+      enabled: true
     instance-info-replication-interval-seconds: 10 # default is 30
     service-url:
       defaultZone: ${owms.eureka.zone}  # Must be camelCase
