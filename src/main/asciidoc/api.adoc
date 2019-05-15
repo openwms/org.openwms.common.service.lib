@@ -11,12 +11,16 @@ Heiko Scherrer;
 [[overview]]
 = Overview
 
-This guide describes the RESTful API of the OpenWMS.org COMMON Base Service module and its usage. Some general terms and definitions
-are explained and declared in the first part of the document whereas in the second part the usage of the API is shown in
-a more use-case-driven approach.
+This guide describes the RESTful API of the OpenWMS.org COMMON Base Service module and its
+usage. Some general terms and definitions are explained and declared in the first part of
+the document whereas in the second part the usage of the API is shown in a more use-case
+centric approach.
 
-[[resources-prg]]
+[[locations-lnk]]
 == Locations
 
-API to deal with `Location`s.
+[[locationgroups-lnk]]
+== LocationGroups
 
+[[transportunits-lnk]]
+== TransportUnits
