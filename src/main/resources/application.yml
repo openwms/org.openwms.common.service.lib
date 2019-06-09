@@ -1,3 +1,9 @@
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+
+---
 spring:
   profiles: ASYNCHRONOUS
 

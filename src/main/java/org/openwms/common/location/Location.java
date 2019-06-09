@@ -117,9 +117,12 @@ public class Location extends ApplicationEntity implements Serializable {
     public static final boolean DEF_LG_COUNTING_ACTIVE = false;
 
     /**
-     * Signals the incoming state of this Location. Locations which are blocked for incoming cannot pick up {@code TransportUnit}s.<ul>
-     * <li>{@literal true} : Location is ready to pick up {@code TransportUnit}s.</li> <li>{@literal false}: Location is locked, and cannot
-     * pick up {@code TransportUnit}s.</li></ul>
+     * Signals the incoming state of this Location.
+     * Locations which are blocked for incoming cannot pick up {@code TransportUnit}s.
+     * <ul>
+     * <li>{@literal true} : Location is ready to pick up {@code TransportUnit}s.</li>
+     * <li>{@literal false}: Location is locked, and cannot pick up {@code TransportUnit}s.</li>
+     * </ul>
      */
     @Column(name = "C_INCOMING_ACTIVE")
     private boolean incomingActive = DEF_INCOMING_ACTIVE;
@@ -127,9 +130,12 @@ public class Location extends ApplicationEntity implements Serializable {
     public static final boolean DEF_INCOMING_ACTIVE = true;
 
     /**
-     * Signals the outgoing state of this Location. Locations which are blocked for outgoing cannot release {@code
-     * TransportUnit}s.<ul><li>{@literal true} : Location is enabled for outgoing {@code TransportUnit}s.</li><li>{@literal false}: Location
-     * is locked, {@code TransportUnit}s can't leave this Location.</li></ul>
+     * Signals the outgoing state of this Location.
+     * Locations which are blocked for outgoing cannot release {@code TransportUnit}s.
+     * <ul>
+     * <li>{@literal true} : Location is enabled for outgoing {@code TransportUnit}s.</li>
+     * <li>{@literal false}: Location is locked, {@code TransportUnit}s can't leave this Location.</li>
+     * </ul>
      */
     @Column(name = "C_OUTGOING_ACTIVE")
     private boolean outgoingActive = DEF_OUTGOING_ACTIVE;

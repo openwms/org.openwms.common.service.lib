@@ -37,18 +37,18 @@ server:
 
 eureka:
   client:
-    healthcheck:
-      enabled: true
     instance-info-replication-interval-seconds: 10 # default is 30
     service-url:
       defaultZone: ${owms.eureka.zone}  # Must be camelCase
   instance:
+    hostname: ${owms.srv.hostname}
+    secure-port-enabled: false
+    non-secure-port-enabled: true
     metadata-map:
       username: ${spring.security.user.name}
       password: ${spring.security.user.password}
       protocol: ${owms.srv.protocol}
       zone: ${owms.eureka.zone}
-    hostname: ${owms.srv.hostname}
 
 management:
   endpoints:

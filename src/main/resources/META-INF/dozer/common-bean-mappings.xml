@@ -43,6 +43,10 @@
 			<b is-accessible="true">actualLocation</b>
 		</field>
 		<field>
+			<a is-accessible="true">targetLocation.locationId</a>
+			<b is-accessible="true">target</b>
+		</field>
+		<field>
 			<a is-accessible="true">transportUnitType</a>
 			<b is-accessible="true">transportUnitType</b>
 		</field>

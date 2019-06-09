@@ -27,12 +27,13 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * A TransportUnitRepository adds particular functionality regarding {@link TransportUnit} entity classes.
+ * A TransportUnitRepository adds particular functionality regarding {@link TransportUnit}
+ * entity classes.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 @Repository
-interface TransportUnitRepository extends JpaRepository<TransportUnit, Long> {
+public interface TransportUnitRepository extends JpaRepository<TransportUnit, Long> {
 
     @Query("select tu from TransportUnit tu where tu.pKey = :pKey")
     Optional<TransportUnit> findByPKey(@Param("pKey") String pKey);

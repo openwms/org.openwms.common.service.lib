@@ -89,11 +89,11 @@ public class LocationController {
             @RequestParam(value = "z", required = false) String z
     ) {
         LocationPK pk = LocationPK.newBuilder()
-                .area(area == null ? "%" : area)
-                .aisle(aisle == null ? "%" : aisle)
-                .x(x == null ? "%" : x)
-                .y(y == null ? "%" : y)
-                .z(z == null ? "%" : z)
+                .area(area == null || area.equals("") ? "%" : area)
+                .aisle(aisle == null || aisle.equals("") ? "%" : aisle)
+                .x(x == null || x.equals("") ? "%" : x)
+                .y(y == null || y.equals("") ? "%" : y)
+                .z(z == null || z.equals("") ? "%" : z)
                 .build();
         List<Location> locations = locationService.findLocations(pk);
         return mapper.map(locations, LocationVO.class);

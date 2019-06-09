@@ -62,10 +62,10 @@ public interface LocationGroupService {
     List<LocationGroup> findAll();
 
     /**
-     * Find and return all {@link LocationGroup}s with the given {@code names}.
+     * Find and return all {@link LocationGroup}s with the given {@code locationGroupNames}.
      *
-     * @param names The names of the LocationGroups to search for
+     * @param locationGroupNames The names of the LocationGroups to search for
      * @return Always an list instance, never {@literal null}
      */
-    List<LocationGroup> findByNames(List<String> names);
+    List<LocationGroup> findByNames(List<String> locationGroupNames);
 }

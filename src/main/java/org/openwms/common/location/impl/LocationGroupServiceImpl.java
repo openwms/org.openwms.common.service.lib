@@ -100,8 +100,8 @@ class LocationGroupServiceImpl implements LocationGroupService {
      */
     @Override
     @Measured
-    public List<LocationGroup> findByNames(List<String> names) {
-        List<LocationGroup> result = locationGroupRepository.findByNameIn(names);
+    public List<LocationGroup> findByNames(List<String> locationGroupNames) {
+        List<LocationGroup> result = locationGroupRepository.findByNameIn(locationGroupNames);
         return result == null ? Collections.emptyList() : result;
     }
 
