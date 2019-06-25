@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>8</version>
+        <version>7</version>
         <relativePath/>
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
