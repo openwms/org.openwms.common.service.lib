@@ -55,6 +55,9 @@ management:
     web:
       exposure:
         include: "*"
+  health:
+    rabbit:
+      enabled: false
 
 logging:
   file: "/tmp/owms/BOOT-COMMON-Service.log"
@@ -77,3 +80,13 @@ eureka:
     statusPageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/info
     healthCheckUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/health
     homePageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/
+
+
+---
+spring:
+  profiles: ASYNCHRONOUS
+
+management:
+  health:
+    rabbit:
+      enabled: true

@@ -82,3 +82,6 @@ insert into com_location (c_pk,c_area,c_aisle,c_x,c_y,c_z,c_description,c_locati
 
 -- TransportUnitTypes
 insert into com_transport_unit_type (c_pk,c_type,c_description,c_height,c_length,c_width,c_weight_tare,c_weight_max,c_ol,c_created,c_updated) values (1,'PALLET','Euro pallet',102,120,80,25,-1,1,now(),now());
+
+-- TransportUnit
+insert into com_transport_unit (c_pk,c_pid,c_barcode,c_state,c_actual_location,c_transport_unit_type,c_actual_location_date,c_ol,c_created) values (1,1,'00000000000000004711','AVAILABLE',29,1,now(),1,now());
