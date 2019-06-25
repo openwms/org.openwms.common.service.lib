@@ -14,6 +14,13 @@ from a `Location` A to a `Location` B.
 - Documentation on [GitHub Wiki Pages](https://github.com/openwms/org.openwms.common.service/wiki)
 - Generated Microservice Website with Javadoc and API docs: [here](https://www.interface21.io/docs/common/base/index.html)
 
+# Build
+
+```
+$ mvn install
+$ java -jar target/openwms-common-service-exec.jar
+```
+
 # Release
 
 ```
