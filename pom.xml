@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>7</version>
+        <version>8</version>
         <relativePath/>
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
@@ -22,7 +22,7 @@
         <site>
             <id>ftp-io</id>
             <name>OpenWMS.org WebSite</name>
-            <url>scp://ftp.interface21.io/docs/common/base</url>
+            <url>ftps://ftp.interface21.io:22/docs/common/base</url>
         </site>
     </distributionManagement>
 
@@ -86,9 +86,9 @@
                         <reports>
                             <report>index</report>
                             <report>summary</report>
-                            <report>project-team</report>
-                            <report>issue-tracking</report>
-                            <report>cim</report>
+                            <report>team</report>
+                            <report>issue-management</report>
+                            <report>ci-management</report>
                             <report>scm</report>
                         </reports>
                     </reportSet>

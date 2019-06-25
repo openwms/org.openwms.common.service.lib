@@ -193,7 +193,7 @@ public class LocationGroup extends Target implements Serializable {
      * @param newGroupStateIn The state to set
      */
     public void changeGroupStateIn(LocationGroupState newGroupStateIn) {
-        if (stateInLocker != null) {
+        if (stateInLocker != null && stateInLocker != this) {
             throw new StateChangeException("The LocationGroup's state is blocked by any other LocationGroup and cannot be changed");
         }
         groupStateIn = newGroupStateIn;
@@ -236,7 +236,7 @@ public class LocationGroup extends Target implements Serializable {
      * @param newGroupStateOut The state to set
      */
     public void changeGroupStateOut(LocationGroupState newGroupStateOut) {
-        if (stateOutLocker != null) {
+        if (stateOutLocker != null && stateOutLocker != this) {
             throw new StateChangeException("The LocationGroup's state is blocked by any other LocationGroup and cannot be changed");
         }
         groupStateOut = newGroupStateOut;
