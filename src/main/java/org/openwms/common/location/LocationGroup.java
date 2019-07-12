@@ -34,10 +34,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A LocationGroup is a logical group of {@code Location}s, grouping together
- * {@code Location}s with same characteristics.
+ * A LocationGroup is a logical group of {@code Location}s with same characteristics.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @GlossaryTerm
  * @see org.openwms.common.location.Location
  */
@@ -59,9 +58,7 @@ public class LocationGroup extends Target implements Serializable {
     @Column(name = "C_GROUP_TYPE")
     private String groupType;
 
-    /**
-     * Is the {@code LocationGroup} included in the calculation of {@code TransportUnit}s.
-     */
+    /** Is the {@code LocationGroup} included in the calculation of {@code TransportUnit}s. */
     @Column(name = "C_GROUP_COUNTING_ACTIVE")
     private boolean locationGroupCountingActive = true;
 
@@ -70,10 +67,7 @@ public class LocationGroup extends Target implements Serializable {
     @Enumerated(EnumType.STRING)
     private LocationGroupState groupStateIn = LocationGroupState.AVAILABLE;
 
-    /**
-     * References the {@code LocationGroup} that locked this {@code LocationGroup} for
-     * infeed.
-     */
+    /** References the {@code LocationGroup} that locked this {@code LocationGroup} for infeed. */
     @ManyToOne
     @JoinColumn(name = "C_IN_LOCKER")
     private LocationGroup stateInLocker;
@@ -83,10 +77,7 @@ public class LocationGroup extends Target implements Serializable {
     @Enumerated(EnumType.STRING)
     private LocationGroupState groupStateOut = LocationGroupState.AVAILABLE;
 
-    /**
-     * References the {@code LocationGroup} that locked this {@code LocationGroup} for
-     * outfeed.
-     */
+    /** References the {@code LocationGroup} that locked this {@code LocationGroup} for outfeed. */
     @ManyToOne
     @JoinColumn(name = "C_OUT_LOCKER")
     private LocationGroup stateOutLocker;
@@ -115,11 +106,8 @@ public class LocationGroup extends Target implements Serializable {
 
     /*~ ----------------------------- constructors ------------------- */
 
-    /**
-     * Dear JPA...
-     */
-    protected LocationGroup() {
-    }
+    /** Dear JPA... */
+    protected LocationGroup() { }
 
     /**
      * Create a new {@code LocationGroup} with an unique name.

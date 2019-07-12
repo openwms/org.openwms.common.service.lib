@@ -81,7 +81,6 @@ eureka:
     healthCheckUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/health
     homePageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/
 
-
 ---
 spring:
   profiles: ASYNCHRONOUS

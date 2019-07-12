@@ -15,6 +15,8 @@
  */
 package org.openwms.common.location;
 
+import org.springframework.util.Assert;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Max;
@@ -113,6 +115,7 @@ public class LocationPK implements Serializable {
     }
 
     public static LocationPK fromString(String s) {
+        Assert.hasText(s, "s must be provided");
         return new LocationPK(s.split("/"));
     }
 

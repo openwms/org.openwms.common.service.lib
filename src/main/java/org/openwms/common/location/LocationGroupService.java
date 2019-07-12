@@ -31,11 +31,11 @@ public interface LocationGroupService {
     /**
      * Tries to change the infeed and outfeed state of a {@link LocationGroup}.
      *
-     * @param id The persisted key of the LocationGroup to change
+     * @param pKey The persisted key of the LocationGroup to change
      * @param stateIn The new infeed state
      * @param stateOut The new outfeed state
      */
-    void changeGroupState(String id, LocationGroupState stateIn, LocationGroupState stateOut);
+    void changeGroupState(String pKey, LocationGroupState stateIn, LocationGroupState stateOut);
 
     /**
      * Tries to change the infeed and outfeed state of a {@link LocationGroup}.

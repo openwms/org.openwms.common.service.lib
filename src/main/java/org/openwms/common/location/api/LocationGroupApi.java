@@ -72,6 +72,9 @@ public interface LocationGroupApi {
     @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"name"})
     void updateState(@RequestParam(name = "name") String name, @RequestBody ErrorCodeVO errorCode);
 
-    @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS + "/{id}")
-    void save(@PathVariable("id") String id, @RequestParam(name = "statein", required = false) LocationGroupState stateIn, @RequestParam(name = "stateout", required = false) LocationGroupState stateOut);
+    @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS + "/{pKey}")
+    void save(
+            @PathVariable("pKey") String pKey,
+            @RequestParam(name = "statein", required = false) LocationGroupState stateIn,
+            @RequestParam(name = "stateout", required = false) LocationGroupState stateOut);
 }
