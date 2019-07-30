@@ -98,6 +98,23 @@
         </plugins>
     </reporting>
 
+    <profiles>
+        <profile>
+            <id>sonar</id>
+            <properties>
+                <debug.info>false</debug.info>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <finalName>openwms-common-service</finalName>
         <plugins>
@@ -142,10 +159,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

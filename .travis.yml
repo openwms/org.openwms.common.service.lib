@@ -12,7 +12,8 @@ addons:
 
 script:
   - sonar-scanner
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+  - mvn -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true clean package sonar:sonar -Psonar
+  - mvn clean package
 
 after_success:
   - docker build -t openwms/org.openwms.common.service:latest .
