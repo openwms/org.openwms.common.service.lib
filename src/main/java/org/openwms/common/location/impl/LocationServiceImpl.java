@@ -128,8 +128,8 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
-    public Location findByLocationId(String locationPK) {
-        return locationRepository.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", locationPK), null));
+    public Optional<Location> findByLocationId(String locationPK) {
+        return locationRepository.findByLocationId(LocationPK.fromString(locationPK));
     }
 
     /**
@@ -150,7 +150,9 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public List<Location> findAllOf(List<String> locationGroupNames) {
-        return locationRepository.findByLocationGroup_Name(locationGroupNames);
+        return locationGroupNames.size() == 1 ?
+            locationRepository.findByLocationGroup_Name(locationGroupNames.get(0)) :
+            locationRepository.findByLocationGroup_Name(locationGroupNames);
     }
 
     /**

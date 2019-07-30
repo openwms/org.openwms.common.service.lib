@@ -110,7 +110,7 @@ public interface TransportUnitService {
      * @return The TransportUnit
      * @throws org.ameba.exception.NotFoundException may throw if not found
      */
-    TransportUnit findByBarcode(Barcode barcode, Boolean withErrorCode);
+    TransportUnit findByBarcode(Barcode barcode);
 
     /**
      * Find and return all {@link TransportUnit}s identified by their particular

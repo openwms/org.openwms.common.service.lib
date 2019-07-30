@@ -40,6 +40,9 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
     @Query("select l from Location l where l.locationGroup.name in :locationGroupNames")
     List<Location> findByLocationGroup_Name(@Param("locationGroupNames") List<String> locationGroupNames);
 
+    @Query("select l from Location l where l.locationGroup.name like :locationGroupName")
+    List<Location> findByLocationGroup_Name(@Param("locationGroupName") String locationGroupName);
+
     Optional<Location> findByPlcCode(String plcCode);
 
     @Query("select l from Location l " +

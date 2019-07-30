@@ -40,14 +40,15 @@ public class MessageCommandHandlerImpl implements MessageCommandHandler {
         this.service = service;
     }
 
+
+    @Override
     public void handle(MessageCommand command) {
         if (command.getType() == MessageCommand.Type.ADD_TO_TU) {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Got command to ADD a Message to the TransportUnit with id [{}]", command.getTransportUnitId());
             }
             TransportUnit tu = service.findByBarcode(
-                    Barcode.of(command.getTransportUnitId()),
-                    Boolean.FALSE
+                    Barcode.of(command.getTransportUnitId())
             );
             tu.addError(
                     UnitError.newBuilder()

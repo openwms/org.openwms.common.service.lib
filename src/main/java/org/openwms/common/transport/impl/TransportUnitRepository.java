@@ -27,8 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * A TransportUnitRepository adds particular functionality regarding {@link TransportUnit}
- * entity classes.
+ * A TransportUnitRepository adds particular functionality regarding {@link TransportUnit} entity classes.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
@@ -44,5 +43,4 @@ public interface TransportUnitRepository extends JpaRepository<TransportUnit, Lo
     List<TransportUnit> findByBarcodeIn(@Param("barcodes") List<Barcode> barcodes);
 
     List<TransportUnit> findByActualLocationOrderByActualLocationDate(Location actualLocation);
-
 }

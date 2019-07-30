@@ -72,9 +72,16 @@ public interface LocationService {
      *
      * @param locationPK The business key of the Location to search for
      * @return The Location
-     * @throws org.ameba.exception.NotFoundException if entity not found
      */
     Optional<Location> findByLocationId(LocationPK locationPK);
+
+    /**
+     * Find and return a Location identified by the given {@code locationPK}.
+     *
+     * @param locationPK The business key of the Location to search for
+     * @return The Location
+     */
+    Optional<Location> findByLocationId(String locationPK);
 
     /**
      * Find and return all Locations that match the {@code locationPK} whereas the
@@ -92,15 +99,6 @@ public interface LocationService {
      * @return The Location
      */
     Optional<Location> findByPlcCode(String plcCode);
-
-    /**
-     * Find and return a Location identified by the given {@code locationPK}.
-     *
-     * @param locationPK The business key of the Location to search for
-     * @return The Location
-     * @throws org.ameba.exception.NotFoundException if entity not found
-     */
-    Location findByLocationId(String locationPK);
 
     /**
      * Find and return a Location {@link Location} by the given {@code location}.

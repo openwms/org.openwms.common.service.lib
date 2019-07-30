@@ -18,6 +18,7 @@ package org.openwms.common.location.api;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.hateoas.ResourceSupport;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -30,12 +31,24 @@ import java.util.StringJoiner;
 public class LocationVO extends ResourceSupport implements Target, Serializable {
 
     private String pKey;
+    @NotEmpty
     private String locationId;
     private String locationGroupName;
     private String plcCode;
-    private boolean incomingActive;
-    private boolean outgoingActive;
-    private int plcState;
+    private Boolean incomingActive;
+    private Boolean outgoingActive;
+    private Integer plcState;
+    private Integer noTransportUnits;
+
+    /*~-------------------- constructors --------------------*/
+    protected LocationVO() {
+        super();
+    }
+
+    public LocationVO(String locationId) {
+        super();
+        this.locationId = locationId;
+    }
 
     /*~-------------------- methods --------------------*/
     /**
@@ -44,7 +57,7 @@ public class LocationVO extends ResourceSupport implements Target, Serializable 
      * @return {@literal true} if blocked, otherwise {@literal false}
      */
     @JsonIgnore
-    public boolean isInfeedBlocked() {
+    public Boolean isInfeedBlocked() {
         return !incomingActive;
     }
 
@@ -54,7 +67,7 @@ public class LocationVO extends ResourceSupport implements Target, Serializable 
      * @return {@literal true} if blocked, otherwise {@literal false}
      */
     @JsonIgnore
-    public boolean isOutfeedBlocked() {
+    public Boolean isOutfeedBlocked() {
         return !outgoingActive;
     }
 
@@ -91,27 +104,27 @@ public class LocationVO extends ResourceSupport implements Target, Serializable 
         this.plcCode = plcCode;
     }
 
-    public boolean isIncomingActive() {
+    public Boolean isIncomingActive() {
         return incomingActive;
     }
 
-    public void setIncomingActive(boolean incomingActive) {
+    public void setIncomingActive(Boolean incomingActive) {
         this.incomingActive = incomingActive;
     }
 
-    public boolean isOutgoingActive() {
+    public Boolean isOutgoingActive() {
         return outgoingActive;
     }
 
-    public void setOutgoingActive(boolean outgoingActive) {
+    public void setOutgoingActive(Boolean outgoingActive) {
         this.outgoingActive = outgoingActive;
     }
 
-    public int getPlcState() {
+    public Integer getPlcState() {
         return plcState;
     }
 
-    public void setPlcState(int plcState) {
+    public void setPlcState(Integer plcState) {
         this.plcState = plcState;
     }
 

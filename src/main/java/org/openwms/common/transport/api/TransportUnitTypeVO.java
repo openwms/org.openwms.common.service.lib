@@ -15,29 +15,38 @@
  */
 package org.openwms.common.transport.api;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
  * A TransportUnitTypeVO.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class TransportUnitTypeVO implements Serializable {
 
+    @NotEmpty
     private String type;
     private String description;
+    @NotEmpty
     private String height;
+    @NotEmpty
     private String width;
+    @NotEmpty
     private String length;
 
-    public String getType() {
-        return type;
+    /*~-------------------- constructors --------------------*/
+    @JsonCreator
+    protected TransportUnitTypeVO() {
     }
 
-    public void setType(String type) {
+    public TransportUnitTypeVO(String type) {
         this.type = type;
     }
 
+    /*~-------------------- accessors --------------------*/
     public String getDescription() {
         return description;
     }

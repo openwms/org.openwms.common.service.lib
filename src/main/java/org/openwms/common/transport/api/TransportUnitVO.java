@@ -15,12 +15,13 @@
  */
 package org.openwms.common.transport.api;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import org.openwms.common.ValidationGroups;
 import org.openwms.common.location.api.LocationVO;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A TransportUnitVO.
@@ -29,94 +30,34 @@ import java.util.Map;
  */
 public class TransportUnitVO implements Serializable {
 
+    @NotEmpty
     private String barcode;
     private LocationVO actualLocation;
     private String target;
+    @NotEmpty(groups = ValidationGroups.TransportUnit.WithTuT.class)
     private String transportUnitType;
-    private String length;
-    private String width;
-    private String height;
+    private Integer length;
+    private Integer width;
+    private Integer height;
     private String actualPlcCode;
     private Date actualLocationDate;
-    private Map<Date, UnitErrorVO> errors = new HashMap<>();
 
-    public String getBarcode() {
-        return barcode;
+    /*~-------------------- constructors --------------------*/
+    @JsonCreator
+    protected TransportUnitVO() {
     }
 
-    public void setBarcode(String barcode) {
+    public TransportUnitVO(@NotEmpty String barcode) {
         this.barcode = barcode;
     }
 
-    public LocationVO getActualLocation() {
-        return actualLocation;
-    }
-
-    public void setActualLocation(LocationVO actualLocation) {
-        this.actualLocation = actualLocation;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
-    }
-
-    public String getTransportUnitType() {
-        return transportUnitType;
-    }
-
-    public void setTransportUnitType(String transportUnitType) {
+    public TransportUnitVO(@NotEmpty String barcode, @NotEmpty String transportUnitType) {
+        this.barcode = barcode;
         this.transportUnitType = transportUnitType;
     }
 
-    public String getLength() {
-        return length;
-    }
-
-    public void setLength(String length) {
-        this.length = length;
-    }
-
-    public String getWidth() {
-        return width;
-    }
-
-    public void setWidth(String width) {
-        this.width = width;
-    }
-
-    public String getHeight() {
-        return height;
-    }
-
-    public void setHeight(String height) {
-        this.height = height;
-    }
-
-    public String getActualPlcCode() {
-        return actualPlcCode;
-    }
-
-    public void setActualPlcCode(String actualPlcCode) {
-        this.actualPlcCode = actualPlcCode;
-    }
-
-    public Date getActualLocationDate() {
-        return actualLocationDate;
-    }
-
+    /*~-------------------- accessors --------------------*/
     public void setActualLocationDate(Date actualLocationDate) {
         this.actualLocationDate = actualLocationDate;
-    }
-
-    public Map<Date, UnitErrorVO> getErrors() {
-        return errors;
-    }
-
-    public void setErrors(Map<Date, UnitErrorVO> errors) {
-        this.errors = errors;
     }
 }
