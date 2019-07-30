@@ -16,7 +16,6 @@
 package org.openwms.common.transport.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import org.openwms.common.ValidationGroups;
 import org.openwms.common.location.api.LocationVO;
 
 import javax.validation.constraints.NotEmpty;

@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common;
+package org.openwms.common.transport.api;
 
 /**
- * A ValidationGroups.
+ * A ValidationGroups is a marker interface collection to aggregate all types used for Bean validation groups.
  *
  * @author Heiko Scherrer
  */
