@@ -26,7 +26,7 @@ import java.util.List;
  * In SI format.
  * </p>
  * 
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public enum WeightUnit implements BaseUnit<WeightUnit> {
 

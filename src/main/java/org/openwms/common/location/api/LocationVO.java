@@ -26,7 +26,7 @@ import java.util.StringJoiner;
 /**
  * A LocationVO.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class LocationVO extends ResourceSupport implements Target, Serializable {
 

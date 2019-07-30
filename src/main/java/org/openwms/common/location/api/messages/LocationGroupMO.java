@@ -20,7 +20,7 @@ import java.io.Serializable;
 /**
  * A LocationGroupMO.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class LocationGroupMO implements Serializable {
 

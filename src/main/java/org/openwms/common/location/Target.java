@@ -26,7 +26,7 @@ import javax.persistence.MappedSuperclass;
  * to where a {@code TransportUnit} has to be moved to.
  * 
  * @GlossaryTerm
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)

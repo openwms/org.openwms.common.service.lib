@@ -25,7 +25,7 @@ import java.util.Date;
 /**
  * A MessageCommand is used to attach Messages.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class MessageCommand implements Command<MessageCommand.Type>, Serializable {
 

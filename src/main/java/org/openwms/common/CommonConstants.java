@@ -18,7 +18,7 @@ package org.openwms.common;
 /**
  * A CommonConstants.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public final class CommonConstants {
 

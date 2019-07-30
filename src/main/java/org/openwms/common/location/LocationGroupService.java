@@ -24,7 +24,7 @@ import java.util.Optional;
  * A LocationGroupService offers some useful methods regarding the general handling of {@link LocationGroup}s. <p> This interface is
  * declared generic typed that implementation classes can use any extension of {@link LocationGroup}s. </p>
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public interface LocationGroupService {
 

@@ -27,7 +27,7 @@ import java.io.Serializable;
  * characters whereas these characters are aligned either left or right. Non filled positions of a Barcode are padded with a so called
  * padding character.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @GlossaryTerm
  */
 @Embeddable
@@ -40,7 +40,7 @@ public class Barcode implements Serializable {
      * A BARCODE_ALIGN defines whether the {@code Barcode} is applied {@code LEFT} or
      * {@code RIGHT}. Only be used when padding is activated.
      *
-     * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+     * @author Heiko Scherrer
      */
     public enum BARCODE_ALIGN {
         /** Barcode is left aligned. */

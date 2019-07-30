@@ -23,7 +23,7 @@ import java.io.Serializable;
 /**
  * A LocationEvent.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class LocationEvent extends RootApplicationEvent implements Serializable {
 

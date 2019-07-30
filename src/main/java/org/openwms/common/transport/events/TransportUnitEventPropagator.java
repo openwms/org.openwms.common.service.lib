@@ -29,7 +29,7 @@ import static java.lang.String.format;
 /**
  * A TransportUnitEventPropagator.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Component

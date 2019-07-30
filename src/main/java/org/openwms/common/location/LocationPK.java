@@ -25,7 +25,7 @@ import java.io.Serializable;
 /**
  * A LocationPK, is a value type and is used as an unique natural key for {@link Location} entities.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @see Location
  */
 @Embeddable

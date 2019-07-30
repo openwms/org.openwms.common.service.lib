@@ -28,7 +28,7 @@ import java.util.Optional;
 /**
  * A LocationRepository adds particular functionality regarding {@link Location} entity classes.
  * 
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {

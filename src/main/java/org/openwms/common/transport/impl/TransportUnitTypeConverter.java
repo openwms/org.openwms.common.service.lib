@@ -26,7 +26,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 /**
  * A TransportUnitTypeConverter.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Configurable
 public class TransportUnitTypeConverter extends DozerConverter<String, TransportUnitType> {

@@ -21,7 +21,7 @@ import org.openwms.common.location.LocationPK;
 /**
  * A LocationConverter.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class LocationPKConverter extends DozerConverter<String, LocationPK> {
 

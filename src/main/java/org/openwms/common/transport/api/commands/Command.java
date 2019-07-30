@@ -18,7 +18,7 @@ package org.openwms.common.transport.api.commands;
 /**
  * A Command.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public interface Command<T> {
 

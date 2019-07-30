@@ -22,7 +22,7 @@ import org.openwms.core.event.RootApplicationEvent;
 /**
  * A TransportUnitEvent.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class TransportUnitEvent extends RootApplicationEvent {
 

@@ -25,7 +25,7 @@ import java.util.Optional;
  * A LocationService offers some useful methods regarding the general handling of {@link Location}s. <p> This interface is declared generic
  * typed that implementation classes can use any extension of {@link Location}s. </p>
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public interface LocationService {
 

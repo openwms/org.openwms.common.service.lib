@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 /**
  * A TransportUnitType is a Message Object representing a {@code TransportUnitType}.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class TransportUnitTypeMO implements Serializable {
 

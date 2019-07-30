@@ -37,7 +37,7 @@ import static org.openwms.common.CommonConstants.API_LOCATIONS;
 /**
  * A LocationController.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Profile("!INMEM")
 @RestController

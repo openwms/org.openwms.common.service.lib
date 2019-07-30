@@ -30,7 +30,7 @@ import java.util.Optional;
 /**
  * A LocationGroupApi.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @FeignClient(name = "common-service", qualifier = "locationGroupApi", decode404 = true)
 public interface LocationGroupApi {

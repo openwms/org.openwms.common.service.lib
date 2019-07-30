@@ -38,7 +38,7 @@ import static java.lang.String.format;
  * An UnitUserType is used by Hibernate as converter for custom {@code Unit} types. Only subclasses of {@link AbstractMeasure} are
  * supported by this type converter.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class UnitUserType implements CompositeUserType {
 

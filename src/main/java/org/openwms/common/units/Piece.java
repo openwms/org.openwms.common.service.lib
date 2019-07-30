@@ -25,7 +25,7 @@ import java.math.RoundingMode;
 /**
  * A Piece.
  * 
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class Piece implements Measurable<BigDecimal, Piece, PieceUnit>, UnitType, Serializable {
 

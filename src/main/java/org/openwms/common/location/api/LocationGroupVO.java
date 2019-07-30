@@ -25,7 +25,7 @@ import java.util.Objects;
 /**
  * A LocationGroupVO is the view object of a Location.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class LocationGroupVO extends ResourceSupport implements Target, Serializable {
 

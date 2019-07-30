@@ -24,7 +24,7 @@ import java.util.List;
  * {@link TransportUnit}s. Additionally it defines useful methods regarding the general
  * handling with {@link TransportUnit}s.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public interface TransportUnitService {
 

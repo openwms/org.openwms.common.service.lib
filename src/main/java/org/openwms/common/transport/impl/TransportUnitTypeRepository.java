@@ -24,7 +24,7 @@ import java.util.Optional;
 /**
  * A TransportUnitTypeRepository adds particular functionality regarding {@link TransportUnitType} entity classes.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Repository
 interface TransportUnitTypeRepository extends JpaRepository<TransportUnitType, Long> {

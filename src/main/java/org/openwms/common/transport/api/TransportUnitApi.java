@@ -31,7 +31,7 @@ import static org.openwms.common.CommonConstants.API_TRANSPORT_UNITS;
 /**
  * A TransportUnitApi.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @FeignClient(name = "common-service", qualifier = "transportUnitApi")
 public interface TransportUnitApi {

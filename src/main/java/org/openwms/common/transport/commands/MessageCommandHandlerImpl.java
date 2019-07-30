@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 /**
  * A MessageCommandHandlerImpl handles {@link MessageCommand}s.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @see MessageCommand
  */
 @TxService

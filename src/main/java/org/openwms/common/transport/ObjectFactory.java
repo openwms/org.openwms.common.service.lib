@@ -23,7 +23,7 @@ import javax.persistence.EntityManager;
 /**
  * A ObjectFactory.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Configurable
 public class ObjectFactory {

@@ -20,7 +20,7 @@ import java.io.Serializable;
 /**
  * An UnitError represents an error occurring on {@code TransportUnit}s, on {@code LoadUnit}s or others.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 
 public class UnitErrorVO implements Serializable {

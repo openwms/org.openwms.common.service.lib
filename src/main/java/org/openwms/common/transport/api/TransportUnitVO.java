@@ -25,7 +25,7 @@ import java.util.Date;
 /**
  * A TransportUnitVO.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class TransportUnitVO implements Serializable {
 

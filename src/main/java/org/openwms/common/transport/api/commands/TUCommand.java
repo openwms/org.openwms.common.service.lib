@@ -25,7 +25,7 @@ import java.util.StringJoiner;
 /**
  * A TUCommand.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class TUCommand implements Command<TUCommand.Type>, Serializable {
 

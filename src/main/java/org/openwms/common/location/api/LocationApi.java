@@ -32,7 +32,7 @@ import static org.openwms.common.CommonConstants.API_LOCATIONS;
 /**
  * A LocationApi deals with {@code Location}s.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @FeignClient(name = "common-service", qualifier = "locationApi", decode404 = true)
 public interface LocationApi {

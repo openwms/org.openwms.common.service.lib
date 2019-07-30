@@ -42,7 +42,7 @@ import static org.openwms.common.location.LocationPK.fromString;
 /**
  * A TransportUnitController.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Profile("!INMEM")
 @RestController

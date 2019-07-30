@@ -33,7 +33,7 @@ import java.util.Optional;
 /**
  * A TransportUnitTypeServiceImpl.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @TxService
 class TransportUnitTypeServiceImpl implements TransportUnitTypeService {

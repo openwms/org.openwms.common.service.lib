@@ -26,7 +26,7 @@ import java.util.Objects;
 /**
  * A Message can be used to store useful information about errors or events.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Entity
 @Table(name = "COR_MESSAGE")

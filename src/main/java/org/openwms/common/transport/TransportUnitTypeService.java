@@ -23,7 +23,7 @@ import java.util.Optional;
 /**
  * A TransportUnitTypeService offers methods to deal with {@link TransportUnitType}s.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public interface TransportUnitTypeService {
 

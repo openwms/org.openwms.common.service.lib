@@ -27,7 +27,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 /**
  * A LocationConverter.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Configurable
 public class LocationConverter extends DozerConverter<String, Location> {

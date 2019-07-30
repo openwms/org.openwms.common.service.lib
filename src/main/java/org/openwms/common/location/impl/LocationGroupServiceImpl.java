@@ -39,7 +39,7 @@ import java.util.Optional;
  * A LocationGroupServiceImpl is a Spring managed transactional Service that operates on
  * {@link LocationGroup} entities and spans the tx boundary.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @TxService
 class LocationGroupServiceImpl implements LocationGroupService {

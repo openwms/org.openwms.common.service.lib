@@ -50,7 +50,7 @@ import static java.lang.String.format;
 /**
  * A TransportUnitServiceImpl is a Spring managed bean that deals with TransportUnits.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @TxService
 class TransportUnitServiceImpl implements TransportUnitService {

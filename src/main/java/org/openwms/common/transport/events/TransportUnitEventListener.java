@@ -36,7 +36,7 @@ import static java.lang.String.format;
 /**
  * A TransportUnitEventListener.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @TxService

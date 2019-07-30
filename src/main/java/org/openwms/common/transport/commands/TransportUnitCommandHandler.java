@@ -28,7 +28,7 @@ import org.springframework.context.ApplicationContext;
  * A TransportUnitCommandHandler passes incoming {@link TUCommand}s to the internal
  * ApplicationContext.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @see TUCommand
  */
 @TxService

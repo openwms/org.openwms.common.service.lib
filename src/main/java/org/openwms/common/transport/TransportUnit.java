@@ -49,7 +49,7 @@ import java.util.Set;
  * A TransportUnit is an item like a box, a toad, a bin or a palette that is moved around within a warehouse and can carry goods. <p> Used
  * as container to transport items like {@code LoadUnit}s. It can be moved between {@code Location}s. </p>
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @GlossaryTerm
  */
 @Entity

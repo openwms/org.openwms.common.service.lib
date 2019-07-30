@@ -25,7 +25,7 @@ import java.util.Optional;
 /**
  * A LocationGroupRepository adds particular functionality regarding {@link LocationGroup} entity classes.
  * 
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Repository
 interface LocationGroupRepository extends JpaRepository<LocationGroup, Long> {

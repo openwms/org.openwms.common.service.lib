@@ -29,7 +29,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 /**
  * A LocationIT.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @RunWith(SpringRunner.class)
 @Category(IntegrationTests.class)

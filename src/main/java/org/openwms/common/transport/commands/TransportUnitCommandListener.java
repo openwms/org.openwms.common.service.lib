@@ -29,7 +29,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 /**
  * A TransportUnitCommandListener is listening on {@link TUCommand}s to process.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @see TUCommand
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)

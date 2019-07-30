@@ -39,7 +39,7 @@ import static java.lang.String.format;
 /**
  * A LocationServiceImpl.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @TxService
 class LocationServiceImpl implements LocationService {

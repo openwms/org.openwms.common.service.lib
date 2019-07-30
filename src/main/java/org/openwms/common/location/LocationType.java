@@ -28,7 +28,7 @@ import java.util.Objects;
 /**
  * A LocationType is the type of {@code Location}s with same characteristics.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @GlossaryTerm
  * @see Location
  */

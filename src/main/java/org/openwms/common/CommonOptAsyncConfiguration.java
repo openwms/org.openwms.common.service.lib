@@ -36,7 +36,7 @@ import org.springframework.retry.support.RetryTemplate;
  * A CommonOptAsyncConfiguration contains the modules asynchronous configuration that is
  * only active when Springs ASYNCHRONOUS profile is set.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Configuration

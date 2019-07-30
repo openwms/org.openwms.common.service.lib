@@ -19,7 +19,7 @@ package org.openwms.common.transport;
  * A Rule used as marker interface.
  * 
  * @GlossaryTerm
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public interface Rule {
 

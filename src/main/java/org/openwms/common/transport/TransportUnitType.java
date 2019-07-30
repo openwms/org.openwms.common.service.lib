@@ -35,7 +35,7 @@ import java.util.Set;
  * TransportUnit}s, such as the length, the height, or the weight of {@code TransportUnit}s. It is possible to group and characterize {@code
  * TransportUnit}s. </p>
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @GlossaryTerm
  * @see TransportUnit
  */
