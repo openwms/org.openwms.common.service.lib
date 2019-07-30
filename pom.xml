@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>7</version>
+        <version>8</version>
         <relativePath/>
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
@@ -75,6 +75,7 @@
 
     <properties>
         <core.version>1.5.0-SNAPSHOT</core.version>
+        <excludedGroups>org.ameba.test.categories.IntegrationTests</excludedGroups>
     </properties>
 
     <reporting>
@@ -105,6 +106,10 @@
                 <artifactId>asciidoctor-maven-plugin</artifactId>
             </plugin>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <executions>
@@ -119,17 +124,7 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>aspectj-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <excludedGroups>org.ameba.test.categories.IntegrationTests</excludedGroups>
-                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -147,6 +142,10 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
