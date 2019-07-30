@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocationGroupApiImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.location.inmem</a> &gt; <span class="el_source">LocationGroupApiImpl.java</span></div><h1>LocationGroupApiImpl.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2018 Heiko Scherrer
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.location.inmem;
+
+import org.ameba.annotation.TxService;
+import org.ameba.exception.NotFoundException;
+import org.ameba.mapping.BeanMapper;
+import org.openwms.common.location.LocationGroup;
+import org.openwms.common.location.LocationGroupService;
+import org.openwms.common.location.api.ErrorCodeTransformers;
+import org.openwms.common.location.api.ErrorCodeVO;
+import org.openwms.common.location.api.LocationGroupApi;
+import org.openwms.common.location.api.LocationGroupState;
+import org.openwms.common.location.api.LocationGroupVO;
+import org.springframework.context.annotation.Profile;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import static java.lang.String.format;
+
+/**
+ * A LocationGroupApiImpl is a Spring managed transactional Service that is activated in
+ * case of non-microservice deployments when the Spring Profile INMEM is activated.
+ *
+ * @author Heiko Scherrer
+ */
+@Profile(&quot;INMEM&quot;)
+@TxService
+class LocationGroupApiImpl implements LocationGroupApi {
+
+    private final LocationGroupService locationGroupService;
+    private final BeanMapper mapper;
+    private final ErrorCodeTransformers.GroupStateIn groupStateIn;
+    private final ErrorCodeTransformers.GroupStateOut groupStateOut;
+
+<span class="nc" id="L51">    LocationGroupApiImpl(LocationGroupService locationGroupService, BeanMapper mapper, ErrorCodeTransformers.GroupStateIn groupStateIn, ErrorCodeTransformers.GroupStateOut groupStateOut) {</span>
+<span class="nc" id="L52">        this.locationGroupService = locationGroupService;</span>
+<span class="nc" id="L53">        this.mapper = mapper;</span>
+<span class="nc" id="L54">        this.groupStateIn = groupStateIn;</span>
+<span class="nc" id="L55">        this.groupStateOut = groupStateOut;</span>
+<span class="nc" id="L56">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional&lt;LocationGroupVO&gt; findByName(String name) {
+<span class="nc" id="L63">        Optional&lt;LocationGroup&gt; opt = locationGroupService.findByName(name);</span>
+<span class="nc" id="L64">        LocationGroup locationGroup = opt.orElseThrow(() -&gt; new NotFoundException(format(&quot;LocationGroup with name [%s] does not exist&quot;, name)));</span>
+<span class="nc" id="L65">        LocationGroupVO result = mapper.map(locationGroup, LocationGroupVO.class);</span>
+<span class="nc" id="L66">        return Optional.of(result);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List&lt;LocationGroupVO&gt; findByNames(List&lt;String&gt; names) {
+<span class="nc" id="L74">        List&lt;LocationGroup&gt; locationGroups = locationGroupService.findByNames(names);</span>
+<span class="nc" id="L75">        return mapper.map(locationGroups, LocationGroupVO.class);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List&lt;LocationGroupVO&gt; findAll() {
+<span class="nc" id="L83">        List&lt;LocationGroup&gt; all = locationGroupService.findAll();</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        return all == null ? Collections.emptyList() : mapper.map(all, LocationGroupVO.class);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateState(String name, ErrorCodeVO errorCode) {
+<span class="nc" id="L92">        Optional&lt;LocationGroupState&gt; gsIn = groupStateIn.available(errorCode.getErrorCode());</span>
+<span class="nc" id="L93">        Optional&lt;LocationGroupState&gt; gsOut = groupStateOut.available(errorCode.getErrorCode());</span>
+<span class="nc" id="L94">        locationGroupService.changeGroupStates(name, gsIn, gsOut);</span>
+<span class="nc" id="L95">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void save(String id, LocationGroupState stateIn, LocationGroupState stateOut) {
+<span class="nc" id="L102">        locationGroupService.changeGroupState(id, stateIn, stateOut);</span>
+<span class="nc" id="L103">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
