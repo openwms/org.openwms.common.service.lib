@@ -5,8 +5,18 @@
     <skin>
         <groupId>org.apache.maven.skins</groupId>
         <artifactId>maven-fluido-skin</artifactId>
-        <version>1.5</version>
+        <version>1.7</version>
     </skin>
+
+    <custom>
+        <fluidoSkin>
+            <gitHub>
+                <projectId>openwms/org.openwms.common.common-service</projectId>
+                <ribbonOrientation>right</ribbonOrientation>
+                <ribbonColor>black</ribbonColor>
+            </gitHub>
+        </fluidoSkin>
+    </custom>
 
     <body>
 

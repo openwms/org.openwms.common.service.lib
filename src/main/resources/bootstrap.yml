@@ -3,10 +3,11 @@ spring:
     name: common-service
   cloud:
     config:
-      fail-fast: true # true means retry
       discovery:
-        enabled: true
+        enabled: false
         service-id: openwms-config
+      enabled: false
+      fail-fast: true # true means retry
       retry:
         max-attempts: 120
   security:
@@ -67,6 +68,11 @@ spring:
   profiles: CLOUD
   main:
     banner-mode: "OFF"
+  cloud:
+    config:
+      discovery:
+        enabled: true
+      enabled: true
 
 owms:
   srv:

@@ -20,9 +20,8 @@
 
     <distributionManagement>
         <site>
-            <id>ftp-io</id>
-            <name>OpenWMS.org WebSite</name>
-            <url>ftps://ftp.interface21.io:22/docs/common/base</url>
+            <id>site</id>
+            <url>scm:git:git@github.com:openwms/${project.artifactId}.git</url>
         </site>
     </distributionManagement>
 
@@ -142,6 +141,13 @@
             </plugin>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-scm-publish-plugin</artifactId>
+                <version>1.1</version>
+                <configuration>
+                    <scmBranch>gh-pages</scmBranch>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
