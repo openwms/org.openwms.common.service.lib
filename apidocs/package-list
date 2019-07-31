@@ -1,0 +1,16 @@
+org.openwms.common
+org.openwms.common.location
+org.openwms.common.location.api
+org.openwms.common.location.api.events
+org.openwms.common.location.api.messages
+org.openwms.common.location.impl
+org.openwms.common.location.inmem
+org.openwms.common.location.spi
+org.openwms.common.transport
+org.openwms.common.transport.api
+org.openwms.common.transport.api.commands
+org.openwms.common.transport.api.messages
+org.openwms.common.transport.commands
+org.openwms.common.transport.events
+org.openwms.common.transport.impl
+org.openwms.common.units
