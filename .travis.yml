@@ -13,6 +13,7 @@ addons:
 script:
   - sonar-scanner
   - mvn -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true clean package sonar:sonar -Psonar
+  - mvn site scm-publish:publish-scm
   - mvn clean package
 
 after_success:
