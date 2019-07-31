@@ -11,7 +11,7 @@
     <custom>
         <fluidoSkin>
             <gitHub>
-                <projectId>openwms/org.openwms.common.common-service</projectId>
+                <projectId>openwms/org.openwms.common.service</projectId>
                 <ribbonOrientation>right</ribbonOrientation>
                 <ribbonColor>black</ribbonColor>
             </gitHub>
@@ -20,8 +20,9 @@
 
     <body>
 
-        <menu name="Docs">
-            <item name="RESTful API" href="rest/api.html" />
+        <menu name="Documentation">
+            <item name="Home" href="index.html" />
+            <item name="REST API Documentation" href="rest/${project.version}/api.html" />
             <item name="Javadoc" href="apidocs/index.html" />
         </menu>
 

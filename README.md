@@ -16,9 +16,18 @@ from a `Location` A to a `Location` B.
 
 # Build
 
+Build a runable fat jar:
+
 ```
-$ mvn install
+$ mvn package
 ```
+
+Run the Sonar analysis:
+
+```
+$ mvn package -Psonar
+```
+
 
 # Run
 
@@ -43,3 +52,11 @@ service is available after retrying a configured amount of times.
 ```
 $ mvn deploy -Prelease,gpg
 ```
+
+# Deploy Documentation
+
+```
+$ mvn package -Psonar
+$ mvn site scm-publish:publish-scm
+```
+
