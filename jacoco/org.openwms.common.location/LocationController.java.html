@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocationController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.location</a> &gt; <span class="el_source">LocationController.java</span></div><h1>LocationController.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2018 Heiko Scherrer
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.location;
+
+import org.ameba.exception.NotFoundException;
+import org.ameba.mapping.BeanMapper;
+import org.openwms.common.location.api.ErrorCodeTransformers;
+import org.openwms.common.location.api.ErrorCodeVO;
+import org.openwms.common.location.api.LocationVO;
+import org.springframework.context.annotation.Profile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Optional;
+
+import static java.lang.String.format;
+import static org.openwms.common.CommonConstants.API_LOCATIONS;
+
+/**
+ * A LocationController.
+ *
+ * @author Heiko Scherrer
+ */
+@Profile(&quot;!INMEM&quot;)
+@RestController
+public class LocationController {
+
+    private final LocationService locationService;
+    private final ErrorCodeTransformers.LocationStateIn stateIn;
+    private final ErrorCodeTransformers.LocationStateOut stateOut;
+    private final BeanMapper mapper;
+
+<span class="nc" id="L51">    LocationController(LocationService locationService, ErrorCodeTransformers.LocationStateIn stateIn, ErrorCodeTransformers.LocationStateOut stateOut, BeanMapper mapper) {</span>
+<span class="nc" id="L52">        this.locationService = locationService;</span>
+<span class="nc" id="L53">        this.stateIn = stateIn;</span>
+<span class="nc" id="L54">        this.stateOut = stateOut;</span>
+<span class="nc" id="L55">        this.mapper = mapper;</span>
+<span class="nc" id="L56">    }</span>
+
+    @GetMapping(value = API_LOCATIONS, params = {&quot;locationPK&quot;})
+    public Optional&lt;LocationVO&gt; findLocationByCoordinate(@RequestParam(&quot;locationPK&quot;) String locationPK) {
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (!LocationPK.isValid(locationPK)) {</span>
+<span class="nc" id="L61">            throw new NotFoundException(format(&quot;Invalid location [%s]&quot;, locationPK));</span>
+        }
+<span class="nc" id="L63">        Location location = locationService.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with locationPk [%s] found&quot;, locationPK)));</span>
+<span class="nc" id="L64">        return Optional.ofNullable(mapper.map(location, LocationVO.class));</span>
+    }
+
+    @GetMapping(value = API_LOCATIONS, params = {&quot;plcCode&quot;})
+    public Optional&lt;LocationVO&gt; findLocationByPlcCode(@RequestParam(&quot;plcCode&quot;) String plcCode) {
+<span class="nc" id="L69">        Location location = locationService.findByPlcCode(plcCode).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with PLC Code [%s] found&quot;, plcCode)));</span>
+<span class="nc" id="L70">        return Optional.ofNullable(mapper.map(location, LocationVO.class));</span>
+    }
+
+    @GetMapping(value = API_LOCATIONS, params = {&quot;locationGroupNames&quot;})
+    public List&lt;LocationVO&gt; findLocationsForLocationGroups(@RequestParam(&quot;locationGroupNames&quot;) List&lt;String&gt; locationGroupNames) {
+<span class="nc" id="L75">        List&lt;Location&gt; locations = locationService.findAllOf(locationGroupNames);</span>
+<span class="nc" id="L76">        return mapper.map(locations, LocationVO.class);</span>
+    }
+
+    @PatchMapping(value = API_LOCATIONS + &quot;/{pKey}&quot;)
+    public void updateState(@PathVariable(name = &quot;pKey&quot;) String pKey, @RequestBody ErrorCodeVO errorCode) {
+<span class="nc" id="L81">        locationService.changeState(pKey, stateIn, stateOut, errorCode);</span>
+<span class="nc" id="L82">    }</span>
+
+    @GetMapping(value = API_LOCATIONS, params = {&quot;area&quot;, &quot;aisle&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;})
+    public List&lt;LocationVO&gt; findLocations(
+            @RequestParam(value = &quot;area&quot;, required = false) String area,
+            @RequestParam(value = &quot;aisle&quot;, required = false) String aisle,
+            @RequestParam(value = &quot;x&quot;, required = false) String x,
+            @RequestParam(value = &quot;y&quot;, required = false) String y,
+            @RequestParam(value = &quot;z&quot;, required = false) String z
+    ) {
+<span class="nc" id="L92">        LocationPK pk = LocationPK.newBuilder()</span>
+<span class="nc bnc" id="L93" title="All 4 branches missed.">                .area(area == null || area.equals(&quot;&quot;) ? &quot;%&quot; : area)</span>
+<span class="nc bnc" id="L94" title="All 4 branches missed.">                .aisle(aisle == null || aisle.equals(&quot;&quot;) ? &quot;%&quot; : aisle)</span>
+<span class="nc bnc" id="L95" title="All 4 branches missed.">                .x(x == null || x.equals(&quot;&quot;) ? &quot;%&quot; : x)</span>
+<span class="nc bnc" id="L96" title="All 4 branches missed.">                .y(y == null || y.equals(&quot;&quot;) ? &quot;%&quot; : y)</span>
+<span class="nc bnc" id="L97" title="All 4 branches missed.">                .z(z == null || z.equals(&quot;&quot;) ? &quot;%&quot; : z)</span>
+<span class="nc" id="L98">                .build();</span>
+<span class="nc" id="L99">        List&lt;Location&gt; locations = locationService.findLocations(pk);</span>
+<span class="nc" id="L100">        return mapper.map(locations, LocationVO.class);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
