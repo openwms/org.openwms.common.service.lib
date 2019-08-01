@@ -21,6 +21,7 @@ import org.openwms.common.location.api.LocationVO;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * A TransportUnitVO.
@@ -43,21 +44,74 @@ public class TransportUnitVO implements Serializable {
 
     /*~-------------------- constructors --------------------*/
     @JsonCreator
-<span class="nc" id="L46">    protected TransportUnitVO() {</span>
-<span class="nc" id="L47">    }</span>
+<span class="nc" id="L47">    protected TransportUnitVO() {</span>
+<span class="nc" id="L48">    }</span>
 
-<span class="nc" id="L49">    public TransportUnitVO(@NotEmpty String barcode) {</span>
-<span class="nc" id="L50">        this.barcode = barcode;</span>
-<span class="nc" id="L51">    }</span>
+<span class="nc" id="L50">    public TransportUnitVO(@NotEmpty String barcode) {</span>
+<span class="nc" id="L51">        this.barcode = barcode;</span>
+<span class="nc" id="L52">    }</span>
 
-<span class="nc" id="L53">    public TransportUnitVO(@NotEmpty String barcode, @NotEmpty String transportUnitType) {</span>
-<span class="nc" id="L54">        this.barcode = barcode;</span>
-<span class="nc" id="L55">        this.transportUnitType = transportUnitType;</span>
-<span class="nc" id="L56">    }</span>
+<span class="nc" id="L54">    public TransportUnitVO(@NotEmpty String barcode, @NotEmpty String transportUnitType) {</span>
+<span class="nc" id="L55">        this.barcode = barcode;</span>
+<span class="nc" id="L56">        this.transportUnitType = transportUnitType;</span>
+<span class="nc" id="L57">    }</span>
 
     /*~-------------------- accessors --------------------*/
-    public void setActualLocationDate(Date actualLocationDate) {
-<span class="nc" id="L60">        this.actualLocationDate = actualLocationDate;</span>
-<span class="nc" id="L61">    }</span>
+    public String getBarcode() {
+<span class="nc" id="L61">        return barcode;</span>
+    }
+
+    public LocationVO getActualLocation() {
+<span class="nc" id="L65">        return actualLocation;</span>
+    }
+
+    public String getTarget() {
+<span class="nc" id="L69">        return target;</span>
+    }
+
+    public String getTransportUnitType() {
+<span class="nc" id="L73">        return transportUnitType;</span>
+    }
+
+    public Integer getLength() {
+<span class="nc" id="L77">        return length;</span>
+    }
+
+    public Integer getWidth() {
+<span class="nc" id="L81">        return width;</span>
+    }
+
+    public Integer getHeight() {
+<span class="nc" id="L85">        return height;</span>
+    }
+
+    public String getActualPlcCode() {
+<span class="nc" id="L89">        return actualPlcCode;</span>
+    }
+
+    public Date getActualLocationDate() {
+<span class="nc" id="L93">        return actualLocationDate;</span>
+    }
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L99" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L100">        TransportUnitVO that = (TransportUnitVO) o;</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        return Objects.equals(barcode, that.barcode) &amp;&amp;</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">                Objects.equals(actualLocation, that.actualLocation) &amp;&amp;</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">                Objects.equals(target, that.target) &amp;&amp;</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">                Objects.equals(transportUnitType, that.transportUnitType) &amp;&amp;</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">                Objects.equals(length, that.length) &amp;&amp;</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">                Objects.equals(width, that.width) &amp;&amp;</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">                Objects.equals(height, that.height) &amp;&amp;</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">                Objects.equals(actualPlcCode, that.actualPlcCode) &amp;&amp;</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">                Objects.equals(actualLocationDate, that.actualLocationDate);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L114">        return Objects.hash(barcode, actualLocation, target, transportUnitType, length, width, height, actualPlcCode, actualLocationDate);</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

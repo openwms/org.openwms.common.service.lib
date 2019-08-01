@@ -18,7 +18,7 @@ OpenWMS.org COMMON: Services,org.openwms.common.location.inmem,LocationGroupApiI
 OpenWMS.org COMMON: Services,org.openwms.common.location.inmem,LocationApiImpl,132,0,2,0,18,0,9,0,8,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api,UnitErrorVO,17,0,0,0,7,0,5,0,5,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api,TransportUnitTypeVO,37,0,0,0,17,0,10,0,10,0
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api,TransportUnitVO,22,0,0,0,11,0,4,0,4,0
+OpenWMS.org COMMON: Services,org.openwms.common.transport.api,TransportUnitVO,169,0,24,0,31,0,26,0,14,0
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationConverter,111,0,22,0,5,0,16,0,5,0
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl,211,0,14,0,42,0,19,0,12,0
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl.AjcClosure3,13,0,0,0,1,0,2,0,2,0
