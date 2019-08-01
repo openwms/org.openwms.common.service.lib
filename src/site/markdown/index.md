@@ -13,8 +13,6 @@ from a `Location` A to a `Location` B.
 [![Quality](https://sonarcloud.io/api/project_badges/measure?project=org.openwms:org.openwms.common.service&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.openwms:org.openwms.common.service)
 [![Join the chat at https://gitter.im/openwms/org.openwms](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/openwms/org.openwms?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-- Documentation on [Microservice Website](https://openwms.github.io/org.openwms.common.service)
-
 ## Build
 
 Build a runable fat jar:
