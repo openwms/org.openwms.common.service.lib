@@ -27,7 +27,7 @@
 
     <scm>
         <url>https://github.com/openwms/org.openwms.common.service</url>
-        <connection>scm:git:git://github.com/openwms/org.openwms.common.service.git</connection>
+        <connection>scm:git:git@github.com/openwms/org.openwms.common.service.git</connection>
         <developerConnection>scm:git:git@github.com:openwms/org.openwms.common.service.git</developerConnection>
     </scm>
 
