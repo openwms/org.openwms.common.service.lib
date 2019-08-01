@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UnitError.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.transport</a> &gt; <span class="el_source">UnitError.java</span></div><h1>UnitError.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2018 Heiko Scherrer
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.transport;
+
+import org.ameba.integration.jpa.BaseEntity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Objects;
+
+/**
+ * An UnitError represents an error occurring on {@code TransportUnit}s, on {@code LoadUnit}s or others.
+ *
+ * @author Heiko Scherrer
+ */
+@Entity
+@Table(name = &quot;COM_UNIT_ERROR&quot;)
+public class UnitError extends BaseEntity implements Serializable {
+
+    /** Separator to use in toString method. */
+    static final String SEPARATOR = &quot;::&quot;;
+
+    /** Error number. */
+    @Column(name = &quot;C_ERROR_NO&quot;)
+    private String errorNo;
+
+    /** Error message text. */
+    @Column(name = &quot;C_ERROR_TEXT&quot;)
+    private String errorText;
+
+    /*~ ----------------------------- constructors ------------------- */
+
+    /**
+     * Dear JPA...
+     */
+<span class="nc" id="L51">    UnitError() {</span>
+<span class="nc" id="L52">    }</span>
+
+<span class="fc" id="L54">    private UnitError(Builder builder) {</span>
+<span class="fc" id="L55">        setErrorNo(builder.errorNo);</span>
+<span class="fc" id="L56">        setErrorText(builder.errorText);</span>
+<span class="fc" id="L57">    }</span>
+
+    public static Builder newBuilder() {
+<span class="fc" id="L60">        return new Builder();</span>
+    }
+
+    /*~ ----------------------------- methods ------------------- */
+
+    /**
+     * Return the error number.
+     *
+     * @return The error number
+     */
+    public String getErrorNo() {
+<span class="nc" id="L71">        return errorNo;</span>
+    }
+
+    /**
+     * Set the error number.
+     *
+     * @param errorNo The errorNo to set.
+     */
+    public void setErrorNo(String errorNo) {
+<span class="fc" id="L80">        this.errorNo = errorNo;</span>
+<span class="fc" id="L81">    }</span>
+
+    /**
+     * Return the error text.
+     *
+     * @return The error text
+     */
+    public String getErrorText() {
+<span class="nc" id="L89">        return errorText;</span>
+    }
+
+    /**
+     * Set the error text.
+     *
+     * @param errorText The errorText to set.
+     */
+    public void setErrorText(String errorText) {
+<span class="fc" id="L98">        this.errorText = errorText;</span>
+<span class="fc" id="L99">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L107" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L108">        UnitError unitError = (UnitError) o;</span>
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">        return Objects.equals(errorNo, unitError.errorNo) &amp;&amp;</span>
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">                Objects.equals(errorText, unitError.errorText);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+<span class="nc" id="L118">        return Objects.hash(errorNo, errorText);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L126">        return errorNo + SEPARATOR + errorText;</span>
+    }
+
+
+    /**
+     * {@code UnitError} builder static inner class.
+     */
+    public static final class Builder {
+
+        private String errorNo;
+        private String errorText;
+
+        private Builder() {
+        }
+
+        /**
+         * Sets the {@code errorNo} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param val the {@code errorNo} to set
+         * @return a reference to this Builder
+         */
+        public Builder errorNo(String val) {
+<span class="fc" id="L148">            errorNo = val;</span>
+<span class="fc" id="L149">            return this;</span>
+        }
+
+        /**
+         * Sets the {@code errorText} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param val the {@code errorText} to set
+         * @return a reference to this Builder
+         */
+        public Builder errorText(String val) {
+<span class="fc" id="L159">            errorText = val;</span>
+<span class="fc" id="L160">            return this;</span>
+        }
+
+        /**
+         * Returns a {@code UnitError} built from the parameters previously set.
+         *
+         * @return a {@code UnitError} built with parameters of this {@code UnitError.Builder}
+         */
+        public UnitError build() {
+<span class="fc" id="L169">            return new UnitError(this);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
