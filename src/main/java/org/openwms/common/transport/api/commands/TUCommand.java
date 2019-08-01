@@ -19,13 +19,14 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
 
 import javax.validation.constraints.NotNull;
+import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.StringJoiner;
 
 /**
  * A TUCommand.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class TUCommand implements Command<TUCommand.Type>, Serializable {
 
@@ -34,8 +35,15 @@ public class TUCommand implements Command<TUCommand.Type>, Serializable {
     @NotNull
     private TransportUnitMO transportUnit;
 
+    /*~-------------------- constructors --------------------*/
     @JsonCreator
     protected TUCommand() {
+    }
+
+    @ConstructorProperties({"type", "transportUnit"})
+    protected TUCommand(Type type, TransportUnitMO transportUnit) {
+        this.type = type;
+        this.transportUnit = transportUnit;
     }
 
     private TUCommand(Builder builder) {
@@ -43,6 +51,7 @@ public class TUCommand implements Command<TUCommand.Type>, Serializable {
         transportUnit = builder.transportUnit;
     }
 
+    /*~-------------------- methods --------------------*/
     public static Builder newBuilder() {
         return new Builder();
     }
@@ -55,6 +64,7 @@ public class TUCommand implements Command<TUCommand.Type>, Serializable {
         CHANGE_ACTUAL_LOCATION
     }
 
+    /*~-------------------- accessors --------------------*/
     public Type getType() {
         return type;
     }

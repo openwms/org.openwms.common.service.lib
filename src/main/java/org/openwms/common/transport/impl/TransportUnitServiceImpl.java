@@ -38,6 +38,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -48,7 +50,7 @@ import static java.lang.String.format;
 /**
  * A TransportUnitServiceImpl is a Spring managed bean that deals with TransportUnits.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @TxService
 class TransportUnitServiceImpl implements TransportUnitService {
@@ -82,14 +84,14 @@ class TransportUnitServiceImpl implements TransportUnitService {
         Assert.notNull(transportUnitType, "The transportUnitType must be given in order to create a TransportUnit");
         Assert.notNull(actualLocation, "The actualLocation must be given in order to create a TransportUnit");
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Creating a TransportUnit with Barcode [{}] of Type [{}] on Location [{}]", barcode, transportUnitType.getType(), actualLocation);
-        }
         TransportUnit transportUnit;
         if (Boolean.TRUE.equals(strict)) {
             repository.findByBarcode(barcode).ifPresent(tu -> {
-                throw new ServiceLayerException(format("TransportUnit with id [%s] not found", barcode));
+                throw new ServiceLayerException(format("TransportUnit with id [%s] already exists", barcode));
             });
+        }
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Creating a TransportUnit with Barcode [{}] of Type [{}] on Location [{}]", barcode, transportUnitType.getType(), actualLocation);
         }
         Location location = locationService.findByLocationId(actualLocation).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", actualLocation)));
         TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType.getType()).orElseThrow(() -> new ServiceLayerException(format("TransportUnitType [%s] not found", transportUnitType)));
@@ -141,9 +143,18 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public TransportUnit update(Barcode barcode, TransportUnit tu) {
+    public TransportUnit update(@NotNull Barcode barcode, @NotNull TransportUnit tu) {
+        if (!barcode.equals(tu.getBarcode())) {
+            throw new ServiceLayerException("Mismatch between Barcode and tu.Barcode in API");
+        }
+        if (!repository.findByBarcode(barcode).isPresent()) {
+            throw new NotFoundException(format("TransportUnit with Barcode [%s] not found", barcode));
+        }
         TransportUnit saved = repository.save(tu);
-        ctx.publishEvent(TransportUnitEvent.newBuilder().tu(saved).type(TransportUnitEvent.TransportUnitEventType.CHANGED).build());
+        ctx.publishEvent(TransportUnitEvent.newBuilder()
+                .tu(saved)
+                .type(TransportUnitEvent.TransportUnitEventType.CHANGED).build()
+        );
         return saved;
     }
 
@@ -203,14 +214,10 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    @Transactional
-    public TransportUnit findByBarcode(Barcode barcode, Boolean withErrors) {
-        TransportUnit transportUnit = repository.findByBarcode(barcode).orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.BARCODE_NOT_FOUND, new Serializable[]{barcode}, barcode));
-        if (Boolean.TRUE.equals(withErrors)) {
-            // loading errors within transaction
-            transportUnit.getErrors();
-        }
-        return transportUnit;
+    @Transactional(readOnly = true)
+    public TransportUnit findByBarcode(Barcode barcode) {
+        return repository.findByBarcode(barcode)
+                .orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.BARCODE_NOT_FOUND, new Serializable[]{barcode}, barcode));
     }
 
     /**
@@ -231,7 +238,10 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Measured
     @Transactional(readOnly = true)
     public List<TransportUnit> findOnLocation(String actualLocation) {
-        return repository.findByActualLocationOrderByActualLocationDate(locationService.findByLocationId(actualLocation));
+        Optional<Location> optionalLocation = locationService.findByLocationId(actualLocation);
+        return optionalLocation.isPresent() ?
+                repository.findByActualLocationOrderByActualLocationDate(optionalLocation.get()) :
+                Collections.emptyList();
     }
 
     /**
@@ -248,10 +258,14 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public TransportUnit changeTarget(Barcode barcode, String targetLocationId) {
-        TransportUnit transportUnit = repository.findByBarcode(barcode).orElseThrow(NotFoundException::new);
-        Location targetLocation = targetLocationId == null || targetLocationId.isEmpty() ? null : locationService.findByLocationId(targetLocationId);
-        transportUnit.setTargetLocation(targetLocation);
+    public TransportUnit changeTarget(@NotNull Barcode barcode, @NotEmpty String targetLocation) {
+        TransportUnit transportUnit = repository.findByBarcode(barcode)
+                .orElseThrow(() -> new NotFoundException(format("No TransportUnit with barcode [%s] found", barcode)));
+
+        Location location = locationService.findByLocationId(targetLocation)
+                .orElseThrow(() -> new NotFoundException(format("Location with locationId [%s] not found", targetLocation)));
+
+        transportUnit.setTargetLocation(location);
         return repository.save(transportUnit);
     }
 }

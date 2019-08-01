@@ -22,7 +22,7 @@ import java.io.Serializable;
 /**
  * A ErrorCodeVO.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class ErrorCodeVO implements Serializable {
 

@@ -36,7 +36,7 @@ import static java.lang.String.format;
  * A LocationApiImpl is a Spring managed transactional Service that is activated in case
  * of non-microservice deployments when the Spring Profile INMEM is activated.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Profile("INMEM")
 @TxService

@@ -31,16 +31,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.openwms.common.CommonConstants.API_TRANSPORT_UNITS;
 import static org.openwms.common.location.LocationPK.fromString;
 
 /**
  * A TransportUnitController.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Profile("!INMEM")
 @RestController
@@ -56,56 +58,56 @@ public class TransportUnitController extends AbstractWebController {
         this.messageCommandHandler = messageCommandHandler;
     }
 
-    @GetMapping(value = "/v1/transport-units", params = {"bk"})
+    @GetMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
     @ResponseBody
-    public TransportUnitVO findTransportUnit(@RequestParam("bk") String transportUnitBK, @RequestParam(value = "withErrors", required = false) Boolean withErrors) {
-        TransportUnit transportUnit = service.findByBarcode(Barcode.of(transportUnitBK), withErrors);
+    public TransportUnitVO findTransportUnit(@RequestParam("bk") String transportUnitBK) {
+        TransportUnit transportUnit = service.findByBarcode(Barcode.of(transportUnitBK));
         return mapper.map(transportUnit, TransportUnitVO.class);
     }
 
-    @GetMapping(value = "/v1/transport-units", params = {"bks"})
+    @GetMapping(value = API_TRANSPORT_UNITS, params = {"bks"})
     @ResponseBody
     public List<TransportUnitVO> findTransportUnits(@RequestParam("bks") List<String> barcodes) {
         List<TransportUnit> transportUnits = service.findByBarcodes(barcodes.stream().map(Barcode::of).collect(Collectors.toList()));
         return mapper.map(transportUnits, TransportUnitVO.class);
     }
 
-    @GetMapping(value = "/v1/transport-units", params = {"actualLocation"})
+    @GetMapping(value = API_TRANSPORT_UNITS, params = {"actualLocation"})
     public List<TransportUnitVO> findTransportUnitsOn(@RequestParam("actualLocation") String actualLocation) {
         List<TransportUnit> tus = service.findOnLocation(actualLocation);
-        return mapper.map(tus, TransportUnitVO.class);
+        return tus == null ? Collections.emptyList() : mapper.map(tus, TransportUnitVO.class);
     }
 
-    @PostMapping(value = "/v1/transport-units", params = {"bk"})
+    @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
     @ResponseBody
     public void createTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
         if (Boolean.TRUE.equals(strict)) {
             // check if already exists ...
-            service.findByBarcode(Barcode.of(transportUnitBK), Boolean.FALSE);
+            service.findByBarcode(Barcode.of(transportUnitBK));
         }
         TransportUnit toCreate = mapper.map(tu, TransportUnit.class);
         TransportUnit created = service.create(Barcode.of(transportUnitBK), toCreate.getTransportUnitType(), toCreate.getActualLocation().getLocationId(), strict);
         getLocationForCreatedResource(req, created.getPersistentKey());
     }
 
-    @PostMapping(value = "/v1/transport-units", params = {"bk", "actualLocation", "tut"})
+    @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk", "actualLocation", "tut"})
     @ResponseBody
     public void createTU(@RequestParam("bk") String transportUnitBK, @RequestParam("actualLocation") String actualLocation, @RequestParam("tut") String tut, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
         if (Boolean.TRUE.equals(strict)) {
             // check if already exists ...
-            service.findByBarcode(Barcode.of(transportUnitBK), Boolean.FALSE);
+            service.findByBarcode(Barcode.of(transportUnitBK));
         }
         TransportUnit created = service.create(Barcode.of(transportUnitBK), tut, actualLocation, strict);
         getLocationForCreatedResource(req, created.getPersistentKey());
     }
 
-    @PutMapping(value = "/v1/transport-units", params = {"bk"})
+    @PutMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
     @ResponseBody
     public TransportUnitVO updateTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu) {
         return mapper.map(service.update(Barcode.of(transportUnitBK), mapper.map(tu, TransportUnit.class)), TransportUnitVO.class);
     }
 
-    @PatchMapping(value = "/v1/transport-units", params = {"bk", "newLocation"})
+    @PatchMapping(value = API_TRANSPORT_UNITS, params = {"bk", "newLocation"})
     @ResponseBody
     public TransportUnitVO moveTU(@RequestParam("bk") String transportUnitBK, @RequestParam("newLocation") String newLocation) {
         TransportUnit tu = service.moveTransportUnit(Barcode.of(transportUnitBK), fromString(newLocation));

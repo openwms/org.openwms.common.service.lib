@@ -33,7 +33,7 @@ import static java.lang.String.format;
 /**
  * A TransportUnitController.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Profile("!INMEM")
 @RestController

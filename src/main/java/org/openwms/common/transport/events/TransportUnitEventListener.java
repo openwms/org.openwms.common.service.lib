@@ -17,6 +17,7 @@ package org.openwms.common.transport.events;
 
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
+import org.ameba.exception.NotFoundException;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationService;
 import org.openwms.common.transport.Barcode;
@@ -30,10 +31,12 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 
+import static java.lang.String.format;
+
 /**
  * A TransportUnitEventListener.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @TxService
@@ -52,9 +55,11 @@ class TransportUnitEventListener {
     void handle(@Payload TransportUnitMO msg, @Header("amqp_receivedRoutingKey") String routingKey) {
         try {
             if ("tu.event.change.target".equals(routingKey)) {
-                Location location = locationService.findByLocationId(msg.getTargetLocation());
+                Location location = locationService.findByLocationId(msg.getTargetLocation())
+                        .orElseThrow(() -> new NotFoundException(format("Location with locationId [%s] not found", msg.getTargetLocation())));
+
                 Barcode barcode = Barcode.of(msg.getBarcode());
-                TransportUnit saved = service.findByBarcode(barcode, Boolean.FALSE);
+                TransportUnit saved = service.findByBarcode(barcode);
                 saved.setTargetLocation(location);
                 service.update(barcode, saved);
             }

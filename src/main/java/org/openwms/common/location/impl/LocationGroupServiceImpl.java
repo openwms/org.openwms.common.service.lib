@@ -37,7 +37,7 @@ import java.util.Optional;
  * A LocationGroupServiceImpl is a Spring managed transactional Service that operates on
  * {@link LocationGroup} entities and spans the tx boundary.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @TxService
 class LocationGroupServiceImpl implements LocationGroupService {
@@ -57,8 +57,8 @@ class LocationGroupServiceImpl implements LocationGroupService {
      */
     @Override
     @Measured
-    public void changeGroupState(String id, LocationGroupState stateIn, LocationGroupState stateOut) {
-        LocationGroup locationGroup = locationGroupRepository.findById(Long.valueOf(id)).orElseThrow(NotFoundException::new);
+    public void changeGroupState(String pKey, LocationGroupState stateIn, LocationGroupState stateOut) {
+        LocationGroup locationGroup = locationGroupRepository.findByPKey(pKey).orElseThrow(NotFoundException::new);
         locationGroup.changeState(stateIn, stateOut);
         ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));
     }
@@ -105,20 +105,12 @@ class LocationGroupServiceImpl implements LocationGroupService {
         return result == null ? Collections.emptyList() : result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Transactional(readOnly = true)
-    //@Override
     public TreeNode<LocationGroup> getLocationGroupsAsTree() {
         return createTree(new TreeNodeImpl<>(), getLocationGroupsAsList());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Transactional(readOnly = true)
-    //@Override
     public List<LocationGroup> getLocationGroupsAsList() {
         return locationGroupRepository.findAll();
     }

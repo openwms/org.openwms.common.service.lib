@@ -18,7 +18,7 @@ package org.openwms.common.location.api;
 /**
  * A Target represents a target of a TransportOrder.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public interface Target {
 

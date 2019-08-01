@@ -15,6 +15,8 @@
  */
 package org.openwms.common.location;
 
+import org.springframework.util.Assert;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Max;
@@ -23,7 +25,7 @@ import java.io.Serializable;
 /**
  * A LocationPK, is a value type and is used as an unique natural key for {@link Location} entities.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @see Location
  */
 @Embeddable
@@ -90,7 +92,7 @@ public class LocationPK implements Serializable {
      * Weak constructor to create a new LocationPK with a couple of keys only.
      *
      * @param keys The array of keys, currently expected to be 5
-     * @throws IllegalArgumentException if the number of keys does not match {@value LocationPK#NUMBER_OF_KEYS}
+     * @throws IllegalArgumentException if the number of keys does not match {@link LocationPK#NUMBER_OF_KEYS}
      */
     public LocationPK(String... keys) {
         if (keys == null || keys.length != NUMBER_OF_KEYS) {
@@ -113,6 +115,7 @@ public class LocationPK implements Serializable {
     }
 
     public static LocationPK fromString(String s) {
+        Assert.hasText(s, "s must be provided");
         return new LocationPK(s.split("/"));
     }
 

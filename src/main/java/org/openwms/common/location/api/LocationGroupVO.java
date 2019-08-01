@@ -25,10 +25,12 @@ import java.util.Objects;
 /**
  * A LocationGroupVO is the view object of a Location.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class LocationGroupVO extends ResourceSupport implements Target, Serializable {
 
+    @JsonProperty
+    private String pKey;
     @JsonProperty
     private String name;
     @JsonProperty
@@ -107,6 +109,14 @@ public class LocationGroupVO extends ResourceSupport implements Target, Serializ
     }
 
     /*~ ------------------ accessors ----------------------*/
+    public String getpKey() {
+        return pKey;
+    }
+
+    public void setpKey(String pKey) {
+        this.pKey = pKey;
+    }
+
     public String getName() {
         return name;
     }
@@ -146,7 +156,7 @@ public class LocationGroupVO extends ResourceSupport implements Target, Serializ
         if (!super.equals(o))
             return false;
         LocationGroupVO that = (LocationGroupVO) o;
-        return Objects.equals(name, that.name) && Objects.equals(parent, that.parent) && groupStateIn == that.groupStateIn && groupStateOut == that.groupStateOut;
+        return Objects.equals(pKey, that.pKey) && Objects.equals(name, that.name) && Objects.equals(parent, that.parent) && groupStateIn == that.groupStateIn && groupStateOut == that.groupStateOut;
     }
 
     /**
@@ -156,7 +166,7 @@ public class LocationGroupVO extends ResourceSupport implements Target, Serializ
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, parent, groupStateIn, groupStateOut);
+        return Objects.hash(super.hashCode(), pKey, name, parent, groupStateIn, groupStateOut);
     }
 
     /**

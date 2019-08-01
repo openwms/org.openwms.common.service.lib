@@ -38,7 +38,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 /**
  * A CommonModuleConfiguration.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Configuration
 @EnableAspects(propagateRootCause = true)
@@ -68,7 +68,7 @@ public class CommonModuleConfiguration {
 
     public @Bean
     BeanMapper beanMapper() {
-        return new DozerMapperImpl("classpath:/META-INF/dozer/common-bean-mappings.xml");
+        return new DozerMapperImpl("META-INF/dozer/common-bean-mappings.xml");
     }
 
     /*~ ------------- Request ID handling ----------- */

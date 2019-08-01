@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>7</version>
+        <version>8</version>
         <relativePath/>
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
@@ -20,16 +20,15 @@
 
     <distributionManagement>
         <site>
-            <id>ftp-io</id>
-            <name>OpenWMS.org WebSite</name>
-            <url>ftps://ftp.interface21.io:22/docs/common/base</url>
+            <id>site</id>
+            <url>scm:git:git@github.com:openwms/${project.artifactId}.git</url>
         </site>
     </distributionManagement>
 
     <scm>
         <url>https://github.com/openwms/org.openwms.common.service</url>
-        <connection>scm:git:git://github.com/openwms/org.openwms.common.service.git</connection>
-        <developerConnection>scm:git:git@github.com:openwms/org.openwms.common.service.git</developerConnection>
+        <connection>scm:git:https://${scmuser}github.com/openwms/org.openwms.common.service.git</connection>
+        <developerConnection>scm:git:https://${scmuser}github.com/openwms/org.openwms.common.service.git</developerConnection>
     </scm>
 
     <developers>
@@ -75,6 +74,11 @@
 
     <properties>
         <core.version>1.5.0-SNAPSHOT</core.version>
+        <documentation.output.dir>${documentation.dir}/site/rest/${project.version}</documentation.output.dir> <!-- Change in parent -->
+        <excludedGroups>org.ameba.test.categories.IntegrationTests</excludedGroups>
+        <reportOutputDirectory>${project.reporting.outputDirectory}/apidocs/${project.version}</reportOutputDirectory> <!-- Move to parent javadoc plugin config -->
+        <scmpublish.content>${project.build.directory}/site</scmpublish.content> <!-- Move to parent -->
+        <scmuser></scmuser> <!-- Move to parent -->
     </properties>
 
     <reporting>
@@ -94,8 +98,34 @@
                     </reportSet>
                 </reportSets>
             </plugin>
+            <plugin>
+                <!-- Remove with parent:9 -->
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>${maven-surefire-report-plugin.version}</version>
+                <configuration>
+                    <aggregate>false</aggregate>
+                </configuration>
+            </plugin>
         </plugins>
     </reporting>
+
+    <profiles>
+        <!-- Remove with parent:9 -->
+        <profile>
+            <id>sonar</id>
+            <properties>
+                <debug.info>false</debug.info>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <build>
         <finalName>openwms-common-service</finalName>
@@ -103,6 +133,10 @@
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -119,16 +153,14 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>aspectj-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
             </plugin>
             <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
+                <!-- Remove with parent:9 -->
+                <artifactId>maven-scm-publish-plugin</artifactId>
+                <version>1.1</version>
                 <configuration>
-                    <excludedGroups>org.ameba.test.categories.IntegrationTests</excludedGroups>
+                    <scmBranch>gh-pages</scmBranch>
                 </configuration>
             </plugin>
             <plugin>
@@ -365,17 +397,6 @@
             </snapshots>
             <releases>
                 <enabled>false</enabled>
-            </releases>
-        </repository>
-        <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Staging Repository</name>
-            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
             </releases>
         </repository>
     </repositories>

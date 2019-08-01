@@ -45,7 +45,7 @@ import java.util.Set;
  * A Location, represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a location
  * on a conveyor. Error locations can be modeled with a Location entity, too. Multiple Locations are grouped to a {@link LocationGroup}.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @GlossaryTerm
  * @see org.openwms.common.location.LocationGroup
  */

@@ -34,7 +34,7 @@ import java.util.Set;
  * A TransportUnitCommandPropagator propagates {@link TUCommand}s send by this service
  * out to other services over an AMQP exchange.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Component

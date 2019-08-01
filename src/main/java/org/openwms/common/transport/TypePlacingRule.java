@@ -32,7 +32,7 @@ import java.util.Objects;
  * A TypePlacingRule is a {@code Rule} that defines which types of {@code TransportUnit}s ({@code TransportUnitType}s) can be put on which
  * type of {@code Location} ({@code LocationType}). <p> A privilegeLevel is defined to order a list of allowed {@code LocationType}s. </p>
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @GlossaryTerm
  * @see TransportUnitType
  */

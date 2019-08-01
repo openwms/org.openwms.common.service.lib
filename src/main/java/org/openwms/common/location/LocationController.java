@@ -32,11 +32,12 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.lang.String.format;
+import static org.openwms.common.CommonConstants.API_LOCATIONS;
 
 /**
  * A LocationController.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Profile("!INMEM")
 @RestController
@@ -54,7 +55,7 @@ public class LocationController {
         this.mapper = mapper;
     }
 
-    @GetMapping(value = "/v1/locations", params = {"locationPK"})
+    @GetMapping(value = API_LOCATIONS, params = {"locationPK"})
     public Optional<LocationVO> findLocationByCoordinate(@RequestParam("locationPK") String locationPK) {
         if (!LocationPK.isValid(locationPK)) {
             throw new NotFoundException(format("Invalid location [%s]", locationPK));
@@ -63,24 +64,24 @@ public class LocationController {
         return Optional.ofNullable(mapper.map(location, LocationVO.class));
     }
 
-    @GetMapping(value = "/v1/locations", params = {"plcCode"})
+    @GetMapping(value = API_LOCATIONS, params = {"plcCode"})
     public Optional<LocationVO> findLocationByPlcCode(@RequestParam("plcCode") String plcCode) {
         Location location = locationService.findByPlcCode(plcCode).orElseThrow(() -> new NotFoundException(format("No Location with PLC Code [%s] found", plcCode)));
         return Optional.ofNullable(mapper.map(location, LocationVO.class));
     }
 
-    @GetMapping(value = "/v1/locations", params = {"locationGroupNames"})
+    @GetMapping(value = API_LOCATIONS, params = {"locationGroupNames"})
     public List<LocationVO> findLocationsForLocationGroups(@RequestParam("locationGroupNames") List<String> locationGroupNames) {
         List<Location> locations = locationService.findAllOf(locationGroupNames);
         return mapper.map(locations, LocationVO.class);
     }
 
-    @PatchMapping(value = "/v1/locations/{pKey}")
+    @PatchMapping(value = API_LOCATIONS + "/{pKey}")
     public void updateState(@PathVariable(name = "pKey") String pKey, @RequestBody ErrorCodeVO errorCode) {
         locationService.changeState(pKey, stateIn, stateOut, errorCode);
     }
 
-    @GetMapping(value = "/v1/locations", params = {"area", "aisle", "x", "y", "z"})
+    @GetMapping(value = API_LOCATIONS, params = {"area", "aisle", "x", "y", "z"})
     public List<LocationVO> findLocations(
             @RequestParam(value = "area", required = false) String area,
             @RequestParam(value = "aisle", required = false) String aisle,

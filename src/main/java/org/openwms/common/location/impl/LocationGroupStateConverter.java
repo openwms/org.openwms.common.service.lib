@@ -21,14 +21,11 @@ import org.openwms.common.location.api.LocationGroupState;
 /**
  * A LocationGroupStateConverter.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class LocationGroupStateConverter extends DozerConverter<Boolean, LocationGroupState> {
 
 
-    /**
-     * {@inheritDoc}
-     */
     public LocationGroupStateConverter() {
         super(Boolean.class, LocationGroupState.class);
     }

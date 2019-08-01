@@ -25,7 +25,7 @@ import java.util.Optional;
  * A LocationService offers some useful methods regarding the general handling of {@link Location}s. <p> This interface is declared generic
  * typed that implementation classes can use any extension of {@link Location}s. </p>
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public interface LocationService {
 
@@ -72,9 +72,16 @@ public interface LocationService {
      *
      * @param locationPK The business key of the Location to search for
      * @return The Location
-     * @throws org.ameba.exception.NotFoundException if entity not found
      */
     Optional<Location> findByLocationId(LocationPK locationPK);
+
+    /**
+     * Find and return a Location identified by the given {@code locationPK}.
+     *
+     * @param locationPK The business key of the Location to search for
+     * @return The Location
+     */
+    Optional<Location> findByLocationId(String locationPK);
 
     /**
      * Find and return all Locations that match the {@code locationPK} whereas the
@@ -92,15 +99,6 @@ public interface LocationService {
      * @return The Location
      */
     Optional<Location> findByPlcCode(String plcCode);
-
-    /**
-     * Find and return a Location identified by the given {@code locationPK}.
-     *
-     * @param locationPK The business key of the Location to search for
-     * @return The Location
-     * @throws org.ameba.exception.NotFoundException if entity not found
-     */
-    Location findByLocationId(String locationPK);
 
     /**
      * Find and return a Location {@link Location} by the given {@code location}.

@@ -19,13 +19,14 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * A MessageCommand is used to attach Messages.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class MessageCommand implements Command<MessageCommand.Type>, Serializable {
 
@@ -43,8 +44,15 @@ public class MessageCommand implements Command<MessageCommand.Type>, Serializabl
     private String messageNumber;
     private Date messageOccurred;
 
+    /*~-------------------- constructors --------------------*/
     @JsonCreator
     protected MessageCommand() {
+    }
+
+    @ConstructorProperties({"type", "messageText"})
+    protected MessageCommand(Type type, String messageText) {
+        this.type = type;
+        this.messageText = messageText;
     }
 
     private MessageCommand(Builder builder) {
@@ -55,10 +63,12 @@ public class MessageCommand implements Command<MessageCommand.Type>, Serializabl
         messageOccurred = builder.messageOccurred;
     }
 
+    /*~-------------------- methods --------------------*/
     public static Builder newBuilder() {
         return new Builder();
     }
 
+    /*~-------------------- accessors --------------------*/
     public Type getType() {
         return type;
     }

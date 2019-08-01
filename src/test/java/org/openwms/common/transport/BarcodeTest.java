@@ -26,7 +26,7 @@ import static org.junit.Assert.fail;
 /**
  * A BarcodeTest.
  * 
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class BarcodeTest {
 

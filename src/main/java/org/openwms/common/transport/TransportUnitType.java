@@ -35,7 +35,7 @@ import java.util.Set;
  * TransportUnit}s, such as the length, the height, or the weight of {@code TransportUnit}s. It is possible to group and characterize {@code
  * TransportUnit}s. </p>
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @GlossaryTerm
  * @see TransportUnit
  */
@@ -76,11 +76,11 @@ public class TransportUnitType extends BaseEntity implements Serializable {
     @Column(name = "C_WEIGHT_TARE", scale = 3)
     private BigDecimal weightTare;
 
-    /** Maximum weight of the {@code TransportUnitType}. */
+    /** Maximum allowed weight of the {@code TransportUnitType}. */
     @Column(name = "C_WEIGHT_MAX", scale = 3)
     private BigDecimal weightMax;
 
-    /** Effective payload of the {@code TransportUnitType}. */
+    /** Effective weight of the {@code TransportUnitType}'s payload. */
     @Column(name = "C_PAYLOAD", scale = 3)
     private BigDecimal payload;
 

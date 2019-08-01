@@ -24,7 +24,7 @@ import java.math.BigDecimal;
 /**
  * A Weight represents a real world weight, that comes with an <code>Unit</code> and a value.
  * 
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class Weight implements Measurable<BigDecimal, Weight, WeightUnit>, UnitType, Serializable {
 

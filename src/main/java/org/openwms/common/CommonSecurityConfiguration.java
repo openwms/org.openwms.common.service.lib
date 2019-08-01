@@ -22,7 +22,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 /**
  * A CommonSecurityConfiguration.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Configuration
 class CommonSecurityConfiguration extends WebSecurityConfigurerAdapter {

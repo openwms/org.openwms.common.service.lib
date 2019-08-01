@@ -28,17 +28,20 @@ import java.util.Optional;
 /**
  * A LocationRepository adds particular functionality regarding {@link Location} entity classes.
  * 
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
-
+//SONAR:OFF
     Optional<Location> findByPKey(String persistentKey);
 
     Optional<Location> findByLocationId(LocationPK locationId);
 
     @Query("select l from Location l where l.locationGroup.name in :locationGroupNames")
     List<Location> findByLocationGroup_Name(@Param("locationGroupNames") List<String> locationGroupNames);
+
+    @Query("select l from Location l where l.locationGroup.name like :locationGroupName")
+    List<Location> findByLocationGroup_Name(@Param("locationGroupName") String locationGroupName);
 
     Optional<Location> findByPlcCode(String plcCode);
 
@@ -49,5 +52,5 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
             "and l.locationId.y like :#{#locationPK.y} " +
             "and l.locationId.z like :#{#locationPK.z} ")
     List<Location> findByLocationIdContaining(@Param("locationPK")LocationPK locationPK);
-
+//SONAR:ON
 }

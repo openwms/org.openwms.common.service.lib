@@ -25,7 +25,7 @@ import java.util.Optional;
 /**
  * A DefaultLocationStateInTransformer.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Order(5)
 @Component

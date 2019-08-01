@@ -49,7 +49,7 @@ import java.util.Set;
  * A TransportUnit is an item like a box, a toad, a bin or a palette that is moved around within a warehouse and can carry goods. <p> Used
  * as container to transport items like {@code LoadUnit}s. It can be moved between {@code Location}s. </p>
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @GlossaryTerm
  */
 @Entity
@@ -58,7 +58,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
 
     /** Unique natural key. */
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "C_BARCODE", length = Barcode.BARCODE_LENGTH))
+    @AttributeOverride(name = "value", column = @Column(name = "C_BARCODE", length = Barcode.BARCODE_LENGTH, nullable = false))
     @OrderBy
     private Barcode barcode;
 
@@ -130,7 +130,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     /**
      * Create a new {@code TransportUnit} with an unique id. The id is used to create a {@link Barcode}.
      *
-     * @param unitId The unique identifier of the {@code TransportUnit}
+     * @param unitId The unique identifier of the {@code TransportUnit} - must not be empty
      */
     public TransportUnit(String unitId) {
         Assert.hasText(unitId, "Not allowed to create a TransportUnit without an ID");
@@ -140,12 +140,28 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     /**
      * Create a new {@code TransportUnit} with an unique {@link Barcode}.
      *
-     * @param barcode The unique identifier of this {@code TransportUnit} is the {@link Barcode}
+     * @param barcode The unique identifier of this {@code TransportUnit} is the {@link Barcode} - must not be {@literal null}
      */
     public TransportUnit(Barcode barcode) {
+        Assert.notNull(barcode, "Barcode must not be null");
         this.barcode = Barcode.of(barcode.adjustBarcode(barcode.getValue()));
     }
 
+    /**
+     * Create a new {@code TransportUnit} with an unique {@link Barcode}.
+     *
+     * @param barcode The unique identifier of this {@code TransportUnit} is the {@link Barcode} - must not be {@literal null}
+     * @param tut The {@code TransportUnitType} of this {@code TransportUnit} - must not be {@literal null}
+     * @param actualLocation The current {@code Location} of this {@code TransportUnit} - must not be {@literal null}
+     */
+    public TransportUnit(Barcode barcode, TransportUnitType tut, Location actualLocation) {
+        Assert.notNull(barcode, "Barcode must not be null");
+        Assert.notNull(tut, "TransportUnitType must not be null");
+        Assert.notNull(actualLocation, "ActualLocation must not be null");
+        this.barcode = Barcode.of(barcode.adjustBarcode(barcode.getValue()));
+        setTransportUnitType(tut);
+        setActualLocation(actualLocation);
+    }
     /*~ ----------------------------- methods ------------------- */
 
     /**
@@ -352,8 +368,10 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * Set the {@link Barcode} of the {@code TransportUnit}.
      *
      * @param barcode The {@link Barcode} to be set on the {@code TransportUnit}
+     * @deprecated Use Barcode.of() instead
      */
-    public void setBarcode(Barcode barcode) {
+    @Deprecated
+    protected void setBarcode(Barcode barcode) {
         this.barcode = barcode;
     }
 
@@ -408,7 +426,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
         children.add(transportUnit);
     }
 
-    boolean hasParent() {
+    public boolean hasParent() {
         return parent != null;
     }
 
@@ -427,15 +445,6 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
         } else {
             throw new IllegalArgumentException("Child transportUnit not associated with this instance");
         }
-    }
-
-    /**
-     * Set the actualLocationDate.
-     *
-     * @param actualLocationDate The actualLocationDate to set.
-     */
-    public void setActualLocationDate(Date actualLocationDate) {
-        this.actualLocationDate = new Date(actualLocationDate.getTime());
     }
 
     /**

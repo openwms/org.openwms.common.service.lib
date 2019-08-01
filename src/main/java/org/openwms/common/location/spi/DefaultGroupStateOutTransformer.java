@@ -26,7 +26,7 @@ import java.util.Optional;
 /**
  * A DefaultGroupStateOutTransformer.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Order(5)
 @Component

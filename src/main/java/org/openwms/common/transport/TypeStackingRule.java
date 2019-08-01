@@ -30,7 +30,7 @@ import java.util.Objects;
  * A TypeStackingRule is a {@link Rule} that defines which {@link TransportUnitType} can be stacked on other types. Additionally a maximum
  * number of {@link TransportUnit}s can be defined.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @GlossaryTerm
  * @see TransportUnitType
  */

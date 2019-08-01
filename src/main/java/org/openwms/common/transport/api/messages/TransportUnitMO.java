@@ -22,7 +22,7 @@ import java.util.StringJoiner;
 /**
  * A TransportUnitMO is a Message Object representing a {@code TransportUnit}.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 public class TransportUnitMO implements Serializable {
 

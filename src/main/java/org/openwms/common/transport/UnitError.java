@@ -26,7 +26,7 @@ import java.util.Objects;
 /**
  * An UnitError represents an error occurring on {@code TransportUnit}s, on {@code LoadUnit}s or others.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Entity
 @Table(name = "COM_UNIT_ERROR")

@@ -29,7 +29,7 @@ import java.sql.SQLException;
 /**
  * A PieceUserType.
  * 
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @deprecated Use UnitUserType instead
  */
 @Deprecated

@@ -22,7 +22,7 @@ import org.springframework.stereotype.Repository;
 /**
  * A LocationTypeRepository adds particular functionality regarding {@link LocationType} entity classes.
  * 
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Repository
 interface LocationTypeRepository extends JpaRepository<LocationType, Long> {

@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Profile;
  * A CommonAsyncConfiguration contains the modules asynchronous configuration that is
  * always active.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Configuration

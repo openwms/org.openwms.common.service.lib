@@ -45,7 +45,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 /**
  * A LocationGroupController.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @Profile("!INMEM")
 @RestController
@@ -95,10 +95,14 @@ public class LocationGroupController {
         );
     }
 
-    @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS + "/{id}")
-    public void save(@PathVariable String id, @RequestParam(name = "statein", required = false) LocationGroupState stateIn, @RequestParam(name = "stateout", required = false) LocationGroupState stateOut, HttpServletRequest req, HttpServletResponse res) {
-        locationGroupService.changeGroupState(id, stateIn, stateOut);
-        res.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req, id));
+    @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS + "/{pKey}")
+    public void save(
+            @PathVariable String pKey,
+            @RequestParam(name = "statein", required = false) LocationGroupState stateIn,
+            @RequestParam(name = "stateout", required = false) LocationGroupState stateOut,
+            HttpServletRequest req, HttpServletResponse res) {
+        locationGroupService.changeGroupState(pKey, stateIn, stateOut);
+        res.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req, pKey));
     }
 
     private String getLocationForCreatedResource(HttpServletRequest req, String objId) {
