@@ -12,9 +12,9 @@ addons:
 
 script:
   - sonar-scanner
-  - mvn -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true clean package sonar:sonar -Psonar && exit 0
-  - mvn site scm-publish:publish-scm -Denforcer.skip=true -Dscmpublish.pubScmUrl=scm:git:https://github.com/openwms/org.openwms.common.service.git && exit 0
-  - mvn clean package -Denforcer.skip=true && exit 0
+  - mvn -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true clean package sonar:sonar -Psonar && exit 1
+  - mvn site scm-publish:publish-scm -Denforcer.skip=true -Dscmpublish.pubScmUrl=scm:git:https://github.com/openwms/org.openwms.common.service.git && exit 1
+  - mvn clean package -Denforcer.skip=true && exit 1
 
 after_success:
   - docker build -t openwms/org.openwms.common.service:latest .
