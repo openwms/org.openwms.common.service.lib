@@ -74,11 +74,11 @@
 
     <properties>
         <core.version>1.5.0-SNAPSHOT</core.version>
-        <documentation.output.dir>${documentation.dir}/site/rest/${project.version}</documentation.output.dir>
+        <documentation.output.dir>${documentation.dir}/site/rest/${project.version}</documentation.output.dir> <!-- Change in parent -->
         <excludedGroups>org.ameba.test.categories.IntegrationTests</excludedGroups>
         <reportOutputDirectory>${project.reporting.outputDirectory}/apidocs/${project.version}</reportOutputDirectory> <!-- Move to parent javadoc plugin config -->
-        <scmpublish.content>${project.build.directory}/site</scmpublish.content>
-        <scmuser></scmuser>
+        <scmpublish.content>${project.build.directory}/site</scmpublish.content> <!-- Move to parent -->
+        <scmuser></scmuser> <!-- Move to parent -->
     </properties>
 
     <reporting>
