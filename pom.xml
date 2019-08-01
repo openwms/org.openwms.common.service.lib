@@ -27,8 +27,8 @@
 
     <scm>
         <url>https://github.com/openwms/org.openwms.common.service</url>
-        <connection>scm:git:https://github.com/openwms/org.openwms.common.service.git</connection>
-        <developerConnection>scm:git:https://github.com/openwms/org.openwms.common.service.git</developerConnection>
+        <connection>scm:git:https://${scmuser}github.com/openwms/org.openwms.common.service.git</connection>
+        <developerConnection>scm:git:https://${scmuser}github.com/openwms/org.openwms.common.service.git</developerConnection>
     </scm>
 
     <developers>
@@ -78,6 +78,7 @@
         <excludedGroups>org.ameba.test.categories.IntegrationTests</excludedGroups>
         <reportOutputDirectory>${project.reporting.outputDirectory}/apidocs/${project.version}</reportOutputDirectory> <!-- Move to parent javadoc plugin config -->
         <scmpublish.content>${project.build.directory}/site</scmpublish.content>
+        <scmuser></scmuser>
     </properties>
 
     <reporting>

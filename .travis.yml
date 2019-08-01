@@ -3,6 +3,9 @@ language: java
 jdk:
   - openjdk8
 
+env:
+  - scmuser=${PASSWORD}@
+
 services:
   - docker
 
@@ -12,7 +15,7 @@ addons:
 
 script:
 #  - mvn -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true clean package sonar:sonar -Psonar
-  - mvn site scm-publish:publish-scm -Denforcer.skip=true -Dscmpublish.pubScmUrl=scm:git:https://${PASSWORD}@github.com/openwms/org.openwms.common.service.git -DdeveloperConnectionUrl=scm:git:https://${PASSWORD}@github.com/openwms/org.openwms.common.service.git
+  - mvn site scm-publish:publish-scm -Denforcer.skip=true
   - mvn clean package -Denforcer.skip=true
 
 after_success:
