@@ -21,6 +21,7 @@ import org.openwms.common.location.api.LocationVO;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * A TransportUnitVO.
@@ -56,7 +57,60 @@ public class TransportUnitVO implements Serializable {
     }
 
     /*~-------------------- accessors --------------------*/
-    public void setActualLocationDate(Date actualLocationDate) {
-        this.actualLocationDate = actualLocationDate;
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public LocationVO getActualLocation() {
+        return actualLocation;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public String getTransportUnitType() {
+        return transportUnitType;
+    }
+
+    public Integer getLength() {
+        return length;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public String getActualPlcCode() {
+        return actualPlcCode;
+    }
+
+    public Date getActualLocationDate() {
+        return actualLocationDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TransportUnitVO that = (TransportUnitVO) o;
+        return Objects.equals(barcode, that.barcode) &&
+                Objects.equals(actualLocation, that.actualLocation) &&
+                Objects.equals(target, that.target) &&
+                Objects.equals(transportUnitType, that.transportUnitType) &&
+                Objects.equals(length, that.length) &&
+                Objects.equals(width, that.width) &&
+                Objects.equals(height, that.height) &&
+                Objects.equals(actualPlcCode, that.actualPlcCode) &&
+                Objects.equals(actualLocationDate, that.actualLocationDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(barcode, actualLocation, target, transportUnitType, length, width, height, actualPlcCode, actualLocationDate);
     }
 }

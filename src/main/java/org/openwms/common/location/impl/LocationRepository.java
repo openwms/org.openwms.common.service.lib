@@ -32,7 +32,7 @@ import java.util.Optional;
  */
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
-
+//SONAR:OFF
     Optional<Location> findByPKey(String persistentKey);
 
     Optional<Location> findByLocationId(LocationPK locationId);
@@ -52,5 +52,5 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
             "and l.locationId.y like :#{#locationPK.y} " +
             "and l.locationId.z like :#{#locationPK.z} ")
     List<Location> findByLocationIdContaining(@Param("locationPK")LocationPK locationPK);
-
+//SONAR:ON
 }

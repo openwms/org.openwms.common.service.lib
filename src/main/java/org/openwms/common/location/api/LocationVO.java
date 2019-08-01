@@ -38,7 +38,6 @@ public class LocationVO extends ResourceSupport implements Target, Serializable 
     private Boolean incomingActive;
     private Boolean outgoingActive;
     private Integer plcState;
-    private Integer noTransportUnits;
 
     /*~-------------------- constructors --------------------*/
     protected LocationVO() {
