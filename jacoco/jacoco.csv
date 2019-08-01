@@ -49,9 +49,9 @@ OpenWMS.org COMMON: Services,org.openwms.common.location,LocationType,33,69,2,4,
 OpenWMS.org COMMON: Services,org.openwms.common.location,LocationGroupEventPropagator,164,0,10,0,29,0,12,0,4,0
 OpenWMS.org COMMON: Services,org.openwms.common.location,Target,0,3,0,0,0,1,0,1,0,1
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,TUCommand.Type,54,0,0,0,6,0,1,0,1,0
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,MessageCommand,66,0,0,0,25,0,13,0,13,0
+OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,MessageCommand,75,0,0,0,29,0,14,0,14,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,TUCommand.Builder,16,0,0,0,5,0,3,0,3,0
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,TUCommand,63,0,0,0,12,0,7,0,7,0
+OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,TUCommand,72,0,0,0,16,0,8,0,8,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,MessageCommand.Type,14,0,0,0,3,0,1,0,1,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,MessageCommand.Builder,31,0,0,0,11,0,6,0,6,0
 OpenWMS.org COMMON: Services,org.openwms.common.location.spi,DefaultLocationStateInTransformer,30,0,4,0,5,0,4,0,2,0
