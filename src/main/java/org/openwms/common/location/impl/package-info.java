@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Heiko Scherrer
+ * Copyright 2019 Heiko Scherrer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 /**
- * This package contains Unit types and their particular type definitions.
+ * This package contains internal implementation classes.
  */
-package org.openwms.common.units;
+package org.openwms.common.location.impl;

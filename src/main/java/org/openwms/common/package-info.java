@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 /**
- * This package contains microservices to handle essential logistics processes.
+ * This package contains common used types of this service.
  */
 package org.openwms.common;
