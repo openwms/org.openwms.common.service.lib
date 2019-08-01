@@ -37,9 +37,6 @@ public class LocationConverter extends DozerConverter<String, Location> {
     @Autowired
     private Translator translator;
 
-    /**
-     * {@inheritDoc}
-     */
     public LocationConverter() {
         super(String.class, Location.class);
     }

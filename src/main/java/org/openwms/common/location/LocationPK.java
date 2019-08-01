@@ -92,7 +92,7 @@ public class LocationPK implements Serializable {
      * Weak constructor to create a new LocationPK with a couple of keys only.
      *
      * @param keys The array of keys, currently expected to be 5
-     * @throws IllegalArgumentException if the number of keys does not match {@value LocationPK#NUMBER_OF_KEYS}
+     * @throws IllegalArgumentException if the number of keys does not match {@link LocationPK#NUMBER_OF_KEYS}
      */
     public LocationPK(String... keys) {
         if (keys == null || keys.length != NUMBER_OF_KEYS) {

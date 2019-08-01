@@ -108,20 +108,12 @@ class LocationGroupServiceImpl implements LocationGroupService {
         return result == null ? Collections.emptyList() : result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Transactional(readOnly = true)
-    //@Override
     public TreeNode<LocationGroup> getLocationGroupsAsTree() {
         return createTree(new TreeNodeImpl<>(), getLocationGroupsAsList());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Transactional(readOnly = true)
-    //@Override
     public List<LocationGroup> getLocationGroupsAsList() {
         return locationGroupRepository.findAll();
     }

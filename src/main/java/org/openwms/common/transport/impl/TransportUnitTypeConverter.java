@@ -36,9 +36,6 @@ public class TransportUnitTypeConverter extends DozerConverter<String, Transport
     @Autowired
     private Translator translator;
 
-    /**
-     * {@inheritDoc}
-     */
     public TransportUnitTypeConverter() {
         super(String.class, TransportUnitType.class);
     }

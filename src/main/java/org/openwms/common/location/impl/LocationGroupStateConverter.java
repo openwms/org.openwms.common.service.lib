@@ -26,9 +26,6 @@ import org.openwms.common.location.api.LocationGroupState;
 public class LocationGroupStateConverter extends DozerConverter<Boolean, LocationGroupState> {
 
 
-    /**
-     * {@inheritDoc}
-     */
     public LocationGroupStateConverter() {
         super(Boolean.class, LocationGroupState.class);
     }

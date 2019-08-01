@@ -19,15 +19,12 @@ import org.dozer.DozerConverter;
 import org.openwms.common.location.LocationPK;
 
 /**
- * A LocationConverter.
+ * A LocationPKConverter.
  *
  * @author Heiko Scherrer
  */
 public class LocationPKConverter extends DozerConverter<String, LocationPK> {
 
-    /**
-     * {@inheritDoc}
-     */
     public LocationPKConverter() {
         super(String.class, LocationPK.class);
     }
