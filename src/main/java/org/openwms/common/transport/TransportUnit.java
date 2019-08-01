@@ -368,6 +368,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * Set the {@link Barcode} of the {@code TransportUnit}.
      *
      * @param barcode The {@link Barcode} to be set on the {@code TransportUnit}
+     * @deprecated Use Barcode.of() instead
      */
     @Deprecated
     protected void setBarcode(Barcode barcode) {

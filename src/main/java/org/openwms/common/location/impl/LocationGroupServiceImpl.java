@@ -26,8 +26,6 @@ import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.events.LocationGroupEvent;
 import org.openwms.core.util.TreeNode;
 import org.openwms.core.util.TreeNodeImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +42,6 @@ import java.util.Optional;
 @TxService
 class LocationGroupServiceImpl implements LocationGroupService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LocationGroupServiceImpl.class);
     private final LocationGroupRepository locationGroupRepository;
     private final ApplicationContext ctx;
     private final Translator translator;
