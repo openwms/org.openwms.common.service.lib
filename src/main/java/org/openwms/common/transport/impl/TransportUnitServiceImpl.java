@@ -147,8 +147,9 @@ class TransportUnitServiceImpl implements TransportUnitService {
         if (!barcode.equals(tu.getBarcode())) {
             throw new ServiceLayerException("Mismatch between Barcode and tu.Barcode in API");
         }
-        repository.findByBarcode(barcode)
-                .orElseThrow(() -> new NotFoundException(format("TransportUnit with Barcode [%s] not found", barcode)));
+        if (!repository.findByBarcode(barcode).isPresent()) {
+            throw new NotFoundException(format("TransportUnit with Barcode [%s] not found", barcode));
+        }
         TransportUnit saved = repository.save(tu);
         ctx.publishEvent(TransportUnitEvent.newBuilder()
                 .tu(saved)
