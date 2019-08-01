@@ -368,11 +368,12 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * Set the {@link Barcode} of the {@code TransportUnit}.
      *
      * @param barcode The {@link Barcode} to be set on the {@code TransportUnit}
+     * @deprecated Use Barcode.of() instead
      */
     @Deprecated
     protected void setBarcode(Barcode barcode) {
-<span class="nc" id="L374">        this.barcode = barcode;</span>
-<span class="nc" id="L375">    }</span>
+<span class="nc" id="L375">        this.barcode = barcode;</span>
+<span class="nc" id="L376">    }</span>
 
     /**
      * Returns the parent {@code TransportUnit}.
@@ -380,7 +381,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return the parent.
      */
     public TransportUnit getParent() {
-<span class="fc" id="L383">        return parent;</span>
+<span class="fc" id="L384">        return parent;</span>
     }
 
     /**
@@ -389,8 +390,8 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @param parent The parent to set.
      */
     public void setParent(TransportUnit parent) {
-<span class="fc" id="L392">        this.parent = parent;</span>
-<span class="fc" id="L393">    }</span>
+<span class="fc" id="L393">        this.parent = parent;</span>
+<span class="fc" id="L394">    }</span>
 
     /**
      * Get all child {@code TransportUnit}s.
@@ -398,7 +399,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return the transportUnits.
      */
     public Set&lt;TransportUnit&gt; getChildren() {
-<span class="fc" id="L401">        return Collections.unmodifiableSet(children);</span>
+<span class="fc" id="L402">        return Collections.unmodifiableSet(children);</span>
     }
 
     /**
@@ -408,25 +409,25 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @throws IllegalArgumentException when transportUnit is {@literal null}
      */
     public void addChild(TransportUnit transportUnit) {
-<span class="fc" id="L411">        Assert.notNull(transportUnit, &quot;Child to add may not be null, this: &quot; + this);</span>
-<span class="fc bfc" id="L412" title="All 2 branches covered.">        if (transportUnit.hasParent()) {</span>
-<span class="pc bpc" id="L413" title="1 of 2 branches missed.">            if (transportUnit.getParent().equals(this)) {</span>
+<span class="fc" id="L412">        Assert.notNull(transportUnit, &quot;Child to add may not be null, this: &quot; + this);</span>
+<span class="fc bfc" id="L413" title="All 2 branches covered.">        if (transportUnit.hasParent()) {</span>
+<span class="pc bpc" id="L414" title="1 of 2 branches missed.">            if (transportUnit.getParent().equals(this)) {</span>
 
                 // if this instance is already the parent, we just return
-<span class="nc" id="L416">                return;</span>
+<span class="nc" id="L417">                return;</span>
             }
 
             // disconnect post from it's current relationship
-<span class="fc" id="L420">            transportUnit.getParent().removeChild(transportUnit);</span>
+<span class="fc" id="L421">            transportUnit.getParent().removeChild(transportUnit);</span>
         }
 
         // make this instance the new parent
-<span class="fc" id="L424">        transportUnit.setParent(this);</span>
-<span class="fc" id="L425">        children.add(transportUnit);</span>
-<span class="fc" id="L426">    }</span>
+<span class="fc" id="L425">        transportUnit.setParent(this);</span>
+<span class="fc" id="L426">        children.add(transportUnit);</span>
+<span class="fc" id="L427">    }</span>
 
     public boolean hasParent() {
-<span class="fc bfc" id="L429" title="All 2 branches covered.">        return parent != null;</span>
+<span class="fc bfc" id="L430" title="All 2 branches covered.">        return parent != null;</span>
     }
 
     /**
@@ -436,15 +437,15 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @throws IllegalArgumentException when transportUnit is {@literal null} or any other failure occurs
      */
     public void removeChild(TransportUnit transportUnit) {
-<span class="fc" id="L439">        Assert.notNull(transportUnit, &quot;Child to remove may not be null, this: &quot; + this);</span>
+<span class="fc" id="L440">        Assert.notNull(transportUnit, &quot;Child to remove may not be null, this: &quot; + this);</span>
         // make sure we are the parent before we break the relationship
-<span class="pc bpc" id="L441" title="1 of 4 branches missed.">        if (transportUnit.parent != null &amp;&amp; transportUnit.getParent().equals(this)) {</span>
-<span class="fc" id="L442">            transportUnit.setParent(null);</span>
-<span class="fc" id="L443">            children.remove(transportUnit);</span>
-<span class="fc" id="L444">        } else {</span>
-<span class="fc" id="L445">            throw new IllegalArgumentException(&quot;Child transportUnit not associated with this instance&quot;);</span>
+<span class="pc bpc" id="L442" title="1 of 4 branches missed.">        if (transportUnit.parent != null &amp;&amp; transportUnit.getParent().equals(this)) {</span>
+<span class="fc" id="L443">            transportUnit.setParent(null);</span>
+<span class="fc" id="L444">            children.remove(transportUnit);</span>
+<span class="fc" id="L445">        } else {</span>
+<span class="fc" id="L446">            throw new IllegalArgumentException(&quot;Child transportUnit not associated with this instance&quot;);</span>
         }
-<span class="fc" id="L447">    }</span>
+<span class="fc" id="L448">    }</span>
 
     /**
      * Return the {@link Barcode} as String.
@@ -454,7 +455,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      */
     @Override
     public String toString() {
-<span class="fc" id="L457">        return barcode.toString();</span>
+<span class="fc" id="L458">        return barcode.toString();</span>
     }
 
     /**
@@ -464,10 +465,10 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      */
     @Override
     public int hashCode() {
-<span class="fc" id="L467">        final int prime = 31;</span>
-<span class="fc" id="L468">        int result = super.hashCode();</span>
-<span class="pc bpc" id="L469" title="1 of 2 branches missed.">        result = prime * result + ((barcode == null) ? 0 : barcode.hashCode());</span>
-<span class="fc" id="L470">        return result;</span>
+<span class="fc" id="L468">        final int prime = 31;</span>
+<span class="fc" id="L469">        int result = super.hashCode();</span>
+<span class="pc bpc" id="L470" title="1 of 2 branches missed.">        result = prime * result + ((barcode == null) ? 0 : barcode.hashCode());</span>
+<span class="fc" id="L471">        return result;</span>
     }
 
     /**
@@ -477,24 +478,24 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      */
     @Override
     public boolean equals(Object obj) {
-<span class="fc bfc" id="L480" title="All 2 branches covered.">        if (this == obj) {</span>
-<span class="fc" id="L481">            return true;</span>
+<span class="fc bfc" id="L481" title="All 2 branches covered.">        if (this == obj) {</span>
+<span class="fc" id="L482">            return true;</span>
         }
-<span class="pc bpc" id="L483" title="1 of 2 branches missed.">        if (obj == null) {</span>
-<span class="nc" id="L484">            return false;</span>
+<span class="pc bpc" id="L484" title="1 of 2 branches missed.">        if (obj == null) {</span>
+<span class="nc" id="L485">            return false;</span>
         }
-<span class="pc bpc" id="L486" title="1 of 2 branches missed.">        if (!(obj instanceof TransportUnit)) {</span>
-<span class="nc" id="L487">            return false;</span>
+<span class="pc bpc" id="L487" title="1 of 2 branches missed.">        if (!(obj instanceof TransportUnit)) {</span>
+<span class="nc" id="L488">            return false;</span>
         }
-<span class="fc" id="L489">        TransportUnit other = (TransportUnit) obj;</span>
-<span class="pc bpc" id="L490" title="1 of 2 branches missed.">        if (barcode == null) {</span>
-<span class="nc bnc" id="L491" title="All 2 branches missed.">            if (other.barcode != null) {</span>
-<span class="nc" id="L492">                return false;</span>
+<span class="fc" id="L490">        TransportUnit other = (TransportUnit) obj;</span>
+<span class="pc bpc" id="L491" title="1 of 2 branches missed.">        if (barcode == null) {</span>
+<span class="nc bnc" id="L492" title="All 2 branches missed.">            if (other.barcode != null) {</span>
+<span class="nc" id="L493">                return false;</span>
             }
-<span class="fc bfc" id="L494" title="All 2 branches covered.">        } else if (!barcode.equals(other.getBarcode())) {</span>
-<span class="fc" id="L495">            return false;</span>
+<span class="fc bfc" id="L495" title="All 2 branches covered.">        } else if (!barcode.equals(other.getBarcode())) {</span>
+<span class="fc" id="L496">            return false;</span>
         }
-<span class="fc" id="L497">        return true;</span>
+<span class="fc" id="L498">        return true;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
