@@ -108,53 +108,45 @@ class LocationGroupServiceImpl implements LocationGroupService {
 <span class="nc bnc" id="L108" title="All 2 branches missed.">        return result == null ? Collections.emptyList() : result;</span>
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Transactional(readOnly = true)
-    //@Override
-<span class="nc" id="L116">    public TreeNode&lt;LocationGroup&gt; getLocationGroupsAsTree() {</span>
+<span class="nc" id="L112">    public TreeNode&lt;LocationGroup&gt; getLocationGroupsAsTree() {</span>
         return createTree(new TreeNodeImpl&lt;&gt;(), getLocationGroupsAsList());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Transactional(readOnly = true)
-    //@Override
-<span class="nc" id="L125">    public List&lt;LocationGroup&gt; getLocationGroupsAsList() {</span>
+<span class="nc" id="L117">    public List&lt;LocationGroup&gt; getLocationGroupsAsList() {</span>
         return locationGroupRepository.findAll();
     }
 
     private TreeNode&lt;LocationGroup&gt; createTree(TreeNode&lt;LocationGroup&gt; root, List&lt;LocationGroup&gt; locationGroups) {
-<span class="nc bnc" id="L130" title="All 2 branches missed.">        for (LocationGroup l : locationGroups) {</span>
-<span class="nc" id="L131">            searchForNode(l, root);</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        for (LocationGroup l : locationGroups) {</span>
+<span class="nc" id="L123">            searchForNode(l, root);</span>
         }
-<span class="nc" id="L133">        return root;</span>
+<span class="nc" id="L125">        return root;</span>
     }
 
     private TreeNode&lt;LocationGroup&gt; searchForNode(LocationGroup lg, TreeNode&lt;LocationGroup&gt; root) {
         TreeNode&lt;LocationGroup&gt; node;
-<span class="nc bnc" id="L138" title="All 2 branches missed.">        if (lg.getParent() == null) {</span>
-<span class="nc" id="L139">            node = root.getChild(lg);</span>
-<span class="nc bnc" id="L140" title="All 2 branches missed.">            if (node == null) {</span>
-<span class="nc" id="L141">                TreeNode&lt;LocationGroup&gt; n1 = new TreeNodeImpl&lt;&gt;();</span>
-<span class="nc" id="L142">                n1.setData(lg);</span>
-<span class="nc" id="L143">                n1.setParent(root);</span>
-<span class="nc" id="L144">                root.addChild(n1.getData(), n1);</span>
-<span class="nc" id="L145">                return n1;</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (lg.getParent() == null) {</span>
+<span class="nc" id="L131">            node = root.getChild(lg);</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">            if (node == null) {</span>
+<span class="nc" id="L133">                TreeNode&lt;LocationGroup&gt; n1 = new TreeNodeImpl&lt;&gt;();</span>
+<span class="nc" id="L134">                n1.setData(lg);</span>
+<span class="nc" id="L135">                n1.setParent(root);</span>
+<span class="nc" id="L136">                root.addChild(n1.getData(), n1);</span>
+<span class="nc" id="L137">                return n1;</span>
             }
-<span class="nc" id="L147">            return node;</span>
+<span class="nc" id="L139">            return node;</span>
         } else {
-<span class="nc" id="L149">            node = searchForNode(lg.getParent(), root);</span>
-<span class="nc" id="L150">            TreeNode&lt;LocationGroup&gt; child = node.getChild(lg);</span>
-<span class="nc bnc" id="L151" title="All 2 branches missed.">            if (child == null) {</span>
-<span class="nc" id="L152">                child = new TreeNodeImpl&lt;&gt;();</span>
-<span class="nc" id="L153">                child.setData(lg);</span>
-<span class="nc" id="L154">                child.setParent(node);</span>
-<span class="nc" id="L155">                node.addChild(lg, child);</span>
+<span class="nc" id="L141">            node = searchForNode(lg.getParent(), root);</span>
+<span class="nc" id="L142">            TreeNode&lt;LocationGroup&gt; child = node.getChild(lg);</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">            if (child == null) {</span>
+<span class="nc" id="L144">                child = new TreeNodeImpl&lt;&gt;();</span>
+<span class="nc" id="L145">                child.setData(lg);</span>
+<span class="nc" id="L146">                child.setParent(node);</span>
+<span class="nc" id="L147">                node.addChild(lg, child);</span>
             }
-<span class="nc" id="L157">            return child;</span>
+<span class="nc" id="L149">            return child;</span>
         }
     }
 }

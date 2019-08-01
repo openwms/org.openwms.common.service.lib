@@ -36,19 +36,16 @@ public class TransportUnitTypeConverter extends DozerConverter&lt;String, Transp
     @Autowired
     private Translator translator;
 
-    /**
-     * {@inheritDoc}
-     */
     public TransportUnitTypeConverter() {
-<span class="nc bnc" id="L43" title="All 18 branches missed.">        super(String.class, TransportUnitType.class);</span>
-<span class="nc bnc" id="L44" title="All 4 branches missed.">    }</span>
+<span class="nc bnc" id="L40" title="All 18 branches missed.">        super(String.class, TransportUnitType.class);</span>
+<span class="nc bnc" id="L41" title="All 4 branches missed.">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     public TransportUnitType convertTo(String source, TransportUnitType destination) {
-<span class="nc" id="L51">        return repository.findByType(source).orElseThrow(() -&gt; new NotFoundException(translator, CommonMessageCodes.TRANSPORT_UNIT_TYPE_NOT_FOUND, new String[]{source}, source));</span>
+<span class="nc" id="L48">        return repository.findByType(source).orElseThrow(() -&gt; new NotFoundException(translator, CommonMessageCodes.TRANSPORT_UNIT_TYPE_NOT_FOUND, new String[]{source}, source));</span>
     }
 
     /**
@@ -56,7 +53,7 @@ public class TransportUnitTypeConverter extends DozerConverter&lt;String, Transp
      */
     @Override
     public String convertFrom(TransportUnitType source, String destination) {
-<span class="nc" id="L59">        return source.getType();</span>
+<span class="nc" id="L56">        return source.getType();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

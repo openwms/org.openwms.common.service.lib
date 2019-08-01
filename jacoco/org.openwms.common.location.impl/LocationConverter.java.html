@@ -37,12 +37,9 @@ public class LocationConverter extends DozerConverter&lt;String, Location&gt; {
     @Autowired
     private Translator translator;
 
-    /**
-     * {@inheritDoc}
-     */
     public LocationConverter() {
-<span class="nc bnc" id="L44" title="All 18 branches missed.">        super(String.class, Location.class);</span>
-<span class="nc bnc" id="L45" title="All 4 branches missed.">    }</span>
+<span class="nc bnc" id="L41" title="All 18 branches missed.">        super(String.class, Location.class);</span>
+<span class="nc bnc" id="L42" title="All 4 branches missed.">    }</span>
 
     /**
      * Converts the source field to the destination field and return the resulting destination value.
@@ -53,7 +50,7 @@ public class LocationConverter extends DozerConverter&lt;String, Location&gt; {
      */
     @Override
     public Location convertTo(String source, Location destination) {
-<span class="nc" id="L56">        return locationRepository.findByLocationId(LocationPK.fromString(source)).orElseThrow(()-&gt;new NotFoundException(translator, CommonMessageCodes.LOCATION_NOT_FOUND, new String[]{source}, source));</span>
+<span class="nc" id="L53">        return locationRepository.findByLocationId(LocationPK.fromString(source)).orElseThrow(()-&gt;new NotFoundException(translator, CommonMessageCodes.LOCATION_NOT_FOUND, new String[]{source}, source));</span>
     }
 
     /**
@@ -65,7 +62,7 @@ public class LocationConverter extends DozerConverter&lt;String, Location&gt; {
      */
     @Override
     public String convertFrom(Location source, String destination) {
-<span class="nc" id="L68">        return source.getLocationId().toString();</span>
+<span class="nc" id="L65">        return source.getLocationId().toString();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
