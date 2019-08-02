@@ -15,28 +15,24 @@
  */
 package org.openwms.common.location;
 
-import org.ameba.test.categories.IntegrationTests;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openwms.common.location.impl.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * A LocationIT.
  *
  * @author Heiko Scherrer
  */
-@RunWith(SpringRunner.class)
-@Category(IntegrationTests.class)
-public class LocationIT {
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+@ExtendWith(SpringExtension.class)// RunWith(SpringRunner.class)
+@Tag("IntegrationTest")
+class LocationIT {
 
     @Autowired
     private LocationRepository repository;
@@ -44,12 +40,12 @@ public class LocationIT {
     /**
      * Creating two groups with same id must fail.
      */
-    @Test
-    public final void testNameConstraint() {
+    @Test void testNameConstraint() {
         Location loc1 = new Location(LocationPK.newBuilder().area("area").aisle("aisle").x("x").y("y").z("z").build());
         repository.save(loc1);
         Location loc2 = new Location(LocationPK.newBuilder().area("area").aisle("aisle").x("x").y("y").z("z").build());
-        thrown.expect(DataIntegrityViolationException.class);
-        repository.save(loc2);
+        assertThatThrownBy(
+                () -> repository.save(loc2))
+                .isInstanceOf(DataIntegrityViolationException.class);
     }
 }

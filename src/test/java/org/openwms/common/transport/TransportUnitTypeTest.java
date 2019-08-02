@@ -15,39 +15,32 @@
  */
 package org.openwms.common.transport;
 
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 import org.openwms.common.location.LocationType;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * A TransportUnitTypeTest.
  *
  * @author Heiko Scherrer
  */
-public class TransportUnitTypeTest {
+class TransportUnitTypeTest {
 
-    @org.junit.Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    public final
-    @Test
-    void testCreationWithNull() {
-        thrown.expect(IllegalArgumentException.class);
-        ObjectFactory.createTransportUnitType(null);
+    @Test void testCreationWithNull() {
+        assertThatThrownBy(
+                () -> ObjectFactory.createTransportUnitType(null))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
-    public final
-    @Test
-    void testCreationWithEmpty() {
-        thrown.expect(IllegalArgumentException.class);
-        ObjectFactory.createTransportUnitType("");
+    @Test void testCreationWithEmpty() {
+        assertThatThrownBy(
+                () -> ObjectFactory.createTransportUnitType(""))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
-    public final
-    @Test
-    void testDefaultValues() {
+    @Test void testDefaultValues() {
         TransportUnitType tut = ObjectFactory.createTransportUnitType("tut");
         assertThat(tut.getDescription()).isEqualTo(TransportUnitType.DEF_TYPE_DESCRIPTION);
         assertThat(tut.getLength()).isEqualTo(TransportUnitType.DEF_LENGTH);
@@ -58,9 +51,7 @@ public class TransportUnitTypeTest {
         assertThat(tut.getTypeStackingRules()).hasSize(0);
     }
 
-    public final
-    @Test
-    void testPlacingRuleHandling() {
+    @Test void testPlacingRuleHandling() {
         LocationType locationType = new LocationType("conveyor");
         TransportUnitType tut = ObjectFactory.createTransportUnitType("tut");
         TypePlacingRule typePlacingRule = new TypePlacingRule(tut, locationType, 1);

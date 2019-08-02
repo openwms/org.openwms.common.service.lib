@@ -15,20 +15,20 @@
  */
 package org.openwms.common.transport;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openwms.common.transport.Barcode.BARCODE_ALIGN;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 /**
  * A BarcodeTest.
  * 
  * @author Heiko Scherrer
  */
-public class BarcodeTest {
+class BarcodeTest {
 
     /**
      * Logger instance can be used by subclasses.
@@ -38,8 +38,7 @@ public class BarcodeTest {
     /**
      * Test Barcode instantiation with <code>null</code>.
      */
-    @Test
-    public final void testBarcodeWithNull() {
+    @Test void testBarcodeWithNull() {
         try {
             Barcode.of(null);
             fail("NOK:Barcode cannot instanciated with NULL");
@@ -51,8 +50,7 @@ public class BarcodeTest {
     /**
      * Test basic behavior of the Barcode class.
      */
-    @Test
-    public final void testBarcode() {
+    @Test void testBarcode() {
         Barcode.of("TEST");
 
         Barcode.setLength(20);

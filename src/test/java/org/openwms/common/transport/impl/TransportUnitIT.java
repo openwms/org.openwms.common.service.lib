@@ -15,12 +15,10 @@
  */
 package org.openwms.common.transport.impl;
 
-import org.ameba.test.categories.IntegrationTests;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.transport.Barcode;
@@ -31,23 +29,21 @@ import org.openwms.common.transport.UnitError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataAccessException;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.persistence.Query;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * A TransportUnitIT.
  *
  * @author Heiko Scherrer
  */
-@RunWith(SpringRunner.class)
-@Category(IntegrationTests.class)
-public class TransportUnitIT {
-
-    @org.junit.Rule
-    public ExpectedException thrown = ExpectedException.none();
+@ExtendWith(SpringExtension.class)// RunWith(SpringRunner.class)
+@Tag("IntegrationTest")
+class TransportUnitIT {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -59,8 +55,8 @@ public class TransportUnitIT {
     private TransportUnitType knownType;
     private Location knownLocation1;
 
-    @Before
-    public void onBefore() {
+    @BeforeEach
+    void onBefore() {
         repository.deleteAll();
         typeRepository.deleteAll();
         entityManager.flush();
@@ -71,50 +67,43 @@ public class TransportUnitIT {
         entityManager.flush();
     }
 
-    public final
-    @Test
-    void testCreation() {
+    @Test void testCreation() {
         TransportUnit transportUnit = ObjectFactory.createTransportUnit("NEVER_PERSISTED");
         transportUnit.setTransportUnitType(knownType);
         transportUnit.setActualLocation(knownLocation1);
         repository.save(transportUnit);
     }
 
-    public final
-    @Test
-    void testCreateTUWithUnknownType() {
+    @Test void testCreateTUWithUnknownType() {
         TransportUnit transportUnit = ObjectFactory.createTransportUnit("NEVER_PERSISTED");
         TransportUnitType tut = ObjectFactory.createTransportUnitType("UNKNOWN_TUT");
         transportUnit.setTransportUnitType(tut);
-        thrown.expect(DataAccessException.class);
-        repository.save(transportUnit);
+        assertThatThrownBy(
+                () -> repository.save(transportUnit))
+                .isInstanceOf(DataAccessException.class);
     }
 
 
-    public final
-    @Test
-    void testCreateTUWithUnknownActualLocation() {
+    @Test void testCreateTUWithUnknownActualLocation() {
         TransportUnit transportUnit = ObjectFactory.createTransportUnit("NEVER_PERSISTED");
         transportUnit.setTransportUnitType(knownType);
         transportUnit.setActualLocation(Location.create(new LocationPK("UNKN", "UNKN", "UNKN", "UNKN", "UNKN")));
-        thrown.expect(DataAccessException.class);
-        repository.save(transportUnit);
+        assertThatThrownBy(
+                () -> repository.save(transportUnit))
+                .isInstanceOf(DataAccessException.class);
     }
 
-    public final
-    @Test
-    void testCreateTUWithUnknownTargetLocation() {
+    @Test void testCreateTUWithUnknownTargetLocation() {
         TransportUnit transportUnit = ObjectFactory.createTransportUnit("NEVER_PERSISTED");
         transportUnit.setTransportUnitType(knownType);
         transportUnit.setActualLocation(knownLocation1);
         transportUnit.setTargetLocation(Location.create(new LocationPK("UNKN", "UNKN", "UNKN", "UNKN", "UNKN")));
-        thrown.expect(IllegalStateException.class);
-        entityManager.persistAndFlush(transportUnit);
+        assertThatThrownBy(
+                () -> entityManager.persistAndFlush(transportUnit))
+                .isInstanceOf(IllegalStateException.class);
     }
 
-    public final
-    @Test
-    void testSaveTUWithKnownActualLocation() {
+    @Test void testSaveTUWithKnownActualLocation() {
         TransportUnit transportUnit = ObjectFactory.createTransportUnit("4711");
 
         transportUnit.setTransportUnitType(knownType);
@@ -125,9 +114,7 @@ public class TransportUnitIT {
         assertThat(transportUnit.getActualLocation()).isNotNull();
     }
 
-    public final
-    @Test
-    void testSaveTUwithKnownTargetLocation() {
+    @Test void testSaveTUwithKnownTargetLocation() {
         TransportUnit transportUnit = ObjectFactory.createTransportUnit("4711");
 
         transportUnit.setTransportUnitType(knownType);
@@ -139,10 +126,7 @@ public class TransportUnitIT {
         assertThat(transportUnit.getActualLocation()).isNotNull();
     }
 
-
-    public final
-    @Test
-    void testTUwithErrors() throws Exception {
+    @Test void testTUwithErrors() throws Exception {
         TransportUnit transportUnit = new TransportUnit(Barcode.of("4711"));
 
         transportUnit.setTransportUnitType(knownType);

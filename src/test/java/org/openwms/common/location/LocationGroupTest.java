@@ -15,9 +15,7 @@
  */
 package org.openwms.common.location;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 import org.openwms.common.StateChangeException;
 import org.openwms.common.location.api.LocationGroupState;
 
@@ -25,34 +23,28 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * A LocationGroupTest.
  *
  * @author Heiko Scherrer
  */
-public class LocationGroupTest {
+class LocationGroupTest {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    public
-    @Test
-    void testConstructionWithNull() {
-        thrown.expect(IllegalArgumentException.class);
-        new LocationGroup(null);
+    @Test void testConstructionWithNull() {
+        assertThatThrownBy(
+                () -> new LocationGroup(null))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
-    public
-    @Test
-    void testConstructionWithEmpty() {
-        thrown.expect(IllegalArgumentException.class);
-        new LocationGroup("");
+    @Test void testConstructionWithEmpty() {
+        assertThatThrownBy(
+                () -> new LocationGroup(""))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
-    public
-    @Test
-    void testDefaultValues() {
+    @Test void testDefaultValues() {
         LocationGroup lg = new LocationGroup("Error zone");
         assertThat(lg.getName()).isEqualTo("Error zone");
         assertThat(lg.isLocationGroupCountingActive()).isTrue();
@@ -68,17 +60,15 @@ public class LocationGroupTest {
         assertThat(lg.getLocations()).hasSize(0);
     }
 
-    public
-    @Test
-    void testAddLocationGroupWithNull() {
+    @Test void testAddLocationGroupWithNull() {
         LocationGroup parent = new LocationGroup("Warehouse");
-        thrown.expect(IllegalArgumentException.class);
-        parent.addLocationGroup(null);
+        assertThatThrownBy(
+                () -> parent.addLocationGroup(null))
+                .isInstanceOf(IllegalArgumentException.class);
+
     }
 
-    public
-    @Test
-    void testAddLocationGroupToParent() {
+    @Test void testAddLocationGroupToParent() {
         LocationGroup parent = new LocationGroup("Warehouse");
         LocationGroup lg = new LocationGroup("Error zone");
         parent.addLocationGroup(lg);
@@ -88,9 +78,7 @@ public class LocationGroupTest {
         assertThat(lg.getGroupStateOut()).isEqualTo(parent.getGroupStateOut());
     }
 
-    public
-    @Test
-    void testAddLocationGroupToChild() {
+    @Test void testAddLocationGroupToChild() {
         LocationGroup parent = new LocationGroup("Warehouse");
         LocationGroup lg = new LocationGroup("Error zone");
         lg.changeGroupStateIn(LocationGroupState.NOT_AVAILABLE);
@@ -106,9 +94,7 @@ public class LocationGroupTest {
         assertThat(child.getGroupStateIn()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
     }
 
-    public
-    @Test
-    void testAddLocationGroupWithStateChange() {
+    @Test void testAddLocationGroupWithStateChange() {
         LocationGroup parent = new LocationGroup("Warehouse");
         parent.changeGroupStateIn(LocationGroupState.NOT_AVAILABLE);
         parent.changeGroupStateOut(LocationGroupState.NOT_AVAILABLE, parent);
@@ -120,9 +106,7 @@ public class LocationGroupTest {
         assertThat(lg.getGroupStateOut()).isEqualTo(parent.getGroupStateOut()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
     }
 
-    public
-    @Test
-    void testStateChangeAllowed() {
+    @Test void testStateChangeAllowed() {
         LocationGroup parent = new LocationGroup("Warehouse");
         LocationGroup lg = new LocationGroup("Error zone");
         parent.addLocationGroup(lg);
@@ -138,30 +122,26 @@ public class LocationGroupTest {
         assertThat(lg.getGroupStateOut()).isEqualTo(parent.getGroupStateOut()).isEqualTo(LocationGroupState.AVAILABLE);
     }
 
-    public
-    @Test
-    void testStateChangeNotAllowed() {
+    @Test void testStateChangeNotAllowed() {
         LocationGroup parent = new LocationGroup("Warehouse");
         LocationGroup lg = new LocationGroup("Error zone");
         parent.addLocationGroup(lg);
         parent.changeGroupStateIn(LocationGroupState.NOT_AVAILABLE);
         parent.changeGroupStateOut(LocationGroupState.NOT_AVAILABLE, parent);
 
-        thrown.expect(StateChangeException.class);
-        lg.changeGroupStateIn(LocationGroupState.AVAILABLE);
+        assertThatThrownBy(
+                () -> lg.changeGroupStateIn(LocationGroupState.AVAILABLE))
+                .isInstanceOf(StateChangeException.class);
     }
 
-    public
-    @Test
-    void testAddLocationWithNull() {
+    @Test void testAddLocationWithNull() {
         LocationGroup lg = new LocationGroup("Error zone");
-        thrown.expect(IllegalArgumentException.class);
-        lg.addLocation(null);
+        assertThatThrownBy(
+                () -> lg.addLocation(null))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
-    public
-    @Test
-    void testAddLocation() {
+    @Test void testAddLocation() {
         LocationGroup lg = new LocationGroup("Error zone");
         Location loc = Location.create(new LocationPK("area", "aisle", "x", "y", "z"));
         assertThat(loc.belongsNotToLocationGroup()).isTrue();
@@ -171,17 +151,14 @@ public class LocationGroupTest {
         assertThat(lg.hasLocations()).isTrue();
     }
 
-    public
-    @Test
-    void testRemoveLocationWithNull() {
+    @Test void testRemoveLocationWithNull() {
         LocationGroup lg = new LocationGroup("Error zone");
-        thrown.expect(IllegalArgumentException.class);
-        lg.removeLocation(null);
+        assertThatThrownBy(
+                () -> lg.removeLocation(null))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
-    public
-    @Test
-    void testRemoveLocation() {
+    @Test void testRemoveLocation() {
         LocationGroup lg = new LocationGroup("Error zone");
         Location loc = Location.create(new LocationPK("area", "aisle", "x", "y", "z"));
         lg.addLocation(loc);
@@ -196,9 +173,7 @@ public class LocationGroupTest {
         assertThat(lg.hasLocations()).isFalse();
     }
 
-    public
-    @Test
-    void testEqualityLight() {
+    @Test void testEqualityLight() {
         LocationGroup lg1 = new LocationGroup("Error zone");
         LocationGroup lg2 = new LocationGroup("Error zone");
         LocationGroup lg3 = new LocationGroup("Picking");
@@ -207,10 +182,8 @@ public class LocationGroupTest {
         assertThat(lg1).isNotEqualTo(lg3);
     }
 
-    public
-    @Test
-    void testHash() {
-        Set<LocationGroup> groups = new HashSet();
+    @Test void testHash() {
+        Set<LocationGroup> groups = new HashSet<>();
         groups.add(new LocationGroup("Error zone"));
         assertThat(groups).hasSize(1);
         groups.add(new LocationGroup("Error zone"));

@@ -1,5 +1,3 @@
-# OpenWMS.org COMMON: Services
-
 ## Purpose
 
 This service provides essential functionality to deal with `Locations`, `LocationGroups`
