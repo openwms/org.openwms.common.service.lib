@@ -15,7 +15,7 @@
  */
 package org.openwms.common.location;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,27 +26,21 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class MessageTest {
 
-    public
-    @Test
-    final void testConstruction() {
+    @Test final void testConstruction() {
         Message m = new Message(4711, "Test message");
         assertThat(m.getMessageText()).isEqualTo("Test message");
         assertThat(m.getMessageNo()).isEqualTo(4711);
         assertThat(m).isEqualTo((new Message(4711, "Test message")));
     }
 
-    public
-    @Test
-    final void testConstructionWithBuilder() {
+    @Test void testConstructionWithBuilder() {
         Message m = Message.newBuilder().messageNo(4711).messageText("Test message").build();
         assertThat(m.getMessageText()).isEqualTo("Test message");
         assertThat(m.getMessageNo()).isEqualTo(4711);
         assertThat(m).isEqualTo((new Message(4711, "Test message")));
     }
 
-    public
-    @Test
-    final void testEqualityLight() {
+    @Test void testEqualityLight() {
         Message m1 = Message.newBuilder().messageNo(4711).messageText("Test message").build();
         Message m2 = Message.newBuilder().messageNo(4711).messageText("Test message").build();
         Message m3 = Message.newBuilder().messageNo(9999).messageText("Test message").build();
@@ -62,9 +56,7 @@ public class MessageTest {
         assertThat(m4).isNotEqualTo(m3);
     }
 
-    public
-    @Test
-    final void testProperOutcomeOfToString() {
+    @Test void testProperOutcomeOfToString() {
         Message m1 = Message.newBuilder().messageNo(4711).messageText("Test message").build();
         assertThat(m1.toString()).isEqualTo("4711" + Message.SEPARATOR + "Test message");
     }

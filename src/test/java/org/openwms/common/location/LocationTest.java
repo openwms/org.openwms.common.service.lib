@@ -15,11 +15,10 @@
  */
 package org.openwms.common.location;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * A LocationDaoTest.
@@ -28,14 +27,12 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class LocationTest {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     public
     @Test
     void testConstructionWithNull() {
-        thrown.expect(IllegalArgumentException.class);
-        new Location(null);
+        assertThatThrownBy(
+                () -> new Location(null))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     public
@@ -56,8 +53,9 @@ public class LocationTest {
     @Test
     void testAddMessageWithNull() {
         Location l = new Location(new LocationPK.Builder().area("area").aisle("aisle").x("x").y("y").z("z").build());
-        thrown.expect(IllegalArgumentException.class);
-        l.addMessage(null);
+        assertThatThrownBy(
+                () -> l.addMessage(null))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     public
@@ -78,16 +76,18 @@ public class LocationTest {
     @Test
     void testRemoveMessageWithNull() {
         Location l = new Location(new LocationPK.Builder().area("area").aisle("aisle").x("x").y("y").z("z").build());
-        thrown.expect(IllegalArgumentException.class);
-        l.removeMessages(null);
+        assertThatThrownBy(
+                () -> l.removeMessages(null))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     public
     @Test
     void testSetLocationGroupWithNull() {
         Location l = new Location(new LocationPK.Builder().area("area").aisle("aisle").x("x").y("y").z("z").build());
-        thrown.expect(IllegalArgumentException.class);
-        l.setLocationGroup(null);
+        assertThatThrownBy(
+                () -> l.setLocationGroup(null))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     public

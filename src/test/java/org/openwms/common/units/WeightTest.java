@@ -15,24 +15,24 @@
  */
 package org.openwms.common.units;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 /**
  * A WeightTest.
  * 
  * @author Heiko Scherrer
  */
-public class WeightTest {
+class WeightTest {
 
     /**
      * Test creation of a Weight.
      */
-    @Test
-    public final void testWeight() {
+    @Test void testWeight() {
         Weight w1 = new Weight(new BigDecimal(1), WeightUnit.KG);
         Weight w2 = new Weight(new BigDecimal(1), WeightUnit.T);
         w2 = w2.convertTo(WeightUnit.KG);
@@ -45,8 +45,7 @@ public class WeightTest {
     /**
      * Test creation of a Weight and comparison.
      */
-    @Test
-    public final void testWeightComparison() {
+    @Test void testWeightComparison() {
         Weight w1 = new Weight(new BigDecimal(1), WeightUnit.G);
         Weight w2 = new Weight(new BigDecimal(1), WeightUnit.T);
         assertEquals("1G is less than 1T", -1, w1.compareTo(w2));

@@ -29,12 +29,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A LocationGroup is a logical group of {@code Location}s with same characteristics.
+ * A LocationGroup is a logical group of {@code Location}s with same characteristics. This is useful
  *
  * @author Heiko Scherrer
  * @GlossaryTerm
@@ -86,10 +88,13 @@ public class LocationGroup extends Target implements Serializable {
     @Column(name = "C_MAX_FILL_LEVEL")
     private float maxFillLevel = 0;
 
-    /** Name of the PLC system, tied to this {@code LocationGroup}. */
+    /**
+     * Subsequential code of the subsystem (e.g. PLC), tied to this {@code LocationGroup}.
+     * A subsystem may be named after a name and a code, like PLCCONV_01, where PLCCONV is the name of
+     * the subsystem group and the code _01 is a unique number in this group.
+     */
     @Column(name = "C_SYSTEM_CODE")
     private String systemCode;
-
     /* ------------------- collection mapping ------------------- */
     /** Parent {@code LocationGroup}. */
     @ManyToOne
@@ -112,9 +117,9 @@ public class LocationGroup extends Target implements Serializable {
     /**
      * Create a new {@code LocationGroup} with an unique name.
      *
-     * @param name The name of the {@code LocationGroup}
+     * @param name The name of the {@code LocationGroup} must not be {@literal null}
      */
-    public LocationGroup(String name) {
+    public LocationGroup(@NotEmpty String name) {
         Assert.hasText(name, "Creation of LocationGroup with name null");
         this.name = name;
     }
@@ -330,15 +335,6 @@ public class LocationGroup extends Target implements Serializable {
     }
 
     /**
-     * Set the parent {@code LocationGroup}.
-     *
-     * @param parent The {@code LocationGroup} to set as parent
-     */
-    private void setParent(LocationGroup parent) {
-        this.parent = parent;
-    }
-
-    /**
      * Return all child {@code LocationGroup}.
      *
      * @return A set of all {@code LocationGroup} having this one as parent
@@ -372,9 +368,9 @@ public class LocationGroup extends Target implements Serializable {
      * @param locationGroup The {@code LocationGroup} to be removed from the list of children
      * @return {@literal true} if the {@code LocationGroup} was found and could be removed, otherwise {@literal false}
      */
-    public boolean removeLocationGroup(LocationGroup locationGroup) {
-        Assert.notNull(locationGroup, "LocationGroup to remove is null. this: " + this);
-        locationGroup.setParent(null);
+    public boolean removeLocationGroup(@NotNull LocationGroup locationGroup) {
+        Assert.notNull(locationGroup, () -> "LocationGroup to remove is null. this: " + this);
+        locationGroup.parent = null;
         return locationGroups.remove(locationGroup);
     }
 
@@ -403,7 +399,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return {@literal true} if the {@link Location} was new in the collection of {@link Location}s, otherwise {@literal false}
      */
     public boolean addLocation(Location location) {
-        Assert.notNull(location, "Location to be added to LocationGroup is null. this: " + this);
+        Assert.notNull(location, () -> "Location to be added to LocationGroup is null. this: " + this);
         location.setLocationGroup(this);
         return locations.add(location);
     }
@@ -415,7 +411,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return {@literal true} if the {@link Location} was found and could be removed, otherwise {@literal false}
      */
     public boolean removeLocation(Location location) {
-        Assert.notNull(location, "Location to remove from LocationGroup is null. this: " + this);
+        Assert.notNull(location, () -> "Location to remove from LocationGroup is null. this: " + this);
         location.unsetLocationGroup();
         return locations.remove(location);
     }
@@ -496,8 +492,7 @@ public class LocationGroup extends Target implements Serializable {
     /**
      * Return the name of the {@code LocationGroup} as String.
      *
-     * @return String
-     * @see java.lang.Object#toString()
+     * @return The name
      */
     @Override
     public String toString() {

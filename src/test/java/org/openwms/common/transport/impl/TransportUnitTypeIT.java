@@ -15,11 +15,9 @@
  */
 package org.openwms.common.transport.impl;
 
-import org.ameba.test.categories.IntegrationTests;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openwms.common.location.LocationType;
 import org.openwms.common.transport.ObjectFactory;
 import org.openwms.common.transport.TransportUnitType;
@@ -27,40 +25,35 @@ import org.openwms.common.transport.TypePlacingRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * A TransportUnitTypeTest.
  *
  * @author Heiko Scherrer
  */
-@RunWith(SpringRunner.class)
-@Category(IntegrationTests.class)
+@ExtendWith(SpringExtension.class)// RunWith(SpringRunner.class)
+@Tag("IntegrationTest")
 public class TransportUnitTypeIT {
-
-    @org.junit.Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     @Autowired
     private TestEntityManager entityManager;
     @Autowired
     private TransportUnitTypeRepository repository;
 
-    public final
-    @Test
-    void testUniqueConstraint() {
+    @Test void testUniqueConstraint() {
         repository.save(ObjectFactory.createTransportUnitType("TUT1"));
-        thrown.expect(DataIntegrityViolationException.class);
-        repository.save(ObjectFactory.createTransportUnitType("TUT1"));
+        assertThatThrownBy(
+                () -> repository.save(ObjectFactory.createTransportUnitType("TUT1")))
+                .isInstanceOf(DataIntegrityViolationException.class);
     }
 
-    public final
-    @Test
-    void testCascadingTypePlacingRuleWithOrphan() {
+    @Test void testCascadingTypePlacingRuleWithOrphan() {
         LocationType locationType = new LocationType("conveyor");
         entityManager.persist(locationType);
         entityManager.flush();
@@ -79,9 +72,7 @@ public class TransportUnitTypeIT {
         assertThat(tpr).hasSize(0);
     }
 
-    public final
-    @Test
-    void testCascadingTypePlacingRule() {
+    @Test void testCascadingTypePlacingRule() {
         LocationType locationType = new LocationType("conveyor");
         entityManager.persist(locationType);
         entityManager.flush();

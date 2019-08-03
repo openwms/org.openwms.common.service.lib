@@ -15,37 +15,32 @@
  */
 package org.openwms.common.location;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * A LocationTypeTest.
  *
  * @author Heiko Scherrer
  */
-public class LocationTypeTest {
+class LocationTypeTest {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    public final
     @Test
     void testCreationWithNull() {
-        thrown.expect(IllegalArgumentException.class);
-        new LocationType(null);
+        assertThatThrownBy(
+                () -> new LocationType(null))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
-    public final
     @Test
     void testCreationWithEmpty() {
-        thrown.expect(IllegalArgumentException.class);
-        new LocationType("");
+        assertThatThrownBy(
+                () -> new LocationType(""))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
-    public final
     @Test
     void testDefaultValues() {
         LocationType lt = new LocationType("conveyor");
@@ -56,7 +51,6 @@ public class LocationTypeTest {
         assertThat(lt.getType()).isEqualTo("conveyor");
     }
 
-    public final
     @Test
     void testEqualityLight() {
         LocationType conveyor = new LocationType("conveyor");
@@ -69,7 +63,6 @@ public class LocationTypeTest {
         assertThat(conveyor2).isEqualTo(conveyor);
     }
 
-    public final
     @Test
     void testProperReturnOfToString() {
         LocationType conveyor = new LocationType("conveyor");

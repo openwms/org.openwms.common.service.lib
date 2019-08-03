@@ -15,33 +15,30 @@
  */
 package org.openwms.common.location.impl;
 
-import org.ameba.test.categories.IntegrationTests;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openwms.common.location.LocationGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * A LocationGroupIT.
  *
  * @author Heiko Scherrer
  */
-@RunWith(SpringRunner.class)
-@Category(IntegrationTests.class)
+@ExtendWith(SpringExtension.class)// RunWith(SpringRunner.class)
+@Tag("IntegrationTest")
+@DataJpaTest
 public class LocationGroupIT {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     private static final String KNOWN_LG = "KNOWN";
-    private LocationGroup knownLG;
     @Autowired
     private TestEntityManager entityManager;
     @Autowired
@@ -50,9 +47,9 @@ public class LocationGroupIT {
     /**
      * Setup data.
      */
-    @Before
-    public void onBefore() {
-        knownLG = new LocationGroup(KNOWN_LG);
+    @BeforeEach
+    void onBefore() {
+        LocationGroup knownLG = new LocationGroup(KNOWN_LG);
         entityManager.persist(knownLG);
         entityManager.flush();
         entityManager.clear();
@@ -63,8 +60,9 @@ public class LocationGroupIT {
      * Creating two groups with same id must fail.
      */
     @Test
-    public final void testNameConstraint() {
-        thrown.expect(DataIntegrityViolationException.class);
-        repository.save(new LocationGroup(KNOWN_LG));
+    final void testNameConstraint() {
+        assertThatThrownBy(
+                () -> repository.saveAndFlush(new LocationGroup(KNOWN_LG)))
+                .isInstanceOf(DataIntegrityViolationException.class);
     }
 }

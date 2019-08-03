@@ -15,53 +15,54 @@
  */
 package org.openwms.common.units;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * A PieceTest.
  * 
  * @author Heiko Scherrer
  */
-public class PieceTest {
+class PieceTest {
 
-    @Test
-    public final void testCompareTo() {
+    @Test void testCompareTo() {
         Piece p30 = new Piece(30);
         Piece p50 = new Piece(50, PieceUnit.PC);
-        Assert.assertEquals(1, p50.compareTo(p30));
-        Assert.assertEquals(-1, p30.compareTo(p50));
+        assertEquals(1, p50.compareTo(p30));
+        assertEquals(-1, p30.compareTo(p50));
     }
 
-    @Test
-    public final void testConvertToPieceUnit() {
+    @Test void testConvertToPieceUnit() {
         Piece p30 = new Piece(30);
         Piece p50 = new Piece(50, PieceUnit.PC);
 
         Piece p502 = p50.convertTo(PieceUnit.DOZ);
-        Assert.assertFalse(p502.equals(p50));
+        assertFalse(p502.equals(p50));
 
-        Assert.assertTrue(p502.getMagnitude().equals(new BigDecimal(4)));
-        Assert.assertTrue(p502.getUnitType() == PieceUnit.DOZ);
+        assertTrue(p502.getMagnitude().equals(new BigDecimal(4)));
+        assertTrue(p502.getUnitType() == PieceUnit.DOZ);
 
-        Assert.assertTrue(p502.equals(new Piece(4, PieceUnit.DOZ)));
-        Assert.assertFalse(p502.equals(new Piece(50, PieceUnit.PC)));
-        Assert.assertTrue(p502.equals(new Piece(48, PieceUnit.PC)));
-        Assert.assertTrue(p50.getUnitType() == PieceUnit.PC);
+        assertTrue(p502.equals(new Piece(4, PieceUnit.DOZ)));
+        assertFalse(p502.equals(new Piece(50, PieceUnit.PC)));
+        assertTrue(p502.equals(new Piece(48, PieceUnit.PC)));
+        assertTrue(p50.getUnitType() == PieceUnit.PC);
 
-        Assert.assertEquals(1, p50.compareTo(p30));
-        Assert.assertEquals(-1, p30.compareTo(p50));
+        assertEquals(1, p50.compareTo(p30));
+        assertEquals(-1, p30.compareTo(p50));
 
         Piece p5doz = new Piece(5, PieceUnit.DOZ);
-        Assert.assertEquals(1, p5doz.compareTo(p50));
-        Assert.assertEquals(1, p5doz.compareTo(p30));
-        Assert.assertEquals(-1, p50.compareTo(p5doz));
-        Assert.assertEquals(-1, p30.compareTo(p5doz));
+        assertEquals(1, p5doz.compareTo(p50));
+        assertEquals(1, p5doz.compareTo(p30));
+        assertEquals(-1, p50.compareTo(p5doz));
+        assertEquals(-1, p30.compareTo(p5doz));
 
         Piece p60 = new Piece(60, PieceUnit.PC);
-        Assert.assertEquals(0, p5doz.compareTo(p60));
-        Assert.assertEquals(0, p60.compareTo(p5doz));
+        assertEquals(0, p5doz.compareTo(p60));
+        assertEquals(0, p60.compareTo(p5doz));
     }
 }

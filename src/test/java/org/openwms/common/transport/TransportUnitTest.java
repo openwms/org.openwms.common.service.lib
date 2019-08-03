@@ -15,32 +15,26 @@
  */
 package org.openwms.common.transport;
 
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 import org.openwms.common.units.Weight;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * A TransportUnitTest.
  *
  * @author Heiko Scherrer
  */
-public class TransportUnitTest {
+class TransportUnitTest {
 
-    @org.junit.Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    public final
-    @Test
-    void testCreationWithEmptyString() {
-        thrown.expect(IllegalArgumentException.class);
-        ObjectFactory.createTransportUnit("");
+    @Test void testCreationWithEmptyString() {
+        assertThatThrownBy(
+                () -> ObjectFactory.createTransportUnit(""))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
-    public final
-    @Test
-    void testDefaultValues() {
+    @Test void testDefaultValues() {
         TransportUnit tu = ObjectFactory.createTransportUnit("4711");
         assertThat(tu.getBarcode()).isEqualTo(Barcode.of("4711"));
         assertThat(tu.getWeight()).isEqualTo(new Weight("0"));
@@ -49,46 +43,36 @@ public class TransportUnitTest {
         assertThat(tu.getChildren()).hasSize(0);
     }
 
-    public final
-    @Test
-    void
-    testAddErrorWithNull() {
+    @Test void testAddErrorWithNull() {
         TransportUnit tu = ObjectFactory.createTransportUnit("4711");
-        thrown.expect(IllegalArgumentException.class);
-        tu.addError(null);
+        assertThatThrownBy(
+                () -> tu.addError(null))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
-    public final
-    @Test
-    void
-    testUnitErrorHandling() {
+    @Test void testUnitErrorHandling() {
         TransportUnit tu = ObjectFactory.createTransportUnit("4711");
         assertThat(tu.getErrors()).hasSize(0);
         tu.addError(UnitError.newBuilder().errorNo("4711").errorText("Damaged").build());
         assertThat(tu.getErrors()).hasSize(1).containsValues(UnitError.newBuilder().errorNo("4711").errorText("Damaged").build());
     }
 
-    public final
-    @Test
-    void
-    testAddChildWithNull() {
+    @Test void testAddChildWithNull() {
         TransportUnit tu = ObjectFactory.createTransportUnit("4711");
-        thrown.expect(IllegalArgumentException.class);
-        tu.addChild(null);
+        assertThatThrownBy(
+                () -> tu.addChild(null))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
-    public final
-    @Test
-    void
-    testRemoveChildWithNull() {
+    @Test void testRemoveChildWithNull() {
         TransportUnit tu = ObjectFactory.createTransportUnit("4711");
-        thrown.expect(IllegalArgumentException.class);
         tu.removeChild(null);
+        assertThatThrownBy(
+                () -> tu.removeChild(null))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
-    public final
-    @Test
-    void testChildrenHandling() {
+    @Test void testChildrenHandling() {
         TransportUnit tu1 = ObjectFactory.createTransportUnit("4711");
         TransportUnit tu2 = ObjectFactory.createTransportUnit("4712");
         TransportUnit tu3 = ObjectFactory.createTransportUnit("4713");
@@ -109,13 +93,12 @@ public class TransportUnitTest {
         assertThat(tu2.getChildren()).hasSize(0);
         assertThat(tu3.getParent()).isNull();
 
-        thrown.expect(IllegalArgumentException.class);
-        tu1.removeChild(tu3);
+        assertThatThrownBy(
+                () -> tu1.removeChild(tu3))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
-    public final
-    @Test
-    void testEqualityLight() {
+    @Test void testEqualityLight() {
         TransportUnit tu1 = ObjectFactory.createTransportUnit("4711");
         TransportUnit tu2 = ObjectFactory.createTransportUnit("4711");
         TransportUnit tu3 = ObjectFactory.createTransportUnit("4712");
