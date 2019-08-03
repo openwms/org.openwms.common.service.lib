@@ -50,25 +50,25 @@ public class TransportUnitType extends BaseEntity implements Serializable {
 
     /** Description for this type. */
     @Column(name = &quot;C_DESCRIPTION&quot;)
-<span class="pc" id="L53">    private String description = DEF_TYPE_DESCRIPTION;</span>
+<span class="nc" id="L53">    private String description = DEF_TYPE_DESCRIPTION;</span>
     /** Default description of the {@code TransportUnitType}. Default value}. */
     public static final String DEF_TYPE_DESCRIPTION = &quot;--&quot;;
 
     /** Length of the {@code TransportUnitType}. */
     @Column(name = &quot;C_LENGTH&quot;)
-<span class="pc" id="L59">    private int length = DEF_LENGTH;</span>
+<span class="nc" id="L59">    private int length = DEF_LENGTH;</span>
     /** Default value of {@link #length}. */
     public static final int DEF_LENGTH = 0;
 
     /** Width of the {@code TransportUnitType}. */
     @Column(name = &quot;C_WIDTH&quot;)
-<span class="pc" id="L65">    private int width = 0;</span>
+<span class="nc" id="L65">    private int width = 0;</span>
     /** Default value of {@link #width}. */
     public static final int DEF_WIDTH = 0;
 
     /** Height of the {@code TransportUnitType}. */
     @Column(name = &quot;C_HEIGHT&quot;)
-<span class="pc" id="L71">    private int height = 0;</span>
+<span class="nc" id="L71">    private int height = 0;</span>
     /** Default value of {@link #height}. */
     public static final int DEF_HEIGHT = 0;
 
@@ -94,16 +94,16 @@ public class TransportUnitType extends BaseEntity implements Serializable {
     /*~ ------------------- collection mapping ------------------- */
     /** A collection of all {@link TransportUnit}s belonging to this type. */
     @OneToMany(mappedBy = &quot;transportUnitType&quot;)
-<span class="pc" id="L97">    private Set&lt;TransportUnit&gt; transportUnits = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L97">    private Set&lt;TransportUnit&gt; transportUnits = new HashSet&lt;&gt;();</span>
 
     /** Describes other {@code TransportUnitType}s and how many of these may be stacked on the {@code TransportUnitType}. */
     @OneToMany(mappedBy = &quot;transportUnitType&quot;, cascade = {CascadeType.ALL})
-<span class="pc" id="L101">    private Set&lt;TypeStackingRule&gt; typeStackingRules = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L101">    private Set&lt;TypeStackingRule&gt; typeStackingRules = new HashSet&lt;&gt;();</span>
 
     /** A Set of {@link TypePlacingRule}s store all possible {@code LocationType} s of the {@code TransportUnitType}. */
     @OneToMany(mappedBy = &quot;transportUnitType&quot;, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @OrderBy(&quot;privilegeLevel&quot;)
-<span class="pc" id="L106">    private Set&lt;TypePlacingRule&gt; typePlacingRules = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L106">    private Set&lt;TypePlacingRule&gt; typePlacingRules = new HashSet&lt;&gt;();</span>
 
     /*~ ----------------------------- constructors ------------------- */
 
@@ -118,10 +118,10 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      *
      * @param type Unique name
      */
-<span class="fc" id="L121">    public TransportUnitType(String type) {</span>
-<span class="fc" id="L122">        Assert.hasText(type, &quot;Type must not be null when creating a TransportUnitType&quot;);</span>
-<span class="fc" id="L123">        this.type = type;</span>
-<span class="fc" id="L124">    }</span>
+<span class="nc" id="L121">    public TransportUnitType(String type) {</span>
+<span class="nc" id="L122">        Assert.hasText(type, &quot;Type must not be null when creating a TransportUnitType&quot;);</span>
+<span class="nc" id="L123">        this.type = type;</span>
+<span class="nc" id="L124">    }</span>
 
 <span class="nc" id="L126">    private TransportUnitType(Builder builder) {</span>
 <span class="nc" id="L127">        this.type = builder.type;</span>
@@ -165,7 +165,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return The width
      */
     public int getWidth() {
-<span class="fc" id="L168">        return this.width;</span>
+<span class="nc" id="L168">        return this.width;</span>
     }
 
     /**
@@ -183,7 +183,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return The height
      */
     public int getHeight() {
-<span class="fc" id="L186">        return this.height;</span>
+<span class="nc" id="L186">        return this.height;</span>
     }
 
     /**
@@ -201,7 +201,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return The length
      */
     public int getLength() {
-<span class="fc" id="L204">        return this.length;</span>
+<span class="nc" id="L204">        return this.length;</span>
     }
 
     /**
@@ -219,7 +219,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return The description text
      */
     public String getDescription() {
-<span class="fc" id="L222">        return this.description;</span>
+<span class="nc" id="L222">        return this.description;</span>
     }
 
     /**
@@ -273,7 +273,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return A Set of all {@link TransportUnit}s belonging to the {@code TransportUnitType}
      */
     public Set&lt;TransportUnit&gt; getTransportUnits() {
-<span class="fc" id="L276">        return this.transportUnits;</span>
+<span class="nc" id="L276">        return this.transportUnits;</span>
     }
 
     /**
@@ -293,8 +293,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return {@literal true} when the rule was added gracefully, otherwise {@literal false}
      */
     public boolean addTypePlacingRule(TypePlacingRule typePlacingRule) {
-<span class="fc" id="L296">        Assert.notNull(typePlacingRule, &quot;typePlacingRule to add is null, this: &quot; + this);</span>
-<span class="fc" id="L297">        return typePlacingRules.add(typePlacingRule);</span>
+<span class="nc" id="L296">        Assert.notNull(typePlacingRule, &quot;typePlacingRule to add is null, this: &quot; + this);</span>
+<span class="nc" id="L297">        return typePlacingRules.add(typePlacingRule);</span>
     }
 
     /**
@@ -304,8 +304,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return {@literal true} when the rule was removed gracefully, otherwise {@literal false}
      */
     public boolean removeTypePlacingRule(TypePlacingRule typePlacingRule) {
-<span class="fc" id="L307">        Assert.notNull(typePlacingRule, &quot;typePlacingRule to remove is null, this: &quot; + this);</span>
-<span class="fc" id="L308">        return typePlacingRules.remove(typePlacingRule);</span>
+<span class="nc" id="L307">        Assert.notNull(typePlacingRule, &quot;typePlacingRule to remove is null, this: &quot; + this);</span>
+<span class="nc" id="L308">        return typePlacingRules.remove(typePlacingRule);</span>
     }
 
     /**
@@ -314,7 +314,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return A Set of all placing rules
      */
     public Set&lt;TypePlacingRule&gt; getTypePlacingRules() {
-<span class="fc" id="L317">        return this.typePlacingRules;</span>
+<span class="nc" id="L317">        return this.typePlacingRules;</span>
     }
 
     /**
@@ -334,7 +334,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return A Set of all stacking rules
      */
     public Set&lt;TypeStackingRule&gt; getTypeStackingRules() {
-<span class="fc" id="L337">        return this.typeStackingRules;</span>
+<span class="nc" id="L337">        return this.typeStackingRules;</span>
     }
 
     /**
@@ -391,7 +391,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      */
     @Override
     public String toString() {
-<span class="fc" id="L394">        return this.type;</span>
+<span class="nc" id="L394">        return this.type;</span>
     }
 
     /**
@@ -410,7 +410,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      */
     @Override
     public int hashCode() {
-<span class="fc" id="L413">        return Objects.hash(type);</span>
+<span class="nc" id="L413">        return Objects.hash(type);</span>
     }
 
     /**

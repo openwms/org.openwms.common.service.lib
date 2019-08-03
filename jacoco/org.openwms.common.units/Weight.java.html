@@ -33,7 +33,7 @@ public class Weight implements Measurable&lt;BigDecimal, Weight, WeightUnit&gt;,
     /** The magnitude of the &lt;code&gt;Weight&lt;/code&gt;. */
     private BigDecimal magnitude;
     /** Constant for a zero value. */
-<span class="fc" id="L36">    public static final Weight ZERO = new Weight(&quot;0&quot;);</span>
+<span class="nc" id="L36">    public static final Weight ZERO = new Weight(&quot;0&quot;);</span>
 
     /* ----------------------------- methods ------------------- */
     /**
@@ -51,10 +51,10 @@ public class Weight implements Measurable&lt;BigDecimal, Weight, WeightUnit&gt;,
      * @param unit
      *            The unit of measure
      */
-<span class="fc" id="L54">    public Weight(BigDecimal magnitude, WeightUnit unit) {</span>
-<span class="fc" id="L55">        this.magnitude = magnitude;</span>
-<span class="fc" id="L56">        this.unit = unit;</span>
-<span class="fc" id="L57">    }</span>
+<span class="nc" id="L54">    public Weight(BigDecimal magnitude, WeightUnit unit) {</span>
+<span class="nc" id="L55">        this.magnitude = magnitude;</span>
+<span class="nc" id="L56">        this.unit = unit;</span>
+<span class="nc" id="L57">    }</span>
 
     /**
      * Create a new &lt;code&gt;Weight&lt;/code&gt;.
@@ -86,10 +86,10 @@ public class Weight implements Measurable&lt;BigDecimal, Weight, WeightUnit&gt;,
      * @param magnitude
      *            The magnitude of the &lt;code&gt;Weight&lt;/code&gt; as String
      */
-<span class="fc" id="L89">    public Weight(String magnitude) {</span>
-<span class="fc" id="L90">        this.magnitude = new BigDecimal(magnitude);</span>
-<span class="fc" id="L91">        this.unit = WeightUnit.T.getBaseUnit();</span>
-<span class="fc" id="L92">    }</span>
+<span class="nc" id="L89">    public Weight(String magnitude) {</span>
+<span class="nc" id="L90">        this.magnitude = new BigDecimal(magnitude);</span>
+<span class="nc" id="L91">        this.unit = WeightUnit.T.getBaseUnit();</span>
+<span class="nc" id="L92">    }</span>
 
     /**
      * @see org.openwms.core.values.UnitType#getMeasurable()
@@ -106,7 +106,7 @@ public class Weight implements Measurable&lt;BigDecimal, Weight, WeightUnit&gt;,
      */
     @Override
     public BigDecimal getMagnitude() {
-<span class="fc" id="L109">        return magnitude;</span>
+<span class="nc" id="L109">        return magnitude;</span>
     }
 
     /**
@@ -116,7 +116,7 @@ public class Weight implements Measurable&lt;BigDecimal, Weight, WeightUnit&gt;,
      */
     @Override
     public WeightUnit getUnitType() {
-<span class="fc" id="L119">        return unit;</span>
+<span class="nc" id="L119">        return unit;</span>
     }
 
     /**
@@ -140,7 +140,7 @@ public class Weight implements Measurable&lt;BigDecimal, Weight, WeightUnit&gt;,
      */
     @Override
     public Weight convertTo(WeightUnit unt) {
-<span class="fc" id="L143">        return new Weight(getMagnitude().scaleByPowerOfTen((this.getUnitType().ordinal() - unt.ordinal()) * 3), unt);</span>
+<span class="nc" id="L143">        return new Weight(getMagnitude().scaleByPowerOfTen((this.getUnitType().ordinal() - unt.ordinal()) * 3), unt);</span>
     }
 
     /**
@@ -148,12 +148,12 @@ public class Weight implements Measurable&lt;BigDecimal, Weight, WeightUnit&gt;,
      */
     @Override
     public int compareTo(Weight o) {
-<span class="fc bfc" id="L151" title="All 2 branches covered.">        if (o.getUnitType().ordinal() &gt; this.getUnitType().ordinal()) {</span>
-<span class="fc" id="L152">            return -1;</span>
-<span class="fc bfc" id="L153" title="All 2 branches covered.">        } else if (o.getUnitType().ordinal() &lt; this.getUnitType().ordinal()) {</span>
-<span class="fc" id="L154">            return 1;</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        if (o.getUnitType().ordinal() &gt; this.getUnitType().ordinal()) {</span>
+<span class="nc" id="L152">            return -1;</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">        } else if (o.getUnitType().ordinal() &lt; this.getUnitType().ordinal()) {</span>
+<span class="nc" id="L154">            return 1;</span>
         } else {
-<span class="fc" id="L156">            return this.getMagnitude().compareTo(o.getMagnitude());</span>
+<span class="nc" id="L156">            return this.getMagnitude().compareTo(o.getMagnitude());</span>
         }
     }
 
@@ -178,27 +178,27 @@ public class Weight implements Measurable&lt;BigDecimal, Weight, WeightUnit&gt;,
      */
     @Override
     public boolean equals(Object obj) {
-<span class="pc bpc" id="L181" title="1 of 2 branches missed.">        if (this == obj) {</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">        if (this == obj) {</span>
 <span class="nc" id="L182">            return true;</span>
         }
-<span class="pc bpc" id="L184" title="1 of 2 branches missed.">        if (obj == null) {</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">        if (obj == null) {</span>
 <span class="nc" id="L185">            return false;</span>
         }
-<span class="pc bpc" id="L187" title="1 of 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
 <span class="nc" id="L188">            return false;</span>
         }
-<span class="fc" id="L190">        Weight other = (Weight) obj;</span>
-<span class="pc bpc" id="L191" title="1 of 2 branches missed.">        if (getMagnitude() == null) {</span>
+<span class="nc" id="L190">        Weight other = (Weight) obj;</span>
+<span class="nc bnc" id="L191" title="All 2 branches missed.">        if (getMagnitude() == null) {</span>
 <span class="nc bnc" id="L192" title="All 2 branches missed.">            if (other.getMagnitude() != null) {</span>
 <span class="nc" id="L193">                return false;</span>
             }
-<span class="pc bpc" id="L195" title="1 of 2 branches missed.">        } else if (!getMagnitude().equals(other.getMagnitude())) {</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">        } else if (!getMagnitude().equals(other.getMagnitude())) {</span>
 <span class="nc" id="L196">            return false;</span>
         }
-<span class="pc bpc" id="L198" title="1 of 2 branches missed.">        if (getUnitType() != other.getUnitType()) {</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">        if (getUnitType() != other.getUnitType()) {</span>
 <span class="nc" id="L199">            return false;</span>
         }
-<span class="fc" id="L201">        return true;</span>
+<span class="nc" id="L201">        return true;</span>
     }
 
     /**

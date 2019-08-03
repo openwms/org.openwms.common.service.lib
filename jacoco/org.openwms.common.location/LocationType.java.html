@@ -43,25 +43,25 @@ public class LocationType extends ApplicationEntity implements Serializable {
 
     /** Description of the {@code LocationType}. */
     @Column(name = &quot;C_DESCRIPTION&quot;)
-<span class="pc" id="L46">    private String description = DEF_TYPE_DESCRIPTION;</span>
+<span class="nc" id="L46">    private String description = DEF_TYPE_DESCRIPTION;</span>
     /** Default value of the description, by default * {@value} . */
     public static final String DEF_TYPE_DESCRIPTION = &quot;--&quot;;
 
     /** Length of the {@code LocationType}. */
     @Column(name = &quot;C_LENGTH&quot;)
-<span class="pc" id="L52">    private int length = DEF_LENGTH;</span>
+<span class="nc" id="L52">    private int length = DEF_LENGTH;</span>
     /** Default value of {@link #length}. */
     public static final int DEF_LENGTH = 0;
 
     /** Width of the {@code LocationType}. */
     @Column(name = &quot;C_WIDTH&quot;)
-<span class="pc" id="L58">    private int width = DEF_WIDTH;</span>
+<span class="nc" id="L58">    private int width = DEF_WIDTH;</span>
     /** Default value of {@link #width}. */
     public static final int DEF_WIDTH = 0;
 
     /** Height of the {@code LocationType}. */
     @Column(name = &quot;C_HEIGHT&quot;)
-<span class="pc" id="L64">    private int height = DEF_HEIGHT;</span>
+<span class="nc" id="L64">    private int height = DEF_HEIGHT;</span>
     /** Default value of {@link #height}. */
     public static final int DEF_HEIGHT = 0;
 
@@ -77,10 +77,10 @@ public class LocationType extends ApplicationEntity implements Serializable {
      *
      * @param type Unique type
      */
-<span class="fc" id="L80">    public LocationType(String type) {</span>
-<span class="fc" id="L81">        Assert.hasText(type, &quot;type must exist when creating a new LocationType&quot;);</span>
-<span class="fc" id="L82">        this.type = type;</span>
-<span class="fc" id="L83">    }</span>
+<span class="nc" id="L80">    public LocationType(String type) {</span>
+<span class="nc" id="L81">        Assert.hasText(type, &quot;type must exist when creating a new LocationType&quot;);</span>
+<span class="nc" id="L82">        this.type = type;</span>
+<span class="nc" id="L83">    }</span>
 
     /* ----------------------------- methods ------------------- */
     /**
@@ -89,7 +89,7 @@ public class LocationType extends ApplicationEntity implements Serializable {
      * @return type The Type
      */
     public String getType() {
-<span class="fc" id="L92">        return this.type;</span>
+<span class="nc" id="L92">        return this.type;</span>
     }
 
     /**
@@ -98,7 +98,7 @@ public class LocationType extends ApplicationEntity implements Serializable {
      * @return length The Length
      */
     public int getLength() {
-<span class="fc" id="L101">        return this.length;</span>
+<span class="nc" id="L101">        return this.length;</span>
     }
 
     /**
@@ -116,7 +116,7 @@ public class LocationType extends ApplicationEntity implements Serializable {
      * @return width The Width
      */
     public int getWidth() {
-<span class="fc" id="L119">        return this.width;</span>
+<span class="nc" id="L119">        return this.width;</span>
     }
 
     /**
@@ -134,7 +134,7 @@ public class LocationType extends ApplicationEntity implements Serializable {
      * @return height The Height
      */
     public int getHeight() {
-<span class="fc" id="L137">        return this.height;</span>
+<span class="nc" id="L137">        return this.height;</span>
     }
 
     /**
@@ -152,7 +152,7 @@ public class LocationType extends ApplicationEntity implements Serializable {
      * @return description The description text
      */
     public String getDescription() {
-<span class="fc" id="L155">        return this.description;</span>
+<span class="nc" id="L155">        return this.description;</span>
     }
 
     /**
@@ -172,7 +172,7 @@ public class LocationType extends ApplicationEntity implements Serializable {
      */
     @Override
     public String toString() {
-<span class="fc" id="L175">        return getType();</span>
+<span class="nc" id="L175">        return getType();</span>
     }
 
     /**
@@ -180,10 +180,10 @@ public class LocationType extends ApplicationEntity implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-<span class="fc bfc" id="L183" title="All 2 branches covered.">        if (this == o) return true;</span>
-<span class="pc bpc" id="L184" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="fc" id="L185">        LocationType that = (LocationType) o;</span>
-<span class="fc" id="L186">        return Objects.equals(type, that.type);</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L184" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L185">        LocationType that = (LocationType) o;</span>
+<span class="nc" id="L186">        return Objects.equals(type, that.type);</span>
     }
 
     /**
@@ -191,7 +191,7 @@ public class LocationType extends ApplicationEntity implements Serializable {
      */
     @Override
     public int hashCode() {
-<span class="fc" id="L194">        return Objects.hash(type);</span>
+<span class="nc" id="L194">        return Objects.hash(type);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

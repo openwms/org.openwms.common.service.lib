@@ -78,7 +78,7 @@ public class Location extends ApplicationEntity implements Serializable {
 
     /** Maximum number of {@code TransportUnit}s allowed on this Location. */
     @Column(name = &quot;C_NO_MAX_TRANSPORT_UNITS&quot;)
-<span class="pc" id="L81">    private int noMaxTransportUnits = DEF_MAX_TU;</span>
+<span class="nc" id="L81">    private int noMaxTransportUnits = DEF_MAX_TU;</span>
     /** Default value of {@link #noMaxTransportUnits}. */
     public static final int DEF_MAX_TU = 1;
 
@@ -96,13 +96,13 @@ public class Location extends ApplicationEntity implements Serializable {
 
     /** Flag to indicate whether {@code TransportUnit}s should be counted on this Location or not. */
     @Column(name = &quot;C_COUNTING_ACTIVE&quot;)
-<span class="pc" id="L99">    private boolean countingActive = DEF_COUNTING_ACTIVE;</span>
+<span class="nc" id="L99">    private boolean countingActive = DEF_COUNTING_ACTIVE;</span>
     /** Default value of {@link #countingActive}. */
     public static final boolean DEF_COUNTING_ACTIVE = false;
 
     /** Reserved for stock check procedure and inventory calculation. */
     @Column(name = &quot;C_CHECK_STATE&quot;)
-<span class="pc" id="L105">    private String checkState = DEF_CHECK_STATE;</span>
+<span class="nc" id="L105">    private String checkState = DEF_CHECK_STATE;</span>
     /** Default value of {@link #checkState}. */
     public static final String DEF_CHECK_STATE = &quot;--&quot;;
 
@@ -112,7 +112,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * calculation of {@code TransportUnit}s.&lt;/li&gt;&lt;/ul&gt;
      */
     @Column(name = &quot;C_LG_COUNTING_ACTIVE&quot;)
-<span class="pc" id="L115">    private boolean locationGroupCountingActive = DEF_LG_COUNTING_ACTIVE;</span>
+<span class="nc" id="L115">    private boolean locationGroupCountingActive = DEF_LG_COUNTING_ACTIVE;</span>
     /** Default value of {@link #locationGroupCountingActive}. */
     public static final boolean DEF_LG_COUNTING_ACTIVE = false;
 
@@ -125,7 +125,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * &lt;/ul&gt;
      */
     @Column(name = &quot;C_INCOMING_ACTIVE&quot;)
-<span class="pc" id="L128">    private boolean incomingActive = DEF_INCOMING_ACTIVE;</span>
+<span class="nc" id="L128">    private boolean incomingActive = DEF_INCOMING_ACTIVE;</span>
     /** Default value of {@link #incomingActive}. */
     public static final boolean DEF_INCOMING_ACTIVE = true;
 
@@ -138,7 +138,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * &lt;/ul&gt;
      */
     @Column(name = &quot;C_OUTGOING_ACTIVE&quot;)
-<span class="pc" id="L141">    private boolean outgoingActive = DEF_OUTGOING_ACTIVE;</span>
+<span class="nc" id="L141">    private boolean outgoingActive = DEF_OUTGOING_ACTIVE;</span>
     /** Default value of {@link #outgoingActive}. */
     public static final boolean DEF_OUTGOING_ACTIVE = true;
 
@@ -147,7 +147,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * defined.&lt;/li&gt;&lt;li&gt;0 : No PLC error, everything okay.&lt;/li&gt;&lt;/ul&gt;
      */
     @Column(name = &quot;C_PLC_STATE&quot;)
-<span class="pc" id="L150">    private int plcState = DEF_PLC_STATE;</span>
+<span class="nc" id="L150">    private int plcState = DEF_PLC_STATE;</span>
     /** Default value of {@link #plcState}. */
     public static final int DEF_PLC_STATE = 0;
 
@@ -157,7 +157,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * process.&lt;/li&gt;&lt;/ul&gt;
      */
     @Column(name = &quot;C_CONSIDERED_IN_ALLOCATION&quot;)
-<span class="pc" id="L160">    private boolean consideredInAllocation = DEF_CONSIDERED_IN_ALLOCATION;</span>
+<span class="nc" id="L160">    private boolean consideredInAllocation = DEF_CONSIDERED_IN_ALLOCATION;</span>
     /** Default value of {@link #consideredInAllocation}. */
     public static final boolean DEF_CONSIDERED_IN_ALLOCATION = true;
 
@@ -177,7 +177,7 @@ public class Location extends ApplicationEntity implements Serializable {
     /** Stored {@link Message}s on this Location. */
     @OneToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = &quot;COM_LOCATION_MESSAGE&quot;, joinColumns = @JoinColumn(name = &quot;C_LOCATION_ID&quot;), inverseJoinColumns = @JoinColumn(name = &quot;C_MESSAGE_ID&quot;))
-<span class="pc" id="L180">    private Set&lt;Message&gt; messages = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L180">    private Set&lt;Message&gt; messages = new HashSet&lt;&gt;();</span>
 
     /*~ ----------------------------- constructors ------------------- */
 
@@ -186,10 +186,10 @@ public class Location extends ApplicationEntity implements Serializable {
      *
      * @param locationId The unique natural key of the Location
      */
-<span class="fc" id="L189">    protected Location(LocationPK locationId) {</span>
-<span class="fc" id="L190">        Assert.notNull(locationId, &quot;Creation of Location with locationId null&quot;);</span>
-<span class="fc" id="L191">        this.locationId = locationId;</span>
-<span class="fc" id="L192">    }</span>
+<span class="nc" id="L189">    protected Location(LocationPK locationId) {</span>
+<span class="nc" id="L190">        Assert.notNull(locationId, &quot;Creation of Location with locationId null&quot;);</span>
+<span class="nc" id="L191">        this.locationId = locationId;</span>
+<span class="nc" id="L192">    }</span>
 
     /** Dear JPA... */
 <span class="nc" id="L195">    protected Location() {</span>
@@ -202,7 +202,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * @return The Location
      */
     public static Location create(LocationPK locationId) {
-<span class="fc" id="L205">        return new Location(locationId);</span>
+<span class="nc" id="L205">        return new Location(locationId);</span>
     }
     /*~ ----------------------------- methods ------------------- */
 
@@ -231,8 +231,8 @@ public class Location extends ApplicationEntity implements Serializable {
      * @return {@literal true} if the {@link Message} is new in the collection of messages, otherwise {@literal false}
      */
     public boolean addMessage(Message message) {
-<span class="fc" id="L234">        Assert.notNull(message, &quot;null passed to addMessage, this: &quot; + this);</span>
-<span class="fc" id="L235">        return this.messages.add(message);</span>
+<span class="nc" id="L234">        Assert.notNull(message, &quot;null passed to addMessage, this: &quot; + this);</span>
+<span class="nc" id="L235">        return this.messages.add(message);</span>
     }
 
     /**
@@ -241,7 +241,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * @return The checkState
      */
     public String getCheckState() {
-<span class="fc" id="L244">        return this.checkState;</span>
+<span class="nc" id="L244">        return this.checkState;</span>
     }
 
     /**
@@ -250,7 +250,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * @return {@literal true} when considered in allocation, otherwise {@literal false}
      */
     public boolean isConsideredInAllocation() {
-<span class="fc" id="L253">        return this.consideredInAllocation;</span>
+<span class="nc" id="L253">        return this.consideredInAllocation;</span>
     }
 
     /**
@@ -259,7 +259,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * @return {@literal true} when counting is active, otherwise {@literal false}
      */
     public boolean isCountingActive() {
-<span class="fc" id="L262">        return this.countingActive;</span>
+<span class="nc" id="L262">        return this.countingActive;</span>
     }
 
     /**
@@ -277,7 +277,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * @return {@literal true} when incoming mode is activated, otherwise {@literal false}
      */
     public boolean isInfeedActive() {
-<span class="fc" id="L280">        return this.incomingActive;</span>
+<span class="nc" id="L280">        return this.incomingActive;</span>
     }
 
     /**
@@ -322,7 +322,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * @return The {@link LocationGroup} of the Location
      */
     public LocationGroup getLocationGroup() {
-<span class="fc" id="L325">        return this.locationGroup;</span>
+<span class="nc" id="L325">        return this.locationGroup;</span>
     }
 
     /**
@@ -331,7 +331,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * @return {@literal true} if calculation is activated, otherwise {@literal false}
      */
     public boolean isLocationGroupCountingActive() {
-<span class="fc" id="L334">        return this.locationGroupCountingActive;</span>
+<span class="nc" id="L334">        return this.locationGroupCountingActive;</span>
     }
 
     /**
@@ -367,7 +367,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * @return An unmodifiable Set
      */
     public Set&lt;Message&gt; getMessages() {
-<span class="fc" id="L370">        return Collections.unmodifiableSet(messages);</span>
+<span class="nc" id="L370">        return Collections.unmodifiableSet(messages);</span>
     }
 
     /**
@@ -376,7 +376,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * @return The maximum number of {@code TransportUnit}s
      */
     public int getNoMaxTransportUnits() {
-<span class="fc" id="L379">        return noMaxTransportUnits;</span>
+<span class="nc" id="L379">        return noMaxTransportUnits;</span>
     }
 
     /**
@@ -385,7 +385,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * @return {@literal true} when outgoing mode is activated, otherwise {@literal false}
      */
     public boolean isOutfeedActive() {
-<span class="fc" id="L388">        return this.outgoingActive;</span>
+<span class="nc" id="L388">        return this.outgoingActive;</span>
     }
 
     /**
@@ -413,7 +413,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * @return the plc state
      */
     public int getPlcState() {
-<span class="fc" id="L416">        return plcState;</span>
+<span class="nc" id="L416">        return plcState;</span>
     }
 
     /**
@@ -433,8 +433,8 @@ public class Location extends ApplicationEntity implements Serializable {
      * @throws IllegalArgumentException when messages is {@literal null}
      */
     public boolean removeMessages(Message... msgs) {
-<span class="fc" id="L436">        Assert.notNull(msgs, &quot;null passed to removeMessages, this: &quot; + this);</span>
-<span class="fc" id="L437">        return this.messages.removeAll(Arrays.asList(msgs));</span>
+<span class="nc" id="L436">        Assert.notNull(msgs, &quot;null passed to removeMessages, this: &quot; + this);</span>
+<span class="nc" id="L437">        return this.messages.removeAll(Arrays.asList(msgs));</span>
     }
 
     /**
@@ -444,13 +444,13 @@ public class Location extends ApplicationEntity implements Serializable {
      * @param locationGroup The {@link LocationGroup} to be assigned
      */
     void setLocationGroup(LocationGroup locationGroup) {
-<span class="fc" id="L447">        Assert.notNull(locationGroup, &quot;Not allowed to call location#setLocationGroup with null argument, this: &quot; + this);</span>
-<span class="fc bfc" id="L448" title="All 2 branches covered.">        if (this.locationGroup != null) {</span>
-<span class="fc" id="L449">            this.locationGroup.removeLocation(this);</span>
+<span class="nc" id="L447">        Assert.notNull(locationGroup, &quot;Not allowed to call location#setLocationGroup with null argument, this: &quot; + this);</span>
+<span class="nc bnc" id="L448" title="All 2 branches missed.">        if (this.locationGroup != null) {</span>
+<span class="nc" id="L449">            this.locationGroup.removeLocation(this);</span>
         }
-<span class="fc" id="L451">        this.setLocationGroupCountingActive(locationGroup.isLocationGroupCountingActive());</span>
-<span class="fc" id="L452">        this.locationGroup = locationGroup;</span>
-<span class="fc" id="L453">    }</span>
+<span class="nc" id="L451">        this.setLocationGroupCountingActive(locationGroup.isLocationGroupCountingActive());</span>
+<span class="nc" id="L452">        this.locationGroup = locationGroup;</span>
+<span class="nc" id="L453">    }</span>
 
     /**
      * Define whether or not the Location shall be considered in counting {@code TransportUnit}s of the parent {@link LocationGroup}.
@@ -458,8 +458,8 @@ public class Location extends ApplicationEntity implements Serializable {
      * @param locationGroupCountingActive {@literal true} if considered, otherwise {@literal false}
      */
     public void setLocationGroupCountingActive(boolean locationGroupCountingActive) {
-<span class="fc" id="L461">        this.locationGroupCountingActive = locationGroupCountingActive;</span>
-<span class="fc" id="L462">    }</span>
+<span class="nc" id="L461">        this.locationGroupCountingActive = locationGroupCountingActive;</span>
+<span class="nc" id="L462">    }</span>
 
     /**
      * Checks whether this {@code Location} belongs to a {@code LocationGroup}.
@@ -467,7 +467,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * @return {@literal true} if it belongs to a {@code LocationGroup}, otherwise {@literal false}
      */
     public boolean belongsToLocationGroup() {
-<span class="fc bfc" id="L470" title="All 2 branches covered.">        return locationGroup != null;</span>
+<span class="nc bnc" id="L470" title="All 2 branches missed.">        return locationGroup != null;</span>
     }
 
     /**
@@ -476,15 +476,15 @@ public class Location extends ApplicationEntity implements Serializable {
      * @return {@literal true} if it does not belong to a {@code LocationGroup}, otherwise {@literal false}
      */
     public boolean belongsNotToLocationGroup() {
-<span class="pc bpc" id="L479" title="1 of 2 branches missed.">        return !belongsToLocationGroup();</span>
+<span class="nc bnc" id="L479" title="All 2 branches missed.">        return !belongsToLocationGroup();</span>
     }
 
     /**
      * Set the locationGroup to {@literal null}.
      */
     void unsetLocationGroup() {
-<span class="fc" id="L486">        this.locationGroup = null;</span>
-<span class="fc" id="L487">    }</span>
+<span class="nc" id="L486">        this.locationGroup = null;</span>
+<span class="nc" id="L487">    }</span>
 
     /**
      * Get the sortOrder.
@@ -515,7 +515,7 @@ public class Location extends ApplicationEntity implements Serializable {
      */
     @Override
     public int hashCode() {
-<span class="fc" id="L518">        return Objects.hash(locationId);</span>
+<span class="nc" id="L518">        return Objects.hash(locationId);</span>
     }
 
     /**
@@ -526,7 +526,7 @@ public class Location extends ApplicationEntity implements Serializable {
      */
     @Override
     public String toString() {
-<span class="fc" id="L529">        return locationId.toString();</span>
+<span class="nc" id="L529">        return locationId.toString();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

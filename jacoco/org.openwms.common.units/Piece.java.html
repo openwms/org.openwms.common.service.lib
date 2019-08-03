@@ -29,14 +29,14 @@ import java.math.RoundingMode;
  */
 public class Piece implements Measurable&lt;BigDecimal, Piece, PieceUnit&gt;, UnitType, Serializable {
 
-<span class="fc" id="L32">    private static final BigDecimal SHIFTER = new BigDecimal(12);</span>
+<span class="nc" id="L32">    private static final BigDecimal SHIFTER = new BigDecimal(12);</span>
 
     /** The unit of the Piece. */
     private PieceUnit unitType;
     /** The magnitude of the Piece. */
     private BigDecimal magnitude;
     /** Constant for a zero value. */
-<span class="fc" id="L39">    public static final Piece ZERO = new Piece(0);</span>
+<span class="nc" id="L39">    public static final Piece ZERO = new Piece(0);</span>
 
     /* ----------------------------- methods ------------------- */
     /**
@@ -62,10 +62,10 @@ public class Piece implements Measurable&lt;BigDecimal, Piece, PieceUnit&gt;, Un
      * @param unitType
      *            The unit of measure
      */
-<span class="fc" id="L65">    public Piece(int magnitude, PieceUnit unitType) {</span>
-<span class="fc" id="L66">        this.magnitude = new BigDecimal(magnitude);</span>
-<span class="fc" id="L67">        this.unitType = unitType;</span>
-<span class="fc" id="L68">    }</span>
+<span class="nc" id="L65">    public Piece(int magnitude, PieceUnit unitType) {</span>
+<span class="nc" id="L66">        this.magnitude = new BigDecimal(magnitude);</span>
+<span class="nc" id="L67">        this.unitType = unitType;</span>
+<span class="nc" id="L68">    }</span>
 
     /**
      * Create a new Piece.
@@ -73,10 +73,10 @@ public class Piece implements Measurable&lt;BigDecimal, Piece, PieceUnit&gt;, Un
      * @param magnitude
      *            The magnitude of the Piece as int
      */
-<span class="fc" id="L76">    public Piece(int magnitude) {</span>
-<span class="fc" id="L77">        this.magnitude = new BigDecimal(magnitude);</span>
-<span class="fc" id="L78">        this.unitType = PieceUnit.PC.getBaseUnit();</span>
-<span class="fc" id="L79">    }</span>
+<span class="nc" id="L76">    public Piece(int magnitude) {</span>
+<span class="nc" id="L77">        this.magnitude = new BigDecimal(magnitude);</span>
+<span class="nc" id="L78">        this.unitType = PieceUnit.PC.getBaseUnit();</span>
+<span class="nc" id="L79">    }</span>
 
     /**
      * Create a new Piece.
@@ -86,10 +86,10 @@ public class Piece implements Measurable&lt;BigDecimal, Piece, PieceUnit&gt;, Un
      * @param unitType
      *            The unit of measure
      */
-<span class="fc" id="L89">    public Piece(BigDecimal magnitude, PieceUnit unitType) {</span>
-<span class="fc" id="L90">        this.magnitude = magnitude;</span>
-<span class="fc" id="L91">        this.unitType = unitType;</span>
-<span class="fc" id="L92">    }</span>
+<span class="nc" id="L89">    public Piece(BigDecimal magnitude, PieceUnit unitType) {</span>
+<span class="nc" id="L90">        this.magnitude = magnitude;</span>
+<span class="nc" id="L91">        this.unitType = unitType;</span>
+<span class="nc" id="L92">    }</span>
 
     /**
      * Create a new Piece.
@@ -109,7 +109,7 @@ public class Piece implements Measurable&lt;BigDecimal, Piece, PieceUnit&gt;, Un
      */
     @Override
     public BigDecimal getMagnitude() {
-<span class="fc" id="L112">        return magnitude;</span>
+<span class="nc" id="L112">        return magnitude;</span>
     }
 
     /**
@@ -119,7 +119,7 @@ public class Piece implements Measurable&lt;BigDecimal, Piece, PieceUnit&gt;, Un
      */
     @Override
     public PieceUnit getUnitType() {
-<span class="fc" id="L122">        return unitType;</span>
+<span class="nc" id="L122">        return unitType;</span>
     }
 
     /**
@@ -143,10 +143,10 @@ public class Piece implements Measurable&lt;BigDecimal, Piece, PieceUnit&gt;, Un
      */
     @Override
     public Piece convertTo(PieceUnit unt) {
-<span class="pc bpc" id="L146" title="3 of 4 branches missed.">        if (PieceUnit.PC == unt &amp;&amp; this.getUnitType() == PieceUnit.DOZ) {</span>
+<span class="nc bnc" id="L146" title="All 4 branches missed.">        if (PieceUnit.PC == unt &amp;&amp; this.getUnitType() == PieceUnit.DOZ) {</span>
 <span class="nc" id="L147">            return new Piece(this.getMagnitude().multiply(SHIFTER), PieceUnit.PC);</span>
-<span class="pc bpc" id="L148" title="2 of 4 branches missed.">        } else if (PieceUnit.DOZ == unt &amp;&amp; this.getUnitType() == PieceUnit.PC) {</span>
-<span class="fc" id="L149">            return new Piece(this.getMagnitude().divide(SHIFTER, 0, RoundingMode.DOWN), PieceUnit.DOZ);</span>
+<span class="nc bnc" id="L148" title="All 4 branches missed.">        } else if (PieceUnit.DOZ == unt &amp;&amp; this.getUnitType() == PieceUnit.PC) {</span>
+<span class="nc" id="L149">            return new Piece(this.getMagnitude().divide(SHIFTER, 0, RoundingMode.DOWN), PieceUnit.DOZ);</span>
         }
 <span class="nc" id="L151">        return this;</span>
     }
@@ -156,15 +156,15 @@ public class Piece implements Measurable&lt;BigDecimal, Piece, PieceUnit&gt;, Un
      */
     @Override
     public int compareTo(Piece o) {
-<span class="pc bpc" id="L159" title="1 of 2 branches missed.">        if (null == o) {</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">        if (null == o) {</span>
 <span class="nc" id="L160">            return -1;</span>
         }
-<span class="fc bfc" id="L162" title="All 2 branches covered.">        if (o.getUnitType().ordinal() &gt; this.getUnitType().ordinal()) {</span>
-<span class="fc" id="L163">            return compare(this.getMagnitude(), o.getMagnitude().multiply(SHIFTER));</span>
-<span class="fc bfc" id="L164" title="All 2 branches covered.">        } else if (o.getUnitType().ordinal() &lt; this.getUnitType().ordinal()) {</span>
-<span class="fc" id="L165">            return compare(this.getMagnitude().multiply(SHIFTER), o.getMagnitude());</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">        if (o.getUnitType().ordinal() &gt; this.getUnitType().ordinal()) {</span>
+<span class="nc" id="L163">            return compare(this.getMagnitude(), o.getMagnitude().multiply(SHIFTER));</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">        } else if (o.getUnitType().ordinal() &lt; this.getUnitType().ordinal()) {</span>
+<span class="nc" id="L165">            return compare(this.getMagnitude().multiply(SHIFTER), o.getMagnitude());</span>
         }
-<span class="fc" id="L167">        return this.getMagnitude().compareTo(o.getMagnitude());</span>
+<span class="nc" id="L167">        return this.getMagnitude().compareTo(o.getMagnitude());</span>
     }
 
     /**
@@ -198,30 +198,30 @@ public class Piece implements Measurable&lt;BigDecimal, Piece, PieceUnit&gt;, Un
      */
     @Override
     public boolean equals(Object obj) {
-<span class="pc bpc" id="L201" title="1 of 2 branches missed.">        if (this == obj) {</span>
+<span class="nc bnc" id="L201" title="All 2 branches missed.">        if (this == obj) {</span>
 <span class="nc" id="L202">            return true;</span>
         }
-<span class="pc bpc" id="L204" title="1 of 2 branches missed.">        if (obj == null) {</span>
+<span class="nc bnc" id="L204" title="All 2 branches missed.">        if (obj == null) {</span>
 <span class="nc" id="L205">            return false;</span>
         }
-<span class="pc bpc" id="L207" title="1 of 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
+<span class="nc bnc" id="L207" title="All 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
 <span class="nc" id="L208">            return false;</span>
         }
-<span class="fc" id="L210">        Piece other = (Piece) obj;</span>
-<span class="pc bpc" id="L211" title="1 of 2 branches missed.">        if (magnitude == null) {</span>
+<span class="nc" id="L210">        Piece other = (Piece) obj;</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">        if (magnitude == null) {</span>
 <span class="nc bnc" id="L212" title="All 2 branches missed.">            if (other.magnitude != null) {</span>
 <span class="nc" id="L213">                return false;</span>
             }
         }
-<span class="fc bfc" id="L216" title="All 2 branches covered.">        return this.compareTo(other) == 0;</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">        return this.compareTo(other) == 0;</span>
 
     }
 
     private int compare(BigDecimal val1, BigDecimal val2) {
-<span class="fc bfc" id="L221" title="All 2 branches covered.">        if (val1.equals(val2)) {</span>
-<span class="fc" id="L222">            return 0;</span>
+<span class="nc bnc" id="L221" title="All 2 branches missed.">        if (val1.equals(val2)) {</span>
+<span class="nc" id="L222">            return 0;</span>
         }
-<span class="fc" id="L224">        return val1.compareTo(val2);</span>
+<span class="nc" id="L224">        return val1.compareTo(val2);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -51,13 +51,13 @@ public class UnitError extends BaseEntity implements Serializable {
 <span class="nc" id="L51">    UnitError() {</span>
 <span class="nc" id="L52">    }</span>
 
-<span class="fc" id="L54">    private UnitError(Builder builder) {</span>
-<span class="fc" id="L55">        setErrorNo(builder.errorNo);</span>
-<span class="fc" id="L56">        setErrorText(builder.errorText);</span>
-<span class="fc" id="L57">    }</span>
+<span class="nc" id="L54">    private UnitError(Builder builder) {</span>
+<span class="nc" id="L55">        setErrorNo(builder.errorNo);</span>
+<span class="nc" id="L56">        setErrorText(builder.errorText);</span>
+<span class="nc" id="L57">    }</span>
 
     public static Builder newBuilder() {
-<span class="fc" id="L60">        return new Builder();</span>
+<span class="nc" id="L60">        return new Builder();</span>
     }
 
     /*~ ----------------------------- methods ------------------- */
@@ -77,8 +77,8 @@ public class UnitError extends BaseEntity implements Serializable {
      * @param errorNo The errorNo to set.
      */
     public void setErrorNo(String errorNo) {
-<span class="fc" id="L80">        this.errorNo = errorNo;</span>
-<span class="fc" id="L81">    }</span>
+<span class="nc" id="L80">        this.errorNo = errorNo;</span>
+<span class="nc" id="L81">    }</span>
 
     /**
      * Return the error text.
@@ -95,19 +95,19 @@ public class UnitError extends BaseEntity implements Serializable {
      * @param errorText The errorText to set.
      */
     public void setErrorText(String errorText) {
-<span class="fc" id="L98">        this.errorText = errorText;</span>
-<span class="fc" id="L99">    }</span>
+<span class="nc" id="L98">        this.errorText = errorText;</span>
+<span class="nc" id="L99">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     public boolean equals(Object o) {
-<span class="pc bpc" id="L106" title="1 of 2 branches missed.">        if (this == o) return true;</span>
-<span class="pc bpc" id="L107" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="fc" id="L108">        UnitError unitError = (UnitError) o;</span>
-<span class="pc bpc" id="L109" title="1 of 2 branches missed.">        return Objects.equals(errorNo, unitError.errorNo) &amp;&amp;</span>
-<span class="pc bpc" id="L110" title="1 of 2 branches missed.">                Objects.equals(errorText, unitError.errorText);</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L107" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L108">        UnitError unitError = (UnitError) o;</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        return Objects.equals(errorNo, unitError.errorNo) &amp;&amp;</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">                Objects.equals(errorText, unitError.errorText);</span>
     }
 
     /**
@@ -145,8 +145,8 @@ public class UnitError extends BaseEntity implements Serializable {
          * @return a reference to this Builder
          */
         public Builder errorNo(String val) {
-<span class="fc" id="L148">            errorNo = val;</span>
-<span class="fc" id="L149">            return this;</span>
+<span class="nc" id="L148">            errorNo = val;</span>
+<span class="nc" id="L149">            return this;</span>
         }
 
         /**
@@ -156,8 +156,8 @@ public class UnitError extends BaseEntity implements Serializable {
          * @return a reference to this Builder
          */
         public Builder errorText(String val) {
-<span class="fc" id="L159">            errorText = val;</span>
-<span class="fc" id="L160">            return this;</span>
+<span class="nc" id="L159">            errorText = val;</span>
+<span class="nc" id="L160">            return this;</span>
         }
 
         /**
@@ -166,7 +166,7 @@ public class UnitError extends BaseEntity implements Serializable {
          * @return a {@code UnitError} built with parameters of this {@code UnitError.Builder}
          */
         public UnitError build() {
-<span class="fc" id="L169">            return new UnitError(this);</span>
+<span class="nc" id="L169">            return new UnitError(this);</span>
         }
     }
 }
