@@ -22,6 +22,7 @@ import org.springframework.util.Assert;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -88,13 +89,10 @@ public class LocationGroup extends Target implements Serializable {
     @Column(name = "C_MAX_FILL_LEVEL")
     private float maxFillLevel = 0;
 
-    /**
-     * Subsequential code of the subsystem (e.g. PLC), tied to this {@code LocationGroup}.
-     * A subsystem may be named after a name and a code, like PLCCONV_01, where PLCCONV is the name of
-     * the subsystem group and the code _01 is a unique number in this group.
-     */
-    @Column(name = "C_SYSTEM_CODE")
-    private String systemCode;
+    /** The subsystem like a PLC, that manages this {@code LocationGroup}. */
+    @Embedded
+    private Subsystem subsystem;
+
     /* ------------------- collection mapping ------------------- */
     /** Parent {@code LocationGroup}. */
     @ManyToOne
@@ -110,7 +108,6 @@ public class LocationGroup extends Target implements Serializable {
     private Set<Location> locations = new HashSet<>();
 
     /*~ ----------------------------- constructors ------------------- */
-
     /** Dear JPA... */
     protected LocationGroup() { }
 
@@ -414,24 +411,6 @@ public class LocationGroup extends Target implements Serializable {
         Assert.notNull(location, () -> "Location to remove from LocationGroup is null. this: " + this);
         location.unsetLocationGroup();
         return locations.remove(location);
-    }
-
-    /**
-     * Returns the systemCode.
-     *
-     * @return The systemCode
-     */
-    public String getSystemCode() {
-        return systemCode;
-    }
-
-    /**
-     * Set the systemCode.
-     *
-     * @param systemCode The systemCode to set
-     */
-    public void setSystemCode(String systemCode) {
-        this.systemCode = systemCode;
     }
 
     /**
