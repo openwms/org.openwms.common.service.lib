@@ -88,5 +88,5 @@ OpenWMS.org COMMON: Services,org.openwms.common.transport,TypeStackingRule,94,3,
 OpenWMS.org COMMON: Services,org.openwms.common.transport,Barcode,28,116,8,12,12,40,11,17,4,14
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TypePlacingRule,41,81,5,7,8,17,11,5,6,4
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnit,41,500,26,42,10,75,33,41,7,33
-OpenWMS.org COMMON: Services,org.openwms.common.transport,UnitError,33,54,4,6,2,15,6,6,2,5
+OpenWMS.org COMMON: Services,org.openwms.common.transport,UnitError,20,73,4,6,1,18,5,9,1,8
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitState,0,34,0,0,0,7,0,1,0,1

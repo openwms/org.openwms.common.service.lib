@@ -69,7 +69,14 @@ public class UnitError extends ApplicationEntity implements Serializable {
 <span class="fc" id="L69">        return new Builder();</span>
     }
 
-    /*~ ----------------------------- methods ------------------- */
+    /*~ ----------------------------- accessors ------------------- */
+    public String getErrorNo() {
+<span class="fc" id="L74">        return errorNo;</span>
+    }
+
+    public String getErrorText() {
+<span class="fc" id="L78">        return errorText;</span>
+    }
 
     /**
      * Set the TransportUnit for this error.
@@ -77,19 +84,19 @@ public class UnitError extends ApplicationEntity implements Serializable {
      * @param tu The TransportUnit instance
      */
     void setTu(TransportUnit tu) {
-<span class="fc" id="L80">        this.tu = tu;</span>
-<span class="fc" id="L81">    }</span>
+<span class="fc" id="L87">        this.tu = tu;</span>
+<span class="fc" id="L88">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     public boolean equals(Object o) {
-<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        if (this == o) return true;</span>
-<span class="pc bpc" id="L89" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="fc" id="L90">        UnitError unitError = (UnitError) o;</span>
-<span class="pc bfc" id="L91" title="All 2 branches covered.">        return Objects.equals(errorNo, unitError.errorNo) &amp;&amp;</span>
-<span class="pc bpc" id="L92" title="1 of 2 branches missed.">                Objects.equals(errorText, unitError.errorText);</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L96" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L97">        UnitError unitError = (UnitError) o;</span>
+<span class="pc bfc" id="L98" title="All 2 branches covered.">        return Objects.equals(errorNo, unitError.errorNo) &amp;&amp;</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">                Objects.equals(errorText, unitError.errorText);</span>
     }
 
     /**
@@ -97,7 +104,7 @@ public class UnitError extends ApplicationEntity implements Serializable {
      */
     @Override
     public int hashCode() {
-<span class="nc" id="L100">        return Objects.hash(errorNo, errorText);</span>
+<span class="nc" id="L107">        return Objects.hash(errorNo, errorText);</span>
     }
 
     /**
@@ -105,7 +112,7 @@ public class UnitError extends ApplicationEntity implements Serializable {
      */
     @Override
     public String toString() {
-<span class="nc" id="L108">        return errorNo + SEPARATOR + errorText;</span>
+<span class="fc" id="L115">        return errorNo + SEPARATOR + errorText;</span>
     }
 
 
@@ -122,22 +129,22 @@ public class UnitError extends ApplicationEntity implements Serializable {
         }
 
         public Builder errorNo(String val) {
-<span class="fc" id="L125">            errorNo = val;</span>
-<span class="fc" id="L126">            return this;</span>
+<span class="fc" id="L132">            errorNo = val;</span>
+<span class="fc" id="L133">            return this;</span>
         }
 
         public Builder errorText(String val) {
-<span class="fc" id="L130">            errorText = val;</span>
-<span class="fc" id="L131">            return this;</span>
+<span class="fc" id="L137">            errorText = val;</span>
+<span class="fc" id="L138">            return this;</span>
         }
 
         public Builder tu(TransportUnit val) {
-<span class="nc" id="L135">            tu = val;</span>
-<span class="nc" id="L136">            return this;</span>
+<span class="nc" id="L142">            tu = val;</span>
+<span class="nc" id="L143">            return this;</span>
         }
 
         public UnitError build() {
-<span class="fc" id="L140">            return new UnitError(this);</span>
+<span class="fc" id="L147">            return new UnitError(this);</span>
         }
     }
 }
