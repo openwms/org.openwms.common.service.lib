@@ -47,8 +47,8 @@ public class Message extends BaseEntity implements Serializable {
     /**
      * Dear JPA...
      */
-<span class="nc" id="L50">    protected Message() {</span>
-<span class="nc" id="L51">    }</span>
+<span class="fc" id="L50">    protected Message() {</span>
+<span class="fc" id="L51">    }</span>
 
     /**
      * Create a new {@code Message} with message number and message text.
@@ -56,15 +56,15 @@ public class Message extends BaseEntity implements Serializable {
      * @param messageNo The message number
      * @param messageText The message text
      */
-<span class="nc" id="L59">    public Message(int messageNo, String messageText) {</span>
-<span class="nc" id="L60">        this.messageNo = messageNo;</span>
-<span class="nc" id="L61">        this.messageText = messageText;</span>
-<span class="nc" id="L62">    }</span>
+<span class="fc" id="L59">    public Message(int messageNo, String messageText) {</span>
+<span class="fc" id="L60">        this.messageNo = messageNo;</span>
+<span class="fc" id="L61">        this.messageText = messageText;</span>
+<span class="fc" id="L62">    }</span>
 
-<span class="nc" id="L64">    private Message(Builder builder) {</span>
-<span class="nc" id="L65">        messageNo = builder.messageNo;</span>
-<span class="nc" id="L66">        messageText = builder.messageText;</span>
-<span class="nc" id="L67">    }</span>
+<span class="fc" id="L64">    private Message(Builder builder) {</span>
+<span class="fc" id="L65">        messageNo = builder.messageNo;</span>
+<span class="fc" id="L66">        messageText = builder.messageText;</span>
+<span class="fc" id="L67">    }</span>
 
     /**
      * Create a new builder instance to create messages from.
@@ -72,7 +72,7 @@ public class Message extends BaseEntity implements Serializable {
      * @return The builder
      */
     public static Builder newBuilder() {
-<span class="nc" id="L75">        return new Builder();</span>
+<span class="fc" id="L75">        return new Builder();</span>
     }
 
     /*~ ----------------------------- methods ------------------- */
@@ -83,7 +83,7 @@ public class Message extends BaseEntity implements Serializable {
      * @return The message number
      */
     public int getMessageNo() {
-<span class="nc" id="L86">        return messageNo;</span>
+<span class="fc" id="L86">        return messageNo;</span>
     }
 
     /**
@@ -92,7 +92,7 @@ public class Message extends BaseEntity implements Serializable {
      * @return The message text
      */
     public String getMessageText() {
-<span class="nc" id="L95">        return messageText;</span>
+<span class="fc" id="L95">        return messageText;</span>
     }
 
     /**
@@ -100,11 +100,11 @@ public class Message extends BaseEntity implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L103" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L104" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L105">        Message message = (Message) o;</span>
-<span class="nc bnc" id="L106" title="All 2 branches missed.">        return messageNo == message.messageNo &amp;&amp;</span>
-<span class="nc bnc" id="L107" title="All 2 branches missed.">                Objects.equals(messageText, message.messageText);</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L104" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L105">        Message message = (Message) o;</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        return messageNo == message.messageNo &amp;&amp;</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">                Objects.equals(messageText, message.messageText);</span>
     }
 
     /**
@@ -112,7 +112,7 @@ public class Message extends BaseEntity implements Serializable {
      */
     @Override
     public int hashCode() {
-<span class="nc" id="L115">        return Objects.hash(messageNo, messageText);</span>
+<span class="fc" id="L115">        return Objects.hash(messageNo, messageText);</span>
     }
 
     /**
@@ -120,7 +120,7 @@ public class Message extends BaseEntity implements Serializable {
      */
     @Override
     public String toString() {
-<span class="nc" id="L123">        return messageNo + SEPARATOR + messageText;</span>
+<span class="fc" id="L123">        return messageNo + SEPARATOR + messageText;</span>
     }
 
 
@@ -142,8 +142,8 @@ public class Message extends BaseEntity implements Serializable {
          * @return a reference to this Builder
          */
         public Builder messageNo(int val) {
-<span class="nc" id="L145">            messageNo = val;</span>
-<span class="nc" id="L146">            return this;</span>
+<span class="fc" id="L145">            messageNo = val;</span>
+<span class="fc" id="L146">            return this;</span>
         }
 
         /**
@@ -153,8 +153,8 @@ public class Message extends BaseEntity implements Serializable {
          * @return a reference to this Builder
          */
         public Builder messageText(String val) {
-<span class="nc" id="L156">            messageText = val;</span>
-<span class="nc" id="L157">            return this;</span>
+<span class="fc" id="L156">            messageText = val;</span>
+<span class="fc" id="L157">            return this;</span>
         }
 
         /**
@@ -163,7 +163,7 @@ public class Message extends BaseEntity implements Serializable {
          * @return a {@code Message} built with parameters of this {@code Message.Builder}
          */
         public Message build() {
-<span class="nc" id="L166">            return new Message(this);</span>
+<span class="fc" id="L166">            return new Message(this);</span>
         }
     }
 }

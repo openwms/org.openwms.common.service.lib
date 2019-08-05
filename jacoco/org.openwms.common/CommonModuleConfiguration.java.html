@@ -29,6 +29,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableLoadTimeWeaving;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.Ordered;
@@ -47,41 +48,41 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaAuditing
 @EnableMultiTenancy
 @EnableTransactionManagement
-<span class="nc" id="L50">public class CommonModuleConfiguration {</span>
+<span class="nc" id="L51">public class CommonModuleConfiguration {</span>
 
     public @Bean
     Translator translator() {
-<span class="nc" id="L54">        return new AbstractTranslator() {</span>
+<span class="nc" id="L55">        return new AbstractTranslator() {</span>
             @Override
             protected MessageSource getMessageSource() {
-<span class="nc" id="L57">                return messageSource();</span>
+<span class="nc" id="L58">                return messageSource();</span>
             }
         };
     }
 
     public @Bean
     MessageSource messageSource() {
-<span class="nc" id="L64">        ResourceBundleMessageSource nrrbm = new ResourceBundleMessageSource();</span>
-<span class="nc" id="L65">        nrrbm.setBasename(&quot;i18n&quot;);</span>
-<span class="nc" id="L66">        return nrrbm;</span>
+<span class="nc" id="L65">        ResourceBundleMessageSource nrrbm = new ResourceBundleMessageSource();</span>
+<span class="nc" id="L66">        nrrbm.setBasename(&quot;i18n&quot;);</span>
+<span class="nc" id="L67">        return nrrbm;</span>
     }
 
     public @Bean
     BeanMapper beanMapper() {
-<span class="nc" id="L71">        return new DozerMapperImpl(&quot;META-INF/dozer/common-bean-mappings.xml&quot;);</span>
+<span class="nc" id="L72">        return new DozerMapperImpl(&quot;META-INF/dozer/common-bean-mappings.xml&quot;);</span>
     }
 
     /*~ ------------- Request ID handling ----------- */
     public @Bean
     IDGenerator&lt;String&gt; uuidGenerator() {
-<span class="nc" id="L77">        return new JdkIDGenerator();</span>
+<span class="nc" id="L78">        return new JdkIDGenerator();</span>
     }
 
     public @Bean
     FilterRegistrationBean requestIDFilter(IDGenerator&lt;String&gt; uuidGenerator) {
-<span class="nc" id="L82">        FilterRegistrationBean frb = new FilterRegistrationBean(new RequestIDFilter(uuidGenerator));</span>
-<span class="nc" id="L83">        frb.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);</span>
-<span class="nc" id="L84">        return frb;</span>
+<span class="nc" id="L83">        FilterRegistrationBean frb = new FilterRegistrationBean(new RequestIDFilter(uuidGenerator));</span>
+<span class="nc" id="L84">        frb.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);</span>
+<span class="nc" id="L85">        return frb;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
