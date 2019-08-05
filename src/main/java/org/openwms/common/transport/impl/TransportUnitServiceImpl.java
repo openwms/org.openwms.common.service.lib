@@ -95,9 +95,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
         }
         Location location = locationService.findByLocationId(actualLocation).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", actualLocation)));
         TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType.getType()).orElseThrow(() -> new ServiceLayerException(format("TransportUnitType [%s] not found", transportUnitType)));
-        transportUnit = new TransportUnit(barcode);
-        transportUnit.setTransportUnitType(type);
-        transportUnit.setActualLocation(location);
+        transportUnit = new TransportUnit(barcode, type, location);
         transportUnit = repository.save(transportUnit);
         ctx.publishEvent(TransportUnitEvent.newBuilder().tu(transportUnit).type(TransportUnitEvent.TransportUnitEventType.CREATED).build());
         return transportUnit;
@@ -130,9 +128,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
 
         Location location = locationService.findByLocationIdOrPlcCode(actualLocation).orElseThrow(() -> new NotFoundException(format("No Location with actual location [%s] found", actualLocation)));
         TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -> new ServiceLayerException(format("TransportUnitType [%s] not found", transportUnitType)));
-        TransportUnit transportUnit = new TransportUnit(barcode);
-        transportUnit.setTransportUnitType(type);
-        transportUnit.setActualLocation(location);
+        TransportUnit transportUnit = new TransportUnit(barcode, type, location);
         transportUnit = repository.save(transportUnit);
         ctx.publishEvent(TransportUnitEvent.newBuilder().tu(transportUnit).type(TransportUnitEvent.TransportUnitEventType.CREATED).build());
         return transportUnit;

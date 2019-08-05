@@ -23,6 +23,7 @@ import org.openwms.common.transport.ObjectFactory;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.TypePlacingRule;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -39,7 +40,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  */
 @ExtendWith(SpringExtension.class)// RunWith(SpringRunner.class)
 @Tag("IntegrationTest")
-public class TransportUnitTypeIT {
+@DataJpaTest
+class TransportUnitTypeIT {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -47,9 +49,9 @@ public class TransportUnitTypeIT {
     private TransportUnitTypeRepository repository;
 
     @Test void testUniqueConstraint() {
-        repository.save(ObjectFactory.createTransportUnitType("TUT1"));
+        repository.saveAndFlush(ObjectFactory.createTransportUnitType("TUT1"));
         assertThatThrownBy(
-                () -> repository.save(ObjectFactory.createTransportUnitType("TUT1")))
+                () -> repository.saveAndFlush(ObjectFactory.createTransportUnitType("TUT1")))
                 .isInstanceOf(DataIntegrityViolationException.class);
     }
 
@@ -73,9 +75,7 @@ public class TransportUnitTypeIT {
     }
 
     @Test void testCascadingTypePlacingRule() {
-        LocationType locationType = new LocationType("conveyor");
-        entityManager.persist(locationType);
-        entityManager.flush();
+        LocationType locationType = entityManager.find(LocationType.class,0L);
 
         TransportUnitType cartonType = ObjectFactory.createTransportUnitType("Carton Type");
         TypePlacingRule typePlacingRule = new TypePlacingRule(cartonType, locationType, 1);

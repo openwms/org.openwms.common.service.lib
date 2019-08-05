@@ -19,19 +19,21 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.openwms.common.TestData;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.transport.Barcode;
-import org.openwms.common.transport.ObjectFactory;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.UnitError;
+import org.openwms.common.units.Weight;
+import org.openwms.common.units.WeightUnit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import javax.persistence.Query;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -43,109 +45,105 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  */
 @ExtendWith(SpringExtension.class)// RunWith(SpringRunner.class)
 @Tag("IntegrationTest")
+@DataJpaTest
+@EnableSpringConfigured
 class TransportUnitIT {
 
     @Autowired
     private TestEntityManager entityManager;
     @Autowired
     private TransportUnitRepository repository;
-    @Autowired
-    private TransportUnitTypeRepository typeRepository;
 
+    private Location knownLocation;
     private TransportUnitType knownType;
-    private Location knownLocation1;
 
     @BeforeEach
     void onBefore() {
-        repository.deleteAll();
-        typeRepository.deleteAll();
-        entityManager.flush();
-        knownType = ObjectFactory.createTransportUnitType("Carton");
-        knownLocation1 = Location.create(new LocationPK("KNO4", "KNO4", "KNO4", "KNO4", "KNO4"));
-        entityManager.persist(knownType);
-        entityManager.persist(knownLocation1);
-        entityManager.flush();
+        knownLocation = entityManager.find(Location.class, TestData.LOCATION_PK_EXT);
+        knownType = entityManager.find(TransportUnitType.class, TestData.TUT_PK_PALLET);
     }
 
-    @Test void testCreation() {
-        TransportUnit transportUnit = ObjectFactory.createTransportUnit("NEVER_PERSISTED");
-        transportUnit.setTransportUnitType(knownType);
-        transportUnit.setActualLocation(knownLocation1);
-        repository.save(transportUnit);
+    @Test void shall_create_and_persist() {
+        TransportUnit transportUnit = new TransportUnit(Barcode.of("NEVER_PERSISTED"), knownType, knownLocation);
+        transportUnit = repository.save(transportUnit);
+        assertThat(transportUnit.isNew()).isFalse();
+        assertThat(transportUnit.getActualLocation()).isEqualTo(knownLocation);
+        assertThat(transportUnit.getTransportUnitType()).isEqualTo(knownType);
     }
 
-    @Test void testCreateTUWithUnknownType() {
-        TransportUnit transportUnit = ObjectFactory.createTransportUnit("NEVER_PERSISTED");
-        TransportUnitType tut = ObjectFactory.createTransportUnitType("UNKNOWN_TUT");
-        transportUnit.setTransportUnitType(tut);
+    @Test void shall_fail_with_transient_TUT() {
+        TransportUnit transportUnit = new TransportUnit(Barcode.of("NEVER_PERSISTED"), TransportUnitType.of("UNKNOWN_TUT"), knownLocation);
         assertThatThrownBy(
                 () -> repository.save(transportUnit))
-                .isInstanceOf(DataAccessException.class);
+                .isInstanceOf(DataAccessException.class)
+                .hasMessageContaining("transient value");
     }
 
 
-    @Test void testCreateTUWithUnknownActualLocation() {
-        TransportUnit transportUnit = ObjectFactory.createTransportUnit("NEVER_PERSISTED");
-        transportUnit.setTransportUnitType(knownType);
-        transportUnit.setActualLocation(Location.create(new LocationPK("UNKN", "UNKN", "UNKN", "UNKN", "UNKN")));
+    @Test void shall_fail_with_transient_actualLocation() {
+        TransportUnit transportUnit = new TransportUnit(Barcode.of("NEVER_PERSISTED"), knownType, Location.create(new LocationPK("UNKN", "UNKN", "UNKN", "UNKN", "UNKN")));
         assertThatThrownBy(
                 () -> repository.save(transportUnit))
-                .isInstanceOf(DataAccessException.class);
+                .isInstanceOf(DataAccessException.class)
+                .hasMessageContaining("transient value");
     }
 
-    @Test void testCreateTUWithUnknownTargetLocation() {
-        TransportUnit transportUnit = ObjectFactory.createTransportUnit("NEVER_PERSISTED");
-        transportUnit.setTransportUnitType(knownType);
-        transportUnit.setActualLocation(knownLocation1);
+    @Test void shall_fail_with_transient_targetLocation() {
+        TransportUnit transportUnit = new TransportUnit(Barcode.of("NEVER_PERSISTED"), knownType, knownLocation);
         transportUnit.setTargetLocation(Location.create(new LocationPK("UNKN", "UNKN", "UNKN", "UNKN", "UNKN")));
         assertThatThrownBy(
                 () -> entityManager.persistAndFlush(transportUnit))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("unsaved transient");
     }
 
-    @Test void testSaveTUWithKnownActualLocation() {
-        TransportUnit transportUnit = ObjectFactory.createTransportUnit("4711");
-
-        transportUnit.setTransportUnitType(knownType);
-        transportUnit.setActualLocation(knownLocation1);
+    @Test void shall_create_with_valid_targetLocation() {
+        TransportUnit transportUnit = new TransportUnit(Barcode.of("NEVER_PERSISTED"), knownType, knownLocation);
+        transportUnit.setTargetLocation(knownLocation);
 
         transportUnit = repository.save(transportUnit);
-        assertThat(transportUnit.isNew()).isFalse();
-        assertThat(transportUnit.getActualLocation()).isNotNull();
+        assertThat(transportUnit.getTargetLocation()).isEqualTo(knownLocation);
     }
 
-    @Test void testSaveTUwithKnownTargetLocation() {
-        TransportUnit transportUnit = ObjectFactory.createTransportUnit("4711");
 
-        transportUnit.setTransportUnitType(knownType);
-        transportUnit.setActualLocation(knownLocation1);
-        transportUnit.setTargetLocation(knownLocation1);
-
-        transportUnit = repository.save(transportUnit);
-        assertThat(transportUnit.isNew()).isFalse();
-        assertThat(transportUnit.getActualLocation()).isNotNull();
+    @Test void shall_add_an_error_to_a_new_TU() {
+        TransportUnit tu = new TransportUnit(Barcode.of("NEVER_PERSISTED"), knownType, knownLocation);
+        UnitError saved = tu.addError(
+                UnitError.newBuilder()
+                        .errorNo("NEVER_PERSISTED")
+                        .errorText("Damaged").build()
+        );
+        assertThat(saved.isNew()).isTrue();
+        entityManager.persistAndFlush(tu);
+        assertThat(entityManager.getEntityManager().createQuery("select count(u) from UnitError u").getResultList()).hasSize(1);
     }
 
-    @Test void testTUwithErrors() throws Exception {
-        TransportUnit transportUnit = new TransportUnit(Barcode.of("4711"));
+    @Test void shall_add_an_error_to_a_managed_TU() {
+        TransportUnit tu = new TransportUnit(Barcode.of("NEVER_PERSISTED"), knownType, knownLocation);
+        tu = entityManager.persistAndFlush(tu);
+        UnitError saved = tu.addError(
+                UnitError.newBuilder()
+                        .errorNo("NEVER_PERSISTED")
+                        .errorText("Damaged").build()
+        );
+        assertThat(saved.isNew()).isFalse();
+        assertThat(entityManager.getEntityManager().createQuery("select count(u) from UnitError u").getResultList()).hasSize(1);
+    }
 
-        transportUnit.setTransportUnitType(knownType);
-        transportUnit.setActualLocation(knownLocation1);
-        transportUnit.setTargetLocation(knownLocation1);
+    @Test void shall_cascade_operations_to_children() {
+        TransportUnit parent = new TransportUnit(Barcode.of("PARENT"), knownType, knownLocation);
+        TransportUnit child = new TransportUnit(Barcode.of("CHILD"), knownType, knownLocation);
 
-        transportUnit.addError(UnitError.newBuilder().build());
-        Thread.sleep(100);
-        transportUnit.addError(UnitError.newBuilder().build());
-        entityManager.persist(transportUnit);
+        parent.addChild(child);
 
-        Query query = entityManager.getEntityManager().createQuery("select count(ue) from UnitError ue", Long.class);
+        parent = entityManager.persistAndFlush(parent);
 
-        Long cnt = (Long) query.getSingleResult();
-        assertThat(cnt).isEqualTo(2);
+        assertThat(parent.isNew()).isFalse();
+        assertThat(child.isNew()).isFalse();
+        assertThat(parent.getChildren()).hasSize(1);
 
-        entityManager.remove(transportUnit);
-
-        cnt = (Long) query.getSingleResult();
-        assertThat(cnt).isEqualTo(0);
+        parent.getChildren().iterator().next().setWeight(new Weight("1", WeightUnit.KG));
+        entityManager.flush();
+        assertThat(child.getWeight()).isEqualTo(new Weight("1", WeightUnit.KG));
     }
 }

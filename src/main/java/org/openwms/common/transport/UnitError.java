@@ -15,22 +15,26 @@
  */
 package org.openwms.common.transport;
 
-import org.ameba.integration.jpa.BaseEntity;
+import org.ameba.integration.jpa.ApplicationEntity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * An UnitError represents an error occurring on {@code TransportUnit}s, on {@code LoadUnit}s or others.
+ * An UnitError represents an error occurring on a {@code TransportUnit}.
  *
  * @author Heiko Scherrer
  */
 @Entity
 @Table(name = "COM_UNIT_ERROR")
-public class UnitError extends BaseEntity implements Serializable {
+public class UnitError extends ApplicationEntity implements Serializable {
 
     /** Separator to use in toString method. */
     static final String SEPARATOR = "::";
@@ -43,6 +47,10 @@ public class UnitError extends BaseEntity implements Serializable {
     @Column(name = "C_ERROR_TEXT")
     private String errorText;
 
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "C_TU_ID", foreignKey = @ForeignKey(name = "FK_TU_PK"))
+    private TransportUnit tu;
+
     /*~ ----------------------------- constructors ------------------- */
 
     /**
@@ -52,8 +60,9 @@ public class UnitError extends BaseEntity implements Serializable {
     }
 
     private UnitError(Builder builder) {
-        setErrorNo(builder.errorNo);
-        setErrorText(builder.errorText);
+        this.errorNo = builder.errorNo;
+        this.errorText = builder.errorText;
+        this.tu = builder.tu;
     }
 
     public static Builder newBuilder() {
@@ -72,15 +81,6 @@ public class UnitError extends BaseEntity implements Serializable {
     }
 
     /**
-     * Set the error number.
-     *
-     * @param errorNo The errorNo to set.
-     */
-    public void setErrorNo(String errorNo) {
-        this.errorNo = errorNo;
-    }
-
-    /**
      * Return the error text.
      *
      * @return The error text
@@ -90,12 +90,12 @@ public class UnitError extends BaseEntity implements Serializable {
     }
 
     /**
-     * Set the error text.
+     * Set the TransportUnit for this error.
      *
-     * @param errorText The errorText to set.
+     * @param tu The TransportUnit instance
      */
-    public void setErrorText(String errorText) {
-        this.errorText = errorText;
+    void setTu(TransportUnit tu) {
+        this.tu = tu;
     }
 
     /**
@@ -134,37 +134,26 @@ public class UnitError extends BaseEntity implements Serializable {
 
         private String errorNo;
         private String errorText;
+        private TransportUnit tu;
 
         private Builder() {
         }
 
-        /**
-         * Sets the {@code errorNo} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param val the {@code errorNo} to set
-         * @return a reference to this Builder
-         */
         public Builder errorNo(String val) {
             errorNo = val;
             return this;
         }
 
-        /**
-         * Sets the {@code errorText} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param val the {@code errorText} to set
-         * @return a reference to this Builder
-         */
         public Builder errorText(String val) {
             errorText = val;
             return this;
         }
 
-        /**
-         * Returns a {@code UnitError} built from the parameters previously set.
-         *
-         * @return a {@code UnitError} built with parameters of this {@code UnitError.Builder}
-         */
+        public Builder tu(TransportUnit val) {
+            tu = val;
+            return this;
+        }
+
         public UnitError build() {
             return new UnitError(this);
         }

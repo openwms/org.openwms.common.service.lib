@@ -50,8 +50,11 @@ import java.util.Set;
  * @see org.openwms.common.location.LocationGroup
  */
 @Entity
-@Table(name = "COM_LOCATION", uniqueConstraints = @UniqueConstraint(columnNames = {"C_AREA", "C_AISLE", "C_X", "C_Y", "C_Z"}))
+@Table(name = Location.TABLE, uniqueConstraints = @UniqueConstraint(columnNames = {"C_AREA", "C_AISLE", "C_X", "C_Y", "C_Z"}))
 public class Location extends ApplicationEntity implements Serializable {
+
+    /** Table name. */
+    public static final String TABLE = "COM_LOCATION";
 
     /** Unique natural key. */
     @Embedded

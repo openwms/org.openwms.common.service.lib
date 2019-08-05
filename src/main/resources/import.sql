@@ -81,7 +81,7 @@ insert into com_location (c_pk,c_area,c_aisle,c_x,c_y,c_z,c_description,c_locati
 insert into com_location (c_pk,c_area,c_aisle,c_x,c_y,c_z,c_description,c_location_type,c_no_max_transport_units,c_counting_active,c_location_group,c_plc_state,c_ol,c_pid,c_considered_in_allocation,c_incoming_active,c_outgoing_active,c_lg_counting_active,c_sort,c_created,c_updated) values ('31','FGIN','IPNT','0002','0000','0000','I-Point 2',1,'1','0',10030,0,'31','227916500906',true,true,true,true,0,now(),now());
 
 -- TransportUnitTypes
-insert into com_transport_unit_type (c_pk,c_type,c_description,c_height,c_length,c_width,c_weight_tare,c_weight_max,c_ol,c_created,c_updated) values (1,'PALLET','Euro pallet',102,120,80,25,-1,1,now(),now());
+insert into com_transport_unit_type (c_pk,c_type,c_description,c_height,c_length,c_width,c_weight_tare,c_weight_max,c_ol,c_created,c_updated) values (0,'PALLET','Euro pallet',102,120,80,25,-1,1,now(),now());
 
 -- TransportUnit
-insert into com_transport_unit (c_pk,c_pid,c_barcode,c_state,c_actual_location,c_transport_unit_type,c_actual_location_date,c_ol,c_created) values (1,1,'00000000000000004711','AVAILABLE',29,1,now(),1,now());
+insert into com_transport_unit (c_pk,c_pid,c_barcode,c_state,c_actual_location,c_transport_unit_type,c_actual_location_date,c_ol,c_created) values (0,1,'00000000000000004711','AVAILABLE',29,0,now(),1,now());

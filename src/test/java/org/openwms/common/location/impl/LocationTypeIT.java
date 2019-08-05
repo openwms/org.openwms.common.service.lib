@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openwms.common.location.LocationType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -32,17 +33,17 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  */
 @ExtendWith(SpringExtension.class)// RunWith(SpringRunner.class)
 @Tag("IntegrationTest")
-public class LocationTypeIT {
+@DataJpaTest
+class LocationTypeIT {
 
     @Autowired
     private LocationTypeRepository repository;
 
     @Test
     void testUniqueConstraint() {
-        repository.save(new LocationType("conveyor"));
-
+        repository.saveAndFlush(new LocationType("conveyor"));
         assertThatThrownBy(
-                () -> repository.save(new LocationType("conveyor")))
+                () -> repository.saveAndFlush(new LocationType("conveyor")))
                 .isInstanceOf(DataIntegrityViolationException.class);
     }
 }

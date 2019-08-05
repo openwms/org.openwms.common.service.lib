@@ -151,6 +151,16 @@ public class TransportUnitType extends BaseEntity implements Serializable {
     /*~ ----------------------------- methods ------------------- */
 
     /**
+     * Factory method to create a new TransportUnitType.
+     *
+     * @param type The business key
+     * @return The instance
+     */
+    public static TransportUnitType of(String type) {
+        return new TransportUnitType(type);
+    }
+
+    /**
      * Returns the type of the {@code TransportUnitType}.
      *
      * @return The type
