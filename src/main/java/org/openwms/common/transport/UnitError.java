@@ -72,24 +72,6 @@ public class UnitError extends ApplicationEntity implements Serializable {
     /*~ ----------------------------- methods ------------------- */
 
     /**
-     * Return the error number.
-     *
-     * @return The error number
-     */
-    public String getErrorNo() {
-        return errorNo;
-    }
-
-    /**
-     * Return the error text.
-     *
-     * @return The error text
-     */
-    public String getErrorText() {
-        return errorText;
-    }
-
-    /**
      * Set the TransportUnit for this error.
      *
      * @param tu The TransportUnit instance

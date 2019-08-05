@@ -107,11 +107,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
 
     /*~ ----------------------------- constructors ------------------- */
 
-    /**
-     * Dear JPA...
-     */
-    protected TransportUnitType() {
-    }
+    /** Dear JPA... */
+    protected TransportUnitType() { }
 
     /**
      * Create a new {@code TransportUnitType}.

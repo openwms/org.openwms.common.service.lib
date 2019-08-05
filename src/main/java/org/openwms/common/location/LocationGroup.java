@@ -17,6 +17,7 @@ package org.openwms.common.location;
 
 import org.ameba.exception.ServiceLayerException;
 import org.openwms.common.StateChangeException;
+import org.openwms.common.location.api.LocationGroupMode;
 import org.openwms.common.location.api.LocationGroupState;
 import org.springframework.util.Assert;
 
@@ -64,6 +65,10 @@ public class LocationGroup extends Target implements Serializable {
     /** Is the {@code LocationGroup} included in the calculation of {@code TransportUnit}s. */
     @Column(name = "C_GROUP_COUNTING_ACTIVE")
     private boolean locationGroupCountingActive = true;
+
+    /** The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in. */
+    @Column(name = "C_OP_MODE")
+    private String operationMode = LocationGroupMode.INFEED_AND_OUTFEED;
 
     /** State of infeed, controlled by the subsystem only. */
     @Column(name = "C_GROUP_STATE_IN")
@@ -166,6 +171,25 @@ public class LocationGroup extends Target implements Serializable {
      */
     public boolean isOutfeedBlocked() {
         return !isInfeedAllowed();
+    }
+
+    /**
+     * Get the current operation mode this LocationGroup operates in.
+     *
+     * @return The operational mode
+     */
+    public String getOperationMode() {
+        return operationMode;
+    }
+
+    /**
+     * Set the current operation mode this LocationGroup can operate in.
+     *
+     * @param operationMode The mode as an extensible String
+     * @see LocationGroupMode
+     */
+    public void setOperationMode(String operationMode) {
+        this.operationMode = operationMode;
     }
 
     /**

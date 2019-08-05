@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openwms.common.location.LocationType;
-import org.openwms.common.transport.ObjectFactory;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.TypePlacingRule;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +48,9 @@ class TransportUnitTypeIT {
     private TransportUnitTypeRepository repository;
 
     @Test void testUniqueConstraint() {
-        repository.saveAndFlush(ObjectFactory.createTransportUnitType("TUT1"));
+        repository.saveAndFlush(new TransportUnitType("TUT1"));
         assertThatThrownBy(
-                () -> repository.saveAndFlush(ObjectFactory.createTransportUnitType("TUT1")))
+                () -> repository.saveAndFlush(new TransportUnitType("TUT1")))
                 .isInstanceOf(DataIntegrityViolationException.class);
     }
 
@@ -60,7 +59,7 @@ class TransportUnitTypeIT {
         entityManager.persist(locationType);
         entityManager.flush();
 
-        TransportUnitType cartonType = ObjectFactory.createTransportUnitType("Carton Type");
+        TransportUnitType cartonType = new TransportUnitType("Carton Type");
         TypePlacingRule typePlacingRule = new TypePlacingRule(cartonType, locationType, 1);
         cartonType.addTypePlacingRule(typePlacingRule);
         cartonType = entityManager.merge(cartonType);
@@ -77,7 +76,7 @@ class TransportUnitTypeIT {
     @Test void testCascadingTypePlacingRule() {
         LocationType locationType = entityManager.find(LocationType.class,0L);
 
-        TransportUnitType cartonType = ObjectFactory.createTransportUnitType("Carton Type");
+        TransportUnitType cartonType = new TransportUnitType("Carton Type");
         TypePlacingRule typePlacingRule = new TypePlacingRule(cartonType, locationType, 1);
         cartonType.addTypePlacingRule(typePlacingRule);
         cartonType = entityManager.merge(cartonType);
