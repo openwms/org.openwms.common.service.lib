@@ -72,42 +72,24 @@ public class UnitError extends ApplicationEntity implements Serializable {
     /*~ ----------------------------- methods ------------------- */
 
     /**
-     * Return the error number.
-     *
-     * @return The error number
-     */
-    public String getErrorNo() {
-<span class="nc" id="L80">        return errorNo;</span>
-    }
-
-    /**
-     * Return the error text.
-     *
-     * @return The error text
-     */
-    public String getErrorText() {
-<span class="nc" id="L89">        return errorText;</span>
-    }
-
-    /**
      * Set the TransportUnit for this error.
      *
      * @param tu The TransportUnit instance
      */
     void setTu(TransportUnit tu) {
-<span class="fc" id="L98">        this.tu = tu;</span>
-<span class="fc" id="L99">    }</span>
+<span class="fc" id="L80">        this.tu = tu;</span>
+<span class="fc" id="L81">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L106" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L107" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L108">        UnitError unitError = (UnitError) o;</span>
-<span class="nc bnc" id="L109" title="All 2 branches missed.">        return Objects.equals(errorNo, unitError.errorNo) &amp;&amp;</span>
-<span class="nc bnc" id="L110" title="All 2 branches missed.">                Objects.equals(errorText, unitError.errorText);</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L89" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L90">        UnitError unitError = (UnitError) o;</span>
+<span class="pc bfc" id="L91" title="All 2 branches covered.">        return Objects.equals(errorNo, unitError.errorNo) &amp;&amp;</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">                Objects.equals(errorText, unitError.errorText);</span>
     }
 
     /**
@@ -115,7 +97,7 @@ public class UnitError extends ApplicationEntity implements Serializable {
      */
     @Override
     public int hashCode() {
-<span class="nc" id="L118">        return Objects.hash(errorNo, errorText);</span>
+<span class="nc" id="L100">        return Objects.hash(errorNo, errorText);</span>
     }
 
     /**
@@ -123,7 +105,7 @@ public class UnitError extends ApplicationEntity implements Serializable {
      */
     @Override
     public String toString() {
-<span class="nc" id="L126">        return errorNo + SEPARATOR + errorText;</span>
+<span class="nc" id="L108">        return errorNo + SEPARATOR + errorText;</span>
     }
 
 
@@ -140,22 +122,22 @@ public class UnitError extends ApplicationEntity implements Serializable {
         }
 
         public Builder errorNo(String val) {
-<span class="fc" id="L143">            errorNo = val;</span>
-<span class="fc" id="L144">            return this;</span>
+<span class="fc" id="L125">            errorNo = val;</span>
+<span class="fc" id="L126">            return this;</span>
         }
 
         public Builder errorText(String val) {
-<span class="fc" id="L148">            errorText = val;</span>
-<span class="fc" id="L149">            return this;</span>
+<span class="fc" id="L130">            errorText = val;</span>
+<span class="fc" id="L131">            return this;</span>
         }
 
         public Builder tu(TransportUnit val) {
-<span class="nc" id="L153">            tu = val;</span>
-<span class="nc" id="L154">            return this;</span>
+<span class="nc" id="L135">            tu = val;</span>
+<span class="nc" id="L136">            return this;</span>
         }
 
         public UnitError build() {
-<span class="fc" id="L158">            return new UnitError(this);</span>
+<span class="fc" id="L140">            return new UnitError(this);</span>
         }
     }
 }
