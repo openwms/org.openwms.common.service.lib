@@ -69,7 +69,14 @@ public class UnitError extends ApplicationEntity implements Serializable {
         return new Builder();
     }
 
-    /*~ ----------------------------- methods ------------------- */
+    /*~ ----------------------------- accessors ------------------- */
+    public String getErrorNo() {
+        return errorNo;
+    }
+
+    public String getErrorText() {
+        return errorText;
+    }
 
     /**
      * Set the TransportUnit for this error.

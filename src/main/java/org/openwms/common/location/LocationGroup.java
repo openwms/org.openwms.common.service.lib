@@ -69,12 +69,15 @@ public class LocationGroup extends Target implements Serializable {
     /** The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in. */
     @Column(name = "C_OP_MODE")
     private String operationMode = LocationGroupMode.INFEED_AND_OUTFEED;
+    /** References the {@code LocationGroup} that locked this {@code LocationGroup} for this ones {@code operationMode}. */
+    @ManyToOne
+    @JoinColumn(name = "C_MODE_LOCKER")
+    private LocationGroup modeLocker;
 
     /** State of infeed, controlled by the subsystem only. */
     @Column(name = "C_GROUP_STATE_IN")
     @Enumerated(EnumType.STRING)
     private LocationGroupState groupStateIn = LocationGroupState.AVAILABLE;
-
     /** References the {@code LocationGroup} that locked this {@code LocationGroup} for infeed. */
     @ManyToOne
     @JoinColumn(name = "C_IN_LOCKER")
@@ -84,7 +87,6 @@ public class LocationGroup extends Target implements Serializable {
     @Column(name = "C_GROUP_STATE_OUT")
     @Enumerated(EnumType.STRING)
     private LocationGroupState groupStateOut = LocationGroupState.AVAILABLE;
-
     /** References the {@code LocationGroup} that locked this {@code LocationGroup} for outfeed. */
     @ManyToOne
     @JoinColumn(name = "C_OUT_LOCKER")
