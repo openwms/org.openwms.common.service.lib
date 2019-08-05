@@ -215,10 +215,10 @@ public class Barcode implements Serializable {
      */
     @Override
     public int hashCode() {
-<span class="nc" id="L218">        final int prime = 31;</span>
-<span class="nc" id="L219">        int result = super.hashCode();</span>
-<span class="nc bnc" id="L220" title="All 2 branches missed.">        result = prime * result + ((value == null) ? 0 : value.hashCode());</span>
-<span class="nc" id="L221">        return result;</span>
+<span class="fc" id="L218">        final int prime = 31;</span>
+<span class="fc" id="L219">        int result = super.hashCode();</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">        result = prime * result + ((value == null) ? 0 : value.hashCode());</span>
+<span class="fc" id="L221">        return result;</span>
     }
 
     /**
@@ -240,8 +240,8 @@ public class Barcode implements Serializable {
 <span class="nc bnc" id="L240" title="All 2 branches missed.">            if (other.value != null) {</span>
 <span class="nc" id="L241">                return false;</span>
             }
-<span class="pc bpc" id="L243" title="1 of 2 branches missed.">        } else if (!value.equals(other.value)) {</span>
-<span class="nc" id="L244">            return false;</span>
+<span class="fc bfc" id="L243" title="All 2 branches covered.">        } else if (!value.equals(other.value)) {</span>
+<span class="fc" id="L244">            return false;</span>
         }
 <span class="fc" id="L246">        return true;</span>
     }
