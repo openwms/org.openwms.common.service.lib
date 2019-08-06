@@ -20,7 +20,7 @@ OpenWMS.org COMMON: Services,org.openwms.common.transport.api,UnitErrorVO,17,0,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api,TransportUnitTypeVO,37,0,0,0,17,0,10,0,10,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api,TransportUnitVO,169,0,24,0,31,0,26,0,14,0
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationConverter,111,0,22,0,5,0,16,0,5,0
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl,211,0,14,0,42,0,19,0,12,0
+OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl,249,0,14,0,52,0,21,0,14,0
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl.AjcClosure3,13,0,0,0,1,0,2,0,2,0
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl.AjcClosure1,13,0,0,0,1,0,2,0,2,0
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure1,13,0,0,0,1,0,2,0,2,0
@@ -40,11 +40,11 @@ OpenWMS.org COMMON: Services,org.openwms.common.units,Weight,86,118,14,10,20,31,
 OpenWMS.org COMMON: Services,org.openwms.common.location,LocationPK.Builder,0,34,0,0,0,12,0,7,0,7
 OpenWMS.org COMMON: Services,org.openwms.common.location,Message,2,92,2,8,0,20,2,12,0,9
 OpenWMS.org COMMON: Services,org.openwms.common.location,Subsystem,32,0,0,0,14,0,7,0,7,0
-OpenWMS.org COMMON: Services,org.openwms.common.location,LocationGroup,145,391,46,42,28,82,43,44,12,31
+OpenWMS.org COMMON: Services,org.openwms.common.location,LocationGroup,154,391,46,42,29,82,44,44,13,31
 OpenWMS.org COMMON: Services,org.openwms.common.location,LocationController,174,0,22,0,25,0,19,0,8,0
 OpenWMS.org COMMON: Services,org.openwms.common.location,LocationPK,38,181,13,9,10,34,17,9,6,9
 OpenWMS.org COMMON: Services,org.openwms.common.location,Location,54,218,7,9,16,50,18,27,13,24
-OpenWMS.org COMMON: Services,org.openwms.common.location,LocationGroupController,135,0,4,0,28,0,10,0,8,0
+OpenWMS.org COMMON: Services,org.openwms.common.location,LocationGroupController,141,0,4,0,32,0,11,0,9,0
 OpenWMS.org COMMON: Services,org.openwms.common.location,Message.Builder,0,16,0,0,0,5,0,3,0,3
 OpenWMS.org COMMON: Services,org.openwms.common.location,LocationType,18,84,2,4,8,21,6,11,4,10
 OpenWMS.org COMMON: Services,org.openwms.common.location,LocationGroupEventPropagator,164,0,10,0,29,0,12,0,4,0
