@@ -15,16 +15,15 @@
  */
 package org.openwms.common.location;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.validation.constraints.NotEmpty;
+
 /**
  * A Subsystem.
  *
  * @author Heiko Scherrer
  */
-
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.validation.constraints.NotEmpty;
-
 @Embeddable
 public class Subsystem {
     /**
