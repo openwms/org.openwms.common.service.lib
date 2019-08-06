@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Heiko Scherrer
+ * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,7 +58,9 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public void changeGroupState(String pKey, LocationGroupState stateIn, LocationGroupState stateOut) {
-        LocationGroup locationGroup = locationGroupRepository.findByPKey(pKey).orElseThrow(NotFoundException::new);
+        LocationGroup locationGroup = locationGroupRepository
+                .findByPKey(pKey)
+                .orElseThrow(NotFoundException::new);
         locationGroup.changeState(stateIn, stateOut);
         ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));
     }
@@ -68,13 +70,28 @@ class LocationGroupServiceImpl implements LocationGroupService {
      */
     @Override
     @Measured
-    public void changeGroupStates(String locationGroupName, Optional<LocationGroupState> stateIn, Optional<LocationGroupState> stateOut) {
-        LocationGroup locationGroup = locationGroupRepository.findByName(locationGroupName).orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{locationGroupName}, locationGroupName));
+    public void changeGroupStates(String name, Optional<LocationGroupState> stateIn, Optional<LocationGroupState> stateOut) {
+        LocationGroup locationGroup = locationGroupRepository
+                .findByName(name)
+                .orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{name}, name));
         stateIn.ifPresent(locationGroup::changeGroupStateIn);
         stateOut.ifPresent(locationGroup::changeGroupStateOut);
         if (stateIn.isPresent() || stateOut.isPresent()) {
             ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public void changeOperationMode(String name, String mode) {
+        LocationGroup locationGroup = locationGroupRepository
+                .findByName(name)
+                .orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{name}, name));
+        locationGroup.setOperationMode(mode);
+        locationGroupRepository.save(locationGroup);
     }
 
     /**

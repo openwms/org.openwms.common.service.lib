@@ -22,7 +22,10 @@ package org.openwms.common;
  */
 public final class TestData {
 
-    public static final Long LOCATION_PK_EXT = 29L;
+    public static final Long LOCATION_PK_EXT = 1029L;
+    public static final Long LOCATION_PK_FGIN0001LEFT = 1012L;
 
-    public static final Long TUT_PK_PALLET = 0L;
+    public static final Long TUT_PK_PALLET = 1000L;
+
+    public static final Long TU_1 = 1000L;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Heiko Scherrer
+ * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ public class LocationGroupMode {
     /** The subsystem connected to the {@code LocationGroup} is able to drive Infeed and Outfeed operations. */
     public static final String INFEED_AND_OUTFEED = "INFEED_AND_OUTFEED";
     /** The subsystem connected to the {@code LocationGroup} is blocked for any operations. */
-    public static final String BLOCKED = "BLOCKED";
+    public static final String NO_OPERATION = "NO_OPERATION";
 
     // Not meant to be instantiated
     private LocationGroupMode() {

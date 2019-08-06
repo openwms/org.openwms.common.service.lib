@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Heiko Scherrer
+ * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,7 +56,8 @@ public class LocationGroupController {
     private final ErrorCodeTransformers.GroupStateIn groupStateIn;
     private final ErrorCodeTransformers.GroupStateOut groupStateOut;
 
-    LocationGroupController(LocationGroupService locationGroupService, BeanMapper mapper, ErrorCodeTransformers.GroupStateIn groupStateIn, ErrorCodeTransformers.GroupStateOut groupStateOut) {
+    LocationGroupController(LocationGroupService locationGroupService, BeanMapper mapper, ErrorCodeTransformers.GroupStateIn groupStateIn,
+            ErrorCodeTransformers.GroupStateOut groupStateOut) {
         this.locationGroupService = locationGroupService;
         this.mapper = mapper;
         this.groupStateIn = groupStateIn;
@@ -92,6 +93,14 @@ public class LocationGroupController {
                 name,
                 groupStateIn.available(errorCode.getErrorCode()),
                 groupStateOut.available(errorCode.getErrorCode())
+        );
+    }
+
+    @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"name"})
+    public void updateMode(@RequestParam(name = "name") String name, @RequestBody String mode) {
+        locationGroupService.changeOperationMode(
+                name,
+                mode
         );
     }
 

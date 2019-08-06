@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Heiko Scherrer
+ * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A LocationGroup is a logical group of {@code Location}s with same characteristics. This is useful
+ * A LocationGroup is a logical group of {@code Location}s with same characteristics.
  *
  * @author Heiko Scherrer
  * @GlossaryTerm
@@ -69,15 +69,12 @@ public class LocationGroup extends Target implements Serializable {
     /** The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in. */
     @Column(name = "C_OP_MODE")
     private String operationMode = LocationGroupMode.INFEED_AND_OUTFEED;
-    /** References the {@code LocationGroup} that locked this {@code LocationGroup} for this ones {@code operationMode}. */
-    @ManyToOne
-    @JoinColumn(name = "C_MODE_LOCKER")
-    private LocationGroup modeLocker;
 
     /** State of infeed, controlled by the subsystem only. */
     @Column(name = "C_GROUP_STATE_IN")
     @Enumerated(EnumType.STRING)
     private LocationGroupState groupStateIn = LocationGroupState.AVAILABLE;
+
     /** References the {@code LocationGroup} that locked this {@code LocationGroup} for infeed. */
     @ManyToOne
     @JoinColumn(name = "C_IN_LOCKER")
@@ -87,6 +84,7 @@ public class LocationGroup extends Target implements Serializable {
     @Column(name = "C_GROUP_STATE_OUT")
     @Enumerated(EnumType.STRING)
     private LocationGroupState groupStateOut = LocationGroupState.AVAILABLE;
+
     /** References the {@code LocationGroup} that locked this {@code LocationGroup} for outfeed. */
     @ManyToOne
     @JoinColumn(name = "C_OUT_LOCKER")
@@ -192,6 +190,7 @@ public class LocationGroup extends Target implements Serializable {
      */
     public void setOperationMode(String operationMode) {
         this.operationMode = operationMode;
+        this.locationGroups.forEach(lg -> lg.setOperationMode(operationMode));
     }
 
     /**

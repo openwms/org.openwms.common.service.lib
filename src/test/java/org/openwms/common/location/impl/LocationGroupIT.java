@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Heiko Scherrer
+ * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,10 +33,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
-@ExtendWith(SpringExtension.class)// RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @Tag("IntegrationTest")
 @DataJpaTest
-public class LocationGroupIT {
+class LocationGroupIT {
 
     private static final String KNOWN_LG = "KNOWN";
     @Autowired
@@ -59,8 +59,7 @@ public class LocationGroupIT {
     /**
      * Creating two groups with same id must fail.
      */
-    @Test
-    final void testNameConstraint() {
+    @Test void testNameConstraint() {
         assertThatThrownBy(
                 () -> repository.saveAndFlush(new LocationGroup(KNOWN_LG)))
                 .isInstanceOf(DataIntegrityViolationException.class);
