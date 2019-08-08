@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocationServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.location.impl</a> &gt; <span class="el_source">LocationServiceImpl.java</span></div><h1>LocationServiceImpl.java</h1><pre class="source lang-java linenums"><span class="nc" id="L1">/*</span>
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocationServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.location.impl</a> &gt; <span class="el_source">LocationServiceImpl.java</span></div><h1>LocationServiceImpl.java</h1><pre class="source lang-java linenums">/*
  * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
@@ -22,13 +22,11 @@ import org.ameba.exception.ServiceLayerException;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
-import org.openwms.common.location.LocationType;
 import org.openwms.common.location.Message;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.events.LocationEvent;
 import org.springframework.context.ApplicationContext;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -45,64 +43,24 @@ import static java.lang.String.format;
 class LocationServiceImpl implements LocationService {
 
     private final LocationRepository locationRepository;
-    private final LocationTypeRepository locationTypeRepository;
     private final ApplicationContext ctx;
 
-<span class="nc" id="L51">    LocationServiceImpl(LocationRepository locationRepository, LocationTypeRepository locationTypeRepository, ApplicationContext ctx) {</span>
-<span class="nc" id="L52">        this.locationRepository = locationRepository;</span>
-<span class="nc" id="L53">        this.locationTypeRepository = locationTypeRepository;</span>
-<span class="nc" id="L54">        this.ctx = ctx;</span>
-<span class="nc" id="L55">    }</span>
+<span class="nc" id="L48">    LocationServiceImpl(LocationRepository locationRepository, ApplicationContext ctx) {</span>
+<span class="nc" id="L49">        this.locationRepository = locationRepository;</span>
+<span class="nc" id="L50">        this.ctx = ctx;</span>
+<span class="nc" id="L51">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     @Measured
-    @Transactional(readOnly = true)
-<span class="nc" id="L63">    public List&lt;Location&gt; getAllLocations() {</span>
-        return locationRepository.findAll();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Measured
-    public Location removeMessages(Long id, List&lt;Message&gt; messages) {
-<span class="nc" id="L73">        Location location = locationRepository.findById(id).orElseThrow(() -&gt; new ServiceLayerException(format(&quot;Location with pk [%s] not found, probably it was removed before&quot;, id)));</span>
-<span class="nc" id="L74">        location.removeMessages(messages.toArray(new Message[0]));</span>
-<span class="nc" id="L75">        return location;</span>
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Measured
-    @Transactional(readOnly = true)
-<span class="nc" id="L84">    public List&lt;LocationType&gt; getAllLocationTypes() {</span>
-        return locationTypeRepository.findAll();
-    }
-
-    /**
-     * {@inheritDoc}
-     * &lt;p&gt;
-     * The implementation uses the id to find the {@link LocationType} to be removed and will removed the type when found.
-     */
-    @Override
-    @Measured
-    public void deleteLocationTypes(List&lt;LocationType&gt; locationTypes) {
-<span class="nc" id="L96">        locationTypes.forEach(locationType -&gt; locationTypeRepository.deleteById(locationType.getPk()));</span>
-<span class="nc" id="L97">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Measured
-    public LocationType saveLocationType(LocationType locationType) {
-<span class="nc" id="L105">        return locationTypeRepository.save(locationType);</span>
+    public Location removeMessages(String pKey, List&lt;Message&gt; messages) {
+<span class="nc" id="L59">        Location location = locationRepository</span>
+<span class="nc" id="L60">                .findByPKey(pKey)</span>
+<span class="nc" id="L61">                .orElseThrow(() -&gt; new ServiceLayerException(format(&quot;Location with pKey [%s] not found&quot;, pKey)));</span>
+<span class="nc" id="L62">        location.removeMessages(messages.toArray(new Message[0]));</span>
+<span class="nc" id="L63">        return location;</span>
     }
 
     /**
@@ -111,7 +69,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public Optional&lt;Location&gt; findByLocationId(LocationPK locationPK) {
-<span class="nc" id="L114">        return locationRepository.findByLocationId(locationPK);</span>
+<span class="nc" id="L72">        return locationRepository.findByLocationId(locationPK);</span>
     }
 
     /**
@@ -120,7 +78,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public Optional&lt;Location&gt; findByPlcCode(String plcCode) {
-<span class="nc" id="L123">        return locationRepository.findByPlcCode(plcCode);</span>
+<span class="nc" id="L81">        return locationRepository.findByPlcCode(plcCode);</span>
     }
 
     /**
@@ -129,7 +87,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public Optional&lt;Location&gt; findByLocationId(String locationPK) {
-<span class="nc" id="L132">        return locationRepository.findByLocationId(LocationPK.fromString(locationPK));</span>
+<span class="nc" id="L90">        return locationRepository.findByLocationId(LocationPK.fromString(locationPK));</span>
     }
 
     /**
@@ -137,10 +95,10 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     public Optional&lt;Location&gt; findByLocationIdOrPlcCode(String location) {
-<span class="nc bnc" id="L140" title="All 2 branches missed.">        if (LocationPK.isValid(location)) {</span>
-<span class="nc" id="L141">            return locationRepository.findByLocationId(LocationPK.fromString(location));</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (LocationPK.isValid(location)) {</span>
+<span class="nc" id="L99">            return locationRepository.findByLocationId(LocationPK.fromString(location));</span>
         } else {
-<span class="nc" id="L143">            return locationRepository.findByPlcCode(location);</span>
+<span class="nc" id="L101">            return locationRepository.findByPlcCode(location);</span>
         }
     }
 
@@ -150,9 +108,9 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public List&lt;Location&gt; findAllOf(List&lt;String&gt; locationGroupNames) {
-<span class="nc bnc" id="L153" title="All 2 branches missed.">        return locationGroupNames.size() == 1 ?</span>
-<span class="nc" id="L154">            locationRepository.findByLocationGroup_Name(locationGroupNames.get(0)) :</span>
-<span class="nc" id="L155">            locationRepository.findByLocationGroup_Name(locationGroupNames);</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        return locationGroupNames.size() == 1 ?</span>
+<span class="nc" id="L112">            locationRepository.findByLocationGroup_Name(locationGroupNames.get(0)) :</span>
+<span class="nc" id="L113">            locationRepository.findByLocationGroup_Name(locationGroupNames);</span>
     }
 
     /**
@@ -162,35 +120,35 @@ class LocationServiceImpl implements LocationService {
     @Measured
     public void changeState(String pKey, ErrorCodeTransformers.LocationStateIn stateIn,
             ErrorCodeTransformers.LocationStateOut stateOut, ErrorCodeVO errorCode) {
-<span class="nc" id="L165">        Location location = locationRepository</span>
-<span class="nc" id="L166">                .findByPKey(pKey)</span>
-<span class="nc" id="L167">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with persistent key [%s] found&quot;, pKey)));</span>
+<span class="nc" id="L123">        Location location = locationRepository</span>
+<span class="nc" id="L124">                .findByPKey(pKey)</span>
+<span class="nc" id="L125">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with persistent key [%s] found&quot;, pKey)));</span>
 
-<span class="nc" id="L169">        boolean changed = false;</span>
-<span class="nc bnc" id="L170" title="All 2 branches missed.">        if (errorCode.getPlcState() != location.getPlcState()) {</span>
-<span class="nc" id="L171">            location.setPlcState(errorCode.getPlcState());</span>
-<span class="nc" id="L172">            changed = true;</span>
+<span class="nc" id="L127">        boolean changed = false;</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        if (errorCode.getPlcState() != location.getPlcState()) {</span>
+<span class="nc" id="L129">            location.setPlcState(errorCode.getPlcState());</span>
+<span class="nc" id="L130">            changed = true;</span>
         }
-<span class="nc" id="L174">        Optional&lt;Boolean&gt; infeedAvailable = stateIn.available(errorCode.getErrorCode());</span>
-<span class="nc bnc" id="L175" title="All 2 branches missed.">        if (infeedAvailable.isPresent() &amp;&amp;</span>
-<span class="nc bnc" id="L176" title="All 2 branches missed.">                location.getLocationGroup().isInfeedAllowed() &amp;&amp;</span>
-<span class="nc bnc" id="L177" title="All 2 branches missed.">                location.isInfeedActive() != infeedAvailable.get()) {</span>
-<span class="nc" id="L178">            location.setInfeed(infeedAvailable.get());</span>
-<span class="nc" id="L179">            changed = true;</span>
+<span class="nc" id="L132">        Optional&lt;Boolean&gt; infeedAvailable = stateIn.available(errorCode.getErrorCode());</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        if (infeedAvailable.isPresent() &amp;&amp;</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">                location.getLocationGroup().isInfeedAllowed() &amp;&amp;</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">                location.isInfeedActive() != infeedAvailable.get()) {</span>
+<span class="nc" id="L136">            location.setInfeed(infeedAvailable.get());</span>
+<span class="nc" id="L137">            changed = true;</span>
         }
-<span class="nc" id="L181">        Optional&lt;Boolean&gt; outfeedAvailable = stateOut.available(errorCode.getErrorCode());</span>
-<span class="nc bnc" id="L182" title="All 2 branches missed.">        if (outfeedAvailable.isPresent() &amp;&amp;</span>
-<span class="nc bnc" id="L183" title="All 2 branches missed.">                location.getLocationGroup().isOutfeedAllowed() &amp;&amp;</span>
-<span class="nc bnc" id="L184" title="All 2 branches missed.">                location.isOutfeedActive() != outfeedAvailable.get()) {</span>
-<span class="nc" id="L185">            location.setOutfeed(outfeedAvailable.get());</span>
-<span class="nc" id="L186">            changed = true;</span>
+<span class="nc" id="L139">        Optional&lt;Boolean&gt; outfeedAvailable = stateOut.available(errorCode.getErrorCode());</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">        if (outfeedAvailable.isPresent() &amp;&amp;</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">                location.getLocationGroup().isOutfeedAllowed() &amp;&amp;</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">                location.isOutfeedActive() != outfeedAvailable.get()) {</span>
+<span class="nc" id="L143">            location.setOutfeed(outfeedAvailable.get());</span>
+<span class="nc" id="L144">            changed = true;</span>
         }
-<span class="nc bnc" id="L188" title="All 2 branches missed.">        if (changed) {</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">        if (changed) {</span>
 
             // don't send twice only if one has changed
-<span class="nc" id="L191">            ctx.publishEvent(LocationEvent.of(location, LocationEvent.LocationEventType.STATE_CHANGE));</span>
+<span class="nc" id="L149">            ctx.publishEvent(LocationEvent.of(location, LocationEvent.LocationEventType.STATE_CHANGE));</span>
         }
-<span class="nc" id="L193">    }</span>
+<span class="nc" id="L151">    }</span>
 
     /**
      * {@inheritDoc}
@@ -198,8 +156,8 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public List&lt;Location&gt; findLocations(LocationPK locationPK) {
-<span class="nc" id="L201">        List&lt;Location&gt; result = locationRepository.findByLocationIdContaining(locationPK);</span>
-<span class="nc bnc" id="L202" title="All 2 branches missed.">        return result == null ? Collections.emptyList() : result;</span>
+<span class="nc" id="L159">        List&lt;Location&gt; result = locationRepository.findByLocationIdContaining(locationPK);</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">        return result == null ? Collections.emptyList() : result;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

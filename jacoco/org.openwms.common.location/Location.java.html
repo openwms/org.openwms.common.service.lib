@@ -436,7 +436,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * @throws IllegalArgumentException when messages is {@literal null}
      */
     public boolean removeMessages(Message... msgs) {
-<span class="fc" id="L439">        Assert.notNull(msgs, &quot;null passed to removeMessages, this: &quot; + this);</span>
+<span class="fc" id="L439">        Assert.notNull(msgs, () -&gt; &quot;null passed to removeMessages, this: &quot; + this);</span>
 <span class="fc" id="L440">        return this.messages.removeAll(Arrays.asList(msgs));</span>
     }
 
@@ -447,7 +447,7 @@ public class Location extends ApplicationEntity implements Serializable {
      * @param locationGroup The {@link LocationGroup} to be assigned
      */
     void setLocationGroup(LocationGroup locationGroup) {
-<span class="fc" id="L450">        Assert.notNull(locationGroup, &quot;Not allowed to call location#setLocationGroup with null argument, this: &quot; + this);</span>
+<span class="fc" id="L450">        Assert.notNull(locationGroup, () -&gt; &quot;Not allowed to call location#setLocationGroup with null argument, this: &quot; + this);</span>
 <span class="fc bfc" id="L451" title="All 2 branches covered.">        if (this.locationGroup != null) {</span>
 <span class="fc" id="L452">            this.locationGroup.removeLocation(this);</span>
         }
