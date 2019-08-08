@@ -21,8 +21,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import javax.persistence.PersistenceException;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -46,6 +47,6 @@ class LocationIT {
         Location loc2 = new Location(LocationPK.newBuilder().area("EXT_").aisle("0000").x("0000").y("0000").z("0000").build());
         assertThatThrownBy(
                 () -> em.persistAndFlush(loc2))
-                .isInstanceOf(DataIntegrityViolationException.class);
+                .isInstanceOf(PersistenceException.class).hasMessageContaining("ConstraintViolationException");
     }
 }

@@ -24,7 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * A LocationTypeServiceImpl is a transactional Spring managed bean.
+ * A LocationTypeServiceImpl is a Spring managed transactional Service that operates on {@link LocationType} entities and spans the
+ * tx boundary.
  *
  * @author Heiko Scherrer
  */
