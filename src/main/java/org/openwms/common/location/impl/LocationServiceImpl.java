@@ -22,13 +22,11 @@ import org.ameba.exception.ServiceLayerException;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
-import org.openwms.common.location.LocationType;
 import org.openwms.common.location.Message;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.events.LocationEvent;
 import org.springframework.context.ApplicationContext;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -45,12 +43,10 @@ import static java.lang.String.format;
 class LocationServiceImpl implements LocationService {
 
     private final LocationRepository locationRepository;
-    private final LocationTypeRepository locationTypeRepository;
     private final ApplicationContext ctx;
 
-    LocationServiceImpl(LocationRepository locationRepository, LocationTypeRepository locationTypeRepository, ApplicationContext ctx) {
+    LocationServiceImpl(LocationRepository locationRepository, ApplicationContext ctx) {
         this.locationRepository = locationRepository;
-        this.locationTypeRepository = locationTypeRepository;
         this.ctx = ctx;
     }
 
@@ -59,50 +55,12 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
-    @Transactional(readOnly = true)
-    public List<Location> getAllLocations() {
-        return locationRepository.findAll();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Measured
-    public Location removeMessages(Long id, List<Message> messages) {
-        Location location = locationRepository.findById(id).orElseThrow(() -> new ServiceLayerException(format("Location with pk [%s] not found, probably it was removed before", id)));
+    public Location removeMessages(String pKey, List<Message> messages) {
+        Location location = locationRepository
+                .findByPKey(pKey)
+                .orElseThrow(() -> new ServiceLayerException(format("Location with pKey [%s] not found", pKey)));
         location.removeMessages(messages.toArray(new Message[0]));
         return location;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Measured
-    @Transactional(readOnly = true)
-    public List<LocationType> getAllLocationTypes() {
-        return locationTypeRepository.findAll();
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * The implementation uses the id to find the {@link LocationType} to be removed and will removed the type when found.
-     */
-    @Override
-    @Measured
-    public void deleteLocationTypes(List<LocationType> locationTypes) {
-        locationTypes.forEach(locationType -> locationTypeRepository.deleteById(locationType.getPk()));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Measured
-    public LocationType saveLocationType(LocationType locationType) {
-        return locationTypeRepository.save(locationType);
     }
 
     /**

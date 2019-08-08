@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location;
+package org.openwms.common.location.impl;
 
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.location.api.events.LocationEvent;

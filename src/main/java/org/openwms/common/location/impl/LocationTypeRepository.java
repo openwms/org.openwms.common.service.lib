@@ -17,14 +17,15 @@ package org.openwms.common.location.impl;
 
 import org.openwms.common.location.LocationType;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 /**
  * A LocationTypeRepository adds particular functionality regarding {@link LocationType} entity classes.
  * 
  * @author Heiko Scherrer
  */
-@Repository
 interface LocationTypeRepository extends JpaRepository<LocationType, Long> {
 
+    Optional<LocationType> findByType(String type);
 }

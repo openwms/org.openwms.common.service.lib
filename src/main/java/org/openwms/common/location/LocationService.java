@@ -22,50 +22,20 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * A LocationService offers some useful methods regarding the general handling of {@link Location}s. <p> This interface is declared generic
- * typed that implementation classes can use any extension of {@link Location}s. </p>
+ * A LocationService offers useful methods according to the handling of {@link Location}s.
  *
  * @author Heiko Scherrer
  */
 public interface LocationService {
 
     /**
-     * Return a list of all {@link Location}s not sorted and not filtered in natural order.
-     *
-     * @return All {@link Location}s as a list
-     */
-    List<Location> getAllLocations();
-
-    /**
      * Removes a list of {@link Message}s from a Location.
      *
-     * @param id The technical key of the Location
+     * @param pKey The persistent key identifier of the Location
      * @param messages The messages to be removed
      * @return The updated Location
      */
-    Location removeMessages(Long id, List<Message> messages);
-
-    /**
-     * Return a list of all {@link LocationType}s not sorted and not filtered in natural order.
-     *
-     * @return All {@link LocationType}s as a list
-     */
-    List<LocationType> getAllLocationTypes();
-
-    /**
-     * Delete already persisted {@link LocationType} instances.
-     *
-     * @param locationTypes A list of all instances to be deleted.
-     */
-    void deleteLocationTypes(List<LocationType> locationTypes);
-
-    /**
-     * Saves a {@link LocationType}.
-     *
-     * @param locationType The type to save
-     * @return The saved type
-     */
-    LocationType saveLocationType(LocationType locationType);
+    Location removeMessages(String pKey, List<Message> messages);
 
     /**
      * Find and return a Location identified by the given {@code locationPK}.
@@ -78,7 +48,7 @@ public interface LocationService {
     /**
      * Find and return a Location identified by the given {@code locationPK}.
      *
-     * @param locationPK The business key of the Location to search for
+     * @param locationPK The business key as String of the Location to search for
      * @return The Location
      */
     Optional<Location> findByLocationId(String locationPK);
@@ -93,7 +63,7 @@ public interface LocationService {
     List<Location> findLocations(LocationPK locationPK);
 
     /**
-     * Find and return a {@link Location} by the given {@code plcCode}.
+     * Find and return a Location by the given {@code plcCode}.
      *
      * @param plcCode The PLC Code
      * @return The Location
@@ -101,9 +71,9 @@ public interface LocationService {
     Optional<Location> findByPlcCode(String plcCode);
 
     /**
-     * Find and return a Location {@link Location} by the given {@code location}.
+     * Find and return a Location by the given general {@code location} identifier.
      *
-     * @param location The LocationPK or the PLC Code
+     * @param location Either the LocationPK or the PLC Code
      * @return The Location
      */
     Optional<Location> findByLocationIdOrPlcCode(String location);
@@ -117,11 +87,10 @@ public interface LocationService {
     List<Location> findAllOf(List<String> locationGroupName);
 
     /**
-     * Change the infeed and outfeed state of a {@link Location} in respect of the
-     * according {@code LocationGroup}.
+     * Change the infeed and outfeed state of a {@link Location} in respect of the according {@code LocationGroup}.
      *
-     * @param pKey     The persistent key identifier of the Location to change
-     * @param stateIn  The new infeed state
+     * @param pKey The persistent key identifier of the Location to change
+     * @param stateIn The new infeed state
      * @param stateOut The new outfeed state
      */
     void changeState(String pKey, ErrorCodeTransformers.LocationStateIn stateIn, ErrorCodeTransformers.LocationStateOut stateOut, ErrorCodeVO errorCode);
