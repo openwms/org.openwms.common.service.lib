@@ -24,7 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * A LocationTypeServiceImpl is a transactional Spring managed bean.
+ * A LocationTypeServiceImpl is a Spring managed transactional Service that operates on {@link LocationType} entities and spans the
+ * tx boundary.
  *
  * @author Heiko Scherrer
  */
@@ -33,9 +34,9 @@ class LocationTypeServiceImpl implements LocationTypeService {
 
     private final LocationTypeRepository repository;
 
-<span class="fc" id="L36">    LocationTypeServiceImpl(LocationTypeRepository repository) {</span>
-<span class="fc" id="L37">        this.repository = repository;</span>
-<span class="fc" id="L38">    }</span>
+<span class="fc" id="L37">    LocationTypeServiceImpl(LocationTypeRepository repository) {</span>
+<span class="fc" id="L38">        this.repository = repository;</span>
+<span class="fc" id="L39">    }</span>
 
     /**
      * {@inheritDoc}
@@ -43,7 +44,7 @@ class LocationTypeServiceImpl implements LocationTypeService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-<span class="fc" id="L46">    public List&lt;LocationType&gt; findAll() {</span>
+<span class="fc" id="L47">    public List&lt;LocationType&gt; findAll() {</span>
         return repository.findAll();
     }
 
@@ -55,14 +56,14 @@ class LocationTypeServiceImpl implements LocationTypeService {
     @Override
     @Measured
     public void delete(List&lt;LocationType&gt; locationTypes) {
-<span class="fc" id="L58">        locationTypes.forEach(</span>
-<span class="fc" id="L59">                locationType -&gt; repository</span>
-<span class="fc" id="L60">                        .findByType(locationType.getType())</span>
-<span class="fc" id="L61">                        .ifPresent(</span>
-<span class="fc" id="L62">                                t -&gt; repository.deleteById(t.getPk())</span>
-<span class="fc" id="L63">                        )</span>
+<span class="fc" id="L59">        locationTypes.forEach(</span>
+<span class="fc" id="L60">                locationType -&gt; repository</span>
+<span class="fc" id="L61">                        .findByType(locationType.getType())</span>
+<span class="fc" id="L62">                        .ifPresent(</span>
+<span class="fc" id="L63">                                t -&gt; repository.deleteById(t.getPk())</span>
+<span class="fc" id="L64">                        )</span>
         );
-<span class="fc" id="L65">    }</span>
+<span class="fc" id="L66">    }</span>
 
     /**
      * {@inheritDoc}
@@ -70,7 +71,7 @@ class LocationTypeServiceImpl implements LocationTypeService {
     @Override
     @Measured
     public LocationType save(LocationType locationType) {
-<span class="fc" id="L73">        return repository.save(locationType);</span>
+<span class="fc" id="L74">        return repository.save(locationType);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

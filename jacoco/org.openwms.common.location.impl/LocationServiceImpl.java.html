@@ -35,7 +35,7 @@ import java.util.Optional;
 import static java.lang.String.format;
 
 /**
- * A LocationServiceImpl.
+ * A LocationServiceImpl is a Spring managed transactional Service that operates on {@link Location} entities and spans the tx boundary.
  *
  * @author Heiko Scherrer
  */
