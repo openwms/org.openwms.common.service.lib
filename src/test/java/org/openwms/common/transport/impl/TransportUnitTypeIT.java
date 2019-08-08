@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Heiko Scherrer
+ * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,10 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openwms.common.location.LocationType;
-import org.openwms.common.transport.ObjectFactory;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.TypePlacingRule;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -37,9 +37,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
-@ExtendWith(SpringExtension.class)// RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @Tag("IntegrationTest")
-public class TransportUnitTypeIT {
+@DataJpaTest
+class TransportUnitTypeIT {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -47,9 +48,9 @@ public class TransportUnitTypeIT {
     private TransportUnitTypeRepository repository;
 
     @Test void testUniqueConstraint() {
-        repository.save(ObjectFactory.createTransportUnitType("TUT1"));
+        repository.saveAndFlush(new TransportUnitType("TUT1"));
         assertThatThrownBy(
-                () -> repository.save(ObjectFactory.createTransportUnitType("TUT1")))
+                () -> repository.saveAndFlush(new TransportUnitType("TUT1")))
                 .isInstanceOf(DataIntegrityViolationException.class);
     }
 
@@ -58,7 +59,7 @@ public class TransportUnitTypeIT {
         entityManager.persist(locationType);
         entityManager.flush();
 
-        TransportUnitType cartonType = ObjectFactory.createTransportUnitType("Carton Type");
+        TransportUnitType cartonType = new TransportUnitType("Carton Type");
         TypePlacingRule typePlacingRule = new TypePlacingRule(cartonType, locationType, 1);
         cartonType.addTypePlacingRule(typePlacingRule);
         cartonType = entityManager.merge(cartonType);
@@ -73,11 +74,9 @@ public class TransportUnitTypeIT {
     }
 
     @Test void testCascadingTypePlacingRule() {
-        LocationType locationType = new LocationType("conveyor");
-        entityManager.persist(locationType);
-        entityManager.flush();
+        LocationType locationType = entityManager.find(LocationType.class,0L);
 
-        TransportUnitType cartonType = ObjectFactory.createTransportUnitType("Carton Type");
+        TransportUnitType cartonType = new TransportUnitType("Carton Type");
         TypePlacingRule typePlacingRule = new TypePlacingRule(cartonType, locationType, 1);
         cartonType.addTypePlacingRule(typePlacingRule);
         cartonType = entityManager.merge(cartonType);

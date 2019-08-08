@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Heiko Scherrer
+ * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,18 +30,18 @@ class TransportUnitTypeTest {
 
     @Test void testCreationWithNull() {
         assertThatThrownBy(
-                () -> ObjectFactory.createTransportUnitType(null))
+                () -> new TransportUnitType(null))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test void testCreationWithEmpty() {
         assertThatThrownBy(
-                () -> ObjectFactory.createTransportUnitType(""))
+                () -> new TransportUnitType(""))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test void testDefaultValues() {
-        TransportUnitType tut = ObjectFactory.createTransportUnitType("tut");
+        TransportUnitType tut = new TransportUnitType("tut");
         assertThat(tut.getDescription()).isEqualTo(TransportUnitType.DEF_TYPE_DESCRIPTION);
         assertThat(tut.getLength()).isEqualTo(TransportUnitType.DEF_LENGTH);
         assertThat(tut.getHeight()).isEqualTo(TransportUnitType.DEF_HEIGHT);
@@ -53,7 +53,7 @@ class TransportUnitTypeTest {
 
     @Test void testPlacingRuleHandling() {
         LocationType locationType = new LocationType("conveyor");
-        TransportUnitType tut = ObjectFactory.createTransportUnitType("tut");
+        TransportUnitType tut = new TransportUnitType("tut");
         TypePlacingRule typePlacingRule = new TypePlacingRule(tut, locationType, 1);
 
         tut.addTypePlacingRule(typePlacingRule);

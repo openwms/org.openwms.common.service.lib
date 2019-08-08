@@ -149,7 +149,7 @@
 			<a is-accessible="true">locationId</a>
 			<b is-accessible="true">locationId</b>
 		</field>
-		<field>
+		<field type="one-way">
 			<a is-accessible="true">locationGroup.name</a>
 			<b is-accessible="true">locationGroupName</b>
 		</field>
@@ -170,6 +170,10 @@
 	<mapping>
 		<class-a>org.openwms.common.location.LocationGroup</class-a>
 		<class-b>org.openwms.common.location.api.LocationGroupVO</class-b>
+		<field>
+			<a is-accessible="true">pKey</a>
+			<b is-accessible="true">pKey</b>
+		</field>
 		<field>
 			<a is-accessible="true">name</a>
 			<b is-accessible="true">name</b>
@@ -241,6 +245,5 @@
 			<a is-accessible="true">errorText</a>
 			<b is-accessible="true">errorText</b>
 		</field>
-
 	</mapping>
 </mappings>

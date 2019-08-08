@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2019 the original author or authors.
+ * Copyright 2019 Heiko Scherrer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,16 @@
 package org.openwms.common;
 
 /**
- * A CommonMessageCodes.
+ * A TestData.
  *
  * @author Heiko Scherrer
  */
-public final class CommonMessageCodes {
+public final class TestData {
 
-    /** Code to signal that no TransportUnit with given Barcode exists. */
-    public static final String BARCODE_NOT_FOUND ="COMMON.BARCODE_NOT_FOUND";
-    public static final String LOCATION_NOT_FOUND = "COMMON.LOCATION_NOT_FOUND";
-    public static final String LOCATION_GROUP_NOT_FOUND = "COMMON.LOCATION_GROUP_NOT_FOUND";
-    public static final String TRANSPORT_UNIT_TYPE_NOT_FOUND = "COMMON.TRANSPORT_UNIT_TYPE_NOT_FOUND";
+    public static final Long LOCATION_PK_EXT = 1029L;
+    public static final Long LOCATION_PK_FGIN0001LEFT = 1012L;
 
-    private CommonMessageCodes() {
-    }
+    public static final Long TUT_PK_PALLET = 1000L;
+
+    public static final Long TU_1 = 1000L;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Heiko Scherrer
+ * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ import org.ameba.integration.jpa.ApplicationEntity;
 import org.openwms.common.location.Location;
 import org.openwms.common.units.Weight;
 import org.openwms.core.values.CoreTypeDefinitions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.util.Assert;
 
 import javax.persistence.AttributeOverride;
@@ -26,32 +28,35 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
- * A TransportUnit is an item like a box, a toad, a bin or a palette that is moved around within a warehouse and can carry goods. <p> Used
- * as container to transport items like {@code LoadUnit}s. It can be moved between {@code Location}s. </p>
+ * A TransportUnit is an item like a box, a toad, a bin or a palette that is moved within a warehouse and can carry goods. Used as container
+ * to transport items like {@code LoadUnit}s. It can be moved between {@code Location}s.
  *
  * @author Heiko Scherrer
  * @GlossaryTerm
  */
+@Configurable
 @Entity
 @Table(name = "COM_TRANSPORT_UNIT", uniqueConstraints = @UniqueConstraint(columnNames = {"C_BARCODE"}))
 public class TransportUnit extends ApplicationEntity implements Serializable {
@@ -115,11 +120,13 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     @OrderBy("id DESC")
     private Set<TransportUnit> children = new HashSet<>();
 
-    /** A Map of errors occurred on the {@code TransportUnit}. */
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "COM_TRANSPORT_UNIT_ERROR", joinColumns = @JoinColumn(name = "C_TRANSPORT_UNIT_ID"), inverseJoinColumns = @JoinColumn(name = "C_ERROR_ID"))
-    // TODO [openwms]: 12/07/16 refactor into a JPA2 map without using Date as key!
-    private Map<Date, UnitError> errors = new HashMap<>();
+    /** A List of errors occurred on the {@code TransportUnit}. */
+    @OneToMany(mappedBy = "tu", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    private List<UnitError> errors = new ArrayList<>(0);
+
+    @Autowired
+    @Transient
+    private EntityManager em;
 
     /*~ ----------------------------- constructors ------------------- */
 
@@ -128,31 +135,12 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     }
 
     /**
-     * Create a new {@code TransportUnit} with an unique id. The id is used to create a {@link Barcode}.
-     *
-     * @param unitId The unique identifier of the {@code TransportUnit} - must not be empty
-     */
-    public TransportUnit(String unitId) {
-        Assert.hasText(unitId, "Not allowed to create a TransportUnit without an ID");
-        this.barcode = Barcode.of(unitId);
-    }
-
-    /**
-     * Create a new {@code TransportUnit} with an unique {@link Barcode}.
-     *
-     * @param barcode The unique identifier of this {@code TransportUnit} is the {@link Barcode} - must not be {@literal null}
-     */
-    public TransportUnit(Barcode barcode) {
-        Assert.notNull(barcode, "Barcode must not be null");
-        this.barcode = Barcode.of(barcode.adjustBarcode(barcode.getValue()));
-    }
-
-    /**
      * Create a new {@code TransportUnit} with an unique {@link Barcode}.
      *
      * @param barcode The unique identifier of this {@code TransportUnit} is the {@link Barcode} - must not be {@literal null}
      * @param tut The {@code TransportUnitType} of this {@code TransportUnit} - must not be {@literal null}
      * @param actualLocation The current {@code Location} of this {@code TransportUnit} - must not be {@literal null}
+     * @throws IllegalArgumentException when one of the params is {@literal null}
      */
     public TransportUnit(Barcode barcode, TransportUnitType tut, Location actualLocation) {
         Assert.notNull(barcode, "Barcode must not be null");
@@ -177,8 +165,10 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * Put the {@code TransportUnit} on a {@link Location}.
      *
      * @param actualLocation The new {@link Location} of the {@code TransportUnit}
+     * @throws IllegalArgumentException when {@code actualLocation} is {@literal null}
      */
     public void setActualLocation(Location actualLocation) {
+        Assert.notNull(actualLocation, () -> "ActualLocation must not be null, this: " + this);
         this.actualLocation = actualLocation;
         this.actualLocationDate = new Date();
         this.actualLocation.setLastMovement(this.actualLocationDate);
@@ -256,6 +246,9 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return The timestamp when the {@code TransportUnit} moved the last time
      */
     public Date getActualLocationDate() {
+        if (this.actualLocationDate == null) {
+            return null;
+        }
         return new Date(this.actualLocationDate.getTime());
     }
 
@@ -265,7 +258,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return The timestamp of the last inventory check of the {@code TransportUnit}.
      */
     public Date getInventoryDate() {
-        if (inventoryDate == null) {
+        if (this.inventoryDate == null) {
             return null;
         }
         return new Date(this.inventoryDate.getTime());
@@ -275,8 +268,10 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * Set the timestamp of the last inventory action of the {@code TransportUnit}.
      *
      * @param inventoryDate The timestamp of the last inventory check
+     * @throws IllegalArgumentException when {@code inventoryDate} is {@literal null}
      */
     public void setInventoryDate(Date inventoryDate) {
+        Assert.notNull(inventoryDate, () -> "InventoryDate must not be null, this: " + this);
         this.inventoryDate = new Date(inventoryDate.getTime());
     }
 
@@ -298,13 +293,8 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
         this.weight = weight;
     }
 
-    /**
-     * Get all errors that have occurred on the {@code TransportUnit}.
-     *
-     * @return A Map of all occurred {@link UnitError}s on the {@code TransportUnit}
-     */
-    public Map<Date, UnitError> getErrors() {
-        return Collections.unmodifiableMap(errors);
+    private List<UnitError> getErrors() {
+        return this.errors;
     }
 
     /**
@@ -312,11 +302,18 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      *
      * @param error An {@link UnitError} to be added
      * @return The key.
-     * @throws IllegalArgumentException when something went wrong
+     * @throws IllegalArgumentException when {@code error} is {@literal null}
      */
     public UnitError addError(UnitError error) {
-        Assert.notNull(error, "Error to add may not be null, this: " + this);
-        return errors.put(new Date(), error);
+        Assert.notNull(error, () -> "Error must not be null, this: " + this);
+        error.setTu(this);
+        if (em != null && em.contains(this)) {
+            em.persist(error);
+            error = em.merge(error);
+        } else {
+            this.getErrors().add(error);
+        }
+        return error;
     }
 
     /**
@@ -352,6 +349,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @param transportUnitType The type of the {@code TransportUnit}
      */
     public void setTransportUnitType(TransportUnitType transportUnitType) {
+        Assert.notNull(transportUnitType, () -> "TransportUnitType must not be null, this: " + this);
         this.transportUnitType = transportUnitType;
     }
 
@@ -362,17 +360,6 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      */
     public Barcode getBarcode() {
         return barcode;
-    }
-
-    /**
-     * Set the {@link Barcode} of the {@code TransportUnit}.
-     *
-     * @param barcode The {@link Barcode} to be set on the {@code TransportUnit}
-     * @deprecated Use Barcode.of() instead
-     */
-    @Deprecated
-    protected void setBarcode(Barcode barcode) {
-        this.barcode = barcode;
     }
 
     /**
@@ -409,7 +396,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @throws IllegalArgumentException when transportUnit is {@literal null}
      */
     public void addChild(TransportUnit transportUnit) {
-        Assert.notNull(transportUnit, "Child to add may not be null, this: " + this);
+        Assert.notNull(transportUnit, () -> "TransportUnitType must not be null, this: " + this);
         if (transportUnit.hasParent()) {
             if (transportUnit.getParent().equals(this)) {
 
@@ -423,7 +410,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
 
         // make this instance the new parent
         transportUnit.setParent(this);
-        children.add(transportUnit);
+        this.children.add(transportUnit);
     }
 
     public boolean hasParent() {
@@ -434,24 +421,22 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * Remove a {@code TransportUnit} from the list of children.
      *
      * @param transportUnit The {@code TransportUnit} to be removed from the list of children
-     * @throws IllegalArgumentException when transportUnit is {@literal null} or any other failure occurs
+     * @throws IllegalArgumentException when {@code transportUnit} is {@literal null} or not a child of this instance
      */
     public void removeChild(TransportUnit transportUnit) {
-        Assert.notNull(transportUnit, "Child to remove may not be null, this: " + this);
-        // make sure we are the parent before we break the relationship
-        if (transportUnit.parent != null && transportUnit.getParent().equals(this)) {
-            transportUnit.setParent(null);
-            children.remove(transportUnit);
-        } else {
-            throw new IllegalArgumentException("Child transportUnit not associated with this instance");
+        Assert.notNull(transportUnit, () -> "TransportUnit must not be null, this: " + this);
+        // make sure this is the parent before we break the relationship
+        if (transportUnit.parent == null || !transportUnit.parent.equals(this)) {
+            throw new IllegalArgumentException("Child TransportUnit not associated with this instance, this: " + this);
         }
+        transportUnit.setParent(null);
+        this.children.remove(transportUnit);
     }
 
     /**
-     * Return the {@link Barcode} as String.
+     * {@inheritDoc}
      *
-     * @return String
-     * @see java.lang.Object#toString()
+     * Return the {@link Barcode} as String.
      */
     @Override
     public String toString() {
@@ -460,41 +445,24 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
 
     /**
      * {@inheritDoc}
-     * <p>
-     * Uses barcode for calculation.
+     *
+     * Uses barcode for comparison.
      */
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((barcode == null) ? 0 : barcode.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TransportUnit that = (TransportUnit) o;
+        return barcode.equals(that.barcode);
     }
 
     /**
      * {@inheritDoc}
-     * <p>
-     * Uses barcode for comparison.
+     *
+     * Uses barcode for calculation.
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof TransportUnit)) {
-            return false;
-        }
-        TransportUnit other = (TransportUnit) obj;
-        if (barcode == null) {
-            if (other.barcode != null) {
-                return false;
-            }
-        } else if (!barcode.equals(other.getBarcode())) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return Objects.hash(barcode);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Heiko Scherrer
+ * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,11 @@
  */
 package org.openwms.common.location;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.StateChangeException;
+import org.openwms.common.location.api.LocationGroupMode;
 import org.openwms.common.location.api.LocationGroupState;
 
 import java.util.HashSet;
@@ -30,34 +33,45 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
+@DisplayName("LocationGroup Unittest")
 class LocationGroupTest {
 
-    @Test void testConstructionWithNull() {
-        assertThatThrownBy(
-                () -> new LocationGroup(null))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
+    @Nested
+    @DisplayName("Creational")
+    class CreationalTests {
 
-    @Test void testConstructionWithEmpty() {
-        assertThatThrownBy(
-                () -> new LocationGroup(""))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
+        @Test void shall_fail_with_null() {
+            assertThatThrownBy(
+                    () -> new LocationGroup(null))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
 
-    @Test void testDefaultValues() {
-        LocationGroup lg = new LocationGroup("Error zone");
-        assertThat(lg.getName()).isEqualTo("Error zone");
-        assertThat(lg.isLocationGroupCountingActive()).isTrue();
-        assertThat(lg.getNoLocations()).isEqualTo(0);
-        assertThat(lg.getGroupStateIn()).isEqualTo(LocationGroupState.AVAILABLE);
-        assertThat(lg.isInfeedAllowed()).isTrue();
-        assertThat(lg.isInfeedBlocked()).isFalse();
-        assertThat(lg.getGroupStateOut()).isEqualTo(LocationGroupState.AVAILABLE);
-        assertThat(lg.isOutfeedAllowed()).isTrue();
-        assertThat(lg.isOutfeedBlocked()).isFalse();
-        assertThat(lg.getMaxFillLevel()).isEqualTo(0);
-        assertThat(lg.getLocationGroups()).hasSize(0);
-        assertThat(lg.getLocations()).hasSize(0);
+        @Test void shall_fail_with_empty() {
+            assertThatThrownBy(
+                    () -> new LocationGroup(""))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test void shall_create_with_defaults() {
+            LocationGroup lg = new LocationGroup("Error zone");
+            assertThat(lg.getName()).isEqualTo("Error zone");
+            assertThat(lg.isLocationGroupCountingActive()).isTrue();
+            assertThat(lg.getNoLocations()).isEqualTo(0);
+
+            assertThat(lg.getGroupStateIn()).isEqualTo(LocationGroupState.AVAILABLE);
+            assertThat(lg.isInfeedAllowed()).isTrue();
+            assertThat(lg.isInfeedBlocked()).isFalse();
+
+            assertThat(lg.getGroupStateOut()).isEqualTo(LocationGroupState.AVAILABLE);
+            assertThat(lg.isOutfeedAllowed()).isTrue();
+            assertThat(lg.isOutfeedBlocked()).isFalse();
+
+            assertThat(lg.getOperationMode()).isEqualTo(LocationGroupMode.INFEED_AND_OUTFEED);
+
+            assertThat(lg.getMaxFillLevel()).isEqualTo(0);
+            assertThat(lg.getLocationGroups()).hasSize(0);
+            assertThat(lg.getLocations()).hasSize(0);
+        }
     }
 
     @Test void testAddLocationGroupWithNull() {

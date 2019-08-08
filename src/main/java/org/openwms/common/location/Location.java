@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Heiko Scherrer
+ * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,8 +50,11 @@ import java.util.Set;
  * @see org.openwms.common.location.LocationGroup
  */
 @Entity
-@Table(name = "COM_LOCATION", uniqueConstraints = @UniqueConstraint(columnNames = {"C_AREA", "C_AISLE", "C_X", "C_Y", "C_Z"}))
+@Table(name = Location.TABLE, uniqueConstraints = @UniqueConstraint(columnNames = {"C_AREA", "C_AISLE", "C_X", "C_Y", "C_Z"}))
 public class Location extends ApplicationEntity implements Serializable {
+
+    /** Table name. */
+    public static final String TABLE = "COM_LOCATION";
 
     /** Unique natural key. */
     @Embedded

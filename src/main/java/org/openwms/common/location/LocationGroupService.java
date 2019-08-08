@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Heiko Scherrer
+ * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import java.util.Optional;
 public interface LocationGroupService {
 
     /**
-     * Tries to change the infeed and outfeed state of a {@link LocationGroup}.
+     * Change the infeed and outfeed state of a {@link LocationGroup}.
      *
      * @param pKey The persisted key of the LocationGroup to change
      * @param stateIn The new infeed state
@@ -38,13 +38,21 @@ public interface LocationGroupService {
     void changeGroupState(String pKey, LocationGroupState stateIn, LocationGroupState stateOut);
 
     /**
-     * Tries to change the infeed and outfeed state of a {@link LocationGroup}.
+     * Change the infeed and outfeed state of a {@link LocationGroup}.
      *
-     * @param locationGroupName The name of the LocationGroup to change
+     * @param name The name of the LocationGroup to change
      * @param stateIn The new infeed state
      * @param stateOut The new outfeed state
      */
-    void changeGroupStates(String locationGroupName, Optional<LocationGroupState> stateIn, Optional<LocationGroupState> stateOut);
+    void changeGroupStates(String name, Optional<LocationGroupState> stateIn, Optional<LocationGroupState> stateOut);
+
+    /**
+     * Change the operation mode of a {@link LocationGroup}.
+     *
+     * @param name The name of the LocationGroup to change
+     * @param mode The new operation mode to set
+     */
+    void changeOperationMode(String name, String mode);
 
     /**
      * Find and return a {@link LocationGroup} by its unique {@code name}.

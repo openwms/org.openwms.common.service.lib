@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Heiko Scherrer
+ * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import org.openwms.common.location.LocationPK;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +29,6 @@ import java.util.Optional;
  * 
  * @author Heiko Scherrer
  */
-@Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
 //SONAR:OFF
     Optional<Location> findByPKey(String persistentKey);

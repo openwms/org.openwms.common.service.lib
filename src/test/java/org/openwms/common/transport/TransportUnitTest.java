@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Heiko Scherrer
+ * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,14 @@
  */
 package org.openwms.common.transport;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.openwms.common.location.Location;
+import org.openwms.common.location.LocationPK;
 import org.openwms.common.units.Weight;
+
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -26,86 +32,184 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
+@DisplayName("TransportUnit Unittest")
 class TransportUnitTest {
 
-    @Test void testCreationWithEmptyString() {
-        assertThatThrownBy(
-                () -> ObjectFactory.createTransportUnit(""))
-                .isInstanceOf(IllegalArgumentException.class);
+    @Nested
+    @DisplayName("Creational")
+    class CreationalTests {
+
+        @Test void shall_fail_with_null_Barcode() {
+            assertThatThrownBy(
+                    () -> new TransportUnit(null, new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000"))))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test void shall_fail_with_null_TUT() {
+            assertThatThrownBy(
+                    () -> new TransportUnit(Barcode.of("4711"), null, Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000"))))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test void shall_fail_with_null_Location() {
+            assertThatThrownBy(
+                    () -> new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), null))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test void shall_create_with_defaults() {
+            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            assertThat(tu.getBarcode()).isEqualTo(Barcode.of("4711"));
+            assertThat(tu.getTransportUnitType()).isEqualTo(new TransportUnitType("KNOWN"));
+            assertThat(tu.getActualLocation()).isEqualTo(Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            assertThat(tu.getActualLocationDate()).isNotNull();
+            assertThat(tu.getWeight()).isEqualTo(new Weight("0"));
+            assertThat(tu.getState()).isEqualTo(TransportUnitState.AVAILABLE);
+            assertThat(tu.getChildren()).hasSize(0);
+            assertThat(tu.getInventoryDate()).isNull();
+        }
+
+        @Test void testEqualityLight() {
+            TransportUnit tu1 = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            TransportUnit tu2 = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0001/0001/0001/0001")));
+            TransportUnit tu3 = new TransportUnit(Barcode.of("4712"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+
+            assertThat(tu1).isEqualTo(tu2);
+            assertThat(tu2).isEqualTo(tu1);
+
+            assertThat(tu1).isNotEqualTo(tu3);
+        }
     }
 
-    @Test void testDefaultValues() {
-        TransportUnit tu = ObjectFactory.createTransportUnit("4711");
-        assertThat(tu.getBarcode()).isEqualTo(Barcode.of("4711"));
-        assertThat(tu.getWeight()).isEqualTo(new Weight("0"));
-        assertThat(tu.getState()).isEqualTo(TransportUnitState.AVAILABLE);
-        assertThat(tu.getErrors()).hasSize(0);
-        assertThat(tu.getChildren()).hasSize(0);
+    @Nested
+    @DisplayName("Lifecycle")
+    class LifecycleTests {
+
+        @Test void shall_fail_by_setting_null_for_TUT() {
+            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            tu.setTransportUnitType(new TransportUnitType("KNOWN2"));
+            assertThat(tu.getTransportUnitType()).isEqualTo(new TransportUnitType("KNOWN2"));
+            assertThatThrownBy(
+                    () -> tu.setTransportUnitType(null))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test void shall_fail_by_setting_null_for_ActualLocation() {
+            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            tu.setActualLocation(Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0001")));
+            assertThat(tu.getActualLocation()).isEqualTo(Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0001")));
+            assertThatThrownBy(
+                    () -> tu.setActualLocation(null))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test void shall_fail_by_setting_null_for_InventoryDate() {
+            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            tu.setInventoryDate(new Date());
+            assertThat(tu.getInventoryDate()).isNotNull();
+            assertThatThrownBy(
+                    () -> tu.setInventoryDate(null))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test void shall_fail_with_add_null_as_error() {
+            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            assertThatThrownBy(
+                    () -> tu.addError(null))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test void shall_fail_with_remove_null_as_child() {
+            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            assertThatThrownBy(
+                    () -> tu.addChild(null))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
     }
 
-    @Test void testAddErrorWithNull() {
-        TransportUnit tu = ObjectFactory.createTransportUnit("4711");
-        assertThatThrownBy(
-                () -> tu.addError(null))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
+    @Nested
+    @DisplayName("ChildrenHandling")
+    class ChildrenHandling {
 
-    @Test void testUnitErrorHandling() {
-        TransportUnit tu = ObjectFactory.createTransportUnit("4711");
-        assertThat(tu.getErrors()).hasSize(0);
-        tu.addError(UnitError.newBuilder().errorNo("4711").errorText("Damaged").build());
-        assertThat(tu.getErrors()).hasSize(1).containsValues(UnitError.newBuilder().errorNo("4711").errorText("Damaged").build());
-    }
+        @Test void shall_throw_with_null_remove() {
+            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            assertThatThrownBy(
+                    () -> tu.removeChild(null))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("not be null")
+            ;
+        }
 
-    @Test void testAddChildWithNull() {
-        TransportUnit tu = ObjectFactory.createTransportUnit("4711");
-        assertThatThrownBy(
-                () -> tu.addChild(null))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
+        @Test void shall_throw_with_null_add() {
+            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            assertThatThrownBy(
+                    () -> tu.addChild(null))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("not be null")
+            ;
+        }
 
-    @Test void testRemoveChildWithNull() {
-        TransportUnit tu = ObjectFactory.createTransportUnit("4711");
-        tu.removeChild(null);
-        assertThatThrownBy(
-                () -> tu.removeChild(null))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
+        @Test void shall_add_and_remove_a_child_TU() {
+            TransportUnit parent = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            TransportUnit child1 = new TransportUnit(Barcode.of("4712"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
 
-    @Test void testChildrenHandling() {
-        TransportUnit tu1 = ObjectFactory.createTransportUnit("4711");
-        TransportUnit tu2 = ObjectFactory.createTransportUnit("4712");
-        TransportUnit tu3 = ObjectFactory.createTransportUnit("4713");
+            parent.addChild(child1);
+            assertThat(parent.getChildren()).hasSize(1).contains(child1);
+            assertThat(child1.hasParent()).isTrue();
+            assertThat(child1.getParent()).isEqualTo(parent);
 
-        tu1.addChild(tu2);
-        assertThat(tu1.getChildren()).hasSize(1).contains(tu2);
-        assertThat(tu2.getParent()).isEqualTo(tu1);
+            // Same parent check
+            parent.addChild(child1);
+            assertThat(parent.getChildren()).hasSize(1).contains(child1);
+            assertThat(child1.hasParent()).isTrue();
+            assertThat(child1.getParent()).isEqualTo(parent);
 
-        tu1.addChild(tu3);
-        assertThat(tu1.getChildren()).hasSize(2).contains(tu3);
+            parent.removeChild(child1);
+            assertThat(parent.getChildren()).hasSize(0);
+            assertThat(child1.getParent()).isNull();
+        }
 
-        tu2.addChild(tu3);
-        assertThat(tu1.getChildren()).hasSize(1);
-        assertThat(tu2.getChildren()).hasSize(1).contains(tu3);
-        assertThat(tu3.getParent()).isEqualTo(tu2);
+        @Test void shall_fail_when_TU_is_not_a_child() {
+            TransportUnit parent1 = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            TransportUnit parent2 = new TransportUnit(Barcode.of("4712"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            TransportUnit child1 = new TransportUnit(Barcode.of("4713"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            TransportUnit child2 = new TransportUnit(Barcode.of("4714"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
 
-        tu2.removeChild(tu3);
-        assertThat(tu2.getChildren()).hasSize(0);
-        assertThat(tu3.getParent()).isNull();
+            parent1.addChild(child1);
 
-        assertThatThrownBy(
-                () -> tu1.removeChild(tu3))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
+            assertThatThrownBy(
+                    () -> parent1.removeChild(child2))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("not associated")
+            ;
 
-    @Test void testEqualityLight() {
-        TransportUnit tu1 = ObjectFactory.createTransportUnit("4711");
-        TransportUnit tu2 = ObjectFactory.createTransportUnit("4711");
-        TransportUnit tu3 = ObjectFactory.createTransportUnit("4712");
+            parent2.addChild(child2);
 
-        assertThat(tu1).isEqualTo(tu2);
-        assertThat(tu2).isEqualTo(tu1);
+            assertThatThrownBy(
+                    () -> parent1.removeChild(child2))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("not associated")
+            ;
+            parent1.removeChild(child1);
+        }
 
-        assertThat(tu1).isNotEqualTo(tu3);
+        @Test void shall_change_parent() {
+            TransportUnit parent1 = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            TransportUnit parent2 = new TransportUnit(Barcode.of("4712"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            TransportUnit child1 = new TransportUnit(Barcode.of("4713"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            TransportUnit child2 = new TransportUnit(Barcode.of("4714"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+
+            parent1.addChild(child1);
+            parent2.addChild(child2);
+
+            assertThat(child1.getParent()).isEqualTo(parent1);
+            assertThat(child2.getParent()).isEqualTo(parent2);
+
+            // change parent!
+            parent1.addChild(child2);
+            assertThat(parent1.getChildren()).hasSize(2);
+            assertThat(parent2.getChildren()).hasSize(0);
+            assertThat(child2.getParent()).isEqualTo(parent1);
+        }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Heiko Scherrer
+ * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,13 @@ package org.openwms.common.location;
 
 import org.ameba.exception.ServiceLayerException;
 import org.openwms.common.StateChangeException;
+import org.openwms.common.location.api.LocationGroupMode;
 import org.openwms.common.location.api.LocationGroupState;
 import org.springframework.util.Assert;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -36,7 +38,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A LocationGroup is a logical group of {@code Location}s with same characteristics. This is useful
+ * A LocationGroup is a logical group of {@code Location}s with same characteristics.
  *
  * @author Heiko Scherrer
  * @GlossaryTerm
@@ -64,6 +66,10 @@ public class LocationGroup extends Target implements Serializable {
     @Column(name = "C_GROUP_COUNTING_ACTIVE")
     private boolean locationGroupCountingActive = true;
 
+    /** The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in. */
+    @Column(name = "C_OP_MODE")
+    private String operationMode = LocationGroupMode.INFEED_AND_OUTFEED;
+
     /** State of infeed, controlled by the subsystem only. */
     @Column(name = "C_GROUP_STATE_IN")
     @Enumerated(EnumType.STRING)
@@ -88,13 +94,10 @@ public class LocationGroup extends Target implements Serializable {
     @Column(name = "C_MAX_FILL_LEVEL")
     private float maxFillLevel = 0;
 
-    /**
-     * Subsequential code of the subsystem (e.g. PLC), tied to this {@code LocationGroup}.
-     * A subsystem may be named after a name and a code, like PLCCONV_01, where PLCCONV is the name of
-     * the subsystem group and the code _01 is a unique number in this group.
-     */
-    @Column(name = "C_SYSTEM_CODE")
-    private String systemCode;
+    /** The subsystem like a PLC, that manages this {@code LocationGroup}. */
+    @Embedded
+    private Subsystem subsystem;
+
     /* ------------------- collection mapping ------------------- */
     /** Parent {@code LocationGroup}. */
     @ManyToOne
@@ -110,7 +113,6 @@ public class LocationGroup extends Target implements Serializable {
     private Set<Location> locations = new HashSet<>();
 
     /*~ ----------------------------- constructors ------------------- */
-
     /** Dear JPA... */
     protected LocationGroup() { }
 
@@ -169,6 +171,26 @@ public class LocationGroup extends Target implements Serializable {
      */
     public boolean isOutfeedBlocked() {
         return !isInfeedAllowed();
+    }
+
+    /**
+     * Get the current operation mode this LocationGroup operates in.
+     *
+     * @return The operational mode
+     */
+    public String getOperationMode() {
+        return operationMode;
+    }
+
+    /**
+     * Set the current operation mode this LocationGroup can operate in.
+     *
+     * @param operationMode The mode as an extensible String
+     * @see LocationGroupMode
+     */
+    public void setOperationMode(String operationMode) {
+        this.operationMode = operationMode;
+        this.locationGroups.forEach(lg -> lg.setOperationMode(operationMode));
     }
 
     /**
@@ -414,24 +436,6 @@ public class LocationGroup extends Target implements Serializable {
         Assert.notNull(location, () -> "Location to remove from LocationGroup is null. this: " + this);
         location.unsetLocationGroup();
         return locations.remove(location);
-    }
-
-    /**
-     * Returns the systemCode.
-     *
-     * @return The systemCode
-     */
-    public String getSystemCode() {
-        return systemCode;
-    }
-
-    /**
-     * Set the systemCode.
-     *
-     * @param systemCode The systemCode to set
-     */
-    public void setSystemCode(String systemCode) {
-        this.systemCode = systemCode;
     }
 
     /**

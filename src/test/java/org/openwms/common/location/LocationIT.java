@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Heiko Scherrer
+ * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openwms.common.location.impl.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -30,8 +31,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
-@ExtendWith(SpringExtension.class)// RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @Tag("IntegrationTest")
+@DataJpaTest
 class LocationIT {
 
     @Autowired
@@ -41,11 +43,9 @@ class LocationIT {
      * Creating two groups with same id must fail.
      */
     @Test void testNameConstraint() {
-        Location loc1 = new Location(LocationPK.newBuilder().area("area").aisle("aisle").x("x").y("y").z("z").build());
-        repository.save(loc1);
-        Location loc2 = new Location(LocationPK.newBuilder().area("area").aisle("aisle").x("x").y("y").z("z").build());
+        Location loc2 = new Location(LocationPK.newBuilder().area("EXT_").aisle("0000").x("0000").y("0000").z("0000").build());
         assertThatThrownBy(
-                () -> repository.save(loc2))
+                () -> repository.saveAndFlush(loc2))
                 .isInstanceOf(DataIntegrityViolationException.class);
     }
 }
