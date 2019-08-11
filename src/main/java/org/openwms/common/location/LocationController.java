@@ -17,7 +17,6 @@ package org.openwms.common.location;
 
 import org.ameba.exception.NotFoundException;
 import org.ameba.mapping.BeanMapper;
-import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationVO;
 import org.springframework.context.annotation.Profile;
@@ -44,14 +43,10 @@ import static org.openwms.common.CommonConstants.API_LOCATIONS;
 public class LocationController {
 
     private final LocationService locationService;
-    private final ErrorCodeTransformers.LocationStateIn stateIn;
-    private final ErrorCodeTransformers.LocationStateOut stateOut;
     private final BeanMapper mapper;
 
-    LocationController(LocationService locationService, ErrorCodeTransformers.LocationStateIn stateIn, ErrorCodeTransformers.LocationStateOut stateOut, BeanMapper mapper) {
+    LocationController(LocationService locationService, BeanMapper mapper) {
         this.locationService = locationService;
-        this.stateIn = stateIn;
-        this.stateOut = stateOut;
         this.mapper = mapper;
     }
 
@@ -78,7 +73,7 @@ public class LocationController {
 
     @PatchMapping(value = API_LOCATIONS + "/{pKey}")
     public void updateState(@PathVariable(name = "pKey") String pKey, @RequestBody ErrorCodeVO errorCode) {
-        locationService.changeState(pKey, stateIn, stateOut, errorCode);
+        locationService.changeState(pKey, errorCode);
     }
 
     @GetMapping(value = API_LOCATIONS, params = {"area", "aisle", "x", "y", "z"})

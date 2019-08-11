@@ -96,14 +96,6 @@ public class LocationGroupController {
         );
     }
 
-    @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"name"})
-    public void updateMode(@RequestParam(name = "name") String name, @RequestBody String mode) {
-        locationGroupService.changeOperationMode(
-                name,
-                mode
-        );
-    }
-
     @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS + "/{pKey}")
     public void save(
             @PathVariable String pKey,

@@ -15,15 +15,11 @@
  */
 package org.openwms.common.location;
 
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.openwms.common.CommonIT;
+import org.openwms.common.location.impl.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import javax.persistence.PersistenceException;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -32,13 +28,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
-@ExtendWith(SpringExtension.class)
-@Tag("IntegrationTest")
-@DataJpaTest
+@CommonIT
 class LocationIT {
 
     @Autowired
-    private TestEntityManager em;
+    private LocationRepository repository;
 
     /**
      * Creating two groups with same id must fail.
@@ -46,7 +40,7 @@ class LocationIT {
     @Test void testNameConstraint() {
         Location loc2 = new Location(LocationPK.newBuilder().area("EXT_").aisle("0000").x("0000").y("0000").z("0000").build());
         assertThatThrownBy(
-                () -> em.persistAndFlush(loc2))
-                .isInstanceOf(PersistenceException.class).hasMessageContaining("ConstraintViolationException");
+                () -> repository.saveAndFlush(loc2))
+                .isInstanceOf(DataIntegrityViolationException.class);
     }
 }

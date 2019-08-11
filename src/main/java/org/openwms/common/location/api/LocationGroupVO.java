@@ -27,7 +27,7 @@ import java.util.Objects;
  *
  * @author Heiko Scherrer
  */
-public class LocationGroupVO extends ResourceSupport implements Target, Serializable {
+public class LocationGroupVO extends ResourceSupport implements TargetVO, Serializable {
 
     @JsonProperty
     private String pKey;
@@ -35,6 +35,8 @@ public class LocationGroupVO extends ResourceSupport implements Target, Serializ
     private String name;
     @JsonProperty
     private String parent;
+    @JsonProperty
+    private String operationMode;
     @JsonProperty
     private LocationGroupState groupStateIn;
     @JsonProperty
@@ -109,6 +111,14 @@ public class LocationGroupVO extends ResourceSupport implements Target, Serializ
     }
 
     /*~ ------------------ accessors ----------------------*/
+    public String getOperationMode() {
+        return operationMode;
+    }
+
+    public void setOperationMode(String operationMode) {
+        this.operationMode = operationMode;
+    }
+
     public String getpKey() {
         return pKey;
     }
@@ -156,6 +166,7 @@ public class LocationGroupVO extends ResourceSupport implements Target, Serializ
         if (!super.equals(o))
             return false;
         LocationGroupVO that = (LocationGroupVO) o;
+        //return Objects.equals(pKey, that.pKey) && Objects.equals(name, that.name) && Objects.equals(parent, that.parent) && groupStateIn == that.groupStateIn && groupStateOut == that.groupStateOut && Objects.equals(locationGroupError, that.locationGroupError);
         return Objects.equals(pKey, that.pKey) && Objects.equals(name, that.name) && Objects.equals(parent, that.parent) && groupStateIn == that.groupStateIn && groupStateOut == that.groupStateOut;
     }
 

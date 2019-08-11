@@ -29,7 +29,7 @@ import java.util.Optional;
  * 
  * @author Heiko Scherrer
  */
-interface LocationRepository extends JpaRepository<Location, Long> {
+public interface LocationRepository extends JpaRepository<Location, Long> {
 //SONAR:OFF
     Optional<Location> findByPKey(String persistentKey);
 
