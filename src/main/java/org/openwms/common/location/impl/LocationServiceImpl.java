@@ -27,6 +27,7 @@ import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.events.LocationEvent;
 import org.springframework.context.ApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -42,11 +43,11 @@ import static java.lang.String.format;
 @TxService
 class LocationServiceImpl implements LocationService {
 
-    private final LocationRepository locationRepository;
+    private final LocationRepository repository;
     private final ApplicationContext ctx;
 
-    LocationServiceImpl(LocationRepository locationRepository, ApplicationContext ctx) {
-        this.locationRepository = locationRepository;
+    LocationServiceImpl(LocationRepository repository, ApplicationContext ctx) {
+        this.repository = repository;
         this.ctx = ctx;
     }
 
@@ -56,7 +57,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public Location removeMessages(String pKey, List<Message> messages) {
-        Location location = locationRepository
+        Location location = repository
                 .findByPKey(pKey)
                 .orElseThrow(() -> new ServiceLayerException(format("Location with pKey [%s] not found", pKey)));
         location.removeMessages(messages.toArray(new Message[0]));
@@ -68,8 +69,9 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
+    @Transactional(readOnly = true)
     public Optional<Location> findByLocationId(LocationPK locationPK) {
-        return locationRepository.findByLocationId(locationPK);
+        return repository.findByLocationId(locationPK);
     }
 
     /**
@@ -77,8 +79,9 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
+    @Transactional(readOnly = true)
     public Optional<Location> findByPlcCode(String plcCode) {
-        return locationRepository.findByPlcCode(plcCode);
+        return repository.findByPlcCode(plcCode);
     }
 
     /**
@@ -86,20 +89,20 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
+    @Transactional(readOnly = true)
     public Optional<Location> findByLocationId(String locationPK) {
-        return locationRepository.findByLocationId(LocationPK.fromString(locationPK));
+        return repository.findByLocationId(LocationPK.fromString(locationPK));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Transactional(readOnly = true)
     public Optional<Location> findByLocationIdOrPlcCode(String location) {
-        if (LocationPK.isValid(location)) {
-            return locationRepository.findByLocationId(LocationPK.fromString(location));
-        } else {
-            return locationRepository.findByPlcCode(location);
-        }
+        return LocationPK.isValid(location)
+                ? repository.findByLocationId(LocationPK.fromString(location))
+                : repository.findByPlcCode(location);
     }
 
     /**
@@ -107,10 +110,11 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
+    @Transactional(readOnly = true)
     public List<Location> findAllOf(List<String> locationGroupNames) {
-        return locationGroupNames.size() == 1 ?
-            locationRepository.findByLocationGroup_Name(locationGroupNames.get(0)) :
-            locationRepository.findByLocationGroup_Name(locationGroupNames);
+        return locationGroupNames.size() == 1
+                ? repository.findByLocationGroup_Name(locationGroupNames.get(0))
+                : repository.findByLocationGroup_Name(locationGroupNames);
     }
 
     /**
@@ -120,7 +124,7 @@ class LocationServiceImpl implements LocationService {
     @Measured
     public void changeState(String pKey, ErrorCodeTransformers.LocationStateIn stateIn,
             ErrorCodeTransformers.LocationStateOut stateOut, ErrorCodeVO errorCode) {
-        Location location = locationRepository
+        Location location = repository
                 .findByPKey(pKey)
                 .orElseThrow(() -> new NotFoundException(format("No Location with persistent key [%s] found", pKey)));
 
@@ -155,8 +159,9 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
+    @Transactional(readOnly = true)
     public List<Location> findLocations(LocationPK locationPK) {
-        List<Location> result = locationRepository.findByLocationIdContaining(locationPK);
+        List<Location> result = repository.findByLocationIdContaining(locationPK);
         return result == null ? Collections.emptyList() : result;
     }
 }

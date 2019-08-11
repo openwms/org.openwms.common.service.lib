@@ -15,7 +15,6 @@
  */
 package org.openwms.common.transport.api.commands;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
 
 import javax.validation.constraints.NotNull;
@@ -36,10 +35,6 @@ public class TUCommand implements Command<TUCommand.Type>, Serializable {
     private TransportUnitMO transportUnit;
 
     /*~-------------------- constructors --------------------*/
-    @JsonCreator
-    protected TUCommand() {
-    }
-
     @ConstructorProperties({"type", "transportUnit"})
     protected TUCommand(Type type, TransportUnitMO transportUnit) {
         this.type = type;
@@ -47,8 +42,8 @@ public class TUCommand implements Command<TUCommand.Type>, Serializable {
     }
 
     private TUCommand(Builder builder) {
-        setType(builder.type);
-        transportUnit = builder.transportUnit;
+        this.type = builder.type;
+        this.transportUnit = builder.transportUnit;
     }
 
     /*~-------------------- methods --------------------*/
@@ -84,8 +79,8 @@ public class TUCommand implements Command<TUCommand.Type>, Serializable {
 
 
     public static final class Builder {
-        private @NotNull Type type;
-        private @NotNull TransportUnitMO transportUnit;
+        private Type type;
+        private TransportUnitMO transportUnit;
 
         private Builder() {
         }
