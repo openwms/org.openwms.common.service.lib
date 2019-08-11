@@ -307,10 +307,10 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     public UnitError addError(UnitError error) {
 <span class="fc" id="L308">        Assert.notNull(error, () -&gt; &quot;Error must not be null, this: &quot; + this);</span>
 <span class="fc" id="L309">        error.setTu(this);</span>
-<span class="pc bpc" id="L310" title="1 of 4 branches missed.">        if (em != null &amp;&amp; em.contains(this)) {</span>
-<span class="fc" id="L311">            em.persist(error);</span>
-<span class="fc" id="L312">            error = em.merge(error);</span>
-<span class="fc" id="L313">        } else {</span>
+<span class="pc bpc" id="L310" title="2 of 4 branches missed.">        if (em != null &amp;&amp; em.contains(this)) {</span>
+<span class="nc" id="L311">            em.persist(error);</span>
+<span class="nc" id="L312">            error = em.merge(error);</span>
+<span class="nc" id="L313">        } else {</span>
 <span class="fc" id="L314">            this.getErrors().add(error);</span>
         }
 <span class="fc" id="L316">        return error;</span>
