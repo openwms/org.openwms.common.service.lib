@@ -166,8 +166,7 @@ public class LocationGroupVO extends ResourceSupport implements TargetVO, Serial
 <span class="nc bnc" id="L166" title="All 2 branches missed.">        if (!super.equals(o))</span>
 <span class="nc" id="L167">            return false;</span>
 <span class="nc" id="L168">        LocationGroupVO that = (LocationGroupVO) o;</span>
-        //return Objects.equals(pKey, that.pKey) &amp;&amp; Objects.equals(name, that.name) &amp;&amp; Objects.equals(parent, that.parent) &amp;&amp; groupStateIn == that.groupStateIn &amp;&amp; groupStateOut == that.groupStateOut &amp;&amp; Objects.equals(locationGroupError, that.locationGroupError);
-<span class="nc bnc" id="L170" title="All 10 branches missed.">        return Objects.equals(pKey, that.pKey) &amp;&amp; Objects.equals(name, that.name) &amp;&amp; Objects.equals(parent, that.parent) &amp;&amp; groupStateIn == that.groupStateIn &amp;&amp; groupStateOut == that.groupStateOut;</span>
+<span class="nc bnc" id="L169" title="All 10 branches missed.">        return Objects.equals(pKey, that.pKey) &amp;&amp; Objects.equals(name, that.name) &amp;&amp; Objects.equals(parent, that.parent) &amp;&amp; groupStateIn == that.groupStateIn &amp;&amp; groupStateOut == that.groupStateOut;</span>
     }
 
     /**
@@ -177,7 +176,7 @@ public class LocationGroupVO extends ResourceSupport implements TargetVO, Serial
      */
     @Override
     public int hashCode() {
-<span class="nc" id="L180">        return Objects.hash(super.hashCode(), pKey, name, parent, groupStateIn, groupStateOut);</span>
+<span class="nc" id="L179">        return Objects.hash(super.hashCode(), pKey, name, parent, groupStateIn, groupStateOut);</span>
     }
 
     /**
@@ -187,7 +186,7 @@ public class LocationGroupVO extends ResourceSupport implements TargetVO, Serial
      */
     @Override
     public String toString() {
-<span class="nc" id="L190">        return name;</span>
+<span class="nc" id="L189">        return name;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
