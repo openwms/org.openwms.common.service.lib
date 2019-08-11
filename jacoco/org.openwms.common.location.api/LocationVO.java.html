@@ -28,7 +28,7 @@ import java.util.StringJoiner;
  *
  * @author Heiko Scherrer
  */
-public class LocationVO extends ResourceSupport implements Target, Serializable {
+public class LocationVO extends ResourceSupport implements TargetVO, Serializable {
 
     private String pKey;
     @NotEmpty

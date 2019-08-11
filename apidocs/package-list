@@ -4,7 +4,6 @@ org.openwms.common.location.api
 org.openwms.common.location.api.events
 org.openwms.common.location.api.messages
 org.openwms.common.location.impl
-org.openwms.common.location.inmem
 org.openwms.common.location.spi
 org.openwms.common.transport
 org.openwms.common.transport.api

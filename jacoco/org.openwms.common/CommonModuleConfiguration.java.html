@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CommonModuleConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common</a> &gt; <span class="el_source">CommonModuleConfiguration.java</span></div><h1>CommonModuleConfiguration.java</h1><pre class="source lang-java linenums"><span class="nc" id="L1">/*</span>
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CommonModuleConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common</a> &gt; <span class="el_source">CommonModuleConfiguration.java</span></div><h1>CommonModuleConfiguration.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">/*</span>
  * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
@@ -47,11 +47,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaAuditing
 @EnableMultiTenancy
 @EnableTransactionManagement
-<span class="nc" id="L50">public class CommonModuleConfiguration {</span>
+<span class="fc" id="L50">public class CommonModuleConfiguration {</span>
 
     public @Bean
     Translator translator() {
-<span class="nc" id="L54">        return new AbstractTranslator() {</span>
+<span class="fc" id="L54">        return new AbstractTranslator() {</span>
             @Override
             protected MessageSource getMessageSource() {
 <span class="nc" id="L57">                return messageSource();</span>
@@ -61,27 +61,27 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
     public @Bean
     MessageSource messageSource() {
-<span class="nc" id="L64">        ResourceBundleMessageSource nrrbm = new ResourceBundleMessageSource();</span>
-<span class="nc" id="L65">        nrrbm.setBasename(&quot;i18n&quot;);</span>
-<span class="nc" id="L66">        return nrrbm;</span>
+<span class="fc" id="L64">        ResourceBundleMessageSource nrrbm = new ResourceBundleMessageSource();</span>
+<span class="fc" id="L65">        nrrbm.setBasename(&quot;i18n&quot;);</span>
+<span class="fc" id="L66">        return nrrbm;</span>
     }
 
     public @Bean
     BeanMapper beanMapper() {
-<span class="nc" id="L71">        return new DozerMapperImpl(&quot;META-INF/dozer/common-bean-mappings.xml&quot;);</span>
+<span class="fc" id="L71">        return new DozerMapperImpl(&quot;META-INF/dozer/common-bean-mappings.xml&quot;);</span>
     }
 
     /*~ ------------- Request ID handling ----------- */
     public @Bean
     IDGenerator&lt;String&gt; uuidGenerator() {
-<span class="nc" id="L77">        return new JdkIDGenerator();</span>
+<span class="fc" id="L77">        return new JdkIDGenerator();</span>
     }
 
     public @Bean
     FilterRegistrationBean requestIDFilter(IDGenerator&lt;String&gt; uuidGenerator) {
-<span class="nc" id="L82">        FilterRegistrationBean frb = new FilterRegistrationBean(new RequestIDFilter(uuidGenerator));</span>
-<span class="nc" id="L83">        frb.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);</span>
-<span class="nc" id="L84">        return frb;</span>
+<span class="fc" id="L82">        FilterRegistrationBean frb = new FilterRegistrationBean(new RequestIDFilter(uuidGenerator));</span>
+<span class="fc" id="L83">        frb.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);</span>
+<span class="fc" id="L84">        return frb;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

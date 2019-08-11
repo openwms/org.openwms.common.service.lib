@@ -25,7 +25,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * @author Heiko Scherrer
  */
 @Configuration
-<span class="nc" id="L28">class CommonSecurityConfiguration extends WebSecurityConfigurerAdapter {</span>
+<span class="fc" id="L28">class CommonSecurityConfiguration extends WebSecurityConfigurerAdapter {</span>
 
     /**
      * {@inheritDoc}
@@ -34,10 +34,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-<span class="nc" id="L37">        http</span>
-<span class="nc" id="L38">            .authorizeRequests().anyRequest().permitAll()</span>
-<span class="nc" id="L39">            .and()</span>
-<span class="nc" id="L40">            .csrf().disable();</span>
-<span class="nc" id="L41">    }</span>
+<span class="fc" id="L37">        http</span>
+<span class="fc" id="L38">            .authorizeRequests().anyRequest().permitAll()</span>
+<span class="fc" id="L39">            .and()</span>
+<span class="fc" id="L40">            .csrf().disable();</span>
+<span class="fc" id="L41">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

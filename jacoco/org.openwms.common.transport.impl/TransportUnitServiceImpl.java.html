@@ -55,7 +55,7 @@ import static java.lang.String.format;
 @TxService
 class TransportUnitServiceImpl implements TransportUnitService {
 
-<span class="nc" id="L58">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitServiceImpl.class);</span>
+<span class="fc" id="L58">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitServiceImpl.class);</span>
 
     private final TransportUnitRepository repository;
     private final LocationService locationService;
@@ -63,16 +63,16 @@ class TransportUnitServiceImpl implements TransportUnitService {
     private final Translator translator;
     private final ApplicationContext ctx;
 
-<span class="nc" id="L66">    TransportUnitServiceImpl(Translator translator,</span>
+<span class="fc" id="L66">    TransportUnitServiceImpl(Translator translator,</span>
             TransportUnitTypeRepository transportUnitTypeRepository,
             LocationService locationService, TransportUnitRepository repository,
             ApplicationContext ctx) {
-<span class="nc" id="L70">        this.translator = translator;</span>
-<span class="nc" id="L71">        this.transportUnitTypeRepository = transportUnitTypeRepository;</span>
-<span class="nc" id="L72">        this.locationService = locationService;</span>
-<span class="nc" id="L73">        this.repository = repository;</span>
-<span class="nc" id="L74">        this.ctx = ctx;</span>
-<span class="nc" id="L75">    }</span>
+<span class="fc" id="L70">        this.translator = translator;</span>
+<span class="fc" id="L71">        this.transportUnitTypeRepository = transportUnitTypeRepository;</span>
+<span class="fc" id="L72">        this.locationService = locationService;</span>
+<span class="fc" id="L73">        this.repository = repository;</span>
+<span class="fc" id="L74">        this.ctx = ctx;</span>
+<span class="fc" id="L75">    }</span>
 
     /**
      * {@inheritDoc}

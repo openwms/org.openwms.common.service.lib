@@ -52,11 +52,11 @@ public class TransportUnitController extends AbstractWebController {
     private final BeanMapper mapper;
     private final MessageCommandHandler messageCommandHandler;
 
-<span class="nc" id="L55">    TransportUnitController(TransportUnitService service, BeanMapper mapper, MessageCommandHandler messageCommandHandler) {</span>
-<span class="nc" id="L56">        this.service = service;</span>
-<span class="nc" id="L57">        this.mapper = mapper;</span>
-<span class="nc" id="L58">        this.messageCommandHandler = messageCommandHandler;</span>
-<span class="nc" id="L59">    }</span>
+<span class="fc" id="L55">    TransportUnitController(TransportUnitService service, BeanMapper mapper, MessageCommandHandler messageCommandHandler) {</span>
+<span class="fc" id="L56">        this.service = service;</span>
+<span class="fc" id="L57">        this.mapper = mapper;</span>
+<span class="fc" id="L58">        this.messageCommandHandler = messageCommandHandler;</span>
+<span class="fc" id="L59">    }</span>
 
     @GetMapping(value = API_TRANSPORT_UNITS, params = {&quot;bk&quot;})
     @ResponseBody

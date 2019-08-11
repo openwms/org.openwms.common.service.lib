@@ -34,14 +34,14 @@ import org.springframework.context.ApplicationContext;
 @TxService
 class TransportUnitCommandHandler {
 
-<span class="nc" id="L37">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandHandler.class);</span>
+<span class="fc" id="L37">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandHandler.class);</span>
     private final TransportUnitService service;
     private final ApplicationContext ctx;
 
-<span class="nc" id="L41">    TransportUnitCommandHandler(TransportUnitService service, ApplicationContext ctx) {</span>
-<span class="nc" id="L42">        this.service = service;</span>
-<span class="nc" id="L43">        this.ctx = ctx;</span>
-<span class="nc" id="L44">    }</span>
+<span class="fc" id="L41">    TransportUnitCommandHandler(TransportUnitService service, ApplicationContext ctx) {</span>
+<span class="fc" id="L42">        this.service = service;</span>
+<span class="fc" id="L43">        this.ctx = ctx;</span>
+<span class="fc" id="L44">    }</span>
 
     public void handle(TUCommand command) {
 <span class="nc bnc" id="L47" title="All 4 branches missed.">        switch(command.getType()) {</span>

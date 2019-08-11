@@ -56,13 +56,13 @@ public class LocationGroupController {
     private final ErrorCodeTransformers.GroupStateIn groupStateIn;
     private final ErrorCodeTransformers.GroupStateOut groupStateOut;
 
-<span class="nc" id="L59">    LocationGroupController(LocationGroupService locationGroupService, BeanMapper mapper, ErrorCodeTransformers.GroupStateIn groupStateIn,</span>
+<span class="fc" id="L59">    LocationGroupController(LocationGroupService locationGroupService, BeanMapper mapper, ErrorCodeTransformers.GroupStateIn groupStateIn,</span>
             ErrorCodeTransformers.GroupStateOut groupStateOut) {
-<span class="nc" id="L61">        this.locationGroupService = locationGroupService;</span>
-<span class="nc" id="L62">        this.mapper = mapper;</span>
-<span class="nc" id="L63">        this.groupStateIn = groupStateIn;</span>
-<span class="nc" id="L64">        this.groupStateOut = groupStateOut;</span>
-<span class="nc" id="L65">    }</span>
+<span class="fc" id="L61">        this.locationGroupService = locationGroupService;</span>
+<span class="fc" id="L62">        this.mapper = mapper;</span>
+<span class="fc" id="L63">        this.groupStateIn = groupStateIn;</span>
+<span class="fc" id="L64">        this.groupStateOut = groupStateOut;</span>
+<span class="fc" id="L65">    }</span>
 
     @GetMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {&quot;name&quot;})
     public LocationGroupVO findByName(@RequestParam(&quot;name&quot;) String name) {
@@ -96,29 +96,21 @@ public class LocationGroupController {
         );
 <span class="nc" id="L97">    }</span>
 
-    @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {&quot;name&quot;})
-    public void updateMode(@RequestParam(name = &quot;name&quot;) String name, @RequestBody String mode) {
-<span class="nc" id="L101">        locationGroupService.changeOperationMode(</span>
-<span class="nc" id="L102">                name,</span>
-<span class="nc" id="L103">                mode</span>
-        );
-<span class="nc" id="L105">    }</span>
-
     @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS + &quot;/{pKey}&quot;)
     public void save(
             @PathVariable String pKey,
             @RequestParam(name = &quot;statein&quot;, required = false) LocationGroupState stateIn,
             @RequestParam(name = &quot;stateout&quot;, required = false) LocationGroupState stateOut,
             HttpServletRequest req, HttpServletResponse res) {
-<span class="nc" id="L113">        locationGroupService.changeGroupState(pKey, stateIn, stateOut);</span>
-<span class="nc" id="L114">        res.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req, pKey));</span>
-<span class="nc" id="L115">    }</span>
+<span class="nc" id="L105">        locationGroupService.changeGroupState(pKey, stateIn, stateOut);</span>
+<span class="nc" id="L106">        res.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req, pKey));</span>
+<span class="nc" id="L107">    }</span>
 
     private String getLocationForCreatedResource(HttpServletRequest req, String objId) {
-<span class="nc" id="L118">        return new UriTemplate(req.getRequestURL().append(&quot;/{objId}/&quot;)</span>
-<span class="nc" id="L119">                .toString())</span>
-<span class="nc" id="L120">                .expand(objId)</span>
-<span class="nc" id="L121">                .toASCIIString();</span>
+<span class="nc" id="L110">        return new UriTemplate(req.getRequestURL().append(&quot;/{objId}/&quot;)</span>
+<span class="nc" id="L111">                .toString())</span>
+<span class="nc" id="L112">                .expand(objId)</span>
+<span class="nc" id="L113">                .toASCIIString();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

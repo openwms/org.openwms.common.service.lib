@@ -233,7 +233,7 @@ public class LocationGroup extends Target implements Serializable {
 <span class="fc" id="L233">            stateInLocker = lockLG;</span>
         }
 <span class="fc" id="L235">        groupStateIn = newGroupStateIn;</span>
-<span class="pc" id="L236">        locationGroups.forEach(lg -&gt; lg.changeGroupStateIn(newGroupStateIn, lockLG));</span>
+<span class="fc" id="L236">        locationGroups.forEach(lg -&gt; lg.changeGroupStateIn(newGroupStateIn, lockLG));</span>
 <span class="fc" id="L237">    }</span>
 
     /**
@@ -511,21 +511,21 @@ public class LocationGroup extends Target implements Serializable {
      * @param stateOut The new groupStateOut to set, or {@literal null}
      */
     public void changeState(LocationGroupState stateIn, LocationGroupState stateOut) {
-<span class="nc bnc" id="L514" title="All 4 branches missed.">        if (groupStateIn != stateIn &amp;&amp; stateIn != null) {</span>
+<span class="pc bpc" id="L514" title="2 of 4 branches missed.">        if (groupStateIn != stateIn &amp;&amp; stateIn != null) {</span>
             // GroupStateIn changed
-<span class="nc bnc" id="L516" title="All 6 branches missed.">            if (parent != null &amp;&amp; parent.getGroupStateIn() == LocationGroupState.NOT_AVAILABLE &amp;&amp; groupStateIn == LocationGroupState.AVAILABLE) {</span>
+<span class="pc bpc" id="L516" title="4 of 6 branches missed.">            if (parent != null &amp;&amp; parent.getGroupStateIn() == LocationGroupState.NOT_AVAILABLE &amp;&amp; groupStateIn == LocationGroupState.AVAILABLE) {</span>
 <span class="nc" id="L517">                throw new ServiceLayerException(&quot;Not allowed to change GroupStateIn, parent locationGroup is not available&quot;);</span>
             }
-<span class="nc" id="L519">            changeGroupStateIn(stateIn, this);</span>
+<span class="fc" id="L519">            changeGroupStateIn(stateIn, this);</span>
         }
-<span class="nc bnc" id="L521" title="All 4 branches missed.">        if (groupStateOut != stateOut &amp;&amp; stateOut != null) {</span>
+<span class="pc bpc" id="L521" title="2 of 4 branches missed.">        if (groupStateOut != stateOut &amp;&amp; stateOut != null) {</span>
             // GroupStateOut changed
-<span class="nc bnc" id="L523" title="All 6 branches missed.">            if (parent != null &amp;&amp; parent.getGroupStateOut() == LocationGroupState.NOT_AVAILABLE &amp;&amp; groupStateOut == LocationGroupState.AVAILABLE) {</span>
+<span class="pc bpc" id="L523" title="4 of 6 branches missed.">            if (parent != null &amp;&amp; parent.getGroupStateOut() == LocationGroupState.NOT_AVAILABLE &amp;&amp; groupStateOut == LocationGroupState.AVAILABLE) {</span>
 <span class="nc" id="L524">                throw new ServiceLayerException(&quot;Not allowed to change GroupStateOut, parent locationGroup is not available&quot;);</span>
             }
-<span class="nc" id="L526">            changeGroupStateOut(stateOut, this);</span>
+<span class="fc" id="L526">            changeGroupStateOut(stateOut, this);</span>
         }
-<span class="nc" id="L528">    }</span>
+<span class="fc" id="L528">    }</span>
 
     /**
      * Whether this LocationGroup has a parent LocationGroup or not.
