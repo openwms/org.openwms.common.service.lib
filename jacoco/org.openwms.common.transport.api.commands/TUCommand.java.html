@@ -15,7 +15,6 @@
  */
 package org.openwms.common.transport.api.commands;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
 
 import javax.validation.constraints.NotNull;
@@ -36,72 +35,68 @@ public class TUCommand implements Command&lt;TUCommand.Type&gt;, Serializable {
     private TransportUnitMO transportUnit;
 
     /*~-------------------- constructors --------------------*/
-    @JsonCreator
-<span class="nc" id="L40">    protected TUCommand() {</span>
-<span class="nc" id="L41">    }</span>
-
     @ConstructorProperties({&quot;type&quot;, &quot;transportUnit&quot;})
-<span class="nc" id="L44">    protected TUCommand(Type type, TransportUnitMO transportUnit) {</span>
-<span class="nc" id="L45">        this.type = type;</span>
-<span class="nc" id="L46">        this.transportUnit = transportUnit;</span>
-<span class="nc" id="L47">    }</span>
+<span class="nc" id="L39">    protected TUCommand(Type type, TransportUnitMO transportUnit) {</span>
+<span class="nc" id="L40">        this.type = type;</span>
+<span class="nc" id="L41">        this.transportUnit = transportUnit;</span>
+<span class="nc" id="L42">    }</span>
 
-<span class="nc" id="L49">    private TUCommand(Builder builder) {</span>
-<span class="nc" id="L50">        setType(builder.type);</span>
-<span class="nc" id="L51">        transportUnit = builder.transportUnit;</span>
-<span class="nc" id="L52">    }</span>
+<span class="nc" id="L44">    private TUCommand(Builder builder) {</span>
+<span class="nc" id="L45">        this.type = builder.type;</span>
+<span class="nc" id="L46">        this.transportUnit = builder.transportUnit;</span>
+<span class="nc" id="L47">    }</span>
 
     /*~-------------------- methods --------------------*/
     public static Builder newBuilder() {
-<span class="nc" id="L56">        return new Builder();</span>
+<span class="nc" id="L51">        return new Builder();</span>
     }
 
-<span class="nc" id="L59">    public enum Type {</span>
-<span class="nc" id="L60">        CREATE,</span>
-<span class="nc" id="L61">        REMOVING,</span>
-<span class="nc" id="L62">        REMOVE,</span>
-<span class="nc" id="L63">        CHANGE_TARGET,</span>
-<span class="nc" id="L64">        CHANGE_ACTUAL_LOCATION</span>
+<span class="nc" id="L54">    public enum Type {</span>
+<span class="nc" id="L55">        CREATE,</span>
+<span class="nc" id="L56">        REMOVING,</span>
+<span class="nc" id="L57">        REMOVE,</span>
+<span class="nc" id="L58">        CHANGE_TARGET,</span>
+<span class="nc" id="L59">        CHANGE_ACTUAL_LOCATION</span>
     }
 
     /*~-------------------- accessors --------------------*/
     public Type getType() {
-<span class="nc" id="L69">        return type;</span>
+<span class="nc" id="L64">        return type;</span>
     }
 
     public void setType(Type type) {
-<span class="nc" id="L73">        this.type = type;</span>
-<span class="nc" id="L74">    }</span>
+<span class="nc" id="L68">        this.type = type;</span>
+<span class="nc" id="L69">    }</span>
 
     public TransportUnitMO getTransportUnit() {
-<span class="nc" id="L77">        return transportUnit;</span>
+<span class="nc" id="L72">        return transportUnit;</span>
     }
 
     @Override
     public String toString() {
-<span class="nc" id="L82">        return new StringJoiner(&quot;, &quot;, TUCommand.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(&quot;type=&quot; + type).add(&quot;transportUnit=&quot; + transportUnit).toString();</span>
+<span class="nc" id="L77">        return new StringJoiner(&quot;, &quot;, TUCommand.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(&quot;type=&quot; + type).add(&quot;transportUnit=&quot; + transportUnit).toString();</span>
     }
 
 
     public static final class Builder {
-        private @NotNull Type type;
-        private @NotNull TransportUnitMO transportUnit;
+        private Type type;
+        private TransportUnitMO transportUnit;
 
         private Builder() {
         }
 
         public Builder withType(@NotNull Type val) {
-<span class="nc" id="L94">            type = val;</span>
-<span class="nc" id="L95">            return this;</span>
+<span class="nc" id="L89">            type = val;</span>
+<span class="nc" id="L90">            return this;</span>
         }
 
         public Builder withTransportUnit(@NotNull TransportUnitMO val) {
-<span class="nc" id="L99">            transportUnit = val;</span>
-<span class="nc" id="L100">            return this;</span>
+<span class="nc" id="L94">            transportUnit = val;</span>
+<span class="nc" id="L95">            return this;</span>
         }
 
         public TUCommand build() {
-<span class="nc" id="L104">            return new TUCommand(this);</span>
+<span class="nc" id="L99">            return new TUCommand(this);</span>
         }
     }
 }
