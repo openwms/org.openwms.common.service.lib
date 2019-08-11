@@ -15,7 +15,6 @@
  */
 package org.openwms.common.location;
 
-import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
 
 import java.util.List;
@@ -90,8 +89,10 @@ public interface LocationService {
      * Change the infeed and outfeed state of a {@link Location} in respect of the according {@code LocationGroup}.
      *
      * @param pKey The persistent key identifier of the Location to change
-     * @param stateIn The new infeed state
      * @param stateOut The new outfeed state
      */
-    void changeState(String pKey, ErrorCodeTransformers.LocationStateIn stateIn, ErrorCodeTransformers.LocationStateOut stateOut, ErrorCodeVO errorCode);
+    void changeState(
+            String pKey,
+            ErrorCodeVO errorCode
+    );
 }

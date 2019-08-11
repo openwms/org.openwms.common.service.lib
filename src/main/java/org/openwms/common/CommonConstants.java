@@ -34,6 +34,8 @@ public final class CommonConstants {
     public static final String API_TRANSPORT_UNIT_TYPES = "/" + API_VERSION + "/transport-unit-types";
     /** API root to hit TransportUnits (plural). */
     public static final String API_TRANSPORT_UNITS = "/" + API_VERSION + "/transport-units";
+    /** API root to hit Targets (plural). */
+    public static final String API_TARGETS = "/" + API_VERSION + "/targets";
 
     private CommonConstants() {
     }

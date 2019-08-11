@@ -15,7 +15,6 @@
  */
 package org.openwms.common.location;
 
-import org.ameba.integration.jpa.ApplicationEntity;
 import org.springframework.util.Assert;
 
 import javax.persistence.AttributeOverride;
@@ -51,7 +50,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = Location.TABLE, uniqueConstraints = @UniqueConstraint(columnNames = {"C_AREA", "C_AISLE", "C_X", "C_Y", "C_Z"}))
-public class Location extends ApplicationEntity implements Serializable {
+public class Location extends Target implements Serializable {
 
     /** Table name. */
     public static final String TABLE = "COM_LOCATION";

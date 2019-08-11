@@ -42,12 +42,12 @@ import java.util.Optional;
 @TxService
 class LocationGroupServiceImpl implements LocationGroupService {
 
-    private final LocationGroupRepository locationGroupRepository;
+    private final LocationGroupRepository repository;
     private final ApplicationContext ctx;
     private final Translator translator;
 
-    LocationGroupServiceImpl(LocationGroupRepository locationGroupRepository, ApplicationContext ctx, Translator translator) {
-        this.locationGroupRepository = locationGroupRepository;
+    LocationGroupServiceImpl(LocationGroupRepository repository, ApplicationContext ctx, Translator translator) {
+        this.repository = repository;
         this.ctx = ctx;
         this.translator = translator;
     }
@@ -58,9 +58,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public void changeGroupState(String pKey, LocationGroupState stateIn, LocationGroupState stateOut) {
-        LocationGroup locationGroup = locationGroupRepository
-                .findByPKey(pKey)
-                .orElseThrow(NotFoundException::new);
+        LocationGroup locationGroup = repository.findByPKey(pKey).orElseThrow(NotFoundException::new);
         locationGroup.changeState(stateIn, stateOut);
         ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));
     }
@@ -71,7 +69,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public void changeGroupStates(String name, Optional<LocationGroupState> stateIn, Optional<LocationGroupState> stateOut) {
-        LocationGroup locationGroup = locationGroupRepository
+        LocationGroup locationGroup = repository
                 .findByName(name)
                 .orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{name}, name));
         stateIn.ifPresent(locationGroup::changeGroupStateIn);
@@ -87,11 +85,11 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public void changeOperationMode(String name, String mode) {
-        LocationGroup locationGroup = locationGroupRepository
+        LocationGroup locationGroup = repository
                 .findByName(name)
                 .orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{name}, name));
         locationGroup.setOperationMode(mode);
-        locationGroupRepository.save(locationGroup);
+        repository.save(locationGroup);
     }
 
     /**
@@ -100,7 +98,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public Optional<LocationGroup> findByName(String name) {
-        return locationGroupRepository.findByName(name);
+        return repository.findByName(name);
     }
 
     /**
@@ -109,7 +107,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public List<LocationGroup> findAll() {
-        return locationGroupRepository.findAll();
+        return repository.findAll();
     }
 
     /**
@@ -118,7 +116,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public List<LocationGroup> findByNames(List<String> locationGroupNames) {
-        List<LocationGroup> result = locationGroupRepository.findByNameIn(locationGroupNames);
+        List<LocationGroup> result = repository.findByNameIn(locationGroupNames);
         return result == null ? Collections.emptyList() : result;
     }
 
@@ -129,7 +127,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
 
     @Transactional(readOnly = true)
     public List<LocationGroup> getLocationGroupsAsList() {
-        return locationGroupRepository.findAll();
+        return repository.findAll();
     }
 
     private TreeNode<LocationGroup> createTree(TreeNode<LocationGroup> root, List<LocationGroup> locationGroups) {

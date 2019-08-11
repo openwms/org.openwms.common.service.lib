@@ -16,11 +16,13 @@
 package org.openwms.common.location.api;
 
 /**
- * A Target represents a target of a TransportOrder.
+ * A TargetVO represents a target of a TransportOrder.
  *
  * @author Heiko Scherrer
  */
-public interface Target {
+public interface TargetVO {
+
+    String getpKey();
 
     /**
      * Returns the unique business key of the Target.

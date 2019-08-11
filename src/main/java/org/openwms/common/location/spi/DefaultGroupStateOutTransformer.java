@@ -16,11 +16,13 @@
 package org.openwms.common.location.spi;
 
 import org.openwms.common.location.api.ErrorCodeTransformers;
+import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationGroupState;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.Optional;
 
 /**
@@ -36,12 +38,12 @@ class DefaultGroupStateOutTransformer implements ErrorCodeTransformers.GroupStat
      * {@inheritDoc}
      */
     @Override
-    public Optional<LocationGroupState> available(String errorCode) {
+    public Optional<LocationGroupState> available(@NotEmpty String errorCode) {
         Assert.hasText(errorCode, "ErrorCode must be applied");
-        if (errorCode.charAt(errorCode.length()-2) == 42 /* * */) {
+        if (errorCode.charAt(ErrorCodeVO.STATE_OUT_POSITION) == 42 /* '*' */) {
             return Optional.empty();
         }
         // A Zero in the errorCode means no errors
-        return Optional.of(errorCode.charAt(errorCode.length()-2) == 48 ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE);
+        return Optional.of(errorCode.charAt(ErrorCodeVO.STATE_OUT_POSITION) == 48 ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE);
     }
 }

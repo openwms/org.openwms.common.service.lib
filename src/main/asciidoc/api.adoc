@@ -2,25 +2,98 @@
 ({bversion}-{bnumber})
 Heiko Scherrer;
 :doctype: book
+:icons: font
 :toc:
 :sectanchors:
 :sectlinks:
-:toclevels: 2
+:toclevels: 4
 :source-highlighter: highlightjs
+:operation-curl-request-title: Example request
+:operation-http-response-title: Example response
 
 [[overview]]
 = Overview
 
-This guide describes the RESTful API of the OpenWMS.org COMMON Base Service module and its
-usage. Some general terms and definitions are explained and declared in the first part of
-the document whereas in the second part the usage of the API is shown in a more use-case
-centric approach.
+This guide describes the RESTful API of the OpenWMS.org COMMON Base Service module and its usage. Some general terms and definitions
+are explained and declared in the first part of the document whereas in the second part the usage of the API is shown in
+a more use-case-driven approach.
 
-[[locations-lnk]]
+[[resources-prg]]
+= Resources
+
+All resources
+
 == Locations
 
-[[locationgroups-lnk]]
-== LocationGroups
+API to deal with Locations.
 
-[[transportunits-lnk]]
-== TransportUnits
+== Target
+
+A `Target` is a a `Location` or a group of `Location`s (`LocationGroup`) where a `TransportUnit` may sent to.
+
+A `Target` can be locked for inbound/outbound only, for operation or for both. When the `Target` is locked for inbound, no new movements
+of TransportUnits (`TransportOrders` in automatic warehouses) to this `Target` are created (Locked for Inbound, like putaway). In contrast,
+no movements can be created away from this `Target` if it is locked for outbound (like Allocation). Locking inbound/outbound has no impact
+on the operation mode of the Target. So the Target may still process existing orders, even if it is locked for inbound/outbound.
+
+The operation of a `Target` is controlled by the operation mode. If the Target's operation mode is set to `BLOCKED` the `Target` will stop
+the operation and will no longer process any messages, events or telegrams.
+
+=== Inbound/Outbound Locking
+
+|===
+| Verb | type | mode | op | description
+
+| `POST`
+| `ALLOCATION_LOCK`
+| `IN`
+| `lock`
+| Lock a `Target` for Inbound operations
+
+|===
+
+==== Lock Inbound (Putaway, Infeed)
+
+To lock a `Target` to be not considered in inbound operations, like Putaway the server demands a HTTP POST request with the operation
+`op=lock` the type of lock and the operation mode.
+
+==== Lock Outbound (Dispatching, Allocation, Outfeed)
+
+==== Lock Inbound & Outbound
+
+==== Release Lock
+
+==== Success
+
+=== Operation Locking
+
+==== Success
+
+=== Locking / Unlocking a Target for Allocation and Processing
+
+To permanently lock or unlock a `Target` for allocation and processing send a HTTP POST request with the name of the `Target` to the server.
+Locking  the `Target` allows an optional flag to be passed to signal a re-allocation of already assigned movements and orders.
+
+In this example the `Target` is a `LocationGroup` with the name `IPOINT` that gets locked. The server is requested to re-allocate existing
+orders.
+
+include::{generated}/lock-lg-IPOINT/http-request.adoc[]
+
+To unlock the same `Target` with name `IPOINT`:
+
+include::{generated}/unlock-lg-IPOINT/http-request.adoc[]
+
+==== Success
+If the server has successfully locked or unlocked the `Target` the response is a HTTP 200-OK:
+
+include::{generated}/lock-lg-IPOINT/http-response.adoc[]
+
+==== Target does not exist
+If the given `Target` does not exist the server response with HTTP 404-Not Found:
+
+include::{generated}/lock-lg-unknown/http-response.adoc[]
+
+
+
+
+

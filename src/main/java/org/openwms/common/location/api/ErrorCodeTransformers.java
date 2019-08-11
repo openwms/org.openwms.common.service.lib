@@ -15,32 +15,47 @@
  */
 package org.openwms.common.location.api;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.Optional;
 
 /**
- * A ErrorCodeTransformer.
+ * A ErrorCodeTransformers is a collection of transformer implementations that can transform between an {@code ErrorCode} to arbitrary
+ * states used within the domain model. The {@code ErrorCode} is a bitmap that needs to be decoded into the actual state used in the domain
+ * model.
  *
  * @author Heiko Scherrer
  */
 public interface ErrorCodeTransformers {
 
+    /**
+     * Decode the GroupStateIn from the {@code ErrorCode}.
+     */
     @FunctionalInterface
     interface GroupStateIn {
-        Optional<LocationGroupState> available(String errorCode);
+        Optional<LocationGroupState> available(@NotEmpty String errorCode);
     }
 
+    /**
+     * Decode the GroupStateOut from the {@code ErrorCode}.
+     */
     @FunctionalInterface
     interface GroupStateOut {
-        Optional<LocationGroupState> available(String errorCode);
+        Optional<LocationGroupState> available(@NotEmpty String errorCode);
     }
 
+    /**
+     * Decode the LocationStateIn from the {@code ErrorCode}.
+     */
     @FunctionalInterface
     interface LocationStateIn {
-        Optional<Boolean> available(String errorCode);
+        Optional<Boolean> available(@NotEmpty String errorCode);
     }
 
+    /**
+     * Decode the LocationStateOut from the {@code ErrorCode}.
+     */
     @FunctionalInterface
     interface LocationStateOut {
-        Optional<Boolean> available(String errorCode);
+        Optional<Boolean> available(@NotEmpty String errorCode);
     }
 }

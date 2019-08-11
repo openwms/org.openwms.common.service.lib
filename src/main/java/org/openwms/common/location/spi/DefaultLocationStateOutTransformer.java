@@ -16,10 +16,12 @@
 package org.openwms.common.location.spi;
 
 import org.openwms.common.location.api.ErrorCodeTransformers;
+import org.openwms.common.location.api.ErrorCodeVO;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.Optional;
 
 /**
@@ -35,13 +37,13 @@ class DefaultLocationStateOutTransformer implements ErrorCodeTransformers.Locati
      * {@inheritDoc}
      */
     @Override
-    public Optional<Boolean> available(String errorCode) {
+    public Optional<Boolean> available(@NotEmpty String errorCode) {
         Assert.hasText(errorCode, "ErrorCode must be applied");
-        if (errorCode.charAt(errorCode.length()-2) == 42 /* * */) {
+        if (errorCode.charAt(ErrorCodeVO.STATE_OUT_POSITION) == 42 /* '*' */) {
             return Optional.empty();
         }
 
         // A Zero in the errorCode means no errors
-        return Optional.of(errorCode.charAt(errorCode.length()-2) == 48 /* 0 */);
+        return Optional.of(errorCode.charAt(ErrorCodeVO.STATE_OUT_POSITION) == 48 /* 0 */);
     }
 }

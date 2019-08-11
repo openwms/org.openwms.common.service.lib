@@ -13,7 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.openwms.common.location.api;
+
 /**
- * This package contains event typed belonging to the public API.
+ * A OperationType is an enumeration of possible modes a Target resource can be operated in.
+ *
+ * @author Heiko Scherrer
  */
-package org.openwms.common.location.api.events;
+public enum OperationMode {
+
+    /** Available for inbound operations. */
+    IN,
+
+    /** Available for outbound operations. */
+    OUT,
+
+    /** Available for inbound and outbound operations. */
+    IN_AND_OUT,
+
+    /** Not available for any operation. */
+    BLOCKED
+}

@@ -15,8 +15,6 @@
  */
 package org.openwms.common.transport.api.commands;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.beans.ConstructorProperties;
@@ -45,10 +43,6 @@ public class MessageCommand implements Command<MessageCommand.Type>, Serializabl
     private Date messageOccurred;
 
     /*~-------------------- constructors --------------------*/
-    @JsonCreator
-    protected MessageCommand() {
-    }
-
     @ConstructorProperties({"type", "messageText"})
     protected MessageCommand(Type type, String messageText) {
         this.type = type;
@@ -110,9 +104,9 @@ public class MessageCommand implements Command<MessageCommand.Type>, Serializabl
     }
 
     public static final class Builder {
-        private @NotNull Type type;
+        private Type type;
         private String transportUnitId;
-        private @NotEmpty String messageText;
+        private String messageText;
         private String messageNumber;
         private Date messageOccurred;
 

@@ -16,9 +16,8 @@
 package org.openwms.common.transport.impl;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.openwms.common.CommonIT;
 import org.openwms.common.TestData;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
@@ -29,11 +28,8 @@ import org.openwms.common.transport.UnitError;
 import org.openwms.common.units.Weight;
 import org.openwms.common.units.WeightUnit;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.dao.DataAccessException;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -43,10 +39,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
-@ExtendWith(SpringExtension.class)
-@Tag("IntegrationTest")
-@DataJpaTest
-@EnableSpringConfigured
+@CommonIT
 class TransportUnitIT {
 
     @Autowired

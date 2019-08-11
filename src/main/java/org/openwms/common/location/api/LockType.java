@@ -13,22 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location;
-
-import org.ameba.integration.jpa.ApplicationEntity;
-
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
+package org.openwms.common.location.api;
 
 /**
- * A Target is either a physical or a logical endpoint of any kind of warehouse order. A {@code TransportOrder} has a Target set,
- * to where a {@code TransportUnit} has to be moved to.
- * 
- * @GlossaryTerm
+ * A LockType defines the possible types of locks a {@code Target} can be set to.
+ *
  * @author Heiko Scherrer
  */
-@MappedSuperclass
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Target extends ApplicationEntity {
+public enum LockType {
+
+    /** If the {@code Target} should not be considered in allocation (Zuteilung) the {@code ALLOCATION_LOCK} is set. */
+    ALLOCATION_LOCK,
+
+    /**
+     * If the {@code Target} should be locked for any further operation, but may still be available for allocation,
+     * then the {@code OPERATION_LOCK} is set.
+     */
+    OPERATION_LOCK,
+
+    /** If the {@code Target} should be locked permanently for any further operation, then the {@code OPERATION_LOCK} is set. */
+    PERMANENT_LOCK
 }

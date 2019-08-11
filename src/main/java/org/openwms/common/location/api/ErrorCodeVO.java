@@ -26,10 +26,21 @@ import java.io.Serializable;
  */
 public class ErrorCodeVO implements Serializable {
 
+    public static final String ALL_NOT_SET = "********";
+    public static final int STATE_IN_POSITION = ALL_NOT_SET.length()-1;
+    public static final int STATE_OUT_POSITION = ALL_NOT_SET.length()-2;
+
+    public static final ErrorCodeVO LOCK_STATE_IN = new ErrorCodeVO("*******1");
+    public static final ErrorCodeVO UNLOCK_STATE_IN = new ErrorCodeVO("*******0");
+    public static final ErrorCodeVO LOCK_STATE_OUT = new ErrorCodeVO("******1*");
+    public static final ErrorCodeVO UNLOCK_STATE_OUT = new ErrorCodeVO("******0*");
+    public static final ErrorCodeVO LOCK_STATE_IN_AND_OUT = new ErrorCodeVO("******11");
+    public static final ErrorCodeVO UNLOCK_STATE_IN_AND_OUT = new ErrorCodeVO("******00");
+
     @JsonProperty
-    private String errorCode = "********";
+    private String errorCode = ErrorCodeVO.ALL_NOT_SET;
     @JsonProperty
-    private int plcState;
+    private Integer plcState;
 
     public ErrorCodeVO() {
     }
@@ -55,11 +66,11 @@ public class ErrorCodeVO implements Serializable {
         this.errorCode = errorCode;
     }
 
-    public int getPlcState() {
+    public Integer getPlcState() {
         return plcState;
     }
 
-    public void setPlcState(int plcState) {
+    public void setPlcState(Integer plcState) {
         this.plcState = plcState;
     }
 }

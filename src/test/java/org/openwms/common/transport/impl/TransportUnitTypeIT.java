@@ -15,17 +15,14 @@
  */
 package org.openwms.common.transport.impl;
 
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.openwms.common.CommonIT;
 import org.openwms.common.location.LocationType;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.TypePlacingRule;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
@@ -37,9 +34,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
-@ExtendWith(SpringExtension.class)
-@Tag("IntegrationTest")
-@DataJpaTest
+@CommonIT
 class TransportUnitTypeIT {
 
     @Autowired

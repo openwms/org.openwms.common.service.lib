@@ -15,6 +15,8 @@
  */
 package org.openwms.common.location.api.messages;
 
+import org.openwms.common.location.api.LocationGroupMode;
+
 import java.io.Serializable;
 
 /**
@@ -26,9 +28,21 @@ public class LocationGroupMO implements Serializable {
 
     private String name;
     private String parent;
+    private String operationMode;
     private boolean incomingActive;
     private boolean outgoingActive;
+    /*~ ------------------ methods ----------------------*/
+    public boolean inInfeedMode() {
+        return LocationGroupMode.INFEED.equals(this.operationMode) ||
+                LocationGroupMode.INFEED_AND_OUTFEED.equals(this.operationMode);
+    }
 
+    public boolean inOutfeedMode() {
+        return LocationGroupMode.OUTFEED.equals(this.operationMode) ||
+                LocationGroupMode.INFEED_AND_OUTFEED.equals(this.operationMode);
+    }
+
+    /*~ ------------------ accessors ----------------------*/
     public String getName() {
         return name;
     }
@@ -43,6 +57,14 @@ public class LocationGroupMO implements Serializable {
 
     public void setParent(String parent) {
         this.parent = parent;
+    }
+
+    public String getOperationMode() {
+        return operationMode;
+    }
+
+    public void setOperationMode(String operationMode) {
+        this.operationMode = operationMode;
     }
 
     public boolean isIncomingActive() {

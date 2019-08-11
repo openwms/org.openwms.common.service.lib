@@ -16,15 +16,12 @@
 package org.openwms.common.location.impl;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.openwms.common.CommonIT;
 import org.openwms.common.location.LocationGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -33,9 +30,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
-@ExtendWith(SpringExtension.class)
-@Tag("IntegrationTest")
-@DataJpaTest
+@CommonIT
 class LocationGroupIT {
 
     private static final String KNOWN_LG = "KNOWN";
