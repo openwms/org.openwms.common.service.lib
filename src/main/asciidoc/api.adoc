@@ -21,6 +21,8 @@ a more use-case-driven approach.
 [[resources-prg]]
 = Resources
 
+All resources
+
 == Locations
 
 API to deal with Locations.

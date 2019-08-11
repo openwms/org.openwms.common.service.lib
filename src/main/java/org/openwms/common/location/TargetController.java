@@ -63,7 +63,7 @@ class TargetController extends AbstractWebController {
      * @param mode The mode to apply to the Targets lock
      */
     @PostMapping(path = CommonConstants.API_TARGETS + "/{targetBK}", params = {"type", "mode", "op=lock"})
-    void changeState(
+    public void changeState(
             @PathVariable("targetBK") String targetBK,
             @RequestParam("type") LockType type,
             @RequestParam("mode") OperationMode mode
@@ -71,7 +71,7 @@ class TargetController extends AbstractWebController {
 
             if (LocationPK.isValid(targetBK)) {
 
-                Location location = locationService.findByLocationId(targetBK).orElseThrow(() -> new NotFoundException(format("A Location as Target with LocationId [%s] does not exist", targetBK)));
+                Location location = locationService.findByLocationId(targetBK).orElseThrow(() -> locationNotFound(targetBK));
                 switch(type) {
                     case ALLOCATION_LOCK:
                         changeLocation(
@@ -109,9 +109,14 @@ class TargetController extends AbstractWebController {
                             throw new IllegalArgumentException(format("The Lock Type [%s] is not supported", type));
                     }
                 } else {
-                    throw new NotFoundException(format("The Target with name [%s] is neither a Location nor a LocationGroup. Other types of Targets are currently not supported", targetBK));
+                    targetNotFound(targetBK);
+                    return;
                 }
             }
+    }
+
+    private void targetNotFound(@PathVariable("targetBK") String targetBK) {
+        throw new NotFoundException(format("The Target with name [%s] is neither a Location nor a LocationGroup. Other types of Targets are currently not supported", targetBK));
     }
 
     private void changeLocation(OperationMode mode, Target target, BiConsumer<Target, ErrorCodeVO> fnc) {
@@ -129,7 +134,7 @@ class TargetController extends AbstractWebController {
                 fnc.accept(target, ErrorCodeVO.LOCK_STATE_IN_AND_OUT);
                 break;
             default:
-                throw new IllegalArgumentException(format("The OperationMode [%s] is not supported", mode));
+                unsupportedOperation(mode);
         }
     }
 
@@ -148,7 +153,7 @@ class TargetController extends AbstractWebController {
                 fnc.accept(target, new LocationGroupState[]{LocationGroupState.NOT_AVAILABLE, LocationGroupState.NOT_AVAILABLE});
                 break;
             default:
-                throw new IllegalArgumentException(format("The OperationMode [%s] is not supported", mode));
+                unsupportedOperation(mode);
         }
     }
 
@@ -167,8 +172,13 @@ class TargetController extends AbstractWebController {
                 fnc.accept(target, LocationGroupMode.NO_OPERATION);
                 break;
             default:
-                throw new IllegalArgumentException(format("The OperationMode [%s] is not supported", mode));
+                unsupportedOperation(mode);
+                return;
         }
+    }
+
+    private void unsupportedOperation(OperationMode mode) {
+        throw new IllegalArgumentException(format("The OperationMode [%s] is not supported", mode));
     }
 
     /**
@@ -178,12 +188,12 @@ class TargetController extends AbstractWebController {
      * @param reAllocation If {@literal true} open outfeed orders will be re-allocated
      */
     @PostMapping(path = CommonConstants.API_TARGETS + "/{targetBK}", params = {"op=lock"})
-    void lock(
+    public void lock(
             @PathVariable("targetBK") String targetBK,
             @RequestParam(value = "reallocation", required = false) Boolean reAllocation
     ) {
         if (LocationPK.isValid(targetBK)) {
-            Location location = locationService.findByLocationId(targetBK).orElseThrow(() -> new NotFoundException(format("A Location as Target with LocationId [%s] does not exist", targetBK)));
+            Location location = locationService.findByLocationId(targetBK).orElseThrow(() -> locationNotFound(targetBK));
 
             // Okay we handle a Location as Target
             locationService.changeState(location.getPersistentKey(), ErrorCodeVO.LOCK_STATE_IN_AND_OUT);
@@ -200,7 +210,7 @@ class TargetController extends AbstractWebController {
             return;
         }
 
-        throw new NotFoundException(format("The Target with name [%s] is neither a Location nor a LocationGroup. Other types of Targets are currently not supported", targetBK));
+        targetNotFound(targetBK);
     }
 
     /**
@@ -210,11 +220,11 @@ class TargetController extends AbstractWebController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(value = CommonConstants.API_TARGETS + "/{targetBK}", params = {"op=unlock"})
-    void release(
+    public void release(
             @PathVariable("targetBK") String targetBK
     ) {
         if (LocationPK.isValid(targetBK)) {
-            Location location = locationService.findByLocationId(targetBK).orElseThrow(() -> new NotFoundException(format("A Location as Target with LocationId [%s] does not exist", targetBK)));
+            Location location = locationService.findByLocationId(targetBK).orElseThrow(() -> locationNotFound(targetBK));
 
             // Okay we handle a Location as Target
             locationService.changeState(location.getPersistentKey(), ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT);
@@ -231,7 +241,11 @@ class TargetController extends AbstractWebController {
             return;
         }
 
-        throw new NotFoundException(format("The Target with name [%s] is neither a Location nor a LocationGroup. Other types of Targets are currently not supported", targetBK));
+        targetNotFound(targetBK);
+    }
+
+    private NotFoundException locationNotFound(String targetBK) {
+        return new NotFoundException(format("A Location as Target with LocationId [%s] does not exist", targetBK));
     }
 
     private void raiseEvent(String targetBK, Boolean reAllocation, OperationMode mode) {

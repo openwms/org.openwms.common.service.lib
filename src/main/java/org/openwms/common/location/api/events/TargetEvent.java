@@ -98,9 +98,6 @@ public class TargetEvent extends RootApplicationEvent implements Serializable {
         private OperationMode operationMode;
         private Boolean reAllocation;
 
-        public Builder() {
-        }
-
         public Builder targetBK(String val) {
             targetBK = val;
             return this;

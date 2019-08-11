@@ -166,7 +166,6 @@ public class LocationGroupVO extends ResourceSupport implements TargetVO, Serial
         if (!super.equals(o))
             return false;
         LocationGroupVO that = (LocationGroupVO) o;
-        //return Objects.equals(pKey, that.pKey) && Objects.equals(name, that.name) && Objects.equals(parent, that.parent) && groupStateIn == that.groupStateIn && groupStateOut == that.groupStateOut && Objects.equals(locationGroupError, that.locationGroupError);
         return Objects.equals(pKey, that.pKey) && Objects.equals(name, that.name) && Objects.equals(parent, that.parent) && groupStateIn == that.groupStateIn && groupStateOut == that.groupStateOut;
     }
 
