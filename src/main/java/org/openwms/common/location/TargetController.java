@@ -110,7 +110,6 @@ class TargetController extends AbstractWebController {
                     }
                 } else {
                     targetNotFound(targetBK);
-                    return;
                 }
             }
     }
