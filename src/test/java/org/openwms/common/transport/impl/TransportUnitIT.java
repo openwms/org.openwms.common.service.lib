@@ -29,6 +29,7 @@ import org.openwms.common.units.Weight;
 import org.openwms.common.units.WeightUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.dao.DataAccessException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,6 +40,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
+@EnableSpringConfigured
 @CommonIT
 class TransportUnitIT {
 
