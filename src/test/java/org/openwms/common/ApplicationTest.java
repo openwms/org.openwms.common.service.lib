@@ -39,7 +39,7 @@ import java.lang.annotation.Target;
 @Documented
 @Inherited
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
-@SpringBootTest(classes = CommonStarter.class, properties = {"spring.jpa.show-sql=false", "spring.jackson.serialization.INDENT_OUTPUT=true"})
+@SpringBootTest(classes = CommonStarter.class, properties = {"spring.jpa.show-sql=false", "spring.main.banner-mode=OFF", "spring.jackson.serialization.INDENT_OUTPUT=true"})
 @AutoConfigureRestDocs(outputDir = "target/generated-snippets", uriPort = 8888)
 @Tag("IntegrationTest")
 public @interface ApplicationTest {

@@ -15,11 +15,14 @@
  */
 package org.openwms.common;
 
+import org.ameba.annotation.EnableAspects;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.annotation.Documented;
@@ -42,6 +45,9 @@ import java.lang.annotation.Target;
 @EntityScan(basePackageClasses = CommonConstants.class)
 @Tag("IntegrationTest")
 @DataJpaTest(showSql = false)
+@EnableAspects(propagateRootCause = true)
+@EnableConfigurationProperties
+@EnableJpaAuditing
 @EnableSpringConfigured
 public @interface CommonIT {
 }
