@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.6.1">
-<meta name="author" content="(1.4.0-SNAPSHOT-MANUAL)">
+<meta name="author" content="(1.4.0-SNAPSHOT-197)">
 <title>RESTful API</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -431,7 +431,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>RESTful API</h1>
 <div class="details">
-<span id="author" class="author">(1.4.0-SNAPSHOT-MANUAL)</span><br>
+<span id="author" class="author">(1.4.0-SNAPSHOT-197)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -440,27 +440,30 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#overview">Overview</a></li>
 <li><a href="#resources-prg">Resources</a>
 <ul class="sectlevel1">
-<li><a href="#_locations">Locations</a></li>
 <li><a href="#_target">Target</a>
 <ul class="sectlevel2">
-<li><a href="#_inbound_outbound_locking">Inbound/Outbound Locking</a>
+<li><a href="#_locking_inbound_outbound">Locking Inbound/Outbound</a>
 <ul class="sectlevel3">
 <li><a href="#_lock_inbound_putaway_infeed">Lock Inbound (Putaway, Infeed)</a></li>
 <li><a href="#_lock_outbound_dispatching_allocation_outfeed">Lock Outbound (Dispatching, Allocation, Outfeed)</a></li>
 <li><a href="#_lock_inbound_outbound">Lock Inbound &amp; Outbound</a></li>
 <li><a href="#_release_lock">Release Lock</a></li>
-<li><a href="#_success">Success</a></li>
+<li><a href="#_response_success">Response: Success</a></li>
 </ul>
 </li>
-<li><a href="#_operation_locking">Operation Locking</a>
+<li><a href="#_locking_operational_processing">Locking Operational Processing</a>
 <ul class="sectlevel3">
-<li><a href="#_success_2">Success</a></li>
+<li><a href="#_lock_for_inbound_operations">Lock for inbound Operations</a></li>
+<li><a href="#_lock_for_outbound_operations">Lock for outbound Operations</a></li>
+<li><a href="#_lock_inbound_outbound_operations">Lock inbound &amp; outbound Operations</a></li>
+<li><a href="#_release_lock_2">Release Lock</a></li>
+<li><a href="#_response_success_2">Response: Success</a></li>
 </ul>
 </li>
 <li><a href="#_locking_unlocking_a_target_for_allocation_and_processing">Locking / Unlocking a Target for Allocation and Processing</a>
 <ul class="sectlevel3">
-<li><a href="#_success_3">Success</a></li>
-<li><a href="#_target_does_not_exist">Target does not exist</a></li>
+<li><a href="#_response_success_3">Response: Success</a></li>
+<li><a href="#_response_target_does_not_exist">Response: Target does not exist</a></li>
 </ul>
 </li>
 </ul>
@@ -486,94 +489,280 @@ All resources
 </div>
 </div>
 <div class="sect1">
-<h2 id="_locations"><a class="anchor" href="#_locations"></a><a class="link" href="#_locations">Locations</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>API to deal with Locations.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="_target"><a class="anchor" href="#_target"></a><a class="link" href="#_target">Target</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A <code>Target</code> is a a <code>Location</code> or a group of <code>Location`s (`LocationGroup</code>) where a <code>TransportUnit</code> may sent to.</p>
+<p>A <code>Target</code> is a <code>Location</code> or a group of <code>Locations</code> (<code>LocationGroup</code>) where a <code>TransportUnit</code> may be sent to.</p>
 </div>
 <div class="paragraph">
-<p>A <code>Target</code> can be locked for inbound/outbound only, for operation or for both. When the <code>Target</code> is locked for inbound, no new movements
-of TransportUnits (<code>TransportOrders</code> in automatic warehouses) to this <code>Target</code> are created (Locked for Inbound, like putaway). In contrast,
-no movements can be created away from this <code>Target</code> if it is locked for outbound (like Allocation). Locking inbound/outbound has no impact
-on the operation mode of the Target. So the Target may still process existing orders, even if it is locked for inbound/outbound.</p>
+<p>A <code>Target</code> can be locked for <strong>inbound</strong>/<strong>outbound</strong>, for <strong>operation</strong> or for both. When the <code>Target</code> is locked for inbound, no new
+<code>TransportUnit</code> movements (<code>TransportOrders</code> in automatic warehouses) are created to this <code>Target</code> (like a Putaway lock).
+In contrast, no movements can be created away from this <code>Target</code> if it is locked for outbound (like Allocation). Locking inbound/outbound
+has no impact on the operation mode of the <code>Target</code>. So the <code>Target</code> may <em>still process</em> existing orders, even if it is locked for
+inbound/outbound.</p>
 </div>
 <div class="paragraph">
-<p>The operation of a <code>Target</code> is controlled by the operation mode. If the Target&#8217;s operation mode is set to <code>BLOCKED</code> the <code>Target</code> will stop
-the operation and will no longer process any messages, events or telegrams.</p>
+<p>The operation mode of a <code>Target</code> is controlled separately. If the <code>Targets</code> operation mode is set to <code><strong>BLOCKED</strong></code> the <code>Target</code> stops
+all operations and does no longer process any commands or telegrams.</p>
 </div>
 <div class="sect2">
-<h3 id="_inbound_outbound_locking"><a class="anchor" href="#_inbound_outbound_locking"></a><a class="link" href="#_inbound_outbound_locking">Inbound/Outbound Locking</a></h3>
+<h3 id="_locking_inbound_outbound"><a class="anchor" href="#_locking_inbound_outbound"></a><a class="link" href="#_locking_inbound_outbound">Locking Inbound/Outbound</a></h3>
+<div class="paragraph">
+<p>Locking the Inbound/Outbound of a <code>Target</code> is controlled with a HTTP POST request against the URI <code>/v1/targets/{name}</code> with a set of
+query parameters.</p>
+</div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
 </colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Verb</th>
-<th class="tableblock halign-left valign-top">type</th>
-<th class="tableblock halign-left valign-top">mode</th>
-<th class="tableblock halign-left valign-top">op</th>
-<th class="tableblock halign-left valign-top">description</th>
-</tr>
-</thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTP Verb</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Query Param <code>type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Query Param <code>mode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lock</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock a <code>Target</code> for Inbound operations</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for Inbound allocation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OUT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for Outbound allocation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN_AND_OUT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for Inbound and Outbound allocation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NONE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release the <code>Target</code> for all kind of allocation</p></td>
 </tr>
 </tbody>
 </table>
 <div class="sect3">
 <h4 id="_lock_inbound_putaway_infeed"><a class="anchor" href="#_lock_inbound_putaway_infeed"></a><a class="link" href="#_lock_inbound_putaway_infeed">Lock Inbound (Putaway, Infeed)</a></h4>
 <div class="paragraph">
-<p>To lock a <code>Target</code> to be not considered in inbound operations, like Putaway the server demands a HTTP POST request with the operation
-<code>op=lock</code> the type of lock and the operation mode.</p>
+<p>To lock a <code>Target</code> to be not considered in inbound, like Putaway, the server requires a HTTP POST request with the lock type
+<code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=ALLOCATION_LOCK&amp;mode=IN</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_lock_outbound_dispatching_allocation_outfeed"><a class="anchor" href="#_lock_outbound_dispatching_allocation_outfeed"></a><a class="link" href="#_lock_outbound_dispatching_allocation_outfeed">Lock Outbound (Dispatching, Allocation, Outfeed)</a></h4>
+<div class="paragraph">
+<p>To lock a <code>Target</code> for outbound, like Allocation and Outfeed, the server requires a HTTP POST request with the lock type
+<code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
 
+type=ALLOCATION_LOCK&amp;mode=OUT</code></pre>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_lock_inbound_outbound"><a class="anchor" href="#_lock_inbound_outbound"></a><a class="link" href="#_lock_inbound_outbound">Lock Inbound &amp; Outbound</a></h4>
+<div class="paragraph">
+<p>To lock a <code>Target</code> for inbound and outbound, like Putaway and Allocation, the server requires a HTTP POST request with the
+lock type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
 
+type=ALLOCATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_release_lock"><a class="anchor" href="#_release_lock"></a><a class="link" href="#_release_lock">Release Lock</a></h4>
+<div class="paragraph">
+<p>To release all locks on a <code>Target</code> and allow any inbound and outbound operation, the server requires a HTTP POST request with the lock
+type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
 
+type=ALLOCATION_LOCK&amp;mode=NONE</code></pre>
+</div>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_success"><a class="anchor" href="#_success"></a><a class="link" href="#_success">Success</a></h4>
-
+<h4 id="_response_success"><a class="anchor" href="#_response_success"></a><a class="link" href="#_response_success">Response: Success</a></h4>
+<div class="paragraph">
+<p>In any of the previous cases the server responds with the following success message.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_operation_locking"><a class="anchor" href="#_operation_locking"></a><a class="link" href="#_operation_locking">Operation Locking</a></h3>
+<h3 id="_locking_operational_processing"><a class="anchor" href="#_locking_operational_processing"></a><a class="link" href="#_locking_operational_processing">Locking Operational Processing</a></h3>
+<div class="paragraph">
+<p>A <code>Target</code> could also be locked for operation only but not for further Allocation. This means, the <code>Target</code> is active and looks available
+in warehouse counting and order allocation but is currently out-of-order and not ready to execute any (physical) operation. This is useful
+for planned short term locks, where a <code>Target</code> is taken out of operation but should still be considered by the system.</p>
+</div>
+<div class="paragraph">
+<p>Like the infeed/outfeed locking an <strong>operational lock</strong> can be set to different modes.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTP Verb</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Query Param <code>type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Query Param <code>mode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for all inbound operations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OUT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for all outbound operations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN_AND_OUT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for all inbound and outbound operations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NONE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release the <code>Target</code> for all kind of operations</p></td>
+</tr>
+</tbody>
+</table>
 <div class="sect3">
-<h4 id="_success_2"><a class="anchor" href="#_success_2"></a><a class="link" href="#_success_2">Success</a></h4>
+<h4 id="_lock_for_inbound_operations"><a class="anchor" href="#_lock_for_inbound_operations"></a><a class="link" href="#_lock_for_inbound_operations">Lock for inbound Operations</a></h4>
+<div class="paragraph">
+<p>To lock a <code>Target</code> for inbound operations only, the server requires a HTTP POST request with the lock type
+<code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
 
+reallocation=true&amp;type=OPERATION_LOCK&amp;mode=IN</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lock_for_outbound_operations"><a class="anchor" href="#_lock_for_outbound_operations"></a><a class="link" href="#_lock_for_outbound_operations">Lock for outbound Operations</a></h4>
+<div class="paragraph">
+<p>To lock a <code>Target</code> for outbound operations only, the server requires a HTTP POST request with the lock type
+<code>type=OPERATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=OPERATION_LOCK&amp;mode=OUT</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lock_inbound_outbound_operations"><a class="anchor" href="#_lock_inbound_outbound_operations"></a><a class="link" href="#_lock_inbound_outbound_operations">Lock inbound &amp; outbound Operations</a></h4>
+<div class="paragraph">
+<p>To lock a <code>Target</code> for inbound and outbound operations, the server requires a HTTP POST request with the
+lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=OPERATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_release_lock_2"><a class="anchor" href="#_release_lock_2"></a><a class="link" href="#_release_lock_2">Release Lock</a></h4>
+<div class="paragraph">
+<p>To release all operational locks on a <code>Target</code> and allow any inbound and outbound operation, the server requires a HTTP POST request with
+the lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=OPERATION_LOCK&amp;mode=NONE</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_success_2"><a class="anchor" href="#_response_success_2"></a><a class="link" href="#_response_success_2">Response: Success</a></h4>
+<div class="paragraph">
+<p>In any of the previous cases the server responds with the following success message.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_locking_unlocking_a_target_for_allocation_and_processing"><a class="anchor" href="#_locking_unlocking_a_target_for_allocation_and_processing"></a><a class="link" href="#_locking_unlocking_a_target_for_allocation_and_processing">Locking / Unlocking a Target for Allocation and Processing</a></h3>
 <div class="paragraph">
-<p>To permanently lock or unlock a <code>Target</code> for allocation and processing send a HTTP POST request with the name of the <code>Target</code> to the server.
-Locking  the <code>Target</code> allows an optional flag to be passed to signal a re-allocation of already assigned movements and orders.</p>
+<p>If a <code>Target</code> locked for operation it does not process and requests anymore. In case of a physical <code>Target</code>, like a Crane, no new movements
+are accepted and the Crane will stop working. This depends on the implemented Crane strategy. The Crane could stop immediately or after it
+finishes the current operation.</p>
+</div>
+<div class="paragraph">
+<p>To permanently lock or unlock a <code>Target</code> for allocation <em>and</em> processing send a HTTP POST request with the name of the <code>Target</code> to the
+server. Locking  the <code>Target</code> allows an optional flag to signal a re-allocation of already assigned movements and orders.</p>
 </div>
 <div class="paragraph">
 <p>In this example the <code>Target</code> is a <code>LocationGroup</code> with the name <code>IPOINT</code> that gets locked. The server is requested to re-allocate existing
@@ -585,7 +774,7 @@ orders.</p>
 Host: localhost:8080
 Content-Type: application/x-www-form-urlencoded
 
-reallocation=true&amp;op=lock</code></pre>
+reallocation=true&amp;type=PERMANENT_LOCK&amp;mode=lock</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -597,13 +786,13 @@ reallocation=true&amp;op=lock</code></pre>
 Host: localhost:8080
 Content-Type: application/x-www-form-urlencoded
 
-op=unlock</code></pre>
+type=PERMANENT_LOCK&amp;mode=unlock</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_success_3"><a class="anchor" href="#_success_3"></a><a class="link" href="#_success_3">Success</a></h4>
+<h4 id="_response_success_3"><a class="anchor" href="#_response_success_3"></a><a class="link" href="#_response_success_3">Response: Success</a></h4>
 <div class="paragraph">
-<p>If the server has successfully locked or unlocked the <code>Target</code> the response is a HTTP 200-OK:</p>
+<p>If the server has successfully locked or unlocked the <code>Target</code> the response is:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -612,9 +801,9 @@ op=unlock</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_target_does_not_exist"><a class="anchor" href="#_target_does_not_exist"></a><a class="link" href="#_target_does_not_exist">Target does not exist</a></h4>
+<h4 id="_response_target_does_not_exist"><a class="anchor" href="#_response_target_does_not_exist"></a><a class="link" href="#_response_target_does_not_exist">Response: Target does not exist</a></h4>
 <div class="paragraph">
-<p>If the given <code>Target</code> does not exist the server response with HTTP 404-Not Found:</p>
+<p>If the given <code>Target</code> (FOO) does not exist the server responds with:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -636,7 +825,7 @@ Content-Length: 194
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-08-12 08:58:22 UTC
+Last updated 2019-08-12 18:15:17 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

@@ -85,12 +85,12 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public void changeOperationMode(String name, String mode) {
-<span class="nc" id="L88">        LocationGroup locationGroup = repository</span>
-<span class="nc" id="L89">                .findByName(name)</span>
-<span class="nc" id="L90">                .orElseThrow(() -&gt; new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{name}, name));</span>
-<span class="nc" id="L91">        locationGroup.setOperationMode(mode);</span>
-<span class="nc" id="L92">        repository.save(locationGroup);</span>
-<span class="nc" id="L93">    }</span>
+<span class="fc" id="L88">        LocationGroup locationGroup = repository</span>
+<span class="fc" id="L89">                .findByName(name)</span>
+<span class="pc" id="L90">                .orElseThrow(() -&gt; new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{name}, name));</span>
+<span class="fc" id="L91">        locationGroup.setOperationMode(mode);</span>
+<span class="fc" id="L92">        repository.save(locationGroup);</span>
+<span class="fc" id="L93">    }</span>
 
     /**
      * {@inheritDoc}
