@@ -45,7 +45,7 @@ OpenWMS.org COMMON: Services,org.openwms.common.units,PieceUnit,6,53,0,0,2,9,2,3
 OpenWMS.org COMMON: Services,org.openwms.common.units,Piece,106,146,18,16,23,34,20,14,7,10
 OpenWMS.org COMMON: Services,org.openwms.common.units,PieceUserType,130,0,12,0,32,0,21,0,15,0
 OpenWMS.org COMMON: Services,org.openwms.common.units,WeightUnit,6,78,0,0,2,13,2,3,2,3
-OpenWMS.org COMMON: Services,org.openwms.common.units,Weight,101,103,14,10,26,25,18,10,8,8
+OpenWMS.org COMMON: Services,org.openwms.common.units,Weight,86,118,14,10,20,31,16,12,6,10
 OpenWMS.org COMMON: Services,org.openwms.common.location,LocationPK.Builder,0,34,0,0,0,12,0,7,0,7
 OpenWMS.org COMMON: Services,org.openwms.common.location,Message,2,92,2,8,0,20,2,12,0,9
 OpenWMS.org COMMON: Services,org.openwms.common.location,LocationGroup,112,433,38,50,22,89,42,46,11,33
@@ -55,7 +55,7 @@ OpenWMS.org COMMON: Services,org.openwms.common.location,Message.Builder,0,16,0,
 OpenWMS.org COMMON: Services,org.openwms.common.location,LocationType,14,88,2,4,6,23,5,12,3,11
 OpenWMS.org COMMON: Services,org.openwms.common.location,Target,0,3,0,0,0,1,0,1,0,1
 OpenWMS.org COMMON: Services,org.openwms.common.location,Subsystem,32,0,0,0,14,0,7,0,7,0
-OpenWMS.org COMMON: Services,org.openwms.common.location,Location,56,222,8,8,16,50,19,28,13,26
+OpenWMS.org COMMON: Services,org.openwms.common.location,Location,54,224,7,9,16,50,18,29,13,26
 OpenWMS.org COMMON: Services,org.openwms.common.location,LocationGroupController,120,15,4,0,22,6,9,1,7,1
 OpenWMS.org COMMON: Services,org.openwms.common.location,TargetController,329,90,29,4,76,26,34,5,12,5
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,MessageCommand,72,0,0,0,27,0,13,0,13,0
@@ -90,12 +90,12 @@ OpenWMS.org COMMON: Services,org.openwms.common.location.api.messages,LocationGr
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitType.Builder,67,0,0,0,26,0,13,0,13,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport,Barcode.BARCODE_ALIGN,0,24,0,0,0,5,0,1,0,1
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitTypeController,38,9,0,0,4,4,3,1,3,1
-OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitType,152,146,3,3,43,29,22,14,19,14
-OpenWMS.org COMMON: Services,org.openwms.common.transport,Barcode,31,113,8,12,14,38,12,16,5,13
+OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitType,145,153,2,4,42,30,20,16,18,15
+OpenWMS.org COMMON: Services,org.openwms.common.transport,Barcode,28,116,8,12,12,40,11,17,4,14
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TypePlacingRule,41,81,5,7,8,17,11,5,6,4
 OpenWMS.org COMMON: Services,org.openwms.common.transport,UnitError.Builder,5,16,0,0,2,5,1,3,1,3
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitController,157,12,6,0,28,5,11,1,8,1
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TypeStackingRule,94,3,12,0,15,2,13,1,7,1
-OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnit,88,453,29,39,23,62,39,35,12,28
-OpenWMS.org COMMON: Services,org.openwms.common.transport,UnitError,24,69,4,6,3,16,6,8,2,7
+OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnit,52,489,27,41,13,72,34,40,7,33
+OpenWMS.org COMMON: Services,org.openwms.common.transport,UnitError,20,73,4,6,1,18,5,9,1,8
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitState,0,34,0,0,0,7,0,1,0,1
