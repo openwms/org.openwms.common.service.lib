@@ -45,7 +45,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableConfigurationProperties
 @EnableSpringConfigured
 @EnableJpaAuditing
-@EnableMultiTenancy
+@EnableMultiTenancy(enabled = false)
 @EnableTransactionManagement
 public class CommonModuleConfiguration {
 
