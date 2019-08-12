@@ -16,21 +16,21 @@
 package org.openwms.common.location.api;
 
 /**
- * A OperationType is an enumeration of possible modes a Target resource can be operated in.
+ * A LockMode is an enumeration of possible modes a Target resource can be locked for.
  *
  * @author Heiko Scherrer
  */
-public enum OperationMode {
+public enum LockMode {
 
-    /** Available for inbound operations. */
+    /** Locked for inbound operations. */
     IN,
 
-    /** Available for outbound operations. */
+    /** Locked for outbound operations. */
     OUT,
 
-    /** Available for inbound and outbound operations. */
+    /** Locked for inbound and outbound operations. */
     IN_AND_OUT,
 
-    /** Not available for any operation. */
-    BLOCKED
+    /** Not locked for any operation. */
+    NONE
 }

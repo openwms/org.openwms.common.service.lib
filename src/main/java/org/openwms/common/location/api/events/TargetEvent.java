@@ -15,8 +15,8 @@
  */
 package org.openwms.common.location.api.events;
 
+import org.openwms.common.location.api.LockMode;
 import org.openwms.common.location.api.LockType;
-import org.openwms.common.location.api.OperationMode;
 import org.openwms.core.event.RootApplicationEvent;
 
 import java.io.Serializable;
@@ -31,7 +31,7 @@ public class TargetEvent extends RootApplicationEvent implements Serializable {
 
     private String targetBK;
     private LockType lockType;
-    private OperationMode operationMode;
+    private LockMode operationMode;
     private Boolean reAllocation;
 
     /*~ ------------------ constructors ----------------------*/
@@ -66,7 +66,7 @@ public class TargetEvent extends RootApplicationEvent implements Serializable {
         return lockType;
     }
 
-    public OperationMode getOperationMode() {
+    public LockMode getOperationMode() {
         return operationMode;
     }
 
@@ -95,7 +95,7 @@ public class TargetEvent extends RootApplicationEvent implements Serializable {
     public static final class Builder {
         private String targetBK;
         private LockType lockType;
-        private OperationMode operationMode;
+        private LockMode operationMode;
         private Boolean reAllocation;
 
         public Builder targetBK(String val) {
@@ -108,7 +108,7 @@ public class TargetEvent extends RootApplicationEvent implements Serializable {
             return this;
         }
 
-        public Builder operationMode(OperationMode val) {
+        public Builder operationMode(LockMode val) {
             operationMode = val;
             return this;
         }

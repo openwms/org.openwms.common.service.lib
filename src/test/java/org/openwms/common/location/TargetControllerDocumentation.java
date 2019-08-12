@@ -16,16 +16,21 @@
 package org.openwms.common.location;
 
 import org.ameba.Messages;
+import org.ameba.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.ApplicationTest;
 import org.openwms.common.CommonConstants;
+import org.openwms.common.location.api.LocationGroupMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -43,7 +48,8 @@ class TargetControllerDocumentation {
 
     @Autowired
     private WebApplicationContext context;
-
+    @Autowired
+    private LocationGroupService locationGroupService;
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -52,27 +58,119 @@ class TargetControllerDocumentation {
                 .apply(documentationConfiguration(restDocumentation)).build();
     }
 
-    @Test void shall_lock_LocationGroup() throws Exception {
-        mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
-                        .param("reallocation", "true")
-                        .param("op", "lock"))
-                .andExpect(status().isOk())
-                .andDo(document("lock-lg-IPOINT"));
+    @Nested
+    @DisplayName("Allocation Locks")
+    class AllocationLockTests {
+        @Test
+        void shall_lock_LocationGroup_IN() throws Exception {
+            mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
+                    .param("type", "ALLOCATION_LOCK")
+                    .param("mode", "IN"))
+                    .andExpect(status().isOk())
+                    .andDo(document("all-lock-in-lg-IPOINT"));
+            LocationGroup ipoint = locationGroupService.findByName("IPOINT").orElseThrow(NotFoundException::new);
+            assertThat(ipoint.isInfeedAllowed()).isFalse();
+            assertThat(ipoint.isOutfeedAllowed()).isTrue();
+            assertThat(ipoint.getOperationMode()).isEqualTo(LocationGroupMode.INFEED_AND_OUTFEED);
+            LocationGroup ipoint1 = locationGroupService.findByName("IPOINT1").orElseThrow(NotFoundException::new);
+            assertThat(ipoint1.isInfeedAllowed()).isFalse();
+            assertThat(ipoint1.isOutfeedAllowed()).isTrue();
+        }
+
+        @Test
+        void shall_lock_LocationGroup_OUT() throws Exception {
+            mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
+                    .param("type", "ALLOCATION_LOCK")
+                    .param("mode", "OUT"))
+                    .andExpect(status().isOk())
+                    .andDo(document("all-lock-out-lg-IPOINT"));
+            LocationGroup ipoint = locationGroupService.findByName("IPOINT").orElseThrow(NotFoundException::new);
+            assertThat(ipoint.isInfeedAllowed()).isTrue();
+            assertThat(ipoint.isOutfeedAllowed()).isFalse();
+            assertThat(ipoint.getOperationMode()).isEqualTo(LocationGroupMode.INFEED_AND_OUTFEED);
+            LocationGroup ipoint1 = locationGroupService.findByName("IPOINT1").orElseThrow(NotFoundException::new);
+            assertThat(ipoint1.isInfeedAllowed()).isTrue();
+            assertThat(ipoint1.isOutfeedAllowed()).isFalse();
+        }
+
+        @Test
+        void shall_lock_LocationGroup_INOUT() throws Exception {
+            mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
+                    .param("type", "ALLOCATION_LOCK")
+                    .param("mode", "IN_AND_OUT"))
+                    .andExpect(status().isOk())
+                    .andDo(document("all-lock-inout-lg-IPOINT"));
+            LocationGroup ipoint = locationGroupService.findByName("IPOINT").orElseThrow(NotFoundException::new);
+            assertThat(ipoint.getOperationMode()).isEqualTo(LocationGroupMode.INFEED_AND_OUTFEED);
+            assertThat(ipoint.isInfeedAllowed()).isFalse();
+            assertThat(ipoint.isOutfeedAllowed()).isFalse();
+        }
+
+        @Test
+        void shall_lock_LocationGroup_NONE() throws Exception {
+            mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
+                    .param("type", "ALLOCATION_LOCK")
+                    .param("mode", "NONE"))
+                    .andExpect(status().isOk())
+                    .andDo(document("all-lock-none-lg-IPOINT"));
+            LocationGroup ipoint = locationGroupService.findByName("IPOINT").orElseThrow(NotFoundException::new);
+            assertThat(ipoint.getOperationMode()).isEqualTo(LocationGroupMode.INFEED_AND_OUTFEED);
+            assertThat(ipoint.isInfeedAllowed()).isTrue();
+            assertThat(ipoint.isOutfeedAllowed()).isTrue();
+        }
     }
 
-    @Test void shall_lock_unknown_LocationGroup() throws Exception {
-        mockMvc.perform(post(CommonConstants.API_TARGETS + "/FOO")
-                .param("op", "lock"))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("messageKey", is(Messages.NOT_FOUND)))
-                .andExpect(jsonPath("httpStatus", is("404")))
-                .andDo(document("lock-lg-unknown"));
+    @Nested
+    @DisplayName("Permanent Locks")
+    class PermanentLockTests {
+        @Test void shall_lock_LocationGroup() throws Exception {
+            mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
+                    .param("reallocation", "true")
+                    .param("type", "PERMANENT_LOCK")
+                    .param("mode", "lock"))
+                    .andExpect(status().isOk())
+                    .andDo(document("lock-lg-IPOINT"));
+            LocationGroup ipoint = locationGroupService.findByName("IPOINT").orElseThrow(NotFoundException::new);
+            assertThat(ipoint.isInfeedAllowed()).isFalse();
+            assertThat(ipoint.isOutfeedAllowed()).isFalse();
+            assertThat(ipoint.getOperationMode()).isEqualTo("NO_OPERATION");
+            LocationGroup ipoint1 = locationGroupService.findByName("IPOINT1").orElseThrow(NotFoundException::new);
+            assertThat(ipoint1.isInfeedAllowed()).isFalse();
+            assertThat(ipoint1.isOutfeedAllowed()).isFalse();
+            assertThat(ipoint1.getOperationMode()).isEqualTo("NO_OPERATION");
+        }
+
+        @Test void shall_lock_unknown_LocationGroup() throws Exception {
+            mockMvc.perform(post(CommonConstants.API_TARGETS + "/FOO")
+                    .param("type", "PERMANENT_LOCK")
+                    .param("mode", "lock"))
+                    .andExpect(status().isNotFound())
+                    .andExpect(jsonPath("messageKey", is(Messages.NOT_FOUND)))
+                    .andExpect(jsonPath("httpStatus", is("404")))
+                    .andDo(document("lock-lg-unknown"));
+        }
+
+        @Test void shall_unlock_LocationGroup() throws Exception {
+            mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
+                    .param("type", "PERMANENT_LOCK")
+                    .param("mode", "unlock"))
+                    .andExpect(status().isOk())
+                    .andDo(document("unlock-lg-IPOINT"));
+            LocationGroup ipoint = locationGroupService.findByName("IPOINT").orElseThrow(NotFoundException::new);
+            assertThat(ipoint.isInfeedAllowed()).isTrue();
+            assertThat(ipoint.isOutfeedAllowed()).isTrue();
+            assertThat(ipoint.getOperationMode()).isEqualTo("INFEED_AND_OUTFEED");
+        }
+
+        @Test void shall_unlock_unknown_LocationGroup() throws Exception {
+            mockMvc.perform(post(CommonConstants.API_TARGETS + "/FOO")
+                    .param("type", "PERMANENT_LOCK")
+                    .param("mode", "unlock"))
+                    .andExpect(status().isNotFound())
+                    .andExpect(jsonPath("messageKey", is(Messages.NOT_FOUND)))
+                    .andExpect(jsonPath("httpStatus", is("404")))
+                    ;
+        }
     }
 
-    @Test void shall_unlock_LocationGroup() throws Exception {
-        mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
-                .param("op", "unlock"))
-                .andExpect(status().isOk())
-                .andDo(document("unlock-lg-IPOINT"));
-    }
 }

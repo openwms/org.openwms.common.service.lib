@@ -20,8 +20,8 @@ import org.openwms.common.CommonConstants;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationGroupMode;
 import org.openwms.common.location.api.LocationGroupState;
+import org.openwms.common.location.api.LockMode;
 import org.openwms.common.location.api.LockType;
-import org.openwms.common.location.api.OperationMode;
 import org.openwms.common.location.api.events.TargetEvent;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.ApplicationContext;
@@ -62,11 +62,11 @@ class TargetController extends AbstractWebController {
      * @param type The type of lock to apply to the Target
      * @param mode The mode to apply to the Targets lock
      */
-    @PostMapping(path = CommonConstants.API_TARGETS + "/{targetBK}", params = {"type", "mode", "op=lock"})
+    @PostMapping(path = CommonConstants.API_TARGETS + "/{targetBK}", params = {"type!=PERMANENT_LOCK", "mode"})
     public void changeState(
             @PathVariable("targetBK") String targetBK,
             @RequestParam("type") LockType type,
-            @RequestParam("mode") OperationMode mode
+            @RequestParam("mode") LockMode mode
     ) {
 
             if (LocationPK.isValid(targetBK)) {
@@ -118,65 +118,64 @@ class TargetController extends AbstractWebController {
         throw new NotFoundException(format("The Target with name [%s] is neither a Location nor a LocationGroup. Other types of Targets are currently not supported", targetBK));
     }
 
-    private void changeLocation(OperationMode mode, Target target, BiConsumer<Target, ErrorCodeVO> fnc) {
+    private void changeLocation(LockMode mode, Target target, BiConsumer<Target, ErrorCodeVO> fnc) {
         switch(mode) {
             case IN:
-                fnc.accept(target, ErrorCodeVO.UNLOCK_STATE_IN);
+                fnc.accept(target, ErrorCodeVO.LOCK_STATE_IN);
                 break;
             case OUT:
-                fnc.accept(target, ErrorCodeVO.UNLOCK_STATE_OUT);
+                fnc.accept(target, ErrorCodeVO.LOCK_STATE_OUT);
                 break;
             case IN_AND_OUT:
-                fnc.accept(target, ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT);
-                break;
-            case BLOCKED:
                 fnc.accept(target, ErrorCodeVO.LOCK_STATE_IN_AND_OUT);
                 break;
+            case NONE:
+                fnc.accept(target, ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT);
+                break;
             default:
                 unsupportedOperation(mode);
         }
     }
 
-    private void changeLocationGroupState(OperationMode mode, Target target, BiConsumer<Target, LocationGroupState[]> fnc) {
+    private void changeLocationGroupState(LockMode mode, Target target, BiConsumer<Target, LocationGroupState[]> fnc) {
         switch(mode) {
             case IN:
-                fnc.accept(target, new LocationGroupState[]{LocationGroupState.AVAILABLE, LocationGroupState.NOT_AVAILABLE});
-                break;
-            case OUT:
                 fnc.accept(target, new LocationGroupState[]{LocationGroupState.NOT_AVAILABLE, LocationGroupState.AVAILABLE});
                 break;
-            case IN_AND_OUT:
-                fnc.accept(target, new LocationGroupState[]{LocationGroupState.AVAILABLE, LocationGroupState.AVAILABLE});
+            case OUT:
+                fnc.accept(target, new LocationGroupState[]{LocationGroupState.AVAILABLE, LocationGroupState.NOT_AVAILABLE});
                 break;
-            case BLOCKED:
+            case IN_AND_OUT:
                 fnc.accept(target, new LocationGroupState[]{LocationGroupState.NOT_AVAILABLE, LocationGroupState.NOT_AVAILABLE});
                 break;
+            case NONE:
+                fnc.accept(target, new LocationGroupState[]{LocationGroupState.AVAILABLE, LocationGroupState.AVAILABLE});
+                break;
             default:
                 unsupportedOperation(mode);
         }
     }
 
-    private void changeLocationGroupMode(OperationMode mode, LocationGroup target, BiConsumer<LocationGroup, String> fnc) {
+    private void changeLocationGroupMode(LockMode mode, LocationGroup target, BiConsumer<LocationGroup, String> fnc) {
         switch(mode) {
             case IN:
-                fnc.accept(target, LocationGroupMode.INFEED);
-                break;
-            case OUT:
                 fnc.accept(target, LocationGroupMode.OUTFEED);
                 break;
-            case IN_AND_OUT:
-                fnc.accept(target, LocationGroupMode.INFEED_AND_OUTFEED);
+            case OUT:
+                fnc.accept(target, LocationGroupMode.INFEED);
                 break;
-            case BLOCKED:
+            case IN_AND_OUT:
                 fnc.accept(target, LocationGroupMode.NO_OPERATION);
+                break;
+            case NONE:
+                fnc.accept(target, LocationGroupMode.INFEED_AND_OUTFEED);
                 break;
             default:
                 unsupportedOperation(mode);
-                return;
         }
     }
 
-    private void unsupportedOperation(OperationMode mode) {
+    private void unsupportedOperation(LockMode mode) {
         throw new IllegalArgumentException(format("The OperationMode [%s] is not supported", mode));
     }
 
@@ -186,7 +185,7 @@ class TargetController extends AbstractWebController {
      * @param targetBK The business key of the Target, can be a {@code LocationPK} in String format or a LocationGroup name
      * @param reAllocation If {@literal true} open outfeed orders will be re-allocated
      */
-    @PostMapping(path = CommonConstants.API_TARGETS + "/{targetBK}", params = {"op=lock"})
+    @PostMapping(path = CommonConstants.API_TARGETS + "/{targetBK}", params = {"type=PERMANENT_LOCK", "mode=lock"})
     public void lock(
             @PathVariable("targetBK") String targetBK,
             @RequestParam(value = "reallocation", required = false) Boolean reAllocation
@@ -196,7 +195,7 @@ class TargetController extends AbstractWebController {
 
             // Okay we handle a Location as Target
             locationService.changeState(location.getPersistentKey(), ErrorCodeVO.LOCK_STATE_IN_AND_OUT);
-            raiseEvent(targetBK, reAllocation, OperationMode.BLOCKED);
+            raiseEvent(targetBK, reAllocation, LockMode.NONE);
             return;
         }
 
@@ -205,7 +204,8 @@ class TargetController extends AbstractWebController {
 
             // The Target is a LocationGroup
             locationGroupService.changeGroupState(optLG.get().getPersistentKey(), LocationGroupState.NOT_AVAILABLE, LocationGroupState.NOT_AVAILABLE);
-            raiseEvent(targetBK, reAllocation, OperationMode.BLOCKED);
+            locationGroupService.changeOperationMode(targetBK, LocationGroupMode.NO_OPERATION);
+            raiseEvent(targetBK, reAllocation, LockMode.NONE);
             return;
         }
 
@@ -218,7 +218,7 @@ class TargetController extends AbstractWebController {
      * @param targetBK The business key of the Target, can be a {@code LocationPK} in String format or a LocationGroup name
      */
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping(value = CommonConstants.API_TARGETS + "/{targetBK}", params = {"op=unlock"})
+    @PostMapping(value = CommonConstants.API_TARGETS + "/{targetBK}", params = {"type=PERMANENT_LOCK", "mode=unlock"})
     public void release(
             @PathVariable("targetBK") String targetBK
     ) {
@@ -227,7 +227,7 @@ class TargetController extends AbstractWebController {
 
             // Okay we handle a Location as Target
             locationService.changeState(location.getPersistentKey(), ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT);
-            raiseEvent(targetBK, null, OperationMode.IN_AND_OUT);
+            raiseEvent(targetBK, null, LockMode.IN_AND_OUT);
             return;
         }
 
@@ -236,7 +236,8 @@ class TargetController extends AbstractWebController {
 
             // The Target is a LocationGroup
             locationGroupService.changeGroupState(optLG.get().getPersistentKey(), LocationGroupState.AVAILABLE, LocationGroupState.AVAILABLE);
-            raiseEvent(targetBK, null, OperationMode.IN_AND_OUT);
+            locationGroupService.changeOperationMode(targetBK, LocationGroupMode.INFEED_AND_OUTFEED);
+            raiseEvent(targetBK, null, LockMode.IN_AND_OUT);
             return;
         }
 
@@ -247,7 +248,7 @@ class TargetController extends AbstractWebController {
         return new NotFoundException(format("A Location as Target with LocationId [%s] does not exist", targetBK));
     }
 
-    private void raiseEvent(String targetBK, Boolean reAllocation, OperationMode mode) {
+    private void raiseEvent(String targetBK, Boolean reAllocation, LockMode mode) {
         ctx.publishEvent(
                 TargetEvent
                         .newBuilder()

@@ -161,7 +161,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return {@literal true} if allowed, otherwise {@literal false}.
      */
     public boolean isOutfeedAllowed() {
-        return (getGroupStateIn() == LocationGroupState.AVAILABLE);
+        return (getGroupStateOut() == LocationGroupState.AVAILABLE);
     }
 
     /**
@@ -170,7 +170,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return {@literal true} if blocked, otherwise {@literal false}.
      */
     public boolean isOutfeedBlocked() {
-        return !isInfeedAllowed();
+        return !isOutfeedAllowed();
     }
 
     /**

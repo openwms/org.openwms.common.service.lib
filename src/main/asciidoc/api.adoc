@@ -20,59 +20,148 @@ a more use-case-driven approach.
 
 [[resources-prg]]
 = Resources
-
 All resources
 
-== Locations
-
-API to deal with Locations.
-
 == Target
+A `Target` is a `Location` or a group of `Locations` (`LocationGroup`) where a `TransportUnit` may be sent to.
 
-A `Target` is a a `Location` or a group of `Location`s (`LocationGroup`) where a `TransportUnit` may sent to.
+A `Target` can be locked for *inbound*/*outbound*, for *operation* or for both. When the `Target` is locked for inbound, no new
+`TransportUnit` movements (`TransportOrders` in automatic warehouses) are created to this `Target` (like a Putaway lock).
+In contrast, no movements can be created away from this `Target` if it is locked for outbound (like Allocation). Locking inbound/outbound
+has no impact on the operation mode of the `Target`. So the `Target` may _still process_ existing orders, even if it is locked for
+inbound/outbound.
 
-A `Target` can be locked for inbound/outbound only, for operation or for both. When the `Target` is locked for inbound, no new movements
-of TransportUnits (`TransportOrders` in automatic warehouses) to this `Target` are created (Locked for Inbound, like putaway). In contrast,
-no movements can be created away from this `Target` if it is locked for outbound (like Allocation). Locking inbound/outbound has no impact
-on the operation mode of the Target. So the Target may still process existing orders, even if it is locked for inbound/outbound.
+The operation mode of a `Target` is controlled separately. If the `Targets` operation mode is set to `*BLOCKED*` the `Target` stops
+all operations and does no longer process any commands or telegrams.
 
-The operation of a `Target` is controlled by the operation mode. If the Target's operation mode is set to `BLOCKED` the `Target` will stop
-the operation and will no longer process any messages, events or telegrams.
-
-=== Inbound/Outbound Locking
+=== Locking Inbound/Outbound
+Locking the Inbound/Outbound of a `Target` is controlled with a HTTP POST request against the URI `/v1/targets/{name}` with a set of
+query parameters.
 
 |===
-| Verb | type | mode | op | description
-
+| HTTP Verb | Query Param `type` | Query Param `mode` | Description
 | `POST`
 | `ALLOCATION_LOCK`
 | `IN`
-| `lock`
-| Lock a `Target` for Inbound operations
+| Lock the `Target` for Inbound allocation
 
+
+| `POST`
+| `ALLOCATION_LOCK`
+| `OUT`
+| Lock the `Target` for Outbound allocation
+
+
+| `POST`
+| `ALLOCATION_LOCK`
+| `IN_AND_OUT`
+| Lock the `Target` for Inbound and Outbound allocation
+
+
+| `POST`
+| `ALLOCATION_LOCK`
+| `NONE`
+| Release the `Target` for all kind of allocation
 |===
 
 ==== Lock Inbound (Putaway, Infeed)
+To lock a `Target` to be not considered in inbound, like Putaway, the server requires a HTTP POST request with the lock type
+`type=ALLOCATION_LOCK` and the `*mode=IN*`.
 
-To lock a `Target` to be not considered in inbound operations, like Putaway the server demands a HTTP POST request with the operation
-`op=lock` the type of lock and the operation mode.
+include::{generated}/all-lock-in-lg-IPOINT/http-request.adoc[]
 
 ==== Lock Outbound (Dispatching, Allocation, Outfeed)
+To lock a `Target` for outbound, like Allocation and Outfeed, the server requires a HTTP POST request with the lock type
+`type=ALLOCATION_LOCK` and the `*mode=OUT*`.
+
+include::{generated}/all-lock-out-lg-IPOINT/http-request.adoc[]
 
 ==== Lock Inbound & Outbound
+To lock a `Target` for inbound and outbound, like Putaway and Allocation, the server requires a HTTP POST request with the
+lock type `type=ALLOCATION_LOCK` and the `*mode=IN_AND_OUT*`.
+
+include::{generated}/all-lock-inout-lg-IPOINT/http-request.adoc[]
 
 ==== Release Lock
+To release all locks on a `Target` and allow any inbound and outbound operation, the server requires a HTTP POST request with the lock
+type `type=ALLOCATION_LOCK` and the `*mode=NONE*`.
 
-==== Success
+include::{generated}/all-lock-none-lg-IPOINT/http-request.adoc[]
 
-=== Operation Locking
+==== Response: Success
+In any of the previous cases the server responds with the following success message.
 
-==== Success
+include::{generated}/all-lock-none-lg-IPOINT/http-response.adoc[]
+
+=== Locking Operational Processing
+A `Target` could also be locked for operation only but not for further Allocation. This means, the `Target` is active and looks available
+in warehouse counting and order allocation but is currently out-of-order and not ready to execute any (physical) operation. This is useful
+for planned short term locks, where a `Target` is taken out of operation but should still be considered by the system.
+
+Like the infeed/outfeed locking an *operational lock* can be set to different modes.
+
+|===
+| HTTP Verb | Query Param `type` | Query Param `mode` | Description
+| `POST`
+| `OPERATION_LOCK`
+| `IN`
+| Lock the `Target` for all inbound operations
+
+
+| `POST`
+| `OPERATION_LOCK`
+| `OUT`
+| Lock the `Target` for all outbound operations
+
+
+| `POST`
+| `OPERATION_LOCK`
+| `IN_AND_OUT`
+| Lock the `Target` for all inbound and outbound operations
+
+
+| `POST`
+| `OPERATION_LOCK`
+| `NONE`
+| Release the `Target` for all kind of operations
+|===
+
+==== Lock for inbound Operations
+To lock a `Target` for inbound operations only, the server requires a HTTP POST request with the lock type
+`type=OPERATION_LOCK` and the `*mode=IN*`.
+
+include::{generated}/all-olock-in-lg-IPOINT/http-request.adoc[]
+
+==== Lock for outbound Operations
+To lock a `Target` for outbound operations only, the server requires a HTTP POST request with the lock type
+`type=OPERATION_LOCK` and the `*mode=OUT*`.
+
+include::{generated}/all-olock-out-lg-IPOINT/http-request.adoc[]
+
+==== Lock inbound & outbound Operations
+To lock a `Target` for inbound and outbound operations, the server requires a HTTP POST request with the
+lock type `type=OPERATION_LOCK` and the `*mode=IN_AND_OUT*`.
+
+include::{generated}/all-olock-inout-lg-IPOINT/http-request.adoc[]
+
+==== Release Lock
+To release all operational locks on a `Target` and allow any inbound and outbound operation, the server requires a HTTP POST request with
+the lock type `type=OPERATION_LOCK` and the `*mode=NONE*`.
+
+include::{generated}/all-olock-none-lg-IPOINT/http-request.adoc[]
+
+==== Response: Success
+In any of the previous cases the server responds with the following success message.
+
+include::{generated}/all-olock-none-lg-IPOINT/http-response.adoc[]
 
 === Locking / Unlocking a Target for Allocation and Processing
+If a `Target` locked for operation it does not process and requests anymore. In case of a physical `Target`, like a Crane, no new movements
+are accepted and the Crane will stop working. This depends on the implemented Crane strategy. The Crane could stop immediately or after it
+finishes the current operation.
 
-To permanently lock or unlock a `Target` for allocation and processing send a HTTP POST request with the name of the `Target` to the server.
-Locking  the `Target` allows an optional flag to be passed to signal a re-allocation of already assigned movements and orders.
+To permanently lock or unlock a `Target` for allocation _and_ processing send a HTTP POST request with the name of the `Target` to the
+server. Locking  the `Target` allows an optional flag to signal a re-allocation of already assigned movements and orders.
 
 In this example the `Target` is a `LocationGroup` with the name `IPOINT` that gets locked. The server is requested to re-allocate existing
 orders.
@@ -83,13 +172,13 @@ To unlock the same `Target` with name `IPOINT`:
 
 include::{generated}/unlock-lg-IPOINT/http-request.adoc[]
 
-==== Success
-If the server has successfully locked or unlocked the `Target` the response is a HTTP 200-OK:
+==== Response: Success
+If the server has successfully locked or unlocked the `Target` the response is:
 
 include::{generated}/lock-lg-IPOINT/http-response.adoc[]
 
-==== Target does not exist
-If the given `Target` does not exist the server response with HTTP 404-Not Found:
+==== Response: Target does not exist
+If the given `Target` (FOO) does not exist the server responds with:
 
 include::{generated}/lock-lg-unknown/http-response.adoc[]
 

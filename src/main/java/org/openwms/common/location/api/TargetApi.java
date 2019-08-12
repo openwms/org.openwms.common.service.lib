@@ -38,7 +38,7 @@ public interface TargetApi {
     void changeState(
             @PathVariable("targetBK") String targetBK,
             @RequestParam("type") LockType type,
-            @RequestParam("mode") OperationMode mode
+            @RequestParam("mode") LockMode mode
     );
 
     /**
