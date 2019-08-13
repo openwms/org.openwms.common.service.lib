@@ -23,6 +23,32 @@ a more use-case-driven approach.
 
 image::ClassDiagram.svg[]
 
+== Location
+A `Location` represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a location on
+the conveyor. Even error locations can be represented with the `Location`. Multiple `Locations` with same characteristics are grouped to a
+`LocationGroup`.
+
+The API allows to search for `Locations` and to mutate the `Locations` state.
+
+=== Find Location by Coordinate
+
+=== Find Location by PLC code
+Send a HTTP GET request with the PLC code as query parameter to find a `Location` identified by this PLC code.
+
+include::{generated}/loc-find-plc/http-request.adoc[]
+
+If the `Location` exists the server responds with
+
+include::{generated}/loc-find-plc/http-response.adoc[]
+
+If no `Location` with the requested PLC code exists, the server responds with
+
+include::{generated}/loc-find-plc-404/http-response.adoc[]
+
+=== Find Locations of a LocationGroup
+
+=== Change the state of a Location
+
 == Target
 A `Target` is a `Location` or a group of `Locations` (`LocationGroup`) where a `TransportUnit` may be sent to.
 
