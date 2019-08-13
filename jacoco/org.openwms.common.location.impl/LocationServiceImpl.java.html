@@ -85,7 +85,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-<span class="nc" id="L88">    public Optional&lt;Location&gt; findByPlcCode(String plcCode) {</span>
+<span class="fc" id="L88">    public Optional&lt;Location&gt; findByPlcCode(String plcCode) {</span>
         return repository.findByPlcCode(plcCode);
     }
 

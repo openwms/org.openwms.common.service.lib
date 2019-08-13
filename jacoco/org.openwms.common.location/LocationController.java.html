@@ -61,8 +61,8 @@ public class LocationController {
 
     @GetMapping(value = API_LOCATIONS, params = {&quot;plcCode&quot;})
     public Optional&lt;LocationVO&gt; findLocationByPlcCode(@RequestParam(&quot;plcCode&quot;) String plcCode) {
-<span class="nc" id="L64">        Location location = locationService.findByPlcCode(plcCode).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with PLC Code [%s] found&quot;, plcCode)));</span>
-<span class="nc" id="L65">        return Optional.ofNullable(mapper.map(location, LocationVO.class));</span>
+<span class="fc" id="L64">        Location location = locationService.findByPlcCode(plcCode).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with PLC Code [%s] found&quot;, plcCode)));</span>
+<span class="fc" id="L65">        return Optional.ofNullable(mapper.map(location, LocationVO.class));</span>
     }
 
     @GetMapping(value = API_LOCATIONS, params = {&quot;locationGroupNames&quot;})

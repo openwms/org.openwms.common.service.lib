@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.6.1">
-<meta name="author" content="(1.4.0-SNAPSHOT-197)">
+<meta name="author" content="(1.4.0-SNAPSHOT-198)">
 <title>RESTful API</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -431,7 +431,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>RESTful API</h1>
 <div class="details">
-<span id="author" class="author">(1.4.0-SNAPSHOT-197)</span><br>
+<span id="author" class="author">(1.4.0-SNAPSHOT-198)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -440,6 +440,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#overview">Overview</a></li>
 <li><a href="#resources-prg">Resources</a>
 <ul class="sectlevel1">
+<li><a href="#_location">Location</a>
+<ul class="sectlevel2">
+<li><a href="#_find_location_by_coordinate">Find Location by Coordinate</a></li>
+<li><a href="#_find_location_by_plc_code">Find Location by PLC code</a></li>
+<li><a href="#_find_locations_of_a_locationgroup">Find Locations of a LocationGroup</a></li>
+<li><a href="#_change_the_state_of_a_location">Change the state of a Location</a></li>
+</ul>
+</li>
 <li><a href="#_target">Target</a>
 <ul class="sectlevel2">
 <li><a href="#_locking_inbound_outbound">Locking Inbound/Outbound</a>
@@ -485,7 +493,77 @@ a more use-case-driven approach.
 <h1 id="resources-prg" class="sect0"><a class="anchor" href="#resources-prg"></a><a class="link" href="#resources-prg">Resources</a></h1>
 <div class="openblock partintro">
 <div class="content">
-All resources
+<div class="imageblock">
+<div class="content">
+<img src="images/ClassDiagram.svg" alt="ClassDiagram">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_location"><a class="anchor" href="#_location"></a><a class="link" href="#_location">Location</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <code>Location</code> represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a location on
+the conveyor. Even error locations can be represented with the <code>Location</code>. Multiple <code>Locations</code> with same characteristics are grouped to a
+<code>LocationGroup</code>.</p>
+</div>
+<div class="paragraph">
+<p>The API allows to search for <code>Locations</code> and to mutate the <code>Locations</code> state.</p>
+</div>
+<div class="sect2">
+<h3 id="_find_location_by_coordinate"><a class="anchor" href="#_find_location_by_coordinate"></a><a class="link" href="#_find_location_by_coordinate">Find Location by Coordinate</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="_find_location_by_plc_code"><a class="anchor" href="#_find_location_by_plc_code"></a><a class="link" href="#_find_location_by_plc_code">Find Location by PLC code</a></h3>
+<div class="paragraph">
+<p>Send a HTTP GET request with the PLC code as query parameter to find a <code>Location</code> identified by this PLC code.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?plcCode=PLC_0030 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> exists the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 221
+
+{
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0030",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "links" : [ ]
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no <code>Location</code> with the requested PLC code exists, the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_locations_of_a_locationgroup"><a class="anchor" href="#_find_locations_of_a_locationgroup"></a><a class="link" href="#_find_locations_of_a_locationgroup">Find Locations of a LocationGroup</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="_change_the_state_of_a_location"><a class="anchor" href="#_change_the_state_of_a_location"></a><a class="link" href="#_change_the_state_of_a_location">Change the state of a Location</a></h3>
+
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -825,7 +903,7 @@ Content-Length: 194
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-08-12 18:15:17 UTC
+Last updated 2019-08-13 20:22:42 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
