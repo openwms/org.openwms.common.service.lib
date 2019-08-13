@@ -173,9 +173,6 @@ public class Location extends Target implements Serializable {
     @JoinColumn(name = "C_LOCATION_GROUP")
     private LocationGroup locationGroup;
 
-    @Column(name = "C_SORT")
-    private int sortOrder;
-
     /** Stored {@link Message}s on this Location. */
     @OneToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "COM_LOCATION_MESSAGE", joinColumns = @JoinColumn(name = "C_LOCATION_ID"), inverseJoinColumns = @JoinColumn(name = "C_MESSAGE_ID"))
@@ -204,6 +201,7 @@ public class Location extends Target implements Serializable {
      * @return The Location
      */
     public static Location create(LocationPK locationId) {
+        Assert.notNull(locationId, "Creation of Location with locationId null");
         return new Location(locationId);
     }
     /*~ ----------------------------- methods ------------------- */
@@ -486,15 +484,6 @@ public class Location extends Target implements Serializable {
      */
     void unsetLocationGroup() {
         this.locationGroup = null;
-    }
-
-    /**
-     * Get the sortOrder.
-     *
-     * @return The sortOrder
-     */
-    public int getSortOrder() {
-        return sortOrder;
     }
 
     /**
