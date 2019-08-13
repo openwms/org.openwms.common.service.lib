@@ -16,7 +16,7 @@ spring:
       name: user
   jpa:
     show-sql: false
-    open-in-view: true
+    open-in-view: false
 
 feign:
   httpclient:
