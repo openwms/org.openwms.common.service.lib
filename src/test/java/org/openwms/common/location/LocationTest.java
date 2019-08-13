@@ -15,6 +15,8 @@
  */
 package org.openwms.common.location;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,75 +27,107 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
-public class LocationTest {
+class LocationTest {
 
-    public
-    @Test
-    void testConstructionWithNull() {
-        assertThatThrownBy(
-                () -> new Location(null))
-                .isInstanceOf(IllegalArgumentException.class);
+    private static final LocationPK ID1 = new LocationPK.Builder().area("area").aisle("aisle").x("x").y("y").z("z").build();
+
+    @Nested
+    @DisplayName("Creation")
+    class CreationTests {
+
+        @Test
+        void test_jpa_constructor_exists() {
+            new Location();
+        }
+
+        @Test
+        void shall_fail_with_null() {
+            assertThatThrownBy(
+                    () -> new Location(null))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test
+        void shall_fail_with_null_in_factory() {
+            assertThatThrownBy(
+                    () -> Location.create(null))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test
+        void test_factory() {
+            Location location = Location.create(ID1);
+            assertThat(location).isNotNull();
+        }
+
+        @Test
+        void shall_return_defaults() {
+            Location l = new Location(ID1);
+            assertThat(l.getLocationId()).isEqualTo(ID1);
+            assertThat(l.getNoMaxTransportUnits()).isEqualTo(Location.DEF_MAX_TU);
+            assertThat(l.isCountingActive()).isFalse();
+            assertThat(l.getCheckState()).isEqualTo(Location.DEF_CHECK_STATE);
+            assertThat(l.isLocationGroupCountingActive()).isEqualTo(Location.DEF_LG_COUNTING_ACTIVE);
+            assertThat(l.isInfeedActive()).isEqualTo(Location.DEF_INCOMING_ACTIVE);
+            assertThat(l.isInfeedBlocked()).isNotEqualTo(Location.DEF_INCOMING_ACTIVE);
+            assertThat(l.isOutfeedActive()).isEqualTo(Location.DEF_OUTGOING_ACTIVE);
+            assertThat(l.isOutfeedBlocked()).isNotEqualTo(Location.DEF_OUTGOING_ACTIVE);
+            assertThat(l.getPlcState()).isEqualTo(Location.DEF_PLC_STATE);
+            assertThat(l.isConsideredInAllocation()).isEqualTo(Location.DEF_CONSIDERED_IN_ALLOCATION);
+        }
     }
 
-    public
-    @Test
-    void testDefaultCreation() {
-        Location l = new Location(new LocationPK.Builder().area("area").aisle("aisle").x("x").y("y").z("z").build());
-        assertThat(l.getNoMaxTransportUnits()).isEqualTo(Location.DEF_MAX_TU);
-        assertThat(l.isCountingActive()).isFalse();
-        assertThat(l.getCheckState()).isEqualTo(Location.DEF_CHECK_STATE);
-        assertThat(l.isLocationGroupCountingActive()).isEqualTo(Location.DEF_LG_COUNTING_ACTIVE);
-        assertThat(l.isInfeedActive()).isEqualTo(Location.DEF_INCOMING_ACTIVE);
-        assertThat(l.isOutfeedActive()).isEqualTo(Location.DEF_OUTGOING_ACTIVE);
-        assertThat(l.getPlcState()).isEqualTo(Location.DEF_PLC_STATE);
-        assertThat(l.isConsideredInAllocation()).isEqualTo(Location.DEF_CONSIDERED_IN_ALLOCATION);
+    @Nested
+    @DisplayName("Messages")
+    class MessageTests {
+        @Test void shall_fail_when_add_message_null() {
+            Location l = new Location(ID1);
+            assertThatThrownBy(
+                    () -> l.addMessage(null))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test void testMessageHandling() {
+            Location l = new Location(ID1);
+            Message m = Message.newBuilder().messageNo(1).messageText("First message").build();
+
+            l.addMessage(m);
+            assertThat(l.getMessages()).hasSize(1);
+            assertThat(l.getMessages()).contains(m);
+
+            l.removeMessages(m);
+            assertThat(l.getMessages()).hasSize(0);
+        }
+
+        @Test void shall_fail_when_remove_message_null() {
+            Location l = new Location(ID1);
+            assertThatThrownBy(
+                    () -> l.removeMessages(null))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
     }
 
-    public
-    @Test
-    void testAddMessageWithNull() {
-        Location l = new Location(new LocationPK.Builder().area("area").aisle("aisle").x("x").y("y").z("z").build());
-        assertThatThrownBy(
-                () -> l.addMessage(null))
-                .isInstanceOf(IllegalArgumentException.class);
+    @Test void test_infeed() {
+        Location l = new Location(ID1);
+        l.setInfeed(false);
+        assertThat(l.isInfeedActive()).isFalse();
     }
 
-    public
-    @Test
-    void testMessageHandling() {
-        Location l = new Location(new LocationPK.Builder().area("area").aisle("aisle").x("x").y("y").z("z").build());
-        Message m = Message.newBuilder().messageNo(1).messageText("First message").build();
-
-        l.addMessage(m);
-        assertThat(l.getMessages()).hasSize(1);
-        assertThat(l.getMessages()).contains(m);
-
-        l.removeMessages(m);
-        assertThat(l.getMessages()).hasSize(0);
+    @Test void test_outfeed() {
+        Location l = new Location(ID1);
+        l.setOutfeed(false);
+        assertThat(l.isOutfeedActive()).isFalse();
     }
 
-    public
-    @Test
-    void testRemoveMessageWithNull() {
-        Location l = new Location(new LocationPK.Builder().area("area").aisle("aisle").x("x").y("y").z("z").build());
-        assertThatThrownBy(
-                () -> l.removeMessages(null))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    public
-    @Test
-    void testSetLocationGroupWithNull() {
-        Location l = new Location(new LocationPK.Builder().area("area").aisle("aisle").x("x").y("y").z("z").build());
+    @Test void shall_fail_with_LocationGroup_Null() {
+        Location l = new Location(ID1);
         assertThatThrownBy(
                 () -> l.setLocationGroup(null))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    public
-    @Test
-    void testSetLocationGroup() {
-        Location l = new Location(new LocationPK.Builder().area("area").aisle("aisle").x("x").y("y").z("z").build());
+    @Test void testSetLocationGroup() {
+        Location l = new Location(ID1);
         assertThat(l.getLocationGroup()).isNull();
         LocationGroup lg1 = new LocationGroup("error zone");
         LocationGroup lg2 = new LocationGroup("picking");
