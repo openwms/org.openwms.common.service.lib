@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    config:
+      fail-fast: false
+      discovery:
+        enabled: false
+      enabled: false
+  main:
+    banner-mode: "off"
+  jpa:
+    open-in-view: false

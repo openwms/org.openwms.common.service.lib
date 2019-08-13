@@ -47,6 +47,15 @@ public class TransportUnitTypeVO implements Serializable {
     }
 
     /*~-------------------- accessors --------------------*/
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getDescription() {
         return description;
     }

@@ -42,7 +42,8 @@ import java.util.Set;
 
 /**
  * A Location, represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a location
- * on a conveyor. Error locations can be modeled with a Location entity, too. Multiple Locations are grouped to a {@link LocationGroup}.
+ * on a conveyor. Even error locations can be represented with the Location. Multiple Locations with same characteristics are grouped to a
+ * {@link LocationGroup}.
  *
  * @author Heiko Scherrer
  * @GlossaryTerm
@@ -173,9 +174,6 @@ public class Location extends Target implements Serializable {
     @JoinColumn(name = "C_LOCATION_GROUP")
     private LocationGroup locationGroup;
 
-    @Column(name = "C_SORT")
-    private int sortOrder;
-
     /** Stored {@link Message}s on this Location. */
     @OneToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "COM_LOCATION_MESSAGE", joinColumns = @JoinColumn(name = "C_LOCATION_ID"), inverseJoinColumns = @JoinColumn(name = "C_MESSAGE_ID"))
@@ -204,6 +202,7 @@ public class Location extends Target implements Serializable {
      * @return The Location
      */
     public static Location create(LocationPK locationId) {
+        Assert.notNull(locationId, "Creation of Location with locationId null");
         return new Location(locationId);
     }
     /*~ ----------------------------- methods ------------------- */
@@ -486,15 +485,6 @@ public class Location extends Target implements Serializable {
      */
     void unsetLocationGroup() {
         this.locationGroup = null;
-    }
-
-    /**
-     * Get the sortOrder.
-     *
-     * @return The sortOrder
-     */
-    public int getSortOrder() {
-        return sortOrder;
     }
 
     /**

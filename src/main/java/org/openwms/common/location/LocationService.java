@@ -89,7 +89,7 @@ public interface LocationService {
      * Change the infeed and outfeed state of a {@link Location} in respect of the according {@code LocationGroup}.
      *
      * @param pKey The persistent key identifier of the Location to change
-     * @param stateOut The new outfeed state
+     * @param errorCode Contains the error bitmap to encode the state
      */
     void changeState(
             String pKey,

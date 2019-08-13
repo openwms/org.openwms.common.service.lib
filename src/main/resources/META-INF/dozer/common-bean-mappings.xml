@@ -70,10 +70,6 @@
 			<a is-accessible="true">actualLocationDate</a>
 			<b is-accessible="true">actualLocationDate</b>
 		</field>
-		<field>
-			<a is-accessible="true">errors</a>
-			<b is-accessible="true">errors</b>
-		</field>
     </mapping>
 
     <mapping>
