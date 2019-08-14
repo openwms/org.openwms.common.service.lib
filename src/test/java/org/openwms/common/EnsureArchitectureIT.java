@@ -30,7 +30,7 @@ import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.sli
  * @author Heiko Scherrer
  */
 @AnalyzeClasses(packages = "org.openwms.common", importOptions = {ImportOption.DoNotIncludeTests.class})
-class EnsureArchitecture {
+class EnsureArchitectureIT {
 
     @ArchTest
     public static final ArchRule rule1 =
