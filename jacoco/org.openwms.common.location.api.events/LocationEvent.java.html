@@ -37,9 +37,9 @@ public class LocationEvent extends RootApplicationEvent implements Serializable 
      */
     @ConstructorProperties({&quot;source&quot;, &quot;type&quot;})
     public LocationEvent(Object source, LocationEventType type) {
-<span class="nc" id="L40">        super(source);</span>
-<span class="nc" id="L41">        this.type = type;</span>
-<span class="nc" id="L42">    }</span>
+<span class="fc" id="L40">        super(source);</span>
+<span class="fc" id="L41">        this.type = type;</span>
+<span class="fc" id="L42">    }</span>
 
     public static LocationEvent boot() {
 <span class="nc" id="L45">        return new LocationEvent(&quot;BOOT&quot;, LocationEventType.BOOT);</span>
@@ -50,11 +50,11 @@ public class LocationEvent extends RootApplicationEvent implements Serializable 
     }
 
     public static LocationEvent of(Object obj, LocationEventType type) {
-<span class="nc" id="L53">        return new LocationEvent(obj, type);</span>
+<span class="fc" id="L53">        return new LocationEvent(obj, type);</span>
     }
 
-<span class="nc" id="L56">    public enum LocationEventType {</span>
-<span class="nc" id="L57">        BOOT, CREATED, CHANGED, DELETED, STATE_CHANGE;</span>
+<span class="fc" id="L56">    public enum LocationEventType {</span>
+<span class="fc" id="L57">        BOOT, CREATED, CHANGED, DELETED, STATE_CHANGE;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

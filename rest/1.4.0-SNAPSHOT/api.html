@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.6.1">
-<meta name="author" content="(1.4.0-SNAPSHOT-200)">
+<meta name="author" content="(1.4.0-SNAPSHOT-201)">
 <title>RESTful API</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -431,7 +431,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>RESTful API</h1>
 <div class="details">
-<span id="author" class="author">(1.4.0-SNAPSHOT-200)</span><br>
+<span id="author" class="author">(1.4.0-SNAPSHOT-201)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -445,7 +445,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_find_location_by_coordinate">Find Location by Coordinate</a></li>
 <li><a href="#_find_location_by_plc_code">Find Location by PLC code</a></li>
 <li><a href="#_find_locations_of_a_locationgroup">Find Locations of a LocationGroup</a></li>
-<li><a href="#_change_the_state_of_a_location">Change the state of a Location</a></li>
+<li><a href="#_change_a_location_s_state">Change a Location&#8217;s State</a></li>
 </ul>
 </li>
 <li><a href="#_target">Target</a>
@@ -509,11 +509,80 @@ the conveyor. Even error locations can be represented with the <code>Location</c
 <code>LocationGroup</code>.</p>
 </div>
 <div class="paragraph">
+<p>A <code>Location</code> is identified by the 5-tuple coordinate, the LocationID, as well as a persistent key (the pKey). The PLC Code is an additional
+identifier of a <code>Location</code> that might be null in project setups. It is the identifying name a PLC unit uses in automatic warehouses - not
+used in manual warehouses.</p>
+</div>
+<div class="paragraph">
+<p>A <code>Location</code> always belongs to a <code>LocationGroup</code> where the name of that group is stored in the <code>locationGroupName</code> property.</p>
+</div>
+<div class="paragraph">
+<p>A <code>Location</code> can be a <code>Target</code> to send <code>TransportUnits</code> to, i.e. the target of an automatic <code>TransportOrder</code> or a manual <code>Movement</code>.</p>
+</div>
+<div class="paragraph">
+<p>Multiple state properties with different meaning exist for a <code>Location</code>. The <code>plcState</code> is exclusively managed by the PLC in automatic
+warehouses. Any error signaled by the PLC are stored on this field with a value greater than 0. Two other state fields <code>incomingActive</code> and
+<code>outgoindActive</code> are used to control the material flow control of this <code>Location</code>. If <code>incomingActive</code> is set to <code>false</code>, the particular
+<code>Location</code> is not considered in Inbound activities, like Putaway. Whereas the <code>outgoindActive</code> can be set to <code>false</code> to lock Outbound
+operations off this <code>Location</code>.</p>
+</div>
+<div class="paragraph">
 <p>The API allows to search for <code>Locations</code> and to mutate the <code>Locations</code> state.</p>
 </div>
 <div class="sect2">
 <h3 id="_find_location_by_coordinate"><a class="anchor" href="#_find_location_by_coordinate"></a><a class="link" href="#_find_location_by_coordinate">Find Location by Coordinate</a></h3>
+<div class="paragraph">
+<p>Send a HTTP GET request with the 5-tuple coordinate as query parameter to find a <code>Location</code> identified by this coordinate.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationPK=EXT_%2F0000%2F0000%2F0000%2F0000 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> exists the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 221
 
+{
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0030",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "links" : [ ]
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> with the requested coordinate does not exist, the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 134
+
+{
+  "message" : "No Location with locationPk [EXT_/9999/9999/9999/9999] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the passed coordinate is not well formatted and rejected by the server the response looks like</p>
+</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-find-coordinate-400/http-response.adoc[]</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_find_location_by_plc_code"><a class="anchor" href="#_find_location_by_plc_code"></a><a class="link" href="#_find_location_by_plc_code">Find Location by PLC code</a></h3>
@@ -552,17 +621,264 @@ Content-Length: 221
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 118
+
+{
+  "message" : "No Location with PLC Code [NOT EXISTS] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_find_locations_of_a_locationgroup"><a class="anchor" href="#_find_locations_of_a_locationgroup"></a><a class="link" href="#_find_locations_of_a_locationgroup">Find Locations of a LocationGroup</a></h3>
+<div class="paragraph">
+<p>Send a HTTP GET request with the name of a <code>LocationGroup</code> as query parameter to find all <code>Locations</code> that belong to this group.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationGroupNames=ZILE HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with the list of all <code>Locations</code> - the name of the <code>LocationGroup</code> is not validated.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 448
 
+[ {
+  "pKey" : "171919359409",
+  "locationId" : "INIT/0000/0000/0000/0000",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0029",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "links" : [ ]
+}, {
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0030",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "links" : [ ]
+} ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server accepts multiple <code>LocationGroup</code> names as request parameter to get a combined list of <code>Locations</code> that belong to group with name
+<code>ZILE</code> and <code>FGRECEIVING</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationGroupNames=ZILE&amp;locationGroupNames=FGRECEIVING HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Wildcards in the <code>LocationGroup</code> name are supported if only one <code>LocationGroup</code> name is provided:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationGroupNames=IP%25 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response is a list of <code>Locations</code> that belong to a <code>LocationGroup</code> where the name starts with <code>IP</code> (matching the groups <code>IPOINT</code>,
+<code>IPOINT1</code> and <code>IPOINT2</code> in this example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 454
+
+[ {
+  "pKey" : "439649733836",
+  "locationId" : "FGIN/IPNT/0001/0000/0000",
+  "locationGroupName" : "IPOINT1",
+  "plcCode" : "PLC_0031",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "links" : [ ]
+}, {
+  "pKey" : "227916500906",
+  "locationId" : "FGIN/IPNT/0002/0000/0000",
+  "locationGroupName" : "IPOINT2",
+  "plcCode" : "PLC_0032",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "links" : [ ]
+} ]</code></pre>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_change_the_state_of_a_location"><a class="anchor" href="#_change_the_state_of_a_location"></a><a class="link" href="#_change_the_state_of_a_location">Change the state of a Location</a></h3>
+<h3 id="_change_a_location_s_state"><a class="anchor" href="#_change_a_location_s_state"></a><a class="link" href="#_change_a_location_s_state">Change a Location&#8217;s State</a></h3>
+<div class="paragraph">
+<p>Send a HTTP PATCH request with the persistent identifying key of an existing <code>Location</code> along the new state decoded as <code>ErrorCodeVO</code> request
+parameter.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/locations/NOTEXISTS HTTP/1.1
+Content-Type: application/json
+Host: localhost:8080
+Content-Length: 30
 
+{
+  "errorCode" : "******00"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> with the given persistent key does not exist, the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 123
+
+{
+  "message" : "No Location with persistent key [NOTEXISTS] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>ErrorCodeVO</code> contains a ternary error bitmap that decodes all state information. It is expected as 8-digit String with allowed symbols
+<code>*|0|1</code>. Each digit is assigned to one of the state attribute of the <code>Location</code> or <code>LocationGroup</code>:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Digit Position (RtL)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Assigned attribute</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>0</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location.incomingActive</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>1</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location.outgoingActive</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>2</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location.groupStateIn</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>3</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location.groupStateOut</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The following table shows all currently accepted decodings of the <code>ErrorCodeVO.errorCode</code> String that is sent with the request body:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ErrorCode String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>********</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Content is ignored</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******00</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release Location for Inbound and Outbound operations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******01</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Inbound operation to the Location</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******10</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Outbound operation from the Location</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******11</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Inbound and Outbound operation for the Location</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In this example a <code>Location</code> identified with the given persistent key is locked for Inbound operations with the following request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/locations/113646454019 HTTP/1.1
+Content-Type: application/json
+Host: localhost:8080
+Content-Length: 30
+
+{
+  "errorCode" : "*******1"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the server could lock the <code>Location</code> successfully the response looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Beside locking the <code>Location</code> for Inbound- and Outbound processing it is also possible to change the PLC state of the <code>Location</code> through
+this API. Therefor the <code>ErrorCodeVO</code> data structure contains a property <code>plcState</code> that can be set to a numeric integer value. Usually a
+PLC state of <code>0</code> means the <code>Location</code> is not blocked and available for any operation. A PLC may set the state to a value greater than 0 to
+signal an error occurred on the <code>Location</code>.</p>
+</div>
+<div class="paragraph">
+<p>Set the <code>plcState</code> to <code>31</code> (In terms of <a href="https://interface21-io.gitbook.io/osip">OSIP</a> this means <code>Location unexpected occupied</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/locations/113646454019 HTTP/1.1
+Content-Type: application/json
+Host: localhost:8080
+Content-Length: 49
+
+{
+  "errorCode" : "********",
+  "plcState" : 31
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the server could set the state successfully the response is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -903,7 +1219,7 @@ Content-Length: 194
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-08-13 20:24:26 UTC
+Last updated 2019-08-14 19:26:20 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
