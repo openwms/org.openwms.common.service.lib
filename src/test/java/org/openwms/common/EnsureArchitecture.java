@@ -15,23 +15,48 @@
  */
 package org.openwms.common;
 
+import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
+import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices;
 
 /**
  * A EnsureArchitecture.
  *
  * @author Heiko Scherrer
  */
-@AnalyzeClasses(packages = "org.openwms.common")
+@AnalyzeClasses(packages = "org.openwms.common", importOptions = {ImportOption.DoNotIncludeTests.class})
 class EnsureArchitecture {
 
     @ArchTest
     public static final ArchRule rule1 =
-            noClasses().that().resideInAPackage("..location.impl..")
-            .should().dependOnClassesThat().resideInAnyPackage("..location.");
+            noClasses().that()
+                    .resideInAPackage("..location")
+                    .should()
+                    .dependOnClassesThat()
+                    .resideInAnyPackage("..location.impl..", "..location.spi..");
 
+    @ArchTest
+    public static final ArchRule rule2 =
+            classes().that()
+                    .resideInAPackage("..location.spi")
+                    .should()
+                    .onlyHaveDependentClassesThat()
+                    .resideInAnyPackage("..location.impl", "..location.spi", "java..");
+
+    @ArchTest
+    public static final ArchRule rule3 =
+            classes().that()
+                    .resideInAPackage("..location.api")
+                    .should()
+                    .dependOnClassesThat()
+                    .resideInAnyPackage("..location.api", "java..");
+
+    @ArchTest
+    public static final ArchRule cycles =
+            slices().matching("org.openwms.(*)..").should().beFreeOfCycles();
 }
