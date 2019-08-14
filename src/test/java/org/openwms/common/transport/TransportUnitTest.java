@@ -32,7 +32,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
-@DisplayName("TransportUnit Unittest")
 class TransportUnitTest {
 
     @Nested

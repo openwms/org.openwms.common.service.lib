@@ -29,9 +29,7 @@ import static org.springframework.test.util.AssertionErrors.assertEquals;
  */
 class WeightTest {
 
-    /**
-     * Test creation of a Weight.
-     */
+
     @Test void testWeight() {
         Weight w1 = new Weight(new BigDecimal(1), WeightUnit.KG);
         Weight w2 = new Weight(new BigDecimal(1), WeightUnit.T);
@@ -42,9 +40,6 @@ class WeightTest {
         w1.compareTo(w2);
     }
 
-    /**
-     * Test creation of a Weight and comparison.
-     */
     @Test void testWeightComparison() {
         Weight w1 = new Weight(new BigDecimal(1), WeightUnit.G);
         Weight w2 = new Weight(new BigDecimal(1), WeightUnit.T);

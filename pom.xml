@@ -80,6 +80,7 @@
         <reportOutputDirectory>${project.reporting.outputDirectory}/apidocs/${project.version}</reportOutputDirectory> <!-- Move to parent javadoc plugin config -->
         <scmpublish.content>${project.build.directory}/site</scmpublish.content> <!-- Move to parent -->
         <scmuser></scmuser> <!-- Move to parent -->
+        <archunit.version>0.11.0</archunit.version>
     </properties>
 
     <reporting>
@@ -461,13 +462,13 @@
         <dependency>
             <groupId>com.tngtech.archunit</groupId>
             <artifactId>archunit-junit5-api</artifactId>
-            <version>0.11.0</version>
+            <version>${archunit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.tngtech.archunit</groupId>
             <artifactId>archunit-junit5-engine</artifactId>
-            <version>0.11.0</version>
+            <version>${archunit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

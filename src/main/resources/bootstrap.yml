@@ -96,3 +96,12 @@ management:
   health:
     rabbit:
       enabled: true
+
+---
+spring:
+  profiles: TEST
+  cloud:
+    config:
+      fail-fast: false
+  main:
+    banner-mode: "off"

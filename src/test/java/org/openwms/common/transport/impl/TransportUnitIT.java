@@ -51,8 +51,7 @@ class TransportUnitIT {
     private Location knownLocation;
     private TransportUnitType knownType;
 
-    @BeforeEach
-    void onBefore() {
+    @BeforeEach void onBefore() {
         knownLocation = entityManager.find(Location.class, TestData.LOCATION_PK_EXT);
         knownType = entityManager.find(TransportUnitType.class, TestData.TUT_PK_PALLET);
     }

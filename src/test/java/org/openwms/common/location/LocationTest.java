@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * A LocationDaoTest.
+ * A LocationTest.
  *
  * @author Heiko Scherrer
  */

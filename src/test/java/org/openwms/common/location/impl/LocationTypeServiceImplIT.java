@@ -15,16 +15,14 @@
  */
 package org.openwms.common.location.impl;
 
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.openwms.common.CommonIT;
 import org.openwms.common.location.LocationType;
 import org.openwms.common.location.LocationTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Collections;
 import java.util.List;
@@ -36,8 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Heiko Scherrer
  */
-@ExtendWith(SpringExtension.class)
-@Tag("IntegrationTest")
+@CommonIT
 @DataJpaTest(
         showSql = false,
         includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = LocationTypeService.class)

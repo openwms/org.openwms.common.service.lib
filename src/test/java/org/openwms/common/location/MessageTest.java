@@ -24,9 +24,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Heiko Scherrer
  */
-public class MessageTest {
+class MessageTest {
 
-    @Test final void testConstruction() {
+    @Test void testConstruction() {
         Message m = new Message(4711, "Test message");
         assertThat(m.getMessageText()).isEqualTo("Test message");
         assertThat(m.getMessageNo()).isEqualTo(4711);
