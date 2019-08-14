@@ -24,13 +24,43 @@ a more use-case-driven approach.
 image::ClassDiagram.svg[]
 
 == Location
+
 A `Location` represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a location on
 the conveyor. Even error locations can be represented with the `Location`. Multiple `Locations` with same characteristics are grouped to a
 `LocationGroup`.
 
+A `Location` is identified by the 5-tuple coordinate, the LocationID, as well as a persistent key (the pKey). The PLC Code is an additional
+identifier of a `Location` that might be null in project setups. It is the identifying name a PLC unit uses in automatic warehouses - not
+used in manual warehouses.
+
+A `Location` always belongs to a `LocationGroup` where the name of that group is stored in the `locationGroupName` property.
+
+A `Location` can be a `Target` to send `TransportUnits` to, i.e. the target of an automatic `TransportOrder` or a manual `Movement`.
+
+Multiple state properties with different meaning exist for a `Location`. The `plcState` is exclusively managed by the PLC in automatic
+warehouses. Any error signaled by the PLC are stored on this field with a value greater than 0. Two other state fields `incomingActive` and
+`outgoindActive` are used to control the material flow control of this `Location`. If `incomingActive` is set to `false`, the particular
+`Location` is not considered in Inbound activities, like Putaway. Whereas the `outgoindActive` can be set to `false` to lock Outbound
+operations off this `Location`.
+
 The API allows to search for `Locations` and to mutate the `Locations` state.
 
 === Find Location by Coordinate
+Send a HTTP GET request with the 5-tuple coordinate as query parameter to find a `Location` identified by this coordinate.
+
+include::{generated}/loc-find-coordinate/http-request.adoc[]
+
+If the `Location` exists the server responds with
+
+include::{generated}/loc-find-coordinate/http-response.adoc[]
+
+If the `Location` with the requested coordinate does not exist, the server responds with
+
+include::{generated}/loc-find-coordinate-404/http-response.adoc[]
+
+If the passed coordinate is not well formatted and rejected by the server the response looks like
+
+include::{generated}/loc-find-coordinate-400/http-response.adoc[]
 
 === Find Location by PLC code
 Send a HTTP GET request with the PLC code as query parameter to find a `Location` identified by this PLC code.
@@ -46,8 +76,79 @@ If no `Location` with the requested PLC code exists, the server responds with
 include::{generated}/loc-find-plc-404/http-response.adoc[]
 
 === Find Locations of a LocationGroup
+Send a HTTP GET request with the name of a `LocationGroup` as query parameter to find all `Locations` that belong to this group.
 
-=== Change the state of a Location
+include::{generated}/loc-find-in-lg/http-request.adoc[]
+
+The server responds with the list of all `Locations` - the name of the `LocationGroup` is not validated.
+
+include::{generated}/loc-find-in-lg/http-response.adoc[]
+
+The server accepts multiple `LocationGroup` names as request parameter to get a combined list of `Locations` that belong to group with name
+`ZILE` and `FGRECEIVING`:
+
+include::{generated}/loc-find-in-lg-multiple/http-request.adoc[]
+
+Wildcards in the `LocationGroup` name are supported if only one `LocationGroup` name is provided:
+
+include::{generated}/loc-find-in-lg-wc/http-request.adoc[]
+
+The response is a list of `Locations` that belong to a `LocationGroup` where the name starts with `IP` (matching the groups `IPOINT`,
+`IPOINT1` and `IPOINT2` in this example:
+
+include::{generated}/loc-find-in-lg-wc/http-response.adoc[]
+
+=== Change a Location's State
+Send a HTTP PATCH request with the persistent identifying key of an existing `Location` along the new state decoded as `ErrorCodeVO` request
+parameter.
+
+include::{generated}/loc-state-404/http-request.adoc[]
+
+If the `Location` with the given persistent key does not exist, the server responds with
+
+include::{generated}/loc-state-404/http-response.adoc[]
+
+The `ErrorCodeVO` contains a ternary error bitmap that decodes all state information. It is expected as 8-digit String with allowed symbols
+`*|0|1`. Each digit is assigned to one of the state attribute of the `Location` or `LocationGroup`:
+
+|===
+| Digit Position (RtL) | Assigned attribute
+| 2^0^                 | Location.incomingActive
+| 2^1^                 | Location.outgoingActive
+| 2^2^                 | Location.groupStateIn
+| 2^3^                 | Location.groupStateOut
+|===
+
+The following table shows all currently accepted decodings of the `ErrorCodeVO.errorCode` String that is sent with the request body:
+|===
+| ErrorCode String                                                                   | Description
+| `{asterisk}{asterisk}{asterisk}{asterisk}{asterisk}{asterisk}{asterisk}{asterisk}` | Content is ignored
+| `{asterisk}{asterisk}{asterisk}{asterisk}{asterisk}{asterisk}00`                   | Release Location for Inbound and Outbound operations
+| `{asterisk}{asterisk}{asterisk}{asterisk}{asterisk}{asterisk}01`                   | Lock Inbound operation to the Location
+| `{asterisk}{asterisk}{asterisk}{asterisk}{asterisk}{asterisk}10`                   | Lock Outbound operation from the Location
+| `{asterisk}{asterisk}{asterisk}{asterisk}{asterisk}{asterisk}11`                   | Lock Inbound and Outbound operation for the Location
+|===
+
+In this example a `Location` identified with the given persistent key is locked for Inbound operations with the following request:
+
+include::{generated}/loc-state-in/http-request.adoc[]
+
+If the server could lock the `Location` successfully the response looks like:
+
+include::{generated}/loc-state-in/http-response.adoc[]
+
+Beside locking the `Location` for Inbound- and Outbound processing it is also possible to change the PLC state of the `Location` through
+this API. Therefor the `ErrorCodeVO` data structure contains a property `plcState` that can be set to a numeric integer value. Usually a
+PLC state of `0` means the `Location` is not blocked and available for any operation. A PLC may set the state to a value greater than 0 to
+signal an error occurred on the `Location`.
+
+Set the `plcState` to `31` (In terms of https://interface21-io.gitbook.io/osip[OSIP] this means `Location unexpected occupied`):
+
+include::{generated}/loc-plcstate/http-request.adoc[]
+
+If the server could set the state successfully the response is:
+
+include::{generated}/loc-plcstate/http-response.adoc[]
 
 == Target
 A `Target` is a `Location` or a group of `Locations` (`LocationGroup`) where a `TransportUnit` may be sent to.

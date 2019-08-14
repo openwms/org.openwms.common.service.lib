@@ -19,6 +19,7 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationVO;
+import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -40,7 +41,7 @@ import static org.openwms.common.CommonConstants.API_LOCATIONS;
  */
 @Profile("!INMEM")
 @RestController
-public class LocationController {
+public class LocationController extends AbstractWebController {
 
     private final LocationService locationService;
     private final BeanMapper mapper;
@@ -53,7 +54,7 @@ public class LocationController {
     @GetMapping(value = API_LOCATIONS, params = {"locationPK"})
     public Optional<LocationVO> findLocationByCoordinate(@RequestParam("locationPK") String locationPK) {
         if (!LocationPK.isValid(locationPK)) {
-            throw new NotFoundException(format("Invalid location [%s]", locationPK));
+            throw new IllegalArgumentException(format("Invalid location [%s]", locationPK));
         }
         Location location = locationService.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", locationPK)));
         return Optional.ofNullable(mapper.map(location, LocationVO.class));

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Heiko Scherrer
+ * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +15,23 @@
  */
 package org.openwms.common;
 
+import com.tngtech.archunit.junit.AnalyzeClasses;
+import com.tngtech.archunit.junit.ArchTest;
+import com.tngtech.archunit.lang.ArchRule;
+
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
+
 /**
- * A TestData.
+ * A EnsureArchitecture.
  *
  * @author Heiko Scherrer
  */
-public final class TestData {
+@AnalyzeClasses(packages = "org.openwms.common")
+class EnsureArchitecture {
 
-    public static final String LOCATION_GROUP_NAME_LG1 = "ZILE";
-    public static final String LOCATION_GROUP_NAME_LG2 = "FGRECEIVING";
-    public static final Long LOCATION_PK_EXT = 1029L;
-    public static final String LOCATION_PLC_CODE_EXT = "PLC_0030";
-    public static final String LOCATION_ID_EXT = "EXT_/0000/0000/0000/0000";
-    public static final Long LOCATION_PK_FGIN0001LEFT = 1012L;
+    @ArchTest
+    public static final ArchRule rule1 =
+            noClasses().that().resideInAPackage("..location.impl..")
+            .should().dependOnClassesThat().resideInAnyPackage("..location.");
 
-    public static final Long TUT_PK_PALLET = 1000L;
-
-    public static final Long TU_1 = 1000L;
 }
