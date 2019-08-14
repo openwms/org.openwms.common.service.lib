@@ -22,6 +22,8 @@ package org.openwms.common;
  */
 public final class TestData {
 
+    public static final String LOCATION_GROUP_NAME_LG1 = "ZILE";
+    public static final String LOCATION_GROUP_NAME_LG2 = "FGRECEIVING";
     public static final Long LOCATION_PK_EXT = 1029L;
     public static final String LOCATION_PLC_CODE_EXT = "PLC_0030";
     public static final String LOCATION_ID_EXT = "EXT_/0000/0000/0000/0000";

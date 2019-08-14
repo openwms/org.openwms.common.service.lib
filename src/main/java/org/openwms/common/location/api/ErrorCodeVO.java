@@ -15,6 +15,7 @@
  */
 package org.openwms.common.location.api;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -24,6 +25,7 @@ import java.io.Serializable;
  *
  * @author Heiko Scherrer
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ErrorCodeVO implements Serializable {
 
     public static final String ALL_NOT_SET = "********";
