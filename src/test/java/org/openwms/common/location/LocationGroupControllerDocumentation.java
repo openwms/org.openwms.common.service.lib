@@ -34,6 +34,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -101,7 +102,7 @@ class LocationGroupControllerDocumentation {
                     .andExpect(jsonPath("$[1].pKey").exists())
                     .andExpect(jsonPath("$[1].name", anyOf(is(TestData.LOCATION_GROUP_NAME_LG2), is(TestData.LOCATION_GROUP_NAME_LG3))))
                     .andExpect(jsonPath("$[1].parent").exists())
-                    .andExpect(jsonPath("$[1].operationMode", is(LocationGroupMode.INFEED_AND_OUTFEED)))
+                    .andExpect(jsonPath("$[1].operationMode", notNullValue()))
                     .andExpect(jsonPath("$[1].groupStateIn", is(LocationGroupState.AVAILABLE.toString())))
                     .andExpect(jsonPath("$[1].groupStateOut", is(LocationGroupState.AVAILABLE.toString())))
                     .andExpect(jsonPath("$[1].links").exists())
