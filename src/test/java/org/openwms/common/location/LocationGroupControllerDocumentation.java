@@ -23,10 +23,13 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.ApplicationTest;
 import org.openwms.common.CommonConstants;
+import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.TestData;
+import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationGroupMode;
 import org.openwms.common.location.api.LocationGroupState;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -119,21 +122,27 @@ class LocationGroupControllerDocumentation {
     }
 
     @Nested
-    @DisplayName("Update Tests")
-    class UpdateTests {
-        //@Test
+    @DisplayName("State Change Tests")
+    class StateChangeTests {
+        @Test void shall_changeState_pkey_404() throws Exception {
+            mockMvc.perform(patch(CommonConstants.API_LOCATION_GROUPS)
+                    .param("name", "NOT_EXISTS")
+                    .content(mapper.writeValueAsString(ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT))
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNotFound())
+                    .andExpect(jsonPath("messageKey", is(CommonMessageCodes.LOCATION_GROUP_NOT_FOUND)))
+                    .andDo(document("lg-state-404"));
+        }
+
+        @Test
         void shall_change_state() throws Exception {
             String pKey = service.findByName(TestData.LOCATION_GROUP_NAME_LG3).get().getPersistentKey();
-            mockMvc.perform(patch(CommonConstants.API_LOCATION_GROUPS + "/" + pKey))
-                    .andExpect(jsonPath("pKey").exists())
-                    .andExpect(jsonPath("name", is(TestData.LOCATION_GROUP_NAME_LG2)))
-                    .andExpect(jsonPath("parent").exists())
-                    .andExpect(jsonPath("operationMode", is(LocationGroupMode.INFEED_AND_OUTFEED)))
-                    .andExpect(jsonPath("groupStateIn", is(LocationGroupState.AVAILABLE.toString())))
-                    .andExpect(jsonPath("groupStateOut", is(LocationGroupState.AVAILABLE.toString())))
-                    .andExpect(jsonPath("_links._parent.href").exists())
+            mockMvc.perform(patch(CommonConstants.API_LOCATION_GROUPS)
+                    .param("name", TestData.LOCATION_GROUP_NAME_LG3)
+                    .content(mapper.writeValueAsString(ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT))
+                    .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andDo(document("lg-find-name"));
+                    .andDo(document("lg-state"));
         }
     }
 }
