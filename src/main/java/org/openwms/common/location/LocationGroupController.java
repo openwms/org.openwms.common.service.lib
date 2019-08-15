@@ -17,7 +17,6 @@ package org.openwms.common.location;
 
 import org.ameba.exception.NotFoundException;
 import org.ameba.mapping.BeanMapper;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.openwms.common.CommonConstants;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
@@ -25,7 +24,6 @@ import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.LocationGroupVO;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.List;
 
@@ -93,7 +90,9 @@ public class LocationGroupController extends AbstractWebController {
     }
 
     @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"name"})
-    public void updateState(@RequestParam(name = "name") String name, @RequestBody ErrorCodeVO errorCode) {
+    public void changeGroupState(
+            @RequestParam(name = "name") String name,
+            @RequestBody ErrorCodeVO errorCode) {
         locationGroupService.changeGroupStates(
                 name,
                 groupStateIn.available(errorCode.getErrorCode()),
@@ -102,12 +101,10 @@ public class LocationGroupController extends AbstractWebController {
     }
 
     @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS + "/{pKey}")
-    public void save(
+    public void changeGroupState(
             @PathVariable String pKey,
-            @RequestParam(name = "statein", required = false) LocationGroupState stateIn,
-            @RequestParam(name = "stateout", required = false) LocationGroupState stateOut,
-            HttpServletRequest req, HttpServletResponse res) {
+            @RequestParam(name = "statein") LocationGroupState stateIn,
+            @RequestParam(name = "stateout") LocationGroupState stateOut) {
         locationGroupService.changeGroupState(pKey, stateIn, stateOut);
-        res.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req, pKey));
     }
 }

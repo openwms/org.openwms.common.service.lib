@@ -35,6 +35,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -136,13 +137,29 @@ class LocationGroupControllerDocumentation {
 
         @Test
         void shall_change_state() throws Exception {
-            String pKey = service.findByName(TestData.LOCATION_GROUP_NAME_LG3).get().getPersistentKey();
+            LocationGroup lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG3).get();
             mockMvc.perform(patch(CommonConstants.API_LOCATION_GROUPS)
                     .param("name", TestData.LOCATION_GROUP_NAME_LG3)
-                    .content(mapper.writeValueAsString(ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT))
+                    .content(mapper.writeValueAsString(ErrorCodeVO.LOCK_STATE_IN_AND_OUT))
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andDo(document("lg-state"));
+            lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG3).get();
+            assertThat(lg.getGroupStateIn()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
+            assertThat(lg.getGroupStateOut()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
+        }
+
+        @Test
+        void shall_change_state2() throws Exception {
+            LocationGroup lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
+            mockMvc.perform(patch(CommonConstants.API_LOCATION_GROUPS + "/" + lg.getPersistentKey())
+                    .param("statein", LocationGroupState.NOT_AVAILABLE.toString())
+                    .param("stateout", LocationGroupState.NOT_AVAILABLE.toString()))
+                    .andExpect(status().isOk())
+                    .andDo(document("lg-state-direct"));
+            lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
+            assertThat(lg.getGroupStateIn()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
+            assertThat(lg.getGroupStateOut()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
         }
     }
 }
