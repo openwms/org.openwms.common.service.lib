@@ -107,7 +107,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public List&lt;LocationGroup&gt; findAll() {
-<span class="nc" id="L110">        return repository.findAll();</span>
+<span class="fc" id="L110">        return repository.findAll();</span>
     }
 
     /**
@@ -116,8 +116,8 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public List&lt;LocationGroup&gt; findByNames(List&lt;String&gt; locationGroupNames) {
-<span class="nc" id="L119">        List&lt;LocationGroup&gt; result = repository.findByNameIn(locationGroupNames);</span>
-<span class="nc bnc" id="L120" title="All 2 branches missed.">        return result == null ? Collections.emptyList() : result;</span>
+<span class="fc" id="L119">        List&lt;LocationGroup&gt; result = repository.findByNameIn(locationGroupNames);</span>
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">        return result == null ? Collections.emptyList() : result;</span>
     }
 
     @Transactional(readOnly = true)
