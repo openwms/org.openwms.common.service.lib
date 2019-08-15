@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriTemplate;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
@@ -110,12 +109,5 @@ public class LocationGroupController extends AbstractWebController {
             HttpServletRequest req, HttpServletResponse res) {
         locationGroupService.changeGroupState(pKey, stateIn, stateOut);
         res.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req, pKey));
-    }
-
-    private String getLocationForCreatedResource(HttpServletRequest req, String objId) {
-        return new UriTemplate(req.getRequestURL().append("/{objId}/")
-                .toString())
-                .expand(objId)
-                .toASCIIString();
     }
 }
