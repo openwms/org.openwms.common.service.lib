@@ -17,7 +17,6 @@ package org.openwms.common.location;
 
 import org.ameba.exception.NotFoundException;
 import org.ameba.mapping.BeanMapper;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.openwms.common.CommonConstants;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
@@ -25,7 +24,6 @@ import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.LocationGroupVO;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.List;
 
@@ -55,60 +52,60 @@ public class LocationGroupController extends AbstractWebController {
     private final ErrorCodeTransformers.GroupStateIn groupStateIn;
     private final ErrorCodeTransformers.GroupStateOut groupStateOut;
 
-<span class="fc" id="L58">    LocationGroupController(LocationGroupService locationGroupService, BeanMapper mapper, ErrorCodeTransformers.GroupStateIn groupStateIn,</span>
+<span class="fc" id="L55">    LocationGroupController(LocationGroupService locationGroupService, BeanMapper mapper, ErrorCodeTransformers.GroupStateIn groupStateIn,</span>
             ErrorCodeTransformers.GroupStateOut groupStateOut) {
-<span class="fc" id="L60">        this.locationGroupService = locationGroupService;</span>
-<span class="fc" id="L61">        this.mapper = mapper;</span>
-<span class="fc" id="L62">        this.groupStateIn = groupStateIn;</span>
-<span class="fc" id="L63">        this.groupStateOut = groupStateOut;</span>
-<span class="fc" id="L64">    }</span>
+<span class="fc" id="L57">        this.locationGroupService = locationGroupService;</span>
+<span class="fc" id="L58">        this.mapper = mapper;</span>
+<span class="fc" id="L59">        this.groupStateIn = groupStateIn;</span>
+<span class="fc" id="L60">        this.groupStateOut = groupStateOut;</span>
+<span class="fc" id="L61">    }</span>
 
     @GetMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {&quot;name&quot;})
     public LocationGroupVO findByName(@RequestParam(&quot;name&quot;) String name) {
-<span class="fc" id="L68">        LocationGroup locationGroup = locationGroupService.findByName(name)</span>
-<span class="fc" id="L69">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;LocationGroup with name [%s] does not exist&quot;, name)));</span>
-<span class="fc" id="L70">        LocationGroupVO result = mapper.map(locationGroup, LocationGroupVO.class);</span>
-<span class="pc bpc" id="L71" title="1 of 2 branches missed.">        if (locationGroup.hasParent()) {</span>
-<span class="fc" id="L72">            result.add(linkTo(methodOn(LocationGroupController.class).findByName(locationGroup.getParent().getName())).withRel(&quot;_parent&quot;));</span>
+<span class="fc" id="L65">        LocationGroup locationGroup = locationGroupService.findByName(name)</span>
+<span class="fc" id="L66">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;LocationGroup with name [%s] does not exist&quot;, name)));</span>
+<span class="fc" id="L67">        LocationGroupVO result = mapper.map(locationGroup, LocationGroupVO.class);</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if (locationGroup.hasParent()) {</span>
+<span class="fc" id="L69">            result.add(linkTo(methodOn(LocationGroupController.class).findByName(locationGroup.getParent().getName())).withRel(&quot;_parent&quot;));</span>
         }
-<span class="fc" id="L74">        return result;</span>
+<span class="fc" id="L71">        return result;</span>
     }
 
     @GetMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {&quot;names&quot;})
     public List&lt;LocationGroupVO&gt; findByNames(@RequestParam(&quot;names&quot;) List&lt;String&gt; names) {
-<span class="fc" id="L79">        List&lt;LocationGroup&gt; locationGroups = locationGroupService.findByNames(names);</span>
-<span class="fc" id="L80">        List&lt;LocationGroupVO&gt; vos = mapper.map(locationGroups, LocationGroupVO.class);</span>
-<span class="fc" id="L81">        vos.forEach(lg -&gt; {</span>
-<span class="pc bpc" id="L82" title="1 of 2 branches missed.">            if (lg.hasParent()) {</span>
-<span class="fc" id="L83">                lg.add(linkTo(methodOn(LocationGroupController.class).findByName(lg.getParent())).withRel(&quot;_parent&quot;));</span>
+<span class="fc" id="L76">        List&lt;LocationGroup&gt; locationGroups = locationGroupService.findByNames(names);</span>
+<span class="fc" id="L77">        List&lt;LocationGroupVO&gt; vos = mapper.map(locationGroups, LocationGroupVO.class);</span>
+<span class="fc" id="L78">        vos.forEach(lg -&gt; {</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">            if (lg.hasParent()) {</span>
+<span class="fc" id="L80">                lg.add(linkTo(methodOn(LocationGroupController.class).findByName(lg.getParent())).withRel(&quot;_parent&quot;));</span>
             }
-<span class="fc" id="L85">        });</span>
-<span class="fc" id="L86">        return vos;</span>
+<span class="fc" id="L82">        });</span>
+<span class="fc" id="L83">        return vos;</span>
     }
 
     @GetMapping(value = CommonConstants.API_LOCATION_GROUPS)
     public List&lt;LocationGroupVO&gt; findAll() {
-<span class="fc" id="L91">        List&lt;LocationGroup&gt; all = locationGroupService.findAll();</span>
-<span class="pc bpc" id="L92" title="1 of 2 branches missed.">        return all == null ? Collections.emptyList() : mapper.map(all, LocationGroupVO.class);</span>
+<span class="fc" id="L88">        List&lt;LocationGroup&gt; all = locationGroupService.findAll();</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        return all == null ? Collections.emptyList() : mapper.map(all, LocationGroupVO.class);</span>
     }
 
     @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {&quot;name&quot;})
-    public void updateState(@RequestParam(name = &quot;name&quot;) String name, @RequestBody ErrorCodeVO errorCode) {
-<span class="fc" id="L97">        locationGroupService.changeGroupStates(</span>
-<span class="fc" id="L98">                name,</span>
-<span class="fc" id="L99">                groupStateIn.available(errorCode.getErrorCode()),</span>
-<span class="fc" id="L100">                groupStateOut.available(errorCode.getErrorCode())</span>
+    public void changeGroupState(
+            @RequestParam(name = &quot;name&quot;) String name,
+            @RequestBody ErrorCodeVO errorCode) {
+<span class="fc" id="L96">        locationGroupService.changeGroupStates(</span>
+<span class="fc" id="L97">                name,</span>
+<span class="fc" id="L98">                groupStateIn.available(errorCode.getErrorCode()),</span>
+<span class="fc" id="L99">                groupStateOut.available(errorCode.getErrorCode())</span>
         );
-<span class="fc" id="L102">    }</span>
+<span class="fc" id="L101">    }</span>
 
     @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS + &quot;/{pKey}&quot;)
-    public void save(
+    public void changeGroupState(
             @PathVariable String pKey,
-            @RequestParam(name = &quot;statein&quot;, required = false) LocationGroupState stateIn,
-            @RequestParam(name = &quot;stateout&quot;, required = false) LocationGroupState stateOut,
-            HttpServletRequest req, HttpServletResponse res) {
-<span class="nc" id="L110">        locationGroupService.changeGroupState(pKey, stateIn, stateOut);</span>
-<span class="nc" id="L111">        res.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req, pKey));</span>
-<span class="nc" id="L112">    }</span>
+            @RequestParam(name = &quot;statein&quot;) LocationGroupState stateIn,
+            @RequestParam(name = &quot;stateout&quot;) LocationGroupState stateOut) {
+<span class="fc" id="L108">        locationGroupService.changeGroupState(pKey, stateIn, stateOut);</span>
+<span class="fc" id="L109">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

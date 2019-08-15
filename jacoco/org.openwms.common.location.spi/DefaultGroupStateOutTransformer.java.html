@@ -44,7 +44,7 @@ import java.util.Optional;
 <span class="nc" id="L44">            return Optional.empty();</span>
         }
         // A Zero in the errorCode means no errors
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        return Optional.of(errorCode.charAt(ErrorCodeVO.STATE_OUT_POSITION) == 48 ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE);</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        return Optional.of(errorCode.charAt(ErrorCodeVO.STATE_OUT_POSITION) == 48 ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
