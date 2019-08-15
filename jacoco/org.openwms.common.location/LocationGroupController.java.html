@@ -94,12 +94,12 @@ public class LocationGroupController extends AbstractWebController {
 
     @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {&quot;name&quot;})
     public void updateState(@RequestParam(name = &quot;name&quot;) String name, @RequestBody ErrorCodeVO errorCode) {
-<span class="nc" id="L97">        locationGroupService.changeGroupStates(</span>
-<span class="nc" id="L98">                name,</span>
-<span class="nc" id="L99">                groupStateIn.available(errorCode.getErrorCode()),</span>
-<span class="nc" id="L100">                groupStateOut.available(errorCode.getErrorCode())</span>
+<span class="fc" id="L97">        locationGroupService.changeGroupStates(</span>
+<span class="fc" id="L98">                name,</span>
+<span class="fc" id="L99">                groupStateIn.available(errorCode.getErrorCode()),</span>
+<span class="fc" id="L100">                groupStateOut.available(errorCode.getErrorCode())</span>
         );
-<span class="nc" id="L102">    }</span>
+<span class="fc" id="L102">    }</span>
 
     @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS + &quot;/{pKey}&quot;)
     public void save(

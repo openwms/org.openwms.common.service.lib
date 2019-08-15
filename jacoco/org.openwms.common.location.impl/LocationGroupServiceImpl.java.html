@@ -69,15 +69,15 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public void changeGroupStates(String name, Optional&lt;LocationGroupState&gt; stateIn, Optional&lt;LocationGroupState&gt; stateOut) {
-<span class="nc" id="L72">        LocationGroup locationGroup = repository</span>
-<span class="nc" id="L73">                .findByName(name)</span>
-<span class="nc" id="L74">                .orElseThrow(() -&gt; new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{name}, name));</span>
-<span class="nc" id="L75">        stateIn.ifPresent(locationGroup::changeGroupStateIn);</span>
-<span class="nc" id="L76">        stateOut.ifPresent(locationGroup::changeGroupStateOut);</span>
-<span class="nc bnc" id="L77" title="All 4 branches missed.">        if (stateIn.isPresent() || stateOut.isPresent()) {</span>
-<span class="nc" id="L78">            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));</span>
+<span class="fc" id="L72">        LocationGroup locationGroup = repository</span>
+<span class="fc" id="L73">                .findByName(name)</span>
+<span class="fc" id="L74">                .orElseThrow(() -&gt; new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{name}, name));</span>
+<span class="fc" id="L75">        stateIn.ifPresent(locationGroup::changeGroupStateIn);</span>
+<span class="fc" id="L76">        stateOut.ifPresent(locationGroup::changeGroupStateOut);</span>
+<span class="pc bpc" id="L77" title="3 of 4 branches missed.">        if (stateIn.isPresent() || stateOut.isPresent()) {</span>
+<span class="fc" id="L78">            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));</span>
         }
-<span class="nc" id="L80">    }</span>
+<span class="fc" id="L80">    }</span>
 
     /**
      * {@inheritDoc}

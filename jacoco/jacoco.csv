@@ -29,7 +29,7 @@ OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationPKConverte
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupStateConverter,29,0,8,0,8,0,7,0,3,0
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupEventPropagator,164,0,10,0,29,0,12,0,4,0
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure11,17,0,0,0,1,0,2,0,2,0
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl,179,70,13,1,30,20,14,7,7,7
+OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl,132,117,12,2,22,28,12,9,5,9
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl.AjcClosure3,13,0,0,0,1,0,2,0,2,0
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl.AjcClosure1,13,0,0,0,1,0,2,0,2,0
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure1,0,17,0,0,0,1,0,2,0,2
@@ -48,7 +48,7 @@ OpenWMS.org COMMON: Services,org.openwms.common.units,WeightUnit,6,78,0,0,2,13,2
 OpenWMS.org COMMON: Services,org.openwms.common.units,Weight,86,118,14,10,20,31,16,12,6,10
 OpenWMS.org COMMON: Services,org.openwms.common.location,LocationPK.Builder,0,34,0,0,0,12,0,7,0,7
 OpenWMS.org COMMON: Services,org.openwms.common.location,Message,2,92,2,8,0,20,2,12,0,9
-OpenWMS.org COMMON: Services,org.openwms.common.location,LocationGroup,90,455,33,55,18,93,35,53,8,36
+OpenWMS.org COMMON: Services,org.openwms.common.location,LocationGroup,72,473,32,56,14,97,33,55,6,38
 OpenWMS.org COMMON: Services,org.openwms.common.location,LocationController,64,100,20,2,9,14,11,8,1,7
 OpenWMS.org COMMON: Services,org.openwms.common.location,LocationPK,24,195,9,13,8,36,14,12,5,10
 OpenWMS.org COMMON: Services,org.openwms.common.location,Message.Builder,0,16,0,0,0,5,0,3,0,3
@@ -56,7 +56,7 @@ OpenWMS.org COMMON: Services,org.openwms.common.location,LocationType,14,88,2,4,
 OpenWMS.org COMMON: Services,org.openwms.common.location,Target,0,3,0,0,0,1,0,1,0,1
 OpenWMS.org COMMON: Services,org.openwms.common.location,Subsystem,32,0,0,0,14,0,7,0,7,0
 OpenWMS.org COMMON: Services,org.openwms.common.location,Location,19,259,3,13,5,61,8,38,5,33
-OpenWMS.org COMMON: Services,org.openwms.common.location,LocationGroupController,31,107,3,3,8,21,5,6,2,6
+OpenWMS.org COMMON: Services,org.openwms.common.location,LocationGroupController,16,122,3,3,3,26,4,7,1,7
 OpenWMS.org COMMON: Services,org.openwms.common.location,TargetController,186,242,17,16,40,63,22,17,7,10
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,MessageCommand,72,0,0,0,27,0,13,0,13,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,TUCommand.Builder,16,0,0,0,5,0,3,0,3,0
@@ -64,10 +64,10 @@ OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,TUCommand
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,TUCommand.Type,54,0,0,0,6,0,1,0,1,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,MessageCommand.Type,14,0,0,0,3,0,1,0,1,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,MessageCommand.Builder,31,0,0,0,11,0,6,0,6,0
-OpenWMS.org COMMON: Services,org.openwms.common.location.spi,DefaultGroupStateInTransformer,20,3,4,0,4,1,3,1,1,1
+OpenWMS.org COMMON: Services,org.openwms.common.location.spi,DefaultGroupStateInTransformer,3,20,2,2,1,4,2,2,0,2
 OpenWMS.org COMMON: Services,org.openwms.common.location.spi,DefaultLocationStateOutTransformer,2,22,1,3,0,5,1,3,0,2
 OpenWMS.org COMMON: Services,org.openwms.common.location.spi,DefaultLocationStateInTransformer,2,22,1,3,0,5,1,3,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.location.spi,DefaultGroupStateOutTransformer,20,3,4,0,4,1,3,1,1,1
+OpenWMS.org COMMON: Services,org.openwms.common.location.spi,DefaultGroupStateOutTransformer,3,20,2,2,1,4,2,2,0,2
 OpenWMS.org COMMON: Services,org.openwms.common.transport.events,TransportUnitEventPropagator,92,0,5,0,16,0,6,0,2,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.events,TransportUnitEvent.Builder,33,0,4,0,9,0,6,0,4,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.events,TransportUnitEvent,37,0,0,0,11,0,6,0,6,0
@@ -80,7 +80,7 @@ OpenWMS.org COMMON: Services,org.openwms.common.transport.commands,TransportUnit
 OpenWMS.org COMMON: Services,org.openwms.common,CommonStarter,5,3,0,0,2,1,1,1,1,1
 OpenWMS.org COMMON: Services,org.openwms.common,CommonStandaloneConfiguration,0,3,0,0,0,1,0,1,0,1
 OpenWMS.org COMMON: Services,org.openwms.common,StateChangeException,0,4,0,0,0,2,0,1,0,1
-OpenWMS.org COMMON: Services,org.openwms.common,CommonModuleConfiguration.new AbstractTranslator() {...},4,6,0,0,1,2,1,1,1,1
+OpenWMS.org COMMON: Services,org.openwms.common,CommonModuleConfiguration.new AbstractTranslator() {...},0,10,0,0,0,3,0,2,0,2
 OpenWMS.org COMMON: Services,org.openwms.common,CommonOptAsyncConfiguration,80,0,0,0,24,0,9,0,9,0
 OpenWMS.org COMMON: Services,org.openwms.common,CommonAsyncConfiguration,23,0,0,0,7,0,4,0,4,0
 OpenWMS.org COMMON: Services,org.openwms.common,CommonModuleConfiguration,0,43,0,0,0,10,0,6,0,6
