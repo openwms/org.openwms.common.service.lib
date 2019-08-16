@@ -20,6 +20,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.annotation.Documented;
@@ -38,6 +39,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
+@ActiveProfiles({"ASYNCHRONOUS","TEST"})
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest(classes = CommonStarter.class, properties = {"spring.jpa.show-sql=false", "spring.main.banner-mode=OFF", "spring.jackson.serialization.INDENT_OUTPUT=true"})
 @AutoConfigureRestDocs(outputDir = "target/generated-snippets", uriPort = 8888)
