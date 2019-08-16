@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Weight.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.units</a> &gt; <span class="el_source">Weight.java</span></div><h1>Weight.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2019 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.units;
+
+import org.openwms.core.values.Measurable;
+import org.openwms.core.values.UnitType;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+/**
+ * A Weight represents a real world weight, that comes with an &lt;code&gt;Unit&lt;/code&gt; and a value.
+ * 
+ * @author Heiko Scherrer
+ */
+public class Weight implements Measurable&lt;BigDecimal, Weight, WeightUnit&gt;, UnitType, Serializable {
+
+    /** The unit of the &lt;code&gt;Weight&lt;/code&gt;. */
+    private WeightUnit unit;
+    /** The magnitude of the &lt;code&gt;Weight&lt;/code&gt;. */
+    private BigDecimal magnitude;
+    /** Constant for a zero value. */
+<span class="fc" id="L36">    public static final Weight ZERO = new Weight(&quot;0&quot;);</span>
+
+    /* ----------------------------- methods ------------------- */
+    /**
+     * Accessed by persistence provider.
+     */
+    protected Weight() {
+<span class="fc" id="L43">        super();</span>
+<span class="fc" id="L44">    }</span>
+
+    /**
+     * Create a new &lt;code&gt;Weight&lt;/code&gt;.
+     * 
+     * @param magnitude
+     *            The magnitude of the &lt;code&gt;Weight&lt;/code&gt;
+     * @param unit
+     *            The unit of measure
+     */
+<span class="fc" id="L54">    public Weight(BigDecimal magnitude, WeightUnit unit) {</span>
+<span class="fc" id="L55">        this.magnitude = magnitude;</span>
+<span class="fc" id="L56">        this.unit = unit;</span>
+<span class="fc" id="L57">    }</span>
+
+    /**
+     * Create a new &lt;code&gt;Weight&lt;/code&gt;.
+     * 
+     * @param magnitude
+     *            The magnitude of the &lt;code&gt;Weight&lt;/code&gt; as String
+     * @param unit
+     *            The unit of measure
+     */
+<span class="fc" id="L67">    public Weight(String magnitude, WeightUnit unit) {</span>
+<span class="fc" id="L68">        this.magnitude = new BigDecimal(magnitude);</span>
+<span class="fc" id="L69">        this.unit = unit;</span>
+<span class="fc" id="L70">    }</span>
+
+    /**
+     * Create a new &lt;code&gt;Weight&lt;/code&gt;.
+     * 
+     * @param magnitude
+     *            The magnitude of the &lt;code&gt;Weight&lt;/code&gt;
+     */
+<span class="nc" id="L78">    public Weight(BigDecimal magnitude) {</span>
+<span class="nc" id="L79">        this.magnitude = magnitude;</span>
+<span class="nc" id="L80">        this.unit = WeightUnit.T.getBaseUnit();</span>
+<span class="nc" id="L81">    }</span>
+
+    /**
+     * Create a new &lt;code&gt;Weight&lt;/code&gt;.
+     * 
+     * @param magnitude
+     *            The magnitude of the &lt;code&gt;Weight&lt;/code&gt; as String
+     */
+<span class="fc" id="L89">    public Weight(String magnitude) {</span>
+<span class="fc" id="L90">        this.magnitude = new BigDecimal(magnitude);</span>
+<span class="fc" id="L91">        this.unit = WeightUnit.T.getBaseUnit();</span>
+<span class="fc" id="L92">    }</span>
+
+    /**
+     * @see org.openwms.core.values.UnitType#getMeasurable()
+     */
+    @Override
+    public Weight getMeasurable() {
+<span class="nc" id="L99">        return this;</span>
+    }
+
+    /**
+     * Returns the magnitude of the &lt;code&gt;Weight&lt;/code&gt;.
+     * 
+     * @return The magnitude
+     */
+    @Override
+    public BigDecimal getMagnitude() {
+<span class="fc" id="L109">        return magnitude;</span>
+    }
+
+    /**
+     * Returns the unit of the &lt;code&gt;Weight&lt;/code&gt;.
+     * 
+     * @return The unit
+     */
+    @Override
+    public WeightUnit getUnitType() {
+<span class="fc" id="L119">        return unit;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isZero() {
+<span class="nc" id="L127">        return this.getMagnitude().equals(BigDecimal.ZERO);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isNegative() {
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        return this.getMagnitude().signum() == -1;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Weight convertTo(WeightUnit unt) {
+<span class="fc" id="L143">        return new Weight(getMagnitude().scaleByPowerOfTen((this.getUnitType().ordinal() - unt.ordinal()) * 3), unt);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int compareTo(Weight o) {
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        if (o.getUnitType().ordinal() &gt; this.getUnitType().ordinal()) {</span>
+<span class="fc" id="L152">            return -1;</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">        } else if (o.getUnitType().ordinal() &lt; this.getUnitType().ordinal()) {</span>
+<span class="fc" id="L154">            return 1;</span>
+        } else {
+<span class="fc" id="L156">            return this.getMagnitude().compareTo(o.getMagnitude());</span>
+        }
+    }
+
+    /**
+     * Use amount and unit for calculation.
+     * 
+     * @return The hashCode
+     */
+    @Override
+    public int hashCode() {
+<span class="nc" id="L167">        final int prime = 31;</span>
+<span class="nc" id="L168">        int result = 1;</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">        result = prime * result + ((getMagnitude() == null) ? 0 : getMagnitude().hashCode());</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">        result = prime * result + ((getUnitType() == null) ? 0 : getUnitType().hashCode());</span>
+<span class="nc" id="L171">        return result;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * Use amount and unit for comparison.
+     */
+    @Override
+    public boolean equals(Object obj) {
+<span class="pc bpc" id="L181" title="1 of 2 branches missed.">        if (this == obj) {</span>
+<span class="nc" id="L182">            return true;</span>
+        }
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">        if (obj == null) {</span>
+<span class="nc" id="L185">            return false;</span>
+        }
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
+<span class="nc" id="L188">            return false;</span>
+        }
+<span class="fc" id="L190">        Weight other = (Weight) obj;</span>
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">        if (getMagnitude() == null) {</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">            if (other.getMagnitude() != null) {</span>
+<span class="nc" id="L193">                return false;</span>
+            }
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">        } else if (!getMagnitude().equals(other.getMagnitude())) {</span>
+<span class="nc" id="L196">            return false;</span>
+        }
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">        if (getUnitType() != other.getUnitType()) {</span>
+<span class="nc" id="L199">            return false;</span>
+        }
+<span class="fc" id="L201">        return true;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L209">        return getMagnitude() + &quot; &quot; + getUnitType();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

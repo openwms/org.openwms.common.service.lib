@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PieceUserType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.units</a> &gt; <span class="el_source">PieceUserType.java</span></div><h1>PieceUserType.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2019 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.units;
+
+import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.type.StandardBasicTypes;
+import org.hibernate.type.Type;
+import org.hibernate.usertype.CompositeUserType;
+
+import java.io.Serializable;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/**
+ * A PieceUserType.
+ * 
+ * @author Heiko Scherrer
+ * @deprecated Use UnitUserType instead
+ */
+@Deprecated
+<span class="nc" id="L36">public class PieceUserType implements CompositeUserType {</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String[] getPropertyNames() {
+<span class="nc" id="L43">        return new String[] { &quot;unitType&quot;, &quot;amount&quot; };</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Type[] getPropertyTypes() {
+<span class="nc" id="L51">        return new Type[] { StandardBasicTypes.STRING, StandardBasicTypes.BIG_DECIMAL };</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object getPropertyValue(Object component, int property) {
+<span class="nc" id="L59">        Piece piece = (Piece) component;</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        return property == 0 ? piece.getUnitType() : piece.getMagnitude();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setPropertyValue(Object component, int property, Object value) {
+<span class="nc" id="L68">        throw new UnsupportedOperationException(&quot;Unit types are immutable&quot;);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Class returnedClass() {
+<span class="nc" id="L76">        return Piece.class;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object x, Object y) {
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (x == y) {</span>
+<span class="nc" id="L85">            return true;</span>
+        }
+<span class="nc bnc" id="L87" title="All 4 branches missed.">        if (x == null || y == null) {</span>
+<span class="nc" id="L88">            return false;</span>
+        }
+<span class="nc" id="L90">        return x.equals(y);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode(Object x) {
+<span class="nc" id="L98">        return x.hashCode();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object nullSafeGet(ResultSet resultSet, String[] names, SharedSessionContractImplementor session, Object owner) throws HibernateException, SQLException {
+<span class="nc" id="L106">        String unitType = resultSet.getString(names[0]);</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        if (resultSet.wasNull()) {</span>
+<span class="nc" id="L108">            return null;</span>
+        }
+<span class="nc" id="L110">        int amount = resultSet.getInt(names[1]);</span>
+<span class="nc" id="L111">        return new Piece(amount, PieceUnit.valueOf(unitType));</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws HibernateException, SQLException {
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        if (value == null) {</span>
+<span class="nc" id="L120">            st.setNull(index, StandardBasicTypes.STRING.sqlType());</span>
+<span class="nc" id="L121">            st.setNull(index + 1, StandardBasicTypes.BIG_DECIMAL.sqlType());</span>
+<span class="nc" id="L122">        } else {</span>
+<span class="nc" id="L123">            Piece piece = (Piece) value;</span>
+<span class="nc" id="L124">            String unitType = piece.getUnitType().toString();</span>
+<span class="nc" id="L125">            st.setString(index, unitType);</span>
+<span class="nc" id="L126">            st.setBigDecimal(index + 1, piece.getMagnitude());</span>
+        }
+<span class="nc" id="L128">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object deepCopy(Object value) {
+<span class="nc" id="L135">        return value;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isMutable() {
+<span class="nc" id="L143">        return false;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Serializable disassemble(Object value, SharedSessionContractImplementor session) throws HibernateException {
+<span class="nc" id="L151">        return (Serializable) value;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object assemble(Serializable cached, SharedSessionContractImplementor session, Object owner) throws HibernateException {
+<span class="nc" id="L159">        return owner;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object replace(Object original, Object target, SharedSessionContractImplementor session, Object owner) throws HibernateException {
+<span class="nc" id="L167">        return original;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
