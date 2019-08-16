@@ -40,12 +40,12 @@ OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImp
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api.messages,TransportUnitTypeMO,8,51,0,0,4,21,2,15,2,15
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api.messages,TransportUnitMO,191,30,0,0,31,11,12,10,12,10
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api.messages,TransportUnitMO.Builder,51,0,0,0,19,0,10,0,10,0
-OpenWMS.org COMMON: Services,org.openwms.common.units,UnitUserType,337,0,30,0,58,0,31,0,16,0
+OpenWMS.org COMMON: Services,org.openwms.common.units,UnitUserType,335,0,30,0,58,0,31,0,16,0
 OpenWMS.org COMMON: Services,org.openwms.common.units,PieceUnit,6,53,0,0,2,9,2,3,2,3
-OpenWMS.org COMMON: Services,org.openwms.common.units,Piece,106,146,18,16,23,34,20,14,7,10
+OpenWMS.org COMMON: Services,org.openwms.common.units,Piece,106,146,18,16,22,34,20,14,7,10
 OpenWMS.org COMMON: Services,org.openwms.common.units,PieceUserType,130,0,12,0,32,0,21,0,15,0
 OpenWMS.org COMMON: Services,org.openwms.common.units,WeightUnit,6,78,0,0,2,13,2,3,2,3
-OpenWMS.org COMMON: Services,org.openwms.common.units,Weight,86,118,14,10,20,31,16,12,6,10
+OpenWMS.org COMMON: Services,org.openwms.common.units,Weight,86,118,14,10,19,30,16,12,6,10
 OpenWMS.org COMMON: Services,org.openwms.common.location,LocationPK.Builder,0,34,0,0,0,12,0,7,0,7
 OpenWMS.org COMMON: Services,org.openwms.common.location,Message,2,92,2,8,0,20,2,12,0,9
 OpenWMS.org COMMON: Services,org.openwms.common.location,LocationGroup,72,473,32,56,14,97,33,55,6,38

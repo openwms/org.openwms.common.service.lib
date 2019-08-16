@@ -126,7 +126,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
 
     @Autowired
     @Transient
-    private EntityManager em;
+    private transient EntityManager em;
 
     /*~ ----------------------------- constructors ------------------- */
 

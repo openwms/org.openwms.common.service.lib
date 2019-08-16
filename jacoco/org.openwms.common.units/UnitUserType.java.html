@@ -15,7 +15,6 @@
  */
 package org.openwms.common.units;
 
-import org.hibernate.HibernateException;
 import org.hibernate.TypeMismatchException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.type.StandardBasicTypes;
@@ -40,9 +39,9 @@ import static java.lang.String.format;
  *
  * @author Heiko Scherrer
  */
-<span class="nc" id="L43">public class UnitUserType implements CompositeUserType {</span>
+<span class="nc" id="L42">public class UnitUserType implements CompositeUserType {</span>
 
-<span class="nc" id="L45">    private static final Logger LOGGER = LoggerFactory.getLogger(UnitUserType.class);</span>
+<span class="nc" id="L44">    private static final Logger LOGGER = LoggerFactory.getLogger(UnitUserType.class);</span>
 
     /**
      * {@inheritDoc}
@@ -51,7 +50,7 @@ import static java.lang.String.format;
      */
     @Override
     public String[] getPropertyNames() {
-<span class="nc" id="L54">        return new String[]{&quot;unitType&quot;, &quot;amount&quot;};</span>
+<span class="nc" id="L53">        return new String[]{&quot;unitType&quot;, &quot;amount&quot;};</span>
     }
 
     /**
@@ -61,7 +60,7 @@ import static java.lang.String.format;
      */
     @Override
     public Type[] getPropertyTypes() {
-<span class="nc" id="L64">        return new Type[]{StandardBasicTypes.STRING, StandardBasicTypes.STRING};</span>
+<span class="nc" id="L63">        return new Type[]{StandardBasicTypes.STRING, StandardBasicTypes.STRING};</span>
     }
 
     /**
@@ -69,14 +68,14 @@ import static java.lang.String.format;
      */
     @Override
     public Object getPropertyValue(Object component, int property) {
-<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (component instanceof Piece) {</span>
-<span class="nc" id="L73">            Piece piece = (Piece) component;</span>
-<span class="nc bnc" id="L74" title="All 2 branches missed.">            return property == 0 ? piece.getUnitType() : piece.getMagnitude();</span>
-<span class="nc bnc" id="L75" title="All 2 branches missed.">        } else if (component instanceof Weight) {</span>
-<span class="nc" id="L76">            Weight weight = (Weight) component;</span>
-<span class="nc bnc" id="L77" title="All 2 branches missed.">            return property == 0 ? weight.getUnitType() : weight.getMagnitude();</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        if (component instanceof Piece) {</span>
+<span class="nc" id="L72">            Piece piece = (Piece) component;</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            return property == 0 ? piece.getUnitType() : piece.getMagnitude();</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        } else if (component instanceof Weight) {</span>
+<span class="nc" id="L75">            Weight weight = (Weight) component;</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">            return property == 0 ? weight.getUnitType() : weight.getMagnitude();</span>
         }
-<span class="nc" id="L79">        throw new TypeMismatchException(format(&quot;Incompatible type [%s]&quot;, component.getClass()));</span>
+<span class="nc" id="L78">        throw new TypeMismatchException(format(&quot;Incompatible type [%s]&quot;, component.getClass()));</span>
     }
 
     /**
@@ -86,7 +85,7 @@ import static java.lang.String.format;
      */
     @Override
     public void setPropertyValue(Object component, int property, Object value) {
-<span class="nc" id="L89">        throw new UnsupportedOperationException(&quot;Unit types are immutable&quot;);</span>
+<span class="nc" id="L88">        throw new UnsupportedOperationException(&quot;Unit types are immutable&quot;);</span>
     }
 
     /**
@@ -96,7 +95,7 @@ import static java.lang.String.format;
      */
     @Override
     public Class returnedClass() {
-<span class="nc" id="L99">        return Measurable.class;</span>
+<span class="nc" id="L98">        return Measurable.class;</span>
     }
 
     /**
@@ -106,13 +105,13 @@ import static java.lang.String.format;
      */
     @Override
     public boolean equals(Object x, Object y) {
-<span class="nc bnc" id="L109" title="All 2 branches missed.">        if (x == y) {</span>
-<span class="nc" id="L110">            return true;</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        if (x == y) {</span>
+<span class="nc" id="L109">            return true;</span>
         }
-<span class="nc bnc" id="L112" title="All 4 branches missed.">        if (x == null || y == null) {</span>
-<span class="nc" id="L113">            return false;</span>
+<span class="nc bnc" id="L111" title="All 4 branches missed.">        if (x == null || y == null) {</span>
+<span class="nc" id="L112">            return false;</span>
         }
-<span class="nc" id="L115">        return x.equals(y);</span>
+<span class="nc" id="L114">        return x.equals(y);</span>
     }
 
     /**
@@ -122,7 +121,7 @@ import static java.lang.String.format;
      */
     @Override
     public int hashCode(Object x) {
-<span class="nc" id="L125">        return x.hashCode();</span>
+<span class="nc" id="L124">        return x.hashCode();</span>
     }
 
     /**
@@ -135,22 +134,22 @@ import static java.lang.String.format;
      * &lt;/ul&gt;
      */
     @Override
-    public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner) throws HibernateException, SQLException {
-<span class="nc" id="L139">        String rs0 = rs.getString(names[0]);</span>
-<span class="nc bnc" id="L140" title="All 2 branches missed.">        if (rs.wasNull()) {</span>
-<span class="nc" id="L141">            return null;</span>
+    public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner) throws SQLException {
+<span class="nc" id="L138">        String rs0 = rs.getString(names[0]);</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        if (rs.wasNull()) {</span>
+<span class="nc" id="L140">            return null;</span>
         }
-<span class="nc" id="L143">        String[] val = rs0.split(&quot;@&quot;);</span>
-<span class="nc" id="L144">        String unitType = val[0];</span>
-<span class="nc" id="L145">        String unitTypeClass = val[1];</span>
-<span class="nc bnc" id="L146" title="All 2 branches missed.">        if (Piece.class.getCanonicalName().equals(unitTypeClass)) {</span>
-<span class="nc" id="L147">            int amount = rs.getInt(names[1]);</span>
-<span class="nc" id="L148">            return new Piece(amount, PieceUnit.valueOf(unitType));</span>
-<span class="nc bnc" id="L149" title="All 2 branches missed.">        } else if (Weight.class.getCanonicalName().equals(unitTypeClass)) {</span>
-<span class="nc" id="L150">            BigDecimal amount = rs.getBigDecimal(names[1]);</span>
-<span class="nc" id="L151">            return new Weight(amount, WeightUnit.valueOf(unitType));</span>
+<span class="nc" id="L142">        String[] val = rs0.split(&quot;@&quot;);</span>
+<span class="nc" id="L143">        String unitType = val[0];</span>
+<span class="nc" id="L144">        String unitTypeClass = val[1];</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        if (Piece.class.getCanonicalName().equals(unitTypeClass)) {</span>
+<span class="nc" id="L146">            int amount = rs.getInt(names[1]);</span>
+<span class="nc" id="L147">            return new Piece(amount, PieceUnit.valueOf(unitType));</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        } else if (Weight.class.getCanonicalName().equals(unitTypeClass)) {</span>
+<span class="nc" id="L149">            BigDecimal amount = rs.getBigDecimal(names[1]);</span>
+<span class="nc" id="L150">            return new Weight(amount, WeightUnit.valueOf(unitType));</span>
         }
-<span class="nc" id="L153">        throw new TypeMismatchException(format(&quot;Incompatible type: [%s]&quot;, unitTypeClass));</span>
+<span class="nc" id="L152">        throw new TypeMismatchException(format(&quot;Incompatible type: [%s]&quot;, unitTypeClass));</span>
     }
 
     /**
@@ -159,39 +158,39 @@ import static java.lang.String.format;
      * We've to store the concrete classname as well.
      */
     @Override
-    public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws HibernateException, SQLException {
-<span class="nc bnc" id="L163" title="All 2 branches missed.">        if (value == null) {</span>
-<span class="nc" id="L164">            st.setNull(index, StandardBasicTypes.STRING.sqlType());</span>
-<span class="nc" id="L165">            st.setNull(index + 1, StandardBasicTypes.STRING.sqlType());</span>
-<span class="nc" id="L166">        } else {</span>
-<span class="nc bnc" id="L167" title="All 2 branches missed.">            if (value instanceof Piece) {</span>
-<span class="nc" id="L168">                Piece piece = (Piece) value;</span>
-<span class="nc" id="L169">                st.setString(index, piece.getUnitType().toString() + &quot;@&quot; + Piece.class.getCanonicalName());</span>
-<span class="nc" id="L170">                st.setString(index + 1, piece.getMagnitude().toPlainString());</span>
-<span class="nc bnc" id="L171" title="All 2 branches missed.">                if (LOGGER.isTraceEnabled()) {</span>
-<span class="nc" id="L172">                    LOGGER.trace(&quot;Binding [{}@{}] to parameter [{}]&quot;, piece.getUnitType().toString(), Piece.class.getCanonicalName(), index);</span>
-<span class="nc" id="L173">                    LOGGER.trace(&quot;Binding [{}] to parameter [{}]&quot;, piece.getMagnitude().toPlainString(), (index + 1));</span>
+    public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws SQLException {
+<span class="nc bnc" id="L162" title="All 2 branches missed.">        if (value == null) {</span>
+<span class="nc" id="L163">            st.setNull(index, StandardBasicTypes.STRING.sqlType());</span>
+<span class="nc" id="L164">            st.setNull(index + 1, StandardBasicTypes.STRING.sqlType());</span>
+<span class="nc" id="L165">        } else {</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">            if (value instanceof Piece) {</span>
+<span class="nc" id="L167">                Piece piece = (Piece) value;</span>
+<span class="nc" id="L168">                st.setString(index, piece.getUnitType().toString() + &quot;@&quot; + Piece.class.getCanonicalName());</span>
+<span class="nc" id="L169">                st.setString(index + 1, piece.getMagnitude().toPlainString());</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">                if (LOGGER.isTraceEnabled()) {</span>
+<span class="nc" id="L171">                    LOGGER.trace(&quot;Binding [{}@{}] to parameter [{}]&quot;, piece.getUnitType(), Piece.class.getCanonicalName(), index);</span>
+<span class="nc" id="L172">                    LOGGER.trace(&quot;Binding [{}] to parameter [{}]&quot;, piece.getMagnitude().toPlainString(), (index + 1));</span>
                 }
-<span class="nc bnc" id="L175" title="All 2 branches missed.">            } else if (value instanceof Weight) {</span>
-<span class="nc" id="L176">                Weight weight = (Weight) value;</span>
-<span class="nc" id="L177">                st.setString(index, weight.getUnitType().toString() + &quot;@&quot; + Weight.class.getCanonicalName());</span>
-<span class="nc" id="L178">                st.setString(index + 1, weight.getMagnitude().toPlainString());</span>
-<span class="nc bnc" id="L179" title="All 2 branches missed.">                if (LOGGER.isTraceEnabled()) {</span>
-<span class="nc" id="L180">                    LOGGER.trace(&quot;Binding [{}@{}] to parameter [{}]&quot;, weight.getUnitType().toString(), Weight.class.getCanonicalName(), index);</span>
-<span class="nc" id="L181">                    LOGGER.trace(&quot;Binding [{}] to parameter [{}]&quot;, weight.getMagnitude().toPlainString(), (index + 1));</span>
+<span class="nc bnc" id="L174" title="All 2 branches missed.">            } else if (value instanceof Weight) {</span>
+<span class="nc" id="L175">                Weight weight = (Weight) value;</span>
+<span class="nc" id="L176">                st.setString(index, weight.getUnitType().toString() + &quot;@&quot; + Weight.class.getCanonicalName());</span>
+<span class="nc" id="L177">                st.setString(index + 1, weight.getMagnitude().toPlainString());</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">                if (LOGGER.isTraceEnabled()) {</span>
+<span class="nc" id="L179">                    LOGGER.trace(&quot;Binding [{}@{}] to parameter [{}]&quot;, weight.getUnitType(), Weight.class.getCanonicalName(), index);</span>
+<span class="nc" id="L180">                    LOGGER.trace(&quot;Binding [{}] to parameter [{}]&quot;, weight.getMagnitude().toPlainString(), (index + 1));</span>
                 }
-<span class="nc" id="L183">            } else {</span>
-<span class="nc" id="L184">                throw new TypeMismatchException(format(&quot;Incompatible type: [%s]&quot;, value.getClass().getCanonicalName()));</span>
+<span class="nc" id="L182">            } else {</span>
+<span class="nc" id="L183">                throw new TypeMismatchException(format(&quot;Incompatible type: [%s]&quot;, value.getClass().getCanonicalName()));</span>
             }
         }
-<span class="nc" id="L187">    }</span>
+<span class="nc" id="L186">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Object deepCopy(Object value) {
-<span class="nc" id="L194">        return value;</span>
+<span class="nc" id="L193">        return value;</span>
     }
 
     /**
@@ -201,31 +200,31 @@ import static java.lang.String.format;
      */
     @Override
     public boolean isMutable() {
-<span class="nc" id="L204">        return false;</span>
+<span class="nc" id="L203">        return false;</span>
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Serializable disassemble(Object value, SharedSessionContractImplementor session) throws HibernateException {
-<span class="nc" id="L212">        return (Serializable) value;</span>
+    public Serializable disassemble(Object value, SharedSessionContractImplementor session) {
+<span class="nc" id="L211">        return (Serializable) value;</span>
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Object assemble(Serializable cached, SharedSessionContractImplementor session, Object owner) throws HibernateException {
-<span class="nc" id="L220">        return cached;</span>
+    public Object assemble(Serializable cached, SharedSessionContractImplementor session, Object owner) {
+<span class="nc" id="L219">        return cached;</span>
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Object replace(Object original, Object target, SharedSessionContractImplementor session, Object owner) throws HibernateException {
-<span class="nc" id="L228">        return original;</span>
+    public Object replace(Object original, Object target, SharedSessionContractImplementor session, Object owner) {
+<span class="nc" id="L227">        return original;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

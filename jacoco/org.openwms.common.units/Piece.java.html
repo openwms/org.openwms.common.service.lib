@@ -208,20 +208,18 @@ public class Piece implements Measurable&lt;BigDecimal, Piece, PieceUnit&gt;, Un
 <span class="nc" id="L208">            return false;</span>
         }
 <span class="fc" id="L210">        Piece other = (Piece) obj;</span>
-<span class="pc bpc" id="L211" title="1 of 2 branches missed.">        if (magnitude == null) {</span>
-<span class="nc bnc" id="L212" title="All 2 branches missed.">            if (other.magnitude != null) {</span>
-<span class="nc" id="L213">                return false;</span>
-            }
+<span class="pc bpc" id="L211" title="3 of 4 branches missed.">        if (magnitude == null &amp;&amp; other.magnitude != null) {</span>
+<span class="nc" id="L212">            return false;</span>
         }
-<span class="fc bfc" id="L216" title="All 2 branches covered.">        return this.compareTo(other) == 0;</span>
+<span class="fc bfc" id="L214" title="All 2 branches covered.">        return this.compareTo(other) == 0;</span>
 
     }
 
     private int compare(BigDecimal val1, BigDecimal val2) {
-<span class="fc bfc" id="L221" title="All 2 branches covered.">        if (val1.equals(val2)) {</span>
-<span class="fc" id="L222">            return 0;</span>
+<span class="fc bfc" id="L219" title="All 2 branches covered.">        if (val1.equals(val2)) {</span>
+<span class="fc" id="L220">            return 0;</span>
         }
-<span class="fc" id="L224">        return val1.compareTo(val2);</span>
+<span class="fc" id="L222">        return val1.compareTo(val2);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

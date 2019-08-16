@@ -18,6 +18,7 @@ package org.openwms.common.location;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 /**
  * A Subsystem.
@@ -25,7 +26,7 @@ import javax.validation.constraints.NotEmpty;
  * @author Heiko Scherrer
  */
 @Embeddable
-public class Subsystem {
+public class Subsystem implements Serializable {
     /**
      * Name of the subsystem (e.g. PLC), tied to this {@code LocationGroup}.
      * A subsystem may be named after a name and a code, like PLCCONV_01, where PLCCONV is the name of
@@ -44,16 +45,16 @@ public class Subsystem {
 
     /*~ ----------------------------- constructors ------------------- */
     /** Dear JPA... */
-<span class="nc" id="L47">    protected Subsystem() { }</span>
+<span class="nc" id="L48">    protected Subsystem() { }</span>
 
-<span class="nc" id="L49">    public Subsystem(@NotEmpty String systemName) {</span>
-<span class="nc" id="L50">        this.systemName = systemName;</span>
-<span class="nc" id="L51">    }</span>
+<span class="nc" id="L50">    public Subsystem(@NotEmpty String systemName) {</span>
+<span class="nc" id="L51">        this.systemName = systemName;</span>
+<span class="nc" id="L52">    }</span>
 
-<span class="nc" id="L53">    public Subsystem(@NotEmpty String systemName, @NotEmpty String systemCode) {</span>
-<span class="nc" id="L54">        this.systemName = systemName;</span>
-<span class="nc" id="L55">        this.systemCode = systemCode;</span>
-<span class="nc" id="L56">    }</span>
+<span class="nc" id="L54">    public Subsystem(@NotEmpty String systemName, @NotEmpty String systemCode) {</span>
+<span class="nc" id="L55">        this.systemName = systemName;</span>
+<span class="nc" id="L56">        this.systemCode = systemCode;</span>
+<span class="nc" id="L57">    }</span>
 
     /*~ ----------------------------- accessors ------------------- */
     /**
@@ -62,7 +63,7 @@ public class Subsystem {
      * @return The systemName
      */
     public String getSystemName() {
-<span class="nc" id="L65">        return systemName;</span>
+<span class="nc" id="L66">        return systemName;</span>
     }
 
     /**
@@ -71,8 +72,8 @@ public class Subsystem {
      * @param systemName The systemName to set
      */
     public void setSystemName(String systemName) {
-<span class="nc" id="L74">        this.systemName = systemName;</span>
-<span class="nc" id="L75">    }</span>
+<span class="nc" id="L75">        this.systemName = systemName;</span>
+<span class="nc" id="L76">    }</span>
 
     /**
      * Returns the systemCode.
@@ -80,7 +81,7 @@ public class Subsystem {
      * @return The systemCode
      */
     public String getSystemCode() {
-<span class="nc" id="L83">        return systemCode;</span>
+<span class="nc" id="L84">        return systemCode;</span>
     }
 
     /**
@@ -89,8 +90,8 @@ public class Subsystem {
      * @param systemCode The systemCode to set
      */
     public void setSystemCode(String systemCode) {
-<span class="nc" id="L92">        this.systemCode = systemCode;</span>
-<span class="nc" id="L93">    }</span>
+<span class="nc" id="L93">        this.systemCode = systemCode;</span>
+<span class="nc" id="L94">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
