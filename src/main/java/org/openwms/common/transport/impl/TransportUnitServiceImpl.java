@@ -106,7 +106,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public TransportUnit create(Barcode barcode, String transportUnitType, String actualLocation, Boolean strict) {
+    public TransportUnit create(@NotNull Barcode barcode, @NotEmpty String transportUnitType, @NotEmpty String actualLocation, Boolean strict) {
         Assert.notNull(barcode, "The barcode must be given in order to create a TransportUnit");
         Assert.notNull(transportUnitType, "The transportUnitType must be given in order to create a TransportUnit");
         Assert.notNull(actualLocation, "The actualLocation must be given in order to create a TransportUnit");
@@ -117,11 +117,11 @@ class TransportUnitServiceImpl implements TransportUnitService {
         Optional<TransportUnit> opt = repository.findByBarcode(barcode);
         if (Boolean.TRUE.equals(strict)) {
             opt.ifPresent(tu -> {
-                throw new ServiceLayerException(format("TransportUnit with id [%s] not found", barcode));
+                throw new ServiceLayerException(format("TransportUnit with id [%s] already exists", barcode));
             });
         } else {
             if (opt.isPresent()) {
-                LOGGER.debug("TransportUnit with Barcode [{}] already exists, silently returning the existing one and continue", barcode);
+                LOGGER.debug("TransportUnit with Barcode [{}] already exists, silently returning the existing one", barcode);
                 return opt.get();
             }
         }

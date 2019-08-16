@@ -17,6 +17,8 @@ package org.openwms.common.transport;
 
 import org.openwms.common.location.LocationPK;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -49,15 +51,19 @@ public interface TransportUnitService {
      * given {@code actualLocation}. The new {@link TransportUnit} has the given
      * {@link Barcode} as identifier.
      *
-     * @param barcode The business identifier of the TransportUnit
-     * @param transportUnitType The type of the TransportUnit
-     * @param actualLocation The Location where the TransportUnit is placed on
+     * @param barcode The business identifier of the TransportUnit, must not be {@literal null}
+     * @param transportUnitType The type of the TransportUnit, must not be {@literal null}
+     * @param actualLocation The Location where the TransportUnit is placed on, must not be {@literal null}
      * @param strict Whether the implementation shall throw an exception when a
      *               TransportUnit already exists ({@literal true}) or not
      *               ({@literal false}
      * @return The newly created instance
+     * @throws org.ameba.exception.ServiceLayerException when invalid parameters
      */
-    TransportUnit create(Barcode barcode, String transportUnitType, String actualLocation,
+    TransportUnit create(
+            @NotNull Barcode barcode,
+            @NotEmpty String transportUnitType,
+            @NotEmpty String actualLocation,
             Boolean strict);
 
     /**
