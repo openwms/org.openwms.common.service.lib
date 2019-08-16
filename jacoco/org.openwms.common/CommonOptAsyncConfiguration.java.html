@@ -41,36 +41,36 @@ import org.springframework.retry.support.RetryTemplate;
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Configuration
 @EnableRabbit
-<span class="nc" id="L44">class CommonOptAsyncConfiguration {</span>
+<span class="fc" id="L44">class CommonOptAsyncConfiguration {</span>
 
     @Bean
     MessageConverter jsonConverter() {
-<span class="nc" id="L48">        return new Jackson2JsonMessageConverter();</span>
+<span class="fc" id="L48">        return new Jackson2JsonMessageConverter();</span>
     }
 
     @Bean
     RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
-<span class="nc" id="L53">        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);</span>
-<span class="nc" id="L54">        ExponentialBackOffPolicy backOffPolicy = new ExponentialBackOffPolicy();</span>
-<span class="nc" id="L55">        backOffPolicy.setMultiplier(2);</span>
-<span class="nc" id="L56">        backOffPolicy.setMaxInterval(15000);</span>
-<span class="nc" id="L57">        backOffPolicy.setInitialInterval(500);</span>
-<span class="nc" id="L58">        RetryTemplate retryTemplate = new RetryTemplate();</span>
-<span class="nc" id="L59">        retryTemplate.setBackOffPolicy(backOffPolicy);</span>
-<span class="nc" id="L60">        rabbitTemplate.setRetryTemplate(retryTemplate);</span>
-<span class="nc" id="L61">        rabbitTemplate.setMessageConverter(jsonConverter());</span>
-<span class="nc" id="L62">        return rabbitTemplate;</span>
+<span class="fc" id="L53">        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);</span>
+<span class="fc" id="L54">        ExponentialBackOffPolicy backOffPolicy = new ExponentialBackOffPolicy();</span>
+<span class="fc" id="L55">        backOffPolicy.setMultiplier(2);</span>
+<span class="fc" id="L56">        backOffPolicy.setMaxInterval(15000);</span>
+<span class="fc" id="L57">        backOffPolicy.setInitialInterval(500);</span>
+<span class="fc" id="L58">        RetryTemplate retryTemplate = new RetryTemplate();</span>
+<span class="fc" id="L59">        retryTemplate.setBackOffPolicy(backOffPolicy);</span>
+<span class="fc" id="L60">        rabbitTemplate.setRetryTemplate(retryTemplate);</span>
+<span class="fc" id="L61">        rabbitTemplate.setMessageConverter(jsonConverter());</span>
+<span class="fc" id="L62">        return rabbitTemplate;</span>
     }
 
     /*~ ------------ Events ------------- */
     @Bean
     TopicExchange commonTuExchange(@Value(&quot;${owms.events.common.tu.exchange-name}&quot;) String exchangeName) {
-<span class="nc" id="L68">        return new TopicExchange(exchangeName, true, false);</span>
+<span class="fc" id="L68">        return new TopicExchange(exchangeName, true, false);</span>
     }
 
     @Bean
     Queue eventsQueue(@Value(&quot;${owms.events.common.tu.queue-name}&quot;) String queueName) {
-<span class="nc" id="L73">        return new Queue(queueName);</span>
+<span class="fc" id="L73">        return new Queue(queueName);</span>
     }
 
     @Bean
@@ -79,21 +79,21 @@ import org.springframework.retry.support.RetryTemplate;
             Queue eventsQueue,
             @Value(&quot;${owms.events.common.tu.routing-key}&quot;) String routingKey
     ) {
-<span class="nc" id="L82">        return BindingBuilder</span>
-<span class="nc" id="L83">                .bind(eventsQueue)</span>
-<span class="nc" id="L84">                .to(commonTuExchange)</span>
-<span class="nc" id="L85">                .with(routingKey);</span>
+<span class="fc" id="L82">        return BindingBuilder</span>
+<span class="fc" id="L83">                .bind(eventsQueue)</span>
+<span class="fc" id="L84">                .to(commonTuExchange)</span>
+<span class="fc" id="L85">                .with(routingKey);</span>
     }
 
     /*~ ------------ Commands ------------- */
     @Bean
     Queue commandsQueue(@Value(&quot;${owms.commands.common.tu.queue-name}&quot;) String queueName) {
-<span class="nc" id="L91">        return new Queue(queueName, true);</span>
+<span class="fc" id="L91">        return new Queue(queueName, true);</span>
     }
 
     @Bean
     TopicExchange commonTuCommandsExchange(@Value(&quot;${owms.commands.common.tu.exchange-name}&quot;) String exchangeName) {
-<span class="nc" id="L96">        return new TopicExchange(exchangeName, true, false);</span>
+<span class="fc" id="L96">        return new TopicExchange(exchangeName, true, false);</span>
     }
 
     @Bean
@@ -102,10 +102,10 @@ import org.springframework.retry.support.RetryTemplate;
             Queue commandsQueue,
             @Value(&quot;${owms.commands.common.tu.routing-key}&quot;) String routingKey
     ) {
-<span class="nc" id="L105">        return BindingBuilder</span>
-<span class="nc" id="L106">                .bind(commandsQueue)</span>
-<span class="nc" id="L107">                .to(commonTuCommandsExchange)</span>
-<span class="nc" id="L108">                .with(routingKey);</span>
+<span class="fc" id="L105">        return BindingBuilder</span>
+<span class="fc" id="L106">                .bind(commandsQueue)</span>
+<span class="fc" id="L107">                .to(commonTuCommandsExchange)</span>
+<span class="fc" id="L108">                .with(routingKey);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

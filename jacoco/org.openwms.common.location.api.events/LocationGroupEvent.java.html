@@ -42,11 +42,11 @@ public class LocationGroupEvent extends RootApplicationEvent implements Serializ
 <span class="fc" id="L42">    }</span>
 
     public static LocationGroupEvent boot() {
-<span class="nc" id="L45">        return new LocationGroupEvent(&quot;BOOT&quot;, LocationGroupEventType.BOOT);</span>
+<span class="fc" id="L45">        return new LocationGroupEvent(&quot;BOOT&quot;, LocationGroupEventType.BOOT);</span>
     }
 
     public LocationGroupEventType getType() {
-<span class="nc" id="L49">        return type;</span>
+<span class="fc" id="L49">        return type;</span>
     }
 
     public static LocationGroupEvent of(Object obj, LocationGroupEventType type) {

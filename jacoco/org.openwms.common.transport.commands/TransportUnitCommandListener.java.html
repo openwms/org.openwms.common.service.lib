@@ -39,10 +39,10 @@ class TransportUnitCommandListener {
     private final TransportUnitCommandHandler handler;
     private final MessageCommandHandler messageCommandHandler;
 
-<span class="nc" id="L42">    TransportUnitCommandListener(TransportUnitCommandHandler handler, MessageCommandHandler messageCommandHandler) {</span>
-<span class="nc" id="L43">        this.handler = handler;</span>
-<span class="nc" id="L44">        this.messageCommandHandler = messageCommandHandler;</span>
-<span class="nc" id="L45">    }</span>
+<span class="fc" id="L42">    TransportUnitCommandListener(TransportUnitCommandHandler handler, MessageCommandHandler messageCommandHandler) {</span>
+<span class="fc" id="L43">        this.handler = handler;</span>
+<span class="fc" id="L44">        this.messageCommandHandler = messageCommandHandler;</span>
+<span class="fc" id="L45">    }</span>
 
     @Measured
     @RabbitListener(queues = &quot;${owms.commands.common.tu.queue-name}&quot;)
