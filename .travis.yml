@@ -10,15 +10,16 @@ cache:
 
 services:
   - docker
+  - rabbitmq
 
 addons:
   sonarcloud:
     organization: "openwms-github"
 
 script:
-  - mvn clean package sonar:sonar -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Psonar -U
+  - mvn clean package sonar:sonar -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -PSONAR,ASYNCHRONOUS,TEST -U
   - mvn site scm-publish:publish-scm -Denforcer.skip=true -Dscmpublish.pubScmUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.common.service.git -DdeveloperConnectionUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.common.service.git -Dci.buildNumber=$TRAVIS_BUILD_NUMBER
-  - mvn clean package -Denforcer.skip=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Prelease,gpg
+  - mvn clean package -Denforcer.skip=true -DskipTests=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Prelease,gpg
 
 after_success:
   - docker build -t openwms/org.openwms.common.service:latest .
