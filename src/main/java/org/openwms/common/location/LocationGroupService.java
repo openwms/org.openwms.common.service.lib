@@ -51,7 +51,7 @@ public interface LocationGroupService {
      *
      * @param name The name of the LocationGroup to change
      * @param mode The new operation mode to set
-     * @see {@code LocationGroupMode} for supported mode values
+     * @see org.openwms.common.location.api.LocationGroupMode for supported mode values
      */
     void changeOperationMode(String name, String mode);
 

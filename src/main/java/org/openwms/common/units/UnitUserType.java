@@ -15,7 +15,6 @@
  */
 package org.openwms.common.units;
 
-import org.hibernate.HibernateException;
 import org.hibernate.TypeMismatchException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.type.StandardBasicTypes;
@@ -135,7 +134,7 @@ public class UnitUserType implements CompositeUserType {
      * </ul>
      */
     @Override
-    public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner) throws HibernateException, SQLException {
+    public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner) throws SQLException {
         String rs0 = rs.getString(names[0]);
         if (rs.wasNull()) {
             return null;
@@ -159,7 +158,7 @@ public class UnitUserType implements CompositeUserType {
      * We've to store the concrete classname as well.
      */
     @Override
-    public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws HibernateException, SQLException {
+    public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws SQLException {
         if (value == null) {
             st.setNull(index, StandardBasicTypes.STRING.sqlType());
             st.setNull(index + 1, StandardBasicTypes.STRING.sqlType());
@@ -169,7 +168,7 @@ public class UnitUserType implements CompositeUserType {
                 st.setString(index, piece.getUnitType().toString() + "@" + Piece.class.getCanonicalName());
                 st.setString(index + 1, piece.getMagnitude().toPlainString());
                 if (LOGGER.isTraceEnabled()) {
-                    LOGGER.trace("Binding [{}@{}] to parameter [{}]", piece.getUnitType().toString(), Piece.class.getCanonicalName(), index);
+                    LOGGER.trace("Binding [{}@{}] to parameter [{}]", piece.getUnitType(), Piece.class.getCanonicalName(), index);
                     LOGGER.trace("Binding [{}] to parameter [{}]", piece.getMagnitude().toPlainString(), (index + 1));
                 }
             } else if (value instanceof Weight) {
@@ -177,7 +176,7 @@ public class UnitUserType implements CompositeUserType {
                 st.setString(index, weight.getUnitType().toString() + "@" + Weight.class.getCanonicalName());
                 st.setString(index + 1, weight.getMagnitude().toPlainString());
                 if (LOGGER.isTraceEnabled()) {
-                    LOGGER.trace("Binding [{}@{}] to parameter [{}]", weight.getUnitType().toString(), Weight.class.getCanonicalName(), index);
+                    LOGGER.trace("Binding [{}@{}] to parameter [{}]", weight.getUnitType(), Weight.class.getCanonicalName(), index);
                     LOGGER.trace("Binding [{}] to parameter [{}]", weight.getMagnitude().toPlainString(), (index + 1));
                 }
             } else {
@@ -208,7 +207,7 @@ public class UnitUserType implements CompositeUserType {
      * {@inheritDoc}
      */
     @Override
-    public Serializable disassemble(Object value, SharedSessionContractImplementor session) throws HibernateException {
+    public Serializable disassemble(Object value, SharedSessionContractImplementor session) {
         return (Serializable) value;
     }
 
@@ -216,7 +215,7 @@ public class UnitUserType implements CompositeUserType {
      * {@inheritDoc}
      */
     @Override
-    public Object assemble(Serializable cached, SharedSessionContractImplementor session, Object owner) throws HibernateException {
+    public Object assemble(Serializable cached, SharedSessionContractImplementor session, Object owner) {
         return cached;
     }
 
@@ -224,7 +223,7 @@ public class UnitUserType implements CompositeUserType {
      * {@inheritDoc}
      */
     @Override
-    public Object replace(Object original, Object target, SharedSessionContractImplementor session, Object owner) throws HibernateException {
+    public Object replace(Object original, Object target, SharedSessionContractImplementor session, Object owner) {
         return original;
     }
 }

@@ -208,10 +208,8 @@ public class Piece implements Measurable<BigDecimal, Piece, PieceUnit>, UnitType
             return false;
         }
         Piece other = (Piece) obj;
-        if (magnitude == null) {
-            if (other.magnitude != null) {
-                return false;
-            }
+        if (magnitude == null && other.magnitude != null) {
+            return false;
         }
         return this.compareTo(other) == 0;
 

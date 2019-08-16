@@ -37,7 +37,7 @@ class LocationTest {
 
         @Test
         void test_jpa_constructor_exists() {
-            new Location();
+            assertThat(new Location()).isNotNull();
         }
 
         @Test

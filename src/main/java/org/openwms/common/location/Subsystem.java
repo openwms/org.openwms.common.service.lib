@@ -18,6 +18,7 @@ package org.openwms.common.location;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 /**
  * A Subsystem.
@@ -25,7 +26,7 @@ import javax.validation.constraints.NotEmpty;
  * @author Heiko Scherrer
  */
 @Embeddable
-public class Subsystem {
+public class Subsystem implements Serializable {
     /**
      * Name of the subsystem (e.g. PLC), tied to this {@code LocationGroup}.
      * A subsystem may be named after a name and a code, like PLCCONV_01, where PLCCONV is the name of

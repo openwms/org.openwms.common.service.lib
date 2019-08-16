@@ -195,10 +195,7 @@ public class Weight implements Measurable<BigDecimal, Weight, WeightUnit>, UnitT
         } else if (!getMagnitude().equals(other.getMagnitude())) {
             return false;
         }
-        if (getUnitType() != other.getUnitType()) {
-            return false;
-        }
-        return true;
+        return getUnitType() == other.getUnitType();
     }
 
     /**

@@ -15,7 +15,6 @@
  */
 package org.openwms.common.units;
 
-import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.type.Type;
@@ -102,7 +101,7 @@ public class PieceUserType implements CompositeUserType {
      * {@inheritDoc}
      */
     @Override
-    public Object nullSafeGet(ResultSet resultSet, String[] names, SharedSessionContractImplementor session, Object owner) throws HibernateException, SQLException {
+    public Object nullSafeGet(ResultSet resultSet, String[] names, SharedSessionContractImplementor session, Object owner) throws SQLException {
         String unitType = resultSet.getString(names[0]);
         if (resultSet.wasNull()) {
             return null;
@@ -115,7 +114,7 @@ public class PieceUserType implements CompositeUserType {
      * {@inheritDoc}
      */
     @Override
-    public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws HibernateException, SQLException {
+    public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws SQLException {
         if (value == null) {
             st.setNull(index, StandardBasicTypes.STRING.sqlType());
             st.setNull(index + 1, StandardBasicTypes.BIG_DECIMAL.sqlType());
@@ -147,7 +146,7 @@ public class PieceUserType implements CompositeUserType {
      * {@inheritDoc}
      */
     @Override
-    public Serializable disassemble(Object value, SharedSessionContractImplementor session) throws HibernateException {
+    public Serializable disassemble(Object value, SharedSessionContractImplementor session) {
         return (Serializable) value;
     }
 
@@ -155,7 +154,7 @@ public class PieceUserType implements CompositeUserType {
      * {@inheritDoc}
      */
     @Override
-    public Object assemble(Serializable cached, SharedSessionContractImplementor session, Object owner) throws HibernateException {
+    public Object assemble(Serializable cached, SharedSessionContractImplementor session, Object owner) {
         return owner;
     }
 
@@ -163,7 +162,7 @@ public class PieceUserType implements CompositeUserType {
      * {@inheritDoc}
      */
     @Override
-    public Object replace(Object original, Object target, SharedSessionContractImplementor session, Object owner) throws HibernateException {
+    public Object replace(Object original, Object target, SharedSessionContractImplementor session, Object owner) {
         return original;
     }
 }
