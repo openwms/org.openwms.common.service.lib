@@ -40,13 +40,13 @@ public class TransportUnitEvent extends RootApplicationEvent {
 <span class="nc" id="L40">    }</span>
 
     private TransportUnitEvent(Builder builder) {
-<span class="nc" id="L43">        super(builder.source);</span>
-<span class="nc" id="L44">        type = builder.type;</span>
-<span class="nc" id="L45">        actualLocation = builder.actualLocation;</span>
-<span class="nc" id="L46">    }</span>
+<span class="fc" id="L43">        super(builder.source);</span>
+<span class="fc" id="L44">        type = builder.type;</span>
+<span class="fc" id="L45">        actualLocation = builder.actualLocation;</span>
+<span class="fc" id="L46">    }</span>
 
     public static Builder newBuilder() {
-<span class="nc" id="L49">        return new Builder();</span>
+<span class="fc" id="L49">        return new Builder();</span>
     }
 
     public TransportUnitEventType getType() {
@@ -61,8 +61,8 @@ public class TransportUnitEvent extends RootApplicationEvent {
 <span class="nc" id="L61">        return new TransportUnitEvent(tu, type);</span>
     }
 
-<span class="nc" id="L64">    public enum TransportUnitEventType {</span>
-<span class="nc" id="L65">        CREATED, CHANGED, DELETED, MOVED;</span>
+<span class="fc" id="L64">    public enum TransportUnitEventType {</span>
+<span class="fc" id="L65">        CREATED, CHANGED, DELETED, MOVED;</span>
     }
 
 
@@ -75,13 +75,13 @@ public class TransportUnitEvent extends RootApplicationEvent {
         }
 
         public Builder tu(TransportUnit val) {
-<span class="nc" id="L78">            source = val;</span>
-<span class="nc" id="L79">            return this;</span>
+<span class="fc" id="L78">            source = val;</span>
+<span class="fc" id="L79">            return this;</span>
         }
 
         public Builder type(TransportUnitEventType val) {
-<span class="nc" id="L83">            type = val;</span>
-<span class="nc" id="L84">            return this;</span>
+<span class="fc" id="L83">            type = val;</span>
+<span class="fc" id="L84">            return this;</span>
         }
 
         public Builder actualLocation(Location val) {
@@ -90,10 +90,10 @@ public class TransportUnitEvent extends RootApplicationEvent {
         }
 
         public TransportUnitEvent build() {
-<span class="nc bnc" id="L93" title="All 4 branches missed.">            if (type == TransportUnitEventType.MOVED &amp;&amp; actualLocation == null) {</span>
+<span class="pc bpc" id="L93" title="3 of 4 branches missed.">            if (type == TransportUnitEventType.MOVED &amp;&amp; actualLocation == null) {</span>
 <span class="nc" id="L94">                throw new IllegalArgumentException(&quot;TU MOVED events must contain the actualLocation&quot;);</span>
             }
-<span class="nc" id="L96">            return new TransportUnitEvent(this);</span>
+<span class="fc" id="L96">            return new TransportUnitEvent(this);</span>
         }
     }
 }
