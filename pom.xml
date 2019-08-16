@@ -114,7 +114,7 @@
     <profiles>
         <!-- Remove with parent:9 -->
         <profile>
-            <id>sonar</id>
+            <id>SONAR</id>
             <properties>
                 <debug.info>false</debug.info>
             </properties>
