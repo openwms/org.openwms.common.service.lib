@@ -115,7 +115,7 @@ public class LocationPK implements Serializable {
 <span class="fc" id="L115">    }</span>
 
     public static LocationPK fromString(String s) {
-<span class="fc" id="L118">        Assert.hasText(s, &quot;s must be provided&quot;);</span>
+<span class="fc" id="L118">        Assert.hasText(s, &quot;Location String must be provided&quot;);</span>
 <span class="fc" id="L119">        return new LocationPK(s.split(&quot;/&quot;));</span>
     }
 

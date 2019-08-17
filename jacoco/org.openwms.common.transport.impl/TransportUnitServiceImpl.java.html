@@ -233,11 +233,10 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-<span class="nc" id="L236">    public List&lt;TransportUnit&gt; findOnLocation(String actualLocation) {</span>
-        Optional&lt;Location&gt; optionalLocation = locationService.findByLocationId(actualLocation);
-        return optionalLocation.isPresent() ?
-                repository.findByActualLocationOrderByActualLocationDate(optionalLocation.get()) :
-                Collections.emptyList();
+<span class="fc" id="L236">    public List&lt;TransportUnit&gt; findOnLocation(@NotEmpty String actualLocation) {</span>
+        Assert.hasText(actualLocation, &quot;Location mut not be null&quot;);
+<span class="fc" id="L238">        Location optionalLocation = locationService.findByLocationId(actualLocation).orElseThrow(() -&gt; new NotFoundException(format(&quot;Location [%s] not found&quot;, actualLocation)));;</span>
+        return repository.findByActualLocationOrderByActualLocationDate(optionalLocation);
     }
 
     /**
@@ -246,7 +245,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public TransportUnit findByPKey(String pKey) {
-<span class="fc" id="L249">        return repository.findByPKey(pKey).orElseThrow(() -&gt; new NotFoundException(format(&quot;No TransportUnit with pKey [%s] found&quot;, pKey)));</span>
+<span class="fc" id="L248">        return repository.findByPKey(pKey).orElseThrow(() -&gt; new NotFoundException(format(&quot;No TransportUnit with pKey [%s] found&quot;, pKey)));</span>
     }
 
     /**
@@ -255,14 +254,14 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public TransportUnit changeTarget(@NotNull Barcode barcode, @NotEmpty String targetLocation) {
-<span class="nc" id="L258">        TransportUnit transportUnit = repository.findByBarcode(barcode)</span>
-<span class="nc" id="L259">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;No TransportUnit with barcode [%s] found&quot;, barcode)));</span>
+<span class="nc" id="L257">        TransportUnit transportUnit = repository.findByBarcode(barcode)</span>
+<span class="nc" id="L258">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;No TransportUnit with barcode [%s] found&quot;, barcode)));</span>
 
-<span class="nc" id="L261">        Location location = locationService.findByLocationId(targetLocation)</span>
-<span class="nc" id="L262">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;Location with locationId [%s] not found&quot;, targetLocation)));</span>
+<span class="nc" id="L260">        Location location = locationService.findByLocationId(targetLocation)</span>
+<span class="nc" id="L261">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;Location with locationId [%s] not found&quot;, targetLocation)));</span>
 
-<span class="nc" id="L264">        transportUnit.setTargetLocation(location);</span>
-<span class="nc" id="L265">        return repository.save(transportUnit);</span>
+<span class="nc" id="L263">        transportUnit.setTargetLocation(location);</span>
+<span class="nc" id="L264">        return repository.save(transportUnit);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
