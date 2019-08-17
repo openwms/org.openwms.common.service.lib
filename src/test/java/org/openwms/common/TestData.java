@@ -34,5 +34,6 @@ public final class TestData {
     public static final String TUT_TYPE_PALLET = "PALLET";
 
     public static final Long TU_1_PK = 1000L;
+    public static final String TU_1_PKEY = "1";
     public static final String TU_1_ID = "00000000000000004711";
 }

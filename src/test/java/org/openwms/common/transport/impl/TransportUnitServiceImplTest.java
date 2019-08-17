@@ -110,6 +110,23 @@ class TransportUnitServiceImplTest {
                     () -> testee.findByBarcode(Barcode.of("NOTEXISTS")))
                     .isInstanceOf(NotFoundException.class).hasMessageContaining("not found");
         }
+
+        @Test void findByPKey() {
+            TransportUnit tu = testee.findByPKey(TestData.TU_1_PKEY);
+            assertThat(tu).isNotNull().hasFieldOrPropertyWithValue("barcode", Barcode.of(TestData.TU_1_ID));
+        }
+
+        @Test void findByPKey_null() {
+            assertThatThrownBy(
+                    () -> testee.findByPKey(null))
+                    .isInstanceOf(NotFoundException.class).hasMessageContaining("null");
+        }
+
+        @Test void findByPKey_404() {
+            assertThatThrownBy(
+                    () -> testee.findByPKey("UNKNOWN"))
+                    .isInstanceOf(NotFoundException.class).hasMessageContaining("pKey");
+        }
     }
 
     @Test
@@ -118,10 +135,6 @@ class TransportUnitServiceImplTest {
 
     @Test
     void findOnLocation() {
-    }
-
-    @Test
-    void findByPKey() {
     }
 
     @Test
