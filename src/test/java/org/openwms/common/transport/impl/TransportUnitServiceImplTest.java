@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport.impl;
 
+import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -42,7 +43,7 @@ class TransportUnitServiceImplTest {
 
     @Nested
     @DisplayName("Creational Tests")
-    class CreationslTests {
+    class CreationalTests {
         @Test void create() {
             TransportUnit transportUnit = testee.create(Barcode.of("0815"), TestData.TUT_TYPE_PALLET, TestData.LOCATION_ID_EXT, false);
             assertThat(transportUnit).isNotNull();
@@ -90,8 +91,25 @@ class TransportUnitServiceImplTest {
     void onEvent() {
     }
 
-    @Test
-    void findByBarcode() {
+    @Nested
+    @DisplayName("Finder Tests")
+    class FinderTests {
+        @Test void findByBarcode() {
+            TransportUnit tu = testee.findByBarcode(Barcode.of(TestData.TU_1_ID));
+            assertThat(tu).isNotNull().hasFieldOrPropertyWithValue("barcode", Barcode.of(TestData.TU_1_ID));
+        }
+
+        @Test void findByBarcode_null() {
+            assertThatThrownBy(
+                    () -> testee.findByBarcode(null))
+                    .isInstanceOf(NotFoundException.class).hasMessageContaining("null");
+        }
+
+        @Test void findByBarcode_404() {
+            assertThatThrownBy(
+                    () -> testee.findByBarcode(Barcode.of("NOTEXISTS")))
+                    .isInstanceOf(NotFoundException.class).hasMessageContaining("not found");
+        }
     }
 
     @Test
