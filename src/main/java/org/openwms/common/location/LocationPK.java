@@ -115,7 +115,7 @@ public class LocationPK implements Serializable {
     }
 
     public static LocationPK fromString(String s) {
-        Assert.hasText(s, "s must be provided");
+        Assert.hasText(s, "Location String must be provided");
         return new LocationPK(s.split("/"));
     }
 

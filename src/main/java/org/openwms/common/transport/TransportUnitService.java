@@ -134,7 +134,7 @@ public interface TransportUnitService {
      * @param actualLocation The Location where the TransportUnits are placed on
      * @return All TransportUnits or an empty List, never {@literal null}
      */
-    List<TransportUnit> findOnLocation(String actualLocation);
+    List<TransportUnit> findOnLocation(@NotEmpty String actualLocation);
 
     /**
      * Find and return a {@link TransportUnit} identified by the given {@code pKey}.

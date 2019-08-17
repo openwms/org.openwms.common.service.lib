@@ -233,11 +233,10 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-    public List<TransportUnit> findOnLocation(String actualLocation) {
-        Optional<Location> optionalLocation = locationService.findByLocationId(actualLocation);
-        return optionalLocation.isPresent() ?
-                repository.findByActualLocationOrderByActualLocationDate(optionalLocation.get()) :
-                Collections.emptyList();
+    public List<TransportUnit> findOnLocation(@NotEmpty String actualLocation) {
+        Assert.hasText(actualLocation, "Location mut not be null");
+        Location optionalLocation = locationService.findByLocationId(actualLocation).orElseThrow(() -> new NotFoundException(format("Location [%s] not found", actualLocation)));;
+        return repository.findByActualLocationOrderByActualLocationDate(optionalLocation);
     }
 
     /**

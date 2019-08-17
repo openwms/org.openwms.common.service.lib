@@ -27,6 +27,8 @@ import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -127,14 +129,32 @@ class TransportUnitServiceImplTest {
                     () -> testee.findByPKey("UNKNOWN"))
                     .isInstanceOf(NotFoundException.class).hasMessageContaining("pKey");
         }
+
+        @Test void findOnLocation_null() {
+            assertThatThrownBy(
+                    () -> testee.findOnLocation(null))
+                    .isInstanceOf(ServiceLayerException.class).hasMessageContaining("null");
+        }
+
+        @Test void findOnLocation_404() {
+            assertThatThrownBy(
+                    () -> testee.findOnLocation("EXT_/9999/9999/9999/9999"))
+                    .isInstanceOf(NotFoundException.class).hasMessageContaining("not found");
+        }
+
+        @Test void findOnLocation_Empty() {
+            List<TransportUnit> tus = testee.findOnLocation(TestData.LOCATION_ID_FGIN0001LEFT);
+            assertThat(tus.isEmpty()).isTrue();
+        }
+
+        @Test void findOnLocation() {
+            List<TransportUnit> tus = testee.findOnLocation(TestData.LOCATION_ID_EXT);
+            assertThat(tus.isEmpty()).isFalse();
+        }
     }
 
     @Test
     void findByBarcodes() {
-    }
-
-    @Test
-    void findOnLocation() {
     }
 
     @Test
