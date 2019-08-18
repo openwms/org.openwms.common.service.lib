@@ -22,13 +22,17 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.ApplicationTest;
 import org.openwms.common.TestData;
+import org.openwms.common.location.LocationPK;
 import org.openwms.common.transport.Barcode;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
+import org.openwms.common.transport.TransportUnitType;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -41,17 +45,19 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class TransportUnitServiceImplTest {
 
     @Autowired
+    private EntityManager em;
+    @Autowired
     private TransportUnitService testee;
 
     @Nested
     @DisplayName("Creational Tests")
     class CreationalTests {
-        @Test void create() {
+        @Test void create_primitive() {
             TransportUnit transportUnit = testee.create(Barcode.of("0815"), TestData.TUT_TYPE_PALLET, TestData.LOCATION_ID_EXT, false);
             assertThat(transportUnit).isNotNull();
         }
 
-        @Test void create_with_null() {
+        @Test void create_primitive_with_null() {
             assertThatThrownBy(
                     () -> testee.create(null, TestData.TUT_TYPE_PALLET, TestData.LOCATION_ID_EXT, false))
                     .isInstanceOf(ServiceLayerException.class).hasMessageContaining("barcode");
@@ -63,14 +69,48 @@ class TransportUnitServiceImplTest {
                     .isInstanceOf(ServiceLayerException.class).hasMessageContaining("actualLocation");
         }
 
-        @Test void create_with_strict() {
+        @Test void create_primitive_with_strict() {
             assertThatThrownBy(
                     () -> testee.create(Barcode.of(TestData.TU_1_ID), TestData.TUT_TYPE_PALLET, TestData.LOCATION_ID_EXT, true))
                     .isInstanceOf(ServiceLayerException.class).hasMessageContaining("already exists");
         }
 
-        @Test void create_without_strict() {
+        @Test void create_primitive_without_strict() {
             TransportUnit transportUnit = testee.create(Barcode.of(TestData.TU_1_ID), TestData.TUT_TYPE_PALLET, TestData.LOCATION_ID_EXT, null);
+            assertThat(transportUnit).isNotNull();
+            assertThat(transportUnit.isNew()).isFalse();
+            assertThat(transportUnit.getBarcode()).isEqualTo(Barcode.of(TestData.TU_1_ID));
+        }
+
+        @Test void create() {
+            TransportUnitType transportUnitType = em.find(TransportUnitType.class, TestData.TUT_PK_PALLET);
+            TransportUnit transportUnit = testee.create(Barcode.of("0815"), transportUnitType, LocationPK.fromString(TestData.LOCATION_ID_EXT), false);
+            assertThat(transportUnit).isNotNull();
+        }
+
+        @Test void create_with_null() {
+            TransportUnitType transportUnitType = em.find(TransportUnitType.class, TestData.TUT_PK_PALLET);
+            assertThatThrownBy(
+                    () -> testee.create(null, transportUnitType, LocationPK.fromString(TestData.LOCATION_ID_EXT), false))
+                    .isInstanceOf(ServiceLayerException.class).hasMessageContaining("barcode");
+            assertThatThrownBy(
+                    () -> testee.create(Barcode.of("0815"), null, LocationPK.fromString(TestData.LOCATION_ID_EXT), false))
+                    .isInstanceOf(ServiceLayerException.class).hasMessageContaining("transportUnitType");
+            assertThatThrownBy(
+                    () -> testee.create(Barcode.of("0815"), transportUnitType, null, false))
+                    .isInstanceOf(ServiceLayerException.class).hasMessageContaining("actualLocation");
+        }
+
+        @Test void create_with_strict() {
+            TransportUnitType transportUnitType = em.find(TransportUnitType.class, TestData.TUT_PK_PALLET);
+            assertThatThrownBy(
+                    () -> testee.create(Barcode.of(TestData.TU_1_ID), transportUnitType, LocationPK.fromString(TestData.LOCATION_ID_EXT), true))
+                    .isInstanceOf(ServiceLayerException.class).hasMessageContaining("already exists");
+        }
+
+        @Test void create_without_strict() {
+            TransportUnitType transportUnitType = em.find(TransportUnitType.class, TestData.TUT_PK_PALLET);
+            TransportUnit transportUnit = testee.create(Barcode.of(TestData.TU_1_ID), transportUnitType, LocationPK.fromString(TestData.LOCATION_ID_EXT), null);
             assertThat(transportUnit).isNotNull();
             assertThat(transportUnit.isNew()).isFalse();
             assertThat(transportUnit.getBarcode()).isEqualTo(Barcode.of(TestData.TU_1_ID));
@@ -111,6 +151,22 @@ class TransportUnitServiceImplTest {
             assertThatThrownBy(
                     () -> testee.findByBarcode(Barcode.of("NOTEXISTS")))
                     .isInstanceOf(NotFoundException.class).hasMessageContaining("not found");
+        }
+
+        @Test void findByBarcodes() {
+            List<TransportUnit> tu = testee.findByBarcodes(asList(Barcode.of(TestData.TU_1_ID)));
+            assertThat(tu).isNotNull();
+            assertThat(tu.get(0)).hasFieldOrPropertyWithValue("barcode", Barcode.of(TestData.TU_1_ID));
+        }
+
+        @Test void findByBarcodes_null() {
+            List<TransportUnit> tu = testee.findByBarcodes(null);
+            assertThat(tu).isEmpty();
+        }
+
+        @Test void findByBarcodes_404() {
+            List<TransportUnit> tu = testee.findByBarcodes(asList(Barcode.of("NOTEXISTS")));
+            assertThat(tu).isEmpty();
         }
 
         @Test void findByPKey() {

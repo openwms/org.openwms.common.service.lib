@@ -44,6 +44,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import static java.lang.String.format;
 
@@ -79,26 +80,18 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public TransportUnit create(Barcode barcode, TransportUnitType transportUnitType, LocationPK actualLocation, Boolean strict) {
-        Assert.notNull(barcode, "The barcode must be given in order to create a TransportUnit");
+    public TransportUnit create(@NotNull Barcode barcode, @NotNull TransportUnitType transportUnitType,
+            @NotNull LocationPK actualLocation, Boolean strict) {
+        Assert.notNull(actualLocation, "The actualLocation must be given in order to create a TransportUnit");
         Assert.notNull(transportUnitType, "The transportUnitType must be given in order to create a TransportUnit");
         Assert.notNull(actualLocation, "The actualLocation must be given in order to create a TransportUnit");
-
-        TransportUnit transportUnit;
-        if (Boolean.TRUE.equals(strict)) {
-            repository.findByBarcode(barcode).ifPresent(tu -> {
-                throw new ServiceLayerException(format("TransportUnit with id [%s] already exists", barcode));
-            });
-        }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Creating a TransportUnit with Barcode [{}] of Type [{}] on Location [{}]", barcode, transportUnitType.getType(), actualLocation);
-        }
-        Location location = locationService.findByLocationId(actualLocation).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", actualLocation)));
-        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType.getType()).orElseThrow(() -> new ServiceLayerException(format("TransportUnitType [%s] not found", transportUnitType)));
-        transportUnit = new TransportUnit(barcode, type, location);
-        transportUnit = repository.save(transportUnit);
-        ctx.publishEvent(TransportUnitEvent.newBuilder().tu(transportUnit).type(TransportUnitEvent.TransportUnitEventType.CREATED).build());
-        return transportUnit;
+        return createInternal(
+                barcode,
+                transportUnitType.getType(),
+                strict,
+                () -> locationService.findByLocationId(actualLocation)
+                        .orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", actualLocation)))
+        );
     }
 
     /**
@@ -106,29 +99,41 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public TransportUnit create(@NotNull Barcode barcode, @NotEmpty String transportUnitType, @NotEmpty String actualLocation, Boolean strict) {
-        Assert.notNull(barcode, "The barcode must be given in order to create a TransportUnit");
-        Assert.notNull(transportUnitType, "The transportUnitType must be given in order to create a TransportUnit");
+    public TransportUnit create(@NotNull Barcode barcode, @NotEmpty String transportUnitType,
+            @NotEmpty String actualLocation, Boolean strict) {
         Assert.notNull(actualLocation, "The actualLocation must be given in order to create a TransportUnit");
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Creating a TransportUnit with Barcode [{}] of Type [{}] on Location [{}]", barcode, transportUnitType, actualLocation);
-        }
+        return createInternal(
+                barcode,
+                transportUnitType,
+                strict,
+                () -> locationService.findByLocationIdOrPlcCode(actualLocation)
+                        .orElseThrow(() -> new NotFoundException(format("No Location with actual location [%s] found", actualLocation)))
+        );
+    }
+
+    private TransportUnit createInternal(Barcode barcode, String transportUnitType, Boolean strict, Supplier<Location> locationResolver) {
+        Assert.notNull(barcode, "The barcode must be given in order to create a TransportUnit");
+        Assert.hasText(transportUnitType, "The transportUnitType must be given in order to create a TransportUnit");
+
         Optional<TransportUnit> opt = repository.findByBarcode(barcode);
-        if (Boolean.TRUE.equals(strict)) {
-            opt.ifPresent(tu -> {
-                throw new ServiceLayerException(format("TransportUnit with id [%s] already exists", barcode));
-            });
-        } else {
+        if (strict == null || Boolean.FALSE.equals(strict)) {
             if (opt.isPresent()) {
                 LOGGER.debug("TransportUnit with Barcode [{}] already exists, silently returning the existing one", barcode);
                 return opt.get();
             }
+        } else {
+            opt.ifPresent(tu -> {
+                throw new ServiceLayerException(format("TransportUnit with id [%s] already exists", barcode));
+            });
         }
 
-        Location location = locationService.findByLocationIdOrPlcCode(actualLocation).orElseThrow(() -> new NotFoundException(format("No Location with actual location [%s] found", actualLocation)));
+        Location actualLocation = locationResolver.get();
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Creating a TransportUnit with Barcode [{}] of Type [{}] on Location [{}]", barcode, transportUnitType, actualLocation);
+        }
         TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -> new ServiceLayerException(format("TransportUnitType [%s] not found", transportUnitType)));
-        TransportUnit transportUnit = new TransportUnit(barcode, type, location);
+        TransportUnit transportUnit = new TransportUnit(barcode, type, actualLocation);
         transportUnit = repository.save(transportUnit);
         ctx.publishEvent(TransportUnitEvent.newBuilder().tu(transportUnit).type(TransportUnitEvent.TransportUnitEventType.CREATED).build());
         return transportUnit;
