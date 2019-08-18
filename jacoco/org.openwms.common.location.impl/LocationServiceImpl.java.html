@@ -104,7 +104,7 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Transactional(readOnly = true)
-<span class="fc" id="L107">    public Optional&lt;Location&gt; findByLocationIdOrPlcCode(String location) {</span>
+<span class="nc" id="L107">    public Optional&lt;Location&gt; findByLocationIdOrPlcCode(String location) {</span>
         return LocationPK.isValid(location)
                 ? repository.findByLocationId(LocationPK.fromString(location))
                 : repository.findByPlcCode(location);
