@@ -43,8 +43,8 @@ public class LocationGroupVO extends ResourceSupport implements TargetVO, Serial
     private LocationGroupState groupStateOut;
 
     /*~ ------------------ constructors ----------------------*/
-<span class="nc" id="L46">    protected LocationGroupVO() {</span>
-<span class="nc" id="L47">    }</span>
+<span class="fc" id="L46">    protected LocationGroupVO() {</span>
+<span class="fc" id="L47">    }</span>
 
 <span class="nc" id="L49">    public LocationGroupVO(String name, LocationGroupState groupStateIn, LocationGroupState groupStateOut) {</span>
 <span class="nc" id="L50">        this.name = name;</span>
@@ -59,7 +59,7 @@ public class LocationGroupVO extends ResourceSupport implements TargetVO, Serial
      * @return {@literal true} if it has a parent, otherwise {@literal false}
      */
     public boolean hasParent() {
-<span class="nc bnc" id="L62" title="All 4 branches missed.">        return parent != null &amp;&amp; !parent.isEmpty();</span>
+<span class="pc bpc" id="L62" title="2 of 4 branches missed.">        return parent != null &amp;&amp; !parent.isEmpty();</span>
     }
 
     /**
@@ -112,15 +112,15 @@ public class LocationGroupVO extends ResourceSupport implements TargetVO, Serial
 
     /*~ ------------------ accessors ----------------------*/
     public String getOperationMode() {
-<span class="nc" id="L115">        return operationMode;</span>
+<span class="fc" id="L115">        return operationMode;</span>
     }
 
     public void setOperationMode(String operationMode) {
-<span class="nc" id="L119">        this.operationMode = operationMode;</span>
-<span class="nc" id="L120">    }</span>
+<span class="fc" id="L119">        this.operationMode = operationMode;</span>
+<span class="fc" id="L120">    }</span>
 
     public String getpKey() {
-<span class="nc" id="L123">        return pKey;</span>
+<span class="fc" id="L123">        return pKey;</span>
     }
 
     public void setpKey(String pKey) {
@@ -128,7 +128,7 @@ public class LocationGroupVO extends ResourceSupport implements TargetVO, Serial
 <span class="nc" id="L128">    }</span>
 
     public String getName() {
-<span class="nc" id="L131">        return name;</span>
+<span class="fc" id="L131">        return name;</span>
     }
 
     public void setName(String name) {
@@ -136,7 +136,7 @@ public class LocationGroupVO extends ResourceSupport implements TargetVO, Serial
 <span class="nc" id="L136">    }</span>
 
     public String getParent() {
-<span class="nc" id="L139">        return parent;</span>
+<span class="fc" id="L139">        return parent;</span>
     }
 
     public void setParent(String parent) {

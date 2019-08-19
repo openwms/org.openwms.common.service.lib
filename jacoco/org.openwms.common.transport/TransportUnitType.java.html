@@ -153,7 +153,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return The instance
      */
     public static TransportUnitType of(String type) {
-<span class="nc" id="L156">        return new TransportUnitType(type);</span>
+<span class="fc" id="L156">        return new TransportUnitType(type);</span>
     }
 
     /**
@@ -162,7 +162,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return The type
      */
     public String getType() {
-<span class="nc" id="L165">        return this.type;</span>
+<span class="fc" id="L165">        return this.type;</span>
     }
 
     /**
@@ -243,7 +243,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return The payload
      */
     public BigDecimal getPayload() {
-<span class="nc" id="L246">        return this.payload;</span>
+<span class="fc" id="L246">        return this.payload;</span>
     }
 
     /**
@@ -261,7 +261,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return The compatibility
      */
     public String getCompatibility() {
-<span class="nc" id="L264">        return this.compatibility;</span>
+<span class="fc" id="L264">        return this.compatibility;</span>
     }
 
     /**
@@ -359,7 +359,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return The weightTare.
      */
     public BigDecimal getWeightTare() {
-<span class="nc" id="L362">        return weightTare;</span>
+<span class="fc" id="L362">        return weightTare;</span>
     }
 
     /**
@@ -377,7 +377,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return The weightMax.
      */
     public BigDecimal getWeightMax() {
-<span class="nc" id="L380">        return weightMax;</span>
+<span class="fc" id="L380">        return weightMax;</span>
     }
 
     /**
@@ -405,7 +405,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-<span class="pc bpc" id="L408" title="1 of 2 branches missed.">        if (this == o) return true;</span>
+<span class="fc bfc" id="L408" title="All 2 branches covered.">        if (this == o) return true;</span>
 <span class="pc bpc" id="L409" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
 <span class="fc" id="L410">        TransportUnitType that = (TransportUnitType) o;</span>
 <span class="fc" id="L411">        return Objects.equals(type, that.type);</span>

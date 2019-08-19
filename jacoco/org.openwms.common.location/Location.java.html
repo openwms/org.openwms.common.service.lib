@@ -222,7 +222,7 @@ public class Location extends Target implements Serializable {
      * @return The PLC code
      */
     public String getPlcCode() {
-<span class="nc" id="L225">        return plcCode;</span>
+<span class="fc" id="L225">        return plcCode;</span>
     }
 
     /**
@@ -296,7 +296,7 @@ public class Location extends Target implements Serializable {
      * @return {@literal true} is blocked, otherwise {@literal false}
      */
     public boolean isInfeedBlocked() {
-<span class="pc bpc" id="L299" title="1 of 2 branches missed.">        return !this.incomingActive;</span>
+<span class="fc bfc" id="L299" title="All 2 branches covered.">        return !this.incomingActive;</span>
     }
 
     /**
@@ -395,7 +395,7 @@ public class Location extends Target implements Serializable {
      * @return {@literal true} is blocked, otherwise {@literal false}
      */
     public boolean isOutfeedBlocked() {
-<span class="pc bpc" id="L398" title="1 of 2 branches missed.">        return !this.outgoingActive;</span>
+<span class="fc bfc" id="L398" title="All 2 branches covered.">        return !this.outgoingActive;</span>
     }
 
     /**
@@ -423,8 +423,8 @@ public class Location extends Target implements Serializable {
      * @param plcState the plc state
      */
     public void setPlcState(int plcState) {
-<span class="nc" id="L426">        this.plcState = plcState;</span>
-<span class="nc" id="L427">    }</span>
+<span class="fc" id="L426">        this.plcState = plcState;</span>
+<span class="fc" id="L427">    }</span>
 
     /**
      * Remove one or more {@link Message}s from this Location.
@@ -494,7 +494,7 @@ public class Location extends Target implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-<span class="pc bpc" id="L497" title="1 of 2 branches missed.">        if (this == o) return true;</span>
+<span class="fc bfc" id="L497" title="All 2 branches covered.">        if (this == o) return true;</span>
 <span class="pc bpc" id="L498" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
 <span class="fc" id="L499">        Location location = (Location) o;</span>
 <span class="fc" id="L500">        return Objects.equals(locationId, location.locationId);</span>

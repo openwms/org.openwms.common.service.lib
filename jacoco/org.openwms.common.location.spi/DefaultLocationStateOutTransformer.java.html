@@ -38,13 +38,13 @@ import java.util.Optional;
      */
     @Override
     public Optional&lt;Boolean&gt; available(@NotEmpty String errorCode) {
-<span class="nc" id="L41">        Assert.hasText(errorCode, &quot;ErrorCode must be applied&quot;);</span>
-<span class="nc bnc" id="L42" title="All 2 branches missed.">        if (errorCode.charAt(ErrorCodeVO.STATE_OUT_POSITION) == 42 /* '*' */) {</span>
-<span class="nc" id="L43">            return Optional.empty();</span>
+<span class="fc" id="L41">        Assert.hasText(errorCode, &quot;ErrorCode must be applied&quot;);</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (errorCode.charAt(ErrorCodeVO.STATE_OUT_POSITION) == 42 /* '*' */) {</span>
+<span class="fc" id="L43">            return Optional.empty();</span>
         }
 
         // A Zero in the errorCode means no errors
-<span class="nc bnc" id="L47" title="All 2 branches missed.">        return Optional.of(errorCode.charAt(ErrorCodeVO.STATE_OUT_POSITION) == 48 /* 0 */);</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        return Optional.of(errorCode.charAt(ErrorCodeVO.STATE_OUT_POSITION) == 48 /* 0 */);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

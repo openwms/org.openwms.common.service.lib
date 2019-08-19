@@ -47,10 +47,10 @@ class TransportUnitEventPropagator {
 
     @TransactionalEventListener(fallbackExecution = true)
     public void onEvent(TransportUnitEvent event) {
-<span class="nc bnc" id="L50" title="All 5 branches missed.">        switch (event.getType()) {</span>
+<span class="pc bpc" id="L50" title="4 of 5 branches missed.">        switch (event.getType()) {</span>
             case CREATED:
-<span class="nc" id="L52">                amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.created&quot;, mapper.map(event.getSource(), TransportUnitMO.class));</span>
-<span class="nc" id="L53">                break;</span>
+<span class="fc" id="L52">                amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.created&quot;, mapper.map(event.getSource(), TransportUnitMO.class));</span>
+<span class="fc" id="L53">                break;</span>
             case CHANGED:
 <span class="nc" id="L55">                amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.changed&quot;, mapper.map(event.getSource(), TransportUnitMO.class));</span>
 <span class="nc" id="L56">                break;</span>
@@ -63,6 +63,6 @@ class TransportUnitEventPropagator {
             default:
 <span class="nc" id="L64">                throw new UnsupportedOperationException(format(&quot;Eventtype [%s] currently not supported&quot;, event.getType()));</span>
         }
-<span class="nc" id="L66">    }</span>
+<span class="fc" id="L66">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
