@@ -73,6 +73,7 @@
     </ciManagement>
 
     <properties>
+        <archunit.version>0.11.0</archunit.version>
         <core.version>1.5.0-SNAPSHOT</core.version>
         <documentation.output.dir>${documentation.dir}/site/rest/${project.version}</documentation.output.dir> <!-- Change in parent -->
         <junit-jupiter.version>5.5.1</junit-jupiter.version> <!-- Move to parent -->
@@ -80,7 +81,6 @@
         <reportOutputDirectory>${project.reporting.outputDirectory}/apidocs/${project.version}</reportOutputDirectory> <!-- Move to parent javadoc plugin config -->
         <scmpublish.content>${project.build.directory}/site</scmpublish.content> <!-- Move to parent -->
         <scmuser></scmuser> <!-- Move to parent -->
-        <archunit.version>0.11.0</archunit.version>
     </properties>
 
     <reporting>

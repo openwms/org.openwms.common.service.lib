@@ -63,9 +63,12 @@ class LocationControllerDocumentation {
                 .apply(documentationConfiguration(restDocumentation)).build();
     }
 
+    /* Depends on https://github.com/spring-projects/spring-framework/issues/19930
     @Nested
     @DisplayName("PLC Code Tests")
     class PLCCodeTests {
+
+     */
         @Test void shall_findby_plccode() throws Exception {
             mockMvc.perform(get(CommonConstants.API_LOCATIONS)
                     .param("plcCode", TestData.LOCATION_PLC_CODE_EXT))
@@ -86,11 +89,17 @@ class LocationControllerDocumentation {
                     .andExpect(status().isNotFound())
                     .andDo(document("loc-find-plc-404"));
         }
+        /*
     }
 
+         */
+
+        /* Depends on https://github.com/spring-projects/spring-framework/issues/19930
     @Nested
     @DisplayName("Coordinate Tests")
     class CoordinateTests {
+
+         */
         @Test void shall_findby_locationPk() throws Exception {
             mockMvc.perform(get(CommonConstants.API_LOCATIONS)
                     .param("locationPK", TestData.LOCATION_ID_EXT))
@@ -119,7 +128,10 @@ class LocationControllerDocumentation {
                     .andExpect(status().isBadRequest())
                     .andDo(document("loc-find-coordinate-400"));
         }
+        /*
     }
+
+         */
 
     @Nested
     @DisplayName("LocationGroup Tests")
@@ -156,9 +168,12 @@ class LocationControllerDocumentation {
         }
     }
 
+        /* Depends on https://github.com/spring-projects/spring-framework/issues/19930
     @Nested
     @DisplayName("State Change Tests")
     class StateChangeTests {
+
+         */
         @Test void shall_changeState_pkey_404() throws Exception {
             mockMvc.perform(patch(CommonConstants.API_LOCATIONS + "/NOTEXISTS")
                     .content(mapper.writeValueAsString(ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT))
@@ -203,6 +218,9 @@ class LocationControllerDocumentation {
             assertThat(location.isInfeedActive()).isFalse();
             assertThat(location.isOutfeedActive()).isFalse();
         }
+        /*
     }
+
+         */
 }
 

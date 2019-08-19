@@ -18,8 +18,6 @@ package org.openwms.common.location;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.ameba.Messages;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.ApplicationTest;
 import org.openwms.common.CommonConstants;
@@ -68,9 +66,11 @@ class LocationGroupControllerDocumentation {
                 .apply(documentationConfiguration(restDocumentation)).build();
     }
 
+    /* Depends on https://github.com/spring-projects/spring-framework/issues/19930
     @Nested
     @DisplayName("Finder Tests")
     class FinderTests {
+     */
         @Test
         void shall_findby_name() throws Exception {
             mockMvc.perform(get(CommonConstants.API_LOCATION_GROUPS)
@@ -120,11 +120,17 @@ class LocationGroupControllerDocumentation {
                     .andExpect(jsonPath("$").isArray())
                     .andDo(document("lg-find-all"));
         }
+        /*
     }
 
+         */
+
+    /* Depends on https://github.com/spring-projects/spring-framework/issues/19930
     @Nested
     @DisplayName("State Change Tests")
     class StateChangeTests {
+
+     */
         @Test void shall_changeState_pkey_404() throws Exception {
             mockMvc.perform(patch(CommonConstants.API_LOCATION_GROUPS)
                     .param("name", "NOT_EXISTS")
@@ -158,5 +164,8 @@ class LocationGroupControllerDocumentation {
             assertThat(lg.getGroupStateIn()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
             assertThat(lg.getGroupStateOut()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
         }
+        /*
     }
+
+         */
 }
