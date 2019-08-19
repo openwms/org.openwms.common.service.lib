@@ -75,7 +75,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-<span class="fc" id="L78">    public Optional&lt;Location&gt; findByLocationId(LocationPK locationPK) {</span>
+<span class="nc" id="L78">    public Optional&lt;Location&gt; findByLocationId(LocationPK locationPK) {</span>
         return repository.findByLocationId(locationPK);
     }
 
@@ -85,7 +85,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-<span class="fc" id="L88">    public Optional&lt;Location&gt; findByPlcCode(String plcCode) {</span>
+<span class="nc" id="L88">    public Optional&lt;Location&gt; findByPlcCode(String plcCode) {</span>
         return repository.findByPlcCode(plcCode);
     }
 
@@ -104,7 +104,7 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Transactional(readOnly = true)
-<span class="nc" id="L107">    public Optional&lt;Location&gt; findByLocationIdOrPlcCode(String location) {</span>
+<span class="fc" id="L107">    public Optional&lt;Location&gt; findByLocationIdOrPlcCode(String location) {</span>
         return LocationPK.isValid(location)
                 ? repository.findByLocationId(LocationPK.fromString(location))
                 : repository.findByPlcCode(location);
@@ -128,35 +128,35 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public void changeState(String pKey, ErrorCodeVO errorCode) {
-<span class="fc" id="L131">        Location location = repository</span>
-<span class="fc" id="L132">                .findByPKey(pKey)</span>
-<span class="fc" id="L133">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with persistent key [%s] found&quot;, pKey)));</span>
+<span class="nc" id="L131">        Location location = repository</span>
+<span class="nc" id="L132">                .findByPKey(pKey)</span>
+<span class="nc" id="L133">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with persistent key [%s] found&quot;, pKey)));</span>
 
-<span class="fc" id="L135">        boolean changed = false;</span>
-<span class="fc bfc" id="L136" title="All 4 branches covered.">        if (Optional.ofNullable(errorCode.getPlcState()).isPresent() &amp;&amp; errorCode.getPlcState() != location.getPlcState()) {</span>
-<span class="fc" id="L137">            location.setPlcState(errorCode.getPlcState());</span>
-<span class="fc" id="L138">            changed = true;</span>
+<span class="nc" id="L135">        boolean changed = false;</span>
+<span class="nc bnc" id="L136" title="All 4 branches missed.">        if (Optional.ofNullable(errorCode.getPlcState()).isPresent() &amp;&amp; errorCode.getPlcState() != location.getPlcState()) {</span>
+<span class="nc" id="L137">            location.setPlcState(errorCode.getPlcState());</span>
+<span class="nc" id="L138">            changed = true;</span>
         }
-<span class="fc" id="L140">        Optional&lt;Boolean&gt; infeedAvailable = stateInTransformer.available(errorCode.getErrorCode());</span>
-<span class="fc bfc" id="L141" title="All 2 branches covered.">        if (infeedAvailable.isPresent() &amp;&amp;</span>
+<span class="nc" id="L140">        Optional&lt;Boolean&gt; infeedAvailable = stateInTransformer.available(errorCode.getErrorCode());</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        if (infeedAvailable.isPresent() &amp;&amp;</span>
                 //location.getLocationGroup().isInfeedAllowed() &amp;&amp;
-<span class="fc bfc" id="L143" title="All 2 branches covered.">                location.isInfeedActive() != infeedAvailable.get()) {</span>
-<span class="fc" id="L144">            location.setInfeed(infeedAvailable.get());</span>
-<span class="fc" id="L145">            changed = true;</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">                location.isInfeedActive() != infeedAvailable.get()) {</span>
+<span class="nc" id="L144">            location.setInfeed(infeedAvailable.get());</span>
+<span class="nc" id="L145">            changed = true;</span>
         }
-<span class="fc" id="L147">        Optional&lt;Boolean&gt; outfeedAvailable = stateOutTransformer.available(errorCode.getErrorCode());</span>
-<span class="fc bfc" id="L148" title="All 2 branches covered.">        if (outfeedAvailable.isPresent() &amp;&amp;</span>
+<span class="nc" id="L147">        Optional&lt;Boolean&gt; outfeedAvailable = stateOutTransformer.available(errorCode.getErrorCode());</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        if (outfeedAvailable.isPresent() &amp;&amp;</span>
                 //location.getLocationGroup().isOutfeedAllowed() &amp;&amp;
-<span class="pc bpc" id="L150" title="1 of 2 branches missed.">                location.isOutfeedActive() != outfeedAvailable.get()) {</span>
-<span class="fc" id="L151">            location.setOutfeed(outfeedAvailable.get());</span>
-<span class="fc" id="L152">            changed = true;</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">                location.isOutfeedActive() != outfeedAvailable.get()) {</span>
+<span class="nc" id="L151">            location.setOutfeed(outfeedAvailable.get());</span>
+<span class="nc" id="L152">            changed = true;</span>
         }
-<span class="pc bpc" id="L154" title="1 of 2 branches missed.">        if (changed) {</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">        if (changed) {</span>
 
             // don't send twice only if one has changed
-<span class="fc" id="L157">            ctx.publishEvent(LocationEvent.of(location, LocationEvent.LocationEventType.STATE_CHANGE));</span>
+<span class="nc" id="L157">            ctx.publishEvent(LocationEvent.of(location, LocationEvent.LocationEventType.STATE_CHANGE));</span>
         }
-<span class="fc" id="L159">    }</span>
+<span class="nc" id="L159">    }</span>
 
     /**
      * {@inheritDoc}

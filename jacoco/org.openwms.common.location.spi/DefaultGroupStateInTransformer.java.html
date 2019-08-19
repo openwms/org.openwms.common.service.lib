@@ -39,12 +39,12 @@ import java.util.Optional;
      */
     @Override
     public Optional&lt;LocationGroupState&gt; available(@NotEmpty String errorCode) {
-<span class="fc" id="L42">        Assert.hasText(errorCode, &quot;ErrorCode must be applied&quot;);</span>
-<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        if (errorCode.charAt(ErrorCodeVO.STATE_IN_POSITION) == 42 /* '*' */) {</span>
+<span class="nc" id="L42">        Assert.hasText(errorCode, &quot;ErrorCode must be applied&quot;);</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (errorCode.charAt(ErrorCodeVO.STATE_IN_POSITION) == 42 /* '*' */) {</span>
 <span class="nc" id="L44">            return Optional.empty();</span>
         }
         // A Zero in the errorCode means no errors
-<span class="fc bfc" id="L47" title="All 2 branches covered.">        return Optional.of(errorCode.charAt(ErrorCodeVO.STATE_IN_POSITION) == 48 ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE);</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        return Optional.of(errorCode.charAt(ErrorCodeVO.STATE_IN_POSITION) == 48 ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

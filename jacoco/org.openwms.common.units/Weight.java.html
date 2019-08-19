@@ -40,8 +40,8 @@ public class Weight implements Measurable&lt;BigDecimal, Weight, WeightUnit&gt;,
      * Accessed by persistence provider.
      */
     protected Weight() {
-<span class="fc" id="L43">        super();</span>
-<span class="fc" id="L44">    }</span>
+<span class="nc" id="L43">        super();</span>
+<span class="nc" id="L44">    }</span>
 
     /**
      * Create a new &lt;code&gt;Weight&lt;/code&gt;.
@@ -64,10 +64,10 @@ public class Weight implements Measurable&lt;BigDecimal, Weight, WeightUnit&gt;,
      * @param unit
      *            The unit of measure
      */
-<span class="fc" id="L67">    public Weight(String magnitude, WeightUnit unit) {</span>
-<span class="fc" id="L68">        this.magnitude = new BigDecimal(magnitude);</span>
-<span class="fc" id="L69">        this.unit = unit;</span>
-<span class="fc" id="L70">    }</span>
+<span class="nc" id="L67">    public Weight(String magnitude, WeightUnit unit) {</span>
+<span class="nc" id="L68">        this.magnitude = new BigDecimal(magnitude);</span>
+<span class="nc" id="L69">        this.unit = unit;</span>
+<span class="nc" id="L70">    }</span>
 
     /**
      * Create a new &lt;code&gt;Weight&lt;/code&gt;.

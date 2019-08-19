@@ -29,51 +29,51 @@ import java.io.Serializable;
 public class ErrorCodeVO implements Serializable {
 
     public static final String ALL_NOT_SET = &quot;********&quot;;
-<span class="fc" id="L32">    public static final int STATE_IN_POSITION = ALL_NOT_SET.length()-1;</span>
-<span class="fc" id="L33">    public static final int STATE_OUT_POSITION = ALL_NOT_SET.length()-2;</span>
+<span class="nc" id="L32">    public static final int STATE_IN_POSITION = ALL_NOT_SET.length()-1;</span>
+<span class="nc" id="L33">    public static final int STATE_OUT_POSITION = ALL_NOT_SET.length()-2;</span>
 
-<span class="fc" id="L35">    public static final ErrorCodeVO LOCK_STATE_IN = new ErrorCodeVO(&quot;*******1&quot;);</span>
-<span class="fc" id="L36">    public static final ErrorCodeVO UNLOCK_STATE_IN = new ErrorCodeVO(&quot;*******0&quot;);</span>
-<span class="fc" id="L37">    public static final ErrorCodeVO LOCK_STATE_OUT = new ErrorCodeVO(&quot;******1*&quot;);</span>
-<span class="fc" id="L38">    public static final ErrorCodeVO UNLOCK_STATE_OUT = new ErrorCodeVO(&quot;******0*&quot;);</span>
-<span class="fc" id="L39">    public static final ErrorCodeVO LOCK_STATE_IN_AND_OUT = new ErrorCodeVO(&quot;******11&quot;);</span>
-<span class="fc" id="L40">    public static final ErrorCodeVO UNLOCK_STATE_IN_AND_OUT = new ErrorCodeVO(&quot;******00&quot;);</span>
+<span class="nc" id="L35">    public static final ErrorCodeVO LOCK_STATE_IN = new ErrorCodeVO(&quot;*******1&quot;);</span>
+<span class="nc" id="L36">    public static final ErrorCodeVO UNLOCK_STATE_IN = new ErrorCodeVO(&quot;*******0&quot;);</span>
+<span class="nc" id="L37">    public static final ErrorCodeVO LOCK_STATE_OUT = new ErrorCodeVO(&quot;******1*&quot;);</span>
+<span class="nc" id="L38">    public static final ErrorCodeVO UNLOCK_STATE_OUT = new ErrorCodeVO(&quot;******0*&quot;);</span>
+<span class="nc" id="L39">    public static final ErrorCodeVO LOCK_STATE_IN_AND_OUT = new ErrorCodeVO(&quot;******11&quot;);</span>
+<span class="nc" id="L40">    public static final ErrorCodeVO UNLOCK_STATE_IN_AND_OUT = new ErrorCodeVO(&quot;******00&quot;);</span>
 
     @JsonProperty
-<span class="fc" id="L43">    private String errorCode = ErrorCodeVO.ALL_NOT_SET;</span>
+<span class="nc" id="L43">    private String errorCode = ErrorCodeVO.ALL_NOT_SET;</span>
     @JsonProperty
     private Integer plcState;
 
-<span class="fc" id="L47">    public ErrorCodeVO() {</span>
-<span class="fc" id="L48">    }</span>
+<span class="nc" id="L47">    public ErrorCodeVO() {</span>
+<span class="nc" id="L48">    }</span>
 
-<span class="fc" id="L50">    public ErrorCodeVO(String errorCode) {</span>
-<span class="fc" id="L51">        this.errorCode = errorCode;</span>
-<span class="fc" id="L52">    }</span>
+<span class="nc" id="L50">    public ErrorCodeVO(String errorCode) {</span>
+<span class="nc" id="L51">        this.errorCode = errorCode;</span>
+<span class="nc" id="L52">    }</span>
 
-<span class="fc" id="L54">    public ErrorCodeVO(int plcState) {</span>
-<span class="fc" id="L55">        this.plcState = plcState;</span>
-<span class="fc" id="L56">    }</span>
+<span class="nc" id="L54">    public ErrorCodeVO(int plcState) {</span>
+<span class="nc" id="L55">        this.plcState = plcState;</span>
+<span class="nc" id="L56">    }</span>
 
-<span class="fc" id="L58">    public ErrorCodeVO(String errorCode, int plcState) {</span>
-<span class="fc" id="L59">        this.errorCode = errorCode;</span>
-<span class="fc" id="L60">        this.plcState = plcState;</span>
-<span class="fc" id="L61">    }</span>
+<span class="nc" id="L58">    public ErrorCodeVO(String errorCode, int plcState) {</span>
+<span class="nc" id="L59">        this.errorCode = errorCode;</span>
+<span class="nc" id="L60">        this.plcState = plcState;</span>
+<span class="nc" id="L61">    }</span>
 
     public String getErrorCode() {
-<span class="fc" id="L64">        return errorCode;</span>
+<span class="nc" id="L64">        return errorCode;</span>
     }
 
     public void setErrorCode(String errorCode) {
-<span class="fc" id="L68">        this.errorCode = errorCode;</span>
-<span class="fc" id="L69">    }</span>
+<span class="nc" id="L68">        this.errorCode = errorCode;</span>
+<span class="nc" id="L69">    }</span>
 
     public Integer getPlcState() {
-<span class="fc" id="L72">        return plcState;</span>
+<span class="nc" id="L72">        return plcState;</span>
     }
 
     public void setPlcState(Integer plcState) {
-<span class="fc" id="L76">        this.plcState = plcState;</span>
-<span class="fc" id="L77">    }</span>
+<span class="nc" id="L76">        this.plcState = plcState;</span>
+<span class="nc" id="L77">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

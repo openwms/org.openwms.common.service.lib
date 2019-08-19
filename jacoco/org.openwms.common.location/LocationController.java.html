@@ -53,17 +53,17 @@ public class LocationController extends AbstractWebController {
 
     @GetMapping(value = API_LOCATIONS, params = {&quot;locationPK&quot;})
     public Optional&lt;LocationVO&gt; findLocationByCoordinate(@RequestParam(&quot;locationPK&quot;) String locationPK) {
-<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (!LocationPK.isValid(locationPK)) {</span>
-<span class="fc" id="L57">            throw new IllegalArgumentException(format(&quot;Invalid location [%s]&quot;, locationPK));</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if (!LocationPK.isValid(locationPK)) {</span>
+<span class="nc" id="L57">            throw new IllegalArgumentException(format(&quot;Invalid location [%s]&quot;, locationPK));</span>
         }
-<span class="fc" id="L59">        Location location = locationService.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with locationPk [%s] found&quot;, locationPK)));</span>
-<span class="fc" id="L60">        return Optional.ofNullable(mapper.map(location, LocationVO.class));</span>
+<span class="nc" id="L59">        Location location = locationService.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with locationPk [%s] found&quot;, locationPK)));</span>
+<span class="nc" id="L60">        return Optional.ofNullable(mapper.map(location, LocationVO.class));</span>
     }
 
     @GetMapping(value = API_LOCATIONS, params = {&quot;plcCode&quot;})
     public Optional&lt;LocationVO&gt; findLocationByPlcCode(@RequestParam(&quot;plcCode&quot;) String plcCode) {
-<span class="fc" id="L65">        Location location = locationService.findByPlcCode(plcCode).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with PLC Code [%s] found&quot;, plcCode)));</span>
-<span class="fc" id="L66">        return Optional.ofNullable(mapper.map(location, LocationVO.class));</span>
+<span class="nc" id="L65">        Location location = locationService.findByPlcCode(plcCode).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with PLC Code [%s] found&quot;, plcCode)));</span>
+<span class="nc" id="L66">        return Optional.ofNullable(mapper.map(location, LocationVO.class));</span>
     }
 
     @GetMapping(value = API_LOCATIONS, params = {&quot;locationGroupNames&quot;})
@@ -74,8 +74,8 @@ public class LocationController extends AbstractWebController {
 
     @PatchMapping(value = API_LOCATIONS + &quot;/{pKey}&quot;)
     public void updateState(@PathVariable(name = &quot;pKey&quot;) String pKey, @RequestBody ErrorCodeVO errorCode) {
-<span class="fc" id="L77">        locationService.changeState(pKey, errorCode);</span>
-<span class="fc" id="L78">    }</span>
+<span class="nc" id="L77">        locationService.changeState(pKey, errorCode);</span>
+<span class="nc" id="L78">    }</span>
 
     @GetMapping(value = API_LOCATIONS, params = {&quot;area&quot;, &quot;aisle&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;})
     public List&lt;LocationVO&gt; findLocations(
