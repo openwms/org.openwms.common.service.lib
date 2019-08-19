@@ -130,7 +130,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
 
 <span class="fc" id="L131">        Location actualLocation = locationResolver.get();</span>
 <span class="pc bpc" id="L132" title="1 of 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
-<span class="fc" id="L133">            LOGGER.debug(&quot;Creating a TransportUnit with Barcode [{}] of Type [{}] on Location [{}]&quot;, barcode, transportUnitType, actualLocation);</span>
+<span class="nc" id="L133">            LOGGER.debug(&quot;Creating a TransportUnit with Barcode [{}] of Type [{}] on Location [{}]&quot;, barcode, transportUnitType, actualLocation);</span>
         }
 <span class="pc" id="L135">        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -&gt; new ServiceLayerException(format(&quot;TransportUnitType [%s] not found&quot;, transportUnitType)));</span>
 <span class="fc" id="L136">        TransportUnit transportUnit = new TransportUnit(barcode, type, actualLocation);</span>
