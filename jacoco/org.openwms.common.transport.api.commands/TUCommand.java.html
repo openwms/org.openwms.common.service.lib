@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TUCommand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.transport.api.commands</a> &gt; <span class="el_source">TUCommand.java</span></div><h1>TUCommand.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2019 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.transport.api.commands;
+
+import org.openwms.common.transport.api.messages.TransportUnitMO;
+
+import javax.validation.constraints.NotNull;
+import java.beans.ConstructorProperties;
+import java.io.Serializable;
+import java.util.StringJoiner;
+
+/**
+ * A TUCommand.
+ *
+ * @author Heiko Scherrer
+ */
+public class TUCommand implements Command&lt;TUCommand.Type&gt;, Serializable {
+
+    @NotNull
+    private Type type;
+    @NotNull
+    private TransportUnitMO transportUnit;
+
+    /*~-------------------- constructors --------------------*/
+    @ConstructorProperties({&quot;type&quot;, &quot;transportUnit&quot;})
+<span class="nc" id="L39">    protected TUCommand(Type type, TransportUnitMO transportUnit) {</span>
+<span class="nc" id="L40">        this.type = type;</span>
+<span class="nc" id="L41">        this.transportUnit = transportUnit;</span>
+<span class="nc" id="L42">    }</span>
+
+<span class="nc" id="L44">    private TUCommand(Builder builder) {</span>
+<span class="nc" id="L45">        this.type = builder.type;</span>
+<span class="nc" id="L46">        this.transportUnit = builder.transportUnit;</span>
+<span class="nc" id="L47">    }</span>
+
+    /*~-------------------- methods --------------------*/
+    public static Builder newBuilder() {
+<span class="nc" id="L51">        return new Builder();</span>
+    }
+
+<span class="nc" id="L54">    public enum Type {</span>
+<span class="nc" id="L55">        CREATE,</span>
+<span class="nc" id="L56">        REMOVING,</span>
+<span class="nc" id="L57">        REMOVE,</span>
+<span class="nc" id="L58">        CHANGE_TARGET,</span>
+<span class="nc" id="L59">        CHANGE_ACTUAL_LOCATION</span>
+    }
+
+    /*~-------------------- accessors --------------------*/
+    public Type getType() {
+<span class="nc" id="L64">        return type;</span>
+    }
+
+    public void setType(Type type) {
+<span class="nc" id="L68">        this.type = type;</span>
+<span class="nc" id="L69">    }</span>
+
+    public TransportUnitMO getTransportUnit() {
+<span class="nc" id="L72">        return transportUnit;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L77">        return new StringJoiner(&quot;, &quot;, TUCommand.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(&quot;type=&quot; + type).add(&quot;transportUnit=&quot; + transportUnit).toString();</span>
+    }
+
+
+    public static final class Builder {
+        private Type type;
+        private TransportUnitMO transportUnit;
+
+        private Builder() {
+        }
+
+        public Builder withType(@NotNull Type val) {
+<span class="nc" id="L89">            type = val;</span>
+<span class="nc" id="L90">            return this;</span>
+        }
+
+        public Builder withTransportUnit(@NotNull TransportUnitMO val) {
+<span class="nc" id="L94">            transportUnit = val;</span>
+<span class="nc" id="L95">            return this;</span>
+        }
+
+        public TUCommand build() {
+<span class="nc" id="L99">            return new TUCommand(this);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
