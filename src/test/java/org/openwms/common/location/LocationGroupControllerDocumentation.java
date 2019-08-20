@@ -39,6 +39,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -66,6 +68,19 @@ class LocationGroupControllerDocumentation {
                 .apply(documentationConfiguration(restDocumentation)).build();
     }
 
+    @Test
+    void shall_return_index() throws Exception {
+        mockMvc
+                .perform(
+                        get(CommonConstants.API_LOCATION_GROUPS + "/index")
+                )
+                .andExpect(status().isOk())
+                //.andExpect(jsonPath("$.name", is(Actions.INDEX.id())))
+                //.andExpect(jsonPath("$.entityActions.length()", is(3)))
+                .andDo(document("lg-index", preprocessResponse(prettyPrint())))
+        ;
+    }
+
     /* Depends on https://github.com/spring-projects/spring-framework/issues/19930
     @Nested
     @DisplayName("Finder Tests")
@@ -81,7 +96,7 @@ class LocationGroupControllerDocumentation {
                     .andExpect(jsonPath("operationMode", is(LocationGroupMode.INFEED_AND_OUTFEED)))
                     .andExpect(jsonPath("groupStateIn", is(LocationGroupState.AVAILABLE.toString())))
                     .andExpect(jsonPath("groupStateOut", is(LocationGroupState.AVAILABLE.toString())))
-                    .andExpect(jsonPath("_links._parent.href").exists())
+                    .andExpect(jsonPath("_links.parent.href").exists())
                     .andExpect(status().isOk())
                     .andDo(document("lg-find-name"));
         }
