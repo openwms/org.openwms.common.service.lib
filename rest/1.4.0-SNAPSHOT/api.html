@@ -927,7 +927,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json;charset=UTF-8
-Content-Length: 355
+Content-Length: 351
 
 {
   "_links" : {
@@ -935,10 +935,10 @@ Content-Length: 355
       "href" : "http://localhost:8080/v1/location-groups"
     },
     "location-group-findbyname" : {
-      "href" : "http://localhost:8080/v1/location-groups?name=%7Bname%7D"
+      "href" : "http://localhost:8080/v1/location-groups?name=FOO"
     },
     "location-group-findbynames" : {
-      "href" : "http://localhost:8080/v1/location-groups?names=%7Bname%7D"
+      "href" : "http://localhost:8080/v1/location-groups?names=FOO&amp;names=BAR"
     }
   }
 }</code></pre>
