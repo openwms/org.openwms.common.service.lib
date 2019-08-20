@@ -15,7 +15,9 @@
  */
 package org.openwms.common.location.api;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -27,6 +29,8 @@ import java.util.Objects;
  *
  * @author Heiko Scherrer
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PUBLIC_ONLY)
 public class LocationGroupVO extends ResourceSupport implements TargetVO, Serializable {
 
     @JsonProperty

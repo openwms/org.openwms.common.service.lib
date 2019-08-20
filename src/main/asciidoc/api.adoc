@@ -20,6 +20,7 @@ a more use-case-driven approach.
 [[resources-prg]]
 = Resources
 
+A description of all used API resources.
 
 image::ClassDiagram.svg[]
 
@@ -149,6 +150,54 @@ include::{generated}/loc-plcstate/http-request.adoc[]
 If the server could set the state successfully the response is:
 
 include::{generated}/loc-plcstate/http-response.adoc[]
+
+== LocationGroup
+
+A `LocationGroup` is used to group `Locations` with same characteristics or to define a warehouse area that can be seen as one cohesive
+block controlled by one single subsystem.
+
+=== The Index
+The index with all possible operations can be retrieved with the following GET request:
+
+include::{generated}/lg-index/http-request.adoc[]
+
+The response lists all the operations with a name and the corresponding href link:
+
+include::{generated}/lg-index/http-response.adoc[]
+
+=== Find all LocationGroups
+To retrieve a list of all existing `LocationGroups` a client must send a GET request to the server:
+
+include::{generated}/lg-find-all/http-request.adoc[]
+
+If no `LocationGroups` exist the returned array is empty otherwise the response looks like:
+
+include::{generated}/lg-find-all/http-response.adoc[]
+
+Each `LocationGroup` has a link to its parent `LocationGroup` except the root `LocationGroup` that has no parent. Notice the returned
+`Content-Type` is `application/hal+json` that enables support for hypermedia links.
+
+=== Find LocationGroup by Name
+Send a HTTP GET request with the unique name of the `LocationGroup`.
+
+include::{generated}/lg-find-name/http-request.adoc[]
+
+If the `LocationGroup` exists the server responds with
+
+include::{generated}/lg-find-name/http-response.adoc[]
+
+If the `LocationGroup` with the given name does not exist, the server responds with
+
+include::{generated}/lg-find-name-404/http-response.adoc[]
+
+=== Find multiple LocationGroups by Name
+Send a HTTP GET request with a list of unique `LocationGroup` names.
+
+include::{generated}/lg-find-names/http-request.adoc[]
+
+The server sends back a list of all `LocationGroups` or an empty list if no `LocationGroups` exist.
+
+include::{generated}/lg-find-names/http-response.adoc[]
 
 == Target
 A `Target` is a `Location` or a group of `Locations` (`LocationGroup`) where a `TransportUnit` may be sent to.

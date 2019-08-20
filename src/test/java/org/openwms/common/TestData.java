@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Heiko Scherrer
+ * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,4 +39,5 @@ public final class TestData {
     public static final Long TU_1_PK = 1000L;
     public static final String TU_1_PKEY = "1";
     public static final String TU_1_ID = "00000000000000004711";
+    public static final Long TU_2_PK = 1001L;
 }

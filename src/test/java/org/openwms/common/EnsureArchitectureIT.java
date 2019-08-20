@@ -25,7 +25,7 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices;
 
 /**
- * A EnsureArchitecture.
+ * A EnsureArchitectureIT.
  *
  * @author Heiko Scherrer
  */

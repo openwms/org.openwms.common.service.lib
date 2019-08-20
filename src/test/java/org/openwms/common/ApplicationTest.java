@@ -21,6 +21,8 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.annotation.Documented;
@@ -39,9 +41,16 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
+@SqlGroup({
+        @Sql(scripts = "classpath:test.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+})
 @ActiveProfiles({"ASYNCHRONOUS","TEST"})
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
-@SpringBootTest(classes = CommonStarter.class, properties = {"spring.jpa.show-sql=false", "spring.main.banner-mode=OFF", "spring.jackson.serialization.INDENT_OUTPUT=true"})
+@SpringBootTest(classes = CommonStarter.class, properties = {
+        "spring.jpa.show-sql=false",
+        "spring.main.banner-mode=OFF",
+        "spring.jackson.serialization.INDENT_OUTPUT=true"
+})
 @AutoConfigureRestDocs(outputDir = "target/generated-snippets", uriPort = 8888)
 @Tag("IntegrationTest")
 public @interface ApplicationTest {

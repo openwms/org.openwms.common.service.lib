@@ -18,12 +18,14 @@ package org.openwms.common.location;
 import org.ameba.exception.NotFoundException;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.CommonConstants;
+import org.openwms.common.Index;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.LocationGroupVO;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +37,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -66,7 +69,7 @@ public class LocationGroupController extends AbstractWebController {
                 .orElseThrow(() -> new NotFoundException(format("LocationGroup with name [%s] does not exist", name)));
         LocationGroupVO result = mapper.map(locationGroup, LocationGroupVO.class);
         if (locationGroup.hasParent()) {
-            result.add(linkTo(methodOn(LocationGroupController.class).findByName(locationGroup.getParent().getName())).withRel("_parent"));
+            result.add(linkTo(methodOn(LocationGroupController.class).findByName(locationGroup.getParent().getName())).withRel("parent"));
         }
         return result;
     }
@@ -77,7 +80,7 @@ public class LocationGroupController extends AbstractWebController {
         List<LocationGroupVO> vos = mapper.map(locationGroups, LocationGroupVO.class);
         vos.forEach(lg -> {
             if (lg.hasParent()) {
-                lg.add(linkTo(methodOn(LocationGroupController.class).findByName(lg.getParent())).withRel("_parent"));
+                lg.add(linkTo(methodOn(LocationGroupController.class).findByName(lg.getParent())).withRel("parent"));
             }
         });
         return vos;
@@ -86,7 +89,14 @@ public class LocationGroupController extends AbstractWebController {
     @GetMapping(value = CommonConstants.API_LOCATION_GROUPS)
     public List<LocationGroupVO> findAll() {
         List<LocationGroup> all = locationGroupService.findAll();
-        return all == null ? Collections.emptyList() : mapper.map(all, LocationGroupVO.class);
+        List<LocationGroupVO> result = all == null ? Collections.emptyList() : mapper.map(all, LocationGroupVO.class);
+        result.forEach(lg -> {
+                    if (lg.hasParent()) {
+                        lg.add(linkTo(methodOn(LocationGroupController.class).findByName(lg.getParent())).withRel("parent"));
+                    }
+                }
+        );
+        return result;
     }
 
     @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"name"})
@@ -106,5 +116,16 @@ public class LocationGroupController extends AbstractWebController {
             @RequestParam(name = "statein") LocationGroupState stateIn,
             @RequestParam(name = "stateout") LocationGroupState stateOut) {
         locationGroupService.changeGroupState(pKey, stateIn, stateOut);
+    }
+
+    @GetMapping(CommonConstants.API_LOCATION_GROUPS + "/index")
+    public ResponseEntity<Index> index() {
+        Index index = new Index();
+        index.add(
+                linkTo(methodOn(LocationGroupController.class).findAll()).withRel("location-group-findall"),
+                linkTo(methodOn(LocationGroupController.class).findByName("FOO")).withRel("location-group-findbyname"),
+                linkTo(methodOn(LocationGroupController.class).findByNames(asList("FOO", "BAR"))).withRel("location-group-findbynames")
+        );
+        return ResponseEntity.ok(index);
     }
 }

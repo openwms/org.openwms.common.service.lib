@@ -24,6 +24,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.annotation.Documented;
@@ -45,6 +47,9 @@ import java.lang.annotation.Target;
 @ExtendWith(SpringExtension.class)
 @EntityScan(basePackageClasses = CommonConstants.class)
 @Tag("IntegrationTest")
+@SqlGroup({
+        @Sql(scripts = "classpath:test.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+})
 @ActiveProfiles({"ASYNCHRONOUS","TEST"})
 @DataJpaTest(showSql = false)
 @EnableAspects(propagateRootCause = true)
