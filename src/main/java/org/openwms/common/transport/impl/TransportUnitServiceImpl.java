@@ -107,7 +107,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
                 barcode,
                 transportUnitType,
                 strict,
-                () -> locationService.findByLocationIdOrPlcCode(actualLocation)
+                () -> locationService.findByLocationId(actualLocation)
                         .orElseThrow(() -> new NotFoundException(format("No Location with actual location [%s] found", actualLocation)))
         );
     }

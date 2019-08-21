@@ -70,14 +70,6 @@ public interface LocationService {
     Optional<Location> findByPlcCode(String plcCode);
 
     /**
-     * Find and return a Location by the given general {@code location} identifier.
-     *
-     * @param location Either the LocationPK or the PLC Code
-     * @return The Location
-     */
-    Optional<Location> findByLocationIdOrPlcCode(String location);
-
-    /**
      * Find and return all Locations that belong to a LocationGroup with the name {@code locationGroupName}.
      *
      * @param locationGroupName The name of the LocationGroup

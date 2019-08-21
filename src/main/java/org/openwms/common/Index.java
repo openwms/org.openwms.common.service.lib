@@ -16,11 +16,16 @@
 package org.openwms.common;
 
 import org.ameba.http.AbstractBase;
+import org.springframework.hateoas.Link;
 
 /**
- * A Index.
+ * A Index encapsulates HAL links to point to exposed REST resources.
  *
  * @author Heiko Scherrer
  */
 public class Index extends AbstractBase {
+
+    public Index(Link... links) {
+        this.add(links);
+    }
 }

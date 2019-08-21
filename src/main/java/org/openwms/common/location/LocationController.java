@@ -17,10 +17,13 @@ package org.openwms.common.location;
 
 import org.ameba.exception.NotFoundException;
 import org.ameba.mapping.BeanMapper;
+import org.openwms.common.CommonConstants;
+import org.openwms.common.Index;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationVO;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +35,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static org.openwms.common.CommonConstants.API_LOCATIONS;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
  * A LocationController.
@@ -52,33 +58,34 @@ public class LocationController extends AbstractWebController {
     }
 
     @GetMapping(value = API_LOCATIONS, params = {"locationPK"})
-    public Optional<LocationVO> findLocationByCoordinate(@RequestParam("locationPK") String locationPK) {
+    public ResponseEntity<Optional<LocationVO>> findLocationByCoordinate(@RequestParam("locationPK") String locationPK) {
         if (!LocationPK.isValid(locationPK)) {
             throw new IllegalArgumentException(format("Invalid location [%s]", locationPK));
         }
         Location location = locationService.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", locationPK)));
-        return Optional.ofNullable(mapper.map(location, LocationVO.class));
+        return ResponseEntity.ok(Optional.ofNullable(mapper.map(location, LocationVO.class)));
     }
 
     @GetMapping(value = API_LOCATIONS, params = {"plcCode"})
-    public Optional<LocationVO> findLocationByPlcCode(@RequestParam("plcCode") String plcCode) {
+    public ResponseEntity<Optional<LocationVO>> findLocationByPlcCode(@RequestParam("plcCode") String plcCode) {
         Location location = locationService.findByPlcCode(plcCode).orElseThrow(() -> new NotFoundException(format("No Location with PLC Code [%s] found", plcCode)));
-        return Optional.ofNullable(mapper.map(location, LocationVO.class));
+        return ResponseEntity.ok(Optional.ofNullable(mapper.map(location, LocationVO.class)));
     }
 
     @GetMapping(value = API_LOCATIONS, params = {"locationGroupNames"})
-    public List<LocationVO> findLocationsForLocationGroups(@RequestParam("locationGroupNames") List<String> locationGroupNames) {
+    public ResponseEntity<List<LocationVO>> findLocationsForLocationGroups(@RequestParam("locationGroupNames") List<String> locationGroupNames) {
         List<Location> locations = locationService.findAllOf(locationGroupNames);
-        return mapper.map(locations, LocationVO.class);
+        return ResponseEntity.ok(mapper.map(locations, LocationVO.class));
     }
 
     @PatchMapping(value = API_LOCATIONS + "/{pKey}")
-    public void updateState(@PathVariable(name = "pKey") String pKey, @RequestBody ErrorCodeVO errorCode) {
+    public ResponseEntity<Void> updateState(@PathVariable(name = "pKey") String pKey, @RequestBody ErrorCodeVO errorCode) {
         locationService.changeState(pKey, errorCode);
+        return null;
     }
 
     @GetMapping(value = API_LOCATIONS, params = {"area", "aisle", "x", "y", "z"})
-    public List<LocationVO> findLocations(
+    public ResponseEntity<List<LocationVO>> findLocations(
             @RequestParam(value = "area", required = false) String area,
             @RequestParam(value = "aisle", required = false) String aisle,
             @RequestParam(value = "x", required = false) String x,
@@ -93,7 +100,20 @@ public class LocationController extends AbstractWebController {
                 .z(z == null || z.equals("") ? "%" : z)
                 .build();
         List<Location> locations = locationService.findLocations(pk);
-        return mapper.map(locations, LocationVO.class);
+        return locations.isEmpty()
+                ? ResponseEntity.notFound().build()
+                : ResponseEntity.ok(mapper.map(locations, LocationVO.class));
     }
 
+    @GetMapping(CommonConstants.API_LOCATIONS + "/index")
+    public ResponseEntity<Index> index() {
+        return ResponseEntity.ok(
+                new Index(
+                        linkTo(methodOn(LocationController.class).findLocationByCoordinate("AREA/AISLE/X/Y/Z")).withRel("location-findbycoordinate"),
+                        linkTo(methodOn(LocationController.class).findLocationByPlcCode("PLC_CODE")).withRel("location-findbyplccode"),
+                        linkTo(methodOn(LocationController.class).findLocationsForLocationGroups(asList("LG1", "LG2"))).withRel("location-forlocationgroup"),
+                        linkTo(methodOn(LocationController.class).updateState("pKey", ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel("location-changestate")
+                )
+        );
+    }
 }

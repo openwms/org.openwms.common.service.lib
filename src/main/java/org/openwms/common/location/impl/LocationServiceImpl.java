@@ -96,18 +96,10 @@ class LocationServiceImpl implements LocationService {
     @Measured
     @Transactional(readOnly = true)
     public Optional<Location> findByLocationId(String locationPK) {
+        if (!LocationPK.isValid(locationPK)) {
+            throw new IllegalArgumentException(format("The given locationPK [%s] is not of valid format", locationPK));
+        }
         return repository.findByLocationId(LocationPK.fromString(locationPK));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<Location> findByLocationIdOrPlcCode(String location) {
-        return LocationPK.isValid(location)
-                ? repository.findByLocationId(LocationPK.fromString(location))
-                : repository.findByPlcCode(location);
     }
 
     /**

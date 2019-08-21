@@ -75,8 +75,9 @@ class LocationGroupControllerDocumentation {
                         get(CommonConstants.API_LOCATION_GROUPS + "/index")
                 )
                 .andExpect(status().isOk())
-                //.andExpect(jsonPath("$.name", is(Actions.INDEX.id())))
-                //.andExpect(jsonPath("$.entityActions.length()", is(3)))
+                .andExpect(jsonPath("$._links.location-group-findall").exists())
+                .andExpect(jsonPath("$._links.location-group-findbyname").exists())
+                .andExpect(jsonPath("$._links.location-group-findbynames").exists())
                 .andDo(document("lg-index", preprocessResponse(prettyPrint())))
         ;
     }
