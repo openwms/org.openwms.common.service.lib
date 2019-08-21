@@ -444,6 +444,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_index">Index</a></li>
 <li><a href="#_location">Location</a>
 <ul class="sectlevel2">
+<li><a href="#_the_index">The Index</a></li>
 <li><a href="#_find_location_by_coordinate">Find Location by Coordinate</a></li>
 <li><a href="#_find_location_by_plc_code">Find Location by PLC code</a></li>
 <li><a href="#_find_locations_of_a_locationgroup">Find Locations of a LocationGroup</a></li>
@@ -452,7 +453,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_locationgroup">LocationGroup</a>
 <ul class="sectlevel2">
-<li><a href="#_the_index">The Index</a></li>
+<li><a href="#_the_index_2">The Index</a></li>
 <li><a href="#_find_all_locationgroups">Find all LocationGroups</a></li>
 <li><a href="#_find_locationgroup_by_name">Find LocationGroup by Name</a></li>
 <li><a href="#_find_multiple_locationgroups_by_name">Find multiple LocationGroups by Name</a></li>
@@ -540,7 +541,7 @@ used to navigate to all possible entities with their operations.</p>
 <h2 id="_index"><a class="anchor" href="#_index"></a><a class="link" href="#_index">Index</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The initial http request to retrieve information about all available resources looks like the following. The index page is a public
+<p>The initial HTTP request to retrieve information about all available resources looks like the following. The Index page is a public
 available resource and does not need any authentication.</p>
 </div>
 <div class="listingblock">
@@ -550,23 +551,28 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The Index resource is returned in the response body and the response status is of 200-OK. This main index lists all primary resource
-entities to follow next.</p>
+<p>The Index resource is returned in the response body with the response status of 200-OK. This main Index lists all primary resource entities
+to follow next.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json;charset=UTF-8
-Content-Length: 123
+Content-Length: 194
 
 {
   "_links" : {
-    "location-group-index" : {
+    "location-group-index" : [ {
+      "href" : "http://localhost:8080/v1/locations/index"
+    }, {
       "href" : "http://localhost:8080/v1/location-groups/index"
-    }
+    } ]
   }
 }</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>A client application must only know about the agreed link names and follow the corresponding <code>href</code> link to navigate further.</p>
 </div>
 </div>
 </div>
@@ -598,6 +604,44 @@ operations off this <code>Location</code>.</p>
 </div>
 <div class="paragraph">
 <p>The API allows to search for <code>Locations</code> and to mutate the <code>Locations</code> state.</p>
+</div>
+<div class="sect2">
+<h3 id="_the_index"><a class="anchor" href="#_the_index"></a><a class="link" href="#_the_index">The Index</a></h3>
+<div class="paragraph">
+<p>The Location Index with all possible operations can be retrieved with the following GET request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response lists all the operations with a name and the corresponding href link:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 464
+
+{
+  "_links" : {
+    "location-findbycoordinate" : {
+      "href" : "http://localhost:8080/v1/locations?locationPK=AREA/AISLE/X/Y/Z"
+    },
+    "location-findbyplccode" : {
+      "href" : "http://localhost:8080/v1/locations?plcCode=PLC_CODE"
+    },
+    "location-forlocationgroup" : [ {
+      "href" : "http://localhost:8080/v1/locations?locationGroupNames=LG1&amp;locationGroupNames=LG2"
+    }, {
+      "href" : "http://localhost:8080/v1/locations/pKey"
+    } ]
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_find_location_by_coordinate"><a class="anchor" href="#_find_location_by_coordinate"></a><a class="link" href="#_find_location_by_coordinate">Find Location by Coordinate</a></h3>
@@ -963,7 +1007,7 @@ Content-Length: 49
 block controlled by one single subsystem.</p>
 </div>
 <div class="sect2">
-<h3 id="_the_index"><a class="anchor" href="#_the_index"></a><a class="link" href="#_the_index">The Index</a></h3>
+<h3 id="_the_index_2"><a class="anchor" href="#_the_index_2"></a><a class="link" href="#_the_index_2">The Index</a></h3>
 <div class="paragraph">
 <p>The index with all possible operations can be retrieved with the following GET request:</p>
 </div>
@@ -2135,7 +2179,7 @@ Content-Length: 194
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-08-21 15:35:22 CEST
+Last updated 2019-08-21 17:41:01 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
