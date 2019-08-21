@@ -446,6 +446,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_location_index">Location Index</a></li>
 <li><a href="#_find_location_by_coordinate">Find Location by Coordinate</a></li>
+<li><a href="#_find_location_by_coordinate_with_wildcards">Find Location by Coordinate with Wildcards</a></li>
 <li><a href="#_find_location_by_plc_code">Find Location by PLC code</a></li>
 <li><a href="#_find_locations_of_a_locationgroup">Find Locations of a LocationGroup</a></li>
 <li><a href="#_change_a_location_s_state">Change a Location&#8217;s State</a></li>
@@ -674,6 +675,134 @@ Content-Length: 204
   "outgoingActive" : true,
   "plcState" : 0
 }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> with the requested coordinate does not exist, the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 134
+
+{
+  "message" : "No Location with locationPk [EXT_/9999/9999/9999/9999] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the passed coordinate is not well formatted and rejected by the server the response looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 73
+
+{
+  "message" : "Invalid location [NOT EXISTS]",
+  "httpStatus" : "400"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_location_by_coordinate_with_wildcards"><a class="anchor" href="#_find_location_by_coordinate_with_wildcards"></a><a class="link" href="#_find_location_by_coordinate_with_wildcards">Find Location by Coordinate with Wildcards</a></h3>
+<div class="paragraph">
+<p>The API to search for <code>Locations</code> also accepts typical SQL wildcards in each part of the 5-tuple coordinate. Let&#8217;s assume one searches for
+all Workplace <code>Locations</code> of the Flat Goods Picking area like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?area=FGIN&amp;aisle=PICK&amp;x=WORK&amp;y=00__&amp;z=%25 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> exists the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 1928
+
+[ {
+  "pKey" : "819666829504",
+  "locationId" : "FGIN/PICK/WORK/0001/0000",
+  "locationGroupName" : "FGWORKPLACE1",
+  "plcCode" : "PLC_0018",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "pKey" : "234175848538",
+  "locationId" : "FGIN/PICK/WORK/0002/0000",
+  "locationGroupName" : "FGWORKPLACE2",
+  "plcCode" : "PLC_0019",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "pKey" : "716281042988",
+  "locationId" : "FGIN/PICK/WORK/0003/0000",
+  "locationGroupName" : "FGWORKPLACE3",
+  "plcCode" : "PLC_0020",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "pKey" : "918615490790",
+  "locationId" : "FGIN/PICK/WORK/0004/0000",
+  "locationGroupName" : "FGWORKPLACE4",
+  "plcCode" : "PLC_0021",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "pKey" : "722685883984",
+  "locationId" : "FGIN/PICK/WORK/0005/0000",
+  "locationGroupName" : "FGWORKPLACE5",
+  "plcCode" : "PLC_0022",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "pKey" : "262863398986",
+  "locationId" : "FGIN/PICK/WORK/0006/0000",
+  "locationGroupName" : "FGWORKPLACE6",
+  "plcCode" : "PLC_0023",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "pKey" : "984186159596",
+  "locationId" : "FGIN/PICK/WORK/0007/0000",
+  "locationGroupName" : "FGWORKPLACE7",
+  "plcCode" : "PLC_0024",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "pKey" : "258022307027",
+  "locationId" : "FGIN/PICK/WORK/0008/0000",
+  "locationGroupName" : "FGWORKPLACE8",
+  "plcCode" : "PLC_0025",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "pKey" : "542937844858",
+  "locationId" : "FGIN/PICK/WORK/0009/0000",
+  "locationGroupName" : "FGWORKPLACE9",
+  "plcCode" : "PLC_0026",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+} ]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2181,7 +2310,7 @@ Content-Length: 194
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-08-21 18:38:02 CEST
+Last updated 2019-08-21 18:55:37 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
