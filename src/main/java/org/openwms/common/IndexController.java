@@ -15,6 +15,7 @@
  */
 package org.openwms.common;
 
+import org.openwms.common.location.LocationController;
 import org.openwms.common.location.LocationGroupController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
- * A IndexController.
+ * A IndexController serves the root {@link Index} resource via REST.
  *
  * @author Heiko Scherrer
  */
@@ -33,13 +34,12 @@ class IndexController {
 
     @GetMapping("/index")
     public ResponseEntity<Index> getIndex() {
-
-        Index index = new Index();
-        index.add(
-//                linkTo(methodOn(LocationController.class).index()).withRel("location-group-index"),
-                linkTo(methodOn(LocationGroupController.class).index()).withRel("location-group-index")
-//                linkTo(methodOn(TransportUnitController.class).index()).withRel("location-group-index")
+        return ResponseEntity.ok(
+                new Index(
+                        linkTo(methodOn(LocationController.class).index()).withRel("location-index"),
+                        linkTo(methodOn(LocationGroupController.class).index()).withRel("location-group-index")
+//                linkTo(methodOn(TransportUnitController.class).index()).withRel("transport-unit-index")
+                )
         );
-        return ResponseEntity.ok(index);
     }
 }

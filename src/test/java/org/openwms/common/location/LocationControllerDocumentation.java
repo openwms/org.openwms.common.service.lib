@@ -36,6 +36,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -61,6 +63,21 @@ class LocationControllerDocumentation {
     void setUp(RestDocumentationContextProvider restDocumentation) {
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
                 .apply(documentationConfiguration(restDocumentation)).build();
+    }
+
+    @Test
+    void shall_return_index() throws Exception {
+        mockMvc
+                .perform(
+                        get(CommonConstants.API_LOCATIONS + "/index")
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$._links.location-findbycoordinate").exists())
+                .andExpect(jsonPath("$._links.location-findbyplccode").exists())
+                .andExpect(jsonPath("$._links.location-forlocationgroup").exists())
+                .andExpect(jsonPath("$._links.location-changestate").exists())
+                .andDo(document("loc-index", preprocessResponse(prettyPrint())))
+        ;
     }
 
     /* Depends on https://github.com/spring-projects/spring-framework/issues/19930
@@ -127,6 +144,29 @@ class LocationControllerDocumentation {
                     .param("locationPK", "NOT EXISTS"))
                     .andExpect(status().isBadRequest())
                     .andDo(document("loc-find-coordinate-400"));
+        }
+
+        @Test void shall_findby_locationPk_wildcard() throws Exception {
+            mockMvc.perform(get(CommonConstants.API_LOCATIONS)
+                    .param("area", "FGIN")
+                    .param("aisle", "00__")
+                    .param("x", "LIFT")
+                    .param("y", "0000")
+                    .param("z", "%"))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.length()", is(2)))
+                    .andDo(document("loc-find-coordinate-wildcard"));
+        }
+
+        @Test void shall_findby_locationPk_wildcard_404() throws Exception {
+            mockMvc.perform(get(CommonConstants.API_LOCATIONS)
+                    .param("area", "UNKN")
+                    .param("aisle", "%")
+                    .param("x", "%")
+                    .param("y", "%")
+                    .param("z", "%"))
+                    .andExpect(status().isNotFound())
+                    .andDo(document("loc-find-coordinate-wildcard-404"));
         }
         /*
     }

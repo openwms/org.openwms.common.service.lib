@@ -1,6 +1,6 @@
 = RESTful API
 ({bversion}-{bnumber})
-Heiko Scherrer;
+Heiko Scherrer; Markus Schneider;
 :doctype: book
 :icons: font
 :toc:
@@ -17,12 +17,41 @@ This guide describes the RESTful API of the OpenWMS.org COMMON Base Service modu
 are explained and declared in the first part of the document whereas in the second part the usage of the API is shown in
 a more use-case-driven approach.
 
+[[sitemap-prg]]
+= Interaction Map
+
+This chapter describes the actions, respectively the flow of actions, an API consumer can perform to achieve the use cases. The COMMON
+Service API deals essentially with `Locations`, `LocationGroups` and `TransportUnits` therefore those entities are centric elements in the
+interaction model and can be referenced from the main index page.
+
+Like human readable websites provide a sitemap, a machine readable API can be visualized with an interaction map. A fully automated RESTful
+maturity-level-3 API offers index resources beside typical business resources. The API entry point is the top-level index resource that is
+used to navigate to all possible entities with their operations.
+
+image::common-service-index.svg[]
+
+This top-level, or root, index page offers further links to primary resources, like `Locations`, `LocationGroups` and `TransportUnits`.
+
 [[resources-prg]]
 = Resources
 
 A description of all used API resources.
 
 image::ClassDiagram.svg[]
+
+== Index
+
+The initial HTTP request to retrieve information about all available resources looks like the following. The Index page is a public
+available resource and does not need any authentication.
+
+include::{generated}/get-index/http-request.adoc[]
+
+The Index resource is returned in the response body with the response status of 200-OK. This main Index lists all primary resource entities
+to follow next.
+
+include::{generated}/get-index/http-response.adoc[]
+
+A client application must only know about the agreed link names and follow the corresponding `href` link to navigate further.
 
 == Location
 
@@ -46,6 +75,15 @@ operations off this `Location`.
 
 The API allows to search for `Locations` and to mutate the `Locations` state.
 
+=== Location Index
+The Location Index with all possible operations can be retrieved with the following GET request:
+
+include::{generated}/loc-index/http-request.adoc[]
+
+The response lists all the operations with a name and the corresponding href link:
+
+include::{generated}/loc-index/http-response.adoc[]
+
 === Find Location by Coordinate
 Send a HTTP GET request with the 5-tuple coordinate as query parameter to find a `Location` identified by this coordinate.
 
@@ -62,6 +100,20 @@ include::{generated}/loc-find-coordinate-404/http-response.adoc[]
 If the passed coordinate is not well formatted and rejected by the server the response looks like
 
 include::{generated}/loc-find-coordinate-400/http-response.adoc[]
+
+=== Find Location by Coordinate with Wildcards
+The API to search for `Locations` also accepts typical SQL wildcards in each part of the 5-tuple coordinate. Let's assume one searches for
+all Lift `Locations` in the Flat Good area, this could look like this:
+
+include::{generated}/loc-find-coordinate-wildcard/http-request.adoc[]
+
+In this case the Flat Good area has only 2 Lift positions and the server returns both:
+
+include::{generated}/loc-find-coordinate-wildcard/http-response.adoc[]
+
+If the search query did not find any `Locations` the server responds with:
+
+include::{generated}/loc-find-coordinate-wildcard-404/http-response.adoc[]
 
 === Find Location by PLC code
 Send a HTTP GET request with the PLC code as query parameter to find a `Location` identified by this PLC code.
@@ -156,7 +208,7 @@ include::{generated}/loc-plcstate/http-response.adoc[]
 A `LocationGroup` is used to group `Locations` with same characteristics or to define a warehouse area that can be seen as one cohesive
 block controlled by one single subsystem.
 
-=== The Index
+=== LocationGroup Index
 The index with all possible operations can be retrieved with the following GET request:
 
 include::{generated}/lg-index/http-request.adoc[]

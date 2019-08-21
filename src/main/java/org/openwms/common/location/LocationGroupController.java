@@ -120,12 +120,12 @@ public class LocationGroupController extends AbstractWebController {
 
     @GetMapping(CommonConstants.API_LOCATION_GROUPS + "/index")
     public ResponseEntity<Index> index() {
-        Index index = new Index();
-        index.add(
-                linkTo(methodOn(LocationGroupController.class).findAll()).withRel("location-group-findall"),
-                linkTo(methodOn(LocationGroupController.class).findByName("FOO")).withRel("location-group-findbyname"),
-                linkTo(methodOn(LocationGroupController.class).findByNames(asList("FOO", "BAR"))).withRel("location-group-findbynames")
+        return ResponseEntity.ok(
+                new Index(
+                        linkTo(methodOn(LocationGroupController.class).findAll()).withRel("location-group-findall"),
+                        linkTo(methodOn(LocationGroupController.class).findByName("FOO")).withRel("location-group-findbyname"),
+                        linkTo(methodOn(LocationGroupController.class).findByNames(asList("FOO", "BAR"))).withRel("location-group-findbynames")
+                )
         );
-        return ResponseEntity.ok(index);
     }
 }
