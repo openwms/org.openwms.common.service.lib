@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.6.1">
-<meta name="author" content="(1.4.0-SNAPSHOT-234)">
+<meta name="author" content="(1.4.0-SNAPSHOT-MANUAL)">
 <title>RESTful API</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -431,7 +431,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>RESTful API</h1>
 <div class="details">
-<span id="author" class="author">(1.4.0-SNAPSHOT-234)</span><br>
+<span id="author" class="author">(1.4.0-SNAPSHOT-MANUAL)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -498,6 +498,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_transportunit">TransportUnit</a>
 <ul class="sectlevel2">
 <li><a href="#_transportunit_index">TransportUnit Index</a></li>
+<li><a href="#_find_by_barcode">Find by Barcode</a></li>
 </ul>
 </li>
 </ul>
@@ -571,7 +572,7 @@ to follow next.</p>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json;charset=UTF-8
-Content-Length: 213
+Content-Length: 427
 
 {
   "_links" : {
@@ -580,6 +581,12 @@ Content-Length: 213
     },
     "location-group-index" : {
       "href" : "http://localhost:8080/v1/location-groups/index"
+    },
+    "transport-unit-type-index" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types/index"
+    },
+    "transport-unit-index" : {
+      "href" : "http://localhost:8080/v1/transport-units/index"
     }
   }
 }</code></pre>
@@ -2398,12 +2405,105 @@ Content-Length: 304
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_find_by_barcode"><a class="anchor" href="#_find_by_barcode"></a><a class="link" href="#_find_by_barcode">Find by Barcode</a></h3>
+<div class="paragraph">
+<p>Find a <code>TransportUnit</code> by its unique <code>Barcode</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-units?bk=00000000000000004711 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>TransportUnit</code> has been found the server returns a JSON representation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 477
+
+{
+  "barcode" : "00000000000000004711",
+  "actualLocation" : {
+    "pKey" : "113646454019",
+    "locationId" : "EXT_/0000/0000/0000/0000",
+    "locationGroupName" : "ZILE",
+    "plcCode" : "PLC_0030",
+    "incomingActive" : true,
+    "outgoingActive" : true,
+    "plcState" : 0
+  },
+  "target" : null,
+  "transportUnitType" : "PALLET",
+  "length" : 120,
+  "width" : 80,
+  "height" : 102,
+  "actualPlcCode" : "PLC_0030",
+  "actualLocationDate" : "2019-08-22T19:33:07.435+0000"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In case no <code>TransportUnit</code> exists the response looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 229
+
+{
+  "message" : "TransportUnit with Barcode [0000000000NOT_EXISTS] not found",
+  "messageKey" : "COMMON.BARCODE_NOT_FOUND",
+  "obj" : [ {
+    "value" : "0000000000NOT_EXISTS"
+  } ],
+  "httpStatus" : "404",
+  "class" : "Barcode"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Also the short form of a <code>Barcode</code> can be passed to the API and the server implementation adjusts the given <code>Barcode</code> to the configured
+style, like it is left or right aligned and padded.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 477
+
+{
+  "barcode" : "00000000000000004711",
+  "actualLocation" : {
+    "pKey" : "113646454019",
+    "locationId" : "EXT_/0000/0000/0000/0000",
+    "locationGroupName" : "ZILE",
+    "plcCode" : "PLC_0030",
+    "incomingActive" : true,
+    "outgoingActive" : true,
+    "plcState" : 0
+  },
+  "target" : null,
+  "transportUnitType" : "PALLET",
+  "length" : 120,
+  "width" : 80,
+  "height" : 102,
+  "actualPlcCode" : "PLC_0030",
+  "actualLocationDate" : "2019-08-22T19:33:07.377+0000"
+}</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-08-22 19:04:09 UTC
+Last updated 2019-08-22 21:32:19 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
