@@ -72,5 +72,9 @@ class BarcodeTest {
         logger.debug("Test not-padded:[" + bc4 + "]");
         assertTrue("Barcode must end with 9", bc4.toString().endsWith("9"));
         assertTrue("Barcode must start with A", bc4.toString().startsWith("A"));
+
+        // Reset static fields !!
+        Barcode.setAlignment(BARCODE_ALIGN.RIGHT);
+        Barcode.setLength(20);
     }
 }

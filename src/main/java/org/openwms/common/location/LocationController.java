@@ -81,7 +81,7 @@ public class LocationController extends AbstractWebController {
     @PatchMapping(value = API_LOCATIONS + "/{pKey}")
     public ResponseEntity<Void> updateState(@PathVariable(name = "pKey") String pKey, @RequestBody ErrorCodeVO errorCode) {
         locationService.changeState(pKey, errorCode);
-        return null;
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping(value = API_LOCATIONS, params = {"area", "aisle", "x", "y", "z"})

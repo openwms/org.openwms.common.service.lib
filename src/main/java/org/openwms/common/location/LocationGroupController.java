@@ -19,6 +19,7 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.CommonConstants;
 import org.openwms.common.Index;
+import org.openwms.common.SimpleLink;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationGroupState;
@@ -69,7 +70,7 @@ public class LocationGroupController extends AbstractWebController {
                 .orElseThrow(() -> new NotFoundException(format("LocationGroup with name [%s] does not exist", name)));
         LocationGroupVO result = mapper.map(locationGroup, LocationGroupVO.class);
         if (locationGroup.hasParent()) {
-            result.add(linkTo(methodOn(LocationGroupController.class).findByName(locationGroup.getParent().getName())).withRel("parent"));
+            result.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class).findByName(locationGroup.getParent().getName())).withRel("parent")));
         }
         return result;
     }
@@ -80,7 +81,7 @@ public class LocationGroupController extends AbstractWebController {
         List<LocationGroupVO> vos = mapper.map(locationGroups, LocationGroupVO.class);
         vos.forEach(lg -> {
             if (lg.hasParent()) {
-                lg.add(linkTo(methodOn(LocationGroupController.class).findByName(lg.getParent())).withRel("parent"));
+                lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class).findByName(lg.getParent())).withRel("parent")));
             }
         });
         return vos;
@@ -92,7 +93,7 @@ public class LocationGroupController extends AbstractWebController {
         List<LocationGroupVO> result = all == null ? Collections.emptyList() : mapper.map(all, LocationGroupVO.class);
         result.forEach(lg -> {
                     if (lg.hasParent()) {
-                        lg.add(linkTo(methodOn(LocationGroupController.class).findByName(lg.getParent())).withRel("parent"));
+                        lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class).findByName(lg.getParent())).withRel("parent")));
                     }
                 }
         );
