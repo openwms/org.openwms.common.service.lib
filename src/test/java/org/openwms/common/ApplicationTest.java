@@ -44,9 +44,9 @@ import java.lang.annotation.Target;
 @SqlGroup({
         @Sql(scripts = "classpath:test.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 })
-@ActiveProfiles({"ASYNCHRONOUS","TEST"})
-@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
-@SpringBootTest(classes = CommonStarter.class, properties = {
+@ActiveProfiles({"TEST"})
+@ExtendWith({RestDocumentationExtension.class, SpringExtension.class, AspectJExtension.class})
+@SpringBootTest(classes = {CommonStarter.class}, properties = {
         "spring.jpa.show-sql=false",
         "spring.main.banner-mode=OFF",
         "spring.jackson.serialization.INDENT_OUTPUT=true"

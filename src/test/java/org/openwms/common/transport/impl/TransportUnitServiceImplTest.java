@@ -17,8 +17,6 @@ package org.openwms.common.transport.impl;
 
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.ApplicationTest;
 import org.openwms.common.TestData;
@@ -49,9 +47,6 @@ class TransportUnitServiceImplTest {
     @Autowired
     private TransportUnitService testee;
 
-    @Nested
-    @DisplayName("Creational Tests")
-    class CreationalTests {
         @Test void create_primitive() {
             TransportUnit transportUnit = testee.create(Barcode.of("0815"), TestData.TUT_TYPE_PALLET, TestData.LOCATION_ID_EXT, false);
             assertThat(transportUnit).isNotNull();
@@ -115,7 +110,7 @@ class TransportUnitServiceImplTest {
             assertThat(transportUnit.isNew()).isFalse();
             assertThat(transportUnit.getBarcode()).isEqualTo(Barcode.of(TestData.TU_1_ID));
         }
-    }
+
 
     @Test
     void update() {
@@ -133,9 +128,6 @@ class TransportUnitServiceImplTest {
     void onEvent() {
     }
 
-    @Nested
-    @DisplayName("Finder Tests")
-    class FinderTests {
         @Test void findByBarcode() {
             TransportUnit tu = testee.findByBarcode(Barcode.of(TestData.TU_1_ID));
             assertThat(tu).isNotNull().hasFieldOrPropertyWithValue("barcode", Barcode.of(TestData.TU_1_ID));
@@ -207,11 +199,6 @@ class TransportUnitServiceImplTest {
             List<TransportUnit> tus = testee.findOnLocation(TestData.LOCATION_ID_EXT);
             assertThat(tus.isEmpty()).isFalse();
         }
-    }
-
-    @Test
-    void findByBarcodes() {
-    }
 
     @Test
     void changeTarget() {

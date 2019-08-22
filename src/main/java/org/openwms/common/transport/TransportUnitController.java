@@ -16,11 +16,13 @@
 package org.openwms.common.transport;
 
 import org.ameba.mapping.BeanMapper;
+import org.openwms.common.Index;
 import org.openwms.common.transport.api.TransportUnitVO;
 import org.openwms.common.transport.api.commands.MessageCommand;
 import org.openwms.common.transport.commands.MessageCommandHandler;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,8 +38,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.asList;
 import static org.openwms.common.CommonConstants.API_TRANSPORT_UNITS;
 import static org.openwms.common.location.LocationPK.fromString;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
  * A TransportUnitController.
@@ -80,7 +85,7 @@ public class TransportUnitController extends AbstractWebController {
 
     @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
     @ResponseBody
-    public void createTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
+    public ResponseEntity<Void> createTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
         if (Boolean.TRUE.equals(strict)) {
             // check if already exists ...
             service.findByBarcode(Barcode.of(transportUnitBK));
@@ -88,17 +93,19 @@ public class TransportUnitController extends AbstractWebController {
         TransportUnit toCreate = mapper.map(tu, TransportUnit.class);
         TransportUnit created = service.create(Barcode.of(transportUnitBK), toCreate.getTransportUnitType(), toCreate.getActualLocation().getLocationId(), strict);
         getLocationForCreatedResource(req, created.getPersistentKey());
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk", "actualLocation", "tut"})
     @ResponseBody
-    public void createTU(@RequestParam("bk") String transportUnitBK, @RequestParam("actualLocation") String actualLocation, @RequestParam("tut") String tut, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
+    public ResponseEntity<Void> createTU(@RequestParam("bk") String transportUnitBK, @RequestParam("actualLocation") String actualLocation, @RequestParam("tut") String tut, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
         if (Boolean.TRUE.equals(strict)) {
             // check if already exists ...
             service.findByBarcode(Barcode.of(transportUnitBK));
         }
         TransportUnit created = service.create(Barcode.of(transportUnitBK), tut, actualLocation, strict);
         getLocationForCreatedResource(req, created.getPersistentKey());
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
@@ -114,7 +121,7 @@ public class TransportUnitController extends AbstractWebController {
         return mapper.map(tu, TransportUnitVO.class);
     }
 
-    @PostMapping(value = "/v1/transport-unit/error", params = {"bk", "errorCode"})
+    @PostMapping(value = API_TRANSPORT_UNITS + "/error", params = {"bk", "errorCode"})
     public void addErrorToTransportUnit(@RequestParam("bk") String transportUnitBK, @RequestParam(value = "errorCode") String errorCode) {
         MessageCommand messageCommand = MessageCommand.newBuilder()
                 .withType(MessageCommand.Type.ADD_TO_TU)
@@ -123,5 +130,15 @@ public class TransportUnitController extends AbstractWebController {
                 .withMessageOccurred(new Date())
                 .build();
         messageCommandHandler.handle(messageCommand);
+    }
+
+    @GetMapping(API_TRANSPORT_UNITS + "/index")
+    public ResponseEntity<Index> index() {
+        return ResponseEntity.ok(
+                new Index(
+                        linkTo(methodOn(TransportUnitController.class).findTransportUnit("00000000000000004711")).withRel("transport-unit-findbybarcode"),
+                        linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList("00000000000000004711", "00000000000000004712"))).withRel("transport-unit-findbybarcodes")
+                )
+        );
     }
 }
