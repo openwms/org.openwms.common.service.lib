@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Piece.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.units</a> &gt; <span class="el_source">Piece.java</span></div><h1>Piece.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2019 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.units;
+
+import org.openwms.core.values.Measurable;
+import org.openwms.core.values.UnitType;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+/**
+ * A Piece.
+ * 
+ * @author Heiko Scherrer
+ */
+public class Piece implements Measurable&lt;BigDecimal, Piece, PieceUnit&gt;, UnitType, Serializable {
+
+<span class="fc" id="L32">    private static final BigDecimal SHIFTER = new BigDecimal(12);</span>
+
+    /** The unit of the Piece. */
+    private PieceUnit unitType;
+    /** The magnitude of the Piece. */
+    private BigDecimal magnitude;
+    /** Constant for a zero value. */
+<span class="fc" id="L39">    public static final Piece ZERO = new Piece(0);</span>
+
+    /* ----------------------------- methods ------------------- */
+    /**
+     * Accessed by persistence provider.
+     */
+    protected Piece() {
+<span class="nc" id="L46">        super();</span>
+<span class="nc" id="L47">    }</span>
+
+    /**
+     * @see org.openwms.core.values.UnitType#getMeasurable()
+     */
+    @Override
+    public Piece getMeasurable() {
+<span class="nc" id="L54">        return this;</span>
+    }
+
+    /**
+     * Create a new Piece.
+     * 
+     * @param magnitude
+     *            The magnitude of the Piece
+     * @param unitType
+     *            The unit of measure
+     */
+<span class="fc" id="L65">    public Piece(int magnitude, PieceUnit unitType) {</span>
+<span class="fc" id="L66">        this.magnitude = new BigDecimal(magnitude);</span>
+<span class="fc" id="L67">        this.unitType = unitType;</span>
+<span class="fc" id="L68">    }</span>
+
+    /**
+     * Create a new Piece.
+     * 
+     * @param magnitude
+     *            The magnitude of the Piece as int
+     */
+<span class="fc" id="L76">    public Piece(int magnitude) {</span>
+<span class="fc" id="L77">        this.magnitude = new BigDecimal(magnitude);</span>
+<span class="fc" id="L78">        this.unitType = PieceUnit.PC.getBaseUnit();</span>
+<span class="fc" id="L79">    }</span>
+
+    /**
+     * Create a new Piece.
+     * 
+     * @param magnitude
+     *            The magnitude of the Piece
+     * @param unitType
+     *            The unit of measure
+     */
+<span class="fc" id="L89">    public Piece(BigDecimal magnitude, PieceUnit unitType) {</span>
+<span class="fc" id="L90">        this.magnitude = magnitude;</span>
+<span class="fc" id="L91">        this.unitType = unitType;</span>
+<span class="fc" id="L92">    }</span>
+
+    /**
+     * Create a new Piece.
+     * 
+     * @param magnitude
+     *            The magnitude of the Piece as BigDecimal
+     */
+<span class="nc" id="L100">    public Piece(BigDecimal magnitude) {</span>
+<span class="nc" id="L101">        this.magnitude = magnitude;</span>
+<span class="nc" id="L102">        this.unitType = PieceUnit.PC.getBaseUnit();</span>
+<span class="nc" id="L103">    }</span>
+
+    /**
+     * Returns the magnitude of the Piece.
+     * 
+     * @return The magnitude
+     */
+    @Override
+    public BigDecimal getMagnitude() {
+<span class="fc" id="L112">        return magnitude;</span>
+    }
+
+    /**
+     * Returns the unit of the Piece.
+     * 
+     * @return The unit
+     */
+    @Override
+    public PieceUnit getUnitType() {
+<span class="fc" id="L122">        return unitType;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isZero() {
+<span class="nc" id="L130">        return Piece.ZERO.equals(new Piece(this.getMagnitude(), PieceUnit.DOZ));</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isNegative() {
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        return this.getMagnitude().signum() == -1;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Piece convertTo(PieceUnit unt) {
+<span class="pc bpc" id="L146" title="3 of 4 branches missed.">        if (PieceUnit.PC == unt &amp;&amp; this.getUnitType() == PieceUnit.DOZ) {</span>
+<span class="nc" id="L147">            return new Piece(this.getMagnitude().multiply(SHIFTER), PieceUnit.PC);</span>
+<span class="pc bpc" id="L148" title="2 of 4 branches missed.">        } else if (PieceUnit.DOZ == unt &amp;&amp; this.getUnitType() == PieceUnit.PC) {</span>
+<span class="fc" id="L149">            return new Piece(this.getMagnitude().divide(SHIFTER, 0, RoundingMode.DOWN), PieceUnit.DOZ);</span>
+        }
+<span class="nc" id="L151">        return this;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int compareTo(Piece o) {
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">        if (null == o) {</span>
+<span class="nc" id="L160">            return -1;</span>
+        }
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        if (o.getUnitType().ordinal() &gt; this.getUnitType().ordinal()) {</span>
+<span class="fc" id="L163">            return compare(this.getMagnitude(), o.getMagnitude().multiply(SHIFTER));</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        } else if (o.getUnitType().ordinal() &lt; this.getUnitType().ordinal()) {</span>
+<span class="fc" id="L165">            return compare(this.getMagnitude().multiply(SHIFTER), o.getMagnitude());</span>
+        }
+<span class="fc" id="L167">        return this.getMagnitude().compareTo(o.getMagnitude());</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * Return a combination of amount and unit, e.g. 24 PC
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L177">        return getMagnitude() + &quot; &quot; + getUnitType();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * Uses magnitude and unitType for calculation.
+     */
+    @Override
+    public int hashCode() {
+<span class="nc" id="L187">        final int prime = 31;</span>
+<span class="nc" id="L188">        int result = 1;</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">        result = prime * result + ((magnitude == null) ? 0 : magnitude.hashCode());</span>
+<span class="nc bnc" id="L190" title="All 2 branches missed.">        result = prime * result + ((unitType == null) ? 0 : unitType.hashCode());</span>
+<span class="nc" id="L191">        return result;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * Uses magnitude and unitType for comparison.
+     */
+    @Override
+    public boolean equals(Object obj) {
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">        if (this == obj) {</span>
+<span class="nc" id="L202">            return true;</span>
+        }
+<span class="pc bpc" id="L204" title="1 of 2 branches missed.">        if (obj == null) {</span>
+<span class="nc" id="L205">            return false;</span>
+        }
+<span class="pc bpc" id="L207" title="1 of 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
+<span class="nc" id="L208">            return false;</span>
+        }
+<span class="fc" id="L210">        Piece other = (Piece) obj;</span>
+<span class="pc bpc" id="L211" title="3 of 4 branches missed.">        if (magnitude == null &amp;&amp; other.magnitude != null) {</span>
+<span class="nc" id="L212">            return false;</span>
+        }
+<span class="fc bfc" id="L214" title="All 2 branches covered.">        return this.compareTo(other) == 0;</span>
+
+    }
+
+    private int compare(BigDecimal val1, BigDecimal val2) {
+<span class="fc bfc" id="L219" title="All 2 branches covered.">        if (val1.equals(val2)) {</span>
+<span class="fc" id="L220">            return 0;</span>
+        }
+<span class="fc" id="L222">        return val1.compareTo(val2);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
