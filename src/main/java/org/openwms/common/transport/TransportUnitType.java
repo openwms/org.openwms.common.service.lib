@@ -31,9 +31,8 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * A TransportUnitType is a type of a certain {@code TransportUnit}s. <p> Typically to store some static attributes of {@code
- * TransportUnit}s, such as the length, the height, or the weight of {@code TransportUnit}s. It is possible to group and characterize {@code
- * TransportUnit}s. </p>
+ * A TransportUnitType is a type of a certain {@code TransportUnit}. Typically to store some static attributes of {@code TransportUnit}s,
+ * such as the length, the height, or the weight of {@code TransportUnit}s. It is possible to group and characterize {@code TransportUnit}s.
  *
  * @author Heiko Scherrer
  * @GlossaryTerm

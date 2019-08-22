@@ -50,7 +50,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * A TransportUnit is an item like a box, a toad, a bin or a palette that is moved within a warehouse and can carry goods. Used as container
+ * A TransportUnit is an item like a box, a toad, a bin or a pallet that is moved within a warehouse and can carry goods. Used as container
  * to transport items like {@code LoadUnit}s. It can be moved between {@code Location}s.
  *
  * @author Heiko Scherrer

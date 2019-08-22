@@ -50,7 +50,7 @@ import java.lang.annotation.Target;
 @SqlGroup({
         @Sql(scripts = "classpath:test.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 })
-@ActiveProfiles({"ASYNCHRONOUS","TEST"})
+@ActiveProfiles({"TEST"})
 @DataJpaTest(showSql = false)
 @EnableAspects(propagateRootCause = true)
 @EnableConfigurationProperties
