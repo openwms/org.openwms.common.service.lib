@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CommonOptAsyncConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common</a> &gt; <span class="el_source">CommonOptAsyncConfiguration.java</span></div><h1>CommonOptAsyncConfiguration.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2019 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common;
+
+import org.openwms.core.SpringProfiles;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.retry.backoff.ExponentialBackOffPolicy;
+import org.springframework.retry.support.RetryTemplate;
+
+/**
+ * A CommonOptAsyncConfiguration contains the modules asynchronous configuration that is
+ * only active when Springs ASYNCHRONOUS profile is set.
+ *
+ * @author Heiko Scherrer
+ */
+@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
+@Configuration
+@EnableRabbit
+<span class="nc" id="L44">class CommonOptAsyncConfiguration {</span>
+
+    @Bean
+    MessageConverter jsonConverter() {
+<span class="nc" id="L48">        return new Jackson2JsonMessageConverter();</span>
+    }
+
+    @Bean
+    RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+<span class="nc" id="L53">        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);</span>
+<span class="nc" id="L54">        ExponentialBackOffPolicy backOffPolicy = new ExponentialBackOffPolicy();</span>
+<span class="nc" id="L55">        backOffPolicy.setMultiplier(2);</span>
+<span class="nc" id="L56">        backOffPolicy.setMaxInterval(15000);</span>
+<span class="nc" id="L57">        backOffPolicy.setInitialInterval(500);</span>
+<span class="nc" id="L58">        RetryTemplate retryTemplate = new RetryTemplate();</span>
+<span class="nc" id="L59">        retryTemplate.setBackOffPolicy(backOffPolicy);</span>
+<span class="nc" id="L60">        rabbitTemplate.setRetryTemplate(retryTemplate);</span>
+<span class="nc" id="L61">        rabbitTemplate.setMessageConverter(jsonConverter());</span>
+<span class="nc" id="L62">        return rabbitTemplate;</span>
+    }
+
+    /*~ ------------ Events ------------- */
+    @Bean
+    TopicExchange commonTuExchange(@Value(&quot;${owms.events.common.tu.exchange-name}&quot;) String exchangeName) {
+<span class="nc" id="L68">        return new TopicExchange(exchangeName, true, false);</span>
+    }
+
+    @Bean
+    Queue eventsQueue(@Value(&quot;${owms.events.common.tu.queue-name}&quot;) String queueName) {
+<span class="nc" id="L73">        return new Queue(queueName);</span>
+    }
+
+    @Bean
+    Binding binding(
+            TopicExchange commonTuExchange,
+            Queue eventsQueue,
+            @Value(&quot;${owms.events.common.tu.routing-key}&quot;) String routingKey
+    ) {
+<span class="nc" id="L82">        return BindingBuilder</span>
+<span class="nc" id="L83">                .bind(eventsQueue)</span>
+<span class="nc" id="L84">                .to(commonTuExchange)</span>
+<span class="nc" id="L85">                .with(routingKey);</span>
+    }
+
+    /*~ ------------ Commands ------------- */
+    @Bean
+    Queue commandsQueue(@Value(&quot;${owms.commands.common.tu.queue-name}&quot;) String queueName) {
+<span class="nc" id="L91">        return new Queue(queueName, true);</span>
+    }
+
+    @Bean
+    TopicExchange commonTuCommandsExchange(@Value(&quot;${owms.commands.common.tu.exchange-name}&quot;) String exchangeName) {
+<span class="nc" id="L96">        return new TopicExchange(exchangeName, true, false);</span>
+    }
+
+    @Bean
+    Binding commandsBinding(
+            TopicExchange commonTuCommandsExchange,
+            Queue commandsQueue,
+            @Value(&quot;${owms.commands.common.tu.routing-key}&quot;) String routingKey
+    ) {
+<span class="nc" id="L105">        return BindingBuilder</span>
+<span class="nc" id="L106">                .bind(commandsQueue)</span>
+<span class="nc" id="L107">                .to(commonTuCommandsExchange)</span>
+<span class="nc" id="L108">                .with(routingKey);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

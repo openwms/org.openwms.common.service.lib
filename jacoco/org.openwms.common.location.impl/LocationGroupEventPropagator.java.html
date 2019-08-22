@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocationGroupEventPropagator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.location.impl</a> &gt; <span class="el_source">LocationGroupEventPropagator.java</span></div><h1>LocationGroupEventPropagator.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2019 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.location.impl;
+
+import org.ameba.mapping.BeanMapper;
+import org.openwms.common.location.api.events.LocationEvent;
+import org.openwms.common.location.api.events.LocationGroupEvent;
+import org.openwms.common.location.api.messages.LocationGroupMO;
+import org.openwms.common.location.api.messages.LocationMO;
+import org.openwms.core.SpringProfiles;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
+
+import javax.annotation.PostConstruct;
+
+import static java.lang.String.format;
+
+/**
+ * A LocationGroupEventPropagator.
+ *
+ * @author Heiko Scherrer
+ */
+@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
+@Component
+class LocationGroupEventPropagator {
+
+    private final AmqpTemplate amqpTemplate;
+    private final String exchangeName;
+    private final BeanMapper mapper;
+
+<span class="nc" id="L47">    LocationGroupEventPropagator(AmqpTemplate amqpTemplate, @Value(&quot;${owms.events.common.lg.exchange-name}&quot;) String exchangeName, BeanMapper mapper) {</span>
+<span class="nc" id="L48">        this.amqpTemplate = amqpTemplate;</span>
+<span class="nc" id="L49">        this.exchangeName = exchangeName;</span>
+<span class="nc" id="L50">        this.mapper = mapper;</span>
+<span class="nc" id="L51">    }</span>
+
+    @PostConstruct
+    void onStartup() {
+<span class="nc" id="L55">        amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.boot&quot;, LocationGroupEvent.boot());</span>
+<span class="nc" id="L56">    }</span>
+
+    @TransactionalEventListener(fallbackExecution = true)
+    public void onEvent(LocationGroupEvent event) {
+<span class="nc bnc" id="L60" title="All 5 branches missed.">        switch (event.getType()) {</span>
+            case CREATED:
+<span class="nc" id="L62">                amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.created&quot;, mapper.map(event.getSource(), LocationGroupMO.class));</span>
+<span class="nc" id="L63">                break;</span>
+            case CHANGED:
+<span class="nc" id="L65">                amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.changed&quot;, mapper.map(event.getSource(), LocationGroupMO.class));</span>
+<span class="nc" id="L66">                break;</span>
+            case DELETED:
+<span class="nc" id="L68">                amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.deleted&quot;, mapper.map(event.getSource(), LocationGroupMO.class));</span>
+<span class="nc" id="L69">                break;</span>
+            case STATE_CHANGE:
+<span class="nc" id="L71">                amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.state-changed&quot;, mapper.map(event.getSource(), LocationGroupMO.class));</span>
+<span class="nc" id="L72">                break;</span>
+            default:
+<span class="nc" id="L74">                throw new UnsupportedOperationException(format(&quot;Eventtype [%s] currently not supported&quot;, event.getType()));</span>
+        }
+<span class="nc" id="L76">    }</span>
+
+    @TransactionalEventListener(fallbackExecution = true)
+    public void onLocationEvent(LocationEvent event) {
+<span class="nc bnc" id="L80" title="All 5 branches missed.">        switch (event.getType()) {</span>
+            case CREATED:
+<span class="nc" id="L82">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.created&quot;, mapper.map(event.getSource(), LocationMO.class));</span>
+<span class="nc" id="L83">                break;</span>
+            case CHANGED:
+<span class="nc" id="L85">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.changed&quot;, mapper.map(event.getSource(), LocationMO.class));</span>
+<span class="nc" id="L86">                break;</span>
+            case DELETED:
+<span class="nc" id="L88">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.deleted&quot;, mapper.map(event.getSource(), LocationMO.class));</span>
+<span class="nc" id="L89">                break;</span>
+            case STATE_CHANGE:
+<span class="nc" id="L91">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.state-changed&quot;, mapper.map(event.getSource(), LocationMO.class));</span>
+<span class="nc" id="L92">                break;</span>
+            default:
+<span class="nc" id="L94">                throw new UnsupportedOperationException(format(&quot;Eventtype [%s] currently not supported&quot;, event.getType()));</span>
+        }
+<span class="nc" id="L96">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransportUnitType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.transport</a> &gt; <span class="el_source">TransportUnitType.java</span></div><h1>TransportUnitType.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2019 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.transport;
+
+import org.ameba.integration.jpa.BaseEntity;
+import org.springframework.util.Assert;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+/**
+ * A TransportUnitType is a type of a certain {@code TransportUnit}. Typically to store some static attributes of {@code TransportUnit}s,
+ * such as the length, the height, or the weight of {@code TransportUnit}s. It is possible to group and characterize {@code TransportUnit}s.
+ *
+ * @author Heiko Scherrer
+ * @GlossaryTerm
+ * @see TransportUnit
+ */
+@Entity
+@Table(name = &quot;COM_TRANSPORT_UNIT_TYPE&quot;)
+public class TransportUnitType extends BaseEntity implements Serializable {
+
+    /** Unique natural key. */
+    @Column(name = &quot;C_TYPE&quot;, unique = true, nullable = false)
+    @OrderBy
+    private String type;
+
+    /** Description for this type. */
+    @Column(name = &quot;C_DESCRIPTION&quot;)
+<span class="pc" id="L52">    private String description = DEF_TYPE_DESCRIPTION;</span>
+    /** Default description of the {@code TransportUnitType}. Default value}. */
+    public static final String DEF_TYPE_DESCRIPTION = &quot;--&quot;;
+
+    /** Length of the {@code TransportUnitType}. */
+    @Column(name = &quot;C_LENGTH&quot;)
+<span class="pc" id="L58">    private int length = DEF_LENGTH;</span>
+    /** Default value of {@link #length}. */
+    public static final int DEF_LENGTH = 0;
+
+    /** Width of the {@code TransportUnitType}. */
+    @Column(name = &quot;C_WIDTH&quot;)
+<span class="pc" id="L64">    private int width = 0;</span>
+    /** Default value of {@link #width}. */
+    public static final int DEF_WIDTH = 0;
+
+    /** Height of the {@code TransportUnitType}. */
+    @Column(name = &quot;C_HEIGHT&quot;)
+<span class="pc" id="L70">    private int height = 0;</span>
+    /** Default value of {@link #height}. */
+    public static final int DEF_HEIGHT = 0;
+
+    /** Tare weight of the {@code TransportUnitType}. */
+    @Column(name = &quot;C_WEIGHT_TARE&quot;, scale = 3)
+    private BigDecimal weightTare;
+
+    /** Maximum allowed weight of the {@code TransportUnitType}. */
+    @Column(name = &quot;C_WEIGHT_MAX&quot;, scale = 3)
+    private BigDecimal weightMax;
+
+    /** Effective weight of the {@code TransportUnitType}'s payload. */
+    @Column(name = &quot;C_PAYLOAD&quot;, scale = 3)
+    private BigDecimal payload;
+
+    /**
+     * Characteristic used to hold specific compatibility attributes.&lt;br /&gt; Example:&lt;br /&gt; 'isn't compatible with...' or 'is compatible with
+     * ...' or 'type owns another type ...'
+     */
+    @Column(name = &quot;C_COMPATIBILITY&quot;)
+    private String compatibility;
+
+    /*~ ------------------- collection mapping ------------------- */
+    /** A collection of all {@link TransportUnit}s belonging to this type. */
+    @OneToMany(mappedBy = &quot;transportUnitType&quot;)
+<span class="pc" id="L96">    private Set&lt;TransportUnit&gt; transportUnits = new HashSet&lt;&gt;();</span>
+
+    /** Describes other {@code TransportUnitType}s and how many of these may be stacked on the {@code TransportUnitType}. */
+    @OneToMany(mappedBy = &quot;transportUnitType&quot;, cascade = {CascadeType.ALL})
+<span class="pc" id="L100">    private Set&lt;TypeStackingRule&gt; typeStackingRules = new HashSet&lt;&gt;();</span>
+
+    /** A Set of {@link TypePlacingRule}s store all possible {@code LocationType} s of the {@code TransportUnitType}. */
+    @OneToMany(mappedBy = &quot;transportUnitType&quot;, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OrderBy(&quot;privilegeLevel&quot;)
+<span class="pc" id="L105">    private Set&lt;TypePlacingRule&gt; typePlacingRules = new HashSet&lt;&gt;();</span>
+
+    /*~ ----------------------------- constructors ------------------- */
+    /** Dear JPA... */
+<span class="fc" id="L109">    protected TransportUnitType() { }</span>
+
+    /**
+     * Create a new {@code TransportUnitType}.
+     *
+     * @param type Unique name
+     */
+<span class="fc" id="L116">    public TransportUnitType(String type) {</span>
+<span class="fc" id="L117">        Assert.hasText(type, &quot;Type must not be null when creating a TransportUnitType&quot;);</span>
+<span class="fc" id="L118">        this.type = type;</span>
+<span class="fc" id="L119">    }</span>
+
+<span class="nc" id="L121">    private TransportUnitType(Builder builder) {</span>
+<span class="nc" id="L122">        this.type = builder.type;</span>
+<span class="nc" id="L123">        setDescription(builder.description);</span>
+<span class="nc" id="L124">        setLength(builder.length);</span>
+<span class="nc" id="L125">        setWidth(builder.width);</span>
+<span class="nc" id="L126">        setHeight(builder.height);</span>
+<span class="nc" id="L127">        setWeightTare(builder.weightTare);</span>
+<span class="nc" id="L128">        setWeightMax(builder.weightMax);</span>
+<span class="nc" id="L129">        setPayload(builder.payload);</span>
+<span class="nc" id="L130">        setCompatibility(builder.compatibility);</span>
+<span class="nc" id="L131">        setTransportUnits(builder.transportUnits);</span>
+<span class="nc" id="L132">        setTypeStackingRules(builder.typeStackingRules);</span>
+<span class="nc" id="L133">        setTypePlacingRules(builder.typePlacingRules);</span>
+<span class="nc" id="L134">    }</span>
+
+    /**
+     * Create a TransportUnitType with the corresponding builder.
+     *
+     * @param type The business key
+     * @return The builder instance
+     */
+    public static Builder newBuilder(String type) {
+<span class="nc" id="L143">        return new Builder(type);</span>
+    }
+
+    /*~ ----------------------------- methods ------------------- */
+
+    /**
+     * Factory method to create a new TransportUnitType.
+     *
+     * @param type The business key
+     * @return The instance
+     */
+    public static TransportUnitType of(String type) {
+<span class="fc" id="L155">        return new TransportUnitType(type);</span>
+    }
+
+    /**
+     * Returns the type of the {@code TransportUnitType}.
+     *
+     * @return The type
+     */
+    public String getType() {
+<span class="fc" id="L164">        return this.type;</span>
+    }
+
+    /**
+     * Returns the width of the {@code TransportUnitType}.
+     *
+     * @return The width
+     */
+    public int getWidth() {
+<span class="fc" id="L173">        return this.width;</span>
+    }
+
+    /**
+     * Set the width of the {@code TransportUnitType}.
+     *
+     * @param width The width to set
+     */
+    public void setWidth(int width) {
+<span class="nc" id="L182">        this.width = width;</span>
+<span class="nc" id="L183">    }</span>
+
+    /**
+     * Returns the height of the {@code TransportUnitType}.
+     *
+     * @return The height
+     */
+    public int getHeight() {
+<span class="fc" id="L191">        return this.height;</span>
+    }
+
+    /**
+     * Set the height of the {@code TransportUnitType}.
+     *
+     * @param height The height to set
+     */
+    public void setHeight(int height) {
+<span class="nc" id="L200">        this.height = height;</span>
+<span class="nc" id="L201">    }</span>
+
+    /**
+     * Get the length of the {@code TransportUnitType}.
+     *
+     * @return The length
+     */
+    public int getLength() {
+<span class="fc" id="L209">        return this.length;</span>
+    }
+
+    /**
+     * Set the length of the {@code TransportUnitType}.
+     *
+     * @param length The length to set
+     */
+    public void setLength(int length) {
+<span class="nc" id="L218">        this.length = length;</span>
+<span class="nc" id="L219">    }</span>
+
+    /**
+     * Returns the description of the {@code TransportUnitType}.
+     *
+     * @return The description text
+     */
+    public String getDescription() {
+<span class="fc" id="L227">        return this.description;</span>
+    }
+
+    /**
+     * Set the description for the {@code TransportUnitType}.
+     *
+     * @param description The description to set
+     */
+    public void setDescription(String description) {
+<span class="nc" id="L236">        this.description = description;</span>
+<span class="nc" id="L237">    }</span>
+
+    /**
+     * Returns the payload of the {@code TransportUnitType}.
+     *
+     * @return The payload
+     */
+    public BigDecimal getPayload() {
+<span class="nc" id="L245">        return this.payload;</span>
+    }
+
+    /**
+     * Set the payload of the {@code TransportUnitType}.
+     *
+     * @param payload The payload to set
+     */
+    public void setPayload(BigDecimal payload) {
+<span class="nc" id="L254">        this.payload = payload;</span>
+<span class="nc" id="L255">    }</span>
+
+    /**
+     * Returns the compatibility of the {@code TransportUnitType}.
+     *
+     * @return The compatibility
+     */
+    public String getCompatibility() {
+<span class="nc" id="L263">        return this.compatibility;</span>
+    }
+
+    /**
+     * Set the compatibility of the {@code TransportUnitType}.
+     *
+     * @param compatibility The compatibility to set
+     */
+    public void setCompatibility(String compatibility) {
+<span class="nc" id="L272">        this.compatibility = compatibility;</span>
+<span class="nc" id="L273">    }</span>
+
+    /**
+     * Returns a Set of all {@link TransportUnit}s belonging to the {@code TransportUnitType}.
+     *
+     * @return A Set of all {@link TransportUnit}s belonging to the {@code TransportUnitType}
+     */
+    public Set&lt;TransportUnit&gt; getTransportUnits() {
+<span class="fc" id="L281">        return this.transportUnits;</span>
+    }
+
+    /**
+     * Assign a Set of {@link TransportUnit}s to the {@code TransportUnitType}. Already existing {@link TransportUnit}s will be removed.
+     *
+     * @param transportUnits A Set of {@link TransportUnit}s.
+     */
+    private void setTransportUnits(Set&lt;TransportUnit&gt; transportUnits) {
+<span class="nc" id="L290">        this.transportUnits = transportUnits;</span>
+<span class="nc" id="L291">    }</span>
+
+    /**
+     * Add a rule to the {@code TransportUnitType}. A {@link TypePlacingRule} determines what {@code TransportUnitType}s can be placed on
+     * which locations.
+     *
+     * @param typePlacingRule The rule to set
+     * @return {@literal true} when the rule was added gracefully, otherwise {@literal false}
+     */
+    public boolean addTypePlacingRule(TypePlacingRule typePlacingRule) {
+<span class="fc" id="L301">        Assert.notNull(typePlacingRule, &quot;typePlacingRule to add is null, this: &quot; + this);</span>
+<span class="fc" id="L302">        return typePlacingRules.add(typePlacingRule);</span>
+    }
+
+    /**
+     * Remove a {@link TypePlacingRule} from the collection or rules.
+     *
+     * @param typePlacingRule The rule to be removed
+     * @return {@literal true} when the rule was removed gracefully, otherwise {@literal false}
+     */
+    public boolean removeTypePlacingRule(TypePlacingRule typePlacingRule) {
+<span class="fc" id="L312">        Assert.notNull(typePlacingRule, &quot;typePlacingRule to remove is null, this: &quot; + this);</span>
+<span class="fc" id="L313">        return typePlacingRules.remove(typePlacingRule);</span>
+    }
+
+    /**
+     * Returns all {@link TypePlacingRule}s belonging to the {@code TransportUnitType}.
+     *
+     * @return A Set of all placing rules
+     */
+    public Set&lt;TypePlacingRule&gt; getTypePlacingRules() {
+<span class="fc" id="L322">        return this.typePlacingRules;</span>
+    }
+
+    /**
+     * Assign a Set of {@link TypePlacingRule}s to the {@code TransportUnitType}. Already existing {@link TypePlacingRule}s will be
+     * removed.
+     *
+     * @param typePlacingRules The rules to set
+     */
+    private void setTypePlacingRules(Set&lt;TypePlacingRule&gt; typePlacingRules) {
+<span class="nc" id="L332">        this.typePlacingRules = typePlacingRules;</span>
+<span class="nc" id="L333">    }</span>
+
+    /**
+     * Returns a Set of all {@link TypeStackingRule}s. A {@link TypeStackingRule} determines which other {@code TransportUnitType}s can be
+     * placed on the {@code TransportUnitType}.
+     *
+     * @return A Set of all stacking rules
+     */
+    public Set&lt;TypeStackingRule&gt; getTypeStackingRules() {
+<span class="fc" id="L342">        return this.typeStackingRules;</span>
+    }
+
+    /**
+     * Assign a Set of {@link TypeStackingRule}s. A {@link TypeStackingRule} determines which {@code TransportUnitType}s can be placed on
+     * the {@code TransportUnitType}. Already existing {@link TypeStackingRule} s will be removed.
+     *
+     * @param typeStackingRules The rules to set
+     */
+    private void setTypeStackingRules(Set&lt;TypeStackingRule&gt; typeStackingRules) {
+<span class="nc" id="L352">        this.typeStackingRules = typeStackingRules;</span>
+<span class="nc" id="L353">    }</span>
+
+    /**
+     * Get the weightTare.
+     *
+     * @return The weightTare.
+     */
+    public BigDecimal getWeightTare() {
+<span class="nc" id="L361">        return weightTare;</span>
+    }
+
+    /**
+     * Set the weightTare.
+     *
+     * @param weightTare The weightTare to set.
+     */
+    public void setWeightTare(BigDecimal weightTare) {
+<span class="nc" id="L370">        this.weightTare = weightTare;</span>
+<span class="nc" id="L371">    }</span>
+
+    /**
+     * Get the weightMax.
+     *
+     * @return The weightMax.
+     */
+    public BigDecimal getWeightMax() {
+<span class="nc" id="L379">        return weightMax;</span>
+    }
+
+    /**
+     * Set the weightMax.
+     *
+     * @param weightMax The weightMax to set.
+     */
+    public void setWeightMax(BigDecimal weightMax) {
+<span class="nc" id="L388">        this.weightMax = weightMax;</span>
+<span class="nc" id="L389">    }</span>
+
+    /**
+     * Returns the type.
+     *
+     * @return as String
+     * @see Object#toString()
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L399">        return this.type;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="fc bfc" id="L407" title="All 2 branches covered.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L408" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L409">        TransportUnitType that = (TransportUnitType) o;</span>
+<span class="fc" id="L410">        return Objects.equals(type, that.type);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+<span class="fc" id="L418">        return Objects.hash(type);</span>
+    }
+
+    /**
+     * {@code TransportUnitType} builder static inner class.
+     */
+    public static final class Builder {
+
+        private String type;
+        private String description;
+        private int length;
+        private int width;
+        private int height;
+        private BigDecimal weightTare;
+        private BigDecimal weightMax;
+        private BigDecimal payload;
+        private String compatibility;
+        private Set&lt;TransportUnit&gt; transportUnits;
+        private Set&lt;TypeStackingRule&gt; typeStackingRules;
+        private Set&lt;TypePlacingRule&gt; typePlacingRules;
+
+<span class="nc" id="L439">        private Builder(String type) {</span>
+<span class="nc" id="L440">            this.type = type;</span>
+<span class="nc" id="L441">        }</span>
+
+        /**
+         * Sets the {@code description} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param val the {@code description} to set
+         * @return a reference to this Builder
+         */
+        public Builder description(String val) {
+<span class="nc" id="L450">            description = val;</span>
+<span class="nc" id="L451">            return this;</span>
+        }
+
+        /**
+         * Sets the {@code length} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param val the {@code length} to set
+         * @return a reference to this Builder
+         */
+        public Builder length(int val) {
+<span class="nc" id="L461">            length = val;</span>
+<span class="nc" id="L462">            return this;</span>
+        }
+
+        /**
+         * Sets the {@code width} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param val the {@code width} to set
+         * @return a reference to this Builder
+         */
+        public Builder width(int val) {
+<span class="nc" id="L472">            width = val;</span>
+<span class="nc" id="L473">            return this;</span>
+        }
+
+        /**
+         * Sets the {@code height} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param val the {@code height} to set
+         * @return a reference to this Builder
+         */
+        public Builder height(int val) {
+<span class="nc" id="L483">            height = val;</span>
+<span class="nc" id="L484">            return this;</span>
+        }
+
+        /**
+         * Sets the {@code weightTare} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param val the {@code weightTare} to set
+         * @return a reference to this Builder
+         */
+        public Builder weightTare(BigDecimal val) {
+<span class="nc" id="L494">            weightTare = val;</span>
+<span class="nc" id="L495">            return this;</span>
+        }
+
+        /**
+         * Sets the {@code weightMax} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param val the {@code weightMax} to set
+         * @return a reference to this Builder
+         */
+        public Builder weightMax(BigDecimal val) {
+<span class="nc" id="L505">            weightMax = val;</span>
+<span class="nc" id="L506">            return this;</span>
+        }
+
+        /**
+         * Sets the {@code payload} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param val the {@code payload} to set
+         * @return a reference to this Builder
+         */
+        public Builder payload(BigDecimal val) {
+<span class="nc" id="L516">            payload = val;</span>
+<span class="nc" id="L517">            return this;</span>
+        }
+
+        /**
+         * Sets the {@code compatibility} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param val the {@code compatibility} to set
+         * @return a reference to this Builder
+         */
+        public Builder compatibility(String val) {
+<span class="nc" id="L527">            compatibility = val;</span>
+<span class="nc" id="L528">            return this;</span>
+        }
+
+        /**
+         * Sets the {@code transportUnits} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param val the {@code transportUnits} to set
+         * @return a reference to this Builder
+         */
+        public Builder transportUnits(Set&lt;TransportUnit&gt; val) {
+<span class="nc" id="L538">            transportUnits = val;</span>
+<span class="nc" id="L539">            return this;</span>
+        }
+
+        /**
+         * Sets the {@code typeStackingRules} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param val the {@code typeStackingRules} to set
+         * @return a reference to this Builder
+         */
+        public Builder typeStackingRules(Set&lt;TypeStackingRule&gt; val) {
+<span class="nc" id="L549">            typeStackingRules = val;</span>
+<span class="nc" id="L550">            return this;</span>
+        }
+
+        /**
+         * Sets the {@code typePlacingRules} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param val the {@code typePlacingRules} to set
+         * @return a reference to this Builder
+         */
+        public Builder typePlacingRules(Set&lt;TypePlacingRule&gt; val) {
+<span class="nc" id="L560">            typePlacingRules = val;</span>
+<span class="nc" id="L561">            return this;</span>
+        }
+
+        /**
+         * Returns a {@code TransportUnitType} built from the parameters previously set.
+         *
+         * @return a {@code TransportUnitType} built with parameters of this {@code TransportUnitType.Builder}
+         */
+        public TransportUnitType build() {
+<span class="nc" id="L570">            return new TransportUnitType(this);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
