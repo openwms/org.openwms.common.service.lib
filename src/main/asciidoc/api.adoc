@@ -460,5 +460,39 @@ The response lists all the operations with a name and the corresponding href lin
 
 include::{generated}/tu-index/http-response.adoc[]
 
+=== Find by Barcode
+Find a `TransportUnit` by its unique `Barcode`.
 
+include::{generated}/tu-find-by-barcode/http-request.adoc[]
+
+If the `TransportUnit` has been found the server returns a JSON representation:
+
+include::{generated}/tu-find-by-barcode/http-response.adoc[]
+
+In case a `TransportUnit` with the requested `Barcode` == `9999` does not exist the response looks like:
+
+include::{generated}/tu-find-by-barcode-404/http-response.adoc[]
+
+Also the short form of a `Barcode` can be passed to the API and the server implementation adjusts the given `Barcode` to the configured
+style, like it is left or right aligned and padded.
+
+include::{generated}/tu-find-by-barcode-short/http-response.adoc[]
+
+=== Find by multiple Barcodes
+Also multiple `Barcodes` can be passed to the API in order to search for multiple `TransportUnits`:
+
+include::{generated}/tu-find-by-barcodes/http-request.adoc[]
+
+This returns an array with the `TransportUnits` found:
+
+include::{generated}/tu-find-by-barcodes/http-response.adoc[]
+
+=== Find TransportUnits on a Location
+Search and return all `TransportUnits` that are currently booked on a given `Location`.
+
+include::{generated}/tu-find-on-location/http-request.adoc[]
+
+The `TransportUnit` with `Barcode` == `00000000000000004712` is returned:
+
+include::{generated}/tu-find-on-location/http-response.adoc[]
 

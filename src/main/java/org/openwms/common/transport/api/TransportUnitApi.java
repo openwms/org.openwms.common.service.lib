@@ -43,7 +43,7 @@ public interface TransportUnitApi {
      * @param transportUnitBK The unique (physical) identifier
      * @return The instance or the implementation may return a 404-Not Found
      */
-    @GetMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
+    @GetMapping(value = API_TRANSPORT_UNITS, params = {"bk"}, produces = "application/vnd.openwms.transport-unit-v1+json")
     @ResponseBody
     TransportUnitVO findTransportUnit(@RequestParam("bk") String transportUnitBK);
 
@@ -53,7 +53,7 @@ public interface TransportUnitApi {
      * @param barcodes The unique (physical) identifiers
      * @return All TransportUnits or an empty List never {@literal null}
      */
-    @GetMapping(value = API_TRANSPORT_UNITS, params = {"bks"})
+    @GetMapping(value = API_TRANSPORT_UNITS, params = {"bks"}, produces = "application/vnd.openwms.transport-unit-v1+json")
     List<TransportUnitVO> findTransportUnits(@RequestParam("bks") List<String> barcodes);
 
     /**
@@ -62,7 +62,7 @@ public interface TransportUnitApi {
      * @param actualLocation The Location to search TransportUnits on
      * @return All TransportUnits on that Location or an empty List never {@literal null}
      */
-    @GetMapping(value = API_TRANSPORT_UNITS, params = {"actualLocation"})
+    @GetMapping(value = API_TRANSPORT_UNITS, params = {"actualLocation"}, produces = "application/vnd.openwms.transport-unit-v1+json")
     List<TransportUnitVO> findTransportUnitsOn(@RequestParam("actualLocation") String actualLocation);
 
     /*~----------------------------- Creators --------------------------------*/

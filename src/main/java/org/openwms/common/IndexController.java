@@ -17,6 +17,8 @@ package org.openwms.common;
 
 import org.openwms.common.location.LocationController;
 import org.openwms.common.location.LocationGroupController;
+import org.openwms.common.transport.TransportUnitController;
+import org.openwms.common.transport.TransportUnitTypeController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,8 +39,9 @@ class IndexController {
         return ResponseEntity.ok(
                 new Index(
                         linkTo(methodOn(LocationController.class).index()).withRel("location-index"),
-                        linkTo(methodOn(LocationGroupController.class).index()).withRel("location-group-index")
-//                linkTo(methodOn(TransportUnitController.class).index()).withRel("transport-unit-index")
+                        linkTo(methodOn(LocationGroupController.class).index()).withRel("location-group-index"),
+                        linkTo(methodOn(TransportUnitTypeController.class).index()).withRel("transport-unit-type-index"),
+                        linkTo(methodOn(TransportUnitController.class).index()).withRel("transport-unit-index")
                 )
         );
     }

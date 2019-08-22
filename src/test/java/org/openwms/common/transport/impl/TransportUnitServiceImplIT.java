@@ -35,12 +35,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * A TransportUnitServiceImplTest.
+ * A TransportUnitServiceImplIT.
  *
  * @author Heiko Scherrer
  */
 @ApplicationTest
-class TransportUnitServiceImplTest {
+class TransportUnitServiceImplIT {
 
     @Autowired
     private EntityManager em;

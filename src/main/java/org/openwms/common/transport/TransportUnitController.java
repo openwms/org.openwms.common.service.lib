@@ -17,6 +17,8 @@ package org.openwms.common.transport;
 
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.Index;
+import org.openwms.common.SimpleLink;
+import org.openwms.common.location.LocationController;
 import org.openwms.common.transport.api.TransportUnitVO;
 import org.openwms.common.transport.api.commands.MessageCommand;
 import org.openwms.common.transport.commands.MessageCommandHandler;
@@ -63,24 +65,43 @@ public class TransportUnitController extends AbstractWebController {
         this.messageCommandHandler = messageCommandHandler;
     }
 
-    @GetMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
+    @GetMapping(value = API_TRANSPORT_UNITS, params = {"bk"}, produces = "application/vnd.openwms.transport-unit-v1+json")
     @ResponseBody
     public TransportUnitVO findTransportUnit(@RequestParam("bk") String transportUnitBK) {
         TransportUnit transportUnit = service.findByBarcode(Barcode.of(transportUnitBK));
-        return mapper.map(transportUnit, TransportUnitVO.class);
+        TransportUnitVO result = mapper.map(transportUnit, TransportUnitVO.class);
+        addLinks(result);
+        return result;
     }
 
-    @GetMapping(value = API_TRANSPORT_UNITS, params = {"bks"})
+    private void addLinks(TransportUnitVO result) {
+        result.add(
+                new SimpleLink(linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitType(result.getTransportUnitType())).withRel("transport-unit-type"))
+        );
+        if (result.getActualLocation() != null) {
+            result.add(
+                    new SimpleLink(linkTo(methodOn(LocationController.class).findLocationByCoordinate(result.getActualLocation().getLocationId())).withRel("actual-location"))
+            );
+        }
+    }
+
+    @GetMapping(value = API_TRANSPORT_UNITS, params = {"bks"}, produces = "application/vnd.openwms.transport-unit-v1+json")
     @ResponseBody
     public List<TransportUnitVO> findTransportUnits(@RequestParam("bks") List<String> barcodes) {
-        List<TransportUnit> transportUnits = service.findByBarcodes(barcodes.stream().map(Barcode::of).collect(Collectors.toList()));
-        return mapper.map(transportUnits, TransportUnitVO.class);
+        List<TransportUnit> tus = service.findByBarcodes(barcodes.stream().map(Barcode::of).collect(Collectors.toList()));
+        return augmentResults(tus);
     }
 
-    @GetMapping(value = API_TRANSPORT_UNITS, params = {"actualLocation"})
+    @GetMapping(value = API_TRANSPORT_UNITS, params = {"actualLocation"}, produces = "application/vnd.openwms.transport-unit-v1+json")
     public List<TransportUnitVO> findTransportUnitsOn(@RequestParam("actualLocation") String actualLocation) {
         List<TransportUnit> tus = service.findOnLocation(actualLocation);
-        return tus == null ? Collections.emptyList() : mapper.map(tus, TransportUnitVO.class);
+        return tus == null ? Collections.emptyList() : augmentResults(tus);
+    }
+
+    private List<TransportUnitVO> augmentResults(List<TransportUnit> tus) {
+        List<TransportUnitVO> result = mapper.map(tus, TransportUnitVO.class);
+        result.forEach(this::addLinks);
+        return result;
     }
 
     @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk"})

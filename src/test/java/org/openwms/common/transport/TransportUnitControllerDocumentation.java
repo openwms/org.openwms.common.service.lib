@@ -84,9 +84,25 @@ class TransportUnitControllerDocumentation {
 
     @Test void shall_findByBarcode_404() throws Exception {
         mockMvc.perform(get(CommonConstants.API_TRANSPORT_UNITS)
-                .param("bk", "NOT_EXISTS"))
+                .param("bk", "999"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("messageKey", is(CommonMessageCodes.BARCODE_NOT_FOUND)))
                 .andDo(document("tu-find-by-barcode-404"));
+    }
+
+    @Test void shall_findByBarcodes() throws Exception {
+        mockMvc.perform(get(CommonConstants.API_TRANSPORT_UNITS)
+                .param("bks", "00000000000000004711")
+                .param("bks", "00000000000000004712")
+                .param("bks", "00000000000000004713"))
+                .andExpect(status().isOk())
+                .andDo(document("tu-find-by-barcodes"));
+    }
+
+    @Test void shall_findOnLocation() throws Exception {
+        mockMvc.perform(get(CommonConstants.API_TRANSPORT_UNITS)
+                .param("actualLocation", "FGIN/IPNT/0001/0000/0000"))
+                .andExpect(status().isOk())
+                .andDo(document("tu-find-on-location"));
     }
 }

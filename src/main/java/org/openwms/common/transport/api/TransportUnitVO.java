@@ -16,6 +16,7 @@
 package org.openwms.common.transport.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.ameba.http.AbstractBase;
 import org.openwms.common.location.api.LocationVO;
 
 import javax.validation.constraints.NotEmpty;
@@ -28,7 +29,7 @@ import java.util.Objects;
  *
  * @author Heiko Scherrer
  */
-public class TransportUnitVO implements Serializable {
+public class TransportUnitVO extends AbstractBase implements Serializable {
 
     @NotEmpty
     private String barcode;
