@@ -13,11 +13,19 @@ from a `Location` A to a `Location` B.
 
 ## Build
 
-Build a runable fat jar:
+Build a runnable fat jar with execution of all unit and in-memory database integrations, but without a RabbitMQ server required to run: 
 
 ```
 $ mvn package
 ```
+
+To also build and run with RabbitMQ support call:
+
+```
+$ mvn package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
+```
+
+But notice that this requires a RabbitMQ server running locally with default settings.
 
 Run the Sonar analysis:
 
@@ -52,6 +60,6 @@ $ mvn deploy -Prelease,gpg
 ### Release Documentation
 
 ```
-$ mvn package -PSONAR
+$ mvn package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -PSONAR
 $ mvn site scm-publish:publish-scm
 ```

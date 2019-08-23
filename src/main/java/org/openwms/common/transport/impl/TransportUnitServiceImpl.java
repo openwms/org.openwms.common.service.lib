@@ -57,6 +57,7 @@ import static java.lang.String.format;
 class TransportUnitServiceImpl implements TransportUnitService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitServiceImpl.class);
+    public static final String NO_LOCATION_SET = "The actualLocation must be given in order to create a TransportUnit";
 
     private final TransportUnitRepository repository;
     private final LocationService locationService;
@@ -82,7 +83,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Measured
     public TransportUnit create(@NotNull Barcode barcode, @NotNull TransportUnitType transportUnitType,
             @NotNull LocationPK actualLocation, Boolean strict) {
-        Assert.notNull(actualLocation, "The actualLocation must be given in order to create a TransportUnit");
+        Assert.notNull(actualLocation, NO_LOCATION_SET);
         Assert.notNull(transportUnitType, "The transportUnitType must be given in order to create a TransportUnit");
         Assert.notNull(actualLocation, "The actualLocation must be given in order to create a TransportUnit");
         return createInternal(
@@ -101,7 +102,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Measured
     public TransportUnit create(@NotNull Barcode barcode, @NotEmpty String transportUnitType,
             @NotEmpty String actualLocation, Boolean strict) {
-        Assert.notNull(actualLocation, "The actualLocation must be given in order to create a TransportUnit");
+        Assert.notNull(actualLocation, NO_LOCATION_SET);
 
         return createInternal(
                 barcode,
