@@ -77,13 +77,21 @@
 <p><a class="externalLink" href="https://travis-ci.com/openwms/org.openwms.common.service"><img src="https://travis-ci.com/openwms/org.openwms.common.service.svg?branch=master" alt="Build status" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License" /></a> <a class="externalLink" href="https://sonarcloud.io/dashboard?id=org.openwms:org.openwms.common.service"><img src="https://sonarcloud.io/api/project_badges/measure?project=org.openwms:org.openwms.common.service&amp;metric=alert_status" alt="Quality" /></a> <a class="externalLink" href="https://gitter.im/openwms/org.openwms?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/openwms/org.openwms" /></a></p></div>
 <div class="section">
 <h2><a name="Build"></a>Build</h2>
-<p>Build a runable fat jar:</p>
+<p>Build a runnable fat jar with execution of all unit and in-memory database integrations, but without a RabbitMQ server required to run:</p>
 
 <div>
 <div>
 <pre class="source">$ mvn package
 </pre></div></div>
 
+<p>To also build and run with RabbitMQ support call:</p>
+
+<div>
+<div>
+<pre class="source">$ mvn package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
+</pre></div></div>
+
+<p>But notice that this requires a RabbitMQ server running locally with default settings.</p>
 <p>Run the Sonar analysis:</p>
 
 <div>
@@ -121,7 +129,7 @@
 
 <div>
 <div>
-<pre class="source">$ mvn package -PSONAR
+<pre class="source">$ mvn package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -PSONAR
 $ mvn site scm-publish:publish-scm
 </pre></div></div></div></div>
         </div>
