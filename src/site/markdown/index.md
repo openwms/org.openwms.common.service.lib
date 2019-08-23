@@ -13,7 +13,8 @@ from a `Location` A to a `Location` B.
 
 ## Build
 
-Build a runnable fat jar with execution of all unit and in-memory database integrations, but without a RabbitMQ server required to run: 
+Build a runnable fat jar with execution of all unit and in-memory database integrations, but without a [RabbitMQ](https://www.rabbitmq.com)
+server required to run: 
 
 ```
 $ mvn package
@@ -42,10 +43,12 @@ $ java -jar target/openwms-common-service-exec.jar
 ```
 
 In a distributed Cloud environment the service configuration is fetched from a centralized configuration service. This behavior can be 
-enabled by activating the Spring Profile `CLOUD`:
+enabled by activating the Spring Profile `CLOUD`. Additionally it makes sense to enable asynchronous communication that requires [RabbitMQ](https://www.rabbitmq.com)
+as an AMQP message broker - just add another profile `ASYNCHRONOUS`. If the latter is not applies all asynchronous AMQP endpoints are 
+disabled and the service does not send any events nor does it receive application events from remote services.
 
 ```
-$ java -jar target/openwms-common-service-exec.jar --spring.profiles.active=CLOUD
+$ java -jar target/openwms-common-service-exec.jar --spring.profiles.active=CLOUD,ASYNCHRONOUS
 ```
 
 Now the configuration service is tried to be discovered at service startup. The service fails to start if no instance of the configuration
@@ -60,6 +63,6 @@ $ mvn deploy -Prelease,gpg
 ### Release Documentation
 
 ```
-$ mvn package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -PSONAR
+$ mvn package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Psonar
 $ mvn site scm-publish:publish-scm
 ```
