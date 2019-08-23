@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,12 +65,11 @@ public class TransportUnitController extends AbstractWebController {
     }
 
     @GetMapping(value = API_TRANSPORT_UNITS, params = {"bk"}, produces = "application/vnd.openwms.transport-unit-v1+json")
-    @ResponseBody
-    public TransportUnitVO findTransportUnit(@RequestParam("bk") String transportUnitBK) {
+    public ResponseEntity<TransportUnitVO> findTransportUnit(@RequestParam("bk") String transportUnitBK) {
         TransportUnit transportUnit = service.findByBarcode(Barcode.of(transportUnitBK));
         TransportUnitVO result = mapper.map(transportUnit, TransportUnitVO.class);
         addLinks(result);
-        return result;
+        return ResponseEntity.ok(result);
     }
 
     private void addLinks(TransportUnitVO result) {
@@ -86,16 +84,15 @@ public class TransportUnitController extends AbstractWebController {
     }
 
     @GetMapping(value = API_TRANSPORT_UNITS, params = {"bks"}, produces = "application/vnd.openwms.transport-unit-v1+json")
-    @ResponseBody
-    public List<TransportUnitVO> findTransportUnits(@RequestParam("bks") List<String> barcodes) {
+    public ResponseEntity<List<TransportUnitVO>> findTransportUnits(@RequestParam("bks") List<String> barcodes) {
         List<TransportUnit> tus = service.findByBarcodes(barcodes.stream().map(Barcode::of).collect(Collectors.toList()));
-        return augmentResults(tus);
+        return ResponseEntity.ok(augmentResults(tus));
     }
 
     @GetMapping(value = API_TRANSPORT_UNITS, params = {"actualLocation"}, produces = "application/vnd.openwms.transport-unit-v1+json")
-    public List<TransportUnitVO> findTransportUnitsOn(@RequestParam("actualLocation") String actualLocation) {
+    public ResponseEntity<List<TransportUnitVO>> findTransportUnitsOn(@RequestParam("actualLocation") String actualLocation) {
         List<TransportUnit> tus = service.findOnLocation(actualLocation);
-        return tus == null ? Collections.emptyList() : augmentResults(tus);
+        return tus == null ? ResponseEntity.ok(Collections.emptyList()) : ResponseEntity.ok(augmentResults(tus));
     }
 
     private List<TransportUnitVO> augmentResults(List<TransportUnit> tus) {
@@ -105,7 +102,6 @@ public class TransportUnitController extends AbstractWebController {
     }
 
     @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
-    @ResponseBody
     public ResponseEntity<Void> createTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
         if (Boolean.TRUE.equals(strict)) {
             // check if already exists ...
@@ -118,7 +114,6 @@ public class TransportUnitController extends AbstractWebController {
     }
 
     @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk", "actualLocation", "tut"})
-    @ResponseBody
     public ResponseEntity<Void> createTU(@RequestParam("bk") String transportUnitBK, @RequestParam("actualLocation") String actualLocation, @RequestParam("tut") String tut, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
         if (Boolean.TRUE.equals(strict)) {
             // check if already exists ...
@@ -130,13 +125,11 @@ public class TransportUnitController extends AbstractWebController {
     }
 
     @PutMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
-    @ResponseBody
     public TransportUnitVO updateTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu) {
         return mapper.map(service.update(Barcode.of(transportUnitBK), mapper.map(tu, TransportUnit.class)), TransportUnitVO.class);
     }
 
     @PatchMapping(value = API_TRANSPORT_UNITS, params = {"bk", "newLocation"})
-    @ResponseBody
     public TransportUnitVO moveTU(@RequestParam("bk") String transportUnitBK, @RequestParam("newLocation") String newLocation) {
         TransportUnit tu = service.moveTransportUnit(Barcode.of(transportUnitBK), fromString(newLocation));
         return mapper.map(tu, TransportUnitVO.class);
@@ -158,7 +151,8 @@ public class TransportUnitController extends AbstractWebController {
         return ResponseEntity.ok(
                 new Index(
                         linkTo(methodOn(TransportUnitController.class).findTransportUnit("00000000000000004711")).withRel("transport-unit-findbybarcode"),
-                        linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList("00000000000000004711", "00000000000000004712"))).withRel("transport-unit-findbybarcodes")
+                        linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList("00000000000000004711", "00000000000000004712"))).withRel("transport-unit-findbybarcodes"),
+                        linkTo(methodOn(TransportUnitController.class).findTransportUnitsOn("EXT_/0000/0000/0000/0000")).withRel("transport-unit-findonlocation")
                 )
         );
     }

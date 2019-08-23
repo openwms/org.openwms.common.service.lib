@@ -52,6 +52,6 @@ $ mvn deploy -Prelease,gpg
 ### Release Documentation
 
 ```
-$ mvn package -Psonar
+$ mvn package -PSONAR
 $ mvn site scm-publish:publish-scm
 ```
