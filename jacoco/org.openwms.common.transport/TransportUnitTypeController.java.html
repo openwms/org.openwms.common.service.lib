@@ -71,7 +71,7 @@ public class TransportUnitTypeController extends AbstractWebController {
 <span class="fc" id="L71">        return ResponseEntity.ok(</span>
 <span class="fc" id="L72">                new Index(</span>
 <span class="fc" id="L73">                        linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitType(&quot;PALLET&quot;)).withRel(&quot;transport-unit-types-findtransportunittype&quot;),</span>
-<span class="fc" id="L74">                        linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitTypes()).withRel(&quot;transport-unit-types-findtransportunittypes&quot;)</span>
+<span class="fc" id="L74">                        linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitTypes()).withRel(&quot;transport-unit-types-findall&quot;)</span>
                 )
         );
     }
