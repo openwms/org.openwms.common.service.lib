@@ -1,4 +1,4 @@
-= RESTful API
+= OpenWMS.org COMMON: RESTful API (Common Service)
 ({bversion}-{bnumber})
 Heiko Scherrer; Markus Schneider;
 :doctype: book
@@ -10,6 +10,11 @@ Heiko Scherrer; Markus Schneider;
 :source-highlighter: highlightjs
 :operation-curl-request-title: Example request
 :operation-http-response-title: Example response
+
+Copyright © 2005-2019
+
+Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any fee for such copies
+and further provided that each copy contains this Copyright Notice, whether distributed in print or electronically.
 
 [[overview]]
 = Overview
