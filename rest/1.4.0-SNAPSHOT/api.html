@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.6.1">
-<meta name="author" content="(1.4.0-SNAPSHOT-237)">
+<meta name="author" content="(1.4.0-SNAPSHOT-MANUAL)">
 <title>RESTful API</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -431,7 +431,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>RESTful API</h1>
 <div class="details">
-<span id="author" class="author">(1.4.0-SNAPSHOT-237)</span><br>
+<span id="author" class="author">(1.4.0-SNAPSHOT-MANUAL)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -2210,7 +2210,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json;charset=UTF-8
-Content-Length: 713
+Content-Length: 696
 
 {
   "barcode" : "00000000000000004711",
@@ -2228,7 +2228,7 @@ Content-Length: 713
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2019-08-22T21:20:36.982+0000",
+  "actualLocationDate" : 1566570000993,
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2267,7 +2267,7 @@ style, like it is left or right aligned and padded.</p>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json;charset=UTF-8
-Content-Length: 713
+Content-Length: 696
 
 {
   "barcode" : "00000000000000004711",
@@ -2285,7 +2285,7 @@ Content-Length: 713
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2019-08-22T21:20:36.912+0000",
+  "actualLocationDate" : 1566570000951,
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2315,7 +2315,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json;charset=UTF-8
-Content-Length: 1435
+Content-Length: 1401
 
 [ {
   "barcode" : "00000000000000004711",
@@ -2333,7 +2333,7 @@ Content-Length: 1435
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2019-08-22T21:20:36.676+0000",
+  "actualLocationDate" : 1566570000821,
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2357,7 +2357,7 @@ Content-Length: 1435
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2019-08-22T21:20:36.676+0000",
+  "actualLocationDate" : 1566570000821,
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2387,7 +2387,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json;charset=UTF-8
-Content-Length: 720
+Content-Length: 703
 
 [ {
   "barcode" : "00000000000000004712",
@@ -2405,7 +2405,7 @@ Content-Length: 720
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2019-08-22T21:20:37.053+0000",
+  "actualLocationDate" : 1566570001045,
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2422,7 +2422,7 @@ Content-Length: 720
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-08-22 21:18:33 UTC
+Last updated 2019-08-22 23:01:40 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
