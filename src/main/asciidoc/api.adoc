@@ -54,7 +54,7 @@ An example response looks like this:
     "error": "Internal Server Error",
     "exception": "org.ameba.oauth2.InvalidTokenException",
     "message": "JWT expired at 2017-12-04T15:04:43Z. Current time: 2017-12-04T15:20:54Z, ...",
-    "path": "/cards/11896032"
+    "path": "/v1/transport-units?bk=00000000000000004711"
 }
 ```
 
