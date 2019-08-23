@@ -438,6 +438,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel0">
 <li><a href="#overview">Overview</a></li>
+<li><a href="#_representation_formats">Representation Formats</a>
+<ul class="sectlevel1">
+<li><a href="#_dates_in_json">Dates in JSON</a></li>
+<li><a href="#_embedded_entities">Embedded Entities</a></li>
+<li><a href="#_error_responses">Error Responses</a>
+<ul class="sectlevel2">
+<li><a href="#_server_declined_errors">Server Declined Errors</a></li>
+<li><a href="#_api_declined_errors">API Declined Errors</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#sitemap-prg">Interaction Map</a></li>
 <li><a href="#resources-prg">Resources</a>
 <ul class="sectlevel1">
@@ -515,6 +527,178 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 This guide describes the RESTful API of the OpenWMS.org COMMON Base Service module and its usage. Some general terms and definitions
 are explained and declared in the first part of the document whereas in the second part the usage of the API is shown in
 a more use-case-driven approach.
+</div>
+</div>
+<h1 id="_representation_formats" class="sect0"><a class="anchor" href="#_representation_formats"></a><a class="link" href="#_representation_formats">Representation Formats</a></h1>
+<div class="openblock partintro">
+<div class="content">
+Basically JSON is used as representation format by default if not otherwise requested or mentioned below. XML format is supported for the
+index pages as well, but must be requested. Furthermore a vendor specific JSON format is used to represent resource representations.
+Therefore it is absolutely required that the <code>Accept</code> header denotes the demanded type. Find the type in the examples below.
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dates_in_json"><a class="anchor" href="#_dates_in_json"></a><a class="link" href="#_dates_in_json">Dates in JSON</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Date or datetime fields are not treated specially in JSON. Within the scope of this API a date or datetime field is always expected and
+rendered as JSON String in ISO8601 format with timezone information (GMT) and milliseconds: <code>yyyy-MM-dd&#8217;T&#8217;HH:mm:ss.SSSZ</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_embedded_entities"><a class="anchor" href="#_embedded_entities"></a><a class="link" href="#_embedded_entities">Embedded Entities</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For the sake of convenience some response entities may included embedded entities or even parts of it. A reference to the actual entity is
+provided as HAL link as well.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_error_responses"><a class="anchor" href="#_error_responses"></a><a class="link" href="#_error_responses">Error Responses</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Beside the actual representation of resources, the server may result an error response in JSON format that contains basic information about
+the error occurred. This information is additional to the standard HTTP status code and may help clients to identify the error cause in
+order to re-phrase and send the request again.</p>
+</div>
+<div class="paragraph">
+<p>Currently there are two types of errors with their own response formats.</p>
+</div>
+<div class="sect2">
+<h3 id="_server_declined_errors"><a class="anchor" href="#_server_declined_errors"></a><a class="link" href="#_server_declined_errors">Server Declined Errors</a></h3>
+<div class="paragraph">
+<p>This kind of errors are sent by the server runtime environment even before the request had a chance to be processed.</p>
+</div>
+<div class="paragraph">
+<p>An example response looks like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>{
+    "timestamp": 1512400854941,
+    "status": 500,
+    "error": "Internal Server Error",
+    "exception": "org.ameba.oauth2.InvalidTokenException",
+    "message": "JWT expired at 2017-12-04T15:04:43Z. Current time: 2017-12-04T15:20:54Z, ...",
+    "path": "/cards/11896032"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The JSON structure contains the following fields.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">timestamp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When the error occurred on server side</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The http status of the error</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">error</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A short error text</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">exception</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Internal class name of the Java exception type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A more descriptive error text describing the error in detail</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The part of the URI for the REST resource that was queried</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_api_declined_errors"><a class="anchor" href="#_api_declined_errors"></a><a class="link" href="#_api_declined_errors">API Declined Errors</a></h3>
+<div class="paragraph">
+<p>Those errors are thrown within the REST API validation and processing logic. For example, if a client request does not match the expected
+format or has produced an error on server side, the API will decline the request and return a response with status client-side error (4xx).</p>
+</div>
+<div class="paragraph">
+<p>The structure of the response is aligned to the RFC7808. An example response looks like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>{
+    "title": "Invalid location [NOT EXISTS]",
+    "httpStatus": 400,
+    "detail": "[The Location with ID NOT EXISTS is not in expected format]",
+    "messageKey": "location.invalid"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The JSON structure contains the following fields.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A short error text</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">httpStatus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The http status of the error</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">detail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">More descriptive information passed to the API or back to the caller</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messageKey</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An unique identifier across the API that can be used to identify and translate the error message on the client side</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Following message keys are currently used:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message Key</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Action</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not.found</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The requested resource has not been found</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The resource does not exist anymore or has never existed. The resource identifier must be verified</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 <h1 id="sitemap-prg" class="sect0"><a class="anchor" href="#sitemap-prg"></a><a class="link" href="#sitemap-prg">Interaction Map</a></h1>
@@ -2228,7 +2412,7 @@ Content-Length: 713
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2019-08-23T14:55:04.230+0000",
+  "actualLocationDate" : "2019-08-23T15:59:28.114+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2285,7 +2469,7 @@ Content-Length: 713
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2019-08-23T14:55:04.178+0000",
+  "actualLocationDate" : "2019-08-23T15:59:28.056+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2333,7 +2517,7 @@ Content-Length: 1435
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2019-08-23T14:55:04.028+0000",
+  "actualLocationDate" : "2019-08-23T15:59:27.886+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2357,7 +2541,7 @@ Content-Length: 1435
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2019-08-23T14:55:04.028+0000",
+  "actualLocationDate" : "2019-08-23T15:59:27.886+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2405,7 +2589,7 @@ Content-Length: 720
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2019-08-23T14:55:04.298+0000",
+  "actualLocationDate" : "2019-08-23T15:59:28.165+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2422,7 +2606,7 @@ Content-Length: 720
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-08-22 23:01:40 CEST
+Last updated 2019-08-23 17:58:35 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
