@@ -20,7 +20,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -44,7 +43,6 @@ import java.lang.annotation.Target;
 @SqlGroup({
         @Sql(scripts = "classpath:test.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 })
-@ActiveProfiles({"TEST"})
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class, AspectJExtension.class})
 @SpringBootTest(classes = {CommonStarter.class}, properties = {
         "spring.jpa.show-sql=false",

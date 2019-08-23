@@ -73,6 +73,12 @@
     </ciManagement>
 
     <properties>
+        <argLine><![CDATA[-Dcatalina.base=${project.build.directory}
+        -Dorg.springframework.restdocs.outputDir=./target/generated-snippets
+        -Ddocumentation.dir=./target
+        -Dorg.jboss.logging.provider=slf4j
+        -Dfile.encoding=${project.build.sourceEncoding} ${surefireArgs}]]>
+        </argLine> <!-- Move to parent -->
         <archunit.version>0.11.0</archunit.version>
         <core.version>1.5.0-SNAPSHOT</core.version>
         <documentation.output.dir>${documentation.dir}/site/rest/${project.version}</documentation.output.dir> <!-- Change in parent -->
@@ -81,6 +87,7 @@
         <reportOutputDirectory>${project.reporting.outputDirectory}/apidocs/${project.version}</reportOutputDirectory> <!-- Move to parent javadoc plugin config -->
         <scmpublish.content>${project.build.directory}/site</scmpublish.content> <!-- Move to parent -->
         <scmuser></scmuser> <!-- Move to parent -->
+        <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
     </properties>
 
     <reporting>
