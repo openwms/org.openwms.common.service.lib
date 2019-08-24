@@ -15,13 +15,11 @@
  */
 package org.openwms.common.transport;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openwms.common.ApplicationTest;
+import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.CommonConstants;
 import org.openwms.common.CommonMessageCodes;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -41,17 +39,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author Heiko Scherrer
  */
-@ApplicationTest
+@CommonApplicationTest
 class TransportUnitControllerDocumentation {
 
-    @Autowired
-    private WebApplicationContext context;
-    @Autowired
-    private ObjectMapper mapper;
     private MockMvc mockMvc;
 
     @BeforeEach
-    void setUp(RestDocumentationContextProvider restDocumentation) {
+    void setUp(RestDocumentationContextProvider restDocumentation, WebApplicationContext context) {
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
                 .apply(documentationConfiguration(restDocumentation)).build();
     }

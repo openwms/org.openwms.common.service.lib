@@ -18,7 +18,7 @@ package org.openwms.common.transport.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.openwms.common.CommonIT;
+import org.openwms.common.CommonDataTest;
 import org.openwms.common.TestData;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
@@ -40,7 +40,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
-@CommonIT
+@CommonDataTest
 class TransportUnitIT {
 
     @Autowired

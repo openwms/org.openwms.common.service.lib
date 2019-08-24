@@ -33,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Heiko Scherrer
  */
-@ApplicationTest
+@CommonApplicationTest
 @EnableJpaAuditing
 @Transactional
 @AutoConfigureCache

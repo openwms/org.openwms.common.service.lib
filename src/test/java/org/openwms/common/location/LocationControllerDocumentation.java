@@ -21,7 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.openwms.common.ApplicationTest;
+import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.CommonConstants;
 import org.openwms.common.TestData;
 import org.openwms.common.location.api.ErrorCodeVO;
@@ -48,7 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author Heiko Scherrer
  */
-@ApplicationTest
+@CommonApplicationTest
 class LocationControllerDocumentation {
 
     @Autowired

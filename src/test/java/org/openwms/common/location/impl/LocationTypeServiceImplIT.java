@@ -16,7 +16,7 @@
 package org.openwms.common.location.impl;
 
 import org.junit.jupiter.api.Test;
-import org.openwms.common.CommonIT;
+import org.openwms.common.CommonDataTest;
 import org.openwms.common.location.LocationType;
 import org.openwms.common.location.LocationTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Heiko Scherrer
  */
-@CommonIT
+@CommonDataTest
 @DataJpaTest(
         showSql = false,
         includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = LocationTypeService.class)

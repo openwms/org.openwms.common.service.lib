@@ -15,17 +15,10 @@
  */
 package org.openwms.common;
 
-import org.ameba.annotation.EnableAspects;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.ameba.test.categories.SpringTestSupport;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -35,7 +28,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * A CommonIT.
+ * A CommonApplicationTest.
  *
  * @author Heiko Scherrer
  */
@@ -43,16 +36,14 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@ExtendWith(SpringExtension.class)
-@EntityScan(basePackageClasses = CommonConstants.class)
-@Tag("IntegrationTest")
+@SpringTestSupport
 @SqlGroup({
         @Sql(scripts = "classpath:test.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 })
-@DataJpaTest(showSql = false)
-@EnableAspects(propagateRootCause = true)
-@EnableConfigurationProperties
-@EnableJpaAuditing
-@EnableSpringConfigured
-public @interface CommonIT {
+@SpringBootTest(classes = {CommonStarter.class}, properties = {
+        "spring.jpa.show-sql=false",
+        "spring.main.banner-mode=OFF",
+        "spring.jackson.serialization.INDENT_OUTPUT=true"
+})
+public @interface CommonApplicationTest {
 }

@@ -15,10 +15,8 @@
  */
 package org.openwms.common;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openwms.common.location.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,15 +34,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  *
  * @author Heiko Scherrer
  */
-@ApplicationTest
+@CommonApplicationTest
+
 class IndexControllerDocumentation {
 
     @Autowired
     private WebApplicationContext context;
-    @Autowired
-    private ObjectMapper mapper;
-    @Autowired
-    private LocationService service;
     private MockMvc mockMvc;
 
     @BeforeEach

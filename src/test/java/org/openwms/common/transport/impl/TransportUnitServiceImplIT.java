@@ -18,7 +18,7 @@ package org.openwms.common.transport.impl;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
 import org.junit.jupiter.api.Test;
-import org.openwms.common.ApplicationTest;
+import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestData;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.transport.Barcode;
@@ -39,7 +39,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
-@ApplicationTest
+@CommonApplicationTest
 class TransportUnitServiceImplIT {
 
     @Autowired

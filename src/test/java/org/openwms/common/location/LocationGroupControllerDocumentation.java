@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.ameba.Messages;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openwms.common.ApplicationTest;
+import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.CommonConstants;
 import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.TestData;
@@ -51,7 +51,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author Heiko Scherrer
  */
-@ApplicationTest
+@CommonApplicationTest
 class LocationGroupControllerDocumentation {
 
     @Autowired

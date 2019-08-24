@@ -16,7 +16,7 @@
 package org.openwms.common.transport.impl;
 
 import org.junit.jupiter.api.Test;
-import org.openwms.common.CommonIT;
+import org.openwms.common.CommonDataTest;
 import org.openwms.common.location.LocationType;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.TypePlacingRule;
@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
-@CommonIT
+@CommonDataTest
 class TransportUnitTypeIT {
 
     @Autowired

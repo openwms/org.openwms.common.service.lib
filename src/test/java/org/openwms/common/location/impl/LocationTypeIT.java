@@ -16,7 +16,7 @@
 package org.openwms.common.location.impl;
 
 import org.junit.jupiter.api.Test;
-import org.openwms.common.CommonIT;
+import org.openwms.common.CommonDataTest;
 import org.openwms.common.location.LocationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
-@CommonIT
+@CommonDataTest
 class LocationTypeIT {
 
     @Autowired

@@ -17,7 +17,7 @@ package org.openwms.common.location.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openwms.common.CommonIT;
+import org.openwms.common.CommonDataTest;
 import org.openwms.common.location.LocationGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
-@CommonIT
+@CommonDataTest
 class LocationGroupIT {
 
     private static final String KNOWN_LG = "KNOWN";

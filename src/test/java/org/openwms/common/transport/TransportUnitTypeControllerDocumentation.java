@@ -18,7 +18,7 @@ package org.openwms.common.transport;
 import org.ameba.Messages;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openwms.common.ApplicationTest;
+import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.CommonConstants;
 import org.openwms.common.TestData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author Heiko Scherrer
  */
-@ApplicationTest
+@CommonApplicationTest
 class TransportUnitTypeControllerDocumentation {
 
     @Autowired
@@ -62,7 +62,7 @@ class TransportUnitTypeControllerDocumentation {
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$._links.transport-unit-types-findtransportunittype").exists())
-                .andExpect(jsonPath("$._links.transport-unit-types-findtransportunittypes").exists())
+                .andExpect(jsonPath("$._links.transport-unit-types-findall").exists())
                 .andDo(document("tut-index", preprocessResponse(prettyPrint())))
         ;
     }
