@@ -49,12 +49,13 @@ class EnsureArchitectureIT {
                     .resideInAnyPackage("..location.impl", "..location.spi", "java..");
 
     @ArchTest
-    public static final ArchRule rule3 =
+    public static final ArchRule verify_api_package =
             classes().that()
-                    .resideInAPackage("..location.api")
+                    .resideInAPackage("..location.api..")
                     .should()
-                    .dependOnClassesThat()
-                    .resideInAnyPackage("..location.api", "java..");
+                    .onlyDependOnClassesThat()
+                    .resideInAnyPackage("..location.api..", "org.openwms.core..", "java..", "org.springframework..")
+            ;
 
     @ArchTest
     public static final ArchRule cycles =
