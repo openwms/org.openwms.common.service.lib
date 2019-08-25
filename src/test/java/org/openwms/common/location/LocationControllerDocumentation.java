@@ -76,6 +76,7 @@ class LocationControllerDocumentation {
                 .andExpect(jsonPath("$._links.location-findbyplccode").exists())
                 .andExpect(jsonPath("$._links.location-forlocationgroup").exists())
                 .andExpect(jsonPath("$._links.location-changestate").exists())
+                .andExpect(jsonPath("$._links.length()", is(4)))
                 .andDo(document("loc-index", preprocessResponse(prettyPrint())))
         ;
     }

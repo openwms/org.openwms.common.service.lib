@@ -23,11 +23,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * A IndexControllerDocumentation.
@@ -54,9 +57,12 @@ class IndexControllerDocumentation {
                 .perform(
                         get("/index")
                 )
-                //.andExpect(status().isOk())
-                //.andExpect(jsonPath("$.name", is(Actions.INDEX.id())))
-                //.andExpect(jsonPath("$.entityActions.length()", is(3)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$._links.location-index").exists())
+                .andExpect(jsonPath("$._links.location-group-index").exists())
+                .andExpect(jsonPath("$._links.transport-unit-type-index").exists())
+                .andExpect(jsonPath("$._links.transport-unit-index").exists())
+                .andExpect(jsonPath("$._links.length()", is(4)))
                 .andDo(document("get-index", preprocessResponse(prettyPrint())))
         ;
     }

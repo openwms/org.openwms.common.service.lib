@@ -78,6 +78,7 @@ class LocationGroupControllerDocumentation {
                 .andExpect(jsonPath("$._links.location-group-findall").exists())
                 .andExpect(jsonPath("$._links.location-group-findbyname").exists())
                 .andExpect(jsonPath("$._links.location-group-findbynames").exists())
+                .andExpect(jsonPath("$._links.length()", is(3)))
                 .andDo(document("lg-index", preprocessResponse(prettyPrint())))
         ;
     }

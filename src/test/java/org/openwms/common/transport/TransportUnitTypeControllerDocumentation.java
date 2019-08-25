@@ -63,6 +63,7 @@ class TransportUnitTypeControllerDocumentation {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$._links.transport-unit-types-findtransportunittype").exists())
                 .andExpect(jsonPath("$._links.transport-unit-types-findall").exists())
+                .andExpect(jsonPath("$._links.length()", is(2)))
                 .andDo(document("tut-index", preprocessResponse(prettyPrint())))
         ;
     }

@@ -112,22 +112,6 @@ class TransportUnitServiceImplIT {
         }
 
 
-    @Test
-    void update() {
-    }
-
-    @Test
-    void moveTransportUnit() {
-    }
-
-    @Test
-    void deleteTransportUnits() {
-    }
-
-    @Test
-    void onEvent() {
-    }
-
         @Test void findByBarcode() {
             TransportUnit tu = testee.findByBarcode(Barcode.of(TestData.TU_1_ID));
             assertThat(tu).isNotNull().hasFieldOrPropertyWithValue("barcode", Barcode.of(TestData.TU_1_ID));
@@ -199,8 +183,4 @@ class TransportUnitServiceImplIT {
             List<TransportUnit> tus = testee.findOnLocation(TestData.LOCATION_ID_EXT);
             assertThat(tus.isEmpty()).isFalse();
         }
-
-    @Test
-    void changeTarget() {
-    }
 }

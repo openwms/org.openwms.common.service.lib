@@ -51,6 +51,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RestController
 public class LocationGroupController extends AbstractWebController {
 
+    public static final String PARENT = "parent";
     private final LocationGroupService locationGroupService;
     private final BeanMapper mapper;
     private final ErrorCodeTransformers.GroupStateIn groupStateIn;
@@ -70,7 +71,7 @@ public class LocationGroupController extends AbstractWebController {
                 .orElseThrow(() -> new NotFoundException(format("LocationGroup with name [%s] does not exist", name)));
         LocationGroupVO result = mapper.map(locationGroup, LocationGroupVO.class);
         if (locationGroup.hasParent()) {
-            result.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class).findByName(locationGroup.getParent().getName())).withRel("parent")));
+            result.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class).findByName(locationGroup.getParent().getName())).withRel(PARENT)));
         }
         return result;
     }
@@ -81,7 +82,7 @@ public class LocationGroupController extends AbstractWebController {
         List<LocationGroupVO> vos = mapper.map(locationGroups, LocationGroupVO.class);
         vos.forEach(lg -> {
             if (lg.hasParent()) {
-                lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class).findByName(lg.getParent())).withRel("parent")));
+                lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class).findByName(lg.getParent())).withRel(PARENT)));
             }
         });
         return vos;
@@ -93,7 +94,7 @@ public class LocationGroupController extends AbstractWebController {
         List<LocationGroupVO> result = all == null ? Collections.emptyList() : mapper.map(all, LocationGroupVO.class);
         result.forEach(lg -> {
                     if (lg.hasParent()) {
-                        lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class).findByName(lg.getParent())).withRel("parent")));
+                        lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class).findByName(lg.getParent())).withRel(PARENT)));
                     }
                 }
         );

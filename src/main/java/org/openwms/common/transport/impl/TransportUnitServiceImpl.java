@@ -58,6 +58,8 @@ class TransportUnitServiceImpl implements TransportUnitService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitServiceImpl.class);
     public static final String NO_LOCATION_SET = "The actualLocation must be given in order to create a TransportUnit";
+    public static final String NO_BARCODE = "The barcode must be given in order to create a TransportUnit";
+    public static final String NO_TRANSPORT_UNIT_TYPE = "The transportUnitType must be given in order to create a TransportUnit";
 
     private final TransportUnitRepository repository;
     private final LocationService locationService;
@@ -83,9 +85,9 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Measured
     public TransportUnit create(@NotNull Barcode barcode, @NotNull TransportUnitType transportUnitType,
             @NotNull LocationPK actualLocation, Boolean strict) {
+        Assert.notNull(barcode, NO_BARCODE);
+        Assert.notNull(transportUnitType, NO_TRANSPORT_UNIT_TYPE);
         Assert.notNull(actualLocation, NO_LOCATION_SET);
-        Assert.notNull(transportUnitType, "The transportUnitType must be given in order to create a TransportUnit");
-        Assert.notNull(actualLocation, "The actualLocation must be given in order to create a TransportUnit");
         return createInternal(
                 barcode,
                 transportUnitType.getType(),
@@ -114,8 +116,8 @@ class TransportUnitServiceImpl implements TransportUnitService {
     }
 
     private TransportUnit createInternal(Barcode barcode, String transportUnitType, Boolean strict, Supplier<Location> locationResolver) {
-        Assert.notNull(barcode, "The barcode must be given in order to create a TransportUnit");
-        Assert.hasText(transportUnitType, "The transportUnitType must be given in order to create a TransportUnit");
+        Assert.notNull(barcode, NO_BARCODE);
+        Assert.hasText(transportUnitType, NO_TRANSPORT_UNIT_TYPE);
 
         Optional<TransportUnit> opt = repository.findByBarcode(barcode);
         if (strict == null || Boolean.FALSE.equals(strict)) {
@@ -240,8 +242,8 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Measured
     @Transactional(readOnly = true)
     public List<TransportUnit> findOnLocation(@NotEmpty String actualLocation) {
-        Assert.hasText(actualLocation, "Location mut not be null");
-        Location optionalLocation = locationService.findByLocationId(actualLocation).orElseThrow(() -> new NotFoundException(format("Location [%s] not found", actualLocation)));;
+        Assert.hasText(actualLocation, NO_LOCATION_SET);
+        Location optionalLocation = locationService.findByLocationId(actualLocation).orElseThrow(() -> new NotFoundException(format("Location [%s] not found", actualLocation)));
         return repository.findByActualLocationOrderByActualLocationDate(optionalLocation);
     }
 
