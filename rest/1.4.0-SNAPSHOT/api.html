@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.6.1">
-<meta name="author" content="(1.4.0-SNAPSHOT-248)">
+<meta name="author" content="(1.4.0-SNAPSHOT-249)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -431,7 +431,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.4.0-SNAPSHOT-248)</span><br>
+<span id="author" class="author">(1.4.0-SNAPSHOT-249)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -2378,14 +2378,35 @@ transport items like <code>LoadUnits</code>. It is moved between <code>Locations
 <div class="paragraph">
 <p>The index with all possible operations can be retrieved with the following GET request:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/tu-index/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-units/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The response lists all the operations with a name and the corresponding href link:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/tu-index/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 449
+
+{
+  "_links" : {
+    "transport-unit-findbybarcode" : {
+      "href" : "http://localhost:8080/v1/transport-units?bk=00000000000000004711"
+    },
+    "transport-unit-findbybarcodes" : {
+      "href" : "http://localhost:8080/v1/transport-units?bks=00000000000000004711&amp;bks=00000000000000004712"
+    },
+    "transport-unit-findonlocation" : {
+      "href" : "http://localhost:8080/v1/transport-units?actualLocation=EXT_/0000/0000/0000/0000"
+    }
+  }
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -2424,7 +2445,7 @@ Content-Length: 713
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2019-08-25T13:02:52.831+0000",
+  "actualLocationDate" : "2019-08-27T19:48:44.945+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2481,7 +2502,7 @@ Content-Length: 713
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2019-08-25T13:02:52.749+0000",
+  "actualLocationDate" : "2019-08-27T19:48:44.881+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2529,7 +2550,7 @@ Content-Length: 1435
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2019-08-25T13:02:52.524+0000",
+  "actualLocationDate" : "2019-08-27T19:48:44.700+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2553,7 +2574,7 @@ Content-Length: 1435
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2019-08-25T13:02:52.524+0000",
+  "actualLocationDate" : "2019-08-27T19:48:44.700+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2601,7 +2622,7 @@ Content-Length: 720
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2019-08-25T13:02:52.900+0000",
+  "actualLocationDate" : "2019-08-27T19:48:45.023+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2618,7 +2639,7 @@ Content-Length: 720
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-08-25 13:01:00 UTC
+Last updated 2019-08-27 19:46:46 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
