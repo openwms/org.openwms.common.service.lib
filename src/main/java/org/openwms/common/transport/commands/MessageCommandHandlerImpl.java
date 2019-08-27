@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * @see MessageCommand
  */
 @TxService
-public class MessageCommandHandlerImpl implements MessageCommandHandler {
+class MessageCommandHandlerImpl implements MessageCommandHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageCommandHandlerImpl.class);
     private final TransportUnitService service;
@@ -39,7 +39,6 @@ public class MessageCommandHandlerImpl implements MessageCommandHandler {
     MessageCommandHandlerImpl(TransportUnitService service) {
         this.service = service;
     }
-
 
     @Override
     public void handle(MessageCommand command) {

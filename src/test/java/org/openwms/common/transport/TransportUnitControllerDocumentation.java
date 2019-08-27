@@ -58,7 +58,8 @@ class TransportUnitControllerDocumentation {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$._links.transport-unit-findbybarcode").exists())
                 .andExpect(jsonPath("$._links.transport-unit-findbybarcodes").exists())
-                .andExpect(jsonPath("$._links.length()", is(2)))
+                .andExpect(jsonPath("$._links.transport-unit-findonlocation").exists())
+                .andExpect(jsonPath("$._links.length()", is(3)))
                 .andDo(document("tu-index", preprocessResponse(prettyPrint())))
         ;
     }

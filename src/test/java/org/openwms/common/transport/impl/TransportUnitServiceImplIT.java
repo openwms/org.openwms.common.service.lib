@@ -165,7 +165,7 @@ class TransportUnitServiceImplIT {
         @Test void findOnLocation_null() {
             assertThatThrownBy(
                     () -> testee.findOnLocation(null))
-                    .isInstanceOf(ServiceLayerException.class).hasMessageContaining("null");
+                    .isInstanceOf(ServiceLayerException.class).hasMessageContaining("actualLocation");
         }
 
         @Test void findOnLocation_404() {

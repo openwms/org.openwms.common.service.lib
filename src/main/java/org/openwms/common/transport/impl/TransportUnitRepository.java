@@ -32,7 +32,7 @@ import java.util.Optional;
  * @author Heiko Scherrer
  */
 @Repository
-public interface TransportUnitRepository extends JpaRepository<TransportUnit, Long> {
+interface TransportUnitRepository extends JpaRepository<TransportUnit, Long> {
 
     @Query("select tu from TransportUnit tu where tu.pKey = :pKey")
     Optional<TransportUnit> findByPKey(@Param("pKey") String pKey);

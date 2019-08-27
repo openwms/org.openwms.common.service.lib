@@ -19,8 +19,16 @@ import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
+import org.ameba.annotation.TxService;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.fields;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices;
 
@@ -33,20 +41,13 @@ import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.sli
 class EnsureArchitectureIT {
 
     @ArchTest
-    public static final ArchRule rule1 =
-            noClasses().that()
-                    .resideInAPackage("..location")
-                    .should()
-                    .dependOnClassesThat()
-                    .resideInAnyPackage("..location.impl..", "..location.spi..");
-
-    @ArchTest
-    public static final ArchRule rule2 =
-            classes().that()
-                    .resideInAPackage("..location.spi")
-                    .should()
-                    .onlyHaveDependentClassesThat()
-                    .resideInAnyPackage("..location.impl", "..location.spi", "java..");
+    public static final ArchRule verify_logger_definition =
+            fields().that().haveRawType(Logger.class)
+                    .should().bePrivate()
+                    .andShould().beStatic()
+                    .andShould().beFinal()
+                    .because("This a an agreed convention")
+            ;
 
     @ArchTest
     public static final ArchRule verify_api_package =
@@ -55,9 +56,66 @@ class EnsureArchitectureIT {
                     .should()
                     .onlyDependOnClassesThat()
                     .resideInAnyPackage("..location.api..", "org.openwms.core..", "java..", "org.springframework..")
+                    .because("The API package is separated and the only package accessible by the client")
             ;
 
     @ArchTest
-    public static final ArchRule cycles =
-            slices().matching("org.openwms.(*)..").should().beFreeOfCycles();
+    public static final ArchRule verify_services =
+            classes().that()
+                    .areAnnotatedWith(TxService.class)
+                    .or()
+                    .areAnnotatedWith(Service.class)
+                    .should()
+                    .bePackagePrivate()
+                    .andShould()
+                    .resideInAnyPackage("..impl..", "..commands..", "..events..")
+                    .because("By convention Transactional Services should only reside in internal packages")
+            ;
+
+//    @ArchTest
+    public static final ArchRule verify_transactional_repository_access =
+            classes().that()
+                    .areAnnotatedWith(Repository.class)
+                    .or()
+                    .areAssignableFrom(JpaRepository.class)
+                    .should()
+                    .bePackagePrivate()
+                    .andShould()
+                    .onlyBeAccessed().byClassesThat()
+                    .areAnnotatedWith(TxService.class)
+                    .orShould()
+                    .onlyBeAccessed().byClassesThat()
+                    .areAnnotatedWith(Configurable.class)
+                    .orShould()
+                    .onlyBeAccessed().byClassesThat()
+                    .areAnnotatedWith(Transactional.class)
+                    .because("A Repository must only be accessed in a transaction context")
+            ;
+    @ArchTest
+    public static final ArchRule verify_no_direct_impl_access =
+            noClasses().that()
+                    .resideInAPackage("..location")
+                    .should()
+                    .dependOnClassesThat()
+                    .resideInAnyPackage("..location.impl..", "..location.spi..");
+
+    @ArchTest
+    public static final ArchRule verify_spi_access =
+            classes().that()
+                    .resideInAPackage("..location.spi")
+                    .should()
+                    .onlyHaveDependentClassesThat()
+                    .resideInAnyPackage("..location.impl", "..location.spi", "java..");
+
+    @ArchTest
+    public static final ArchRule verify_no_cycles_location =
+            slices().matching("..(location)..").should().beFreeOfCycles();
+
+    @ArchTest
+    public static final ArchRule verify_no_cycles_transport =
+            slices().matching("..(transport)..").should().beFreeOfCycles();
+
+    @ArchTest
+    public static final ArchRule verify_no_cycles =
+            slices().matching("..(*).").should().beFreeOfCycles();
 }

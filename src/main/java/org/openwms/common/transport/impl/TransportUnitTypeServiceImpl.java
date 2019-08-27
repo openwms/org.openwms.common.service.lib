@@ -41,7 +41,7 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitTypeServiceImpl.class);
     private final TransportUnitTypeRepository transportUnitTypeRepository;
 
-    public TransportUnitTypeServiceImpl(TransportUnitTypeRepository transportUnitTypeRepository) {
+    TransportUnitTypeServiceImpl(TransportUnitTypeRepository transportUnitTypeRepository) {
         this.transportUnitTypeRepository = transportUnitTypeRepository;
     }
 
