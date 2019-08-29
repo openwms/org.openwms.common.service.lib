@@ -15,7 +15,6 @@ services:
 
 before_install:
   - "sudo apt-get install graphviz"
-  - "pip install --upgrade pip"
 
 before_script:
   - psql -c 'create database TESTDB;' -U postgres
