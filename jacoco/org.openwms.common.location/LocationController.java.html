@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocationController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.location</a> &gt; <span class="el_source">LocationController.java</span></div><h1>LocationController.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2019 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.location;
+
+import org.ameba.exception.NotFoundException;
+import org.ameba.mapping.BeanMapper;
+import org.openwms.common.CommonConstants;
+import org.openwms.common.Index;
+import org.openwms.common.location.api.ErrorCodeVO;
+import org.openwms.common.location.api.LocationVO;
+import org.openwms.core.http.AbstractWebController;
+import org.springframework.context.annotation.Profile;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Optional;
+
+import static java.lang.String.format;
+import static java.util.Arrays.asList;
+import static org.openwms.common.CommonConstants.API_LOCATIONS;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
+/**
+ * A LocationController.
+ *
+ * @author Heiko Scherrer
+ */
+@Profile(&quot;!INMEM&quot;)
+@RestController
+public class LocationController extends AbstractWebController {
+
+    private final LocationService locationService;
+    private final BeanMapper mapper;
+
+<span class="fc" id="L55">    LocationController(LocationService locationService, BeanMapper mapper) {</span>
+<span class="fc" id="L56">        this.locationService = locationService;</span>
+<span class="fc" id="L57">        this.mapper = mapper;</span>
+<span class="fc" id="L58">    }</span>
+
+    @GetMapping(value = API_LOCATIONS, params = {&quot;locationPK&quot;})
+    public ResponseEntity&lt;Optional&lt;LocationVO&gt;&gt; findLocationByCoordinate(@RequestParam(&quot;locationPK&quot;) String locationPK) {
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (!LocationPK.isValid(locationPK)) {</span>
+<span class="fc" id="L63">            throw new IllegalArgumentException(format(&quot;Invalid location [%s]&quot;, locationPK));</span>
+        }
+<span class="fc" id="L65">        Location location = locationService.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with locationPk [%s] found&quot;, locationPK)));</span>
+<span class="fc" id="L66">        return ResponseEntity.ok(Optional.ofNullable(mapper.map(location, LocationVO.class)));</span>
+    }
+
+    @GetMapping(value = API_LOCATIONS, params = {&quot;plcCode&quot;})
+    public ResponseEntity&lt;Optional&lt;LocationVO&gt;&gt; findLocationByPlcCode(@RequestParam(&quot;plcCode&quot;) String plcCode) {
+<span class="fc" id="L71">        Location location = locationService.findByPlcCode(plcCode).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with PLC Code [%s] found&quot;, plcCode)));</span>
+<span class="fc" id="L72">        return ResponseEntity.ok(Optional.ofNullable(mapper.map(location, LocationVO.class)));</span>
+    }
+
+    @GetMapping(value = API_LOCATIONS, params = {&quot;locationGroupNames&quot;})
+    public ResponseEntity&lt;List&lt;LocationVO&gt;&gt; findLocationsForLocationGroups(@RequestParam(&quot;locationGroupNames&quot;) List&lt;String&gt; locationGroupNames) {
+<span class="fc" id="L77">        List&lt;Location&gt; locations = locationService.findAllOf(locationGroupNames);</span>
+<span class="fc" id="L78">        return ResponseEntity.ok(mapper.map(locations, LocationVO.class));</span>
+    }
+
+    @PatchMapping(value = API_LOCATIONS + &quot;/{pKey}&quot;)
+    public ResponseEntity&lt;Void&gt; updateState(@PathVariable(name = &quot;pKey&quot;) String pKey, @RequestBody ErrorCodeVO errorCode) {
+<span class="fc" id="L83">        locationService.changeState(pKey, errorCode);</span>
+<span class="fc" id="L84">        return ResponseEntity.ok().build();</span>
+    }
+
+    @GetMapping(value = API_LOCATIONS, params = {&quot;area&quot;, &quot;aisle&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;})
+    public ResponseEntity&lt;List&lt;LocationVO&gt;&gt; findLocations(
+            @RequestParam(value = &quot;area&quot;, required = false) String area,
+            @RequestParam(value = &quot;aisle&quot;, required = false) String aisle,
+            @RequestParam(value = &quot;x&quot;, required = false) String x,
+            @RequestParam(value = &quot;y&quot;, required = false) String y,
+            @RequestParam(value = &quot;z&quot;, required = false) String z
+    ) {
+<span class="fc" id="L95">        LocationPK pk = LocationPK.newBuilder()</span>
+<span class="pc bpc" id="L96" title="2 of 4 branches missed.">                .area(area == null || area.equals(&quot;&quot;) ? &quot;%&quot; : area)</span>
+<span class="pc bpc" id="L97" title="2 of 4 branches missed.">                .aisle(aisle == null || aisle.equals(&quot;&quot;) ? &quot;%&quot; : aisle)</span>
+<span class="pc bpc" id="L98" title="2 of 4 branches missed.">                .x(x == null || x.equals(&quot;&quot;) ? &quot;%&quot; : x)</span>
+<span class="pc bpc" id="L99" title="2 of 4 branches missed.">                .y(y == null || y.equals(&quot;&quot;) ? &quot;%&quot; : y)</span>
+<span class="pc bpc" id="L100" title="2 of 4 branches missed.">                .z(z == null || z.equals(&quot;&quot;) ? &quot;%&quot; : z)</span>
+<span class="fc" id="L101">                .build();</span>
+<span class="fc" id="L102">        List&lt;Location&gt; locations = locationService.findLocations(pk);</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        return locations.isEmpty()</span>
+<span class="fc" id="L104">                ? ResponseEntity.notFound().build()</span>
+<span class="fc" id="L105">                : ResponseEntity.ok(mapper.map(locations, LocationVO.class));</span>
+    }
+
+    @GetMapping(CommonConstants.API_LOCATIONS + &quot;/index&quot;)
+    public ResponseEntity&lt;Index&gt; index() {
+<span class="fc" id="L110">        return ResponseEntity.ok(</span>
+<span class="fc" id="L111">                new Index(</span>
+<span class="fc" id="L112">                        linkTo(methodOn(LocationController.class).findLocationByCoordinate(&quot;AREA/AISLE/X/Y/Z&quot;)).withRel(&quot;location-findbycoordinate&quot;),</span>
+<span class="fc" id="L113">                        linkTo(methodOn(LocationController.class).findLocationByPlcCode(&quot;PLC_CODE&quot;)).withRel(&quot;location-findbyplccode&quot;),</span>
+<span class="fc" id="L114">                        linkTo(methodOn(LocationController.class).findLocationsForLocationGroups(asList(&quot;LG1&quot;, &quot;LG2&quot;))).withRel(&quot;location-forlocationgroup&quot;),</span>
+<span class="fc" id="L115">                        linkTo(methodOn(LocationController.class).updateState(&quot;pKey&quot;, ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel(&quot;location-changestate&quot;)</span>
+                )
+        );
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
