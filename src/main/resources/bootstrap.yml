@@ -107,3 +107,19 @@ spring:
       fail-fast: false
   main:
     banner-mode: "off"
+
+---
+spring:
+  profiles: TESTPG
+  jpa:
+    database: postgresql
+    generate-ddl: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQL9Dialect
+      hibernate.temp.use_jdbc_metadata_defaults: false
+      hibernate.default_schema: public
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql:TESTDB
+    username: postgres
+    password:
