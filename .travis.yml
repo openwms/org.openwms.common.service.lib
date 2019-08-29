@@ -27,9 +27,9 @@ addons:
 
 script:
   - mvn package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -U
-  - mvn clean package sonar:sonar -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Psonar
-  - mvn site scm-publish:publish-scm -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST,TESTPG -Denforcer.skip=true -Dscmpublish.pubScmUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.common.service.git -DdeveloperConnectionUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.common.service.git -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Pschemagen
-  - mvn clean package -Denforcer.skip=true -DskipTests=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Prelease,gpg
+  - if [[ ( "TRAVIS_BRANCH" == "master" ) ]]; then mvn clean package sonar:sonar -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Psonar; fi
+  - if [[ ( "TRAVIS_BRANCH" == "master" ) ]]; then mvn site scm-publish:publish-scm -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST,TESTPG -Denforcer.skip=true -Dscmpublish.pubScmUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.common.service.git -DdeveloperConnectionUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.common.service.git -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Pschemagen; fi
+  - if [[ ( "TRAVIS_BRANCH" == "master" ) ]]; then mvn clean package -Denforcer.skip=true -DskipTests=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Prelease,gpg; fi
 
 after_success:
   - docker build -t openwms/org.openwms.common.service:latest .
