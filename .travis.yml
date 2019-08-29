@@ -16,8 +16,6 @@ services:
 before_script:
   - psql -c 'create database TESTDB;' -U postgres
 
-before_install:
-  - "echo 'M2_HOME = $M2_HOME'"
 addons:
   sonarcloud:
     organization: "openwms-github"
