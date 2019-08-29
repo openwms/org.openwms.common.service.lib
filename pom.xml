@@ -75,6 +75,7 @@
     <properties>
         <core.version>1.5.0-SNAPSHOT</core.version>
         <postgresql.version>42.2.5</postgresql.version> <!-- Keep in sync with Boot -->
+        <skipTests>false</skipTests>
     </properties>
 
     <reporting>
@@ -104,7 +105,7 @@
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
                 <configuration>
-                    <skip>${env.skipTests}</skip>
+                    <skip>${skipTests}</skip>
                 </configuration>
             </plugin>
             <plugin>
