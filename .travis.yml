@@ -17,12 +17,13 @@ before_install:
   - "sudo apt-get install graphviz"
 
 before_script:
-  - psql -c 'create database TESTDB;' -U postgres
+  - psql -c "CREATE DATABASE TESTDB;" -U postgres
+  - psql -c "CREATE USER karl WITH PASSWORD 'karl';" -U postgres
 
 addons:
   sonarcloud:
     organization: "openwms-github"
-  postgresql: "9.6"
+  postgresql: '9.6'
 
 script:
   - mvn clean package sonar:sonar -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Psonar -U
