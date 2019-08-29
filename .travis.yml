@@ -35,10 +35,6 @@ jobs:
     - stage: deploy
       script:
         - mvn clean package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Denforcer.skip=true -DskipTests=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Prelease,gpg -B
-    - stage: Generate Schema Documentation
-      if: "$TRAVIS_EVENT_TYPE = cron"
-      script:
-        - mvn clean install -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST,TESTPG -Denforcer.skip=true -DskipTests=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Prelease,gpg,schemagen -B
 
 after_success:
   - docker build -t openwms/org.openwms.common.service:latest .
