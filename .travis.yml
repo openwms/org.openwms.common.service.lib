@@ -25,10 +25,10 @@ addons:
   postgresql: "9.6"
 
 script:
-  - mvn clean package sonar:sonar -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Psonar -U -B
-  - mvn site scm-publish:publish-scm -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Denforcer.skip=true -Dscmpublish.pubScmUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.common.service.git -DdeveloperConnectionUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.common.service.git -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -B
-  - mvn clean package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Denforcer.skip=true -DskipTests=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Prelease,gpg -B
-  - mvn clean install -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST,TESTPG -Denforcer.skip=true -DskipTests=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Prelease,gpg,schemagen -B
+  - mvn clean package sonar:sonar -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Psonar -U
+  - mvn site scm-publish:publish-scm -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Denforcer.skip=true -Dscmpublish.pubScmUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.common.service.git -DdeveloperConnectionUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.common.service.git -Dci.buildNumber=$TRAVIS_BUILD_NUMBER
+  - mvn clean package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Denforcer.skip=true -DskipTests=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Prelease,gpg
+  - mvn site scm-publish:publish-scm -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST,TESTPG -Denforcer.skip=true -Dscmpublish.pubScmUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.common.service.git -DdeveloperConnectionUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.common.service.git -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Pschemagen
 
 after_success:
   - docker build -t openwms/org.openwms.common.service:latest .
