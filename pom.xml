@@ -158,7 +158,7 @@
                         <artifactId>schemaspy-maven-plugin</artifactId>
                         <configuration>
                             <databaseType>pgsql</databaseType>
-                            <database>TESTDB</database>
+                            <database>testdb</database>
                             <host>localhost</host>
                             <port>5432</port>
                             <user>karl</user>

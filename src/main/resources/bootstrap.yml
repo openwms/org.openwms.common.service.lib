@@ -120,6 +120,6 @@ spring:
       hibernate.default_schema: public
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql:TESTDB
+    url: jdbc:postgresql:testdb
     username: karl
     password: karl

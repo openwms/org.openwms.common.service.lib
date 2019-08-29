@@ -17,7 +17,7 @@ before_install:
   - "sudo apt-get install graphviz"
 
 before_script:
-  - psql -c "CREATE DATABASE TESTDB;" -U postgres
+  - psql -c "CREATE DATABASE testdb;" -U postgres
   - psql -c "CREATE USER karl WITH PASSWORD 'karl';" -U postgres
 
 addons:
