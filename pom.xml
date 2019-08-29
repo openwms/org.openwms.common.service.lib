@@ -164,7 +164,7 @@
                             <user>karl</user>
                             <schema>public</schema>
                             <password>karl</password>
-                            <pathToDrivers>${env.M2_HOME}/org/postgresql/postgresql/${postgresql.version}/postgresql-${postgresql.version}.jar</pathToDrivers>
+                            <pathToDrivers>.m2/repository/org/postgresql/postgresql/${postgresql.version}/postgresql-${postgresql.version}.jar</pathToDrivers>
                         </configuration>
                     </plugin>
                 </plugins>
