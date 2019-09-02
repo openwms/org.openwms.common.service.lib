@@ -67,8 +67,7 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
      */
     @Override
     public TransportUnitType create(TransportUnitType transportUnitType) {
-<span class="nc" id="L70">        transportUnitTypeRepository.save(transportUnitType);</span>
-<span class="nc" id="L71">        return transportUnitTypeRepository.save(transportUnitType);</span>
+<span class="nc" id="L70">        return transportUnitTypeRepository.save(transportUnitType);</span>
     }
 
     /**
@@ -76,21 +75,21 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
      */
     @Override
     public void deleteType(TransportUnitType... transportUnitTypes) {
-<span class="nc bnc" id="L79" title="All 2 branches missed.">        for (TransportUnitType transportUnitType : transportUnitTypes) {</span>
-<span class="nc" id="L80">            transportUnitTypeRepository.findByType(transportUnitType.getType()).ifPresent(transportUnitTypeRepository::delete);</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        for (TransportUnitType transportUnitType : transportUnitTypes) {</span>
+<span class="nc" id="L79">            transportUnitTypeRepository.findByType(transportUnitType.getType()).ifPresent(transportUnitTypeRepository::delete);</span>
         }
-<span class="nc" id="L82">    }</span>
+<span class="nc" id="L81">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     public TransportUnitType save(TransportUnitType transportUnitType) {
-<span class="nc" id="L89">        TransportUnitType tut = transportUnitTypeRepository.save(transportUnitType);</span>
-<span class="nc bnc" id="L90" title="All 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L91">            LOGGER.debug(&quot;Save a TransportUnitType, list of typePlacingRules [{}]&quot;, tut.getTypePlacingRules().size());</span>
+<span class="nc" id="L88">        TransportUnitType tut = transportUnitTypeRepository.save(transportUnitType);</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L90">            LOGGER.debug(&quot;Save a TransportUnitType, list of typePlacingRules [{}]&quot;, tut.getTypePlacingRules().size());</span>
         }
-<span class="nc" id="L93">        return tut;</span>
+<span class="nc" id="L92">        return tut;</span>
     }
 
     /**
@@ -99,35 +98,35 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
     @Override
     public TransportUnitType updateRules(String type, List&lt;LocationType&gt; newAssigned, List&lt;LocationType&gt; newNotAssigned) {
 
-<span class="nc" id="L102">        TransportUnitType tut = transportUnitTypeRepository.findByType(type).orElseThrow(NotFoundException::new);</span>
-<span class="nc" id="L103">        boolean found = false;</span>
-<span class="nc bnc" id="L104" title="All 4 branches missed.">        if (newAssigned != null &amp;&amp; !newAssigned.isEmpty()) {</span>
-<span class="nc bnc" id="L105" title="All 2 branches missed.">            for (LocationType locationType : newAssigned) {</span>
-<span class="nc bnc" id="L106" title="All 2 branches missed.">                for (TypePlacingRule rule : tut.getTypePlacingRules()) {</span>
-<span class="nc bnc" id="L107" title="All 2 branches missed.">                    if (rule.getAllowedLocationType() == locationType) {</span>
-<span class="nc" id="L108">                        found = true;</span>
-<span class="nc" id="L109">                        break;</span>
+<span class="nc" id="L101">        TransportUnitType tut = transportUnitTypeRepository.findByType(type).orElseThrow(NotFoundException::new);</span>
+<span class="nc" id="L102">        boolean found = false;</span>
+<span class="nc bnc" id="L103" title="All 4 branches missed.">        if (newAssigned != null &amp;&amp; !newAssigned.isEmpty()) {</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            for (LocationType locationType : newAssigned) {</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">                for (TypePlacingRule rule : tut.getTypePlacingRules()) {</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">                    if (rule.getAllowedLocationType() == locationType) {</span>
+<span class="nc" id="L107">                        found = true;</span>
+<span class="nc" id="L108">                        break;</span>
                     }
                 }
-<span class="nc bnc" id="L112" title="All 2 branches missed.">                if (!found) {</span>
-<span class="nc" id="L113">                    TypePlacingRule newRule = new TypePlacingRule(tut, locationType);</span>
-<span class="nc" id="L114">                    tut.addTypePlacingRule(newRule);</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">                if (!found) {</span>
+<span class="nc" id="L112">                    TypePlacingRule newRule = new TypePlacingRule(tut, locationType);</span>
+<span class="nc" id="L113">                    tut.addTypePlacingRule(newRule);</span>
                 }
             }
         }
 
-<span class="nc bnc" id="L119" title="All 4 branches missed.">        if (newAssigned != null &amp;&amp; !newAssigned.isEmpty()) {</span>
-<span class="nc bnc" id="L120" title="All 2 branches missed.">            for (LocationType locationType : newNotAssigned) {</span>
-<span class="nc bnc" id="L121" title="All 2 branches missed.">                for (TypePlacingRule rule : tut.getTypePlacingRules()) {</span>
-<span class="nc bnc" id="L122" title="All 2 branches missed.">                    if (rule.getAllowedLocationType() == locationType) {</span>
-<span class="nc" id="L123">                        tut.removeTypePlacingRule(rule);</span>
-<span class="nc" id="L124">                        break;</span>
+<span class="nc bnc" id="L118" title="All 4 branches missed.">        if (newAssigned != null &amp;&amp; !newAssigned.isEmpty()) {</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">            for (LocationType locationType : newNotAssigned) {</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">                for (TypePlacingRule rule : tut.getTypePlacingRules()) {</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">                    if (rule.getAllowedLocationType() == locationType) {</span>
+<span class="nc" id="L122">                        tut.removeTypePlacingRule(rule);</span>
+<span class="nc" id="L123">                        break;</span>
                     }
                 }
             }
         }
 
-<span class="nc" id="L130">        return transportUnitTypeRepository.save(tut);</span>
+<span class="nc" id="L129">        return transportUnitTypeRepository.save(tut);</span>
     }
 
     /**
@@ -135,17 +134,17 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
      */
     @Override
     public List&lt;Rule&gt; loadRules(String transportUnitType) {
-<span class="nc" id="L138">        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(NotFoundException::new);</span>
-<span class="nc" id="L139">        List&lt;Rule&gt; rules = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L140" title="All 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L141">            LOGGER.debug(&quot;Found type [{}]&quot;, type);</span>
+<span class="nc" id="L137">        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(NotFoundException::new);</span>
+<span class="nc" id="L138">        List&lt;Rule&gt; rules = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L140">            LOGGER.debug(&quot;Found type [{}]&quot;, type);</span>
         }
-<span class="nc" id="L143">        rules.addAll(type.getTypePlacingRules());</span>
-<span class="nc" id="L144">        rules.addAll(type.getTypeStackingRules());</span>
-<span class="nc bnc" id="L145" title="All 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L146">            LOGGER.debug(&quot;Returning a list with [{}] items&quot;, rules.size());</span>
+<span class="nc" id="L142">        rules.addAll(type.getTypePlacingRules());</span>
+<span class="nc" id="L143">        rules.addAll(type.getTypeStackingRules());</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L145">            LOGGER.debug(&quot;Returning a list with [{}] items&quot;, rules.size());</span>
         }
-<span class="nc" id="L148">        return rules;</span>
+<span class="nc" id="L147">        return rules;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -6,8 +6,8 @@ OpenWMS.org COMMON: Services,org.openwms.common.location.api.events,LocationGrou
 OpenWMS.org COMMON: Services,org.openwms.common.location.api.events,TargetEvent.Builder,5,32,1,1,1,11,1,6,0,6
 OpenWMS.org COMMON: Services,org.openwms.common.location.api.events,LocationEvent.LocationEventType,0,54,0,0,0,2,0,1,0,1
 OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl.AjcClosure1,0,13,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitServiceImpl,285,290,18,6,41,47,25,17,15,15
-OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl,195,33,30,0,36,6,20,4,5,4
+OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitServiceImpl,302,273,18,6,42,46,25,17,15,15
+OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl,190,33,30,0,35,6,20,4,5,4
 OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitTypeConverter,35,74,11,11,1,4,13,3,2,3
 OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitServiceImpl.AjcClosure5,0,17,0,0,0,1,0,2,0,2
 OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitServiceImpl.AjcClosure1,0,17,0,0,0,1,0,2,0,2
