@@ -60,7 +60,8 @@ public class LocationController extends AbstractWebController {
     @GetMapping(value = API_LOCATIONS, params = {"locationPK"})
     public ResponseEntity<Optional<LocationVO>> findLocationByCoordinate(@RequestParam("locationPK") String locationPK) {
         if (!LocationPK.isValid(locationPK)) {
-            throw new IllegalArgumentException(format("Invalid location [%s]", locationPK));
+            // here we need to throw an NFE because Feign needs to cast it into an Optional. IAE won't work!
+            throw new NotFoundException(format("Invalid location [%s]", locationPK));
         }
         Location location = locationService.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", locationPK)));
         return ResponseEntity.ok(Optional.ofNullable(mapper.map(location, LocationVO.class)));

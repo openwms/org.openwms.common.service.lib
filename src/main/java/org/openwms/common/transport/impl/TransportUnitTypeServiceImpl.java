@@ -67,7 +67,6 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
      */
     @Override
     public TransportUnitType create(TransportUnitType transportUnitType) {
-        transportUnitTypeRepository.save(transportUnitType);
         return transportUnitTypeRepository.save(transportUnitType);
     }
 
