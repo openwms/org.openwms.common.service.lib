@@ -7,7 +7,7 @@ OpenWMS.org COMMON: Services,org.openwms.common.location.api.events,TargetEvent.
 OpenWMS.org COMMON: Services,org.openwms.common.location.api.events,LocationEvent.LocationEventType,0,54,0,0,0,2,0,1,0,1
 OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl.AjcClosure1,0,13,0,0,0,1,0,2,0,2
 OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitServiceImpl,302,273,18,6,42,46,25,17,15,15
-OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl,190,33,30,0,35,6,20,4,5,4
+OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl,193,33,30,0,35,6,20,4,5,4
 OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitTypeConverter,35,74,11,11,1,4,13,3,2,3
 OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitServiceImpl.AjcClosure5,0,17,0,0,0,1,0,2,0,2
 OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitServiceImpl.AjcClosure1,0,17,0,0,0,1,0,2,0,2
@@ -29,7 +29,7 @@ OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImp
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationPKConverter,3,12,0,2,1,3,1,3,1,2
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupStateConverter,13,16,5,3,4,4,4,3,1,2
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupEventPropagator,104,60,8,2,14,15,8,4,0,4
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl,132,117,12,2,22,28,12,9,5,9
+OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl,132,123,12,2,22,28,12,9,5,9
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl.AjcClosure3,13,0,0,0,1,0,2,0,2,0
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl.AjcClosure1,13,0,0,0,1,0,2,0,2,0
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure1,0,17,0,0,0,1,0,2,0,2
@@ -83,7 +83,7 @@ OpenWMS.org COMMON: Services,org.openwms.common,StateChangeException,0,4,0,0,0,2
 OpenWMS.org COMMON: Services,org.openwms.common,IndexController,0,58,0,0,0,7,0,2,0,2
 OpenWMS.org COMMON: Services,org.openwms.common,SimpleLink,0,7,0,0,0,2,0,1,0,1
 OpenWMS.org COMMON: Services,org.openwms.common,Index,0,6,0,0,0,3,0,1,0,1
-OpenWMS.org COMMON: Services,org.openwms.common,CommonModuleConfiguration.new AbstractTranslator() {...},0,10,0,0,0,3,0,2,0,2
+OpenWMS.org COMMON: Services,org.openwms.common,CommonModuleConfiguration.new AbstractTranslator() {...},0,10,0,0,0,2,0,2,0,2
 OpenWMS.org COMMON: Services,org.openwms.common,CommonOptAsyncConfiguration,0,80,0,0,0,24,0,9,0,9
 OpenWMS.org COMMON: Services,org.openwms.common,CommonAsyncConfiguration,0,23,0,0,0,7,0,4,0,4
 OpenWMS.org COMMON: Services,org.openwms.common,CommonModuleConfiguration,0,43,0,0,0,10,0,6,0,6
@@ -100,5 +100,5 @@ OpenWMS.org COMMON: Services,org.openwms.common.transport,UnitError.Builder,5,16
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitController,119,164,6,2,22,27,9,7,5,7
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TypeStackingRule,94,3,12,0,15,2,13,1,7,1
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnit,52,489,27,41,13,72,34,40,7,33
-OpenWMS.org COMMON: Services,org.openwms.common.transport,UnitError,20,73,4,6,1,18,5,9,1,8
+OpenWMS.org COMMON: Services,org.openwms.common.transport,UnitError,6,87,4,6,0,19,4,10,0,9
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitState,0,34,0,0,0,7,0,1,0,1
