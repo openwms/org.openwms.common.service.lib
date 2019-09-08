@@ -5,17 +5,17 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>10</version>
+        <version>11</version>
         <relativePath/>
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
     <version>1.4.0-SNAPSHOT</version>
     <name>OpenWMS.org COMMON: Services</name>
-    <url>https://www.interface21.io/docs/common/base/index.html</url>
+    <url>https://openwms.github.io/${project.artifactId}/index.html</url>
 
     <issueManagement>
         <system>github</system>
-        <url>https://github.com/openwms/org.openwms.common.service/issues</url>
+        <url>https://github.com/openwms/${project.artifactId}/issues</url>
     </issueManagement>
 
     <distributionManagement>
@@ -26,9 +26,9 @@
     </distributionManagement>
 
     <scm>
-        <url>https://github.com/openwms/org.openwms.common.service</url>
-        <connection>scm:git:https://${scmuser}github.com/openwms/org.openwms.common.service.git</connection>
-        <developerConnection>scm:git:https://${scmuser}github.com/openwms/org.openwms.common.service.git</developerConnection>
+        <url>https://github.com/openwms/${project.artifactId}</url>
+        <connection>scm:git:https://${scmuser}github.com/openwms/${project.artifactId}.git</connection>
+        <developerConnection>scm:git:https://${scmuser}github.com/openwms/${project.artifactId}.git</developerConnection>
     </scm>
 
     <developers>
@@ -61,7 +61,7 @@
 
     <ciManagement>
         <system>travis</system>
-        <url>https://travis-ci.com/openwms/org.openwms.common.service</url>
+        <url>https://travis-ci.com/openwms/${project.artifactId}</url>
         <notifiers>
             <notifier>
                 <type>mail</type>
@@ -74,7 +74,6 @@
 
     <properties>
         <core.version>1.5.0-SNAPSHOT</core.version>
-        <postgresql.version>42.2.5</postgresql.version> <!-- Keep in sync with Boot -->
         <skipTests>false</skipTests>
     </properties>
 
@@ -146,79 +145,6 @@
         </plugins>
     </build>
 
-    <profiles>
-        <profile>
-            <id>schemagen</id>
-            <properties>
-                <schemaspy-maven-plugin.version>5.1.0</schemaspy-maven-plugin.version>
-            </properties>
-            <reporting>
-                <plugins>
-                    <plugin>
-                        <groupId>nl.geodienstencentrum.maven</groupId>
-                        <artifactId>schemaspy-maven-plugin</artifactId>
-                        <configuration>
-                            <databaseType>pgsql</databaseType>
-                            <database>testdb</database>
-                            <host>localhost</host>
-                            <port>5432</port>
-                            <user>karl</user>
-                            <schema>public</schema>
-                            <password>karl</password>
-                            <pathToDrivers>/home/travis/.m2/repository/org/postgresql/postgresql/${postgresql.version}/postgresql-${postgresql.version}.jar</pathToDrivers>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </reporting>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <artifactId>maven-surefire-report-plugin</artifactId>
-                            <version>${maven-surefire-report-plugin.version}</version>
-                            <configuration>
-                                <aggregate>false</aggregate>
-                            </configuration>
-                            <dependencies>
-                                <dependency>
-                                    <groupId>org.postgresql</groupId>
-                                    <artifactId>postgresql</artifactId>
-                                    <version>${postgresql.version}</version>
-                                </dependency>
-                            </dependencies>
-                        </plugin>
-                        <plugin>
-                            <groupId>nl.geodienstencentrum.maven</groupId>
-                            <artifactId>schemaspy-maven-plugin</artifactId>
-                            <version>${schemaspy-maven-plugin.version}</version>
-                            <dependencies>
-                                <dependency>
-                                    <groupId>org.postgresql</groupId>
-                                    <artifactId>postgresql</artifactId>
-                                    <version>${postgresql.version}</version>
-                                </dependency>
-                            </dependencies>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-                <plugins>
-                    <plugin>
-                        <groupId>nl.geodienstencentrum.maven</groupId>
-                        <artifactId>schemaspy-maven-plugin</artifactId>
-                        <version>${schemaspy-maven-plugin.version}</version>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.postgresql</groupId>
-                                <artifactId>postgresql</artifactId>
-                                <version>${postgresql.version}</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -266,19 +192,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-hateoas</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -305,6 +223,14 @@
                     <artifactId>HdrHistogram</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-hateoas</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -441,27 +367,16 @@
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.tngtech.archunit</groupId>
-            <artifactId>archunit-junit5-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.tngtech.archunit</groupId>
-            <artifactId>archunit-junit5-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+        <id>schemagen</id>
+            <properties>
+                <surefireArgs>-Dspring.profiles.active=ASYNCHRONOUS,TEST,TESTPG</surefireArgs>
+            </properties>
+        </profile>
+    </profiles>
 
     <repositories>
         <repository>

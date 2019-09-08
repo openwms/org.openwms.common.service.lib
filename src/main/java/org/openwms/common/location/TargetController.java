@@ -114,7 +114,7 @@ class TargetController extends AbstractWebController {
             }
     }
 
-    private void targetNotFound(@PathVariable("targetBK") String targetBK) {
+    private void targetNotFound(String targetBK) {
         throw new NotFoundException(format("The Target with name [%s] is neither a Location nor a LocationGroup. Other types of Targets are currently not supported", targetBK));
     }
 
