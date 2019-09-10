@@ -7,7 +7,7 @@ spring:
         enabled: false
         service-id: openwms-config
       enabled: false
-      fail-fast: true # true means retry
+      fail-fast: false # true means retry
       retry:
         max-attempts: 120
   security:
@@ -109,6 +109,9 @@ spring:
   profiles: TEST
   cloud:
     config:
+      discovery:
+        enabled: false
+      enabled: false
       fail-fast: false
   main:
     banner-mode: "off"
