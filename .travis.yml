@@ -16,6 +16,8 @@ services:
 before_install:
   - "sudo apt-get install graphviz"
 
+install: true
+
 before_script:
   - psql -c "CREATE DATABASE testdb;" -U postgres
   - psql -c "CREATE USER karl WITH PASSWORD 'karl';" -U postgres
