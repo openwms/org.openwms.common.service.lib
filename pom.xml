@@ -75,6 +75,7 @@
     <properties>
         <core.version>1.5.0-SNAPSHOT</core.version>
         <skipTests>false</skipTests>
+        <resilience4j-spring-boot2.version>0.17.0</resilience4j-spring-boot2.version>
     </properties>
 
     <reporting>
@@ -151,6 +152,11 @@
                 <groupId>org.openwms</groupId>
                 <artifactId>org.openwms.core.util</artifactId>
                 <version>${core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.resilience4j</groupId>
+                <artifactId>resilience4j-spring-boot2</artifactId>
+                <version>${resilience4j-spring-boot2.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.sf.dozer</groupId>
@@ -231,7 +237,6 @@
         <dependency>
             <groupId>io.github.resilience4j</groupId>
             <artifactId>resilience4j-spring-boot2</artifactId>
-            <version>0.17.0</version>
         </dependency>
 
         <!-- both for retry -->
