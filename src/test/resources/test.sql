@@ -1,3 +1,5 @@
+delete from com_transport_unit_log;
+delete from com_srv_revision;
 delete from com_transport_unit;
 delete from com_transport_unit_type;
 delete from com_location;
