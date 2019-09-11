@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>11</version>
+        <version>12</version>
         <relativePath/>
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
@@ -74,7 +74,7 @@
 
     <properties>
         <core.version>1.5.0-SNAPSHOT</core.version>
-        <skipTests>false</skipTests>
+        <spring-data-envers.version>2.1.8.RELEASE</spring-data-envers.version>
     </properties>
 
     <reporting>
@@ -103,9 +103,6 @@
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
-                <configuration>
-                    <skip>${skipTests}</skip>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -163,6 +160,11 @@
                         <artifactId>commons-collections</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-envers</artifactId>
+                <version>${spring-data-envers.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -246,7 +248,6 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-envers</artifactId>
-            <version>2.1.8.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>net.sf.dozer</groupId>
@@ -293,17 +294,7 @@
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -315,6 +306,11 @@
             <groupId>io.interface21</groupId>
             <artifactId>ameba-lib</artifactId>
             <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
