@@ -216,9 +216,10 @@ class LocationControllerDocumentation {
 
          */
         @Test void shall_changeState_pkey_404() throws Exception {
-            mockMvc.perform(patch(CommonConstants.API_LOCATIONS + "/NOTEXISTS")
+            mockMvc.perform(patch(CommonConstants.API_LOCATION + "/NOTEXISTS")
                     .content(mapper.writeValueAsString(ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT))
-                    .contentType(MediaType.APPLICATION_JSON))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .param("op","change-state"))
                     .andExpect(status().isNotFound())
                     .andExpect(jsonPath("messageKey", is(Messages.NOT_FOUND)))
                     .andDo(document("loc-state-404"));
@@ -226,9 +227,10 @@ class LocationControllerDocumentation {
 
         @Test void shall_disable_Inbound_() throws Exception {
             Location location = service.findByLocationId(TestData.LOCATION_ID_EXT).get();
-            mockMvc.perform(patch(CommonConstants.API_LOCATIONS + "/" + location.getPersistentKey())
+            mockMvc.perform(patch(CommonConstants.API_LOCATION + "/" + location.getPersistentKey())
                     .content(mapper.writeValueAsString(ErrorCodeVO.LOCK_STATE_IN))
-                    .contentType(MediaType.APPLICATION_JSON))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .param("op","change-state"))
                     .andExpect(status().isOk())
                     .andDo(document("loc-state-in"));
             location = service.findByLocationId(TestData.LOCATION_ID_EXT).get();
@@ -237,9 +239,10 @@ class LocationControllerDocumentation {
 
         @Test void shall_set_PLCState() throws Exception {
             Location location = service.findByLocationId(TestData.LOCATION_ID_EXT).get();
-            mockMvc.perform(patch(CommonConstants.API_LOCATIONS + "/" + location.getPersistentKey())
+            mockMvc.perform(patch(CommonConstants.API_LOCATION + "/" + location.getPersistentKey())
                     .content(mapper.writeValueAsString(new ErrorCodeVO(31)))
-                    .contentType(MediaType.APPLICATION_JSON))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .param("op","change-state"))
                     .andExpect(status().isOk())
                     .andDo(document("loc-plcstate"));
             location = service.findByLocationId(TestData.LOCATION_ID_EXT).get();
@@ -248,9 +251,10 @@ class LocationControllerDocumentation {
 
         @Test void shall_set_both_states() throws Exception {
             Location location = service.findByLocationId(TestData.LOCATION_ID_EXT).get();
-            mockMvc.perform(patch(CommonConstants.API_LOCATIONS + "/" + location.getPersistentKey())
+            mockMvc.perform(patch(CommonConstants.API_LOCATION + "/" + location.getPersistentKey())
                     .content(mapper.writeValueAsString(new ErrorCodeVO("******11",31)))
-                    .contentType(MediaType.APPLICATION_JSON))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .param("op","change-state"))
                     .andExpect(status().isOk());
             location = service.findByLocationId(TestData.LOCATION_ID_EXT).get();
             assertThat(location.getPlcState()).isEqualTo(31);

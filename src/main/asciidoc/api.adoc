@@ -79,10 +79,11 @@ The structure of the response is aligned to the RFC7808. An example response loo
 
 ```
 {
-    "title": "Invalid location [NOT EXISTS]",
-    "httpStatus": 400,
-    "detail": "[The Location with ID NOT EXISTS is not in expected format]",
-    "messageKey": "location.invalid"
+    "message": "LocationGroup with name [NOT_EXISTS] not found",
+    "messageKey": "COMMON.LOCATION_GROUP_NOT_FOUND",
+    "obj" : [ "NOT_EXISTS" ],
+    "httpStatus" : "404",
+    "class" : "String"
 }
 ```
 
@@ -91,10 +92,11 @@ The JSON structure contains the following fields.
 |===
 | Property Name | Description
 
-| title         | A short error text
-| httpStatus    | The http status of the error
-| detail        | More descriptive information passed to the API or back to the caller
+| message       | A short error text
 | messageKey    | An unique identifier across the API that can be used to identify and translate the error message on the client side
+| obj           | An array of possible passed arguments to the message
+| httpStatus    | The http status of the error
+| class         | The arguments type
 |===
 
 Following message keys are currently used:
@@ -103,8 +105,11 @@ Following message keys are currently used:
 |===
 | Message Key | Description | Action
 
-| not.found   | The requested resource has not been found | The resource does not exist anymore or has never existed. The resource identifier must be verified
-| COMMON.BARCODE_NOT_FOUND | The TransportUnit does not exist | Verify the identifying attribute passed to the API
+| not.found                            | The requested resource has not been found      | The resource does not exist anymore or has never existed. The resource identifier must be verified
+| COMMON.BARCODE_NOT_FOUND             | The TransportUnit does not exist               | Verify the identifying attribute passed to the API
+| COMMON.LOCATION_NOT_FOUND            | The requested Location does not exist          | Verify the identifying attribute passed to the API
+| COMMON.LOCATION_GROUP_NOT_FOUND      | The requested LocationGroup does not exist     | Verify the identifying attribute passed to the API
+| COMMON.TRANSPORT_UNIT_TYPE_NOT_FOUND | The requested TransportUnitType does not exist | Verify the identifying attribute passed to the API
 |===
 
 
@@ -325,11 +330,15 @@ Each `LocationGroup` has a link to its parent `LocationGroup` except the root `L
 === Find LocationGroup by Name
 Send a HTTP GET request with the unique name of the `LocationGroup`.
 
-include::{generated}/lg-find-name/http-request.adoc[]
+include::{generated}/lg/shall_findby_name/http-request.adoc[]
+
+Request parameters:
+
+include::{generated}/lg/shall_findby_name/request-parameters.adoc[]
 
 If the `LocationGroup` exists the server responds with
 
-include::{generated}/lg-find-name/http-response.adoc[]
+include::{generated}/lg/shall_findby_name/http-response.adoc[]
 
 If the `LocationGroup` with the given name does not exist, the server responds with
 
@@ -338,11 +347,54 @@ include::{generated}/lg-find-name-404/http-response.adoc[]
 === Find multiple LocationGroups by Name
 Send a HTTP GET request with a list of unique `LocationGroup` names.
 
-include::{generated}/lg-find-names/http-request.adoc[]
+include::{generated}/lg/shall_findby_names/http-request.adoc[]
+
+Request parameters:
+
+include::{generated}/lg/shall_findby_names/request-parameters.adoc[]
 
 The server sends back a list of all `LocationGroups` or an empty list if no `LocationGroups` exist.
 
-include::{generated}/lg-find-names/http-response.adoc[]
+include::{generated}/lg/shall_findby_names/http-response.adoc[]
+
+=== Change a LocationGroup's State
+A `LocationGroup` has an inbound and an outbound state, sometimes also refered as infeed or outfeed state. Both states can be set to
+`AVAILABLE` or `NOT_AVAILABLE` independent from each other. Is a `LocationGroup` not available for infeed, then no transports towards this
+`LocationGroup` are created, similar is true for the outbound state.
+
+To change the state of a `LocationGroup` a `PATCH` request on the identified resource is accepted:
+
+include::{generated}/lg/shall_change_state_p-key/http-request.adoc[]
+
+Request path variables:
+
+include::{generated}/lg/shall_change_state_p-key/path-parameters.adoc[]
+
+Request parameters:
+
+include::{generated}/lg/shall_change_state_p-key/request-parameters.adoc[]
+
+If the state change operation could be processed successfully, the server responds with:
+
+include::{generated}/lg/shall_change_state_p-key/http-response.adoc[]
+
+If the resource can't be identified the server response looks like:
+
+include::{generated}/lg-state-404/http-response.adoc[]
+
+Instead of passing both state values for inbound and outbound directly as query parameters it is also possible to encode the state into a
+8-digit bitmap field and pass it to the request. This is very handy when the subsystem (aka. PLC) sends an error bitmap to the server that
+can then directly passed to the API.
+
+include::{generated}/lg/shall_change_state/http-request.adoc[]
+
+Request parameters:
+
+include::{generated}/lg/shall_change_state/request-parameters.adoc[]
+
+The server response is:
+
+include::{generated}/lg/shall_change_state/http-response.adoc[]
 
 == Target
 A `Target` is a `Location` or a group of `Locations` (`LocationGroup`) where a `TransportUnit` may be sent to.

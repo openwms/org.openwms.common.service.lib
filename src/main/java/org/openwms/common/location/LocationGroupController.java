@@ -17,7 +17,6 @@ package org.openwms.common.location;
 
 import org.ameba.exception.NotFoundException;
 import org.ameba.mapping.BeanMapper;
-import org.openwms.common.CommonConstants;
 import org.openwms.common.Index;
 import org.openwms.common.SimpleLink;
 import org.openwms.common.location.api.ErrorCodeTransformers;
@@ -39,6 +38,8 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
+import static org.openwms.common.CommonConstants.API_LOCATION_GROUP;
+import static org.openwms.common.CommonConstants.API_LOCATION_GROUPS;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -65,8 +66,10 @@ public class LocationGroupController extends AbstractWebController {
         this.groupStateOut = groupStateOut;
     }
 
-    @GetMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"name"})
-    public LocationGroupVO findByName(@RequestParam("name") String name) {
+    @GetMapping(value = API_LOCATION_GROUPS, params = {"name"})
+    public LocationGroupVO findByName(
+            @RequestParam("name") String name
+    ) {
         LocationGroup locationGroup = locationGroupService.findByName(name)
                 .orElseThrow(() -> new NotFoundException(format("LocationGroup with name [%s] does not exist", name)));
         LocationGroupVO result = mapper.map(locationGroup, LocationGroupVO.class);
@@ -76,8 +79,10 @@ public class LocationGroupController extends AbstractWebController {
         return result;
     }
 
-    @GetMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"names"})
-    public List<LocationGroupVO> findByNames(@RequestParam("names") List<String> names) {
+    @GetMapping(value = API_LOCATION_GROUPS, params = {"names"})
+    public List<LocationGroupVO> findByNames(
+            @RequestParam("names") List<String> names
+    ) {
         List<LocationGroup> locationGroups = locationGroupService.findByNames(names);
         List<LocationGroupVO> vos = mapper.map(locationGroups, LocationGroupVO.class);
         vos.forEach(lg -> {
@@ -88,7 +93,7 @@ public class LocationGroupController extends AbstractWebController {
         return vos;
     }
 
-    @GetMapping(value = CommonConstants.API_LOCATION_GROUPS)
+    @GetMapping(API_LOCATION_GROUPS)
     public List<LocationGroupVO> findAll() {
         List<LocationGroup> all = locationGroupService.findAll();
         List<LocationGroupVO> result = all == null ? Collections.emptyList() : mapper.map(all, LocationGroupVO.class);
@@ -101,32 +106,38 @@ public class LocationGroupController extends AbstractWebController {
         return result;
     }
 
-    @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS, params = {"name"})
-    public void changeGroupState(
+    @PatchMapping(value = API_LOCATION_GROUPS, params = {"name", "op=change-state"})
+    public ResponseEntity<Void> changeGroupState(
             @RequestParam(name = "name") String name,
-            @RequestBody ErrorCodeVO errorCode) {
+            @RequestBody ErrorCodeVO errorCode
+    ) {
         locationGroupService.changeGroupStates(
                 name,
                 groupStateIn.available(errorCode.getErrorCode()),
                 groupStateOut.available(errorCode.getErrorCode())
         );
+        return ResponseEntity.ok().build();
     }
 
-    @PatchMapping(value = CommonConstants.API_LOCATION_GROUPS + "/{pKey}")
-    public void changeGroupState(
+    @PatchMapping(value = API_LOCATION_GROUP + "/{pKey}", params = "op=change-state")
+    public ResponseEntity<Void> changeGroupState(
             @PathVariable String pKey,
             @RequestParam(name = "statein") LocationGroupState stateIn,
-            @RequestParam(name = "stateout") LocationGroupState stateOut) {
+            @RequestParam(name = "stateout") LocationGroupState stateOut
+    ) {
         locationGroupService.changeGroupState(pKey, stateIn, stateOut);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping(CommonConstants.API_LOCATION_GROUPS + "/index")
+    @GetMapping(API_LOCATION_GROUPS + "/index")
     public ResponseEntity<Index> index() {
         return ResponseEntity.ok(
                 new Index(
                         linkTo(methodOn(LocationGroupController.class).findAll()).withRel("location-group-findall"),
                         linkTo(methodOn(LocationGroupController.class).findByName("FOO")).withRel("location-group-findbyname"),
-                        linkTo(methodOn(LocationGroupController.class).findByNames(asList("FOO", "BAR"))).withRel("location-group-findbynames")
+                        linkTo(methodOn(LocationGroupController.class).findByNames(asList("FOO", "BAR"))).withRel("location-group-findbynames"),
+                        linkTo(methodOn(LocationGroupController.class).changeGroupState("FOO", ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel("location-group-changestate1"),
+                        linkTo(methodOn(LocationGroupController.class).changeGroupState("UUID", LocationGroupState.AVAILABLE, LocationGroupState.NOT_AVAILABLE)).withRel("location-group-changestate2")
                 )
         );
     }

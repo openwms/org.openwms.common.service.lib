@@ -20,6 +20,7 @@ import org.openwms.common.transport.Barcode;
 import org.openwms.common.transport.TransportUnit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.history.RevisionRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -32,7 +33,7 @@ import java.util.Optional;
  * @author Heiko Scherrer
  */
 @Repository
-interface TransportUnitRepository extends JpaRepository<TransportUnit, Long> {
+interface TransportUnitRepository extends RevisionRepository<TransportUnit, Long, Integer>, JpaRepository<TransportUnit, Long> {
 
     @Query("select tu from TransportUnit tu where tu.pKey = :pKey")
     Optional<TransportUnit> findByPKey(@Param("pKey") String pKey);

@@ -21,7 +21,9 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
+import org.springframework.data.envers.repository.support.EnversRevisionRepositoryFactoryBean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 
@@ -50,6 +52,7 @@ import java.lang.annotation.Target;
 @EnableAspects(propagateRootCause = true)
 @EnableConfigurationProperties
 @EnableJpaAuditing
+@EnableJpaRepositories(basePackages = "org.openwms.common*", repositoryFactoryBeanClass = EnversRevisionRepositoryFactoryBean.class)
 @EnableSpringConfigured
 public @interface CommonDataTest {
 }

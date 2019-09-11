@@ -36,6 +36,7 @@ import java.util.Optional;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
+import static org.openwms.common.CommonConstants.API_LOCATION;
 import static org.openwms.common.CommonConstants.API_LOCATIONS;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -79,8 +80,11 @@ public class LocationController extends AbstractWebController {
         return ResponseEntity.ok(mapper.map(locations, LocationVO.class));
     }
 
-    @PatchMapping(value = API_LOCATIONS + "/{pKey}")
-    public ResponseEntity<Void> updateState(@PathVariable(name = "pKey") String pKey, @RequestBody ErrorCodeVO errorCode) {
+    @PatchMapping(value = API_LOCATION + "/{pKey}", params = "op=change-state")
+    public ResponseEntity<Void> changeState(
+            @PathVariable(name = "pKey") String pKey,
+            @RequestBody ErrorCodeVO errorCode
+    ) {
         locationService.changeState(pKey, errorCode);
         return ResponseEntity.ok().build();
     }
@@ -113,7 +117,7 @@ public class LocationController extends AbstractWebController {
                         linkTo(methodOn(LocationController.class).findLocationByCoordinate("AREA/AISLE/X/Y/Z")).withRel("location-findbycoordinate"),
                         linkTo(methodOn(LocationController.class).findLocationByPlcCode("PLC_CODE")).withRel("location-findbyplccode"),
                         linkTo(methodOn(LocationController.class).findLocationsForLocationGroups(asList("LG1", "LG2"))).withRel("location-forlocationgroup"),
-                        linkTo(methodOn(LocationController.class).updateState("pKey", ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel("location-changestate")
+                        linkTo(methodOn(LocationController.class).changeState("pKey", ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel("location-changestate")
                 )
         );
     }

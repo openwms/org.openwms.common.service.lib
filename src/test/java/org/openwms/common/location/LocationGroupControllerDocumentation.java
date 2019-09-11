@@ -29,6 +29,7 @@ import org.openwms.common.location.api.LocationGroupState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -37,12 +38,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.openwms.common.CommonConstants.API_LOCATION_GROUP;
+import static org.springframework.restdocs.http.HttpDocumentation.httpRequest;
+import static org.springframework.restdocs.http.HttpDocumentation.httpResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -61,9 +70,11 @@ class LocationGroupControllerDocumentation {
     @Autowired
     private LocationGroupService service;
     private MockMvc mockMvc;
+    private RestDocumentationResultHandler documentationResultHandler;
 
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation) {
+        this.documentationResultHandler = document("lg/{method-name}", preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()));
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
                 .apply(documentationConfiguration(restDocumentation)).build();
     }
@@ -78,7 +89,7 @@ class LocationGroupControllerDocumentation {
                 .andExpect(jsonPath("$._links.location-group-findall").exists())
                 .andExpect(jsonPath("$._links.location-group-findbyname").exists())
                 .andExpect(jsonPath("$._links.location-group-findbynames").exists())
-                .andExpect(jsonPath("$._links.length()", is(3)))
+                .andExpect(jsonPath("$._links.length()", is(5)))
                 .andDo(document("lg-index", preprocessResponse(prettyPrint())))
         ;
     }
@@ -100,7 +111,14 @@ class LocationGroupControllerDocumentation {
                     .andExpect(jsonPath("groupStateOut", is(LocationGroupState.AVAILABLE.toString())))
                     .andExpect(jsonPath("_links.parent.href").exists())
                     .andExpect(status().isOk())
-                    .andDo(document("lg-find-name"));
+                    .andDo(
+                            documentationResultHandler.document(
+                                    requestParameters(
+                                            parameterWithName("name").description("The unique name of the LocationGroup")
+                                    ),
+                                    httpRequest(), httpResponse()
+                            )
+                    );
         }
 
         @Test
@@ -127,7 +145,14 @@ class LocationGroupControllerDocumentation {
                     .andExpect(jsonPath("$[1].groupStateIn", is(LocationGroupState.AVAILABLE.toString())))
                     .andExpect(jsonPath("$[1].groupStateOut", is(LocationGroupState.AVAILABLE.toString())))
                     .andExpect(jsonPath("$[1].links").exists())
-                    .andDo(document("lg-find-names"));
+                    .andDo(
+                            documentationResultHandler.document(
+                                    requestParameters(
+                                            parameterWithName("names").description("A list of unique names to identiy the LocationGroups")
+                                    ),
+                                    httpRequest(), httpResponse()
+                            )
+                    );
         }
 
         @Test
@@ -151,6 +176,7 @@ class LocationGroupControllerDocumentation {
         @Test void shall_changeState_pkey_404() throws Exception {
             mockMvc.perform(patch(CommonConstants.API_LOCATION_GROUPS)
                     .param("name", "NOT_EXISTS")
+                    .param("op","change-state")
                     .content(mapper.writeValueAsString(ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT))
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isNotFound())
@@ -161,22 +187,46 @@ class LocationGroupControllerDocumentation {
         @Test void shall_change_state() throws Exception {
             mockMvc.perform(patch(CommonConstants.API_LOCATION_GROUPS)
                     .param("name", TestData.LOCATION_GROUP_NAME_LG3)
+                    .param("op","change-state")
                     .content(mapper.writeValueAsString(ErrorCodeVO.LOCK_STATE_IN_AND_OUT))
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andDo(document("lg-state"));
+                    .andDo(
+                            documentationResultHandler.document(
+                                    requestParameters(
+                                            parameterWithName("name").description("The unique name of the LocationGroup"),
+                                            parameterWithName("op").description("The operation mode must be set to 'change-state'")
+                                    ),
+                                    httpRequest(), httpResponse()
+                            )
+                    );
             LocationGroup lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG3).get();
             assertThat(lg.getGroupStateIn()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
             assertThat(lg.getGroupStateOut()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
         }
 
-        @Test void shall_change_state2() throws Exception {
+        @Test void shall_change_state_pKey() throws Exception {
             LocationGroup lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
-            mockMvc.perform(patch(CommonConstants.API_LOCATION_GROUPS + "/" + lg.getPersistentKey())
+            mockMvc.perform(
+                    patch(API_LOCATION_GROUP + "/{pKey}", lg.getPersistentKey())
                     .param("statein", LocationGroupState.NOT_AVAILABLE.toString())
-                    .param("stateout", LocationGroupState.NOT_AVAILABLE.toString()))
+                    .param("stateout", LocationGroupState.NOT_AVAILABLE.toString())
+                    .param("op","change-state"))
+                    .andDo(print())
                     .andExpect(status().isOk())
-                    .andDo(document("lg-state-direct"));
+                    .andDo(
+                            documentationResultHandler.document(
+                                    pathParameters(
+                                            parameterWithName("pKey").description("The persistent key of the LocationGroup")
+                                    ),
+                                    requestParameters(
+                                            parameterWithName("statein").description("The infeed state to set"),
+                                            parameterWithName("stateout").description("The outfeed state to set"),
+                                            parameterWithName("op").description("The operation mode must be set to 'change-state'")
+                                    ),
+                                    httpRequest(), httpResponse()
+                            )
+                    );
             lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
             assertThat(lg.getGroupStateIn()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
             assertThat(lg.getGroupStateOut()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
