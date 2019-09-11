@@ -36,6 +36,7 @@ import java.util.Optional;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
+import static org.openwms.common.CommonConstants.API_LOCATION;
 import static org.openwms.common.CommonConstants.API_LOCATIONS;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -52,37 +53,40 @@ public class LocationController extends AbstractWebController {
     private final LocationService locationService;
     private final BeanMapper mapper;
 
-<span class="fc" id="L55">    LocationController(LocationService locationService, BeanMapper mapper) {</span>
-<span class="fc" id="L56">        this.locationService = locationService;</span>
-<span class="fc" id="L57">        this.mapper = mapper;</span>
-<span class="fc" id="L58">    }</span>
+<span class="fc" id="L56">    LocationController(LocationService locationService, BeanMapper mapper) {</span>
+<span class="fc" id="L57">        this.locationService = locationService;</span>
+<span class="fc" id="L58">        this.mapper = mapper;</span>
+<span class="fc" id="L59">    }</span>
 
     @GetMapping(value = API_LOCATIONS, params = {&quot;locationPK&quot;})
     public ResponseEntity&lt;Optional&lt;LocationVO&gt;&gt; findLocationByCoordinate(@RequestParam(&quot;locationPK&quot;) String locationPK) {
-<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (!LocationPK.isValid(locationPK)) {</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (!LocationPK.isValid(locationPK)) {</span>
             // here we need to throw an NFE because Feign needs to cast it into an Optional. IAE won't work!
-<span class="fc" id="L64">            throw new NotFoundException(format(&quot;Invalid location [%s]&quot;, locationPK));</span>
+<span class="fc" id="L65">            throw new NotFoundException(format(&quot;Invalid location [%s]&quot;, locationPK));</span>
         }
-<span class="fc" id="L66">        Location location = locationService.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with locationPk [%s] found&quot;, locationPK)));</span>
-<span class="fc" id="L67">        return ResponseEntity.ok(Optional.ofNullable(mapper.map(location, LocationVO.class)));</span>
+<span class="fc" id="L67">        Location location = locationService.findByLocationId(LocationPK.fromString(locationPK)).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with locationPk [%s] found&quot;, locationPK)));</span>
+<span class="fc" id="L68">        return ResponseEntity.ok(Optional.ofNullable(mapper.map(location, LocationVO.class)));</span>
     }
 
     @GetMapping(value = API_LOCATIONS, params = {&quot;plcCode&quot;})
     public ResponseEntity&lt;Optional&lt;LocationVO&gt;&gt; findLocationByPlcCode(@RequestParam(&quot;plcCode&quot;) String plcCode) {
-<span class="fc" id="L72">        Location location = locationService.findByPlcCode(plcCode).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with PLC Code [%s] found&quot;, plcCode)));</span>
-<span class="fc" id="L73">        return ResponseEntity.ok(Optional.ofNullable(mapper.map(location, LocationVO.class)));</span>
+<span class="fc" id="L73">        Location location = locationService.findByPlcCode(plcCode).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with PLC Code [%s] found&quot;, plcCode)));</span>
+<span class="fc" id="L74">        return ResponseEntity.ok(Optional.ofNullable(mapper.map(location, LocationVO.class)));</span>
     }
 
     @GetMapping(value = API_LOCATIONS, params = {&quot;locationGroupNames&quot;})
     public ResponseEntity&lt;List&lt;LocationVO&gt;&gt; findLocationsForLocationGroups(@RequestParam(&quot;locationGroupNames&quot;) List&lt;String&gt; locationGroupNames) {
-<span class="fc" id="L78">        List&lt;Location&gt; locations = locationService.findAllOf(locationGroupNames);</span>
-<span class="fc" id="L79">        return ResponseEntity.ok(mapper.map(locations, LocationVO.class));</span>
+<span class="fc" id="L79">        List&lt;Location&gt; locations = locationService.findAllOf(locationGroupNames);</span>
+<span class="fc" id="L80">        return ResponseEntity.ok(mapper.map(locations, LocationVO.class));</span>
     }
 
-    @PatchMapping(value = API_LOCATIONS + &quot;/{pKey}&quot;)
-    public ResponseEntity&lt;Void&gt; updateState(@PathVariable(name = &quot;pKey&quot;) String pKey, @RequestBody ErrorCodeVO errorCode) {
-<span class="fc" id="L84">        locationService.changeState(pKey, errorCode);</span>
-<span class="fc" id="L85">        return ResponseEntity.ok().build();</span>
+    @PatchMapping(value = API_LOCATION + &quot;/{pKey}&quot;, params = &quot;op=change-state&quot;)
+    public ResponseEntity&lt;Void&gt; changeState(
+            @PathVariable(name = &quot;pKey&quot;) String pKey,
+            @RequestBody ErrorCodeVO errorCode
+    ) {
+<span class="fc" id="L88">        locationService.changeState(pKey, errorCode);</span>
+<span class="fc" id="L89">        return ResponseEntity.ok().build();</span>
     }
 
     @GetMapping(value = API_LOCATIONS, params = {&quot;area&quot;, &quot;aisle&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;})
@@ -93,27 +97,27 @@ public class LocationController extends AbstractWebController {
             @RequestParam(value = &quot;y&quot;, required = false) String y,
             @RequestParam(value = &quot;z&quot;, required = false) String z
     ) {
-<span class="fc" id="L96">        LocationPK pk = LocationPK.newBuilder()</span>
-<span class="pc bpc" id="L97" title="2 of 4 branches missed.">                .area(area == null || area.equals(&quot;&quot;) ? &quot;%&quot; : area)</span>
-<span class="pc bpc" id="L98" title="2 of 4 branches missed.">                .aisle(aisle == null || aisle.equals(&quot;&quot;) ? &quot;%&quot; : aisle)</span>
-<span class="pc bpc" id="L99" title="2 of 4 branches missed.">                .x(x == null || x.equals(&quot;&quot;) ? &quot;%&quot; : x)</span>
-<span class="pc bpc" id="L100" title="2 of 4 branches missed.">                .y(y == null || y.equals(&quot;&quot;) ? &quot;%&quot; : y)</span>
-<span class="pc bpc" id="L101" title="2 of 4 branches missed.">                .z(z == null || z.equals(&quot;&quot;) ? &quot;%&quot; : z)</span>
-<span class="fc" id="L102">                .build();</span>
-<span class="fc" id="L103">        List&lt;Location&gt; locations = locationService.findLocations(pk);</span>
-<span class="fc bfc" id="L104" title="All 2 branches covered.">        return locations.isEmpty()</span>
-<span class="fc" id="L105">                ? ResponseEntity.notFound().build()</span>
-<span class="fc" id="L106">                : ResponseEntity.ok(mapper.map(locations, LocationVO.class));</span>
+<span class="fc" id="L100">        LocationPK pk = LocationPK.newBuilder()</span>
+<span class="pc bpc" id="L101" title="2 of 4 branches missed.">                .area(area == null || area.equals(&quot;&quot;) ? &quot;%&quot; : area)</span>
+<span class="pc bpc" id="L102" title="2 of 4 branches missed.">                .aisle(aisle == null || aisle.equals(&quot;&quot;) ? &quot;%&quot; : aisle)</span>
+<span class="pc bpc" id="L103" title="2 of 4 branches missed.">                .x(x == null || x.equals(&quot;&quot;) ? &quot;%&quot; : x)</span>
+<span class="pc bpc" id="L104" title="2 of 4 branches missed.">                .y(y == null || y.equals(&quot;&quot;) ? &quot;%&quot; : y)</span>
+<span class="pc bpc" id="L105" title="2 of 4 branches missed.">                .z(z == null || z.equals(&quot;&quot;) ? &quot;%&quot; : z)</span>
+<span class="fc" id="L106">                .build();</span>
+<span class="fc" id="L107">        List&lt;Location&gt; locations = locationService.findLocations(pk);</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        return locations.isEmpty()</span>
+<span class="fc" id="L109">                ? ResponseEntity.notFound().build()</span>
+<span class="fc" id="L110">                : ResponseEntity.ok(mapper.map(locations, LocationVO.class));</span>
     }
 
     @GetMapping(CommonConstants.API_LOCATIONS + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="fc" id="L111">        return ResponseEntity.ok(</span>
-<span class="fc" id="L112">                new Index(</span>
-<span class="fc" id="L113">                        linkTo(methodOn(LocationController.class).findLocationByCoordinate(&quot;AREA/AISLE/X/Y/Z&quot;)).withRel(&quot;location-findbycoordinate&quot;),</span>
-<span class="fc" id="L114">                        linkTo(methodOn(LocationController.class).findLocationByPlcCode(&quot;PLC_CODE&quot;)).withRel(&quot;location-findbyplccode&quot;),</span>
-<span class="fc" id="L115">                        linkTo(methodOn(LocationController.class).findLocationsForLocationGroups(asList(&quot;LG1&quot;, &quot;LG2&quot;))).withRel(&quot;location-forlocationgroup&quot;),</span>
-<span class="fc" id="L116">                        linkTo(methodOn(LocationController.class).updateState(&quot;pKey&quot;, ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel(&quot;location-changestate&quot;)</span>
+<span class="fc" id="L115">        return ResponseEntity.ok(</span>
+<span class="fc" id="L116">                new Index(</span>
+<span class="fc" id="L117">                        linkTo(methodOn(LocationController.class).findLocationByCoordinate(&quot;AREA/AISLE/X/Y/Z&quot;)).withRel(&quot;location-findbycoordinate&quot;),</span>
+<span class="fc" id="L118">                        linkTo(methodOn(LocationController.class).findLocationByPlcCode(&quot;PLC_CODE&quot;)).withRel(&quot;location-findbyplccode&quot;),</span>
+<span class="fc" id="L119">                        linkTo(methodOn(LocationController.class).findLocationsForLocationGroups(asList(&quot;LG1&quot;, &quot;LG2&quot;))).withRel(&quot;location-forlocationgroup&quot;),</span>
+<span class="fc" id="L120">                        linkTo(methodOn(LocationController.class).changeState(&quot;pKey&quot;, ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel(&quot;location-changestate&quot;)</span>
                 )
         );
     }
