@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Optional;
 
+import static org.openwms.common.CommonConstants.API_LOCATION;
 import static org.openwms.common.CommonConstants.API_LOCATIONS;
 
 /**
@@ -46,7 +47,9 @@ public interface LocationApi {
      */
     @GetMapping(value = API_LOCATIONS, params = {"locationPK"})
     @Cacheable("locations")
-    Optional<LocationVO> findLocationByCoordinate(@RequestParam("locationPK") String locationPK);
+    Optional<LocationVO> findLocationByCoordinate(
+            @RequestParam("locationPK") String locationPK
+    );
 
     /**
      * Find and return a {@code Location} representation by the given {@code plcCode}.
@@ -56,41 +59,47 @@ public interface LocationApi {
      */
     @GetMapping(value = API_LOCATIONS, params = {"plcCode"})
     @Cacheable("locations")
-    Optional<LocationVO> findLocationByPlcCode(@RequestParam("plcCode") String plcCode);
+    Optional<LocationVO> findLocationByPlcCode(
+            @RequestParam("plcCode") String plcCode
+    );
 
     /**
-     * Find and return all {@link LocationVO}s that belong to one or more
-     * {@code LocationGroupVO}s identified by their {@code locationGroupNames}.
+     * Find and return all {@code Location}s that belong to one or more {@code LocationGroup}s identified by their {@code locationGroupNames}.
      *
-     * @param locationGroupNames A list of LocationGroup names.
+     * @param locationGroupNames A list of LocationGroup names
      * @return All Location instances or an empty list
      */
     @GetMapping(value = API_LOCATIONS, params = {"locationGroupNames"})
     @Cacheable("locations")
-    List<LocationVO> findLocationsForLocationGroups(@RequestParam("locationGroupNames") List<String> locationGroupNames);
+    List<LocationVO> findLocationsForLocationGroups(
+            @RequestParam("locationGroupNames") List<String> locationGroupNames
+    );
 
     /**
-     * Update the state of a {@code Location} with the given {@code errorCode}.
+     * Change the state of a a {@code Location}.
      *
      * @param pKey The persistent key of the Location
-     * @param errorCode The error code
+     * @param errorCode The decoded state
      */
-    @PatchMapping(value = API_LOCATIONS + "/{pKey}")
+    @PatchMapping(value = API_LOCATION + "/{pKey}", params = "op=change-state")
     @CacheEvict(cacheNames = "locations", allEntries = true)
-    void updateState(@PathVariable(name = "pKey") String pKey, @RequestBody ErrorCodeVO errorCode);
-
+    void changeState(
+            @PathVariable(name = "pKey") String pKey,
+            @RequestBody ErrorCodeVO errorCode
+    );
 
     /**
-     * Find and return all {@code Location}s that match the area/aisle/x/y/z criteria.
+     * Find and return all {@code Location}s that match the given criteria expressed by area/aisle/x/y/z. Supported wildcards in coordinates: {@code %,_}.
      *
-     * @param area The Area to search for or '%'
-     * @param aisle The Aisle to search for or '%'
-     * @param x The X to search for or '%'
-     * @param y The Y to search for or '%'
-     * @param z The Z to search for or '%'
+     * @param area The Area to search for
+     * @param aisle The Aisle to search for
+     * @param x The X to search for or
+     * @param y The Y to search for or
+     * @param z The Z to search for or
      * @return All Location instances or an empty list
      */
     @GetMapping(value = API_LOCATIONS, params = {"area", "aisle", "x", "y", "z"})
+    @Cacheable("locations")
     List<LocationVO> findLocations(
             @RequestParam(value = "area", required = false) String area,
             @RequestParam(value = "aisle", required = false) String aisle,

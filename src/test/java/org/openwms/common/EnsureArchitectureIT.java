@@ -21,11 +21,7 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import org.ameba.annotation.TxService;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.fields;
@@ -72,25 +68,6 @@ class EnsureArchitectureIT {
                     .because("By convention Transactional Services should only reside in internal packages")
             ;
 
-//    @ArchTest
-    public static final ArchRule verify_transactional_repository_access =
-            classes().that()
-                    .areAnnotatedWith(Repository.class)
-                    .or()
-                    .areAssignableFrom(JpaRepository.class)
-                    .should()
-                    .bePackagePrivate()
-                    .andShould()
-                    .onlyBeAccessed().byClassesThat()
-                    .areAnnotatedWith(TxService.class)
-                    .orShould()
-                    .onlyBeAccessed().byClassesThat()
-                    .areAnnotatedWith(Configurable.class)
-                    .orShould()
-                    .onlyBeAccessed().byClassesThat()
-                    .areAnnotatedWith(Transactional.class)
-                    .because("A Repository must only be accessed in a transaction context")
-            ;
     @ArchTest
     public static final ArchRule verify_no_direct_impl_access =
             noClasses().that()

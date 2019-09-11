@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
+import static org.openwms.common.CommonConstants.API_TRANSPORT_UNIT;
 import static org.openwms.common.CommonConstants.API_TRANSPORT_UNITS;
 import static org.openwms.common.location.LocationPK.fromString;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -135,7 +136,7 @@ public class TransportUnitController extends AbstractWebController {
         return mapper.map(tu, TransportUnitVO.class);
     }
 
-    @PostMapping(value = API_TRANSPORT_UNITS + "/error", params = {"bk", "errorCode"})
+    @PostMapping(value = API_TRANSPORT_UNIT + "/error", params = {"bk", "errorCode"})
     public void addErrorToTransportUnit(@RequestParam("bk") String transportUnitBK, @RequestParam(value = "errorCode") String errorCode) {
         MessageCommand messageCommand = MessageCommand.newBuilder()
                 .withType(MessageCommand.Type.ADD_TO_TU)
