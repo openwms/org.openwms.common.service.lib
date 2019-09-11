@@ -16,6 +16,9 @@
 package org.openwms.common.transport;
 
 import org.ameba.integration.jpa.ApplicationEntity;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 import org.openwms.common.location.Location;
 import org.openwms.common.units.Weight;
 import org.openwms.core.values.CoreTypeDefinitions;
@@ -24,6 +27,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.util.Assert;
 
 import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -49,6 +53,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 /**
  * A TransportUnit is an item like a box, a toad, a bin or a pallet that is moved within a warehouse and can carry goods. Used as container
  * to transport items like {@code LoadUnit}s. It can be moved between {@code Location}s.
@@ -57,6 +63,8 @@ import java.util.Set;
  * @GlossaryTerm
  */
 @Configurable
+@Audited(targetAuditMode = NOT_AUDITED)
+@AuditOverride(forClass = ApplicationEntity.class)
 @Entity
 @Table(name = "COM_TRANSPORT_UNIT", uniqueConstraints = @UniqueConstraint(columnNames = {"C_BARCODE"}))
 public class TransportUnit extends ApplicationEntity implements Serializable {
@@ -78,7 +86,10 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
 
     /** Weight of the {@code TransportUnit}. */
     @Embedded
-    @AttributeOverride(name = "quantity", column = @Column(name = "C_WEIGHT", length = CoreTypeDefinitions.QUANTITY_LENGTH))
+    @AttributeOverrides({
+            @AttributeOverride(name = "unit", column = @Column(name = "C_WEIGHT_UOM", length = CoreTypeDefinitions.QUANTITY_LENGTH)),
+            @AttributeOverride(name = "magnitude", column = @Column(name = "C_WEIGHT"))
+    })
     private Weight weight = new Weight("0");
 
     /** State of the {@code TransportUnit}. */
@@ -122,6 +133,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
 
     /** A List of errors occurred on the {@code TransportUnit}. */
     @OneToMany(mappedBy = "tu", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @NotAudited
     private List<UnitError> errors = new ArrayList<>(0);
 
     @Autowired

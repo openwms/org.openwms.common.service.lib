@@ -17,6 +17,7 @@ package org.openwms.common;
 
 import org.ameba.test.categories.SpringTestSupport;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 
@@ -36,6 +37,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
+@EnableSpringConfigured
 @SpringTestSupport
 @SqlGroup({
         @Sql(scripts = "classpath:test.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)

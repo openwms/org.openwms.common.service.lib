@@ -75,7 +75,6 @@
     <properties>
         <core.version>1.5.0-SNAPSHOT</core.version>
         <skipTests>false</skipTests>
-        <resilience4j-spring-boot2.version>0.17.0</resilience4j-spring-boot2.version>
     </properties>
 
     <reporting>
@@ -154,11 +153,6 @@
                 <version>${core.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.resilience4j</groupId>
-                <artifactId>resilience4j-spring-boot2</artifactId>
-                <version>${resilience4j-spring-boot2.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>net.sf.dozer</groupId>
                 <artifactId>dozer</artifactId>
                 <version>${dozer.version}</version>
@@ -229,16 +223,6 @@
             <artifactId>spring-boot-starter-hateoas</artifactId>
         </dependency>
 
-        <!--dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
-            <version>1.0.0.BUILD-SNAPSHOT</version>
-        </dependency-->
-        <dependency>
-            <groupId>io.github.resilience4j</groupId>
-            <artifactId>resilience4j-spring-boot2</artifactId>
-        </dependency>
-
         <!-- both for retry -->
         <dependency>
             <groupId>org.springframework.retry</groupId>
@@ -258,6 +242,15 @@
         <dependency>
             <groupId>io.interface21</groupId>
             <artifactId>ameba-lib</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-envers</artifactId>
+            <version>2.1.8.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
         </dependency>
         <dependency>
             <!-- Required to use PATCH -->
@@ -372,16 +365,5 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
-        <!--repository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>https://repo.spring.io/libs-snapshot-local</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository-->
     </repositories>
 </project>

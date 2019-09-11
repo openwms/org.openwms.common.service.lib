@@ -17,6 +17,17 @@ spring:
   jpa:
     show-sql: false
     open-in-view: false
+    properties:
+      org:
+        hibernate:
+          envers:
+            audit_strategy: org.hibernate.envers.strategy.DefaultAuditStrategy
+            audit_table_suffix: _LOG
+            revision_field_name: C_REV
+            revision_type_field_name: C_REV_TYPE
+            default_schema: public
+            audit_strategy_validity_end_rev_field_name: C_REV_END
+            audit_strategy_validity_revend_timestamp_field_name: C_REVEND_TSTMP
   jackson:
     date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
 
@@ -129,5 +140,5 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql:testdb
-    username: karl
-    password: karl
+    username: KARL
+    password: KARL
