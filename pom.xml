@@ -73,7 +73,7 @@
     </ciManagement>
 
     <properties>
-        <core.version>1.5.0-SNAPSHOT</core.version>
+        <core.version>1.5.0</core.version>
         <spring-data-envers.version>2.1.8.RELEASE</spring-data-envers.version>
     </properties>
 
