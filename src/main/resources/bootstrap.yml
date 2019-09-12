@@ -10,6 +10,8 @@ spring:
       fail-fast: false # true means retry
       retry:
         max-attempts: 120
+    discovery:
+      enabled: false
   security:
     user:
       password: sa
@@ -33,7 +35,6 @@ spring:
   zipkin:
     sender:
       type: web
-
 feign:
   httpclient:
     connection-timeout: 30000
@@ -113,6 +114,8 @@ spring:
         enabled: true
       enabled: true
       fail-fast: true # true means retry
+    discovery:
+      enabled: true
 
 management:
   health:
@@ -128,6 +131,8 @@ spring:
         enabled: false
       enabled: false
       fail-fast: false
+    discovery:
+      enabled: false
   main:
     banner-mode: "off"
 
