@@ -30,6 +30,9 @@ spring:
             audit_strategy_validity_revend_timestamp_field_name: C_REVEND_TSTMP
   jackson:
     date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
+  zipkin:
+    sender:
+      type: web
 
 feign:
   httpclient:
@@ -109,6 +112,7 @@ spring:
       discovery:
         enabled: true
       enabled: true
+      fail-fast: true # true means retry
 
 management:
   health:

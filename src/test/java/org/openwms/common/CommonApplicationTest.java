@@ -42,7 +42,9 @@ import java.lang.annotation.Target;
 @SqlGroup({
         @Sql(scripts = "classpath:test.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 })
-@SpringBootTest(classes = {CommonStarter.class}, properties = {
+@SpringBootTest(classes = {
+        CommonStarter.class
+}, properties = {
         "spring.jpa.show-sql=false",
         "spring.main.banner-mode=OFF",
         "spring.jackson.serialization.INDENT_OUTPUT=true"

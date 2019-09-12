@@ -16,7 +16,9 @@
 package org.openwms.common.location.api.events;
 
 import org.openwms.core.event.RootApplicationEvent;
+import org.springframework.util.Assert;
 
+import javax.validation.constraints.NotNull;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
 
@@ -36,9 +38,15 @@ public class LocationEvent extends RootApplicationEvent implements Serializable 
      * @param type The event type
      */
     @ConstructorProperties({"source", "type"})
-    public LocationEvent(Object source, LocationEventType type) {
-        super(source);
+    public LocationEvent(@NotNull Object source, @NotNull LocationEventType type) {
+        super(assertThis(source, type));
         this.type = type;
+    }
+
+    private static Object assertThis(Object source, LocationEventType type) {
+        Assert.notNull(source, "source is null");
+        Assert.notNull(type, "type is null");
+        return source;
     }
 
     public static LocationEvent boot() {

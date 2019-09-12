@@ -18,6 +18,7 @@ package org.openwms.common;
 import org.ameba.IDGenerator;
 import org.ameba.JdkIDGenerator;
 import org.ameba.annotation.EnableAspects;
+import org.ameba.app.BaseConfiguration;
 import org.ameba.http.EnableMultiTenancy;
 import org.ameba.http.RequestIDFilter;
 import org.ameba.i18n.AbstractTranslator;
@@ -29,6 +30,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.Ordered;
@@ -50,6 +52,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(repositoryFactoryBeanClass = EnversRevisionRepositoryFactoryBean.class)
 @EnableMultiTenancy(enabled = false)
 @EnableTransactionManagement
+@Import(BaseConfiguration.class)
 public class CommonModuleConfiguration {
 
     public @Bean

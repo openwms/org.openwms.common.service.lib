@@ -4,17 +4,17 @@
     <property name="LOG_TEMP" value="/tmp/owms"/>
     <property name="MODULE_NAME" value="COMMON-Service"/>
 
-    <include resource="logback-appenders.xml" />
-    <include resource="logback-loggers.xml" />
+    <include resource="logback-appenders.xml"/>
+    <include resource="logback-loggers.xml"/>
 
-    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
 
-    <logger name="com.netflix.discovery" level="OFF" />
+    <logger name="com.netflix.discovery" level="OFF"/>
     <logger name="org.dozer" level="ERROR"/>
     <logger name="org.hibernate.SQL" level="OFF"/>
     <logger name="org.hibernate.type" level="OFF"/>
     <logger name="org.springframework" level="WARN"/>
-    <logger name="org.openwms" level="DEBUG"/>
+    <logger name="org.openwms" level="WARN"/>
 
     <logger name="PRESENTATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
         <appender-ref ref="STDOUT"/>

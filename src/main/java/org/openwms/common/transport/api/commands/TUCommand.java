@@ -17,6 +17,7 @@ package org.openwms.common.transport.api.commands;
 
 import org.openwms.common.transport.api.messages.TransportUnitMO;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
@@ -31,7 +32,7 @@ public class TUCommand implements Command<TUCommand.Type>, Serializable {
 
     @NotNull
     private Type type;
-    @NotNull
+    @NotNull @Valid
     private TransportUnitMO transportUnit;
 
     /*~-------------------- constructors --------------------*/

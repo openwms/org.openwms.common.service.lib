@@ -19,10 +19,20 @@ import org.ameba.annotation.TxService;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.transport.Barcode;
 import org.openwms.common.transport.TransportUnitService;
+import org.openwms.common.transport.api.ValidationGroups;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Path;
+import javax.validation.ValidationException;
+import javax.validation.Validator;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static java.lang.String.format;
 
 /**
  * A TransportUnitCommandHandler passes incoming {@link TUCommand}s to the internal
@@ -37,10 +47,12 @@ class TransportUnitCommandHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandHandler.class);
     private final TransportUnitService service;
     private final ApplicationContext ctx;
+    private final Validator validator;
 
-    TransportUnitCommandHandler(TransportUnitService service, ApplicationContext ctx) {
+    TransportUnitCommandHandler(TransportUnitService service, ApplicationContext ctx, Validator validator) {
         this.service = service;
         this.ctx = ctx;
+        this.validator = validator;
     }
 
     public void handle(TUCommand command) {
@@ -52,6 +64,7 @@ class TransportUnitCommandHandler {
                 service.moveTransportUnit(Barcode.of(command.getTransportUnit().getBarcode()), LocationPK.fromString(command.getTransportUnit().getActualLocation()));
                 break;
             case CHANGE_TARGET:
+                validate(command, ValidationGroups.TransportUnit.ChangeTarget.class);
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Got command to CHANGE the target of the TransportUnit with id [{}] to [{}]", command.getTransportUnit().getBarcode(), command.getTransportUnit().getTargetLocation());
                 }
@@ -65,6 +78,19 @@ class TransportUnitCommandHandler {
                 break;
             default:
                 LOGGER.debug("TUCommand [{}] not supported", command.getType());
+        }
+    }
+
+    private void validate(TUCommand command, Class<?> changeTargetClass) {
+        Set<ConstraintViolation<TUCommand>> violations = validator.validate(command, changeTargetClass);
+        if (violations.size() > 0) {
+            throw new ValidationException(format("Command to process is not valid! Invalid fields [%s]",
+                    violations
+                            .stream()
+                            .map(ConstraintViolation::getPropertyPath)
+                            .map(Path::toString)
+                            .collect(Collectors.joining()))
+            );
         }
     }
 }

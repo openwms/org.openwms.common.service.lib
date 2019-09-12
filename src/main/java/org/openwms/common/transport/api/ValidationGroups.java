@@ -24,7 +24,7 @@ public interface ValidationGroups {
 
     interface TransportUnit {
 
-        interface WithTuT {
-        }
+        interface WithTuT {}
+        interface ChangeTarget{}
     }
 }

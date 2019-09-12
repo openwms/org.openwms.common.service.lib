@@ -15,6 +15,9 @@
  */
 package org.openwms.common.transport.api.messages;
 
+import org.openwms.common.transport.api.ValidationGroups;
+
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.StringJoiner;
@@ -27,11 +30,13 @@ import java.util.StringJoiner;
 public class TransportUnitMO implements Serializable {
 
     private String pKey;
+    @NotEmpty(groups = ValidationGroups.TransportUnit.ChangeTarget.class)
     private String barcode;
     private Date actualLocationDate;
     private String state;
     private String actualLocation;
     private String plcCode;
+    @NotEmpty(groups = ValidationGroups.TransportUnit.ChangeTarget.class)
     private String targetLocation;
     private TransportUnitTypeMO transportUnitType;
     private String parent;
@@ -134,7 +139,6 @@ public class TransportUnitMO implements Serializable {
     public String toString() {
         return new StringJoiner(", ", TransportUnitMO.class.getSimpleName() + "[", "]").add("pKey='" + pKey + "'").add("barcode='" + barcode + "'").add("actualLocationDate=" + actualLocationDate).add("state='" + state + "'").add("actualLocation='" + actualLocation + "'").add("plcCode='" + plcCode + "'").add("targetLocation='" + targetLocation + "'").add("transportUnitType=" + transportUnitType).add("parent='" + parent + "'").toString();
     }
-
 
     public static final class Builder {
         private String pKey;

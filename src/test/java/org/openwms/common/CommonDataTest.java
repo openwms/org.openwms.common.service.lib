@@ -52,7 +52,7 @@ import java.lang.annotation.Target;
 @EnableAspects(propagateRootCause = true)
 @EnableConfigurationProperties
 @EnableJpaAuditing
-@EnableJpaRepositories(basePackages = "org.openwms.common*", repositoryFactoryBeanClass = EnversRevisionRepositoryFactoryBean.class)
+@EnableJpaRepositories(basePackages = {"org.openwms.common*"}, repositoryFactoryBeanClass = EnversRevisionRepositoryFactoryBean.class)
 @EnableSpringConfigured
 public @interface CommonDataTest {
 }

@@ -18,30 +18,26 @@ package org.openwms.common.jpa;
 import org.hibernate.envers.RevisionEntity;
 import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;
-import org.springframework.beans.factory.annotation.Configurable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * A AuditableRevisionEntity.
  *
  * @author Heiko Scherrer
  */
-@Configurable
 @Entity
 @Table(name = "COM_SRV_REVISION")
 @RevisionEntity(AuditableEntityListener.class)
-class AuditableRevisionEntity  {
+class AuditableRevisionEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "revSequence")
-    @SequenceGenerator(name = "revSequence", sequenceName = "SEQ_REVISION_INFO")
+    @GeneratedValue
     @RevisionNumber
     @Column(name = "C_PK")
     private Long pk;

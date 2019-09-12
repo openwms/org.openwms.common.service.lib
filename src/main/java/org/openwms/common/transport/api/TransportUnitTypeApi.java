@@ -21,7 +21,9 @@ public interface TransportUnitTypeApi {
     @GetMapping(value = CommonConstants.API_TRANSPORT_UNIT_TYPES, params = {"type"})
     @ResponseBody
     @Cacheable("transportUnitTypes")
-    TransportUnitTypeVO findTransportUnitType(@RequestParam("type") String type);
+    TransportUnitTypeVO findTransportUnitType(
+            @RequestParam("type") String type
+    );
 
     /**
      * Find and return all {@code TransportUnitType}s.
