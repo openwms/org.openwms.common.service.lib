@@ -15,6 +15,9 @@
  */
 package org.openwms.common.transport.api.messages;
 
+import org.openwms.common.transport.api.ValidationGroups;
+
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.StringJoiner;
@@ -27,11 +30,13 @@ import java.util.StringJoiner;
 public class TransportUnitMO implements Serializable {
 
     private String pKey;
+    @NotEmpty(groups = ValidationGroups.TransportUnit.ChangeTarget.class)
     private String barcode;
     private Date actualLocationDate;
     private String state;
     private String actualLocation;
     private String plcCode;
+    @NotEmpty(groups = ValidationGroups.TransportUnit.ChangeTarget.class)
     private String targetLocation;
     private TransportUnitTypeMO transportUnitType;
     private String parent;
@@ -39,102 +44,101 @@ public class TransportUnitMO implements Serializable {
     /**
      * Required Default constructor.
      */
-<span class="fc" id="L42">    public TransportUnitMO() {</span>
-<span class="fc" id="L43">    }</span>
+<span class="fc" id="L47">    public TransportUnitMO() {</span>
+<span class="fc" id="L48">    }</span>
 
-<span class="nc" id="L45">    private TransportUnitMO(Builder builder) {</span>
-<span class="nc" id="L46">        setpKey(builder.pKey);</span>
-<span class="nc" id="L47">        setBarcode(builder.barcode);</span>
-<span class="nc" id="L48">        setActualLocationDate(builder.actualLocationDate);</span>
-<span class="nc" id="L49">        setState(builder.state);</span>
-<span class="nc" id="L50">        setActualLocation(builder.actualLocation);</span>
-<span class="nc" id="L51">        setPlcCode(builder.plcCode);</span>
-<span class="nc" id="L52">        setTargetLocation(builder.targetLocation);</span>
-<span class="nc" id="L53">        setTransportUnitType(builder.transportUnitType);</span>
-<span class="nc" id="L54">        setParent(builder.parent);</span>
-<span class="nc" id="L55">    }</span>
+<span class="nc" id="L50">    private TransportUnitMO(Builder builder) {</span>
+<span class="nc" id="L51">        setpKey(builder.pKey);</span>
+<span class="nc" id="L52">        setBarcode(builder.barcode);</span>
+<span class="nc" id="L53">        setActualLocationDate(builder.actualLocationDate);</span>
+<span class="nc" id="L54">        setState(builder.state);</span>
+<span class="nc" id="L55">        setActualLocation(builder.actualLocation);</span>
+<span class="nc" id="L56">        setPlcCode(builder.plcCode);</span>
+<span class="nc" id="L57">        setTargetLocation(builder.targetLocation);</span>
+<span class="nc" id="L58">        setTransportUnitType(builder.transportUnitType);</span>
+<span class="nc" id="L59">        setParent(builder.parent);</span>
+<span class="nc" id="L60">    }</span>
 
     public static Builder newBuilder() {
-<span class="nc" id="L58">        return new Builder();</span>
+<span class="nc" id="L63">        return new Builder();</span>
     }
 
     public String getpKey() {
-<span class="fc" id="L62">        return pKey;</span>
+<span class="fc" id="L67">        return pKey;</span>
     }
 
     public void setpKey(String pKey) {
-<span class="nc" id="L66">        this.pKey = pKey;</span>
-<span class="nc" id="L67">    }</span>
+<span class="nc" id="L71">        this.pKey = pKey;</span>
+<span class="nc" id="L72">    }</span>
 
     public String getBarcode() {
-<span class="fc" id="L70">        return barcode;</span>
+<span class="fc" id="L75">        return barcode;</span>
     }
 
     public void setBarcode(String barcode) {
-<span class="nc" id="L74">        this.barcode = barcode;</span>
-<span class="nc" id="L75">    }</span>
+<span class="nc" id="L79">        this.barcode = barcode;</span>
+<span class="nc" id="L80">    }</span>
 
     public Date getActualLocationDate() {
-<span class="fc" id="L78">        return actualLocationDate;</span>
+<span class="fc" id="L83">        return actualLocationDate;</span>
     }
 
     public void setActualLocationDate(Date actualLocationDate) {
-<span class="nc" id="L82">        this.actualLocationDate = actualLocationDate;</span>
-<span class="nc" id="L83">    }</span>
+<span class="nc" id="L87">        this.actualLocationDate = actualLocationDate;</span>
+<span class="nc" id="L88">    }</span>
 
     public String getState() {
-<span class="fc" id="L86">        return state;</span>
+<span class="fc" id="L91">        return state;</span>
     }
 
     public void setState(String state) {
-<span class="nc" id="L90">        this.state = state;</span>
-<span class="nc" id="L91">    }</span>
+<span class="nc" id="L95">        this.state = state;</span>
+<span class="nc" id="L96">    }</span>
 
     public String getActualLocation() {
-<span class="fc" id="L94">        return actualLocation;</span>
+<span class="fc" id="L99">        return actualLocation;</span>
     }
 
     public void setActualLocation(String actualLocation) {
-<span class="nc" id="L98">        this.actualLocation = actualLocation;</span>
-<span class="nc" id="L99">    }</span>
+<span class="nc" id="L103">        this.actualLocation = actualLocation;</span>
+<span class="nc" id="L104">    }</span>
 
     public String getPlcCode() {
-<span class="fc" id="L102">        return plcCode;</span>
+<span class="fc" id="L107">        return plcCode;</span>
     }
 
     public void setPlcCode(String plcCode) {
-<span class="nc" id="L106">        this.plcCode = plcCode;</span>
-<span class="nc" id="L107">    }</span>
+<span class="nc" id="L111">        this.plcCode = plcCode;</span>
+<span class="nc" id="L112">    }</span>
 
     public String getTargetLocation() {
-<span class="fc" id="L110">        return targetLocation;</span>
+<span class="fc" id="L115">        return targetLocation;</span>
     }
 
     public void setTargetLocation(String targetLocation) {
-<span class="nc" id="L114">        this.targetLocation = targetLocation;</span>
-<span class="nc" id="L115">    }</span>
+<span class="nc" id="L119">        this.targetLocation = targetLocation;</span>
+<span class="nc" id="L120">    }</span>
 
     public TransportUnitTypeMO getTransportUnitType() {
-<span class="fc" id="L118">        return transportUnitType;</span>
+<span class="fc" id="L123">        return transportUnitType;</span>
     }
 
     public void setTransportUnitType(TransportUnitTypeMO transportUnitType) {
-<span class="nc" id="L122">        this.transportUnitType = transportUnitType;</span>
-<span class="nc" id="L123">    }</span>
+<span class="nc" id="L127">        this.transportUnitType = transportUnitType;</span>
+<span class="nc" id="L128">    }</span>
 
     public String getParent() {
-<span class="fc" id="L126">        return parent;</span>
+<span class="fc" id="L131">        return parent;</span>
     }
 
     public void setParent(String parent) {
-<span class="nc" id="L130">        this.parent = parent;</span>
-<span class="nc" id="L131">    }</span>
+<span class="nc" id="L135">        this.parent = parent;</span>
+<span class="nc" id="L136">    }</span>
 
     @Override
     public String toString() {
-<span class="nc" id="L135">        return new StringJoiner(&quot;, &quot;, TransportUnitMO.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(&quot;pKey='&quot; + pKey + &quot;'&quot;).add(&quot;barcode='&quot; + barcode + &quot;'&quot;).add(&quot;actualLocationDate=&quot; + actualLocationDate).add(&quot;state='&quot; + state + &quot;'&quot;).add(&quot;actualLocation='&quot; + actualLocation + &quot;'&quot;).add(&quot;plcCode='&quot; + plcCode + &quot;'&quot;).add(&quot;targetLocation='&quot; + targetLocation + &quot;'&quot;).add(&quot;transportUnitType=&quot; + transportUnitType).add(&quot;parent='&quot; + parent + &quot;'&quot;).toString();</span>
+<span class="nc" id="L140">        return new StringJoiner(&quot;, &quot;, TransportUnitMO.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(&quot;pKey='&quot; + pKey + &quot;'&quot;).add(&quot;barcode='&quot; + barcode + &quot;'&quot;).add(&quot;actualLocationDate=&quot; + actualLocationDate).add(&quot;state='&quot; + state + &quot;'&quot;).add(&quot;actualLocation='&quot; + actualLocation + &quot;'&quot;).add(&quot;plcCode='&quot; + plcCode + &quot;'&quot;).add(&quot;targetLocation='&quot; + targetLocation + &quot;'&quot;).add(&quot;transportUnitType=&quot; + transportUnitType).add(&quot;parent='&quot; + parent + &quot;'&quot;).toString();</span>
     }
-
 
     public static final class Builder {
         private String pKey;
@@ -151,52 +155,52 @@ public class TransportUnitMO implements Serializable {
         }
 
         public Builder withPKey(String val) {
-<span class="nc" id="L154">            pKey = val;</span>
-<span class="nc" id="L155">            return this;</span>
+<span class="nc" id="L158">            pKey = val;</span>
+<span class="nc" id="L159">            return this;</span>
         }
 
         public Builder withBarcode(String val) {
-<span class="nc" id="L159">            barcode = val;</span>
-<span class="nc" id="L160">            return this;</span>
+<span class="nc" id="L163">            barcode = val;</span>
+<span class="nc" id="L164">            return this;</span>
         }
 
         public Builder withActualLocationDate(Date val) {
-<span class="nc" id="L164">            actualLocationDate = val;</span>
-<span class="nc" id="L165">            return this;</span>
+<span class="nc" id="L168">            actualLocationDate = val;</span>
+<span class="nc" id="L169">            return this;</span>
         }
 
         public Builder withState(String val) {
-<span class="nc" id="L169">            state = val;</span>
-<span class="nc" id="L170">            return this;</span>
+<span class="nc" id="L173">            state = val;</span>
+<span class="nc" id="L174">            return this;</span>
         }
 
         public Builder withActualLocation(String val) {
-<span class="nc" id="L174">            actualLocation = val;</span>
-<span class="nc" id="L175">            return this;</span>
+<span class="nc" id="L178">            actualLocation = val;</span>
+<span class="nc" id="L179">            return this;</span>
         }
 
         public Builder withPlcCode(String val) {
-<span class="nc" id="L179">            plcCode = val;</span>
-<span class="nc" id="L180">            return this;</span>
+<span class="nc" id="L183">            plcCode = val;</span>
+<span class="nc" id="L184">            return this;</span>
         }
 
         public Builder withTargetLocation(String val) {
-<span class="nc" id="L184">            targetLocation = val;</span>
-<span class="nc" id="L185">            return this;</span>
+<span class="nc" id="L188">            targetLocation = val;</span>
+<span class="nc" id="L189">            return this;</span>
         }
 
         public Builder withTransportUnitType(TransportUnitTypeMO val) {
-<span class="nc" id="L189">            transportUnitType = val;</span>
-<span class="nc" id="L190">            return this;</span>
+<span class="nc" id="L193">            transportUnitType = val;</span>
+<span class="nc" id="L194">            return this;</span>
         }
 
         public Builder withParent(String val) {
-<span class="nc" id="L194">            parent = val;</span>
-<span class="nc" id="L195">            return this;</span>
+<span class="nc" id="L198">            parent = val;</span>
+<span class="nc" id="L199">            return this;</span>
         }
 
         public TransportUnitMO build() {
-<span class="nc" id="L199">            return new TransportUnitMO(this);</span>
+<span class="nc" id="L203">            return new TransportUnitMO(this);</span>
         }
     }
 

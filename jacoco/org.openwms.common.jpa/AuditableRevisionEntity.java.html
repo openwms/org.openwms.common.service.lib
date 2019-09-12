@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuditableRevisionEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.jpa</a> &gt; <span class="el_source">AuditableRevisionEntity.java</span></div><h1>AuditableRevisionEntity.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">/*</span>
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuditableRevisionEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.jpa</a> &gt; <span class="el_source">AuditableRevisionEntity.java</span></div><h1>AuditableRevisionEntity.java</h1><pre class="source lang-java linenums">/*
  * Copyright 2005-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
@@ -18,30 +18,26 @@ package org.openwms.common.jpa;
 import org.hibernate.envers.RevisionEntity;
 import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;
-import org.springframework.beans.factory.annotation.Configurable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * A AuditableRevisionEntity.
  *
  * @author Heiko Scherrer
  */
-@Configurable
 @Entity
 @Table(name = &quot;COM_SRV_REVISION&quot;)
 @RevisionEntity(AuditableEntityListener.class)
-<span class="pc bpc" id="L40" title="11 of 22 branches missed.">class AuditableRevisionEntity  {</span>
+<span class="fc" id="L37">class AuditableRevisionEntity implements Serializable {</span>
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;revSequence&quot;)
-    @SequenceGenerator(name = &quot;revSequence&quot;, sequenceName = &quot;SEQ_REVISION_INFO&quot;)
+    @GeneratedValue
     @RevisionNumber
     @Column(name = &quot;C_PK&quot;)
     private Long pk;
@@ -54,7 +50,7 @@ import javax.persistence.Table;
     private String userName;
 
     public void setUserName(String userName) {
-<span class="fc" id="L57">        this.userName = userName;</span>
-<span class="fc" id="L58">    }</span>
+<span class="fc" id="L53">        this.userName = userName;</span>
+<span class="fc" id="L54">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

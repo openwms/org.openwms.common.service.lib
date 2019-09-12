@@ -16,7 +16,9 @@
 package org.openwms.common.location.api.events;
 
 import org.openwms.core.event.RootApplicationEvent;
+import org.springframework.util.Assert;
 
+import javax.validation.constraints.NotNull;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
 
@@ -36,25 +38,31 @@ public class LocationEvent extends RootApplicationEvent implements Serializable 
      * @param type The event type
      */
     @ConstructorProperties({&quot;source&quot;, &quot;type&quot;})
-    public LocationEvent(Object source, LocationEventType type) {
-<span class="fc" id="L40">        super(source);</span>
-<span class="fc" id="L41">        this.type = type;</span>
-<span class="fc" id="L42">    }</span>
+    public LocationEvent(@NotNull Object source, @NotNull LocationEventType type) {
+<span class="fc" id="L42">        super(assertThis(source, type));</span>
+<span class="fc" id="L43">        this.type = type;</span>
+<span class="fc" id="L44">    }</span>
+
+    private static Object assertThis(Object source, LocationEventType type) {
+<span class="fc" id="L47">        Assert.notNull(source, &quot;source is null&quot;);</span>
+<span class="fc" id="L48">        Assert.notNull(type, &quot;type is null&quot;);</span>
+<span class="fc" id="L49">        return source;</span>
+    }
 
     public static LocationEvent boot() {
-<span class="nc" id="L45">        return new LocationEvent(&quot;BOOT&quot;, LocationEventType.BOOT);</span>
+<span class="nc" id="L53">        return new LocationEvent(&quot;BOOT&quot;, LocationEventType.BOOT);</span>
     }
 
     public LocationEventType getType() {
-<span class="fc" id="L49">        return type;</span>
+<span class="fc" id="L57">        return type;</span>
     }
 
     public static LocationEvent of(Object obj, LocationEventType type) {
-<span class="fc" id="L53">        return new LocationEvent(obj, type);</span>
+<span class="fc" id="L61">        return new LocationEvent(obj, type);</span>
     }
 
-<span class="fc" id="L56">    public enum LocationEventType {</span>
-<span class="fc" id="L57">        BOOT, CREATED, CHANGED, DELETED, STATE_CHANGE;</span>
+<span class="fc" id="L64">    public enum LocationEventType {</span>
+<span class="fc" id="L65">        BOOT, CREATED, CHANGED, DELETED, STATE_CHANGE;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
