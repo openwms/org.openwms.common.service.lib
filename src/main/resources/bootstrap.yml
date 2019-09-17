@@ -107,6 +107,15 @@ eureka:
 
 ---
 spring:
+  profiles: DEMO
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          import_files: import-DEMO.sql
+
+---
+spring:
   profiles: ASYNCHRONOUS
   cloud:
     config:

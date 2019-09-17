@@ -85,3 +85,6 @@ insert into com_transport_unit_type (c_pk,c_type,c_description,c_height,c_length
 
 -- TransportUnit
 insert into com_transport_unit (c_pk,c_pid,c_barcode,c_state,c_actual_location,c_transport_unit_type,c_actual_location_date,c_ol,c_created) values (1000,1,'00000000000000004711','AVAILABLE',1029,1000,now(),1,now());
+
+-- Rules
+INSERT INTO com_type_placing_rule(c_pk, c_created, c_ol, c_privilege_level, c_allowed_location_type, c_tut_id) VALUES (1, now(), 0, 0, 1, 1000);
