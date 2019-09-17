@@ -73,7 +73,7 @@
 
     <properties>
         <core.version>1.6.0-SNAPSHOT</core.version>
-        <core.units.version>1.0.0-SNAPSHOT</core.units.version>
+        <core.units.version>0.1.0</core.units.version>
         <indriya.version>2.0</indriya.version>
         <spring-data-envers.version>2.1.8.RELEASE</spring-data-envers.version>
         <start-class>org.openwms.common.CommonStarter</start-class>
