@@ -83,7 +83,7 @@ logging:
 
 ---
 spring:
-  profiles: CLOUD
+  profiles: HEROKU
   main:
     banner-mode: "OFF"
   cloud:
