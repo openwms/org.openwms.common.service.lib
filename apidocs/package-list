@@ -13,4 +13,3 @@ org.openwms.common.transport.api.messages
 org.openwms.common.transport.commands
 org.openwms.common.transport.events
 org.openwms.common.transport.impl
-org.openwms.common.units

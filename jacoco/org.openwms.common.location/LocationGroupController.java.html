@@ -109,35 +109,37 @@ public class LocationGroupController extends AbstractWebController {
     @PatchMapping(value = API_LOCATION_GROUPS, params = {&quot;name&quot;, &quot;op=change-state&quot;})
     public ResponseEntity&lt;Void&gt; changeGroupState(
             @RequestParam(name = &quot;name&quot;) String name,
+            @RequestParam(name = &quot;op&quot;) String op,
             @RequestBody ErrorCodeVO errorCode
     ) {
-<span class="fc" id="L114">        locationGroupService.changeGroupStates(</span>
-<span class="fc" id="L115">                name,</span>
-<span class="fc" id="L116">                groupStateIn.available(errorCode.getErrorCode()),</span>
-<span class="fc" id="L117">                groupStateOut.available(errorCode.getErrorCode())</span>
+<span class="fc" id="L115">        locationGroupService.changeGroupStates(</span>
+<span class="fc" id="L116">                name,</span>
+<span class="fc" id="L117">                groupStateIn.available(errorCode.getErrorCode()),</span>
+<span class="fc" id="L118">                groupStateOut.available(errorCode.getErrorCode())</span>
         );
-<span class="fc" id="L119">        return ResponseEntity.ok().build();</span>
+<span class="fc" id="L120">        return ResponseEntity.ok().build();</span>
     }
 
     @PatchMapping(value = API_LOCATION_GROUP + &quot;/{pKey}&quot;, params = &quot;op=change-state&quot;)
     public ResponseEntity&lt;Void&gt; changeGroupState(
             @PathVariable String pKey,
+            @RequestParam(name = &quot;op&quot;) String op,
             @RequestParam(name = &quot;statein&quot;) LocationGroupState stateIn,
             @RequestParam(name = &quot;stateout&quot;) LocationGroupState stateOut
     ) {
-<span class="fc" id="L128">        locationGroupService.changeGroupState(pKey, stateIn, stateOut);</span>
-<span class="fc" id="L129">        return ResponseEntity.ok().build();</span>
+<span class="fc" id="L130">        locationGroupService.changeGroupState(pKey, stateIn, stateOut);</span>
+<span class="fc" id="L131">        return ResponseEntity.ok().build();</span>
     }
 
     @GetMapping(API_LOCATION_GROUPS + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="fc" id="L134">        return ResponseEntity.ok(</span>
-<span class="fc" id="L135">                new Index(</span>
-<span class="fc" id="L136">                        linkTo(methodOn(LocationGroupController.class).findAll()).withRel(&quot;location-group-findall&quot;),</span>
-<span class="fc" id="L137">                        linkTo(methodOn(LocationGroupController.class).findByName(&quot;FOO&quot;)).withRel(&quot;location-group-findbyname&quot;),</span>
-<span class="fc" id="L138">                        linkTo(methodOn(LocationGroupController.class).findByNames(asList(&quot;FOO&quot;, &quot;BAR&quot;))).withRel(&quot;location-group-findbynames&quot;),</span>
-<span class="fc" id="L139">                        linkTo(methodOn(LocationGroupController.class).changeGroupState(&quot;FOO&quot;, ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel(&quot;location-group-changestate1&quot;),</span>
-<span class="fc" id="L140">                        linkTo(methodOn(LocationGroupController.class).changeGroupState(&quot;UUID&quot;, LocationGroupState.AVAILABLE, LocationGroupState.NOT_AVAILABLE)).withRel(&quot;location-group-changestate2&quot;)</span>
+<span class="fc" id="L136">        return ResponseEntity.ok(</span>
+<span class="fc" id="L137">                new Index(</span>
+<span class="fc" id="L138">                        linkTo(methodOn(LocationGroupController.class).findAll()).withRel(&quot;location-group-findall&quot;),</span>
+<span class="fc" id="L139">                        linkTo(methodOn(LocationGroupController.class).findByName(&quot;FOO&quot;)).withRel(&quot;location-group-findbyname&quot;),</span>
+<span class="fc" id="L140">                        linkTo(methodOn(LocationGroupController.class).findByNames(asList(&quot;FOO&quot;, &quot;BAR&quot;))).withRel(&quot;location-group-findbynames&quot;),</span>
+<span class="fc" id="L141">                        linkTo(methodOn(LocationGroupController.class).changeGroupState(&quot;FOO&quot;, &quot;change-state&quot;, ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel(&quot;location-group-changestate1&quot;),</span>
+<span class="fc" id="L142">                        linkTo(methodOn(LocationGroupController.class).changeGroupState(&quot;UUID&quot;, &quot;change-state&quot;, LocationGroupState.AVAILABLE, LocationGroupState.NOT_AVAILABLE)).withRel(&quot;location-group-changestate2&quot;)</span>
                 )
         );
     }

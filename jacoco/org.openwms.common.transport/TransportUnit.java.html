@@ -20,7 +20,7 @@ import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import org.openwms.common.location.Location;
-import org.openwms.common.units.Weight;
+import org.openwms.core.units.api.Weight;
 import org.openwms.core.values.CoreTypeDefinitions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
