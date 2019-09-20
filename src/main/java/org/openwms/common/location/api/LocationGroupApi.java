@@ -78,6 +78,7 @@ public interface LocationGroupApi {
     @PatchMapping(value = API_LOCATION_GROUPS, params = {"name", "op=change-state"})
     void changeGroupState(
             @RequestParam(name = "name") String name,
+            @RequestParam(name = "op") String op,
             @RequestBody ErrorCodeVO errorCode
     );
 
@@ -91,6 +92,7 @@ public interface LocationGroupApi {
     @PatchMapping(value = API_LOCATION_GROUP + "/{pKey}", params = "op=change-state")
     void changeGroupState(
             @PathVariable("pKey") String pKey,
+            @RequestParam(name = "op") String op,
             @RequestParam(name = "statein", required = false) LocationGroupState stateIn,
             @RequestParam(name = "stateout", required = false) LocationGroupState stateOut
     );

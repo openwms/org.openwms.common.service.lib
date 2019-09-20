@@ -109,6 +109,7 @@ public class LocationGroupController extends AbstractWebController {
     @PatchMapping(value = API_LOCATION_GROUPS, params = {"name", "op=change-state"})
     public ResponseEntity<Void> changeGroupState(
             @RequestParam(name = "name") String name,
+            @RequestParam(name = "op") String op,
             @RequestBody ErrorCodeVO errorCode
     ) {
         locationGroupService.changeGroupStates(
@@ -122,6 +123,7 @@ public class LocationGroupController extends AbstractWebController {
     @PatchMapping(value = API_LOCATION_GROUP + "/{pKey}", params = "op=change-state")
     public ResponseEntity<Void> changeGroupState(
             @PathVariable String pKey,
+            @RequestParam(name = "op") String op,
             @RequestParam(name = "statein") LocationGroupState stateIn,
             @RequestParam(name = "stateout") LocationGroupState stateOut
     ) {
@@ -136,8 +138,8 @@ public class LocationGroupController extends AbstractWebController {
                         linkTo(methodOn(LocationGroupController.class).findAll()).withRel("location-group-findall"),
                         linkTo(methodOn(LocationGroupController.class).findByName("FOO")).withRel("location-group-findbyname"),
                         linkTo(methodOn(LocationGroupController.class).findByNames(asList("FOO", "BAR"))).withRel("location-group-findbynames"),
-                        linkTo(methodOn(LocationGroupController.class).changeGroupState("FOO", ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel("location-group-changestate1"),
-                        linkTo(methodOn(LocationGroupController.class).changeGroupState("UUID", LocationGroupState.AVAILABLE, LocationGroupState.NOT_AVAILABLE)).withRel("location-group-changestate2")
+                        linkTo(methodOn(LocationGroupController.class).changeGroupState("FOO", "change-state", ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel("location-group-changestate1"),
+                        linkTo(methodOn(LocationGroupController.class).changeGroupState("UUID", "change-state", LocationGroupState.AVAILABLE, LocationGroupState.NOT_AVAILABLE)).withRel("location-group-changestate2")
                 )
         );
     }

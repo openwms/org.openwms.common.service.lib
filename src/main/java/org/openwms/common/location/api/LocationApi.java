@@ -85,6 +85,7 @@ public interface LocationApi {
     @CacheEvict(cacheNames = "locations", allEntries = true)
     void changeState(
             @PathVariable(name = "pKey") String pKey,
+            @RequestParam(name = "op") String op,
             @RequestBody ErrorCodeVO errorCode
     );
 
