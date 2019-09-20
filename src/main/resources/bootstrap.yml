@@ -35,6 +35,7 @@ spring:
   zipkin:
     sender:
       type: web
+
 feign:
   httpclient:
     connection-timeout: 30000
@@ -83,7 +84,7 @@ logging:
 
 ---
 spring:
-  profiles: CLOUD
+  profiles: HEROKU
   main:
     banner-mode: "OFF"
   cloud:
@@ -104,6 +105,15 @@ eureka:
     statusPageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/info
     healthCheckUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/health
     homePageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/
+
+---
+spring:
+  profiles: DEMO
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          import_files: import-DEMO.sql
 
 ---
 spring:

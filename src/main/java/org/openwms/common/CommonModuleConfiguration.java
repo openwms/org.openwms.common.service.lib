@@ -25,6 +25,7 @@ import org.ameba.i18n.AbstractTranslator;
 import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.ameba.mapping.DozerMapperImpl;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.MessageSource;
@@ -49,7 +50,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableConfigurationProperties
 @EnableSpringConfigured
 @EnableJpaAuditing
-@EnableJpaRepositories(repositoryFactoryBeanClass = EnversRevisionRepositoryFactoryBean.class)
+@EnableJpaRepositories(basePackages = "org.openwms", repositoryFactoryBeanClass = EnversRevisionRepositoryFactoryBean.class)
+@EntityScan(basePackages = "org.openwms")
 @EnableMultiTenancy(enabled = false)
 @EnableTransactionManagement
 @Import(BaseConfiguration.class)
