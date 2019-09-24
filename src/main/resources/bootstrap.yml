@@ -117,6 +117,17 @@ spring:
 
 ---
 spring:
+  profiles: K8S
+  rabbitmq:
+    host: owms-broker
+owms:
+  eureka:
+    url: http://user:sa@owms-services:8761
+  srv:
+    hostname: owms-common
+
+---
+spring:
   profiles: ASYNCHRONOUS
   cloud:
     config:

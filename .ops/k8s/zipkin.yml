@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: owms-tracing
+  labels:
+    app: owms-tracing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: owms-tracing
+  template:
+    metadata:
+      labels:
+        app: owms-tracing
+    spec:
+      containers:
+        - name: owms-tracing
+          image: openzipkin/zipkin
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9411
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: owms-tracing
+spec:
+  ports:
+  - port: 9411
+    protocol: TCP
+    name: mgmt
+    targetPort: 9411
+  selector:
+    app: owms-tracing
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: owms-tracing
+  labels:
+    app: owms-tracing
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 9411
+      protocol: TCP
+      targetPort: 9411
+  selector:
+    app: owms-tracing

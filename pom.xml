@@ -135,6 +135,11 @@
                 </configuration>
                 <executions>
                     <execution>
+                        <goals>
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <id>repackage</id>
                         <goals>
                             <goal>repackage</goal>
