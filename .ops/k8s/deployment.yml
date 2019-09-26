@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: owms-common
+  labels:
+    app: owms-common
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: owms-common
+  template:
+    metadata:
+      labels:
+        app: owms-common
+    spec:
+      containers:
+        - name: common-service
+          image: openwms/org.openwms.common.service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8120
+          env:
+            - name: owms_eureka_url
+              value: http://user:sa@owms-services:8761
+            - name: spring_profiles_active
+              value: K8S,DEMO,ASYNCHRONOUS
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: owms-common
+spec:
+  ports:
+  - port: 8120
+  selector:
+    app: owms-common
