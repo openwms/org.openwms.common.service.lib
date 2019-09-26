@@ -10,8 +10,9 @@
 
     <custom>
         <fluidoSkin>
+            <sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
             <gitHub>
-                <projectId>openwms/org.openwms.common.service</projectId>
+                <projectId>openwms/${project.artifactId}</projectId>
                 <ribbonOrientation>right</ribbonOrientation>
                 <ribbonColor>black</ribbonColor>
             </gitHub>
@@ -25,7 +26,7 @@
             <item name="REST API Documentation" href="rest/${project.version}/api.html" />
             <item name="Javadoc" href="apidocs/index.html" />
             <item name="Database Schema" href="schemaspy/relationships.html" />
-            <item name="Sonarcloud" href="https://sonarcloud.io/dashboard?id=org.openwms:org.openwms.common.service" />
+            <item name="Sonarcloud" href="https://sonarcloud.io/dashboard?id=org.openwms:${project.artifactId}" />
             <item name="Jacoco" href="jacoco/index.html" />
         </menu>
 
