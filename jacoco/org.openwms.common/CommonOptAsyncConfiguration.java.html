@@ -65,12 +65,12 @@ import org.springframework.retry.support.RetryTemplate;
     /*~ ------------ Events ------------- */
     @Bean
     TopicExchange commonTuExchange(@Value(&quot;${owms.events.common.tu.exchange-name}&quot;) String exchangeName) {
-<span class="fc" id="L68">        return new TopicExchange(exchangeName, true, false);</span>
+<span class="nc" id="L68">        return new TopicExchange(exchangeName, true, false);</span>
     }
 
     @Bean
     Queue eventsQueue(@Value(&quot;${owms.events.common.tu.queue-name}&quot;) String queueName) {
-<span class="fc" id="L73">        return new Queue(queueName);</span>
+<span class="nc" id="L73">        return new Queue(queueName);</span>
     }
 
     @Bean
@@ -79,21 +79,21 @@ import org.springframework.retry.support.RetryTemplate;
             Queue eventsQueue,
             @Value(&quot;${owms.events.common.tu.routing-key}&quot;) String routingKey
     ) {
-<span class="fc" id="L82">        return BindingBuilder</span>
-<span class="fc" id="L83">                .bind(eventsQueue)</span>
-<span class="fc" id="L84">                .to(commonTuExchange)</span>
-<span class="fc" id="L85">                .with(routingKey);</span>
+<span class="nc" id="L82">        return BindingBuilder</span>
+<span class="nc" id="L83">                .bind(eventsQueue)</span>
+<span class="nc" id="L84">                .to(commonTuExchange)</span>
+<span class="nc" id="L85">                .with(routingKey);</span>
     }
 
     /*~ ------------ Commands ------------- */
     @Bean
     Queue commandsQueue(@Value(&quot;${owms.commands.common.tu.queue-name}&quot;) String queueName) {
-<span class="fc" id="L91">        return new Queue(queueName, true);</span>
+<span class="nc" id="L91">        return new Queue(queueName, true);</span>
     }
 
     @Bean
     TopicExchange commonTuCommandsExchange(@Value(&quot;${owms.commands.common.tu.exchange-name}&quot;) String exchangeName) {
-<span class="fc" id="L96">        return new TopicExchange(exchangeName, true, false);</span>
+<span class="nc" id="L96">        return new TopicExchange(exchangeName, true, false);</span>
     }
 
     @Bean
@@ -102,10 +102,10 @@ import org.springframework.retry.support.RetryTemplate;
             Queue commandsQueue,
             @Value(&quot;${owms.commands.common.tu.routing-key}&quot;) String routingKey
     ) {
-<span class="fc" id="L105">        return BindingBuilder</span>
-<span class="fc" id="L106">                .bind(commandsQueue)</span>
-<span class="fc" id="L107">                .to(commonTuCommandsExchange)</span>
-<span class="fc" id="L108">                .with(routingKey);</span>
+<span class="nc" id="L105">        return BindingBuilder</span>
+<span class="nc" id="L106">                .bind(commandsQueue)</span>
+<span class="nc" id="L107">                .to(commonTuCommandsExchange)</span>
+<span class="nc" id="L108">                .with(routingKey);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -40,14 +40,14 @@ import javax.validation.Valid;
 @TxService
 class TransportUnitCommandListener {
 
-<span class="fc" id="L43">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandListener.class);</span>
+<span class="nc" id="L43">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandListener.class);</span>
     private final TransportUnitCommandHandler handler;
     private final MessageCommandHandler messageCommandHandler;
 
-<span class="fc" id="L47">    TransportUnitCommandListener(TransportUnitCommandHandler handler, MessageCommandHandler messageCommandHandler) {</span>
-<span class="fc" id="L48">        this.handler = handler;</span>
-<span class="fc" id="L49">        this.messageCommandHandler = messageCommandHandler;</span>
-<span class="fc" id="L50">    }</span>
+<span class="nc" id="L47">    TransportUnitCommandListener(TransportUnitCommandHandler handler, MessageCommandHandler messageCommandHandler) {</span>
+<span class="nc" id="L48">        this.handler = handler;</span>
+<span class="nc" id="L49">        this.messageCommandHandler = messageCommandHandler;</span>
+<span class="nc" id="L50">    }</span>
 
     @Measured
     @RabbitListener(queues = &quot;${owms.commands.common.tu.queue-name}&quot;)

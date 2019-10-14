@@ -39,14 +39,14 @@ public class LocationEvent extends RootApplicationEvent implements Serializable 
      */
     @ConstructorProperties({&quot;source&quot;, &quot;type&quot;})
     public LocationEvent(@NotNull Object source, @NotNull LocationEventType type) {
-<span class="fc" id="L42">        super(assertThis(source, type));</span>
-<span class="fc" id="L43">        this.type = type;</span>
-<span class="fc" id="L44">    }</span>
+<span class="nc" id="L42">        super(assertThis(source, type));</span>
+<span class="nc" id="L43">        this.type = type;</span>
+<span class="nc" id="L44">    }</span>
 
     private static Object assertThis(Object source, LocationEventType type) {
-<span class="fc" id="L47">        Assert.notNull(source, &quot;source is null&quot;);</span>
-<span class="fc" id="L48">        Assert.notNull(type, &quot;type is null&quot;);</span>
-<span class="fc" id="L49">        return source;</span>
+<span class="nc" id="L47">        Assert.notNull(source, &quot;source is null&quot;);</span>
+<span class="nc" id="L48">        Assert.notNull(type, &quot;type is null&quot;);</span>
+<span class="nc" id="L49">        return source;</span>
     }
 
     public static LocationEvent boot() {
@@ -54,15 +54,15 @@ public class LocationEvent extends RootApplicationEvent implements Serializable 
     }
 
     public LocationEventType getType() {
-<span class="fc" id="L57">        return type;</span>
+<span class="nc" id="L57">        return type;</span>
     }
 
     public static LocationEvent of(Object obj, LocationEventType type) {
-<span class="fc" id="L61">        return new LocationEvent(obj, type);</span>
+<span class="nc" id="L61">        return new LocationEvent(obj, type);</span>
     }
 
-<span class="fc" id="L64">    public enum LocationEventType {</span>
-<span class="fc" id="L65">        BOOT, CREATED, CHANGED, DELETED, STATE_CHANGE;</span>
+<span class="nc" id="L64">    public enum LocationEventType {</span>
+<span class="nc" id="L65">        BOOT, CREATED, CHANGED, DELETED, STATE_CHANGE;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

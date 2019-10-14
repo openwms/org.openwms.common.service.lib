@@ -46,15 +46,15 @@ public class TargetEvent extends RootApplicationEvent implements Serializable {
 <span class="nc" id="L46">    }</span>
 
     private TargetEvent(Builder builder) {
-<span class="fc" id="L49">        super(builder.targetBK);</span>
-<span class="fc" id="L50">        targetBK = builder.targetBK;</span>
-<span class="fc" id="L51">        lockType = builder.lockType;</span>
-<span class="fc" id="L52">        operationMode = builder.operationMode;</span>
-<span class="fc" id="L53">        reAllocation = builder.reAllocation;</span>
-<span class="fc" id="L54">    }</span>
+<span class="nc" id="L49">        super(builder.targetBK);</span>
+<span class="nc" id="L50">        targetBK = builder.targetBK;</span>
+<span class="nc" id="L51">        lockType = builder.lockType;</span>
+<span class="nc" id="L52">        operationMode = builder.operationMode;</span>
+<span class="nc" id="L53">        reAllocation = builder.reAllocation;</span>
+<span class="nc" id="L54">    }</span>
 
     public static Builder newBuilder() {
-<span class="fc" id="L57">        return new Builder();</span>
+<span class="nc" id="L57">        return new Builder();</span>
     }
 
     /*~ ------------------ accessors ----------------------*/
@@ -92,37 +92,37 @@ public class TargetEvent extends RootApplicationEvent implements Serializable {
     }
 
 
-<span class="fc" id="L95">    public static final class Builder {</span>
+<span class="nc" id="L95">    public static final class Builder {</span>
         private String targetBK;
         private LockType lockType;
         private LockMode operationMode;
         private Boolean reAllocation;
 
         public Builder targetBK(String val) {
-<span class="fc" id="L102">            targetBK = val;</span>
-<span class="fc" id="L103">            return this;</span>
+<span class="nc" id="L102">            targetBK = val;</span>
+<span class="nc" id="L103">            return this;</span>
         }
 
         public Builder lockType(LockType val) {
-<span class="fc" id="L107">            lockType = val;</span>
-<span class="fc" id="L108">            return this;</span>
+<span class="nc" id="L107">            lockType = val;</span>
+<span class="nc" id="L108">            return this;</span>
         }
 
         public Builder operationMode(LockMode val) {
-<span class="fc" id="L112">            operationMode = val;</span>
-<span class="fc" id="L113">            return this;</span>
+<span class="nc" id="L112">            operationMode = val;</span>
+<span class="nc" id="L113">            return this;</span>
         }
 
         public Builder reAllocation(Boolean val) {
-<span class="fc" id="L117">            reAllocation = val;</span>
-<span class="fc" id="L118">            return this;</span>
+<span class="nc" id="L117">            reAllocation = val;</span>
+<span class="nc" id="L118">            return this;</span>
         }
 
         public TargetEvent build() {
-<span class="pc bpc" id="L122" title="1 of 2 branches missed.">            if (this.targetBK == null) {</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">            if (this.targetBK == null) {</span>
 <span class="nc" id="L123">                throw new IllegalArgumentException(&quot;The TargetEvent must carry the targetBK of the Target where the event occurred on&quot;);</span>
             }
-<span class="fc" id="L125">            return new TargetEvent(this);</span>
+<span class="nc" id="L125">            return new TargetEvent(this);</span>
         }
     }
 }

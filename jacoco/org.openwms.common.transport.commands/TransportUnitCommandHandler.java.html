@@ -44,16 +44,16 @@ import static java.lang.String.format;
 @TxService
 class TransportUnitCommandHandler {
 
-<span class="fc" id="L47">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandHandler.class);</span>
+<span class="nc" id="L47">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandHandler.class);</span>
     private final TransportUnitService service;
     private final ApplicationContext ctx;
     private final Validator validator;
 
-<span class="fc" id="L52">    TransportUnitCommandHandler(TransportUnitService service, ApplicationContext ctx, Validator validator) {</span>
-<span class="fc" id="L53">        this.service = service;</span>
-<span class="fc" id="L54">        this.ctx = ctx;</span>
-<span class="fc" id="L55">        this.validator = validator;</span>
-<span class="fc" id="L56">    }</span>
+<span class="nc" id="L52">    TransportUnitCommandHandler(TransportUnitService service, ApplicationContext ctx, Validator validator) {</span>
+<span class="nc" id="L53">        this.service = service;</span>
+<span class="nc" id="L54">        this.ctx = ctx;</span>
+<span class="nc" id="L55">        this.validator = validator;</span>
+<span class="nc" id="L56">    }</span>
 
     public void handle(TUCommand command) {
 <span class="nc bnc" id="L59" title="All 4 branches missed.">        switch(command.getType()) {</span>

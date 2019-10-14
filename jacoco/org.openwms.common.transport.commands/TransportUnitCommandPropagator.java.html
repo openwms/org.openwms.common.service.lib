@@ -40,17 +40,17 @@ import java.util.Set;
 @Component
 class TransportUnitCommandPropagator {
 
-<span class="fc" id="L43">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandPropagator.class);</span>
+<span class="nc" id="L43">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandPropagator.class);</span>
     private final AmqpTemplate amqpTemplate;
     private final Validator validator;
     private final String exchangeName;
 
-<span class="fc" id="L48">    TransportUnitCommandPropagator(AmqpTemplate amqpTemplate, Validator validator,</span>
+<span class="nc" id="L48">    TransportUnitCommandPropagator(AmqpTemplate amqpTemplate, Validator validator,</span>
             @Value(&quot;${owms.commands.common.tu.exchange-name}&quot;) String exchangeName) {
-<span class="fc" id="L50">        this.amqpTemplate = amqpTemplate;</span>
-<span class="fc" id="L51">        this.validator = validator;</span>
-<span class="fc" id="L52">        this.exchangeName = exchangeName;</span>
-<span class="fc" id="L53">    }</span>
+<span class="nc" id="L50">        this.amqpTemplate = amqpTemplate;</span>
+<span class="nc" id="L51">        this.validator = validator;</span>
+<span class="nc" id="L52">        this.exchangeName = exchangeName;</span>
+<span class="nc" id="L53">    }</span>
 
     @TransactionalEventListener(fallbackExecution = true)
     public void onEvent(TUCommand command) {

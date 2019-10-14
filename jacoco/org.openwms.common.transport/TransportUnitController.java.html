@@ -59,47 +59,47 @@ public class TransportUnitController extends AbstractWebController {
     private final BeanMapper mapper;
     private final MessageCommandHandler messageCommandHandler;
 
-<span class="fc" id="L62">    TransportUnitController(TransportUnitService service, BeanMapper mapper, MessageCommandHandler messageCommandHandler) {</span>
-<span class="fc" id="L63">        this.service = service;</span>
-<span class="fc" id="L64">        this.mapper = mapper;</span>
-<span class="fc" id="L65">        this.messageCommandHandler = messageCommandHandler;</span>
-<span class="fc" id="L66">    }</span>
+<span class="nc" id="L62">    TransportUnitController(TransportUnitService service, BeanMapper mapper, MessageCommandHandler messageCommandHandler) {</span>
+<span class="nc" id="L63">        this.service = service;</span>
+<span class="nc" id="L64">        this.mapper = mapper;</span>
+<span class="nc" id="L65">        this.messageCommandHandler = messageCommandHandler;</span>
+<span class="nc" id="L66">    }</span>
 
     @GetMapping(value = API_TRANSPORT_UNITS, params = {&quot;bk&quot;}, produces = &quot;application/vnd.openwms.transport-unit-v1+json&quot;)
     public ResponseEntity&lt;TransportUnitVO&gt; findTransportUnit(@RequestParam(&quot;bk&quot;) String transportUnitBK) {
-<span class="fc" id="L70">        TransportUnit transportUnit = service.findByBarcode(Barcode.of(transportUnitBK));</span>
-<span class="fc" id="L71">        TransportUnitVO result = mapper.map(transportUnit, TransportUnitVO.class);</span>
-<span class="fc" id="L72">        addLinks(result);</span>
-<span class="fc" id="L73">        return ResponseEntity.ok(result);</span>
+<span class="nc" id="L70">        TransportUnit transportUnit = service.findByBarcode(Barcode.of(transportUnitBK));</span>
+<span class="nc" id="L71">        TransportUnitVO result = mapper.map(transportUnit, TransportUnitVO.class);</span>
+<span class="nc" id="L72">        addLinks(result);</span>
+<span class="nc" id="L73">        return ResponseEntity.ok(result);</span>
     }
 
     private void addLinks(TransportUnitVO result) {
-<span class="fc" id="L77">        result.add(</span>
-<span class="fc" id="L78">                new SimpleLink(linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitType(result.getTransportUnitType())).withRel(&quot;transport-unit-type&quot;))</span>
+<span class="nc" id="L77">        result.add(</span>
+<span class="nc" id="L78">                new SimpleLink(linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitType(result.getTransportUnitType())).withRel(&quot;transport-unit-type&quot;))</span>
         );
-<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        if (result.getActualLocation() != null) {</span>
-<span class="fc" id="L81">            result.add(</span>
-<span class="fc" id="L82">                    new SimpleLink(linkTo(methodOn(LocationController.class).findLocationByCoordinate(result.getActualLocation().getLocationId())).withRel(&quot;actual-location&quot;))</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (result.getActualLocation() != null) {</span>
+<span class="nc" id="L81">            result.add(</span>
+<span class="nc" id="L82">                    new SimpleLink(linkTo(methodOn(LocationController.class).findLocationByCoordinate(result.getActualLocation().getLocationId())).withRel(&quot;actual-location&quot;))</span>
             );
         }
-<span class="fc" id="L85">    }</span>
+<span class="nc" id="L85">    }</span>
 
     @GetMapping(value = API_TRANSPORT_UNITS, params = {&quot;bks&quot;}, produces = &quot;application/vnd.openwms.transport-unit-v1+json&quot;)
     public ResponseEntity&lt;List&lt;TransportUnitVO&gt;&gt; findTransportUnits(@RequestParam(&quot;bks&quot;) List&lt;String&gt; barcodes) {
-<span class="fc" id="L89">        List&lt;TransportUnit&gt; tus = service.findByBarcodes(barcodes.stream().map(Barcode::of).collect(Collectors.toList()));</span>
-<span class="fc" id="L90">        return ResponseEntity.ok(augmentResults(tus));</span>
+<span class="nc" id="L89">        List&lt;TransportUnit&gt; tus = service.findByBarcodes(barcodes.stream().map(Barcode::of).collect(Collectors.toList()));</span>
+<span class="nc" id="L90">        return ResponseEntity.ok(augmentResults(tus));</span>
     }
 
     @GetMapping(value = API_TRANSPORT_UNITS, params = {&quot;actualLocation&quot;}, produces = &quot;application/vnd.openwms.transport-unit-v1+json&quot;)
     public ResponseEntity&lt;List&lt;TransportUnitVO&gt;&gt; findTransportUnitsOn(@RequestParam(&quot;actualLocation&quot;) String actualLocation) {
-<span class="fc" id="L95">        List&lt;TransportUnit&gt; tus = service.findOnLocation(actualLocation);</span>
-<span class="pc bpc" id="L96" title="1 of 2 branches missed.">        return tus == null ? ResponseEntity.ok(Collections.emptyList()) : ResponseEntity.ok(augmentResults(tus));</span>
+<span class="nc" id="L95">        List&lt;TransportUnit&gt; tus = service.findOnLocation(actualLocation);</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        return tus == null ? ResponseEntity.ok(Collections.emptyList()) : ResponseEntity.ok(augmentResults(tus));</span>
     }
 
     private List&lt;TransportUnitVO&gt; augmentResults(List&lt;TransportUnit&gt; tus) {
-<span class="fc" id="L100">        List&lt;TransportUnitVO&gt; result = mapper.map(tus, TransportUnitVO.class);</span>
-<span class="fc" id="L101">        result.forEach(this::addLinks);</span>
-<span class="fc" id="L102">        return result;</span>
+<span class="nc" id="L100">        List&lt;TransportUnitVO&gt; result = mapper.map(tus, TransportUnitVO.class);</span>
+<span class="nc" id="L101">        result.forEach(this::addLinks);</span>
+<span class="nc" id="L102">        return result;</span>
     }
 
     @PostMapping(value = API_TRANSPORT_UNITS, params = {&quot;bk&quot;})
@@ -149,11 +149,11 @@ public class TransportUnitController extends AbstractWebController {
 
     @GetMapping(API_TRANSPORT_UNITS + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="fc" id="L152">        return ResponseEntity.ok(</span>
-<span class="fc" id="L153">                new Index(</span>
-<span class="fc" id="L154">                        linkTo(methodOn(TransportUnitController.class).findTransportUnit(&quot;00000000000000004711&quot;)).withRel(&quot;transport-unit-findbybarcode&quot;),</span>
-<span class="fc" id="L155">                        linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList(&quot;00000000000000004711&quot;, &quot;00000000000000004712&quot;))).withRel(&quot;transport-unit-findbybarcodes&quot;),</span>
-<span class="fc" id="L156">                        linkTo(methodOn(TransportUnitController.class).findTransportUnitsOn(&quot;EXT_/0000/0000/0000/0000&quot;)).withRel(&quot;transport-unit-findonlocation&quot;)</span>
+<span class="nc" id="L152">        return ResponseEntity.ok(</span>
+<span class="nc" id="L153">                new Index(</span>
+<span class="nc" id="L154">                        linkTo(methodOn(TransportUnitController.class).findTransportUnit(&quot;00000000000000004711&quot;)).withRel(&quot;transport-unit-findbybarcode&quot;),</span>
+<span class="nc" id="L155">                        linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList(&quot;00000000000000004711&quot;, &quot;00000000000000004712&quot;))).withRel(&quot;transport-unit-findbybarcodes&quot;),</span>
+<span class="nc" id="L156">                        linkTo(methodOn(TransportUnitController.class).findTransportUnitsOn(&quot;EXT_/0000/0000/0000/0000&quot;)).withRel(&quot;transport-unit-findonlocation&quot;)</span>
                 )
         );
     }

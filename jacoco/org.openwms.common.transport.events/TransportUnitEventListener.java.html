@@ -45,10 +45,10 @@ class TransportUnitEventListener {
     private final TransportUnitService service;
     private final LocationService locationService;
 
-<span class="fc" id="L48">    TransportUnitEventListener(TransportUnitService service, LocationService locationService) {</span>
-<span class="fc" id="L49">        this.service = service;</span>
-<span class="fc" id="L50">        this.locationService = locationService;</span>
-<span class="fc" id="L51">    }</span>
+<span class="nc" id="L48">    TransportUnitEventListener(TransportUnitService service, LocationService locationService) {</span>
+<span class="nc" id="L49">        this.service = service;</span>
+<span class="nc" id="L50">        this.locationService = locationService;</span>
+<span class="nc" id="L51">    }</span>
 
     @Measured
     @RabbitListener(queues = &quot;${owms.events.common.tu.queue-name}&quot;)

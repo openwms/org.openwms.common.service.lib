@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<database name="testdb" schema="public" type="PostgreSQL - 9.6.6">
+<database name="testdb" schema="public" type="PostgreSQL - 9.6.15">
    <tables>
-      <table name="com_location" numRows="32" remarks="" schema="public" type="TABLE">
+      <table name="com_location" numRows="0" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
             <child column="c_location_id" foreignKey="fkcy1pukrprpi3lh48xhf44lk2a" implied="false" onDeleteCascade="false" table="com_location_message"/>
             <child column="c_actual_location" foreignKey="fkdl2ge07mt6bp7ijaot1omtqrs" implied="false" onDeleteCascade="false" table="com_transport_unit"/>
@@ -53,7 +53,7 @@
             <column ascending="true" name="c_z"/>
          </index>
       </table>
-      <table name="com_location_group" numRows="42" remarks="" schema="public" type="TABLE">
+      <table name="com_location_group" numRows="0" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
             <child column="c_location_group" foreignKey="fkq3hta0bed38aexpv3ar3opanf" implied="false" onDeleteCascade="false" table="com_location"/>
             <child column="c_in_locker" foreignKey="fkr8d6ics7fgw7wdmuqsf6lbvmo" implied="false" onDeleteCascade="false" table="com_location_group"/>
@@ -108,7 +108,7 @@
             <column ascending="true" name="c_message_id"/>
          </index>
       </table>
-      <table name="com_location_type" numRows="2" remarks="" schema="public" type="TABLE">
+      <table name="com_location_type" numRows="0" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
             <child column="c_location_type" foreignKey="fkm96ln87qaagwc4wuuwhojv371" implied="false" onDeleteCascade="false" table="com_location"/>
             <child column="c_allowed_location_type" foreignKey="fkb1he5781gaupx0napfkoy09iy" implied="false" onDeleteCascade="false" table="com_type_placing_rule"/>
@@ -141,7 +141,7 @@
             <column ascending="true" name="c_pk"/>
          </index>
       </table>
-      <table name="com_transport_unit" numRows="2" remarks="" schema="public" type="TABLE">
+      <table name="com_transport_unit" numRows="0" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
             <child column="c_parent" foreignKey="fkqbl1ehxt7xqdil5ueu158dbt6" implied="false" onDeleteCascade="false" table="com_transport_unit"/>
             <child column="c_tu_id" foreignKey="fk_tu_pk" implied="false" onDeleteCascade="false" table="com_unit_error"/>
@@ -204,7 +204,7 @@
             <column ascending="true" name="c_rev"/>
          </index>
       </table>
-      <table name="com_transport_unit_type" numRows="1" remarks="" schema="public" type="TABLE">
+      <table name="com_transport_unit_type" numRows="0" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
             <child column="c_transport_unit_type" foreignKey="fkt63fgfc9ycwpboaqn076xclb1" implied="false" onDeleteCascade="false" table="com_transport_unit"/>
             <child column="c_tut_id" foreignKey="fkexme0g9srxcxt8m3jv2101k1d" implied="false" onDeleteCascade="false" table="com_type_placing_rule"/>
