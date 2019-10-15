@@ -62,7 +62,7 @@ public class TransportUnitEvent extends RootApplicationEvent {
     }
 
     public enum TransportUnitEventType {
-        CREATED, CHANGED, DELETED, MOVED;
+        CREATED, CHANGED, DELETED, MOVED, STATE_CHANGE;
     }
 
 

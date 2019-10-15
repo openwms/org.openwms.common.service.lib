@@ -28,8 +28,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.handler.annotation.Payload;
 
-import javax.validation.Valid;
-
 /**
  * A TransportUnitCommandListener is listening on {@link TUCommand}s to process.
  *
@@ -51,7 +49,7 @@ class TransportUnitCommandListener {
 
     @Measured
     @RabbitListener(queues = "${owms.commands.common.tu.queue-name}")
-    public void onCommand(@Valid @Payload Command command) {
+    public void onCommand(@Payload Command command) {
         try {
             if (command instanceof TUCommand) {
                 handler.handle((TUCommand) command);
@@ -59,7 +57,7 @@ class TransportUnitCommandListener {
                 messageCommandHandler.handle((MessageCommand) command);
             }
         } catch (Exception e) {
-            LOGGER.error("Processing command rejected [{}]", command.toString());
+            //LOGGER.error("Processing command rejected [{}]", command.toString());
             throw new AmqpRejectAndDontRequeueException(e.getMessage(), e);
         }
     }

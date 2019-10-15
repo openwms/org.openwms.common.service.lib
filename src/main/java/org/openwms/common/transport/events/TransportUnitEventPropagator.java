@@ -57,6 +57,9 @@ class TransportUnitEventPropagator {
             case DELETED:
                 amqpTemplate.convertAndSend(exchangeName, "tu.event.deleted", mapper.map(event.getSource(), TransportUnitMO.class));
                 break;
+            case STATE_CHANGE:
+                amqpTemplate.convertAndSend(exchangeName, "tu.event.state-changed", mapper.map(event.getSource(), TransportUnitMO.class));
+                break;
             case MOVED:
                 amqpTemplate.convertAndSend(exchangeName, "tu.event.moved."+event.getActualLocation().getLocationId(), mapper.map(event.getSource(), TransportUnitMO.class));
                 break;

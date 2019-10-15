@@ -54,19 +54,32 @@ class TransportUnitCommandPropagator {
 
     @TransactionalEventListener(fallbackExecution = true)
     public void onEvent(TUCommand command) {
-        Set<ConstraintViolation<TUCommand>> violations = validator.validate(command);
-        if (!violations.isEmpty()) {
-            throw new ValidationException(violations.iterator().next().getMessage());
-        }
-        if (command.getType() == TUCommand.Type.REMOVING) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Sending REMOVING command to announce the TransportUnit [{}] is going to be removed", command.getTransportUnit().getpKey());
-            }
-            amqpTemplate.convertAndSend(
-                    exchangeName,
-                    "common.tu.command.removing",
-                    command
-            );
+        switch(command.getType()) {
+            case REMOVING:
+                Set<ConstraintViolation<TUCommand>> violations = validator.validate(command);
+                if (!violations.isEmpty()) {
+                    throw new ValidationException(violations.iterator().next().getMessage());
+                }
+                if (command.getType() == TUCommand.Type.REMOVING) {
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("Sending REMOVING command to announce the TransportUnit [{}] is going to be removed", command.getTransportUnit().getpKey());
+                    }
+                    amqpTemplate.convertAndSend(
+                            exchangeName,
+                            "common.tu.command.out.removing",
+                            command
+                    );
+                }
+                break;
+            case UPDATE_CACHE:
+                amqpTemplate.convertAndSend(
+                        exchangeName,
+                        "common.tu.command.out.update-cache",
+                        command
+                );
+                break;
+            default:
+                LOGGER.warn("Not supported command type [{}]", command.getType());
         }
     }
 }

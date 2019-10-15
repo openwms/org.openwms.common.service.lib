@@ -35,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.EventListener;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -47,6 +48,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import static java.lang.String.format;
+import static org.openwms.common.transport.api.commands.TUCommand.Type.REMOVING;
 
 /**
  * A TransportUnitServiceImpl is a Spring managed bean that deals with TransportUnits.
@@ -192,6 +194,8 @@ class TransportUnitServiceImpl implements TransportUnitService {
         }
     }
 
+    /* we expect that the calling service spans the TX here, because the EL advice may come differently in the chain. */
+    @Transactional(propagation = Propagation.MANDATORY)
     @EventListener
     public void onEvent(TUCommand command) {
         if (command.getType() == TUCommand.Type.REMOVE) {
@@ -210,7 +214,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
                 .withPKey(transportUnit.getPersistentKey())
                 .withBarcode(transportUnit.getBarcode().getValue())
                 .build();
-        ctx.publishEvent(TUCommand.newBuilder().withTransportUnit(mo).withType(TUCommand.Type.REMOVING).build());
+        ctx.publishEvent(TUCommand.newBuilder(REMOVING).withTransportUnit(mo).build());
     }
 
     /**

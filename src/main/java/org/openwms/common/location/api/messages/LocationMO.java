@@ -28,6 +28,7 @@ public class LocationMO implements Serializable {
     private String parent;
     private boolean incomingActive;
     private boolean outgoingActive;
+    private int plcState;
 
     public String getId() {
         return id;
@@ -59,5 +60,13 @@ public class LocationMO implements Serializable {
 
     public void setOutgoingActive(boolean outgoingActive) {
         this.outgoingActive = outgoingActive;
+    }
+
+    public int getPlcState() {
+        return plcState;
+    }
+
+    public void setPlcState(int plcState) {
+        this.plcState = plcState;
     }
 }

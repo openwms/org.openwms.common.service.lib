@@ -15,6 +15,9 @@
  */
 package org.openwms.common.transport.api.messages;
 
+import org.openwms.common.transport.api.ValidationGroups;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -25,6 +28,7 @@ import java.math.BigDecimal;
  */
 public class TransportUnitTypeMO implements Serializable {
 
+    @NotNull(groups = ValidationGroups.TransportUnit.Create.class)
     private String type;
     private int length;
     private int width;
@@ -33,6 +37,29 @@ public class TransportUnitTypeMO implements Serializable {
     private BigDecimal weightMax;
     private BigDecimal payload;
     private String compatibility;
+
+    /**
+     * Required Default constructor.
+     * @deprecated Only used by frameworks
+     */
+    @Deprecated
+    public TransportUnitTypeMO() {
+    }
+
+    private TransportUnitTypeMO(Builder builder) {
+        setType(builder.type);
+        setLength(builder.length);
+        setWidth(builder.width);
+        setHeight(builder.height);
+        setWeightTare(builder.weightTare);
+        setWeightMax(builder.weightMax);
+        setPayload(builder.payload);
+        setCompatibility(builder.compatibility);
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
 
     public String getType() {
         return type;
@@ -96,5 +123,63 @@ public class TransportUnitTypeMO implements Serializable {
 
     public void setCompatibility(String compatibility) {
         this.compatibility = compatibility;
+    }
+
+    public static final class Builder {
+        private @NotNull(groups = ValidationGroups.TransportUnit.Create.class) String type;
+        private int length;
+        private int width;
+        private int height;
+        private BigDecimal weightTare;
+        private BigDecimal weightMax;
+        private BigDecimal payload;
+        private String compatibility;
+
+        private Builder() {
+        }
+
+        public Builder type(@NotNull(groups = ValidationGroups.TransportUnit.Create.class) String val) {
+            type = val;
+            return this;
+        }
+
+        public Builder length(int val) {
+            length = val;
+            return this;
+        }
+
+        public Builder width(int val) {
+            width = val;
+            return this;
+        }
+
+        public Builder height(int val) {
+            height = val;
+            return this;
+        }
+
+        public Builder weightTare(BigDecimal val) {
+            weightTare = val;
+            return this;
+        }
+
+        public Builder weightMax(BigDecimal val) {
+            weightMax = val;
+            return this;
+        }
+
+        public Builder payload(BigDecimal val) {
+            payload = val;
+            return this;
+        }
+
+        public Builder compatibility(String val) {
+            compatibility = val;
+            return this;
+        }
+
+        public TransportUnitTypeMO build() {
+            return new TransportUnitTypeMO(this);
+        }
     }
 }

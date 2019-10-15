@@ -12,7 +12,7 @@ owms:
     common:
       tu:
         exchange-name: common.tu.commands
-        routing-key: common.tu.command.*
+        routing-key: common.tu.command.in.*
         queue-name: common-tu-commands-queue
   events:
     common:

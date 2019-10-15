@@ -48,15 +48,24 @@ public class TUCommand implements Command<TUCommand.Type>, Serializable {
     }
 
     /*~-------------------- methods --------------------*/
-    public static Builder newBuilder() {
-        return new Builder();
+    public static Builder newBuilder(Type type) {
+        return new Builder(type);
     }
 
     public enum Type {
+        /** Command to request and return the current instance of the TransportUnit from the golden source. */
+        REQUEST,
+        /** Response Command to update the foreign cache with the transmitted TransportUnit instance. */
+        UPDATE_CACHE,
+        /** Command to create a new TransportUnit instance. */
         CREATE,
+        /** Vote whether all voters are fine with removing an instance. */
         REMOVING,
+        /** Response Command to remove the TransportUnit. */
         REMOVE,
+        /** Command to change the Target of a TransportUnit. */
         CHANGE_TARGET,
+        /** Command to change the actual Location of a TransportUnit. */
         CHANGE_ACTUAL_LOCATION
     }
 
@@ -83,12 +92,8 @@ public class TUCommand implements Command<TUCommand.Type>, Serializable {
         private Type type;
         private TransportUnitMO transportUnit;
 
-        private Builder() {
-        }
-
-        public Builder withType(@NotNull Type val) {
-            type = val;
-            return this;
+        private Builder(@NotNull Type type) {
+            this.type = type;
         }
 
         public Builder withTransportUnit(@NotNull TransportUnitMO val) {
