@@ -28,8 +28,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.handler.annotation.Payload;
 
-import javax.validation.Valid;
-
 /**
  * A TransportUnitCommandListener is listening on {@link TUCommand}s to process.
  *
@@ -40,28 +38,28 @@ import javax.validation.Valid;
 @TxService
 class TransportUnitCommandListener {
 
-<span class="nc" id="L43">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandListener.class);</span>
+<span class="nc" id="L41">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandListener.class);</span>
     private final TransportUnitCommandHandler handler;
     private final MessageCommandHandler messageCommandHandler;
 
-<span class="nc" id="L47">    TransportUnitCommandListener(TransportUnitCommandHandler handler, MessageCommandHandler messageCommandHandler) {</span>
-<span class="nc" id="L48">        this.handler = handler;</span>
-<span class="nc" id="L49">        this.messageCommandHandler = messageCommandHandler;</span>
-<span class="nc" id="L50">    }</span>
+<span class="nc" id="L45">    TransportUnitCommandListener(TransportUnitCommandHandler handler, MessageCommandHandler messageCommandHandler) {</span>
+<span class="nc" id="L46">        this.handler = handler;</span>
+<span class="nc" id="L47">        this.messageCommandHandler = messageCommandHandler;</span>
+<span class="nc" id="L48">    }</span>
 
     @Measured
     @RabbitListener(queues = &quot;${owms.commands.common.tu.queue-name}&quot;)
-    public void onCommand(@Valid @Payload Command command) {
+    public void onCommand(@Payload Command command) {
         try {
-<span class="nc bnc" id="L56" title="All 2 branches missed.">            if (command instanceof TUCommand) {</span>
-<span class="nc" id="L57">                handler.handle((TUCommand) command);</span>
-<span class="nc bnc" id="L58" title="All 2 branches missed.">            } else if (command instanceof MessageCommand) {</span>
-<span class="nc" id="L59">                messageCommandHandler.handle((MessageCommand) command);</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            if (command instanceof TUCommand) {</span>
+<span class="nc" id="L55">                handler.handle((TUCommand) command);</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">            } else if (command instanceof MessageCommand) {</span>
+<span class="nc" id="L57">                messageCommandHandler.handle((MessageCommand) command);</span>
             }
-<span class="nc" id="L61">        } catch (Exception e) {</span>
-<span class="nc" id="L62">            LOGGER.error(&quot;Processing command rejected [{}]&quot;, command.toString());</span>
-<span class="nc" id="L63">            throw new AmqpRejectAndDontRequeueException(e.getMessage(), e);</span>
+<span class="nc" id="L59">        } catch (Exception e) {</span>
+            //LOGGER.error(&quot;Processing command rejected [{}]&quot;, command.toString());
+<span class="nc" id="L61">            throw new AmqpRejectAndDontRequeueException(e.getMessage(), e);</span>
         }
-<span class="nc" id="L65">    }</span>
+<span class="nc" id="L63">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

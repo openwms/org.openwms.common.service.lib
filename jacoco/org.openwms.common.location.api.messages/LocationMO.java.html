@@ -28,37 +28,46 @@ import java.io.Serializable;
     private String parent;
     private boolean incomingActive;
     private boolean outgoingActive;
+    private int plcState;
 
     public String getId() {
-<span class="nc" id="L33">        return id;</span>
+<span class="nc" id="L34">        return id;</span>
     }
 
     public void setId(String id) {
-<span class="nc" id="L37">        this.id = id;</span>
-<span class="nc" id="L38">    }</span>
+<span class="nc" id="L38">        this.id = id;</span>
+<span class="nc" id="L39">    }</span>
 
     public String getParent() {
-<span class="nc" id="L41">        return parent;</span>
+<span class="nc" id="L42">        return parent;</span>
     }
 
     public void setParent(String parent) {
-<span class="nc" id="L45">        this.parent = parent;</span>
-<span class="nc" id="L46">    }</span>
+<span class="nc" id="L46">        this.parent = parent;</span>
+<span class="nc" id="L47">    }</span>
 
     public boolean isIncomingActive() {
-<span class="nc" id="L49">        return incomingActive;</span>
+<span class="nc" id="L50">        return incomingActive;</span>
     }
 
     public void setIncomingActive(boolean incomingActive) {
-<span class="nc" id="L53">        this.incomingActive = incomingActive;</span>
-<span class="nc" id="L54">    }</span>
+<span class="nc" id="L54">        this.incomingActive = incomingActive;</span>
+<span class="nc" id="L55">    }</span>
 
     public boolean isOutgoingActive() {
-<span class="nc" id="L57">        return outgoingActive;</span>
+<span class="nc" id="L58">        return outgoingActive;</span>
     }
 
     public void setOutgoingActive(boolean outgoingActive) {
-<span class="nc" id="L61">        this.outgoingActive = outgoingActive;</span>
-<span class="nc" id="L62">    }</span>
+<span class="nc" id="L62">        this.outgoingActive = outgoingActive;</span>
+<span class="nc" id="L63">    }</span>
+
+    public int getPlcState() {
+<span class="nc" id="L66">        return plcState;</span>
+    }
+
+    public void setPlcState(int plcState) {
+<span class="nc" id="L70">        this.plcState = plcState;</span>
+<span class="nc" id="L71">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -16,11 +16,14 @@
 package org.openwms.common.transport.commands;
 
 import org.ameba.annotation.TxService;
+import org.ameba.mapping.BeanMapper;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.transport.Barcode;
+import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.api.ValidationGroups;
 import org.openwms.common.transport.api.commands.TUCommand;
+import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -33,6 +36,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
+import static org.openwms.common.transport.api.commands.TUCommand.Type.UPDATE_CACHE;
 
 /**
  * A TransportUnitCommandHandler passes incoming {@link TUCommand}s to the internal
@@ -44,54 +48,83 @@ import static java.lang.String.format;
 @TxService
 class TransportUnitCommandHandler {
 
-<span class="nc" id="L47">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandHandler.class);</span>
+<span class="nc" id="L51">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandHandler.class);</span>
     private final TransportUnitService service;
     private final ApplicationContext ctx;
+    private final BeanMapper mapper;
     private final Validator validator;
 
-<span class="nc" id="L52">    TransportUnitCommandHandler(TransportUnitService service, ApplicationContext ctx, Validator validator) {</span>
-<span class="nc" id="L53">        this.service = service;</span>
-<span class="nc" id="L54">        this.ctx = ctx;</span>
-<span class="nc" id="L55">        this.validator = validator;</span>
-<span class="nc" id="L56">    }</span>
+<span class="nc" id="L57">    TransportUnitCommandHandler(TransportUnitService service, ApplicationContext ctx, BeanMapper mapper, Validator validator) {</span>
+<span class="nc" id="L58">        this.service = service;</span>
+<span class="nc" id="L59">        this.ctx = ctx;</span>
+<span class="nc" id="L60">        this.mapper = mapper;</span>
+<span class="nc" id="L61">        this.validator = validator;</span>
+<span class="nc" id="L62">    }</span>
 
     public void handle(TUCommand command) {
-<span class="nc bnc" id="L59" title="All 4 branches missed.">        switch(command.getType()) {</span>
+<span class="nc bnc" id="L65" title="All 6 branches missed.">        switch(command.getType()) {</span>
             case CHANGE_ACTUAL_LOCATION:
-<span class="nc bnc" id="L61" title="All 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L62">                    LOGGER.debug(&quot;Got command to MOVE TransportUnit with id [{}] to [{}]&quot;, command.getTransportUnit().getBarcode(), command.getTransportUnit().getActualLocation());</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L68">                    LOGGER.debug(&quot;Got command to MOVE TransportUnit with id [{}] to [{}]&quot;, command.getTransportUnit().getBarcode(), command.getTransportUnit().getActualLocation());</span>
                 }
-<span class="nc" id="L64">                service.moveTransportUnit(Barcode.of(command.getTransportUnit().getBarcode()), LocationPK.fromString(command.getTransportUnit().getActualLocation()));</span>
-<span class="nc" id="L65">                break;</span>
+<span class="nc" id="L70">                service.moveTransportUnit(Barcode.of(command.getTransportUnit().getBarcode()), LocationPK.fromString(command.getTransportUnit().getActualLocation()));</span>
+<span class="nc" id="L71">                break;</span>
             case CHANGE_TARGET:
-<span class="nc" id="L67">                validate(command, ValidationGroups.TransportUnit.ChangeTarget.class);</span>
-<span class="nc bnc" id="L68" title="All 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L69">                    LOGGER.debug(&quot;Got command to CHANGE the target of the TransportUnit with id [{}] to [{}]&quot;, command.getTransportUnit().getBarcode(), command.getTransportUnit().getTargetLocation());</span>
-                }
-<span class="nc" id="L71">                service.changeTarget(Barcode.of(command.getTransportUnit().getBarcode()), command.getTransportUnit().getTargetLocation());</span>
-<span class="nc" id="L72">                break;</span>
-            case REMOVE:
+<span class="nc" id="L73">                validate(command, ValidationGroups.TransportUnit.ChangeTarget.class);</span>
 <span class="nc bnc" id="L74" title="All 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L75">                    LOGGER.debug(&quot;Got command to REMOVE TransportUnit with id [{}]&quot;, command.getTransportUnit().getBarcode());</span>
+<span class="nc" id="L75">                    LOGGER.debug(&quot;Got command to CHANGE the target of the TransportUnit with id [{}] to [{}]&quot;, command.getTransportUnit().getBarcode(), command.getTransportUnit().getTargetLocation());</span>
                 }
-<span class="nc" id="L77">                ctx.publishEvent(command);</span>
+<span class="nc" id="L77">                service.changeTarget(Barcode.of(command.getTransportUnit().getBarcode()), command.getTransportUnit().getTargetLocation());</span>
 <span class="nc" id="L78">                break;</span>
+            case REMOVE:
+<span class="nc bnc" id="L80" title="All 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L81">                    LOGGER.debug(&quot;Got command to REMOVE TransportUnit with id [{}]&quot;, command.getTransportUnit().getBarcode());</span>
+                }
+<span class="nc" id="L83">                ctx.publishEvent(command);</span>
+<span class="nc" id="L84">                break;</span>
+            case REQUEST:
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L87">                    LOGGER.debug(&quot;Got a request command for a TransportUnit&quot;);</span>
+                }
+<span class="nc" id="L89">                validate(command, ValidationGroups.TransportUnit.Request.class);</span>
+<span class="nc" id="L90">                TransportUnit tu = service.findByPKey(command.getTransportUnit().getpKey());</span>
+<span class="nc" id="L91">                TransportUnitMO mo = mapper.map(tu, TransportUnitMO.class);</span>
+<span class="nc" id="L92">                ctx.publishEvent(</span>
+<span class="nc" id="L93">                        TUCommand.newBuilder(UPDATE_CACHE).withTransportUnit(mo).build()</span>
+                );
+<span class="nc" id="L95">                break;</span>
+            case CREATE:
+<span class="nc bnc" id="L97" title="All 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L98">                    LOGGER.debug(&quot;Got a command to create a TransportUnit&quot;);</span>
+                }
+<span class="nc" id="L100">                validate(command, ValidationGroups.TransportUnit.Create.class);</span>
+<span class="nc" id="L101">                tu = service.create(</span>
+<span class="nc" id="L102">                        Barcode.of(command.getTransportUnit().getBarcode()),</span>
+<span class="nc" id="L103">                        command.getTransportUnit().getTransportUnitType().getType(),</span>
+<span class="nc" id="L104">                        command.getTransportUnit().getActualLocation(),</span>
+<span class="nc" id="L105">                        false</span>
+                );
+<span class="nc" id="L107">                mo = mapper.map(tu, TransportUnitMO.class);</span>
+<span class="nc" id="L108">                ctx.publishEvent(</span>
+<span class="nc" id="L109">                        TUCommand.newBuilder(UPDATE_CACHE).withTransportUnit(mo).build()</span>
+                );
+<span class="nc" id="L111">                break;</span>
             default:
-<span class="nc" id="L80">                LOGGER.debug(&quot;TUCommand [{}] not supported&quot;, command.getType());</span>
+<span class="nc" id="L113">                LOGGER.error(&quot;TUCommand [{}] not supported&quot;, command.getType());</span>
         }
-<span class="nc" id="L82">    }</span>
+<span class="nc" id="L115">    }</span>
 
     private void validate(TUCommand command, Class&lt;?&gt; changeTargetClass) {
-<span class="nc" id="L85">        Set&lt;ConstraintViolation&lt;TUCommand&gt;&gt; violations = validator.validate(command, changeTargetClass);</span>
-<span class="nc bnc" id="L86" title="All 2 branches missed.">        if (violations.size() &gt; 0) {</span>
-<span class="nc" id="L87">            throw new ValidationException(format(&quot;Command to process is not valid! Invalid fields [%s]&quot;,</span>
-<span class="nc" id="L88">                    violations</span>
-<span class="nc" id="L89">                            .stream()</span>
-<span class="nc" id="L90">                            .map(ConstraintViolation::getPropertyPath)</span>
-<span class="nc" id="L91">                            .map(Path::toString)</span>
-<span class="nc" id="L92">                            .collect(Collectors.joining()))</span>
+<span class="nc" id="L118">        Set&lt;ConstraintViolation&lt;TUCommand&gt;&gt; violations = validator.validate(command, changeTargetClass);</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        if (violations.size() &gt; 0) {</span>
+<span class="nc" id="L120">            throw new ValidationException(format(&quot;Command to process is not valid! Invalid fields [%s]&quot;,</span>
+<span class="nc" id="L121">                    violations</span>
+<span class="nc" id="L122">                            .stream()</span>
+<span class="nc" id="L123">                            .map(ConstraintViolation::getPropertyPath)</span>
+<span class="nc" id="L124">                            .map(Path::toString)</span>
+<span class="nc" id="L125">                            .collect(Collectors.joining()))</span>
             );
         }
-<span class="nc" id="L95">    }</span>
+<span class="nc" id="L128">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
