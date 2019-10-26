@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport.impl;
 
+import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.openwms.common.location.LocationType;
@@ -22,16 +23,24 @@ import org.openwms.common.transport.Rule;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.TransportUnitTypeService;
 import org.openwms.common.transport.TypePlacingRule;
+import org.openwms.common.transport.events.TransportUnitTypeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.lang.String.format;
+import static org.openwms.common.transport.events.TransportUnitTypeEvent.TransportUnitTypeEventType.CHANGED;
+import static org.openwms.common.transport.events.TransportUnitTypeEvent.TransportUnitTypeEventType.CREATED;
+
 /**
- * A TransportUnitTypeServiceImpl.
+ * A TransportUnitTypeServiceImpl is a Spring managed bean that deals with TransportUnitTypes.
  *
  * @author Heiko Scherrer
  */
@@ -40,15 +49,21 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitTypeServiceImpl.class);
     private final TransportUnitTypeRepository transportUnitTypeRepository;
+    private final ApplicationEventPublisher publisher;
 
-    TransportUnitTypeServiceImpl(TransportUnitTypeRepository transportUnitTypeRepository) {
+    TransportUnitTypeServiceImpl(
+            TransportUnitTypeRepository transportUnitTypeRepository,
+            ApplicationEventPublisher publisher) {
         this.transportUnitTypeRepository = transportUnitTypeRepository;
+        this.publisher = publisher;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Measured
+    @Transactional(readOnly = true)
     public Optional<TransportUnitType> findByType(String type) {
         return transportUnitTypeRepository.findByType(type);
     }
@@ -57,6 +72,7 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
      * {@inheritDoc}
      */
     @Override
+    @Measured
     @Transactional(readOnly = true)
     public List<TransportUnitType> findAll() {
         return transportUnitTypeRepository.findAll();
@@ -66,14 +82,21 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
      * {@inheritDoc}
      */
     @Override
-    public TransportUnitType create(TransportUnitType transportUnitType) {
-        return transportUnitTypeRepository.save(transportUnitType);
+    @Measured
+    public TransportUnitType create(@NotNull TransportUnitType transportUnitType) {
+        TransportUnitType created = transportUnitTypeRepository.save(transportUnitType);
+        publisher.publishEvent(TransportUnitTypeEvent.newBuilder()
+                .tut(created)
+                .type(CREATED)
+                .build());
+        return created;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Measured
     public void deleteType(TransportUnitType... transportUnitTypes) {
         for (TransportUnitType transportUnitType : transportUnitTypes) {
             transportUnitTypeRepository.findByType(transportUnitType.getType()).ifPresent(transportUnitTypeRepository::delete);
@@ -84,11 +107,16 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
      * {@inheritDoc}
      */
     @Override
+    @Measured
     public TransportUnitType save(TransportUnitType transportUnitType) {
         TransportUnitType tut = transportUnitTypeRepository.save(transportUnitType);
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Save a TransportUnitType, list of typePlacingRules [{}]", tut.getTypePlacingRules().size());
+            LOGGER.debug("Save a TransportUnitType with a list of TypePlacingRules [{}]", tut.getTypePlacingRules().size());
         }
+        publisher.publishEvent(TransportUnitTypeEvent.newBuilder()
+                .tut(tut)
+                .type(CHANGED)
+                .build());
         return tut;
     }
 
@@ -96,36 +124,31 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
      * {@inheritDoc}
      */
     @Override
-    public TransportUnitType updateRules(String type, List<LocationType> newAssigned, List<LocationType> newNotAssigned) {
-
-        TransportUnitType tut = transportUnitTypeRepository.findByType(type).orElseThrow(NotFoundException::new);
-        boolean found = false;
+    @Measured
+    public TransportUnitType updateRules(@NotEmpty String type, List<LocationType> newAssigned, List<LocationType> newNotAssigned) {
+        TransportUnitType tut = transportUnitTypeRepository.findByType(type).orElseThrow(() -> new NotFoundException(format("TransportUnitType with type [%s] does not exist", type)));
         if (newAssigned != null && !newAssigned.isEmpty()) {
             for (LocationType locationType : newAssigned) {
-                for (TypePlacingRule rule : tut.getTypePlacingRules()) {
-                    if (rule.getAllowedLocationType() == locationType) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
+                if (tut.getTypePlacingRules()
+                        .stream()
+                        .map(TypePlacingRule::getAllowedLocationType)
+                        .noneMatch(lt -> lt.equals(locationType))
+                ) {
                     TypePlacingRule newRule = new TypePlacingRule(tut, locationType);
                     tut.addTypePlacingRule(newRule);
                 }
             }
         }
-
-        if (newAssigned != null && !newAssigned.isEmpty()) {
+        if (newNotAssigned != null && !newNotAssigned.isEmpty()) {
             for (LocationType locationType : newNotAssigned) {
-                for (TypePlacingRule rule : tut.getTypePlacingRules()) {
-                    if (rule.getAllowedLocationType() == locationType) {
-                        tut.removeTypePlacingRule(rule);
-                        break;
-                    }
-                }
+                tut.getTypePlacingRules()
+                        .forEach(tpr -> {
+                            if (tpr.getAllowedLocationType().equals(locationType)) {
+                                tut.removeTypePlacingRule(tpr);
+                            }
+                        });
             }
         }
-
         return transportUnitTypeRepository.save(tut);
     }
 
@@ -133,17 +156,11 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
      * {@inheritDoc}
      */
     @Override
-    public List<Rule> loadRules(String transportUnitType) {
-        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(NotFoundException::new);
-        List<Rule> rules = new ArrayList<>();
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Found type [{}]", type);
-        }
-        rules.addAll(type.getTypePlacingRules());
+    @Measured
+    public List<Rule> loadRules(@NotEmpty String transportUnitType) {
+        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -> new NotFoundException(format("TransportUnitType with type [%s] does not exist", transportUnitType)));
+        List<Rule> rules = new ArrayList<>(type.getTypePlacingRules());
         rules.addAll(type.getTypeStackingRules());
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Returning a list with [{}] items", rules.size());
-        }
         return rules;
     }
 }

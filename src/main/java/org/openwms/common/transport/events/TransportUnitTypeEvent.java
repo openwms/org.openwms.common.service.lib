@@ -15,79 +15,64 @@
  */
 package org.openwms.common.transport.events;
 
-import org.openwms.common.location.Location;
 import org.openwms.common.transport.TransportUnit;
+import org.openwms.common.transport.TransportUnitType;
 import org.openwms.core.event.RootApplicationEvent;
 
 /**
- * A TransportUnitEvent.
+ * A TransportUnitTypeEvent.
  *
  * @author Heiko Scherrer
  */
-public class TransportUnitEvent extends RootApplicationEvent {
+public class TransportUnitTypeEvent extends RootApplicationEvent {
 
-    private TransportUnitEventType type;
-    private Location actualLocation;
+    private TransportUnitTypeEventType type;
 
-    private TransportUnitEvent(Object source, TransportUnitEventType type) {
+    private TransportUnitTypeEvent(Object source, TransportUnitTypeEventType type) {
         super(source);
         this.type = type;
     }
 
-    private TransportUnitEvent(Builder builder) {
+    private TransportUnitTypeEvent(Builder builder) {
         super(builder.source);
         type = builder.type;
-        actualLocation = builder.actualLocation;
     }
 
     public static Builder newBuilder() {
         return new Builder();
     }
 
-    public TransportUnitEventType getType() {
+    public TransportUnitTypeEventType getType() {
         return type;
     }
 
-    public Location getActualLocation() {
-        return actualLocation;
+    public static TransportUnitTypeEvent of(TransportUnit tu, TransportUnitTypeEventType type) {
+        return new TransportUnitTypeEvent(tu, type);
     }
 
-    public static TransportUnitEvent of(TransportUnit tu, TransportUnitEventType type) {
-        return new TransportUnitEvent(tu, type);
-    }
-
-    public enum TransportUnitEventType {
+    public enum TransportUnitTypeEventType {
         CREATED, CHANGED, DELETED, MOVED, STATE_CHANGE;
     }
 
     public static final class Builder {
         private Object source;
-        private TransportUnitEventType type;
-        private Location actualLocation;
+        private TransportUnitTypeEventType type;
 
         private Builder() {
         }
 
-        public Builder tu(TransportUnit val) {
+        public Builder tut(TransportUnitType val) {
             source = val;
             return this;
         }
 
-        public Builder type(TransportUnitEventType val) {
+        public Builder type(TransportUnitTypeEventType val) {
             type = val;
             return this;
         }
 
-        public Builder actualLocation(Location val) {
-            actualLocation = val;
-            return this;
-        }
-
-        public TransportUnitEvent build() {
-            if (type == TransportUnitEventType.MOVED && actualLocation == null) {
-                throw new IllegalArgumentException("TU MOVED events must contain the actualLocation");
-            }
-            return new TransportUnitEvent(this);
+        public TransportUnitTypeEvent build() {
+            return new TransportUnitTypeEvent(this);
         }
     }
 }
