@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport.impl;
 
+import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.openwms.common.location.LocationType;
@@ -22,43 +23,58 @@ import org.openwms.common.transport.Rule;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.TransportUnitTypeService;
 import org.openwms.common.transport.TypePlacingRule;
+import org.openwms.common.transport.events.TransportUnitTypeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.lang.String.format;
+import static org.openwms.common.transport.events.TransportUnitTypeEvent.TransportUnitTypeEventType.CHANGED;
+import static org.openwms.common.transport.events.TransportUnitTypeEvent.TransportUnitTypeEventType.CREATED;
+
 /**
- * A TransportUnitTypeServiceImpl.
+ * A TransportUnitTypeServiceImpl is a Spring managed bean that deals with TransportUnitTypes.
  *
  * @author Heiko Scherrer
  */
 @TxService
 class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
 
-<span class="nc" id="L41">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitTypeServiceImpl.class);</span>
+<span class="nc" id="L50">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitTypeServiceImpl.class);</span>
     private final TransportUnitTypeRepository transportUnitTypeRepository;
+    private final ApplicationEventPublisher publisher;
 
-<span class="nc" id="L44">    TransportUnitTypeServiceImpl(TransportUnitTypeRepository transportUnitTypeRepository) {</span>
-<span class="nc" id="L45">        this.transportUnitTypeRepository = transportUnitTypeRepository;</span>
-<span class="nc" id="L46">    }</span>
+<span class="nc" id="L54">    TransportUnitTypeServiceImpl(</span>
+            TransportUnitTypeRepository transportUnitTypeRepository,
+            ApplicationEventPublisher publisher) {
+<span class="nc" id="L57">        this.transportUnitTypeRepository = transportUnitTypeRepository;</span>
+<span class="nc" id="L58">        this.publisher = publisher;</span>
+<span class="nc" id="L59">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Optional&lt;TransportUnitType&gt; findByType(String type) {
-<span class="nc" id="L53">        return transportUnitTypeRepository.findByType(type);</span>
+    @Measured
+    @Transactional(readOnly = true)
+<span class="nc" id="L67">    public Optional&lt;TransportUnitType&gt; findByType(String type) {</span>
+        return transportUnitTypeRepository.findByType(type);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Measured
     @Transactional(readOnly = true)
-<span class="nc" id="L61">    public List&lt;TransportUnitType&gt; findAll() {</span>
+<span class="nc" id="L77">    public List&lt;TransportUnitType&gt; findAll() {</span>
         return transportUnitTypeRepository.findAll();
     }
 
@@ -66,85 +82,86 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
      * {@inheritDoc}
      */
     @Override
-    public TransportUnitType create(TransportUnitType transportUnitType) {
-<span class="nc" id="L70">        return transportUnitTypeRepository.save(transportUnitType);</span>
+    @Measured
+    public TransportUnitType create(@NotNull TransportUnitType transportUnitType) {
+<span class="nc" id="L87">        TransportUnitType created = transportUnitTypeRepository.save(transportUnitType);</span>
+<span class="nc" id="L88">        publisher.publishEvent(TransportUnitTypeEvent.newBuilder()</span>
+<span class="nc" id="L89">                .tut(created)</span>
+<span class="nc" id="L90">                .type(CREATED)</span>
+<span class="nc" id="L91">                .build());</span>
+<span class="nc" id="L92">        return created;</span>
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Measured
     public void deleteType(TransportUnitType... transportUnitTypes) {
-<span class="nc bnc" id="L78" title="All 2 branches missed.">        for (TransportUnitType transportUnitType : transportUnitTypes) {</span>
-<span class="nc" id="L79">            transportUnitTypeRepository.findByType(transportUnitType.getType()).ifPresent(transportUnitTypeRepository::delete);</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        for (TransportUnitType transportUnitType : transportUnitTypes) {</span>
+<span class="nc" id="L102">            transportUnitTypeRepository.findByType(transportUnitType.getType()).ifPresent(transportUnitTypeRepository::delete);</span>
         }
-<span class="nc" id="L81">    }</span>
+<span class="nc" id="L104">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Measured
     public TransportUnitType save(TransportUnitType transportUnitType) {
-<span class="nc" id="L88">        TransportUnitType tut = transportUnitTypeRepository.save(transportUnitType);</span>
-<span class="nc bnc" id="L89" title="All 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L90">            LOGGER.debug(&quot;Save a TransportUnitType, list of typePlacingRules [{}]&quot;, tut.getTypePlacingRules().size());</span>
+<span class="nc" id="L112">        TransportUnitType tut = transportUnitTypeRepository.save(transportUnitType);</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L114">            LOGGER.debug(&quot;Save a TransportUnitType with a list of TypePlacingRules [{}]&quot;, tut.getTypePlacingRules().size());</span>
         }
-<span class="nc" id="L92">        return tut;</span>
+<span class="nc" id="L116">        publisher.publishEvent(TransportUnitTypeEvent.newBuilder()</span>
+<span class="nc" id="L117">                .tut(tut)</span>
+<span class="nc" id="L118">                .type(CHANGED)</span>
+<span class="nc" id="L119">                .build());</span>
+<span class="nc" id="L120">        return tut;</span>
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public TransportUnitType updateRules(String type, List&lt;LocationType&gt; newAssigned, List&lt;LocationType&gt; newNotAssigned) {
-
-<span class="nc" id="L101">        TransportUnitType tut = transportUnitTypeRepository.findByType(type).orElseThrow(NotFoundException::new);</span>
-<span class="nc" id="L102">        boolean found = false;</span>
-<span class="nc bnc" id="L103" title="All 4 branches missed.">        if (newAssigned != null &amp;&amp; !newAssigned.isEmpty()) {</span>
-<span class="nc bnc" id="L104" title="All 2 branches missed.">            for (LocationType locationType : newAssigned) {</span>
-<span class="nc bnc" id="L105" title="All 2 branches missed.">                for (TypePlacingRule rule : tut.getTypePlacingRules()) {</span>
-<span class="nc bnc" id="L106" title="All 2 branches missed.">                    if (rule.getAllowedLocationType() == locationType) {</span>
-<span class="nc" id="L107">                        found = true;</span>
-<span class="nc" id="L108">                        break;</span>
-                    }
-                }
-<span class="nc bnc" id="L111" title="All 2 branches missed.">                if (!found) {</span>
-<span class="nc" id="L112">                    TypePlacingRule newRule = new TypePlacingRule(tut, locationType);</span>
-<span class="nc" id="L113">                    tut.addTypePlacingRule(newRule);</span>
+    @Measured
+    public TransportUnitType updateRules(@NotEmpty String type, List&lt;LocationType&gt; newAssigned, List&lt;LocationType&gt; newNotAssigned) {
+<span class="nc" id="L129">        TransportUnitType tut = transportUnitTypeRepository.findByType(type).orElseThrow(() -&gt; new NotFoundException(format(&quot;TransportUnitType with type [%s] does not exist&quot;, type)));</span>
+<span class="nc bnc" id="L130" title="All 4 branches missed.">        if (newAssigned != null &amp;&amp; !newAssigned.isEmpty()) {</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">            for (LocationType locationType : newAssigned) {</span>
+<span class="nc" id="L132">                if (tut.getTypePlacingRules()</span>
+<span class="nc" id="L133">                        .stream()</span>
+<span class="nc" id="L134">                        .map(TypePlacingRule::getAllowedLocationType)</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">                        .noneMatch(lt -&gt; lt.equals(locationType))</span>
+                ) {
+<span class="nc" id="L137">                    TypePlacingRule newRule = new TypePlacingRule(tut, locationType);</span>
+<span class="nc" id="L138">                    tut.addTypePlacingRule(newRule);</span>
                 }
             }
         }
-
-<span class="nc bnc" id="L118" title="All 4 branches missed.">        if (newAssigned != null &amp;&amp; !newAssigned.isEmpty()) {</span>
-<span class="nc bnc" id="L119" title="All 2 branches missed.">            for (LocationType locationType : newNotAssigned) {</span>
-<span class="nc bnc" id="L120" title="All 2 branches missed.">                for (TypePlacingRule rule : tut.getTypePlacingRules()) {</span>
-<span class="nc bnc" id="L121" title="All 2 branches missed.">                    if (rule.getAllowedLocationType() == locationType) {</span>
-<span class="nc" id="L122">                        tut.removeTypePlacingRule(rule);</span>
-<span class="nc" id="L123">                        break;</span>
-                    }
-                }
+<span class="nc bnc" id="L142" title="All 4 branches missed.">        if (newNotAssigned != null &amp;&amp; !newNotAssigned.isEmpty()) {</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">            for (LocationType locationType : newNotAssigned) {</span>
+<span class="nc" id="L144">                tut.getTypePlacingRules()</span>
+<span class="nc" id="L145">                        .forEach(tpr -&gt; {</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">                            if (tpr.getAllowedLocationType().equals(locationType)) {</span>
+<span class="nc" id="L147">                                tut.removeTypePlacingRule(tpr);</span>
+                            }
+<span class="nc" id="L149">                        });</span>
             }
         }
-
-<span class="nc" id="L129">        return transportUnitTypeRepository.save(tut);</span>
+<span class="nc" id="L152">        return transportUnitTypeRepository.save(tut);</span>
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List&lt;Rule&gt; loadRules(String transportUnitType) {
-<span class="nc" id="L137">        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(NotFoundException::new);</span>
-<span class="nc" id="L138">        List&lt;Rule&gt; rules = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L139" title="All 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L140">            LOGGER.debug(&quot;Found type [{}]&quot;, type);</span>
-        }
-<span class="nc" id="L142">        rules.addAll(type.getTypePlacingRules());</span>
-<span class="nc" id="L143">        rules.addAll(type.getTypeStackingRules());</span>
-<span class="nc bnc" id="L144" title="All 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L145">            LOGGER.debug(&quot;Returning a list with [{}] items&quot;, rules.size());</span>
-        }
-<span class="nc" id="L147">        return rules;</span>
+    @Measured
+    public List&lt;Rule&gt; loadRules(@NotEmpty String transportUnitType) {
+<span class="nc" id="L161">        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -&gt; new NotFoundException(format(&quot;TransportUnitType with type [%s] does not exist&quot;, transportUnitType)));</span>
+<span class="nc" id="L162">        List&lt;Rule&gt; rules = new ArrayList&lt;&gt;(type.getTypePlacingRules());</span>
+<span class="nc" id="L163">        rules.addAll(type.getTypeStackingRules());</span>
+<span class="nc" id="L164">        return rules;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
