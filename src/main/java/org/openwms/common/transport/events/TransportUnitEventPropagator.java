@@ -39,7 +39,10 @@ class TransportUnitEventPropagator {
     private final String exchangeName;
     private final BeanMapper mapper;
 
-    TransportUnitEventPropagator(AmqpTemplate amqpTemplate, @Value("${owms.events.common.tu.exchange-name}") String exchangeName, BeanMapper mapper) {
+    TransportUnitEventPropagator(
+            AmqpTemplate amqpTemplate,
+            @Value("${owms.events.common.tu.exchange-name}") String exchangeName,
+            BeanMapper mapper) {
         this.amqpTemplate = amqpTemplate;
         this.exchangeName = exchangeName;
         this.mapper = mapper;
@@ -64,7 +67,7 @@ class TransportUnitEventPropagator {
                 amqpTemplate.convertAndSend(exchangeName, "tu.event.moved."+event.getActualLocation().getLocationId(), mapper.map(event.getSource(), TransportUnitMO.class));
                 break;
             default:
-                throw new UnsupportedOperationException(format("Eventtype [%s] currently not supported", event.getType()));
+                throw new UnsupportedOperationException(format("Eventtype [%s] not supported", event.getType()));
         }
     }
 }

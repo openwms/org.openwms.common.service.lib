@@ -18,6 +18,7 @@ package org.openwms.common.transport.impl;
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
+import org.ameba.exception.ResourceExistsException;
 import org.ameba.exception.ServiceLayerException;
 import org.ameba.i18n.Translator;
 import org.openwms.common.CommonMessageCodes;
@@ -33,7 +34,7 @@ import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.common.transport.events.TransportUnitEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,25 +60,25 @@ import static org.openwms.common.transport.api.commands.TUCommand.Type.REMOVING;
 class TransportUnitServiceImpl implements TransportUnitService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitServiceImpl.class);
-    public static final String NO_LOCATION_SET = "The actualLocation must be given in order to create a TransportUnit";
-    public static final String NO_BARCODE = "The barcode must be given in order to create a TransportUnit";
-    public static final String NO_TRANSPORT_UNIT_TYPE = "The transportUnitType must be given in order to create a TransportUnit";
+    private static final String NO_LOCATION_SET = "The actualLocation must be given in order to create a TransportUnit";
+    private static final String NO_BARCODE = "The barcode must be given in order to create a TransportUnit";
+    private static final String NO_TRANSPORT_UNIT_TYPE = "The transportUnitType must be given in order to create a TransportUnit";
 
     private final TransportUnitRepository repository;
     private final LocationService locationService;
     private final TransportUnitTypeRepository transportUnitTypeRepository;
     private final Translator translator;
-    private final ApplicationContext ctx;
+    private final ApplicationEventPublisher publisher;
 
     TransportUnitServiceImpl(Translator translator,
             TransportUnitTypeRepository transportUnitTypeRepository,
             LocationService locationService, TransportUnitRepository repository,
-            ApplicationContext ctx) {
+            ApplicationEventPublisher publisher) {
         this.translator = translator;
         this.transportUnitTypeRepository = transportUnitTypeRepository;
         this.locationService = locationService;
         this.repository = repository;
-        this.ctx = ctx;
+        this.publisher = publisher;
     }
 
     /**
@@ -85,7 +86,8 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public TransportUnit create(@NotNull Barcode barcode, @NotNull TransportUnitType transportUnitType,
+    public TransportUnit create(
+            @NotNull Barcode barcode, @NotNull TransportUnitType transportUnitType,
             @NotNull LocationPK actualLocation, Boolean strict) {
         Assert.notNull(barcode, NO_BARCODE);
         Assert.notNull(transportUnitType, NO_TRANSPORT_UNIT_TYPE);
@@ -104,7 +106,8 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public TransportUnit create(@NotNull Barcode barcode, @NotEmpty String transportUnitType,
+    public TransportUnit create(
+            @NotNull Barcode barcode, @NotEmpty String transportUnitType,
             @NotEmpty String actualLocation, Boolean strict) {
         Assert.notNull(actualLocation, NO_LOCATION_SET);
 
@@ -124,23 +127,30 @@ class TransportUnitServiceImpl implements TransportUnitService {
         Optional<TransportUnit> opt = repository.findByBarcode(barcode);
         if (strict == null || Boolean.FALSE.equals(strict)) {
             if (opt.isPresent()) {
-                LOGGER.debug("TransportUnit with Barcode [{}] already exists, silently returning the existing one", barcode);
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("TransportUnit with Barcode [{}] already exists, silently returning the existing one", barcode);
+                }
                 return opt.get();
             }
         } else {
             opt.ifPresent(tu -> {
-                throw new ServiceLayerException(format("TransportUnit with id [%s] already exists", barcode));
+                throw new ResourceExistsException(format("TransportUnit with id [%s] already exists", barcode));
             });
         }
 
         Location actualLocation = locationResolver.get();
+        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -> new NotFoundException(format("TransportUnitType [%s] not found", transportUnitType)));
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Creating a TransportUnit with Barcode [{}] of Type [{}] on Location [{}]", barcode, transportUnitType, actualLocation);
         }
-        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -> new ServiceLayerException(format("TransportUnitType [%s] not found", transportUnitType)));
         TransportUnit transportUnit = new TransportUnit(barcode, type, actualLocation);
         transportUnit = repository.save(transportUnit);
-        ctx.publishEvent(TransportUnitEvent.newBuilder().tu(transportUnit).type(TransportUnitEvent.TransportUnitEventType.CREATED).build());
+        publisher.publishEvent(
+                TransportUnitEvent.newBuilder()
+                        .tu(transportUnit)
+                        .type(TransportUnitEvent.TransportUnitEventType.CREATED)
+                        .build()
+        );
         return transportUnit;
     }
 
@@ -157,9 +167,10 @@ class TransportUnitServiceImpl implements TransportUnitService {
             throw new NotFoundException(format("TransportUnit with Barcode [%s] not found", barcode));
         }
         TransportUnit saved = repository.save(tu);
-        ctx.publishEvent(TransportUnitEvent.newBuilder()
+        publisher.publishEvent(TransportUnitEvent.newBuilder()
                 .tu(saved)
-                .type(TransportUnitEvent.TransportUnitEventType.CHANGED).build()
+                .type(TransportUnitEvent.TransportUnitEventType.CHANGED)
+                .build()
         );
         return saved;
     }
@@ -169,27 +180,38 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public TransportUnit moveTransportUnit(Barcode barcode, LocationPK targetLocationPK) {
-        TransportUnit transportUnit = repository.findByBarcode(barcode).orElseThrow(() -> new NotFoundException(format("TransportUnit with barcode [%s] not found", barcode)));
-        transportUnit.setActualLocation(locationService.findByLocationId(targetLocationPK).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", targetLocationPK))));
+    public TransportUnit moveTransportUnit(@NotNull Barcode barcode, @NotNull LocationPK targetLocationPK) {
+        TransportUnit transportUnit = repository.findByBarcode(barcode).orElseThrow(() -> new NotFoundException(format("TransportUnit with Barcode [%s] not found", barcode)));
+        transportUnit.setActualLocation(locationService.findByLocationId(targetLocationPK).orElseThrow(() -> new NotFoundException(format("No Location with LocationPk [%s] found", targetLocationPK))));
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Moving TransportUnit with barcode [{}] to Location [{}]", barcode, targetLocationPK);
         }
         TransportUnit saved = repository.save(transportUnit);
-        ctx.publishEvent(TransportUnitEvent.newBuilder().tu(saved).type(TransportUnitEvent.TransportUnitEventType.MOVED).actualLocation(transportUnit.getActualLocation()).build());
+        publisher.publishEvent(
+                TransportUnitEvent.newBuilder()
+                        .tu(saved)
+                        .type(TransportUnitEvent.TransportUnitEventType.MOVED).actualLocation(transportUnit.getActualLocation()).build()
+        );
         return saved;
     }
 
     /**
      * {@inheritDoc}
-     *
-     * All or nothing. Either all TransportUnits are allowed to be deleted or none is.
      */
     @Override
     @Measured
     public void deleteTransportUnits(List<TransportUnit> transportUnits) {
         if (transportUnits != null && !transportUnits.isEmpty()) {
-            transportUnits.sort((o1, o2) -> o1.getChildren().isEmpty() ? -1 : 1);
+            transportUnits.sort((o1, o2) -> {
+                if (o1.getChildren().isEmpty() && o2.getChildren().isEmpty() ||
+                        !o1.getChildren().isEmpty() && !o2.getChildren().isEmpty()) {
+                    return 0;
+                } else if (o1.getChildren().isEmpty() && !o2.getChildren().isEmpty()) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            });
             transportUnits.forEach(this::delete);
         }
     }
@@ -200,11 +222,15 @@ class TransportUnitServiceImpl implements TransportUnitService {
     public void onEvent(TUCommand command) {
         if (command.getType() == TUCommand.Type.REMOVE) {
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Got command to REMOVE TransportUnit with id [{}]", command.getTransportUnit().getpKey());
+                LOGGER.debug("Got command to REMOVE TransportUnit with pKey [{}]", command.getTransportUnit().getpKey());
             }
             repository.findByPKey(command.getTransportUnit().getpKey()).ifPresent(tu -> {
                 repository.delete(tu);
-                ctx.publishEvent(TransportUnitEvent.newBuilder().tu(tu).type(TransportUnitEvent.TransportUnitEventType.DELETED).build());
+                publisher.publishEvent(
+                        TransportUnitEvent.newBuilder()
+                                .tu(tu)
+                                .type(TransportUnitEvent.TransportUnitEventType.DELETED)
+                                .build());
             });
         }
     }
@@ -214,7 +240,10 @@ class TransportUnitServiceImpl implements TransportUnitService {
                 .withPKey(transportUnit.getPersistentKey())
                 .withBarcode(transportUnit.getBarcode().getValue())
                 .build();
-        ctx.publishEvent(TUCommand.newBuilder(REMOVING).withTransportUnit(mo).build());
+        publisher.publishEvent(TUCommand.newBuilder(REMOVING)
+                .withTransportUnit(mo)
+                .build()
+        );
     }
 
     /**
@@ -223,7 +252,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-    public TransportUnit findByBarcode(Barcode barcode) {
+    public TransportUnit findByBarcode(@NotNull Barcode barcode) {
         return repository.findByBarcode(barcode)
                 .orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.BARCODE_NOT_FOUND, new Serializable[]{barcode}, barcode));
     }
@@ -247,8 +276,8 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Transactional(readOnly = true)
     public List<TransportUnit> findOnLocation(@NotEmpty String actualLocation) {
         Assert.hasText(actualLocation, NO_LOCATION_SET);
-        Location optionalLocation = locationService.findByLocationId(actualLocation).orElseThrow(() -> new NotFoundException(format("Location [%s] not found", actualLocation)));
-        return repository.findByActualLocationOrderByActualLocationDate(optionalLocation);
+        Location location = locationService.findByLocationId(actualLocation).orElseThrow(() -> new NotFoundException(format("Location [%s] not found", actualLocation)));
+        return repository.findByActualLocationOrderByActualLocationDate(location);
     }
 
     /**
@@ -256,6 +285,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
+    @Transactional(readOnly = true)
     public TransportUnit findByPKey(String pKey) {
         return repository.findByPKey(pKey).orElseThrow(() -> new NotFoundException(format("No TransportUnit with pKey [%s] found", pKey)));
     }
@@ -273,6 +303,12 @@ class TransportUnitServiceImpl implements TransportUnitService {
                 .orElseThrow(() -> new NotFoundException(format("Location with locationId [%s] not found", targetLocation)));
 
         transportUnit.setTargetLocation(location);
-        return repository.save(transportUnit);
+        TransportUnit saved = repository.save(transportUnit);
+        publisher.publishEvent(TransportUnitEvent.newBuilder()
+                .tu(saved)
+                .type(TransportUnitEvent.TransportUnitEventType.CHANGED).build()
+        );
+        return saved;
+
     }
 }

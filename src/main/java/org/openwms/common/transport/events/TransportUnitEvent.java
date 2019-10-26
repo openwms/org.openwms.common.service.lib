@@ -65,7 +65,6 @@ public class TransportUnitEvent extends RootApplicationEvent {
         CREATED, CHANGED, DELETED, MOVED, STATE_CHANGE;
     }
 
-
     public static final class Builder {
         private Object source;
         private TransportUnitEventType type;
