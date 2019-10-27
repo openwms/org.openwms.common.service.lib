@@ -132,14 +132,14 @@ class LocationServiceImpl implements LocationService {
         Optional<Boolean> infeedAvailable = stateInTransformer.available(errorCode.getErrorCode());
         if (infeedAvailable.isPresent() &&
                 //location.getLocationGroup().isInfeedAllowed() &&
-                location.isInfeedActive() != infeedAvailable.get()) {
+                !infeedAvailable.get().equals(location.isInfeedActive())) {
             location.setInfeed(infeedAvailable.get());
             changed = true;
         }
         Optional<Boolean> outfeedAvailable = stateOutTransformer.available(errorCode.getErrorCode());
         if (outfeedAvailable.isPresent() &&
                 //location.getLocationGroup().isOutfeedAllowed() &&
-                location.isOutfeedActive() != outfeedAvailable.get()) {
+                !outfeedAvailable.get().equals(location.isOutfeedActive())) {
             location.setOutfeed(outfeedAvailable.get());
             changed = true;
         }

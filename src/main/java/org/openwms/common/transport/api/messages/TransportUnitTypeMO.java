@@ -40,11 +40,10 @@ public class TransportUnitTypeMO implements Serializable {
 
     /**
      * Required Default constructor.
-     * @deprecated Only used by frameworks
+     * @deprecated Should only be used by frameworks
      */
     @Deprecated
-    public TransportUnitTypeMO() {
-    }
+    TransportUnitTypeMO() { }
 
     private TransportUnitTypeMO(Builder builder) {
         setType(builder.type);

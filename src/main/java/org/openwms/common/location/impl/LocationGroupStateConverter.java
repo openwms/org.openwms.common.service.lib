@@ -42,7 +42,7 @@ public class LocationGroupStateConverter extends DozerConverter<Boolean, Locatio
         if (source == null) {
             return null;
         }
-        return source ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;
+        return Boolean.TRUE.equals(source) ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;
     }
 
     /**
@@ -55,7 +55,7 @@ public class LocationGroupStateConverter extends DozerConverter<Boolean, Locatio
     @Override
     public Boolean convertFrom(LocationGroupState source, Boolean destination) {
         if (source == null) {
-            return null;
+            return Boolean.FALSE;
         }
         return source == LocationGroupState.AVAILABLE;
     }

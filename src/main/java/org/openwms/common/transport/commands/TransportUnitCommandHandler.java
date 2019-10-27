@@ -116,7 +116,7 @@ class TransportUnitCommandHandler {
 
     private void validate(TUCommand command, Class<?> changeTargetClass) {
         Set<ConstraintViolation<TUCommand>> violations = validator.validate(command, changeTargetClass);
-        if (violations.size() > 0) {
+        if (!violations.isEmpty()) {
             throw new ValidationException(format("Command to process is not valid! Invalid fields [%s]",
                     violations
                             .stream()
