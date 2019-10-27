@@ -132,14 +132,14 @@ class LocationServiceImpl implements LocationService {
 <span class="fc" id="L132">        Optional&lt;Boolean&gt; infeedAvailable = stateInTransformer.available(errorCode.getErrorCode());</span>
 <span class="fc bfc" id="L133" title="All 2 branches covered.">        if (infeedAvailable.isPresent() &amp;&amp;</span>
                 //location.getLocationGroup().isInfeedAllowed() &amp;&amp;
-<span class="pc bpc" id="L135" title="1 of 2 branches missed.">                location.isInfeedActive() != infeedAvailable.get()) {</span>
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">                !infeedAvailable.get().equals(location.isInfeedActive())) {</span>
 <span class="fc" id="L136">            location.setInfeed(infeedAvailable.get());</span>
 <span class="fc" id="L137">            changed = true;</span>
         }
 <span class="fc" id="L139">        Optional&lt;Boolean&gt; outfeedAvailable = stateOutTransformer.available(errorCode.getErrorCode());</span>
 <span class="fc bfc" id="L140" title="All 2 branches covered.">        if (outfeedAvailable.isPresent() &amp;&amp;</span>
                 //location.getLocationGroup().isOutfeedAllowed() &amp;&amp;
-<span class="pc bpc" id="L142" title="1 of 2 branches missed.">                location.isOutfeedActive() != outfeedAvailable.get()) {</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">                !outfeedAvailable.get().equals(location.isOutfeedActive())) {</span>
 <span class="fc" id="L143">            location.setOutfeed(outfeedAvailable.get());</span>
 <span class="fc" id="L144">            changed = true;</span>
         }

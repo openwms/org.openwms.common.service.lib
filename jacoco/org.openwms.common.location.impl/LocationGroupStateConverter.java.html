@@ -42,7 +42,7 @@ public class LocationGroupStateConverter extends DozerConverter&lt;Boolean, Loca
 <span class="nc bnc" id="L42" title="All 2 branches missed.">        if (source == null) {</span>
 <span class="nc" id="L43">            return null;</span>
         }
-<span class="nc bnc" id="L45" title="All 2 branches missed.">        return source ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        return Boolean.TRUE.equals(source) ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;</span>
     }
 
     /**
@@ -55,7 +55,7 @@ public class LocationGroupStateConverter extends DozerConverter&lt;Boolean, Loca
     @Override
     public Boolean convertFrom(LocationGroupState source, Boolean destination) {
 <span class="pc bpc" id="L57" title="1 of 2 branches missed.">        if (source == null) {</span>
-<span class="nc" id="L58">            return null;</span>
+<span class="nc" id="L58">            return Boolean.FALSE;</span>
         }
 <span class="fc bfc" id="L60" title="All 2 branches covered.">        return source == LocationGroupState.AVAILABLE;</span>
     }

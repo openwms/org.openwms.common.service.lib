@@ -116,7 +116,7 @@ class TransportUnitCommandHandler {
 
     private void validate(TUCommand command, Class&lt;?&gt; changeTargetClass) {
 <span class="nc" id="L118">        Set&lt;ConstraintViolation&lt;TUCommand&gt;&gt; violations = validator.validate(command, changeTargetClass);</span>
-<span class="nc bnc" id="L119" title="All 2 branches missed.">        if (violations.size() &gt; 0) {</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        if (!violations.isEmpty()) {</span>
 <span class="nc" id="L120">            throw new ValidationException(format(&quot;Command to process is not valid! Invalid fields [%s]&quot;,</span>
 <span class="nc" id="L121">                    violations</span>
 <span class="nc" id="L122">                            .stream()</span>

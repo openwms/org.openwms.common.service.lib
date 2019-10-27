@@ -40,90 +40,89 @@ public class TransportUnitTypeMO implements Serializable {
 
     /**
      * Required Default constructor.
-     * @deprecated Only used by frameworks
+     * @deprecated Should only be used by frameworks
      */
     @Deprecated
-<span class="fc" id="L46">    public TransportUnitTypeMO() {</span>
-<span class="fc" id="L47">    }</span>
+<span class="fc" id="L46">    TransportUnitTypeMO() { }</span>
 
-<span class="nc" id="L49">    private TransportUnitTypeMO(Builder builder) {</span>
-<span class="nc" id="L50">        setType(builder.type);</span>
-<span class="nc" id="L51">        setLength(builder.length);</span>
-<span class="nc" id="L52">        setWidth(builder.width);</span>
-<span class="nc" id="L53">        setHeight(builder.height);</span>
-<span class="nc" id="L54">        setWeightTare(builder.weightTare);</span>
-<span class="nc" id="L55">        setWeightMax(builder.weightMax);</span>
-<span class="nc" id="L56">        setPayload(builder.payload);</span>
-<span class="nc" id="L57">        setCompatibility(builder.compatibility);</span>
-<span class="nc" id="L58">    }</span>
+<span class="nc" id="L48">    private TransportUnitTypeMO(Builder builder) {</span>
+<span class="nc" id="L49">        setType(builder.type);</span>
+<span class="nc" id="L50">        setLength(builder.length);</span>
+<span class="nc" id="L51">        setWidth(builder.width);</span>
+<span class="nc" id="L52">        setHeight(builder.height);</span>
+<span class="nc" id="L53">        setWeightTare(builder.weightTare);</span>
+<span class="nc" id="L54">        setWeightMax(builder.weightMax);</span>
+<span class="nc" id="L55">        setPayload(builder.payload);</span>
+<span class="nc" id="L56">        setCompatibility(builder.compatibility);</span>
+<span class="nc" id="L57">    }</span>
 
     public static Builder newBuilder() {
-<span class="nc" id="L61">        return new Builder();</span>
+<span class="nc" id="L60">        return new Builder();</span>
     }
 
     public String getType() {
-<span class="fc" id="L65">        return type;</span>
+<span class="fc" id="L64">        return type;</span>
     }
 
     public void setType(String type) {
-<span class="fc" id="L69">        this.type = type;</span>
-<span class="fc" id="L70">    }</span>
+<span class="fc" id="L68">        this.type = type;</span>
+<span class="fc" id="L69">    }</span>
 
     public int getLength() {
-<span class="fc" id="L73">        return length;</span>
+<span class="fc" id="L72">        return length;</span>
     }
 
     public void setLength(int length) {
-<span class="fc" id="L77">        this.length = length;</span>
-<span class="fc" id="L78">    }</span>
+<span class="fc" id="L76">        this.length = length;</span>
+<span class="fc" id="L77">    }</span>
 
     public int getWidth() {
-<span class="fc" id="L81">        return width;</span>
+<span class="fc" id="L80">        return width;</span>
     }
 
     public void setWidth(int width) {
-<span class="fc" id="L85">        this.width = width;</span>
-<span class="fc" id="L86">    }</span>
+<span class="fc" id="L84">        this.width = width;</span>
+<span class="fc" id="L85">    }</span>
 
     public int getHeight() {
-<span class="fc" id="L89">        return height;</span>
+<span class="fc" id="L88">        return height;</span>
     }
 
     public void setHeight(int height) {
-<span class="fc" id="L93">        this.height = height;</span>
-<span class="fc" id="L94">    }</span>
+<span class="fc" id="L92">        this.height = height;</span>
+<span class="fc" id="L93">    }</span>
 
     public BigDecimal getWeightTare() {
-<span class="fc" id="L97">        return weightTare;</span>
+<span class="fc" id="L96">        return weightTare;</span>
     }
 
     public void setWeightTare(BigDecimal weightTare) {
-<span class="fc" id="L101">        this.weightTare = weightTare;</span>
-<span class="fc" id="L102">    }</span>
+<span class="fc" id="L100">        this.weightTare = weightTare;</span>
+<span class="fc" id="L101">    }</span>
 
     public BigDecimal getWeightMax() {
-<span class="fc" id="L105">        return weightMax;</span>
+<span class="fc" id="L104">        return weightMax;</span>
     }
 
     public void setWeightMax(BigDecimal weightMax) {
-<span class="fc" id="L109">        this.weightMax = weightMax;</span>
-<span class="fc" id="L110">    }</span>
+<span class="fc" id="L108">        this.weightMax = weightMax;</span>
+<span class="fc" id="L109">    }</span>
 
     public BigDecimal getPayload() {
-<span class="fc" id="L113">        return payload;</span>
+<span class="fc" id="L112">        return payload;</span>
     }
 
     public void setPayload(BigDecimal payload) {
-<span class="nc" id="L117">        this.payload = payload;</span>
-<span class="nc" id="L118">    }</span>
+<span class="nc" id="L116">        this.payload = payload;</span>
+<span class="nc" id="L117">    }</span>
 
     public String getCompatibility() {
-<span class="fc" id="L121">        return compatibility;</span>
+<span class="fc" id="L120">        return compatibility;</span>
     }
 
     public void setCompatibility(String compatibility) {
-<span class="nc" id="L125">        this.compatibility = compatibility;</span>
-<span class="nc" id="L126">    }</span>
+<span class="nc" id="L124">        this.compatibility = compatibility;</span>
+<span class="nc" id="L125">    }</span>
 
     public static final class Builder {
         private @NotNull(groups = ValidationGroups.TransportUnit.Create.class) String type;
@@ -139,47 +138,47 @@ public class TransportUnitTypeMO implements Serializable {
         }
 
         public Builder type(@NotNull(groups = ValidationGroups.TransportUnit.Create.class) String val) {
-<span class="nc" id="L142">            type = val;</span>
-<span class="nc" id="L143">            return this;</span>
+<span class="nc" id="L141">            type = val;</span>
+<span class="nc" id="L142">            return this;</span>
         }
 
         public Builder length(int val) {
-<span class="nc" id="L147">            length = val;</span>
-<span class="nc" id="L148">            return this;</span>
+<span class="nc" id="L146">            length = val;</span>
+<span class="nc" id="L147">            return this;</span>
         }
 
         public Builder width(int val) {
-<span class="nc" id="L152">            width = val;</span>
-<span class="nc" id="L153">            return this;</span>
+<span class="nc" id="L151">            width = val;</span>
+<span class="nc" id="L152">            return this;</span>
         }
 
         public Builder height(int val) {
-<span class="nc" id="L157">            height = val;</span>
-<span class="nc" id="L158">            return this;</span>
+<span class="nc" id="L156">            height = val;</span>
+<span class="nc" id="L157">            return this;</span>
         }
 
         public Builder weightTare(BigDecimal val) {
-<span class="nc" id="L162">            weightTare = val;</span>
-<span class="nc" id="L163">            return this;</span>
+<span class="nc" id="L161">            weightTare = val;</span>
+<span class="nc" id="L162">            return this;</span>
         }
 
         public Builder weightMax(BigDecimal val) {
-<span class="nc" id="L167">            weightMax = val;</span>
-<span class="nc" id="L168">            return this;</span>
+<span class="nc" id="L166">            weightMax = val;</span>
+<span class="nc" id="L167">            return this;</span>
         }
 
         public Builder payload(BigDecimal val) {
-<span class="nc" id="L172">            payload = val;</span>
-<span class="nc" id="L173">            return this;</span>
+<span class="nc" id="L171">            payload = val;</span>
+<span class="nc" id="L172">            return this;</span>
         }
 
         public Builder compatibility(String val) {
-<span class="nc" id="L177">            compatibility = val;</span>
-<span class="nc" id="L178">            return this;</span>
+<span class="nc" id="L176">            compatibility = val;</span>
+<span class="nc" id="L177">            return this;</span>
         }
 
         public TransportUnitTypeMO build() {
-<span class="nc" id="L182">            return new TransportUnitTypeMO(this);</span>
+<span class="nc" id="L181">            return new TransportUnitTypeMO(this);</span>
         }
     }
 }
