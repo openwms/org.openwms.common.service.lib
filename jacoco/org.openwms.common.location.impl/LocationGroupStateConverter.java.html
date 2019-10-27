@@ -27,8 +27,8 @@ public class LocationGroupStateConverter extends DozerConverter&lt;Boolean, Loca
 
 
     public LocationGroupStateConverter() {
-<span class="nc" id="L30">        super(Boolean.class, LocationGroupState.class);</span>
-<span class="nc" id="L31">    }</span>
+<span class="fc" id="L30">        super(Boolean.class, LocationGroupState.class);</span>
+<span class="fc" id="L31">    }</span>
 
     /**
      * Converts the source field to the destination field and return the resulting destination value.
@@ -54,10 +54,10 @@ public class LocationGroupStateConverter extends DozerConverter&lt;Boolean, Loca
      */
     @Override
     public Boolean convertFrom(LocationGroupState source, Boolean destination) {
-<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (source == null) {</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">        if (source == null) {</span>
 <span class="nc" id="L58">            return null;</span>
         }
-<span class="nc bnc" id="L60" title="All 2 branches missed.">        return source == LocationGroupState.AVAILABLE;</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        return source == LocationGroupState.AVAILABLE;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

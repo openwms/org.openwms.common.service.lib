@@ -70,40 +70,40 @@ public class LocationGroupController extends AbstractWebController {
     public LocationGroupVO findByName(
             @RequestParam(&quot;name&quot;) String name
     ) {
-<span class="nc" id="L73">        LocationGroup locationGroup = locationGroupService.findByName(name)</span>
-<span class="nc" id="L74">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;LocationGroup with name [%s] does not exist&quot;, name)));</span>
-<span class="nc" id="L75">        LocationGroupVO result = mapper.map(locationGroup, LocationGroupVO.class);</span>
-<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (locationGroup.hasParent()) {</span>
-<span class="nc" id="L77">            result.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class).findByName(locationGroup.getParent().getName())).withRel(PARENT)));</span>
+<span class="fc" id="L73">        LocationGroup locationGroup = locationGroupService.findByName(name)</span>
+<span class="fc" id="L74">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;LocationGroup with name [%s] does not exist&quot;, name)));</span>
+<span class="fc" id="L75">        LocationGroupVO result = mapper.map(locationGroup, LocationGroupVO.class);</span>
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">        if (locationGroup.hasParent()) {</span>
+<span class="fc" id="L77">            result.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class).findByName(locationGroup.getParent().getName())).withRel(PARENT)));</span>
         }
-<span class="nc" id="L79">        return result;</span>
+<span class="fc" id="L79">        return result;</span>
     }
 
     @GetMapping(value = API_LOCATION_GROUPS, params = {&quot;names&quot;})
     public List&lt;LocationGroupVO&gt; findByNames(
             @RequestParam(&quot;names&quot;) List&lt;String&gt; names
     ) {
-<span class="nc" id="L86">        List&lt;LocationGroup&gt; locationGroups = locationGroupService.findByNames(names);</span>
-<span class="nc" id="L87">        List&lt;LocationGroupVO&gt; vos = mapper.map(locationGroups, LocationGroupVO.class);</span>
-<span class="nc" id="L88">        vos.forEach(lg -&gt; {</span>
-<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (lg.hasParent()) {</span>
-<span class="nc" id="L90">                lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class).findByName(lg.getParent())).withRel(PARENT)));</span>
+<span class="fc" id="L86">        List&lt;LocationGroup&gt; locationGroups = locationGroupService.findByNames(names);</span>
+<span class="fc" id="L87">        List&lt;LocationGroupVO&gt; vos = mapper.map(locationGroups, LocationGroupVO.class);</span>
+<span class="fc" id="L88">        vos.forEach(lg -&gt; {</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">            if (lg.hasParent()) {</span>
+<span class="fc" id="L90">                lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class).findByName(lg.getParent())).withRel(PARENT)));</span>
             }
-<span class="nc" id="L92">        });</span>
-<span class="nc" id="L93">        return vos;</span>
+<span class="fc" id="L92">        });</span>
+<span class="fc" id="L93">        return vos;</span>
     }
 
     @GetMapping(API_LOCATION_GROUPS)
     public List&lt;LocationGroupVO&gt; findAll() {
-<span class="nc" id="L98">        List&lt;LocationGroup&gt; all = locationGroupService.findAll();</span>
-<span class="nc bnc" id="L99" title="All 2 branches missed.">        List&lt;LocationGroupVO&gt; result = all == null ? Collections.emptyList() : mapper.map(all, LocationGroupVO.class);</span>
-<span class="nc" id="L100">        result.forEach(lg -&gt; {</span>
-<span class="nc bnc" id="L101" title="All 2 branches missed.">                    if (lg.hasParent()) {</span>
-<span class="nc" id="L102">                        lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class).findByName(lg.getParent())).withRel(PARENT)));</span>
+<span class="fc" id="L98">        List&lt;LocationGroup&gt; all = locationGroupService.findAll();</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">        List&lt;LocationGroupVO&gt; result = all == null ? Collections.emptyList() : mapper.map(all, LocationGroupVO.class);</span>
+<span class="fc" id="L100">        result.forEach(lg -&gt; {</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">                    if (lg.hasParent()) {</span>
+<span class="fc" id="L102">                        lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class).findByName(lg.getParent())).withRel(PARENT)));</span>
                     }
-<span class="nc" id="L104">                }</span>
+<span class="fc" id="L104">                }</span>
         );
-<span class="nc" id="L106">        return result;</span>
+<span class="fc" id="L106">        return result;</span>
     }
 
     @PatchMapping(value = API_LOCATION_GROUPS, params = {&quot;name&quot;, &quot;op=change-state&quot;})
@@ -112,12 +112,12 @@ public class LocationGroupController extends AbstractWebController {
             @RequestParam(name = &quot;op&quot;) String op,
             @RequestBody ErrorCodeVO errorCode
     ) {
-<span class="nc" id="L115">        locationGroupService.changeGroupStates(</span>
-<span class="nc" id="L116">                name,</span>
-<span class="nc" id="L117">                groupStateIn.available(errorCode.getErrorCode()),</span>
-<span class="nc" id="L118">                groupStateOut.available(errorCode.getErrorCode())</span>
+<span class="fc" id="L115">        locationGroupService.changeGroupStates(</span>
+<span class="fc" id="L116">                name,</span>
+<span class="fc" id="L117">                groupStateIn.available(errorCode.getErrorCode()),</span>
+<span class="fc" id="L118">                groupStateOut.available(errorCode.getErrorCode())</span>
         );
-<span class="nc" id="L120">        return ResponseEntity.ok().build();</span>
+<span class="fc" id="L120">        return ResponseEntity.ok().build();</span>
     }
 
     @PatchMapping(value = API_LOCATION_GROUP + &quot;/{pKey}&quot;, params = &quot;op=change-state&quot;)
@@ -127,19 +127,19 @@ public class LocationGroupController extends AbstractWebController {
             @RequestParam(name = &quot;statein&quot;) LocationGroupState stateIn,
             @RequestParam(name = &quot;stateout&quot;) LocationGroupState stateOut
     ) {
-<span class="nc" id="L130">        locationGroupService.changeGroupState(pKey, stateIn, stateOut);</span>
-<span class="nc" id="L131">        return ResponseEntity.ok().build();</span>
+<span class="fc" id="L130">        locationGroupService.changeGroupState(pKey, stateIn, stateOut);</span>
+<span class="fc" id="L131">        return ResponseEntity.ok().build();</span>
     }
 
     @GetMapping(API_LOCATION_GROUPS + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="nc" id="L136">        return ResponseEntity.ok(</span>
-<span class="nc" id="L137">                new Index(</span>
-<span class="nc" id="L138">                        linkTo(methodOn(LocationGroupController.class).findAll()).withRel(&quot;location-group-findall&quot;),</span>
-<span class="nc" id="L139">                        linkTo(methodOn(LocationGroupController.class).findByName(&quot;FOO&quot;)).withRel(&quot;location-group-findbyname&quot;),</span>
-<span class="nc" id="L140">                        linkTo(methodOn(LocationGroupController.class).findByNames(asList(&quot;FOO&quot;, &quot;BAR&quot;))).withRel(&quot;location-group-findbynames&quot;),</span>
-<span class="nc" id="L141">                        linkTo(methodOn(LocationGroupController.class).changeGroupState(&quot;FOO&quot;, &quot;change-state&quot;, ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel(&quot;location-group-changestate1&quot;),</span>
-<span class="nc" id="L142">                        linkTo(methodOn(LocationGroupController.class).changeGroupState(&quot;UUID&quot;, &quot;change-state&quot;, LocationGroupState.AVAILABLE, LocationGroupState.NOT_AVAILABLE)).withRel(&quot;location-group-changestate2&quot;)</span>
+<span class="fc" id="L136">        return ResponseEntity.ok(</span>
+<span class="fc" id="L137">                new Index(</span>
+<span class="fc" id="L138">                        linkTo(methodOn(LocationGroupController.class).findAll()).withRel(&quot;location-group-findall&quot;),</span>
+<span class="fc" id="L139">                        linkTo(methodOn(LocationGroupController.class).findByName(&quot;FOO&quot;)).withRel(&quot;location-group-findbyname&quot;),</span>
+<span class="fc" id="L140">                        linkTo(methodOn(LocationGroupController.class).findByNames(asList(&quot;FOO&quot;, &quot;BAR&quot;))).withRel(&quot;location-group-findbynames&quot;),</span>
+<span class="fc" id="L141">                        linkTo(methodOn(LocationGroupController.class).changeGroupState(&quot;FOO&quot;, &quot;change-state&quot;, ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel(&quot;location-group-changestate1&quot;),</span>
+<span class="fc" id="L142">                        linkTo(methodOn(LocationGroupController.class).changeGroupState(&quot;UUID&quot;, &quot;change-state&quot;, LocationGroupState.AVAILABLE, LocationGroupState.NOT_AVAILABLE)).withRel(&quot;location-group-changestate2&quot;)</span>
                 )
         );
     }

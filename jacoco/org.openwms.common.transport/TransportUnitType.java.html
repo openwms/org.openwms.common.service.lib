@@ -165,7 +165,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return The type
      */
     public String getType() {
-<span class="nc" id="L168">        return this.type;</span>
+<span class="fc" id="L168">        return this.type;</span>
     }
 
     /**
@@ -237,8 +237,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @param description The description to set
      */
     public void setDescription(String description) {
-<span class="nc" id="L240">        this.description = description;</span>
-<span class="nc" id="L241">    }</span>
+<span class="fc" id="L240">        this.description = description;</span>
+<span class="fc" id="L241">    }</span>
 
     /**
      * Returns the payload of the {@code TransportUnitType}.
@@ -246,7 +246,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return The payload
      */
     public BigDecimal getPayload() {
-<span class="nc" id="L249">        return this.payload;</span>
+<span class="fc" id="L249">        return this.payload;</span>
     }
 
     /**
@@ -264,7 +264,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return The compatibility
      */
     public String getCompatibility() {
-<span class="nc" id="L267">        return this.compatibility;</span>
+<span class="fc" id="L267">        return this.compatibility;</span>
     }
 
     /**
@@ -323,13 +323,13 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @param locationType All TypePlacingRules of this LocationType are going to be removed
      */
     public void removeTypePlacingRules(LocationType locationType) {
-<span class="nc" id="L326">        Assert.notNull(locationType, &quot;locationType to remove is null, this: &quot; + this);</span>
-<span class="nc" id="L327">        List&lt;TypePlacingRule&gt; toRemove = typePlacingRules</span>
-<span class="nc" id="L328">                .stream()</span>
-<span class="nc" id="L329">                .filter(tpr -&gt; tpr.getAllowedLocationType().getType().equals(locationType.getType()))</span>
-<span class="nc" id="L330">                .collect(Collectors.toList());</span>
-<span class="nc" id="L331">        typePlacingRules.removeAll(toRemove);</span>
-<span class="nc" id="L332">    }</span>
+<span class="fc" id="L326">        Assert.notNull(locationType, &quot;locationType to remove is null, this: &quot; + this);</span>
+<span class="fc" id="L327">        List&lt;TypePlacingRule&gt; toRemove = typePlacingRules</span>
+<span class="fc" id="L328">                .stream()</span>
+<span class="fc" id="L329">                .filter(tpr -&gt; tpr.getAllowedLocationType().getType().equals(locationType.getType()))</span>
+<span class="fc" id="L330">                .collect(Collectors.toList());</span>
+<span class="fc" id="L331">        typePlacingRules.removeAll(toRemove);</span>
+<span class="fc" id="L332">    }</span>
 
     /**
      * Returns all {@link TypePlacingRule}s belonging to the {@code TransportUnitType}.
@@ -376,7 +376,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return The weightTare.
      */
     public BigDecimal getWeightTare() {
-<span class="nc" id="L379">        return weightTare;</span>
+<span class="fc" id="L379">        return weightTare;</span>
     }
 
     /**
@@ -394,7 +394,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return The weightMax.
      */
     public BigDecimal getWeightMax() {
-<span class="nc" id="L397">        return weightMax;</span>
+<span class="fc" id="L397">        return weightMax;</span>
     }
 
     /**

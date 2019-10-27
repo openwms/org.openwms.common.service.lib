@@ -28,9 +28,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
     @Override
     public void newRevision(Object revisionEntity) {
-<span class="nc" id="L31">        AuditableRevisionEntity rev = (AuditableRevisionEntity) revisionEntity;</span>
-<span class="nc" id="L32">        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();</span>
-<span class="nc bnc" id="L33" title="All 2 branches missed.">        rev.setUserName(authentication == null ? &quot;N/A&quot; : authentication.getName());</span>
-<span class="nc" id="L34">    }</span>
+<span class="fc" id="L31">        AuditableRevisionEntity rev = (AuditableRevisionEntity) revisionEntity;</span>
+<span class="fc" id="L32">        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">        rev.setUserName(authentication == null ? &quot;N/A&quot; : authentication.getName());</span>
+<span class="fc" id="L34">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

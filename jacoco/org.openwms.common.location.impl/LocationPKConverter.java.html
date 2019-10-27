@@ -26,8 +26,8 @@ import org.openwms.common.location.LocationPK;
 public class LocationPKConverter extends DozerConverter&lt;String, LocationPK&gt; {
 
     public LocationPKConverter() {
-<span class="nc" id="L29">        super(String.class, LocationPK.class);</span>
-<span class="nc" id="L30">    }</span>
+<span class="fc" id="L29">        super(String.class, LocationPK.class);</span>
+<span class="fc" id="L30">    }</span>
 
     /**
      * {@inheritDoc}
@@ -42,7 +42,7 @@ public class LocationPKConverter extends DozerConverter&lt;String, LocationPK&gt
      */
     @Override
     public String convertFrom(LocationPK source, String destination) {
-<span class="nc bnc" id="L45" title="All 2 branches missed.">        return source == null ? null : source.toString();</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        return source == null ? null : source.toString();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

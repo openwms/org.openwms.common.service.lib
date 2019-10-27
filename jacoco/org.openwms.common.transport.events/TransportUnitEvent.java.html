@@ -35,17 +35,17 @@ public class TransportUnitEvent extends RootApplicationEvent {
 <span class="nc" id="L35">    }</span>
 
     private TransportUnitEvent(Builder builder) {
-<span class="nc" id="L38">        super(builder.source);</span>
-<span class="nc" id="L39">        type = builder.type;</span>
-<span class="nc" id="L40">        actualLocation = builder.actualLocation;</span>
-<span class="nc" id="L41">    }</span>
+<span class="fc" id="L38">        super(builder.source);</span>
+<span class="fc" id="L39">        type = builder.type;</span>
+<span class="fc" id="L40">        actualLocation = builder.actualLocation;</span>
+<span class="fc" id="L41">    }</span>
 
     public static Builder newBuilder() {
-<span class="nc" id="L44">        return new Builder();</span>
+<span class="fc" id="L44">        return new Builder();</span>
     }
 
     public TransportUnitEventType getType() {
-<span class="nc" id="L48">        return type;</span>
+<span class="fc" id="L48">        return type;</span>
     }
 
     public Location getActualLocation() {
@@ -56,8 +56,8 @@ public class TransportUnitEvent extends RootApplicationEvent {
 <span class="nc" id="L56">        return new TransportUnitEvent(tu, type);</span>
     }
 
-<span class="nc" id="L59">    public enum TransportUnitEventType {</span>
-<span class="nc" id="L60">        CREATED, CHANGED, DELETED, MOVED, STATE_CHANGE;</span>
+<span class="fc" id="L59">    public enum TransportUnitEventType {</span>
+<span class="fc" id="L60">        CREATED, CHANGED, DELETED, MOVED, STATE_CHANGE;</span>
     }
 
     public static final class Builder {
@@ -69,13 +69,13 @@ public class TransportUnitEvent extends RootApplicationEvent {
         }
 
         public Builder tu(TransportUnit val) {
-<span class="nc" id="L72">            source = val;</span>
-<span class="nc" id="L73">            return this;</span>
+<span class="fc" id="L72">            source = val;</span>
+<span class="fc" id="L73">            return this;</span>
         }
 
         public Builder type(TransportUnitEventType val) {
-<span class="nc" id="L77">            type = val;</span>
-<span class="nc" id="L78">            return this;</span>
+<span class="fc" id="L77">            type = val;</span>
+<span class="fc" id="L78">            return this;</span>
         }
 
         public Builder actualLocation(Location val) {
@@ -84,10 +84,10 @@ public class TransportUnitEvent extends RootApplicationEvent {
         }
 
         public TransportUnitEvent build() {
-<span class="nc bnc" id="L87" title="All 4 branches missed.">            if (type == TransportUnitEventType.MOVED &amp;&amp; actualLocation == null) {</span>
+<span class="pc bpc" id="L87" title="3 of 4 branches missed.">            if (type == TransportUnitEventType.MOVED &amp;&amp; actualLocation == null) {</span>
 <span class="nc" id="L88">                throw new IllegalArgumentException(&quot;TU MOVED events must contain the actualLocation&quot;);</span>
             }
-<span class="nc" id="L90">            return new TransportUnitEvent(this);</span>
+<span class="fc" id="L90">            return new TransportUnitEvent(this);</span>
         }
     }
 }

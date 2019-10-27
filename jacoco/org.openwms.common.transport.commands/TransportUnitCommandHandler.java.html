@@ -48,18 +48,18 @@ import static org.openwms.common.transport.api.commands.TUCommand.Type.UPDATE_CA
 @TxService
 class TransportUnitCommandHandler {
 
-<span class="nc" id="L51">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandHandler.class);</span>
+<span class="fc" id="L51">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandHandler.class);</span>
     private final TransportUnitService service;
     private final ApplicationContext ctx;
     private final BeanMapper mapper;
     private final Validator validator;
 
-<span class="nc" id="L57">    TransportUnitCommandHandler(TransportUnitService service, ApplicationContext ctx, BeanMapper mapper, Validator validator) {</span>
-<span class="nc" id="L58">        this.service = service;</span>
-<span class="nc" id="L59">        this.ctx = ctx;</span>
-<span class="nc" id="L60">        this.mapper = mapper;</span>
-<span class="nc" id="L61">        this.validator = validator;</span>
-<span class="nc" id="L62">    }</span>
+<span class="fc" id="L57">    TransportUnitCommandHandler(TransportUnitService service, ApplicationContext ctx, BeanMapper mapper, Validator validator) {</span>
+<span class="fc" id="L58">        this.service = service;</span>
+<span class="fc" id="L59">        this.ctx = ctx;</span>
+<span class="fc" id="L60">        this.mapper = mapper;</span>
+<span class="fc" id="L61">        this.validator = validator;</span>
+<span class="fc" id="L62">    }</span>
 
     public void handle(TUCommand command) {
 <span class="nc bnc" id="L65" title="All 6 branches missed.">        switch(command.getType()) {</span>

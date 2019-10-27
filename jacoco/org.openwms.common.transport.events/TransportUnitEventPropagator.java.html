@@ -39,21 +39,21 @@ class TransportUnitEventPropagator {
     private final String exchangeName;
     private final BeanMapper mapper;
 
-<span class="nc" id="L42">    TransportUnitEventPropagator(</span>
+<span class="fc" id="L42">    TransportUnitEventPropagator(</span>
             AmqpTemplate amqpTemplate,
             @Value(&quot;${owms.events.common.tu.exchange-name}&quot;) String exchangeName,
             BeanMapper mapper) {
-<span class="nc" id="L46">        this.amqpTemplate = amqpTemplate;</span>
-<span class="nc" id="L47">        this.exchangeName = exchangeName;</span>
-<span class="nc" id="L48">        this.mapper = mapper;</span>
-<span class="nc" id="L49">    }</span>
+<span class="fc" id="L46">        this.amqpTemplate = amqpTemplate;</span>
+<span class="fc" id="L47">        this.exchangeName = exchangeName;</span>
+<span class="fc" id="L48">        this.mapper = mapper;</span>
+<span class="fc" id="L49">    }</span>
 
     @TransactionalEventListener(fallbackExecution = true)
     public void onEvent(TransportUnitEvent event) {
-<span class="nc bnc" id="L53" title="All 6 branches missed.">        switch (event.getType()) {</span>
+<span class="pc bpc" id="L53" title="5 of 6 branches missed.">        switch (event.getType()) {</span>
             case CREATED:
-<span class="nc" id="L55">                amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.created&quot;, mapper.map(event.getSource(), TransportUnitMO.class));</span>
-<span class="nc" id="L56">                break;</span>
+<span class="fc" id="L55">                amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.created&quot;, mapper.map(event.getSource(), TransportUnitMO.class));</span>
+<span class="fc" id="L56">                break;</span>
             case CHANGED:
 <span class="nc" id="L58">                amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.changed&quot;, mapper.map(event.getSource(), TransportUnitMO.class));</span>
 <span class="nc" id="L59">                break;</span>
@@ -69,6 +69,6 @@ class TransportUnitEventPropagator {
             default:
 <span class="nc" id="L70">                throw new UnsupportedOperationException(format(&quot;Eventtype [%s] not supported&quot;, event.getType()));</span>
         }
-<span class="nc" id="L72">    }</span>
+<span class="fc" id="L72">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

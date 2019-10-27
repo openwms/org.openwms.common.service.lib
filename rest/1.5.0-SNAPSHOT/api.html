@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<meta name="author" content="(1.5.0-SNAPSHOT-313)">
+<meta name="author" content="(1.5.0-SNAPSHOT-314)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -436,7 +436,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.5.0-SNAPSHOT-313)</span><br>
+<span id="author" class="author">(1.5.0-SNAPSHOT-314)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -792,15 +792,39 @@ used to navigate to all possible entities with their operations.</p>
 <p>The initial HTTP request to retrieve information about all available resources looks like the following. The Index page is a public
 available resource and does not need any authentication.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/get-index/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The Index resource is returned in the response body with the response status of 200-OK. This main Index lists all primary resource entities
 to follow next.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/get-index/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Length: 427
+Content-Type: application/hal+json;charset=UTF-8
+
+{
+  "_links" : {
+    "location-index" : {
+      "href" : "http://localhost:8080/v1/locations/index"
+    },
+    "location-group-index" : {
+      "href" : "http://localhost:8080/v1/location-groups/index"
+    },
+    "transport-unit-type-index" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types/index"
+    },
+    "transport-unit-index" : {
+      "href" : "http://localhost:8080/v1/transport-units/index"
+    }
+  }
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>A client application must only know about the agreed link names and follow the corresponding <code>href</code> link to navigate further.</p>
@@ -841,14 +865,38 @@ operations off this <code>Location</code>.</p>
 <div class="paragraph">
 <p>The Location Index with all possible operations can be retrieved with the following GET request:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-index/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The response lists all the operations with a name and the corresponding href link:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-index/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Length: 504
+Content-Type: application/hal+json;charset=UTF-8
+
+{
+  "_links" : {
+    "location-findbycoordinate" : {
+      "href" : "http://localhost:8080/v1/locations?locationPK=AREA/AISLE/X/Y/Z"
+    },
+    "location-findbyplccode" : {
+      "href" : "http://localhost:8080/v1/locations?plcCode=PLC_CODE"
+    },
+    "location-forlocationgroup" : {
+      "href" : "http://localhost:8080/v1/locations?locationGroupNames=LG1&amp;locationGroupNames=LG2"
+    },
+    "location-changestate" : {
+      "href" : "http://localhost:8080/v1/location/pKey?op=change-state"
+    }
+  }
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -856,26 +904,63 @@ operations off this <code>Location</code>.</p>
 <div class="paragraph">
 <p>Send a HTTP GET request with the 5-tuple coordinate as query parameter to find a <code>Location</code> identified by this coordinate.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-find-coordinate/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationPK=EXT_%2F0000%2F0000%2F0000%2F0000 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>Location</code> exists the server responds with</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-find-coordinate/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Length: 204
+Content-Type: application/json;charset=UTF-8
+
+{
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0030",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>Location</code> with the requested coordinate does not exist, the server responds with</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-find-coordinate-404/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 134
+
+{
+  "message" : "No Location with locationPk [EXT_/9999/9999/9999/9999] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the passed coordinate is not well formatted and rejected by the server the response looks like</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-find-coordinate-400/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 103
+
+{
+  "message" : "Invalid location [NOT EXISTS]",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -884,20 +969,47 @@ operations off this <code>Location</code>.</p>
 <p>The API to search for <code>Locations</code> also accepts typical SQL wildcards in each part of the 5-tuple coordinate. Let&#8217;s assume one searches for
 all Lift <code>Locations</code> in the Flat Good area, this could look like this:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-find-coordinate-wildcard/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?area=FGIN&amp;aisle=00__&amp;x=LIFT&amp;y=0000&amp;z=%25 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>In this case the Flat Good area has only 2 Lift positions and the server returns both:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-find-coordinate-wildcard/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 430
+
+[ {
+  "pKey" : "798136030917",
+  "locationId" : "FGIN/0001/LIFT/0000/0000",
+  "locationGroupName" : "FGAISLE1LIFT",
+  "plcCode" : "PLC_0012",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "pKey" : "852306856430",
+  "locationId" : "FGIN/0002/LIFT/0000/0000",
+  "locationGroupName" : "FGAISLE2LIFT",
+  "plcCode" : "PLC_0015",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+} ]</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the search query did not find any <code>Locations</code> the server responds with:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-find-coordinate-wildcard-404/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -905,20 +1017,47 @@ all Lift <code>Locations</code> in the Flat Good area, this could look like this
 <div class="paragraph">
 <p>Send a HTTP GET request with the PLC code as query parameter to find a <code>Location</code> identified by this PLC code.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-find-plc/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?plcCode=PLC_0030 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>Location</code> exists the server responds with</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-find-plc/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Length: 204
+Content-Type: application/json;charset=UTF-8
+
+{
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0030",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If no <code>Location</code> with the requested PLC code exists, the server responds with</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-find-plc-404/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 118
+
+{
+  "message" : "No Location with PLC Code [NOT EXISTS] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -926,34 +1065,87 @@ all Lift <code>Locations</code> in the Flat Good area, this could look like this
 <div class="paragraph">
 <p>Send a HTTP GET request with the name of a <code>LocationGroup</code> as query parameter to find all <code>Locations</code> that belong to this group.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-find-in-lg/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationGroupNames=ZILE HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The server responds with the list of all <code>Locations</code> - the name of the <code>LocationGroup</code> is not validated.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-find-in-lg/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Length: 414
+Content-Type: application/json;charset=UTF-8
+
+[ {
+  "pKey" : "171919359409",
+  "locationId" : "INIT/0000/0000/0000/0000",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0029",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0030",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+} ]</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The server accepts multiple <code>LocationGroup</code> names as request parameter to get a combined list of <code>Locations</code> that belong to group with name
 <code>ZILE</code> and <code>FGRECEIVING</code>:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-find-in-lg-multiple/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationGroupNames=ZILE&amp;locationGroupNames=FGRECEIVING HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Wildcards in the <code>LocationGroup</code> name are supported if only one <code>LocationGroup</code> name is provided:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-find-in-lg-wc/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationGroupNames=IP%25 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The response is a list of <code>Locations</code> that belong to a <code>LocationGroup</code> where the name starts with <code>IP</code> (matching the groups <code>IPOINT</code>,
 <code>IPOINT1</code> and <code>IPOINT2</code> in this example:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-find-in-lg-wc/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 420
+
+[ {
+  "pKey" : "439649733836",
+  "locationId" : "FGIN/IPNT/0001/0000/0000",
+  "locationGroupName" : "IPOINT1",
+  "plcCode" : "PLC_0031",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "pKey" : "227916500906",
+  "locationId" : "FGIN/IPNT/0002/0000/0000",
+  "locationGroupName" : "IPOINT2",
+  "plcCode" : "PLC_0032",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+} ]</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -962,14 +1154,33 @@ all Lift <code>Locations</code> in the Flat Good area, this could look like this
 <p>Send a HTTP PATCH request with the persistent identifying key of an existing <code>Location</code> along the new state decoded as <code>ErrorCodeVO</code> request
 parameter.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-state-404/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/location/NOTEXISTS?op=change-state HTTP/1.1
+Content-Length: 30
+Content-Type: application/json
+Host: localhost:8080
+
+{
+  "errorCode" : "******00"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>Location</code> with the given persistent key does not exist, the server responds with</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-state-404/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 123
+
+{
+  "message" : "No Location with persistent key [NOTEXISTS] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The <code>ErrorCodeVO</code> contains a ternary error bitmap that decodes all state information. It is expected as 8-digit String with allowed symbols
@@ -1045,14 +1256,25 @@ parameter.</p>
 <div class="paragraph">
 <p>In this example a <code>Location</code> identified with the given persistent key is locked for Inbound operations with the following request:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-state-in/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/location/113646454019?op=change-state HTTP/1.1
+Content-Length: 30
+Content-Type: application/json
+Host: localhost:8080
+
+{
+  "errorCode" : "*******1"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the server could lock the <code>Location</code> successfully the response looks like:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-state-in/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Beside locking the <code>Location</code> for Inbound- and Outbound processing it is also possible to change the PLC state of the <code>Location</code> through
@@ -1063,14 +1285,26 @@ signal an error occurred on the <code>Location</code>.</p>
 <div class="paragraph">
 <p>Set the <code>plcState</code> to <code>31</code> (In terms of <a href="https://interface21-io.gitbook.io/osip">OSIP</a> this means <code>Location unexpected occupied</code>):</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-plcstate/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/location/113646454019?op=change-state HTTP/1.1
+Content-Length: 49
+Content-Type: application/json
+Host: localhost:8080
+
+{
+  "errorCode" : "********",
+  "plcState" : 31
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the server could set the state successfully the response is:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/loc-plcstate/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1087,14 +1321,41 @@ block controlled by one single subsystem.</p>
 <div class="paragraph">
 <p>The index with all possible operations can be retrieved with the following GET request:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg-index/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/location-groups/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The response lists all the operations with a name and the corresponding href link:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg-index/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 643
+
+{
+  "_links" : {
+    "location-group-findall" : {
+      "href" : "http://localhost:8080/v1/location-groups"
+    },
+    "location-group-findbyname" : {
+      "href" : "http://localhost:8080/v1/location-groups?name=FOO"
+    },
+    "location-group-findbynames" : {
+      "href" : "http://localhost:8080/v1/location-groups?names=FOO&amp;names=BAR"
+    },
+    "location-group-changestate1" : {
+      "href" : "http://localhost:8080/v1/location-groups?name=FOO&amp;op=change-state"
+    },
+    "location-group-changestate2" : {
+      "href" : "http://localhost:8080/v1/location-group/UUID?op=change-state&amp;statein=AVAILABLE&amp;stateout=NOT_AVAILABLE"
+    }
+  }
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1102,14 +1363,480 @@ block controlled by one single subsystem.</p>
 <div class="paragraph">
 <p>To retrieve a list of all existing <code>LocationGroups</code> a client must send a GET request to the server:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg-find-all/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/location-groups HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If no <code>LocationGroups</code> exist the returned array is empty otherwise the response looks like:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg-find-all/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 12670
+
+[ {
+  "pKey" : "412130127821",
+  "name" : "ZILE",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "pKey" : "623275915496",
+  "name" : "FLATGOOD_AREA",
+  "parent" : "ZILE",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
+  } ]
+}, {
+  "pKey" : "709819670512",
+  "name" : "FGAUTOMATIC",
+  "parent" : "FLATGOOD_AREA",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FLATGOOD_AREA"
+  } ]
+}, {
+  "pKey" : "400335177633",
+  "name" : "FGRECEIVING",
+  "parent" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ]
+}, {
+  "pKey" : "811754978035",
+  "name" : "FGCONV",
+  "parent" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ]
+}, {
+  "pKey" : "212290962584",
+  "name" : "FGSTOCK",
+  "parent" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ]
+}, {
+  "pKey" : "53242834266",
+  "name" : "FGAISLE1",
+  "parent" : "FGSTOCK",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSTOCK"
+  } ]
+}, {
+  "pKey" : "688238147532",
+  "name" : "FGAISLE1LIFT",
+  "parent" : "FGAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
+  } ]
+}, {
+  "pKey" : "154549927614",
+  "name" : "FGAISLE1LEFT",
+  "parent" : "FGAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
+  } ]
+}, {
+  "pKey" : "108758840458",
+  "name" : "FGAISLE1RIGHT",
+  "parent" : "FGAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
+  } ]
+}, {
+  "pKey" : "101671979671",
+  "name" : "FGAISLE2",
+  "parent" : "FGSTOCK",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSTOCK"
+  } ]
+}, {
+  "pKey" : "730288310794",
+  "name" : "FGAISLE2LIFT",
+  "parent" : "FGAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
+  } ]
+}, {
+  "pKey" : "379640903941",
+  "name" : "FGAISLE2LEFT",
+  "parent" : "FGAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
+  } ]
+}, {
+  "pKey" : "209483120518",
+  "name" : "FGAISLE2RIGHT",
+  "parent" : "FGAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
+  } ]
+}, {
+  "pKey" : "585607846471",
+  "name" : "FGSHIPPING",
+  "parent" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ]
+}, {
+  "pKey" : "881973001220",
+  "name" : "FGSHIPPING1",
+  "parent" : "FGSHIPPING",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING"
+  } ]
+}, {
+  "pKey" : "18642707784",
+  "name" : "FGWORKPLACE1",
+  "parent" : "FGSHIPPING1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
+  } ]
+}, {
+  "pKey" : "925145263549",
+  "name" : "FGWORKPLACE2",
+  "parent" : "FGSHIPPING1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
+  } ]
+}, {
+  "pKey" : "346661868774",
+  "name" : "FGWORKPLACE3",
+  "parent" : "FGSHIPPING1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
+  } ]
+}, {
+  "pKey" : "753422186594",
+  "name" : "FGSHIPPING2",
+  "parent" : "FGSHIPPING",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING"
+  } ]
+}, {
+  "pKey" : "258953718288",
+  "name" : "FGWORKPLACE4",
+  "parent" : "FGSHIPPING2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+  } ]
+}, {
+  "pKey" : "424924693864",
+  "name" : "FGWORKPLACE5",
+  "parent" : "FGSHIPPING2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+  } ]
+}, {
+  "pKey" : "909419439040",
+  "name" : "FGWORKPLACE6",
+  "parent" : "FGSHIPPING2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+  } ]
+}, {
+  "pKey" : "687300567810",
+  "name" : "FGWORKPLACE7",
+  "parent" : "FGSHIPPING2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+  } ]
+}, {
+  "pKey" : "860334844801",
+  "name" : "FGWORKPLACE8",
+  "parent" : "FGSHIPPING2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+  } ]
+}, {
+  "pKey" : "224868263942",
+  "name" : "FGWORKPLACE9",
+  "parent" : "FGSHIPPING2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+  } ]
+}, {
+  "pKey" : "264924505336",
+  "name" : "FGMANUAL",
+  "parent" : "FLATGOOD_AREA",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FLATGOOD_AREA"
+  } ]
+}, {
+  "pKey" : "281343921750",
+  "name" : "FGCANBAN",
+  "parent" : "FLATGOOD_AREA",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FLATGOOD_AREA"
+  } ]
+}, {
+  "pKey" : "166982377557",
+  "name" : "IPOINT",
+  "parent" : "ZILE",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
+  } ]
+}, {
+  "pKey" : "782120388022",
+  "name" : "IPOINT1",
+  "parent" : "IPOINT",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=IPOINT"
+  } ]
+}, {
+  "pKey" : "24417670340",
+  "name" : "IPOINT2",
+  "parent" : "IPOINT",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=IPOINT"
+  } ]
+}, {
+  "pKey" : "878177817968",
+  "name" : "PALLET_AREA",
+  "parent" : "ZILE",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
+  } ]
+}, {
+  "pKey" : "306784420810",
+  "name" : "PPICKING",
+  "parent" : "PALLET_AREA",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PALLET_AREA"
+  } ]
+}, {
+  "pKey" : "43608343999",
+  "name" : "PHIGHBAY",
+  "parent" : "PALLET_AREA",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PALLET_AREA"
+  } ]
+}, {
+  "pKey" : "500576747031",
+  "name" : "PAISLE1",
+  "parent" : "PHIGHBAY",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PHIGHBAY"
+  } ]
+}, {
+  "pKey" : "483875811636",
+  "name" : "PAISLE1LIFT",
+  "parent" : "PAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE1"
+  } ]
+}, {
+  "pKey" : "443011357014",
+  "name" : "PAISLE1LEFT",
+  "parent" : "PAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE1"
+  } ]
+}, {
+  "pKey" : "332530824417",
+  "name" : "PAISLE1RIGHT",
+  "parent" : "PAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE1"
+  } ]
+}, {
+  "pKey" : "999057994469",
+  "name" : "PAISLE2",
+  "parent" : "PHIGHBAY",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PHIGHBAY"
+  } ]
+}, {
+  "pKey" : "995126472754",
+  "name" : "PAISLE2LIFT",
+  "parent" : "PAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE2"
+  } ]
+}, {
+  "pKey" : "48562833846",
+  "name" : "PAISLE2LEFT",
+  "parent" : "PAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE2"
+  } ]
+}, {
+  "pKey" : "673781181265",
+  "name" : "PAISLE2RIGHT",
+  "parent" : "PAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE2"
+  } ]
+} ]</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Each <code>LocationGroup</code> has a link to its parent <code>LocationGroup</code> except the root <code>LocationGroup</code> that has no parent. Notice the returned
@@ -1121,26 +1848,72 @@ block controlled by one single subsystem.</p>
 <div class="paragraph">
 <p>Send a HTTP GET request with the unique name of the <code>LocationGroup</code>.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg/shall_findby_name/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/location-groups?name=FGRECEIVING HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Request parameters:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg/shall_findby_name/request-parameters.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The unique name of the LocationGroup</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>If the <code>LocationGroup</code> exists the server responds with</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg/shall_findby_name/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 308
+
+{
+  "pKey" : "400335177633",
+  "name" : "FGRECEIVING",
+  "parent" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "_links" : {
+    "parent" : {
+      "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+    }
+  }
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>LocationGroup</code> with the given name does not exist, the server responds with</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg-find-name-404/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 125
+
+{
+  "message" : "LocationGroup with name [NOT_EXISTS] does not exist",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1148,20 +1921,66 @@ block controlled by one single subsystem.</p>
 <div class="paragraph">
 <p>Send a HTTP GET request with a list of unique <code>LocationGroup</code> names.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg/shall_findby_names/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/location-groups?names=FGRECEIVING&amp;names=IPOINT HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Request parameters:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg/shall_findby_names/request-parameters.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>names</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of unique names to identiy the LocationGroups</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>The server sends back a list of all <code>LocationGroups</code> or an empty list if no <code>LocationGroups</code> exist.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg/shall_findby_names/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Length: 603
+Content-Type: application/json;charset=UTF-8
+
+[ {
+  "pKey" : "400335177633",
+  "name" : "FGRECEIVING",
+  "parent" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ]
+}, {
+  "pKey" : "166982377557",
+  "name" : "IPOINT",
+  "parent" : "ZILE",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
+  } ]
+} ]</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1174,52 +1993,138 @@ block controlled by one single subsystem.</p>
 <div class="paragraph">
 <p>To change the state of a <code>LocationGroup</code> a <code>PATCH</code> request on the identified resource is accepted:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg/shall_change_state_p-key/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/location-group/400335177633 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Request path variables:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg/shall_change_state_p-key/path-parameters.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /v1/location-group/{pKey}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The persistent key of the LocationGroup</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>Request parameters:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg/shall_change_state_p-key/request-parameters.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>statein</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The infeed state to set</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>stateout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The outfeed state to set</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>op</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The operation mode must be set to 'change-state'</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>If the state change operation could be processed successfully, the server responds with:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg/shall_change_state_p-key/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the resource can&#8217;t be identified the server response looks like:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg-state-404/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Length: 192
+Content-Type: application/hal+json;charset=UTF-8
+
+{
+  "message" : "LocationGroup with name [NOT_EXISTS] not found",
+  "messageKey" : "COMMON.LOCATION_GROUP_NOT_FOUND",
+  "obj" : [ "NOT_EXISTS" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Instead of passing both state values for inbound and outbound directly as query parameters it is also possible to encode the state into a
 8-digit bitmap field and pass it to the request. This is very handy when the subsystem (aka. PLC) sends an error bitmap to the server that
 can then directly passed to the API.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg/shall_change_state/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/location-groups?name=IPOINT&amp;op=change-state HTTP/1.1
+Content-Length: 30
+Content-Type: application/json
+Host: localhost:8080
+
+{
+  "errorCode" : "******11"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Request parameters:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg/shall_change_state/request-parameters.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The unique name of the LocationGroup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>op</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The operation mode must be set to 'change-state'</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>The server response is:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lg/shall_change_state/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1295,8 +2200,14 @@ query parameters.</p>
 <p>To lock a <code>Target</code> to be not considered in inbound, like Putaway, the server requires a HTTP POST request with the lock type
 <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/all-lock-in-lg-IPOINT/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=ALLOCATION_LOCK&amp;mode=IN</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -1305,8 +2216,14 @@ query parameters.</p>
 <p>To lock a <code>Target</code> for outbound, like Allocation and Outfeed, the server requires a HTTP POST request with the lock type
 <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/all-lock-out-lg-IPOINT/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=ALLOCATION_LOCK&amp;mode=OUT</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -1315,8 +2232,14 @@ query parameters.</p>
 <p>To lock a <code>Target</code> for inbound and outbound, like Putaway and Allocation, the server requires a HTTP POST request with the
 lock type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/all-lock-inout-lg-IPOINT/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=ALLOCATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -1325,8 +2248,14 @@ lock type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN_AND_OU
 <p>To release all locks on a <code>Target</code> and allow any inbound and outbound operation, the server requires a HTTP POST request with the lock
 type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/all-lock-none-lg-IPOINT/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=ALLOCATION_LOCK&amp;mode=NONE</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -1334,8 +2263,10 @@ type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=NONE</strong><
 <div class="paragraph">
 <p>In any of the previous cases the server responds with the following success message.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/all-lock-none-lg-IPOINT/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1397,8 +2328,14 @@ for planned short term locks, where a <code>Target</code> is taken out of operat
 <p>To lock a <code>Target</code> for inbound operations only, the server requires a HTTP POST request with the lock type
 <code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/all-olock-in-lg-IPOINT/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+reallocation=true&amp;type=OPERATION_LOCK&amp;mode=IN</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -1407,8 +2344,14 @@ for planned short term locks, where a <code>Target</code> is taken out of operat
 <p>To lock a <code>Target</code> for outbound operations only, the server requires a HTTP POST request with the lock type
 <code>type=OPERATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/all-olock-out-lg-IPOINT/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=OPERATION_LOCK&amp;mode=OUT</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -1417,8 +2360,14 @@ for planned short term locks, where a <code>Target</code> is taken out of operat
 <p>To lock a <code>Target</code> for inbound and outbound operations, the server requires a HTTP POST request with the
 lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/all-olock-inout-lg-IPOINT/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=OPERATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -1427,8 +2376,14 @@ lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT
 <p>To release all operational locks on a <code>Target</code> and allow any inbound and outbound operation, the server requires a HTTP POST request with
 the lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/all-olock-none-lg-IPOINT/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=OPERATION_LOCK&amp;mode=NONE</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -1436,8 +2391,10 @@ the lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=NONE</
 <div class="paragraph">
 <p>In any of the previous cases the server responds with the following success message.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/all-olock-none-lg-IPOINT/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1456,22 +2413,36 @@ server. Locking  the <code>Target</code> allows an optional flag to signal a re-
 <p>In this example the <code>Target</code> is a <code>LocationGroup</code> with the name <code>IPOINT</code> that gets locked. The server is requested to re-allocate existing
 orders.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lock-lg-IPOINT/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+reallocation=true&amp;type=PERMANENT_LOCK&amp;mode=lock</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>To unlock the same <code>Target</code> with name <code>IPOINT</code>:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/unlock-lg-IPOINT/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=PERMANENT_LOCK&amp;mode=unlock</code></pre>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_response_success_3"><a class="anchor" href="#_response_success_3"></a><a class="link" href="#_response_success_3">Response: Success</a></h4>
 <div class="paragraph">
 <p>If the server has successfully locked or unlocked the <code>Target</code> the response is:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lock-lg-IPOINT/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -1479,8 +2450,18 @@ orders.</p>
 <div class="paragraph">
 <p>If the given <code>Target</code> (FOO) does not exist the server responds with:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/lock-lg-unknown/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 194
+
+{
+  "message" : "The Target with name [FOO] is neither a Location nor a LocationGroup. Other types of Targets are currently not supported",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1498,14 +2479,32 @@ length, the height, or the weight of <code>TransportUnits</code>. It is possible
 <div class="paragraph">
 <p>The index with all possible operations can be retrieved with the following GET request:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/tut-index/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-unit-types/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The response lists all the operations with a name and the corresponding href link:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/tut-index/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 265
+
+{
+  "_links" : {
+    "transport-unit-types-findtransportunittype" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+    },
+    "transport-unit-types-findall" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types"
+    }
+  }
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1528,20 +2527,45 @@ length, the height, or the weight of <code>TransportUnits</code>. It is possible
 <div class="paragraph">
 <p>Each <code>TransportUnitType</code> has an unique name by that it can be identified. Query the resource with a <code>type</code> parameter:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/tut-find-type/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-unit-types?type=PALLET HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>TransportUnitType</code> exists the response looks like:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/tut-find-type/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 114
+
+{
+  "type" : "PALLET",
+  "description" : "Euro pallet",
+  "height" : "102",
+  "width" : "80",
+  "length" : "120"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If no <code>TransportUnitType</code> with the given name exist the server sends a 404-NOT FOUND:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/tut-find-type-404/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 122
+
+{
+  "message" : "No TransportUniType with type [NOT_EXISTS] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1558,14 +2582,35 @@ transport items like <code>LoadUnits</code>. It is moved between <code>Locations
 <div class="paragraph">
 <p>The index with all possible operations can be retrieved with the following GET request:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/tu-index/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-units/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The response lists all the operations with a name and the corresponding href link:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/tu-index/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Length: 449
+Content-Type: application/hal+json;charset=UTF-8
+
+{
+  "_links" : {
+    "transport-unit-findbybarcode" : {
+      "href" : "http://localhost:8080/v1/transport-units?bk=00000000000000004711"
+    },
+    "transport-unit-findbybarcodes" : {
+      "href" : "http://localhost:8080/v1/transport-units?bks=00000000000000004711&amp;bks=00000000000000004712"
+    },
+    "transport-unit-findonlocation" : {
+      "href" : "http://localhost:8080/v1/transport-units?actualLocation=EXT_/0000/0000/0000/0000"
+    }
+  }
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1573,27 +2618,104 @@ transport items like <code>LoadUnits</code>. It is moved between <code>Locations
 <div class="paragraph">
 <p>Find a <code>TransportUnit</code> by its unique <code>Barcode</code>.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/tu-find-by-barcode/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-units?bk=00000000000000004711 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>TransportUnit</code> has been found the server returns a JSON representation:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/tu-find-by-barcode/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.transport-unit-v1+json;charset=UTF-8
+Content-Length: 713
+
+{
+  "barcode" : "00000000000000004711",
+  "actualLocation" : {
+    "pKey" : "113646454019",
+    "locationId" : "EXT_/0000/0000/0000/0000",
+    "locationGroupName" : "ZILE",
+    "plcCode" : "PLC_0030",
+    "incomingActive" : true,
+    "outgoingActive" : true,
+    "plcState" : 0
+  },
+  "transportUnitType" : "PALLET",
+  "length" : 120,
+  "width" : 80,
+  "height" : 102,
+  "actualPlcCode" : "PLC_0030",
+  "actualLocationDate" : "2019-10-27T11:35:40.364+0000",
+  "links" : [ {
+    "rel" : "transport-unit-type",
+    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+  }, {
+    "rel" : "actual-location",
+    "href" : "http://localhost:8080/v1/locations?locationPK=EXT_/0000/0000/0000/0000"
+  } ]
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>In case a <code>TransportUnit</code> with the requested <code>Barcode</code> == <code>9999</code> does not exist the response looks like:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/tu-find-by-barcode-404/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Length: 229
+Content-Type: application/hal+json;charset=UTF-8
+
+{
+  "message" : "TransportUnit with Barcode [00000000000000000999] not found",
+  "messageKey" : "COMMON.BARCODE_NOT_FOUND",
+  "obj" : [ {
+    "value" : "00000000000000000999"
+  } ],
+  "httpStatus" : "404",
+  "class" : "Barcode"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Also the short form of a <code>Barcode</code> can be passed to the API and the server implementation adjusts the given <code>Barcode</code> to the configured
 style, like it is left or right aligned and padded.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/tu-find-by-barcode-short/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.transport-unit-v1+json;charset=UTF-8
+Content-Length: 713
+
+{
+  "barcode" : "00000000000000004711",
+  "actualLocation" : {
+    "pKey" : "113646454019",
+    "locationId" : "EXT_/0000/0000/0000/0000",
+    "locationGroupName" : "ZILE",
+    "plcCode" : "PLC_0030",
+    "incomingActive" : true,
+    "outgoingActive" : true,
+    "plcState" : 0
+  },
+  "transportUnitType" : "PALLET",
+  "length" : 120,
+  "width" : 80,
+  "height" : 102,
+  "actualPlcCode" : "PLC_0030",
+  "actualLocationDate" : "2019-10-27T11:35:40.315+0000",
+  "links" : [ {
+    "rel" : "transport-unit-type",
+    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+  }, {
+    "rel" : "actual-location",
+    "href" : "http://localhost:8080/v1/locations?locationPK=EXT_/0000/0000/0000/0000"
+  } ]
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1601,14 +2723,71 @@ style, like it is left or right aligned and padded.</p>
 <div class="paragraph">
 <p>Also multiple <code>Barcodes</code> can be passed to the API in order to search for multiple <code>TransportUnits</code>:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/tu-find-by-barcodes/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-units?bks=00000000000000004711&amp;bks=00000000000000004712&amp;bks=00000000000000004713 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>This returns an array with the <code>TransportUnits</code> found:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/tu-find-by-barcodes/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.transport-unit-v1+json;charset=UTF-8
+Content-Length: 1435
+
+[ {
+  "barcode" : "00000000000000004711",
+  "actualLocation" : {
+    "pKey" : "113646454019",
+    "locationId" : "EXT_/0000/0000/0000/0000",
+    "locationGroupName" : "ZILE",
+    "plcCode" : "PLC_0030",
+    "incomingActive" : true,
+    "outgoingActive" : true,
+    "plcState" : 0
+  },
+  "transportUnitType" : "PALLET",
+  "length" : 120,
+  "width" : 80,
+  "height" : 102,
+  "actualPlcCode" : "PLC_0030",
+  "actualLocationDate" : "2019-10-27T11:35:40.124+0000",
+  "links" : [ {
+    "rel" : "transport-unit-type",
+    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+  }, {
+    "rel" : "actual-location",
+    "href" : "http://localhost:8080/v1/locations?locationPK=EXT_/0000/0000/0000/0000"
+  } ]
+}, {
+  "barcode" : "00000000000000004712",
+  "actualLocation" : {
+    "pKey" : "439649733836",
+    "locationId" : "FGIN/IPNT/0001/0000/0000",
+    "locationGroupName" : "IPOINT1",
+    "plcCode" : "PLC_0031",
+    "incomingActive" : true,
+    "outgoingActive" : true,
+    "plcState" : 0
+  },
+  "transportUnitType" : "PALLET",
+  "length" : 120,
+  "width" : 80,
+  "height" : 102,
+  "actualPlcCode" : "PLC_0031",
+  "actualLocationDate" : "2019-10-27T11:35:40.124+0000",
+  "links" : [ {
+    "rel" : "transport-unit-type",
+    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+  }, {
+    "rel" : "actual-location",
+    "href" : "http://localhost:8080/v1/locations?locationPK=FGIN/IPNT/0001/0000/0000"
+  } ]
+} ]</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1616,14 +2795,47 @@ style, like it is left or right aligned and padded.</p>
 <div class="paragraph">
 <p>Search and return all <code>TransportUnits</code> that are currently booked on a given <code>Location</code>.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/tu-find-on-location/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-units?actualLocation=FGIN%2FIPNT%2F0001%2F0000%2F0000 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The <code>TransportUnit</code> with <code>Barcode</code> == <code>00000000000000004712</code> is returned:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in api.adoc - include::/home/travis/build/openwms/org.openwms.common.service/target/generated-snippets/tu-find-on-location/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.transport-unit-v1+json;charset=UTF-8
+Content-Length: 720
+
+[ {
+  "barcode" : "00000000000000004712",
+  "actualLocation" : {
+    "pKey" : "439649733836",
+    "locationId" : "FGIN/IPNT/0001/0000/0000",
+    "locationGroupName" : "IPOINT1",
+    "plcCode" : "PLC_0031",
+    "incomingActive" : true,
+    "outgoingActive" : true,
+    "plcState" : 0
+  },
+  "transportUnitType" : "PALLET",
+  "length" : 120,
+  "width" : 80,
+  "height" : 102,
+  "actualPlcCode" : "PLC_0031",
+  "actualLocationDate" : "2019-10-27T11:35:40.413+0000",
+  "links" : [ {
+    "rel" : "transport-unit-type",
+    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+  }, {
+    "rel" : "actual-location",
+    "href" : "http://localhost:8080/v1/locations?locationPK=FGIN/IPNT/0001/0000/0000"
+  } ]
+} ]</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1631,7 +2843,7 @@ style, like it is left or right aligned and padded.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-10-27 10:46:17 UTC
+Last updated 2019-10-27 11:34:08 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">

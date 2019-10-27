@@ -34,12 +34,12 @@ public class TransportUnitTypeEvent extends RootApplicationEvent {
 <span class="nc" id="L34">    }</span>
 
     private TransportUnitTypeEvent(Builder builder) {
-<span class="nc" id="L37">        super(builder.source);</span>
-<span class="nc" id="L38">        type = builder.type;</span>
-<span class="nc" id="L39">    }</span>
+<span class="fc" id="L37">        super(builder.source);</span>
+<span class="fc" id="L38">        type = builder.type;</span>
+<span class="fc" id="L39">    }</span>
 
     public static Builder newBuilder() {
-<span class="nc" id="L42">        return new Builder();</span>
+<span class="fc" id="L42">        return new Builder();</span>
     }
 
     public TransportUnitTypeEventType getType() {
@@ -50,8 +50,8 @@ public class TransportUnitTypeEvent extends RootApplicationEvent {
 <span class="nc" id="L50">        return new TransportUnitTypeEvent(tu, type);</span>
     }
 
-<span class="nc" id="L53">    public enum TransportUnitTypeEventType {</span>
-<span class="nc" id="L54">        CREATED, CHANGED, DELETED, MOVED, STATE_CHANGE;</span>
+<span class="fc" id="L53">    public enum TransportUnitTypeEventType {</span>
+<span class="fc" id="L54">        CREATED, CHANGED, DELETED, MOVED, STATE_CHANGE;</span>
     }
 
     public static final class Builder {
@@ -62,17 +62,17 @@ public class TransportUnitTypeEvent extends RootApplicationEvent {
         }
 
         public Builder tut(TransportUnitType val) {
-<span class="nc" id="L65">            source = val;</span>
-<span class="nc" id="L66">            return this;</span>
+<span class="fc" id="L65">            source = val;</span>
+<span class="fc" id="L66">            return this;</span>
         }
 
         public Builder type(TransportUnitTypeEventType val) {
-<span class="nc" id="L70">            type = val;</span>
-<span class="nc" id="L71">            return this;</span>
+<span class="fc" id="L70">            type = val;</span>
+<span class="fc" id="L71">            return this;</span>
         }
 
         public TransportUnitTypeEvent build() {
-<span class="nc" id="L75">            return new TransportUnitTypeEvent(this);</span>
+<span class="fc" id="L75">            return new TransportUnitTypeEvent(this);</span>
         }
     }
 }

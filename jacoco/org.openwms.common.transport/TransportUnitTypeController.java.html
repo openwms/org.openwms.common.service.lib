@@ -46,32 +46,32 @@ public class TransportUnitTypeController extends AbstractWebController {
     private final TransportUnitTypeService service;
     private final BeanMapper mapper;
 
-<span class="nc" id="L49">    TransportUnitTypeController(TransportUnitTypeService service, BeanMapper mapper) {</span>
-<span class="nc" id="L50">        this.service = service;</span>
-<span class="nc" id="L51">        this.mapper = mapper;</span>
-<span class="nc" id="L52">    }</span>
+<span class="fc" id="L49">    TransportUnitTypeController(TransportUnitTypeService service, BeanMapper mapper) {</span>
+<span class="fc" id="L50">        this.service = service;</span>
+<span class="fc" id="L51">        this.mapper = mapper;</span>
+<span class="fc" id="L52">    }</span>
 
     @GetMapping(value = API_TRANSPORT_UNIT_TYPES, params = {&quot;type&quot;})
     @ResponseBody
     public TransportUnitTypeVO findTransportUnitType(@RequestParam(&quot;type&quot;) String type) {
-<span class="nc" id="L57">        TransportUnitType optType = service.findByType(type)</span>
-<span class="nc" id="L58">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;No TransportUniType with type [%s] found&quot;, type)));</span>
-<span class="nc" id="L59">        return mapper.map(optType, TransportUnitTypeVO.class);</span>
+<span class="fc" id="L57">        TransportUnitType optType = service.findByType(type)</span>
+<span class="fc" id="L58">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;No TransportUniType with type [%s] found&quot;, type)));</span>
+<span class="fc" id="L59">        return mapper.map(optType, TransportUnitTypeVO.class);</span>
     }
 
     @GetMapping(API_TRANSPORT_UNIT_TYPES)
     @ResponseBody
     public List&lt;TransportUnitTypeVO&gt; findTransportUnitTypes() {
-<span class="nc" id="L65">        List&lt;TransportUnitType&gt; all = service.findAll();</span>
-<span class="nc" id="L66">        return mapper.map(all, TransportUnitTypeVO.class);</span>
+<span class="fc" id="L65">        List&lt;TransportUnitType&gt; all = service.findAll();</span>
+<span class="fc" id="L66">        return mapper.map(all, TransportUnitTypeVO.class);</span>
     }
 
     @GetMapping(API_TRANSPORT_UNIT_TYPES + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="nc" id="L71">        return ResponseEntity.ok(</span>
-<span class="nc" id="L72">                new Index(</span>
-<span class="nc" id="L73">                        linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitType(&quot;PALLET&quot;)).withRel(&quot;transport-unit-types-findtransportunittype&quot;),</span>
-<span class="nc" id="L74">                        linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitTypes()).withRel(&quot;transport-unit-types-findall&quot;)</span>
+<span class="fc" id="L71">        return ResponseEntity.ok(</span>
+<span class="fc" id="L72">                new Index(</span>
+<span class="fc" id="L73">                        linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitType(&quot;PALLET&quot;)).withRel(&quot;transport-unit-types-findtransportunittype&quot;),</span>
+<span class="fc" id="L74">                        linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitTypes()).withRel(&quot;transport-unit-types-findall&quot;)</span>
                 )
         );
     }
