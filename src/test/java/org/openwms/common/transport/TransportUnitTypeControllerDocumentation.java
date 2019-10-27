@@ -71,7 +71,7 @@ class TransportUnitTypeControllerDocumentation {
     @Test void shall_findall() throws Exception {
         mockMvc.perform(get(CommonConstants.API_TRANSPORT_UNIT_TYPES))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()", is(1)))
+                .andExpect(jsonPath("$.length()", is(2)))
                 .andExpect(status().isOk())
                 .andDo(document("tut-find-all"));
     }

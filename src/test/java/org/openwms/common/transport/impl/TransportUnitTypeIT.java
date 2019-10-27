@@ -57,19 +57,21 @@ class TransportUnitTypeIT {
         TransportUnitType cartonType = new TransportUnitType("Carton Type");
         TypePlacingRule typePlacingRule = new TypePlacingRule(cartonType, locationType, 1);
         cartonType.addTypePlacingRule(typePlacingRule);
+        List<TypePlacingRule> tpr = entityManager.getEntityManager().createQuery("select tpr from TypePlacingRule tpr", TypePlacingRule.class).getResultList();
+        int before = tpr.size();
         cartonType = entityManager.merge(cartonType);
 
-        List<TypePlacingRule> tpr = entityManager.getEntityManager().createQuery("select tpr from TypePlacingRule tpr", TypePlacingRule.class).getResultList();
-        assertThat(tpr).hasSize(1);
+        tpr = entityManager.getEntityManager().createQuery("select tpr from TypePlacingRule tpr", TypePlacingRule.class).getResultList();
+        assertThat(tpr.size() - before).isEqualTo(1);
 
         cartonType.removeTypePlacingRule(typePlacingRule);
         entityManager.merge(cartonType);
         tpr = entityManager.getEntityManager().createQuery("select tpr from TypePlacingRule tpr", TypePlacingRule.class).getResultList();
-        assertThat(tpr).hasSize(0);
+        assertThat(tpr).hasSize(before);
     }
 
     @Test void testCascadingTypePlacingRule() {
-        LocationType locationType = entityManager.find(LocationType.class,0L);
+        LocationType locationType = entityManager.find(LocationType.class,1000L);
 
         TransportUnitType cartonType = new TransportUnitType("Carton Type");
         TypePlacingRule typePlacingRule = new TypePlacingRule(cartonType, locationType, 1);
@@ -77,10 +79,10 @@ class TransportUnitTypeIT {
         cartonType = entityManager.merge(cartonType);
 
         List<TypePlacingRule> tpr = entityManager.getEntityManager().createQuery("select tpr from TypePlacingRule tpr", TypePlacingRule.class).getResultList();
-        assertThat(tpr).hasSize(1);
+        int before = tpr.size();
 
         entityManager.remove(cartonType);
         tpr = entityManager.getEntityManager().createQuery("select tpr from TypePlacingRule tpr", TypePlacingRule.class).getResultList();
-        assertThat(tpr).hasSize(0);
+        assertThat(before - tpr.size()).isEqualTo(1);
     }
 }

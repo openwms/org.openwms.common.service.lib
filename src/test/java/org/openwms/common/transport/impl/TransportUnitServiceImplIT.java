@@ -16,6 +16,7 @@
 package org.openwms.common.transport.impl;
 
 import org.ameba.exception.NotFoundException;
+import org.ameba.exception.ResourceExistsException;
 import org.ameba.exception.ServiceLayerException;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
@@ -67,7 +68,7 @@ class TransportUnitServiceImplIT {
         @Test void create_primitive_with_strict() {
             assertThatThrownBy(
                     () -> testee.create(Barcode.of(TestData.TU_1_ID), TestData.TUT_TYPE_PALLET, TestData.LOCATION_ID_EXT, true))
-                    .isInstanceOf(ServiceLayerException.class).hasMessageContaining("already exists");
+                    .isInstanceOf(ResourceExistsException.class).hasMessageContaining("already exists");
         }
 
         @Test void create_primitive_without_strict() {
@@ -100,7 +101,7 @@ class TransportUnitServiceImplIT {
             TransportUnitType transportUnitType = em.find(TransportUnitType.class, TestData.TUT_PK_PALLET);
             assertThatThrownBy(
                     () -> testee.create(Barcode.of(TestData.TU_1_ID), transportUnitType, LocationPK.fromString(TestData.LOCATION_ID_EXT), true))
-                    .isInstanceOf(ServiceLayerException.class).hasMessageContaining("already exists");
+                    .isInstanceOf(ResourceExistsException.class).hasMessageContaining("already exists");
         }
 
         @Test void create_without_strict() {

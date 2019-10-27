@@ -50,8 +50,10 @@ class LocationTypeServiceImplIT {
     }
 
     @Test void delete() {
+        LocationType saved = testee.save(new LocationType("TEST"));
+        assertThat(saved.isNew()).isFalse();
         int size = testee.findAll().size();
-        testee.delete(Collections.singletonList(new LocationType("FG")));
+        testee.delete(Collections.singletonList(new LocationType("TEST")));
         assertThat(size - testee.findAll().size()).isEqualTo(1);
     }
 
