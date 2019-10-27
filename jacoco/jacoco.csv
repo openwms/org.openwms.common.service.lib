@@ -8,7 +8,7 @@ OpenWMS.org COMMON: Services,org.openwms.common.location.api.events,TargetEvent.
 OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl.AjcClosure1,17,0,0,0,1,0,2,0,2,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl.AjcClosure3,13,0,0,0,1,0,2,0,2,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitServiceImpl,624,0,32,0,110,0,46,0,30,0
-OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl,259,0,20,0,45,0,23,0,13,0
+OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl,272,0,20,0,49,0,23,0,13,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitTypeConverter,109,0,22,0,5,0,16,0,5,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitServiceImpl.AjcClosure9,17,0,0,0,1,0,2,0,2,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitServiceImpl.AjcClosure5,17,0,0,0,1,0,2,0,2,0
@@ -96,9 +96,9 @@ OpenWMS.org COMMON: Services,org.openwms.common.location.api.messages,LocationGr
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitType.Builder,67,0,0,0,26,0,13,0,13,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport,Barcode.BARCODE_ALIGN,0,24,0,0,0,5,0,1,0,1
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitTypeController,79,0,0,0,13,0,5,0,5,0
-OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitType,145,153,2,4,42,30,20,16,18,15
+OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitType,177,154,2,4,49,30,22,16,20,15
 OpenWMS.org COMMON: Services,org.openwms.common.transport,Barcode,28,116,8,12,12,40,11,17,4,14
-OpenWMS.org COMMON: Services,org.openwms.common.transport,TypePlacingRule,41,81,5,7,8,17,11,5,6,4
+OpenWMS.org COMMON: Services,org.openwms.common.transport,TypePlacingRule,52,70,11,1,12,13,11,5,5,5
 OpenWMS.org COMMON: Services,org.openwms.common.transport,UnitError.Builder,5,16,0,0,2,5,1,3,1,3
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitController,283,0,8,0,49,0,16,0,12,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TypeStackingRule,94,3,12,0,15,2,13,1,7,1
