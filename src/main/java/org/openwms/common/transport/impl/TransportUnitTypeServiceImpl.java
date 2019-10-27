@@ -18,6 +18,7 @@ package org.openwms.common.transport.impl;
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
+import org.ameba.exception.ServiceLayerException;
 import org.openwms.common.location.LocationType;
 import org.openwms.common.transport.Rule;
 import org.openwms.common.transport.TransportUnitType;
@@ -38,6 +39,7 @@ import java.util.Optional;
 import static java.lang.String.format;
 import static org.openwms.common.transport.events.TransportUnitTypeEvent.TransportUnitTypeEventType.CHANGED;
 import static org.openwms.common.transport.events.TransportUnitTypeEvent.TransportUnitTypeEventType.CREATED;
+import static org.openwms.common.transport.events.TransportUnitTypeEvent.TransportUnitTypeEventType.DELETED;
 
 /**
  * A TransportUnitTypeServiceImpl is a Spring managed bean that deals with TransportUnitTypes.
@@ -99,7 +101,13 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
     @Measured
     public void deleteType(TransportUnitType... transportUnitTypes) {
         for (TransportUnitType transportUnitType : transportUnitTypes) {
-            transportUnitTypeRepository.findByType(transportUnitType.getType()).ifPresent(transportUnitTypeRepository::delete);
+            transportUnitTypeRepository.findByType(transportUnitType.getType()).ifPresent(tut -> {
+                transportUnitTypeRepository.delete(tut);
+                publisher.publishEvent(TransportUnitTypeEvent.newBuilder()
+                        .tut(tut)
+                        .type(DELETED)
+                        .build());
+            });
         }
     }
 
@@ -134,6 +142,9 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
                         .map(TypePlacingRule::getAllowedLocationType)
                         .noneMatch(lt -> lt.equals(locationType))
                 ) {
+                    if (locationType.isNew()) {
+                        throw new ServiceLayerException(format("LocationType [%s] does not exist and must be persisted before adding it as a rule", locationType.getType()));
+                    }
                     TypePlacingRule newRule = new TypePlacingRule(tut, locationType);
                     tut.addTypePlacingRule(newRule);
                 }
@@ -141,12 +152,7 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
         }
         if (newNotAssigned != null && !newNotAssigned.isEmpty()) {
             for (LocationType locationType : newNotAssigned) {
-                tut.getTypePlacingRules()
-                        .forEach(tpr -> {
-                            if (tpr.getAllowedLocationType().equals(locationType)) {
-                                tut.removeTypePlacingRule(tpr);
-                            }
-                        });
+                tut.removeTypePlacingRules(locationType);
             }
         }
         return transportUnitTypeRepository.save(tut);
