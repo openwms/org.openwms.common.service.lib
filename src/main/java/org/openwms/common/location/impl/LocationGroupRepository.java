@@ -30,7 +30,7 @@ interface LocationGroupRepository extends JpaRepository<LocationGroup, Long> {
 
     Optional<LocationGroup> findByName(String name);
 
-    Optional<LocationGroup> findByPKey(String persistentKey);
+    Optional<LocationGroup> findBypKey(String persistentKey);
 
     List<LocationGroup> findByNameIn(List<String> names);
 }

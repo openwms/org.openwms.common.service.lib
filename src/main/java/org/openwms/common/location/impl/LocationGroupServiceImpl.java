@@ -58,7 +58,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public void changeGroupState(String pKey, LocationGroupState stateIn, LocationGroupState stateOut) {
-        LocationGroup locationGroup = repository.findByPKey(pKey).orElseThrow(NotFoundException::new);
+        LocationGroup locationGroup = repository.findBypKey(pKey).orElseThrow(NotFoundException::new);
         locationGroup.changeState(stateIn, stateOut);
         ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));
     }

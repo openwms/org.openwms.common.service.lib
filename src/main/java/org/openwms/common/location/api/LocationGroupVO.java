@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -31,7 +31,7 @@ import java.util.Objects;
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PUBLIC_ONLY)
-public class LocationGroupVO extends ResourceSupport implements TargetVO, Serializable {
+public class LocationGroupVO extends RepresentationModel implements TargetVO, Serializable {
 
     @JsonProperty
     private String pKey;
