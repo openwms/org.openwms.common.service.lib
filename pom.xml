@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>13</version>
+        <version>14</version>
         <relativePath />
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
@@ -72,7 +72,7 @@
     </ciManagement>
 
     <properties>
-        <core.version>1.6.0-SNAPSHOT</core.version>
+        <core.version>1.6.0</core.version>
         <core.units.version>0.3.0</core.units.version>
         <indriya.version>2.0</indriya.version>
         <spring-cloud-dependencies.version>Hoxton.RC2</spring-cloud-dependencies.version>
@@ -422,6 +422,17 @@
             </snapshots>
             <releases>
                 <enabled>false</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Staging Repository</name>
+            <url>https://oss.sonatype.org/content/groups/staging/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
             </releases>
         </repository>
         <repository>
