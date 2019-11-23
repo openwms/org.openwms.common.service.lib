@@ -135,8 +135,8 @@ class TransportUnitIT {
         assertThat(child.isNew()).isFalse();
         assertThat(parent.getChildren()).hasSize(1);
 
-        parent.getChildren().iterator().next().setWeight(new Weight("1", WeightUnit.KG));
+        parent.getChildren().iterator().next().setWeight(Weight.of(1, WeightUnit.KG));
         entityManager.flush();
-        assertThat(child.getWeight()).isEqualTo(new Weight("1", WeightUnit.KG));
+        assertThat(child.getWeight()).isEqualTo(Weight.of(1, WeightUnit.KG));
     }
 }

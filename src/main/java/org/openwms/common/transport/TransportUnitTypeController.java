@@ -31,8 +31,8 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static org.openwms.common.CommonConstants.API_TRANSPORT_UNIT_TYPES;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * A TransportUnitTypeController.

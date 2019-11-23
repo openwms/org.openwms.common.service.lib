@@ -90,7 +90,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
             @AttributeOverride(name = "unit", column = @Column(name = "C_WEIGHT_UOM", length = CoreTypeDefinitions.QUANTITY_LENGTH)),
             @AttributeOverride(name = "magnitude", column = @Column(name = "C_WEIGHT"))
     })
-    private Weight weight = new Weight("0");
+    private Weight weight = Weight.ZERO;
 
     /** State of the {@code TransportUnit}. */
     @Column(name = "C_STATE")

@@ -62,7 +62,7 @@ class TransportUnitTest {
             assertThat(tu.getTransportUnitType()).isEqualTo(new TransportUnitType("KNOWN"));
             assertThat(tu.getActualLocation()).isEqualTo(Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
             assertThat(tu.getActualLocationDate()).isNotNull();
-            assertThat(tu.getWeight()).isEqualTo(new Weight("0"));
+            assertThat(tu.getWeight()).isEqualTo(Weight.ZERO);
             assertThat(tu.getState()).isEqualTo(TransportUnitState.AVAILABLE);
             assertThat(tu.getChildren()).hasSize(0);
             assertThat(tu.getInventoryDate()).isNull();

@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>12</version>
+        <version>14</version>
         <relativePath />
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
@@ -72,10 +72,11 @@
     </ciManagement>
 
     <properties>
-        <core.version>1.6.0-SNAPSHOT</core.version>
-        <core.units.version>0.1.0</core.units.version>
+        <core.version>1.6.0</core.version>
+        <core.units.version>0.3.0</core.units.version>
+        <destDir>${project.build.directory}/${project.version}/apidocs</destDir> <!-- For Javadoc -->
         <indriya.version>2.0</indriya.version>
-        <spring-data-envers.version>2.1.8.RELEASE</spring-data-envers.version>
+        <spring-cloud-dependencies.version>Hoxton.RC2</spring-cloud-dependencies.version>
         <start-class>org.openwms.common.CommonStarter</start-class>
     </properties>
 
@@ -107,7 +108,7 @@
                 <artifactId>asciidoctor-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
+                <groupId>io.starter</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
             </plugin>
             <plugin>
@@ -183,11 +184,6 @@
                 <version>${indriya.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-envers</artifactId>
-                <version>${spring-data-envers.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud-dependencies.version}</version>
@@ -250,6 +246,13 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <optional>true</optional>
+            <exclusions>
+                <exclusion>
+                    <!-- Newer version pulled by actuator -->
+                    <groupId>org.hdrhistogram</groupId>
+                    <artifactId>HdrHistogram</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -294,6 +297,11 @@
         <dependency>
             <groupId>io.interface21</groupId>
             <artifactId>ameba-lib</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -375,11 +383,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test</artifactId>
             <scope>test</scope>
@@ -406,6 +409,7 @@
         <id>schemagen</id>
             <properties>
                 <surefireArgs>-Dspring.profiles.active=ASYNCHRONOUS,TEST,TESTPG</surefireArgs>
+                <schemagen.outputDirectory>${project.build.directory}/site/${project.version}</schemagen.outputDirectory>
             </properties>
         </profile>
     </profiles>
@@ -421,6 +425,25 @@
             <releases>
                 <enabled>false</enabled>
             </releases>
+        </repository>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Staging Repository</name>
+            <url>https://oss.sonatype.org/content/groups/staging/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/libs-milestone-local</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
 </project>

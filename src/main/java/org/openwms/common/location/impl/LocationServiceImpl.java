@@ -63,7 +63,7 @@ class LocationServiceImpl implements LocationService {
     @Measured
     public Location removeMessages(String pKey, List<Message> messages) {
         Location location = repository
-                .findByPKey(pKey)
+                .findBypKey(pKey)
                 .orElseThrow(() -> new ServiceLayerException(format("Location with pKey [%s] not found", pKey)));
         location.removeMessages(messages.toArray(new Message[0]));
         return location;
@@ -121,7 +121,7 @@ class LocationServiceImpl implements LocationService {
     @Measured
     public void changeState(String pKey, ErrorCodeVO errorCode) {
         Location location = repository
-                .findByPKey(pKey)
+                .findBypKey(pKey)
                 .orElseThrow(() -> new NotFoundException(format("No Location with persistent key [%s] found", pKey)));
 
         boolean changed = false;

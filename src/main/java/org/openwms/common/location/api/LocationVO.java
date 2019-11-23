@@ -18,7 +18,7 @@ package org.openwms.common.location.api;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
@@ -32,7 +32,7 @@ import java.util.StringJoiner;
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PUBLIC_ONLY)
-public class LocationVO extends ResourceSupport implements TargetVO, Serializable {
+public class LocationVO extends RepresentationModel implements TargetVO, Serializable {
 
     private String pKey;
     @NotEmpty
