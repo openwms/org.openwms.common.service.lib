@@ -74,7 +74,6 @@
     <properties>
         <core.version>1.6.0</core.version>
         <core.units.version>0.3.0</core.units.version>
-        <destDir>${project.build.directory}/${project.version}/apidocs</destDir> <!-- For Javadoc -->
         <indriya.version>2.0</indriya.version>
         <spring-cloud-dependencies.version>Hoxton.RC2</spring-cloud-dependencies.version>
         <start-class>org.openwms.common.CommonStarter</start-class>
