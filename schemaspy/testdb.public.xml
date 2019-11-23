@@ -157,7 +157,7 @@
          <column autoUpdated="false" digits="0" id="9" name="c_inventory_user" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="10" name="c_state" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="2" id="11" name="c_weight" nullable="true" remarks="" size="19" type="numeric"/>
-         <column autoUpdated="false" digits="0" id="12" name="c_weight_uom" nullable="true" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" digits="0" id="12" name="unit_type" nullable="true" remarks="" size="10" type="int4"/>
          <column autoUpdated="false" digits="0" id="13" name="c_actual_location" nullable="false" remarks="" size="19" type="int8">
             <parent column="c_pk" foreignKey="fkdl2ge07mt6bp7ijaot1omtqrs" implied="false" onDeleteCascade="false" table="com_location"/>
          </column>
@@ -192,7 +192,7 @@
          <column autoUpdated="false" digits="0" id="8" name="c_inventory_user" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="9" name="c_state" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="2" id="10" name="c_weight" nullable="true" remarks="" size="19" type="numeric"/>
-         <column autoUpdated="false" digits="0" id="11" name="c_weight_uom" nullable="true" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" digits="0" id="11" name="unit_type" nullable="true" remarks="" size="10" type="int4"/>
          <column autoUpdated="false" digits="0" id="12" name="c_actual_location" nullable="true" remarks="" size="19" type="int8"/>
          <column autoUpdated="false" digits="0" id="13" name="c_parent" nullable="true" remarks="" size="19" type="int8"/>
          <column autoUpdated="false" digits="0" id="14" name="c_target_location" nullable="true" remarks="" size="19" type="int8"/>

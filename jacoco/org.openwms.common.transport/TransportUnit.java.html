@@ -90,7 +90,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
             @AttributeOverride(name = &quot;unit&quot;, column = @Column(name = &quot;C_WEIGHT_UOM&quot;, length = CoreTypeDefinitions.QUANTITY_LENGTH)),
             @AttributeOverride(name = &quot;magnitude&quot;, column = @Column(name = &quot;C_WEIGHT&quot;))
     })
-<span class="fc" id="L93">    private Weight weight = new Weight(&quot;0&quot;);</span>
+<span class="fc" id="L93">    private Weight weight = Weight.ZERO;</span>
 
     /** State of the {@code TransportUnit}. */
     @Column(name = &quot;C_STATE&quot;)
@@ -478,4 +478,4 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
 <span class="fc" id="L478">        return Objects.hash(barcode);</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -58,7 +58,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public void changeGroupState(String pKey, LocationGroupState stateIn, LocationGroupState stateOut) {
-<span class="fc" id="L61">        LocationGroup locationGroup = repository.findByPKey(pKey).orElseThrow(NotFoundException::new);</span>
+<span class="fc" id="L61">        LocationGroup locationGroup = repository.findBypKey(pKey).orElseThrow(NotFoundException::new);</span>
 <span class="fc" id="L62">        locationGroup.changeState(stateIn, stateOut);</span>
 <span class="fc" id="L63">        ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));</span>
 <span class="fc" id="L64">    }</span>
@@ -162,4 +162,4 @@ class LocationGroupServiceImpl implements LocationGroupService {
         }
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

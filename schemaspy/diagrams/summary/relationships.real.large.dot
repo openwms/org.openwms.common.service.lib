@@ -138,7 +138,7 @@ digraph "largeRelationshipsDiagram" {
       <TR><TD PORT="c_inventory_user" COLSPAN="3" ALIGN="LEFT">c_inventory_user</TD></TR>
       <TR><TD PORT="c_state" COLSPAN="3" ALIGN="LEFT">c_state</TD></TR>
       <TR><TD PORT="c_weight" COLSPAN="3" ALIGN="LEFT">c_weight</TD></TR>
-      <TR><TD PORT="c_weight_uom" COLSPAN="3" ALIGN="LEFT">c_weight_uom</TD></TR>
+      <TR><TD PORT="unit_type" COLSPAN="3" ALIGN="LEFT">unit_type</TD></TR>
       <TR><TD PORT="c_actual_location" COLSPAN="3" ALIGN="LEFT">c_actual_location</TD></TR>
       <TR><TD PORT="c_parent" COLSPAN="3" ALIGN="LEFT">c_parent</TD></TR>
       <TR><TD PORT="c_target_location" COLSPAN="3" ALIGN="LEFT">c_target_location</TD></TR>
@@ -163,7 +163,7 @@ digraph "largeRelationshipsDiagram" {
       <TR><TD PORT="c_inventory_user" COLSPAN="3" ALIGN="LEFT">c_inventory_user</TD></TR>
       <TR><TD PORT="c_state" COLSPAN="3" ALIGN="LEFT">c_state</TD></TR>
       <TR><TD PORT="c_weight" COLSPAN="3" ALIGN="LEFT">c_weight</TD></TR>
-      <TR><TD PORT="c_weight_uom" COLSPAN="3" ALIGN="LEFT">c_weight_uom</TD></TR>
+      <TR><TD PORT="unit_type" COLSPAN="3" ALIGN="LEFT">unit_type</TD></TR>
       <TR><TD PORT="c_actual_location" COLSPAN="3" ALIGN="LEFT">c_actual_location</TD></TR>
       <TR><TD PORT="c_parent" COLSPAN="3" ALIGN="LEFT">c_parent</TD></TR>
       <TR><TD PORT="c_target_location" COLSPAN="3" ALIGN="LEFT">c_target_location</TD></TR>

@@ -63,7 +63,7 @@ class LocationServiceImpl implements LocationService {
     @Measured
     public Location removeMessages(String pKey, List&lt;Message&gt; messages) {
 <span class="nc" id="L65">        Location location = repository</span>
-<span class="nc" id="L66">                .findByPKey(pKey)</span>
+<span class="nc" id="L66">                .findBypKey(pKey)</span>
 <span class="nc" id="L67">                .orElseThrow(() -&gt; new ServiceLayerException(format(&quot;Location with pKey [%s] not found&quot;, pKey)));</span>
 <span class="nc" id="L68">        location.removeMessages(messages.toArray(new Message[0]));</span>
 <span class="nc" id="L69">        return location;</span>
@@ -121,7 +121,7 @@ class LocationServiceImpl implements LocationService {
     @Measured
     public void changeState(String pKey, ErrorCodeVO errorCode) {
 <span class="fc" id="L123">        Location location = repository</span>
-<span class="fc" id="L124">                .findByPKey(pKey)</span>
+<span class="fc" id="L124">                .findBypKey(pKey)</span>
 <span class="fc" id="L125">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with persistent key [%s] found&quot;, pKey)));</span>
 
 <span class="fc" id="L127">        boolean changed = false;</span>
@@ -161,4 +161,4 @@ class LocationServiceImpl implements LocationService {
         return result == null ? Collections.emptyList() : result;
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

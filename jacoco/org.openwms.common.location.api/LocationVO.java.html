@@ -18,7 +18,7 @@ package org.openwms.common.location.api;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
@@ -32,7 +32,7 @@ import java.util.StringJoiner;
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PUBLIC_ONLY)
-public class LocationVO extends ResourceSupport implements TargetVO, Serializable {
+public class LocationVO extends RepresentationModel implements TargetVO, Serializable {
 
     private String pKey;
     @NotEmpty
@@ -175,4 +175,4 @@ public class LocationVO extends ResourceSupport implements TargetVO, Serializabl
 <span class="nc" id="L175">        return Objects.hash(super.hashCode(), pKey, locationId, locationGroupName, plcCode, incomingActive, outgoingActive, plcState);</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
