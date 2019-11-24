@@ -8,7 +8,7 @@
         <relativePath />
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
-    <version>1.5.0</version>
+    <version>1.6.0-SNAPSHOT</version>
     <name>OpenWMS.org COMMON: Services</name>
     <url>https://openwms.github.io/${project.artifactId}/index.html</url>
 
@@ -72,8 +72,8 @@
     </ciManagement>
 
     <properties>
-        <core.version>1.6.0</core.version>
-        <core.units.version>0.3.0</core.units.version>
+        <core.version>1.7.0-SNAPSHOT</core.version>
+        <core.units.version>0.4.0-SNAPSHOT</core.units.version>
         <indriya.version>2.0</indriya.version>
         <spring-cloud-dependencies.version>Hoxton.RC2</spring-cloud-dependencies.version>
         <start-class>org.openwms.common.CommonStarter</start-class>
