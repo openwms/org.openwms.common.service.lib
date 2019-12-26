@@ -7,7 +7,7 @@ spring:
         enabled: false
         service-id: openwms-config
       enabled: false
-      fail-fast: false # true means retry
+      fail-fast: true # true means retry
       retry:
         max-attempts: 120
     discovery:
@@ -69,7 +69,6 @@ eureka:
       password: ${spring.security.user.password}
       protocol: ${owms.srv.protocol}
       zone: ${owms.eureka.zone}
-      config-protocol: http # The protocol used to access the config server
 
 management:
   endpoints:
@@ -81,7 +80,9 @@ management:
       enabled: false
 
 logging:
-  file: "/tmp/owms/BOOT-COMMON-Service.log"
+  file:
+    name: BOOT-COMMON-Service.log
+    path: "/tmp/owms"
 
 ---
 spring:
@@ -149,12 +150,7 @@ spring:
   profiles: TEST
   cloud:
     config:
-      discovery:
-        enabled: false
-      enabled: false
       fail-fast: false
-    discovery:
-      enabled: false
   main:
     banner-mode: "off"
 
