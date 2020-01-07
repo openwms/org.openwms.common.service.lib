@@ -4,6 +4,29 @@ This service provides essential functionality to deal with `Locations`, `Locatio
 and `TransportUnits`. An example often referred to is a service to move a `TransportUnit`
 from a `Location` A to a `Location` B. 
 
+# Build and Run locally
+The service can be built and run locally without any other services.
+
+Build the code: 
+```
+$ ./mvnw package
+```
+
+Run in standalone mode:
+```
+$ java -jar target/openwms-common-service.jar 
+```
+
+Or run with some sample data:
+```
+$ java -Dspring.profiles.active=DEMO -jar target/openwms-common-service.jar 
+```
+
+Or additionally run in a distributed environment with an already running Service Registry, Configuration Server and a RabbitMQ broker:
+```
+$ java -Dspring.profiles.active=ASYNCHRONOUS,DEMO -jar target/openwms-common-service.jar 
+```
+
 # Resources
 
 [![Build status](https://travis-ci.com/openwms/org.openwms.common.service.svg?branch=master)](https://travis-ci.com/openwms/org.openwms.common.service)
