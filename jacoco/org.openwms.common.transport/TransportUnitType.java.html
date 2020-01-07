@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransportUnitType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.transport</a> &gt; <span class="el_source">TransportUnitType.java</span></div><h1>TransportUnitType.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2005-2019 the original author or authors.
+ * Copyright 2005-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -53,25 +53,25 @@ public class TransportUnitType extends BaseEntity implements Serializable {
 
     /** Description for this type. */
     @Column(name = &quot;C_DESCRIPTION&quot;)
-<span class="pc" id="L56">    private String description = DEF_TYPE_DESCRIPTION;</span>
+<span class="fc" id="L56">    private String description = DEF_TYPE_DESCRIPTION;</span>
     /** Default description of the {@code TransportUnitType}. Default value}. */
     public static final String DEF_TYPE_DESCRIPTION = &quot;--&quot;;
 
     /** Length of the {@code TransportUnitType}. */
     @Column(name = &quot;C_LENGTH&quot;)
-<span class="pc" id="L62">    private int length = DEF_LENGTH;</span>
+<span class="fc" id="L62">    private int length = DEF_LENGTH;</span>
     /** Default value of {@link #length}. */
     public static final int DEF_LENGTH = 0;
 
     /** Width of the {@code TransportUnitType}. */
     @Column(name = &quot;C_WIDTH&quot;)
-<span class="pc" id="L68">    private int width = 0;</span>
+<span class="fc" id="L68">    private int width = 0;</span>
     /** Default value of {@link #width}. */
     public static final int DEF_WIDTH = 0;
 
     /** Height of the {@code TransportUnitType}. */
     @Column(name = &quot;C_HEIGHT&quot;)
-<span class="pc" id="L74">    private int height = 0;</span>
+<span class="fc" id="L74">    private int height = 0;</span>
     /** Default value of {@link #height}. */
     public static final int DEF_HEIGHT = 0;
 
@@ -97,16 +97,16 @@ public class TransportUnitType extends BaseEntity implements Serializable {
     /*~ ------------------- collection mapping ------------------- */
     /** A collection of all {@link TransportUnit}s belonging to this type. */
     @OneToMany(mappedBy = &quot;transportUnitType&quot;)
-<span class="pc" id="L100">    private Set&lt;TransportUnit&gt; transportUnits = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L100">    private Set&lt;TransportUnit&gt; transportUnits = new HashSet&lt;&gt;();</span>
 
     /** Describes other {@code TransportUnitType}s and how many of these may be stacked on the {@code TransportUnitType}. */
-    @OneToMany(mappedBy = &quot;transportUnitType&quot;, cascade = {CascadeType.ALL})
-<span class="pc" id="L104">    private Set&lt;TypeStackingRule&gt; typeStackingRules = new HashSet&lt;&gt;();</span>
+    @OneToMany(mappedBy = &quot;baseTransportUnitType&quot;, cascade = {CascadeType.ALL})
+<span class="fc" id="L104">    private Set&lt;TypeStackingRule&gt; typeStackingRules = new HashSet&lt;&gt;();</span>
 
     /** A Set of {@link TypePlacingRule}s store all possible {@code LocationType} s of the {@code TransportUnitType}. */
     @OneToMany(mappedBy = &quot;transportUnitType&quot;, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @OrderBy(&quot;privilegeLevel&quot;)
-<span class="pc" id="L109">    private Set&lt;TypePlacingRule&gt; typePlacingRules = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L109">    private Set&lt;TypePlacingRule&gt; typePlacingRules = new HashSet&lt;&gt;();</span>
 
     /*~ ----------------------------- constructors ------------------- */
     /** Dear JPA... */
@@ -122,20 +122,20 @@ public class TransportUnitType extends BaseEntity implements Serializable {
 <span class="fc" id="L122">        this.type = type;</span>
 <span class="fc" id="L123">    }</span>
 
-<span class="nc" id="L125">    private TransportUnitType(Builder builder) {</span>
-<span class="nc" id="L126">        this.type = builder.type;</span>
-<span class="nc" id="L127">        setDescription(builder.description);</span>
-<span class="nc" id="L128">        setLength(builder.length);</span>
-<span class="nc" id="L129">        setWidth(builder.width);</span>
-<span class="nc" id="L130">        setHeight(builder.height);</span>
-<span class="nc" id="L131">        setWeightTare(builder.weightTare);</span>
-<span class="nc" id="L132">        setWeightMax(builder.weightMax);</span>
-<span class="nc" id="L133">        setPayload(builder.payload);</span>
-<span class="nc" id="L134">        setCompatibility(builder.compatibility);</span>
-<span class="nc" id="L135">        setTransportUnits(builder.transportUnits);</span>
-<span class="nc" id="L136">        setTypeStackingRules(builder.typeStackingRules);</span>
-<span class="nc" id="L137">        setTypePlacingRules(builder.typePlacingRules);</span>
-<span class="nc" id="L138">    }</span>
+<span class="fc" id="L125">    private TransportUnitType(Builder builder) {</span>
+<span class="fc" id="L126">        this.type = builder.type;</span>
+<span class="fc" id="L127">        setDescription(builder.description);</span>
+<span class="fc" id="L128">        setLength(builder.length);</span>
+<span class="fc" id="L129">        setWidth(builder.width);</span>
+<span class="fc" id="L130">        setHeight(builder.height);</span>
+<span class="fc" id="L131">        setWeightTare(builder.weightTare);</span>
+<span class="fc" id="L132">        setWeightMax(builder.weightMax);</span>
+<span class="fc" id="L133">        setPayload(builder.payload);</span>
+<span class="fc" id="L134">        setCompatibility(builder.compatibility);</span>
+<span class="fc" id="L135">        setTransportUnits(builder.transportUnits);</span>
+<span class="fc" id="L136">        setTypeStackingRules(builder.typeStackingRules);</span>
+<span class="fc" id="L137">        setTypePlacingRules(builder.typePlacingRules);</span>
+<span class="fc" id="L138">    }</span>
 
     /**
      * Create a TransportUnitType with the corresponding builder.
@@ -144,7 +144,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return The builder instance
      */
     public static Builder newBuilder(String type) {
-<span class="nc" id="L147">        return new Builder(type);</span>
+<span class="fc" id="L147">        return new Builder(type);</span>
     }
 
     /*~ ----------------------------- methods ------------------- */
@@ -183,8 +183,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @param width The width to set
      */
     public void setWidth(int width) {
-<span class="nc" id="L186">        this.width = width;</span>
-<span class="nc" id="L187">    }</span>
+<span class="fc" id="L186">        this.width = width;</span>
+<span class="fc" id="L187">    }</span>
 
     /**
      * Returns the height of the {@code TransportUnitType}.
@@ -201,8 +201,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @param height The height to set
      */
     public void setHeight(int height) {
-<span class="nc" id="L204">        this.height = height;</span>
-<span class="nc" id="L205">    }</span>
+<span class="fc" id="L204">        this.height = height;</span>
+<span class="fc" id="L205">    }</span>
 
     /**
      * Get the length of the {@code TransportUnitType}.
@@ -219,8 +219,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @param length The length to set
      */
     public void setLength(int length) {
-<span class="nc" id="L222">        this.length = length;</span>
-<span class="nc" id="L223">    }</span>
+<span class="fc" id="L222">        this.length = length;</span>
+<span class="fc" id="L223">    }</span>
 
     /**
      * Returns the description of the {@code TransportUnitType}.
@@ -255,8 +255,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @param payload The payload to set
      */
     public void setPayload(BigDecimal payload) {
-<span class="nc" id="L258">        this.payload = payload;</span>
-<span class="nc" id="L259">    }</span>
+<span class="fc" id="L258">        this.payload = payload;</span>
+<span class="fc" id="L259">    }</span>
 
     /**
      * Returns the compatibility of the {@code TransportUnitType}.
@@ -273,8 +273,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @param compatibility The compatibility to set
      */
     public void setCompatibility(String compatibility) {
-<span class="nc" id="L276">        this.compatibility = compatibility;</span>
-<span class="nc" id="L277">    }</span>
+<span class="fc" id="L276">        this.compatibility = compatibility;</span>
+<span class="fc" id="L277">    }</span>
 
     /**
      * Returns a Set of all {@link TransportUnit}s belonging to the {@code TransportUnitType}.
@@ -291,8 +291,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @param transportUnits A Set of {@link TransportUnit}s.
      */
     private void setTransportUnits(Set&lt;TransportUnit&gt; transportUnits) {
-<span class="nc" id="L294">        this.transportUnits = transportUnits;</span>
-<span class="nc" id="L295">    }</span>
+<span class="fc" id="L294">        this.transportUnits = transportUnits;</span>
+<span class="fc" id="L295">    }</span>
 
     /**
      * Add a rule to the {@code TransportUnitType}. A {@link TypePlacingRule} determines what {@code TransportUnitType}s can be placed on
@@ -347,8 +347,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @param typePlacingRules The rules to set
      */
     private void setTypePlacingRules(Set&lt;TypePlacingRule&gt; typePlacingRules) {
-<span class="nc" id="L350">        this.typePlacingRules = typePlacingRules;</span>
-<span class="nc" id="L351">    }</span>
+<span class="fc" id="L350">        this.typePlacingRules = typePlacingRules;</span>
+<span class="fc" id="L351">    }</span>
 
     /**
      * Returns a Set of all {@link TypeStackingRule}s. A {@link TypeStackingRule} determines which other {@code TransportUnitType}s can be
@@ -367,8 +367,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @param typeStackingRules The rules to set
      */
     private void setTypeStackingRules(Set&lt;TypeStackingRule&gt; typeStackingRules) {
-<span class="nc" id="L370">        this.typeStackingRules = typeStackingRules;</span>
-<span class="nc" id="L371">    }</span>
+<span class="fc" id="L370">        this.typeStackingRules = typeStackingRules;</span>
+<span class="fc" id="L371">    }</span>
 
     /**
      * Get the weightTare.
@@ -385,8 +385,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @param weightTare The weightTare to set.
      */
     public void setWeightTare(BigDecimal weightTare) {
-<span class="nc" id="L388">        this.weightTare = weightTare;</span>
-<span class="nc" id="L389">    }</span>
+<span class="fc" id="L388">        this.weightTare = weightTare;</span>
+<span class="fc" id="L389">    }</span>
 
     /**
      * Get the weightMax.
@@ -403,8 +403,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @param weightMax The weightMax to set.
      */
     public void setWeightMax(BigDecimal weightMax) {
-<span class="nc" id="L406">        this.weightMax = weightMax;</span>
-<span class="nc" id="L407">    }</span>
+<span class="fc" id="L406">        this.weightMax = weightMax;</span>
+<span class="fc" id="L407">    }</span>
 
     /**
      * Returns the type.
@@ -454,9 +454,9 @@ public class TransportUnitType extends BaseEntity implements Serializable {
         private Set&lt;TypeStackingRule&gt; typeStackingRules;
         private Set&lt;TypePlacingRule&gt; typePlacingRules;
 
-<span class="nc" id="L457">        private Builder(String type) {</span>
-<span class="nc" id="L458">            this.type = type;</span>
-<span class="nc" id="L459">        }</span>
+<span class="fc" id="L457">        private Builder(String type) {</span>
+<span class="fc" id="L458">            this.type = type;</span>
+<span class="fc" id="L459">        }</span>
 
         /**
          * Sets the {@code description} and returns a reference to this Builder so that the methods can be chained together.
@@ -465,8 +465,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
          * @return a reference to this Builder
          */
         public Builder description(String val) {
-<span class="nc" id="L468">            description = val;</span>
-<span class="nc" id="L469">            return this;</span>
+<span class="fc" id="L468">            description = val;</span>
+<span class="fc" id="L469">            return this;</span>
         }
 
         /**
@@ -476,8 +476,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
          * @return a reference to this Builder
          */
         public Builder length(int val) {
-<span class="nc" id="L479">            length = val;</span>
-<span class="nc" id="L480">            return this;</span>
+<span class="fc" id="L479">            length = val;</span>
+<span class="fc" id="L480">            return this;</span>
         }
 
         /**
@@ -487,8 +487,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
          * @return a reference to this Builder
          */
         public Builder width(int val) {
-<span class="nc" id="L490">            width = val;</span>
-<span class="nc" id="L491">            return this;</span>
+<span class="fc" id="L490">            width = val;</span>
+<span class="fc" id="L491">            return this;</span>
         }
 
         /**
@@ -498,8 +498,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
          * @return a reference to this Builder
          */
         public Builder height(int val) {
-<span class="nc" id="L501">            height = val;</span>
-<span class="nc" id="L502">            return this;</span>
+<span class="fc" id="L501">            height = val;</span>
+<span class="fc" id="L502">            return this;</span>
         }
 
         /**
@@ -509,8 +509,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
          * @return a reference to this Builder
          */
         public Builder weightTare(BigDecimal val) {
-<span class="nc" id="L512">            weightTare = val;</span>
-<span class="nc" id="L513">            return this;</span>
+<span class="fc" id="L512">            weightTare = val;</span>
+<span class="fc" id="L513">            return this;</span>
         }
 
         /**
@@ -520,8 +520,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
          * @return a reference to this Builder
          */
         public Builder weightMax(BigDecimal val) {
-<span class="nc" id="L523">            weightMax = val;</span>
-<span class="nc" id="L524">            return this;</span>
+<span class="fc" id="L523">            weightMax = val;</span>
+<span class="fc" id="L524">            return this;</span>
         }
 
         /**
@@ -531,8 +531,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
          * @return a reference to this Builder
          */
         public Builder payload(BigDecimal val) {
-<span class="nc" id="L534">            payload = val;</span>
-<span class="nc" id="L535">            return this;</span>
+<span class="fc" id="L534">            payload = val;</span>
+<span class="fc" id="L535">            return this;</span>
         }
 
         /**
@@ -542,8 +542,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
          * @return a reference to this Builder
          */
         public Builder compatibility(String val) {
-<span class="nc" id="L545">            compatibility = val;</span>
-<span class="nc" id="L546">            return this;</span>
+<span class="fc" id="L545">            compatibility = val;</span>
+<span class="fc" id="L546">            return this;</span>
         }
 
         /**
@@ -553,8 +553,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
          * @return a reference to this Builder
          */
         public Builder transportUnits(Set&lt;TransportUnit&gt; val) {
-<span class="nc" id="L556">            transportUnits = val;</span>
-<span class="nc" id="L557">            return this;</span>
+<span class="fc" id="L556">            transportUnits = val;</span>
+<span class="fc" id="L557">            return this;</span>
         }
 
         /**
@@ -564,8 +564,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
          * @return a reference to this Builder
          */
         public Builder typeStackingRules(Set&lt;TypeStackingRule&gt; val) {
-<span class="nc" id="L567">            typeStackingRules = val;</span>
-<span class="nc" id="L568">            return this;</span>
+<span class="fc" id="L567">            typeStackingRules = val;</span>
+<span class="fc" id="L568">            return this;</span>
         }
 
         /**
@@ -575,8 +575,8 @@ public class TransportUnitType extends BaseEntity implements Serializable {
          * @return a reference to this Builder
          */
         public Builder typePlacingRules(Set&lt;TypePlacingRule&gt; val) {
-<span class="nc" id="L578">            typePlacingRules = val;</span>
-<span class="nc" id="L579">            return this;</span>
+<span class="fc" id="L578">            typePlacingRules = val;</span>
+<span class="fc" id="L579">            return this;</span>
         }
 
         /**
@@ -585,7 +585,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
          * @return a {@code TransportUnitType} built with parameters of this {@code TransportUnitType.Builder}
          */
         public TransportUnitType build() {
-<span class="nc" id="L588">            return new TransportUnitType(this);</span>
+<span class="fc" id="L588">            return new TransportUnitType(this);</span>
         }
     }
 }
