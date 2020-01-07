@@ -25,7 +25,6 @@ import org.openwms.common.transport.api.commands.MessageCommand;
 import org.openwms.common.transport.commands.MessageCommandHandler;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -117,7 +116,7 @@ public class TransportUnitController extends AbstractWebController {
             service.findByBarcode(Barcode.of(transportUnitBK));
         }
         TransportUnit created = service.create(Barcode.of(transportUnitBK), tu.getTransportUnitType(), tu.getActualLocation().getLocationId(), strict);
-        return ResponseEntity.ok().header(HttpHeaders.LOCATION, getLocationForCreatedResource(req, created.getPersistentKey())).build();
+        return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();
     }
 
     @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk", "actualLocation", "tut"})
@@ -133,7 +132,7 @@ public class TransportUnitController extends AbstractWebController {
             service.findByBarcode(Barcode.of(transportUnitBK));
         }
         TransportUnit created = service.create(Barcode.of(transportUnitBK), tut, actualLocation, strict);
-        return ResponseEntity.ok().header(HttpHeaders.LOCATION, getLocationForCreatedResource(req, created.getPersistentKey())).build();
+        return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();
     }
 
     @PutMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
