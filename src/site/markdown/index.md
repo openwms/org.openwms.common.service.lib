@@ -17,52 +17,46 @@ Build a runnable fat jar with execution of all unit and in-memory database integ
 server required to run: 
 
 ```
-$ mvn package
+$ ./mvnw package
 ```
 
-To also build and run with RabbitMQ support call:
+To also build and run with [RabbitMQ](https://www.rabbitmq.com) support call:
 
 ```
-$ mvn package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
+$ ./mvnw package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
 ```
 
-But notice that this requires a RabbitMQ server running locally with default settings.
-
-Run the Sonar analysis:
-
-```
-$ mvn package -Psonar
-```
+But notice that this requires a [RabbitMQ](https://www.rabbitmq.com) server running locally with default settings.
 
 ## Run
 
 After the binary is built it can be started from command line. By default no other infrastructure services are required to run this service.
 
 ```
-$ java -jar target/openwms-common-service-exec.jar
+$ java -jar target/openwms-common-service.jar
 ```
 
-In a distributed Cloud environment the service configuration is fetched from a centralized configuration service. This behavior can be 
+In a distributed Cloud environment the service configuration is fetched from a central configuration service. This behavior can be 
 enabled by activating the Spring Profile `CLOUD`. Additionally it makes sense to enable asynchronous communication that requires [RabbitMQ](https://www.rabbitmq.com)
-as an AMQP message broker - just add another profile `ASYNCHRONOUS`. If the latter is not applies all asynchronous AMQP endpoints are 
+as an AMQP message broker - just add another profile `ASYNCHRONOUS`. If the latter is not applied all asynchronous AMQP endpoints are 
 disabled and the service does not send any events nor does it receive application events from remote services.
 
 ```
-$ java -jar target/openwms-common-service-exec.jar --spring.profiles.active=CLOUD,ASYNCHRONOUS
+$ java -jar target/openwms-common-service.jar --spring.profiles.active=CLOUD,ASYNCHRONOUS
 ```
 
 Now the configuration service is tried to be discovered at service startup. The service fails to start if no instance of the configuration
-service is available after retrying a configured amount of times.
+service is available after a configured amount of retries.
 
 ## Release
 
 ```
-$ mvn deploy -Prelease,gpg
+$ ./mvnw deploy -Prelease,gpg
 ```
 
 ### Release Documentation
 
 ```
-$ mvn package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Psonar
-$ mvn site scm-publish:publish-scm
+$ ./mvnw package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
+$ ./mvnw site scm-publish:publish-scm
 ```
