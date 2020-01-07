@@ -57,15 +57,23 @@ class TransportUnitTest {
         }
 
         @Test void shall_create_with_defaults() {
+            TransportUnit tu1 = new TransportUnit();// for JPA
+            assertThat(tu1.getActualLocationDate()).isNull();
+
             TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
             assertThat(tu.getBarcode()).isEqualTo(Barcode.of("4711"));
             assertThat(tu.getTransportUnitType()).isEqualTo(new TransportUnitType("KNOWN"));
             assertThat(tu.getActualLocation()).isEqualTo(Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
             assertThat(tu.getActualLocationDate()).isNotNull();
+            assertThat(tu.getTargetLocation()).isNull();
             assertThat(tu.getWeight()).isEqualTo(Weight.ZERO);
             assertThat(tu.getState()).isEqualTo(TransportUnitState.AVAILABLE);
             assertThat(tu.getChildren()).hasSize(0);
+            assertThat(tu.getNoTransportUnits()).isEqualTo(0);
             assertThat(tu.getInventoryDate()).isNull();
+            assertThat(tu.getInventoryUser()).isNull();
+            assertThat(tu.getEmpty()).isNull();
+            assertThat(tu.getErrors()).hasSize(0);
         }
 
         @Test void testEqualityLight() {
@@ -116,6 +124,11 @@ class TransportUnitTest {
             assertThatThrownBy(
                     () -> tu.addError(null))
                     .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test void shall_add_an_error() {
+            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            tu.addError(UnitError.newBuilder().build());
         }
 
         @Test void shall_fail_with_remove_null_as_child() {

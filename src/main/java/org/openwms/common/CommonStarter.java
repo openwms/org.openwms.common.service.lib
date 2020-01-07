@@ -24,8 +24,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Heiko Scherrer
  */
 @SpringBootApplication(scanBasePackages = {
-        "org.openwms",
-        "org.ameba.app"
+        "org.openwms.common"
 })
 public class CommonStarter {
 

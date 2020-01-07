@@ -18,6 +18,9 @@ package org.openwms.common.transport;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.location.LocationType;
 
+import java.math.BigDecimal;
+import java.util.Set;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -40,6 +43,34 @@ class TransportUnitTypeTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @Test void testBuilderExistence() {
+        TransportUnitType tut = TransportUnitType.newBuilder("TUT")
+                .compatibility("ALL")
+                .description("Lightgoods")
+                .height(100)
+                .length(80)
+                .width(30)
+                .payload(new BigDecimal(1))
+                .weightMax(new BigDecimal(1000))
+                .weightTare(new BigDecimal(1))
+                .transportUnits(Set.of(new TransportUnit()))
+                .typePlacingRules(Set.of(new TypePlacingRule()))
+                .typeStackingRules(Set.of(new TypeStackingRule()))
+                .build();
+        assertThat(tut.getDescription()).isEqualTo("Lightgoods");
+        assertThat(tut.getLength()).isEqualTo(80);
+        assertThat(tut.getHeight()).isEqualTo(100);
+        assertThat(tut.getWidth()).isEqualTo(30);
+        assertThat(tut.getTransportUnits()).hasSize(1);
+        assertThat(tut.getTypePlacingRules()).hasSize(1);
+        assertThat(tut.getTypeStackingRules()).hasSize(1);
+        assertThat(tut.getPayload()).isEqualTo(new BigDecimal(1));
+        assertThat(tut.getCompatibility()).isEqualTo("ALL");
+        assertThat(tut.getWeightTare()).isEqualTo(new BigDecimal(1));
+        assertThat(tut.getWeightMax()).isEqualTo(new BigDecimal(1000));
+
+    }
+
     @Test void testDefaultValues() {
         TransportUnitType tut = new TransportUnitType("tut");
         assertThat(tut.getDescription()).isEqualTo(TransportUnitType.DEF_TYPE_DESCRIPTION);
@@ -49,6 +80,10 @@ class TransportUnitTypeTest {
         assertThat(tut.getTransportUnits()).hasSize(0);
         assertThat(tut.getTypePlacingRules()).hasSize(0);
         assertThat(tut.getTypeStackingRules()).hasSize(0);
+        assertThat(tut.getPayload()).isNull();
+        assertThat(tut.getCompatibility()).isNull();
+        assertThat(tut.getWeightTare()).isNull();
+        assertThat(tut.getWeightMax()).isNull();
     }
 
     @Test void testPlacingRuleHandling() {

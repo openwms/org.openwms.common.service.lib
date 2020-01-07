@@ -595,6 +595,38 @@ The response lists all the operations with a name and the corresponding href lin
 
 include::{generated}/tu-index/http-response.adoc[]
 
+=== Create a TransportUnit
+Currently the API offers to variants to create a `TransportUnit`. Both require a HTTP POST request sent to the same context path but with
+different request parameters.
+
+The simplest way to create a `TransportUnit` is to just pass the mandatory fields of a `TransportUnit` to the API:
+
+include::{generated}/tu-create-simple/http-request.adoc[]
+
+The server stores a `TransportUnit` instance with the given values and default values for other fields of the `TransportUnit`. The response
+contains a link to the newly created resource.
+
+include::{generated}/tu-create-simple/http-response.adoc[]
+
+In a second approach the client may pass the structure of the `TransportUnit` to create as request body to the API:
+
+include::{generated}/tu-create-full/http-request.adoc[]
+
+Like before the server responds with a link to the newly created resource as far as the operation succeeds.
+
+include::{generated}/tu-create-full/http-response.adoc[]
+
+Notice the `strict` attribute. When the client passes `true` as value for `strict` the server ensures there is no `TransportUnit` with the
+given business key. When the attribute is omitted or set to `false` no such validation happens and the reference to an already existing
+`TransportUnit` or the newly created is returned. If the API call fails because a `TransportUnit` with the given `Barcode` exists, the
+response looks like:
+
+include::{generated}/tu-create-error/http-response.adoc[]
+
+If the request is invalid or contains invalid fields the server responds with:
+
+include::{generated}/tu-create-invalid/http-response.adoc[]
+
 === Find by Barcode
 Find a `TransportUnit` by its unique `Barcode`.
 

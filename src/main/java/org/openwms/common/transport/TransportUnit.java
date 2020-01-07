@@ -305,8 +305,8 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
         this.weight = weight;
     }
 
-    private List<UnitError> getErrors() {
-        return this.errors;
+    public List<UnitError> getErrors() {
+        return Collections.unmodifiableList(this.errors);
     }
 
     /**
@@ -323,7 +323,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
             em.persist(error);
             error = em.merge(error);
         } else {
-            this.getErrors().add(error);
+            this.errors.add(error);
         }
         return error;
     }

@@ -20,11 +20,14 @@ import org.openwms.common.Index;
 import org.openwms.common.SimpleLink;
 import org.openwms.common.location.LocationController;
 import org.openwms.common.transport.api.TransportUnitVO;
+import org.openwms.common.transport.api.ValidationGroups;
 import org.openwms.common.transport.api.commands.MessageCommand;
 import org.openwms.common.transport.commands.MessageCommandHandler;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -103,26 +106,34 @@ public class TransportUnitController extends AbstractWebController {
     }
 
     @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
-    public ResponseEntity<Void> createTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
+    public ResponseEntity<Void> createTU(
+            @RequestParam("bk") String transportUnitBK,
+            @Validated(ValidationGroups.TransportUnit.Create.class) @RequestBody TransportUnitVO tu,
+            @RequestParam(value = "strict", required = false) Boolean strict,
+            HttpServletRequest req
+    ) {
         if (Boolean.TRUE.equals(strict)) {
             // check if already exists ...
             service.findByBarcode(Barcode.of(transportUnitBK));
         }
-        TransportUnit toCreate = mapper.map(tu, TransportUnit.class);
-        TransportUnit created = service.create(Barcode.of(transportUnitBK), toCreate.getTransportUnitType(), toCreate.getActualLocation().getLocationId(), strict);
-        getLocationForCreatedResource(req, created.getPersistentKey());
-        return ResponseEntity.ok().build();
+        TransportUnit created = service.create(Barcode.of(transportUnitBK), tu.getTransportUnitType(), tu.getActualLocation().getLocationId(), strict);
+        return ResponseEntity.ok().header(HttpHeaders.LOCATION, getLocationForCreatedResource(req, created.getPersistentKey())).build();
     }
 
     @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk", "actualLocation", "tut"})
-    public ResponseEntity<Void> createTU(@RequestParam("bk") String transportUnitBK, @RequestParam("actualLocation") String actualLocation, @RequestParam("tut") String tut, @RequestParam(value = "strict", required = false) Boolean strict, HttpServletRequest req) {
+    public ResponseEntity<Void> createTU(
+            @RequestParam("bk") String transportUnitBK,
+            @RequestParam("actualLocation") String actualLocation,
+            @RequestParam("tut") String tut,
+            @RequestParam(value = "strict", required = false) Boolean strict,
+            HttpServletRequest req
+    ) {
         if (Boolean.TRUE.equals(strict)) {
             // check if already exists ...
             service.findByBarcode(Barcode.of(transportUnitBK));
         }
         TransportUnit created = service.create(Barcode.of(transportUnitBK), tut, actualLocation, strict);
-        getLocationForCreatedResource(req, created.getPersistentKey());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().header(HttpHeaders.LOCATION, getLocationForCreatedResource(req, created.getPersistentKey())).build();
     }
 
     @PutMapping(value = API_TRANSPORT_UNITS, params = {"bk"})

@@ -16,6 +16,7 @@
 package org.openwms.common.transport;
 
 import org.ameba.integration.jpa.BaseEntity;
+import org.springframework.util.Assert;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,11 +45,11 @@ public class TypeStackingRule extends BaseEntity implements Serializable, Rule {
     /** Parent {@link TransportUnitType}. */
     @ManyToOne
     @JoinColumn(name = "C_TRANSPORT_UNIT_TYPE")
-    private TransportUnitType transportUnitType;
+    private TransportUnitType baseTransportUnitType;
 
     /** Number of {@link TransportUnitType}s that may be placed on the owning {@link TransportUnitType} (not-null). */
     @Column(name = "C_NO_TRANSPORT_UNITS", nullable = false)
-    private short noTransportUnits;
+    private int noTransportUnits;
 
     /** The allowed {@link TransportUnitType} that may be placed on the owning {@link TransportUnitType} (not-null). */
     @ManyToOne
@@ -60,7 +61,7 @@ public class TypeStackingRule extends BaseEntity implements Serializable, Rule {
     /**
      * Dear JPA...
      */
-    TypeStackingRule() {
+    protected TypeStackingRule() {
     }
 
     /**
@@ -68,10 +69,14 @@ public class TypeStackingRule extends BaseEntity implements Serializable, Rule {
      * {@link TransportUnitType}.
      *
      * @param noTransportUnits The number of allowed {@link TransportUnit}s
-     * @param allowedTransportUnitType The allowed {@link TransportUnitType}
+     * @param baseTransportUnitType The {@link TransportUnitType} that is able to carry all {@code allowedTransportUnitTypes}
+     * @param allowedTransportUnitType The {@link TransportUnitType} that can be stacked onto the {@code transportUnitType} must not be {@literal null}
      */
-    TypeStackingRule(short noTransportUnits, TransportUnitType allowedTransportUnitType) {
+    TypeStackingRule(int noTransportUnits, TransportUnitType baseTransportUnitType, TransportUnitType allowedTransportUnitType) {
+        Assert.notNull(baseTransportUnitType, "transportUnitType must not ne null");
+        Assert.notNull(allowedTransportUnitType, "allowedTransportUnitType must not ne null");
         this.noTransportUnits = noTransportUnits;
+        this.baseTransportUnitType = baseTransportUnitType;
         this.allowedTransportUnitType = allowedTransportUnitType;
     }
 
@@ -82,8 +87,8 @@ public class TypeStackingRule extends BaseEntity implements Serializable, Rule {
      *
      * @return The transportUnitType.
      */
-    public TransportUnitType getTransportUnitType() {
-        return transportUnitType;
+    public TransportUnitType getBaseTransportUnitType() {
+        return baseTransportUnitType;
     }
 
     /**
@@ -91,7 +96,7 @@ public class TypeStackingRule extends BaseEntity implements Serializable, Rule {
      *
      * @return The number of TransportUnits allowed
      */
-    public short getNoTransportUnits() {
+    public int getNoTransportUnits() {
         return this.noTransportUnits;
     }
 
@@ -113,7 +118,7 @@ public class TypeStackingRule extends BaseEntity implements Serializable, Rule {
         if (o == null || getClass() != o.getClass()) return false;
         TypeStackingRule that = (TypeStackingRule) o;
         return noTransportUnits == that.noTransportUnits &&
-                Objects.equals(transportUnitType, that.transportUnitType) &&
+                Objects.equals(baseTransportUnitType, that.baseTransportUnitType) &&
                 Objects.equals(allowedTransportUnitType, that.allowedTransportUnitType);
     }
 
@@ -122,7 +127,7 @@ public class TypeStackingRule extends BaseEntity implements Serializable, Rule {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(transportUnitType, noTransportUnits, allowedTransportUnitType);
+        return Objects.hash(baseTransportUnitType, noTransportUnits, allowedTransportUnitType);
     }
 
     /**
@@ -130,6 +135,6 @@ public class TypeStackingRule extends BaseEntity implements Serializable, Rule {
      */
     @Override
     public String toString() {
-        return noTransportUnits + SEPARATOR + transportUnitType + SEPARATOR + allowedTransportUnitType;
+        return noTransportUnits + SEPARATOR + baseTransportUnitType + SEPARATOR + allowedTransportUnitType;
     }
 }

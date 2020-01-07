@@ -100,7 +100,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
     private Set<TransportUnit> transportUnits = new HashSet<>();
 
     /** Describes other {@code TransportUnitType}s and how many of these may be stacked on the {@code TransportUnitType}. */
-    @OneToMany(mappedBy = "transportUnitType", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "baseTransportUnitType", cascade = {CascadeType.ALL})
     private Set<TypeStackingRule> typeStackingRules = new HashSet<>();
 
     /** A Set of {@link TypePlacingRule}s store all possible {@code LocationType} s of the {@code TransportUnitType}. */

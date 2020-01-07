@@ -35,7 +35,7 @@
 		<class-a>org.openwms.common.transport.TransportUnit</class-a>
 		<class-b>org.openwms.common.transport.api.TransportUnitVO</class-b>
         <field>
-            <a is-accessible="true">barcode</a>
+            <a is-accessible="true">barcode.value</a>
             <b is-accessible="true">barcode</b>
         </field>
 		<field>

@@ -20,7 +20,10 @@ import org.openwms.common.transport.Barcode.BARCODE_ALIGN;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import java.util.HashSet;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 /**
@@ -30,51 +33,63 @@ import static org.springframework.test.util.AssertionErrors.assertTrue;
  */
 class BarcodeTest {
 
-    /**
-     * Logger instance can be used by subclasses.
-     */
     private static final Logger logger = LoggerFactory.getLogger(BarcodeTest.class);
 
-    /**
-     * Test Barcode instantiation with <code>null</code>.
-     */
-    @Test void testBarcodeWithNull() {
-        try {
-            Barcode.of(null);
-            fail("NOK:Barcode cannot instanciated with NULL");
-        } catch (IllegalArgumentException iae) {
-            logger.debug("OK:Not allowed to initiante a Barcode with null");
-        }
+    @Test void testCreation() {
+        assertThrows(IllegalArgumentException.class, () -> Barcode.of(null));
+        new Barcode();
+        Barcode.of("TEST");
     }
 
-    /**
-     * Test basic behavior of the Barcode class.
-     */
     @Test void testBarcode() {
-        Barcode.of("TEST");
+        Barcode test = Barcode.of("TEST");
+        assertThat(Barcode.isPadded()).isTrue();
+        assertThat(test.getValue()).isEqualTo("0000000000000000TEST");
+        assertThat(Barcode.getAlignment()).isEqualTo(BARCODE_ALIGN.RIGHT);
+
+        Barcode.setPadded(false);
+        assertThat(Barcode.isPadded()).isFalse();
 
         Barcode.setLength(20);
         Barcode.setPadder('0');
+        assertThat(Barcode.getPadder()).isEqualTo('0');
+        assertThat(Barcode.isPadded()).isTrue();
 
         Barcode bc3 = Barcode.of("RIGHT");
-        logger.debug("Test left-padded, right-aligned:[" + bc3 + "]");
         assertTrue("Barcode length must be expanded to 20 characters.", (20 == Barcode.getLength()));
-        assertTrue("Barcode must start with 0", bc3.toString().startsWith("0"));
+        assertThat(bc3.getValue()).isEqualTo("000000000000000RIGHT");
+        assertThat(bc3.toString()).isEqualTo("000000000000000RIGHT");
 
         Barcode.setAlignment(BARCODE_ALIGN.LEFT);
         Barcode bc2 = Barcode.of("LEFT");
-        logger.debug("Test right-padded, left-aligned:[" + bc2 + "]");
-        assertTrue("Barcode must end with 0", bc2.toString().endsWith("0"));
-        assertTrue("Barcode must start with LEFT", bc2.toString().startsWith("LEFT"));
+        assertThat(bc2.getValue()).isEqualTo("LEFT0000000000000000");
 
         Barcode.setLength(2);
         Barcode bc4 = Barcode.of("A123456789");
-        logger.debug("Test not-padded:[" + bc4 + "]");
-        assertTrue("Barcode must end with 9", bc4.toString().endsWith("9"));
-        assertTrue("Barcode must start with A", bc4.toString().startsWith("A"));
+        assertThat(bc4.getValue()).isEqualTo("A123456789");
 
         // Reset static fields !!
         Barcode.setAlignment(BARCODE_ALIGN.RIGHT);
         Barcode.setLength(20);
+        Barcode.setPadded(false);
+    }
+
+    @Test void testEquality() {
+        Barcode bc1 = Barcode.of("1");
+        Barcode bc11 = Barcode.of("1");
+        Barcode bc2 = Barcode.of("2");
+
+        assertThat(bc1).isEqualTo(bc11);
+        assertThat(bc11).isEqualTo(bc1);
+        assertThat(bc1).isNotEqualTo(bc2);
+
+        HashSet<Barcode> set = new HashSet<>();
+        set.add(bc1);
+        assertThat(set).hasSize(1);
+        set.add(bc2);
+        assertThat(set).hasSize(2);
+        set.add(bc11);
+        assertThat(set).hasSize(2);
+
     }
 }

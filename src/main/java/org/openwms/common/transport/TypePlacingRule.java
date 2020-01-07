@@ -73,8 +73,8 @@ public class TypePlacingRule extends BaseEntity implements Serializable, Rule {
     /**
      * Create a new {@code TypePlacingRule} with privilegeLevel and allowedLocationType.
      *
-     * @param transportUnitType The {@link TransportUnitType} for this rule
-     * @param allowedLocationType The allowed {@link LocationType}
+     * @param transportUnitType The {@link TransportUnitType} for this rule, may not be {@literal null}
+     * @param allowedLocationType The allowed {@link LocationType}, may not be {@literal null}
      * @param privilegeLevel The privilege level
      */
     public TypePlacingRule(TransportUnitType transportUnitType, LocationType allowedLocationType, int privilegeLevel) {
@@ -113,15 +113,6 @@ public class TypePlacingRule extends BaseEntity implements Serializable, Rule {
      */
     public int getPrivilegeLevel() {
         return privilegeLevel;
-    }
-
-    /**
-     * Set the privilegeLevel.
-     *
-     * @param privilegeLevel The level to set
-     */
-    public void setPrivilegeLevel(int privilegeLevel) {
-        this.privilegeLevel = privilegeLevel;
     }
 
     /**

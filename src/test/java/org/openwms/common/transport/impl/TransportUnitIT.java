@@ -110,7 +110,6 @@ class TransportUnitIT {
         assertThat(entityManager.getEntityManager().createQuery("select count(u) from UnitError u").getResultList()).hasSize(1);
     }
 
-    //@Disabled("Runs locally fails on Travis")
     @Test void shall_add_an_error_to_a_managed_TU() {
         TransportUnit tu = new TransportUnit(Barcode.of("NEVER_PERSISTED"), knownType, knownLocation);
         tu = entityManager.persistAndFlush(tu);

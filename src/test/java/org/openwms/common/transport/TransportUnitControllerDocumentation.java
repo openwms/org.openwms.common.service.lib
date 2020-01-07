@@ -15,11 +15,17 @@
  */
 package org.openwms.common.transport;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.CommonConstants;
 import org.openwms.common.CommonMessageCodes;
+import org.openwms.common.TestData;
+import org.openwms.common.location.api.LocationVO;
+import org.openwms.common.transport.api.TransportUnitVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -31,6 +37,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -43,6 +50,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class TransportUnitControllerDocumentation {
 
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper om;
 
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation, WebApplicationContext context) {
@@ -62,6 +71,60 @@ class TransportUnitControllerDocumentation {
                 .andExpect(jsonPath("$._links.length()", is(3)))
                 .andDo(document("tu-index", preprocessResponse(prettyPrint())))
         ;
+    }
+
+    @Test void shall_createSimple() throws Exception {
+        mockMvc.perform(post(CommonConstants.API_TRANSPORT_UNITS)
+                .param("bk", "00000000000000004710")
+                .param("actualLocation", TestData.LOCATION_ID_EXT)
+                .param("tut", TestData.TUT_TYPE_PALLET)
+                .param("strict", "false"))
+                .andExpect(status().isOk())
+                .andDo(document("tu-create-simple"));
+    }
+
+    @Test void shall_createSimple_with_error() throws Exception {
+        mockMvc.perform(post(CommonConstants.API_TRANSPORT_UNITS)
+                .param("bk", "00000000000000004711")
+                .param("actualLocation", TestData.LOCATION_ID_EXT)
+                .param("tut", TestData.TUT_TYPE_PALLET)
+                .param("strict", "true"))
+                .andExpect(status().isConflict())
+                .andDo(document("tu-create-simple-error"));
+    }
+
+    @Test void shall_createFull() throws Exception {
+        TransportUnitVO transportUnit = new TransportUnitVO("4710", TestData.TUT_TYPE_PALLET, new LocationVO(TestData.LOCATION_ID_EXT));
+        mockMvc.perform(post(CommonConstants.API_TRANSPORT_UNITS)
+                .param("bk", "00000000000000004710")
+                .param("strict", "false")
+                .content(om.writeValueAsString(transportUnit))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("tu-create-full"));
+    }
+
+    @Test void shall_create_with_invalid() throws Exception {
+        TransportUnitVO transportUnit = new TransportUnitVO("4711", TestData.TUT_TYPE_PALLET, new LocationVO(TestData.LOCATION_ID_EXT));
+        transportUnit.setActualLocation(null);
+        mockMvc.perform(post(CommonConstants.API_TRANSPORT_UNITS)
+                .param("bk", "00000000000000004711")
+                .param("strict", "false")
+                .content(om.writeValueAsString(transportUnit))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andDo(document("tu-create-invalid"));
+    }
+
+    @Test void shall_create_with_error() throws Exception {
+        TransportUnitVO transportUnit = new TransportUnitVO("4711", TestData.TUT_TYPE_PALLET, new LocationVO(TestData.LOCATION_ID_EXT));
+        mockMvc.perform(post(CommonConstants.API_TRANSPORT_UNITS)
+                .param("bk", "00000000000000004711")
+                .param("strict", "true")
+                .content(om.writeValueAsString(transportUnit))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isConflict())
+                .andDo(document("tu-create-error"));
     }
 
     @Test void shall_findByBarcode() throws Exception {

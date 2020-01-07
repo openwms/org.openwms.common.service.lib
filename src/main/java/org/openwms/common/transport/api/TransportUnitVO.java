@@ -16,10 +16,12 @@
 package org.openwms.common.transport.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.ameba.http.AbstractBase;
 import org.openwms.common.location.api.LocationVO;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -29,13 +31,15 @@ import java.util.Objects;
  *
  * @author Heiko Scherrer
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class TransportUnitVO extends AbstractBase implements Serializable {
 
     @NotEmpty
     private String barcode;
+    @NotNull(groups = ValidationGroups.TransportUnit.Create.class)
     private LocationVO actualLocation;
     private String target;
-    @NotEmpty(groups = ValidationGroups.TransportUnit.WithTuT.class)
+    @NotEmpty(groups = {ValidationGroups.TransportUnit.Create.class, ValidationGroups.TransportUnit.WithTuT.class})
     private String transportUnitType;
     private Integer length;
     private Integer width;
@@ -52,9 +56,10 @@ public class TransportUnitVO extends AbstractBase implements Serializable {
         this.barcode = barcode;
     }
 
-    public TransportUnitVO(@NotEmpty String barcode, @NotEmpty String transportUnitType) {
+    public TransportUnitVO(@NotEmpty String barcode, @NotEmpty String transportUnitType, LocationVO actualLocation) {
         this.barcode = barcode;
         this.transportUnitType = transportUnitType;
+        this.actualLocation = actualLocation;
     }
 
     private TransportUnitVO(Builder builder) {

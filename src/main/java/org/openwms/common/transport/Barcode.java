@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
+import java.util.Objects;
 
 
 /**
@@ -173,15 +174,6 @@ public class Barcode implements Serializable {
     }
 
     /**
-     * Set the {@code Barcode} value.
-     *
-     * @param value The value to set
-     */
-    public void setValue(String value) {
-        adjustBarcode(value);
-    }
-
-    /**
      * Return the length.
      *
      * @return The length
@@ -203,7 +195,7 @@ public class Barcode implements Serializable {
      * Return the value of the {@code Barcode} as String.
      *
      * @return As String
-     * @see java.lang.Object#toString()
+     * @see #getValue()
      */
     @Override
     public String toString() {
@@ -214,35 +206,18 @@ public class Barcode implements Serializable {
      * {@inheritDoc}
      */
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((value == null) ? 0 : value.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Barcode barcode = (Barcode) o;
+        return value.equals(barcode.value);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Barcode other = (Barcode) obj;
-        if (value == null) {
-            if (other.value != null) {
-                return false;
-            }
-        } else if (!value.equals(other.value)) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return Objects.hash(value);
     }
 }
