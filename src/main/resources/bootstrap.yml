@@ -12,6 +12,8 @@ spring:
         max-attempts: 120
     discovery:
       enabled: false
+  config:
+    location: classpath:application.yml
   security:
     user:
       password: sa
@@ -69,7 +71,6 @@ eureka:
       password: ${spring.security.user.password}
       protocol: ${owms.srv.protocol}
       zone: ${owms.eureka.zone}
-
 management:
   endpoints:
     web:
@@ -78,7 +79,6 @@ management:
   health:
     rabbit:
       enabled: false
-
 logging:
   file:
     name: BOOT-COMMON-Service.log
@@ -107,6 +107,16 @@ eureka:
     statusPageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/info
     healthCheckUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/health
     homePageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/
+
+---
+spring:
+  profiles: DEV
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: lazy
+  main:
+    lazy-initialization: true
 
 ---
 spring:
@@ -139,7 +149,6 @@ spring:
       fail-fast: true # true means retry
     discovery:
       enabled: true
-
 management:
   health:
     rabbit:
