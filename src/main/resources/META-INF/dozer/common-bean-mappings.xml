@@ -43,7 +43,7 @@
 			<b is-accessible="true">actualLocation</b>
 		</field>
 		<field>
-			<a is-accessible="true">targetLocation.locationId</a>
+			<a is-accessible="true">targetLocation</a>
 			<b is-accessible="true">target</b>
 		</field>
 		<field>

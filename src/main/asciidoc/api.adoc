@@ -643,6 +643,25 @@ The server returns the updated `TransportUnit` instance.
 
 include::{generated}/tu-move/http-response.adoc[]
 
+=== Modify a TransportUnit
+Already existing `TransportUnits` can be modified by some degree. Not every attribute is allowed to change but most of the non-identifying
+ones can be changed. For example it is not foreseen to change the Barcode of an existing `TransportUnit`, nor the internal persistent key.
+The date when the `TransportUnit` has been recently moved is only changed together with the `actualLocation`.
+
+Send a HTTP PUT request to the server together with the `TransportUnit` as part of the request body.
+
+include::{generated}/tu-update/http-request.adoc[]
+
+include::{generated}/tu-update/request-parameters.adoc[]
+
+If the server saved the changes, the response contains the updated representation of the `TransportUnit`.
+
+include::{generated}/tu-update/http-response.adoc[]
+
+In case no `TransportUnit` with the Barcode exists the server returns an error:
+
+include::{generated}/tu-update-404/http-response.adoc[]
+
 === Find by Barcode
 Find a `TransportUnit` by its unique `Barcode`.
 
@@ -684,4 +703,17 @@ include::{generated}/tu-find-on-location/request-parameters.adoc[]
 The `TransportUnit` with `Barcode` == `00000000000000004712` is returned:
 
 include::{generated}/tu-find-on-location/http-response.adoc[]
+
+=== Add an Error to a TransportUnit
+During the handling of `TransportUnits`, errors or failure situations may occur that make it necessary to store some kind of error message
+for further analysis. Therefore each `TransportUnit` has a history of error messages attached that can be populated with new messages. A
+client simple calls this API to store a new error message for an existing `TransportUnit`.
+
+include::{generated}/tu-add-error/http-request.adoc[]
+
+include::{generated}/tu-add-error/request-parameters.adoc[]
+
+The server acknowledges the request and stores the error message asynchronously.
+
+include::{generated}/tu-add-error/http-response.adoc[]
 

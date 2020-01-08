@@ -50,6 +50,9 @@ public class LocationConverter extends DozerConverter<String, Location> {
      */
     @Override
     public Location convertTo(String source, Location destination) {
+        if (source == null) {
+            return null;
+        }
         return locationRepository.findByLocationId(LocationPK.fromString(source)).orElseThrow(()->new NotFoundException(translator, CommonMessageCodes.LOCATION_NOT_FOUND, new String[]{source}, source));
     }
 
@@ -62,6 +65,9 @@ public class LocationConverter extends DozerConverter<String, Location> {
      */
     @Override
     public String convertFrom(Location source, String destination) {
+        if (source == null) {
+            return null;
+        }
         return source.getLocationId().toString();
     }
 }

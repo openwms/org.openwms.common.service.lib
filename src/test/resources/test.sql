@@ -1,3 +1,4 @@
+delete from com_unit_error;
 delete from com_transport_unit_log;
 delete from com_srv_revision;
 delete from com_type_placing_rule;

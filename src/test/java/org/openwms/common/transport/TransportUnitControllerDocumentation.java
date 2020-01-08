@@ -22,6 +22,7 @@ import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.CommonConstants;
 import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.TestData;
+import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.transport.api.TransportUnitVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +33,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -57,6 +60,8 @@ class TransportUnitControllerDocumentation {
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper om;
+    @Autowired
+    private TransportUnitService service;
 
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation, WebApplicationContext context) {
@@ -146,6 +151,38 @@ class TransportUnitControllerDocumentation {
                 .andDo(document("tu-create-error"));
     }
 
+    @Test void shall_update_existing() throws Exception {
+        TransportUnitVO transportUnit = new TransportUnitVO("00000000000000004711");
+        transportUnit.setActualLocation(new LocationVO(TestData.LOCATION_ID_FGIN0001LEFT));
+        mockMvc.perform(put(CommonConstants.API_TRANSPORT_UNITS)
+                .param("bk", "00000000000000004711")
+                .content(om.writeValueAsString(transportUnit))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("tu-update",
+                        requestParameters(
+                                parameterWithName("bk").description("The identifying Barcode of the TransportUnit")
+                        )
+                ));
+        TransportUnit tu = service.findByBarcode(Barcode.of("00000000000000004711"));
+        assertThat(tu.getActualLocation().getLocationId()).isEqualTo(LocationPK.fromString(TestData.LOCATION_ID_FGIN0001LEFT));
+    }
+
+    @Test void shall_update_404() throws Exception {
+        TransportUnitVO transportUnit = new TransportUnitVO("00000000000000004710");
+        transportUnit.setActualLocation(new LocationVO(TestData.LOCATION_ID_FGIN0001LEFT));
+        mockMvc.perform(put(CommonConstants.API_TRANSPORT_UNITS)
+                .param("bk", "00000000000000004710")
+                .content(om.writeValueAsString(transportUnit))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andDo(document("tu-update-404",
+                        requestParameters(
+                                parameterWithName("bk").description("The identifying Barcode of the TransportUnit")
+                        )
+                ));
+    }
+
     @Test void shall_move() throws Exception {
         mockMvc.perform(patch(CommonConstants.API_TRANSPORT_UNITS)
                 .param("bk", "00000000000000004711")
@@ -155,6 +192,19 @@ class TransportUnitControllerDocumentation {
                         requestParameters(
                                 parameterWithName("bk").description("The identifying Barcode of the TransportUnit"),
                                 parameterWithName("newLocation").description("The target Location where to move the TransportUnit to")
+                        )
+                ));
+    }
+
+    @Test void shall_add_error() throws Exception {
+        mockMvc.perform(post(CommonConstants.API_TRANSPORT_UNIT + "/error")
+                .param("bk", "00000000000000004711")
+                .param("errorCode", "bla"))
+                .andExpect(status().isOk())
+                .andDo(document("tu-add-error",
+                        requestParameters(
+                                parameterWithName("bk").description("The identifying Barcode of the TransportUnit"),
+                                parameterWithName("errorCode").description("The error text")
                         )
                 ));
     }
