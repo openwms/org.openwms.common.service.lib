@@ -45,7 +45,10 @@ public class TransportUnitTypeConverter extends DozerConverter&lt;String, Transp
      */
     @Override
     public TransportUnitType convertTo(String source, TransportUnitType destination) {
-<span class="nc" id="L48">        return repository.findByType(source).orElseThrow(() -&gt; new NotFoundException(translator, CommonMessageCodes.TRANSPORT_UNIT_TYPE_NOT_FOUND, new String[]{source}, source));</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if (source == null) {</span>
+<span class="fc" id="L49">            return null;</span>
+        }
+<span class="nc" id="L51">        return repository.findByType(source).orElseThrow(() -&gt; new NotFoundException(translator, CommonMessageCodes.TRANSPORT_UNIT_TYPE_NOT_FOUND, new String[]{source}, source));</span>
     }
 
     /**
@@ -53,7 +56,10 @@ public class TransportUnitTypeConverter extends DozerConverter&lt;String, Transp
      */
     @Override
     public String convertFrom(TransportUnitType source, String destination) {
-<span class="fc" id="L56">        return source.getType();</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">        if (source == null) {</span>
+<span class="nc" id="L60">            return null;</span>
+        }
+<span class="fc" id="L62">        return source.getType();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

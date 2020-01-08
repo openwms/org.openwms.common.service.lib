@@ -25,6 +25,7 @@ import org.openwms.common.transport.api.commands.MessageCommand;
 import org.openwms.common.transport.commands.MessageCommandHandler;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,47 +63,47 @@ public class TransportUnitController extends AbstractWebController {
     private final BeanMapper mapper;
     private final MessageCommandHandler messageCommandHandler;
 
-<span class="fc" id="L64">    TransportUnitController(TransportUnitService service, BeanMapper mapper, MessageCommandHandler messageCommandHandler) {</span>
-<span class="fc" id="L65">        this.service = service;</span>
-<span class="fc" id="L66">        this.mapper = mapper;</span>
-<span class="fc" id="L67">        this.messageCommandHandler = messageCommandHandler;</span>
-<span class="fc" id="L68">    }</span>
+<span class="fc" id="L66">    TransportUnitController(TransportUnitService service, BeanMapper mapper, MessageCommandHandler messageCommandHandler) {</span>
+<span class="fc" id="L67">        this.service = service;</span>
+<span class="fc" id="L68">        this.mapper = mapper;</span>
+<span class="fc" id="L69">        this.messageCommandHandler = messageCommandHandler;</span>
+<span class="fc" id="L70">    }</span>
 
     @GetMapping(value = API_TRANSPORT_UNITS, params = {&quot;bk&quot;}, produces = &quot;application/vnd.openwms.transport-unit-v1+json&quot;)
     public ResponseEntity&lt;TransportUnitVO&gt; findTransportUnit(@RequestParam(&quot;bk&quot;) String transportUnitBK) {
-<span class="fc" id="L72">        TransportUnit transportUnit = service.findByBarcode(Barcode.of(transportUnitBK));</span>
-<span class="fc" id="L73">        TransportUnitVO result = mapper.map(transportUnit, TransportUnitVO.class);</span>
-<span class="fc" id="L74">        addLinks(result);</span>
-<span class="fc" id="L75">        return ResponseEntity.ok(result);</span>
+<span class="fc" id="L74">        TransportUnit transportUnit = service.findByBarcode(Barcode.of(transportUnitBK));</span>
+<span class="fc" id="L75">        TransportUnitVO result = mapper.map(transportUnit, TransportUnitVO.class);</span>
+<span class="fc" id="L76">        addLinks(result);</span>
+<span class="fc" id="L77">        return ResponseEntity.ok(result);</span>
     }
 
     private void addLinks(TransportUnitVO result) {
-<span class="fc" id="L79">        result.add(</span>
-<span class="fc" id="L80">                new SimpleLink(linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitType(result.getTransportUnitType())).withRel(&quot;transport-unit-type&quot;))</span>
+<span class="fc" id="L81">        result.add(</span>
+<span class="fc" id="L82">                new SimpleLink(linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitType(result.getTransportUnitType())).withRel(&quot;transport-unit-type&quot;))</span>
         );
-<span class="pc bpc" id="L82" title="1 of 2 branches missed.">        if (result.getActualLocation() != null) {</span>
-<span class="fc" id="L83">            result.add(</span>
-<span class="fc" id="L84">                    new SimpleLink(linkTo(methodOn(LocationController.class).findLocationByCoordinate(result.getActualLocation().getLocationId())).withRel(&quot;actual-location&quot;))</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">        if (result.getActualLocation() != null) {</span>
+<span class="fc" id="L85">            result.add(</span>
+<span class="fc" id="L86">                    new SimpleLink(linkTo(methodOn(LocationController.class).findLocationByCoordinate(result.getActualLocation().getLocationId())).withRel(&quot;actual-location&quot;))</span>
             );
         }
-<span class="fc" id="L87">    }</span>
+<span class="fc" id="L89">    }</span>
 
     @GetMapping(value = API_TRANSPORT_UNITS, params = {&quot;bks&quot;}, produces = &quot;application/vnd.openwms.transport-unit-v1+json&quot;)
     public ResponseEntity&lt;List&lt;TransportUnitVO&gt;&gt; findTransportUnits(@RequestParam(&quot;bks&quot;) List&lt;String&gt; barcodes) {
-<span class="fc" id="L91">        List&lt;TransportUnit&gt; tus = service.findByBarcodes(barcodes.stream().map(Barcode::of).collect(Collectors.toList()));</span>
-<span class="fc" id="L92">        return ResponseEntity.ok(augmentResults(tus));</span>
+<span class="fc" id="L93">        List&lt;TransportUnit&gt; tus = service.findByBarcodes(barcodes.stream().map(Barcode::of).collect(Collectors.toList()));</span>
+<span class="fc" id="L94">        return ResponseEntity.ok(augmentResults(tus));</span>
     }
 
     @GetMapping(value = API_TRANSPORT_UNITS, params = {&quot;actualLocation&quot;}, produces = &quot;application/vnd.openwms.transport-unit-v1+json&quot;)
     public ResponseEntity&lt;List&lt;TransportUnitVO&gt;&gt; findTransportUnitsOn(@RequestParam(&quot;actualLocation&quot;) String actualLocation) {
-<span class="fc" id="L97">        List&lt;TransportUnit&gt; tus = service.findOnLocation(actualLocation);</span>
-<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        return tus == null ? ResponseEntity.ok(Collections.emptyList()) : ResponseEntity.ok(augmentResults(tus));</span>
+<span class="fc" id="L99">        List&lt;TransportUnit&gt; tus = service.findOnLocation(actualLocation);</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">        return tus == null ? ResponseEntity.ok(Collections.emptyList()) : ResponseEntity.ok(augmentResults(tus));</span>
     }
 
     private List&lt;TransportUnitVO&gt; augmentResults(List&lt;TransportUnit&gt; tus) {
-<span class="fc" id="L102">        List&lt;TransportUnitVO&gt; result = mapper.map(tus, TransportUnitVO.class);</span>
-<span class="fc" id="L103">        result.forEach(this::addLinks);</span>
-<span class="fc" id="L104">        return result;</span>
+<span class="fc" id="L104">        List&lt;TransportUnitVO&gt; result = mapper.map(tus, TransportUnitVO.class);</span>
+<span class="fc" id="L105">        result.forEach(this::addLinks);</span>
+<span class="fc" id="L106">        return result;</span>
     }
 
     @PostMapping(value = API_TRANSPORT_UNITS, params = {&quot;bk&quot;})
@@ -111,12 +113,12 @@ public class TransportUnitController extends AbstractWebController {
             @RequestParam(value = &quot;strict&quot;, required = false) Boolean strict,
             HttpServletRequest req
     ) {
-<span class="fc bfc" id="L114" title="All 2 branches covered.">        if (Boolean.TRUE.equals(strict)) {</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        if (Boolean.TRUE.equals(strict)) {</span>
             // check if already exists ...
-<span class="fc" id="L116">            service.findByBarcode(Barcode.of(transportUnitBK));</span>
+<span class="fc" id="L118">            service.findByBarcode(Barcode.of(transportUnitBK));</span>
         }
-<span class="fc" id="L118">        TransportUnit created = service.create(Barcode.of(transportUnitBK), tu.getTransportUnitType(), tu.getActualLocation().getLocationId(), strict);</span>
-<span class="fc" id="L119">        return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();</span>
+<span class="fc" id="L120">        TransportUnit created = service.create(Barcode.of(transportUnitBK), tu.getTransportUnitType(), tu.getActualLocation().getLocationId(), strict);</span>
+<span class="fc" id="L121">        return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();</span>
     }
 
     @PostMapping(value = API_TRANSPORT_UNITS, params = {&quot;bk&quot;, &quot;actualLocation&quot;, &quot;tut&quot;})
@@ -127,52 +129,57 @@ public class TransportUnitController extends AbstractWebController {
             @RequestParam(value = &quot;strict&quot;, required = false) Boolean strict,
             HttpServletRequest req
     ) {
-<span class="fc bfc" id="L130" title="All 2 branches covered.">        if (Boolean.TRUE.equals(strict)) {</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        if (Boolean.TRUE.equals(strict)) {</span>
             // check if already exists ...
-<span class="fc" id="L132">            service.findByBarcode(Barcode.of(transportUnitBK));</span>
+<span class="fc" id="L134">            service.findByBarcode(Barcode.of(transportUnitBK));</span>
         }
-<span class="fc" id="L134">        TransportUnit created = service.create(Barcode.of(transportUnitBK), tut, actualLocation, strict);</span>
-<span class="fc" id="L135">        return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();</span>
+<span class="fc" id="L136">        TransportUnit created = service.create(Barcode.of(transportUnitBK), tut, actualLocation, strict);</span>
+<span class="fc" id="L137">        return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();</span>
     }
 
     @PutMapping(value = API_TRANSPORT_UNITS, params = {&quot;bk&quot;})
-    public TransportUnitVO updateTU(
+    public ResponseEntity&lt;TransportUnitVO&gt; updateTU(
             @RequestParam(&quot;bk&quot;) String transportUnitBK,
             @RequestBody TransportUnitVO tu
     ) {
-<span class="nc" id="L143">        return mapper.map(service.update(Barcode.of(transportUnitBK), mapper.map(tu, TransportUnit.class)), TransportUnitVO.class);</span>
+<span class="fc" id="L145">        return ResponseEntity.ok(</span>
+<span class="fc" id="L146">                mapper.map(service.update(Barcode.of(transportUnitBK), mapper.map(tu, TransportUnit.class)), TransportUnitVO.class)</span>
+        );
     }
 
     @PatchMapping(value = API_TRANSPORT_UNITS, params = {&quot;bk&quot;, &quot;newLocation&quot;})
-    public TransportUnitVO moveTU(
+    public ResponseEntity&lt;TransportUnitVO&gt; moveTU(
             @RequestParam(&quot;bk&quot;) String transportUnitBK,
             @RequestParam(&quot;newLocation&quot;) String newLocation
     ) {
-<span class="fc" id="L151">        TransportUnit tu = service.moveTransportUnit(Barcode.of(transportUnitBK), fromString(newLocation));</span>
-<span class="fc" id="L152">        return mapper.map(tu, TransportUnitVO.class);</span>
+<span class="fc" id="L155">        TransportUnit tu = service.moveTransportUnit(Barcode.of(transportUnitBK), fromString(newLocation));</span>
+<span class="fc" id="L156">        return ResponseEntity.ok(</span>
+<span class="fc" id="L157">                mapper.map(tu, TransportUnitVO.class)</span>
+        );
     }
 
     @PostMapping(value = API_TRANSPORT_UNIT + &quot;/error&quot;, params = {&quot;bk&quot;, &quot;errorCode&quot;})
+    @ResponseStatus(HttpStatus.OK)
     public void addErrorToTransportUnit(
             @RequestParam(&quot;bk&quot;) String transportUnitBK,
             @RequestParam(value = &quot;errorCode&quot;) String errorCode
     ) {
-<span class="nc" id="L160">        MessageCommand messageCommand = MessageCommand.newBuilder()</span>
-<span class="nc" id="L161">                .withType(MessageCommand.Type.ADD_TO_TU)</span>
-<span class="nc" id="L162">                .withTransportUnitId(transportUnitBK)</span>
-<span class="nc" id="L163">                .withMessageNumber(errorCode)</span>
-<span class="nc" id="L164">                .withMessageOccurred(new Date())</span>
-<span class="nc" id="L165">                .build();</span>
-<span class="nc" id="L166">        messageCommandHandler.handle(messageCommand);</span>
-<span class="nc" id="L167">    }</span>
+<span class="fc" id="L167">        MessageCommand messageCommand = MessageCommand.newBuilder()</span>
+<span class="fc" id="L168">                .withType(MessageCommand.Type.ADD_TO_TU)</span>
+<span class="fc" id="L169">                .withTransportUnitId(transportUnitBK)</span>
+<span class="fc" id="L170">                .withMessageNumber(errorCode)</span>
+<span class="fc" id="L171">                .withMessageOccurred(new Date())</span>
+<span class="fc" id="L172">                .build();</span>
+<span class="fc" id="L173">        messageCommandHandler.handle(messageCommand);</span>
+<span class="fc" id="L174">    }</span>
 
     @GetMapping(API_TRANSPORT_UNITS + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="fc" id="L171">        return ResponseEntity.ok(</span>
-<span class="fc" id="L172">                new Index(</span>
-<span class="fc" id="L173">                        linkTo(methodOn(TransportUnitController.class).findTransportUnit(&quot;00000000000000004711&quot;)).withRel(&quot;transport-unit-findbybarcode&quot;),</span>
-<span class="fc" id="L174">                        linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList(&quot;00000000000000004711&quot;, &quot;00000000000000004712&quot;))).withRel(&quot;transport-unit-findbybarcodes&quot;),</span>
-<span class="fc" id="L175">                        linkTo(methodOn(TransportUnitController.class).findTransportUnitsOn(&quot;EXT_/0000/0000/0000/0000&quot;)).withRel(&quot;transport-unit-findonlocation&quot;)</span>
+<span class="fc" id="L178">        return ResponseEntity.ok(</span>
+<span class="fc" id="L179">                new Index(</span>
+<span class="fc" id="L180">                        linkTo(methodOn(TransportUnitController.class).findTransportUnit(&quot;00000000000000004711&quot;)).withRel(&quot;transport-unit-findbybarcode&quot;),</span>
+<span class="fc" id="L181">                        linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList(&quot;00000000000000004711&quot;, &quot;00000000000000004712&quot;))).withRel(&quot;transport-unit-findbybarcodes&quot;),</span>
+<span class="fc" id="L182">                        linkTo(methodOn(TransportUnitController.class).findTransportUnitsOn(&quot;EXT_/0000/0000/0000/0000&quot;)).withRel(&quot;transport-unit-findonlocation&quot;)</span>
                 )
         );
     }

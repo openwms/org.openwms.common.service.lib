@@ -42,22 +42,22 @@ class MessageCommandHandlerImpl implements MessageCommandHandler {
 
     @Override
     public void handle(MessageCommand command) {
-<span class="nc bnc" id="L45" title="All 2 branches missed.">        if (command.getType() == MessageCommand.Type.ADD_TO_TU) {</span>
-<span class="nc bnc" id="L46" title="All 2 branches missed.">            if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L47">                LOGGER.debug(&quot;Got command to ADD a Message to the TransportUnit with id [{}]&quot;, command.getTransportUnitId());</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">        if (command.getType() == MessageCommand.Type.ADD_TO_TU) {</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">            if (LOGGER.isDebugEnabled()) {</span>
+<span class="fc" id="L47">                LOGGER.debug(&quot;Got command to ADD a Message to the TransportUnit with id [{}]&quot;, command.getTransportUnitId());</span>
             }
-<span class="nc" id="L49">            TransportUnit tu = service.findByBarcode(</span>
-<span class="nc" id="L50">                    Barcode.of(command.getTransportUnitId())</span>
+<span class="fc" id="L49">            TransportUnit tu = service.findByBarcode(</span>
+<span class="fc" id="L50">                    Barcode.of(command.getTransportUnitId())</span>
             );
-<span class="nc" id="L52">            tu.addError(</span>
-<span class="nc" id="L53">                    UnitError.newBuilder()</span>
-<span class="nc" id="L54">                            .errorText(command.getMessageText())</span>
-<span class="nc" id="L55">                            .errorNo(command.getMessageNumber())</span>
-<span class="nc" id="L56">                            .build()</span>
+<span class="fc" id="L52">            tu.addError(</span>
+<span class="fc" id="L53">                    UnitError.newBuilder()</span>
+<span class="fc" id="L54">                            .errorText(command.getMessageText())</span>
+<span class="fc" id="L55">                            .errorNo(command.getMessageNumber())</span>
+<span class="fc" id="L56">                            .build()</span>
             );
-<span class="nc" id="L58">        } else {</span>
+<span class="fc" id="L58">        } else {</span>
 <span class="nc" id="L59">            LOGGER.debug(&quot;MessageCommand [{}] not supported&quot;, command.getType());</span>
         }
-<span class="nc" id="L61">    }</span>
+<span class="fc" id="L61">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

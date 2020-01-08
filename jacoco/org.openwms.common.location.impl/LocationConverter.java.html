@@ -38,8 +38,8 @@ public class LocationConverter extends DozerConverter&lt;String, Location&gt; {
     private Translator translator;
 
     public LocationConverter() {
-<span class="nc bnc" id="L41" title="All 18 branches missed.">        super(String.class, Location.class);</span>
-<span class="nc bnc" id="L42" title="All 4 branches missed.">    }</span>
+<span class="pc bpc" id="L41" title="9 of 18 branches missed.">        super(String.class, Location.class);</span>
+<span class="pc bpc" id="L42" title="2 of 4 branches missed.">    }</span>
 
     /**
      * Converts the source field to the destination field and return the resulting destination value.
@@ -50,7 +50,10 @@ public class LocationConverter extends DozerConverter&lt;String, Location&gt; {
      */
     @Override
     public Location convertTo(String source, Location destination) {
-<span class="nc" id="L53">        return locationRepository.findByLocationId(LocationPK.fromString(source)).orElseThrow(()-&gt;new NotFoundException(translator, CommonMessageCodes.LOCATION_NOT_FOUND, new String[]{source}, source));</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        if (source == null) {</span>
+<span class="fc" id="L54">            return null;</span>
+        }
+<span class="nc" id="L56">        return locationRepository.findByLocationId(LocationPK.fromString(source)).orElseThrow(()-&gt;new NotFoundException(translator, CommonMessageCodes.LOCATION_NOT_FOUND, new String[]{source}, source));</span>
     }
 
     /**
@@ -62,7 +65,10 @@ public class LocationConverter extends DozerConverter&lt;String, Location&gt; {
      */
     @Override
     public String convertFrom(Location source, String destination) {
-<span class="nc" id="L65">        return source.getLocationId().toString();</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if (source == null) {</span>
+<span class="fc" id="L69">            return null;</span>
+        }
+<span class="nc" id="L71">        return source.getLocationId().toString();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

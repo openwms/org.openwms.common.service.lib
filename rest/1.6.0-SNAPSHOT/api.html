@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<meta name="author" content="(1.6.0-SNAPSHOT-347)">
+<meta name="author" content="(1.6.0-SNAPSHOT-348)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -436,7 +436,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.6.0-SNAPSHOT-347)</span><br>
+<span id="author" class="author">(1.6.0-SNAPSHOT-348)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -518,9 +518,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_transportunit_index">TransportUnit Index</a></li>
 <li><a href="#_create_a_transportunit">Create a TransportUnit</a></li>
 <li><a href="#_move_a_transportunit">Move a TransportUnit</a></li>
+<li><a href="#_modify_a_transportunit">Modify a TransportUnit</a></li>
 <li><a href="#_find_by_barcode">Find by Barcode</a></li>
 <li><a href="#_find_by_multiple_barcodes">Find by multiple Barcodes</a></li>
 <li><a href="#_find_transportunits_on_a_location">Find TransportUnits on a Location</a></li>
+<li><a href="#_add_an_error_to_a_transportunit">Add an Error to a TransportUnit</a></li>
 </ul>
 </li>
 </ul>
@@ -2700,7 +2702,7 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/c979668e-3537-470d-a3b3-42f2ae289d7f/</code></pre>
+Location: http://localhost:8080/v1/transport-units/f4c30e43-d9fb-4eeb-a4c2-3c541dd32868/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2752,7 +2754,7 @@ Content-Length: 168
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/68614587-3aff-468c-a22a-0a97edb139ba/</code></pre>
+Location: http://localhost:8080/v1/transport-units/fc2ef3e4-d0e1-4e89-8d94-2ad1bf3bf8e4/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2842,7 +2844,98 @@ Content-Length: 466
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0013",
-  "actualLocationDate" : "2020-01-08T08:59:19.859+0000"
+  "actualLocationDate" : "2020-01-08T17:38:36.589+0000"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_modify_a_transportunit"><a class="anchor" href="#_modify_a_transportunit"></a><a class="link" href="#_modify_a_transportunit">Modify a TransportUnit</a></h3>
+<div class="paragraph">
+<p>Already existing <code>TransportUnits</code> can be modified by some degree. Not every attribute is allowed to change but most of the non-identifying
+ones can be changed. For example it is not foreseen to change the Barcode of an existing <code>TransportUnit</code>, nor the internal persistent key.
+The date when the <code>TransportUnit</code> has been recently moved is only changed together with the <code>actualLocation</code>.</p>
+</div>
+<div class="paragraph">
+<p>Send a HTTP PUT request to the server together with the <code>TransportUnit</code> as part of the request body.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /v1/transport-units?bk=00000000000000004711 HTTP/1.1
+Content-Type: application/json
+Host: localhost:8080
+Content-Length: 150
+
+{
+  "barcode" : "00000000000000004711",
+  "actualLocation" : {
+    "locationId" : "FGIN/0001/LEFT/0000/0000",
+    "links" : [ ]
+  },
+  "links" : [ ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If the server saved the changes, the response contains the updated representation of the <code>TransportUnit</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 466
+
+{
+  "barcode" : "00000000000000004711",
+  "actualLocation" : {
+    "pKey" : "896384899357",
+    "locationId" : "FGIN/0001/LEFT/0000/0000",
+    "locationGroupName" : "FGAISLE1LEFT",
+    "plcCode" : "PLC_0013",
+    "incomingActive" : true,
+    "outgoingActive" : true,
+    "plcState" : 0
+  },
+  "transportUnitType" : "PALLET",
+  "length" : 120,
+  "width" : 80,
+  "height" : 102,
+  "actualPlcCode" : "PLC_0013",
+  "actualLocationDate" : "2020-01-08T17:38:35.961+0000"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In case no <code>TransportUnit</code> with the Barcode exists the server returns an error:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 133
+
+{
+  "message" : "TransportUnit with Barcode [00000000000000004710] not found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
 }</code></pre>
 </div>
 </div>
@@ -2902,7 +2995,7 @@ Content-Length: 732
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-01-08T08:59:19.716+0000",
+  "actualLocationDate" : "2020-01-08T17:38:36.310+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2960,7 +3053,7 @@ Content-Length: 732
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-01-08T08:59:19.468+0000",
+  "actualLocationDate" : "2020-01-08T17:38:36.020+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -3027,7 +3120,7 @@ Content-Length: 1473
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-01-08T08:59:19.051+0000",
+  "actualLocationDate" : "2020-01-08T17:38:35.563+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -3052,7 +3145,7 @@ Content-Length: 1473
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2020-01-08T08:59:19.051+0000",
+  "actualLocationDate" : "2020-01-08T17:38:35.563+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -3119,7 +3212,7 @@ Content-Length: 739
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2020-01-08T08:59:19.917+0000",
+  "actualLocationDate" : "2020-01-08T17:38:36.634+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -3131,12 +3224,59 @@ Content-Length: 739
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_add_an_error_to_a_transportunit"><a class="anchor" href="#_add_an_error_to_a_transportunit"></a><a class="link" href="#_add_an_error_to_a_transportunit">Add an Error to a TransportUnit</a></h3>
+<div class="paragraph">
+<p>During the handling of <code>TransportUnits</code>, errors or failure situations may occur that make it necessary to store some kind of error message
+for further analysis. Therefore each <code>TransportUnit</code> has a history of error messages attached that can be populated with new messages. A
+client simple calls this API to store a new error message for an existing <code>TransportUnit</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/transport-unit/error HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+bk=00000000000000004711&amp;errorCode=bla</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>errorCode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The error text</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The server acknowledges the request and stores the error message asynchronously.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-01-08 08:55:38 UTC
+Last updated 2020-01-08 17:34:28 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">

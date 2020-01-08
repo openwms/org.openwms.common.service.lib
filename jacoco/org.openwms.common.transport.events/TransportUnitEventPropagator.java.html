@@ -50,13 +50,13 @@ class TransportUnitEventPropagator {
 
     @TransactionalEventListener(fallbackExecution = true)
     public void onEvent(TransportUnitEvent event) {
-<span class="pc bpc" id="L53" title="4 of 6 branches missed.">        switch (event.getType()) {</span>
+<span class="pc bpc" id="L53" title="3 of 6 branches missed.">        switch (event.getType()) {</span>
             case CREATED:
 <span class="fc" id="L55">                amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.created&quot;, mapper.map(event.getSource(), TransportUnitMO.class));</span>
 <span class="fc" id="L56">                break;</span>
             case CHANGED:
-<span class="nc" id="L58">                amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.changed&quot;, mapper.map(event.getSource(), TransportUnitMO.class));</span>
-<span class="nc" id="L59">                break;</span>
+<span class="fc" id="L58">                amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.changed&quot;, mapper.map(event.getSource(), TransportUnitMO.class));</span>
+<span class="fc" id="L59">                break;</span>
             case DELETED:
 <span class="nc" id="L61">                amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.deleted&quot;, mapper.map(event.getSource(), TransportUnitMO.class));</span>
 <span class="nc" id="L62">                break;</span>
