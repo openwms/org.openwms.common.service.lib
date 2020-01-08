@@ -627,6 +627,16 @@ If the request is invalid or contains invalid fields the server responds with:
 
 include::{generated}/tu-create-invalid/http-response.adoc[]
 
+=== Move a TransportUnit
+To move a `TransportUnit` from it's current Location to a new Location, simply call the API with the identifying Barcode and the new
+Location where the `TransportUnit` shall be booked on.
+
+include::{generated}/tu-move/http-request.adoc[]
+
+The server returns the updated `TransportUnit` instance.
+
+include::{generated}/tu-move/http-response.adoc[]
+
 === Find by Barcode
 Find a `TransportUnit` by its unique `Barcode`.
 

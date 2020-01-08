@@ -38,6 +38,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -129,6 +130,15 @@ class TransportUnitControllerDocumentation {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isConflict())
                 .andDo(document("tu-create-error"));
+    }
+
+    @Test void shall_move() throws Exception {
+        TransportUnitVO transportUnit = new TransportUnitVO("4711", TestData.TUT_TYPE_PALLET, new LocationVO(TestData.LOCATION_ID_EXT));
+        mockMvc.perform(patch(CommonConstants.API_TRANSPORT_UNITS)
+                .param("bk", "00000000000000004711")
+                .param("newLocation", TestData.LOCATION_ID_FGIN0001LEFT))
+                .andExpect(status().isOk())
+                .andDo(document("tu-move"));
     }
 
     @Test void shall_findByBarcode() throws Exception {
