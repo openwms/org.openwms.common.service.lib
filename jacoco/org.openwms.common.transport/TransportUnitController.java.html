@@ -136,34 +136,43 @@ public class TransportUnitController extends AbstractWebController {
     }
 
     @PutMapping(value = API_TRANSPORT_UNITS, params = {&quot;bk&quot;})
-    public TransportUnitVO updateTU(@RequestParam(&quot;bk&quot;) String transportUnitBK, @RequestBody TransportUnitVO tu) {
-<span class="nc" id="L140">        return mapper.map(service.update(Barcode.of(transportUnitBK), mapper.map(tu, TransportUnit.class)), TransportUnitVO.class);</span>
+    public TransportUnitVO updateTU(
+            @RequestParam(&quot;bk&quot;) String transportUnitBK,
+            @RequestBody TransportUnitVO tu
+    ) {
+<span class="nc" id="L143">        return mapper.map(service.update(Barcode.of(transportUnitBK), mapper.map(tu, TransportUnit.class)), TransportUnitVO.class);</span>
     }
 
     @PatchMapping(value = API_TRANSPORT_UNITS, params = {&quot;bk&quot;, &quot;newLocation&quot;})
-    public TransportUnitVO moveTU(@RequestParam(&quot;bk&quot;) String transportUnitBK, @RequestParam(&quot;newLocation&quot;) String newLocation) {
-<span class="fc" id="L145">        TransportUnit tu = service.moveTransportUnit(Barcode.of(transportUnitBK), fromString(newLocation));</span>
-<span class="fc" id="L146">        return mapper.map(tu, TransportUnitVO.class);</span>
+    public TransportUnitVO moveTU(
+            @RequestParam(&quot;bk&quot;) String transportUnitBK,
+            @RequestParam(&quot;newLocation&quot;) String newLocation
+    ) {
+<span class="fc" id="L151">        TransportUnit tu = service.moveTransportUnit(Barcode.of(transportUnitBK), fromString(newLocation));</span>
+<span class="fc" id="L152">        return mapper.map(tu, TransportUnitVO.class);</span>
     }
 
     @PostMapping(value = API_TRANSPORT_UNIT + &quot;/error&quot;, params = {&quot;bk&quot;, &quot;errorCode&quot;})
-    public void addErrorToTransportUnit(@RequestParam(&quot;bk&quot;) String transportUnitBK, @RequestParam(value = &quot;errorCode&quot;) String errorCode) {
-<span class="nc" id="L151">        MessageCommand messageCommand = MessageCommand.newBuilder()</span>
-<span class="nc" id="L152">                .withType(MessageCommand.Type.ADD_TO_TU)</span>
-<span class="nc" id="L153">                .withTransportUnitId(transportUnitBK)</span>
-<span class="nc" id="L154">                .withMessageNumber(errorCode)</span>
-<span class="nc" id="L155">                .withMessageOccurred(new Date())</span>
-<span class="nc" id="L156">                .build();</span>
-<span class="nc" id="L157">        messageCommandHandler.handle(messageCommand);</span>
-<span class="nc" id="L158">    }</span>
+    public void addErrorToTransportUnit(
+            @RequestParam(&quot;bk&quot;) String transportUnitBK,
+            @RequestParam(value = &quot;errorCode&quot;) String errorCode
+    ) {
+<span class="nc" id="L160">        MessageCommand messageCommand = MessageCommand.newBuilder()</span>
+<span class="nc" id="L161">                .withType(MessageCommand.Type.ADD_TO_TU)</span>
+<span class="nc" id="L162">                .withTransportUnitId(transportUnitBK)</span>
+<span class="nc" id="L163">                .withMessageNumber(errorCode)</span>
+<span class="nc" id="L164">                .withMessageOccurred(new Date())</span>
+<span class="nc" id="L165">                .build();</span>
+<span class="nc" id="L166">        messageCommandHandler.handle(messageCommand);</span>
+<span class="nc" id="L167">    }</span>
 
     @GetMapping(API_TRANSPORT_UNITS + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="fc" id="L162">        return ResponseEntity.ok(</span>
-<span class="fc" id="L163">                new Index(</span>
-<span class="fc" id="L164">                        linkTo(methodOn(TransportUnitController.class).findTransportUnit(&quot;00000000000000004711&quot;)).withRel(&quot;transport-unit-findbybarcode&quot;),</span>
-<span class="fc" id="L165">                        linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList(&quot;00000000000000004711&quot;, &quot;00000000000000004712&quot;))).withRel(&quot;transport-unit-findbybarcodes&quot;),</span>
-<span class="fc" id="L166">                        linkTo(methodOn(TransportUnitController.class).findTransportUnitsOn(&quot;EXT_/0000/0000/0000/0000&quot;)).withRel(&quot;transport-unit-findonlocation&quot;)</span>
+<span class="fc" id="L171">        return ResponseEntity.ok(</span>
+<span class="fc" id="L172">                new Index(</span>
+<span class="fc" id="L173">                        linkTo(methodOn(TransportUnitController.class).findTransportUnit(&quot;00000000000000004711&quot;)).withRel(&quot;transport-unit-findbybarcode&quot;),</span>
+<span class="fc" id="L174">                        linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList(&quot;00000000000000004711&quot;, &quot;00000000000000004712&quot;))).withRel(&quot;transport-unit-findbybarcodes&quot;),</span>
+<span class="fc" id="L175">                        linkTo(methodOn(TransportUnitController.class).findTransportUnitsOn(&quot;EXT_/0000/0000/0000/0000&quot;)).withRel(&quot;transport-unit-findonlocation&quot;)</span>
                 )
         );
     }

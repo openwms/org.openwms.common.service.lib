@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<meta name="author" content="(1.6.0-SNAPSHOT-346)">
+<meta name="author" content="(1.6.0-SNAPSHOT-347)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -436,7 +436,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.6.0-SNAPSHOT-346)</span><br>
+<span id="author" class="author">(1.6.0-SNAPSHOT-347)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -2663,6 +2663,36 @@ Content-Type: application/x-www-form-urlencoded
 bk=00000000000000004710&amp;actualLocation=EXT_%2F0000%2F0000%2F0000%2F0000&amp;tut=PALLET&amp;strict=false</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>actualLocation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The Location where to book on the TransportUnit initially</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tut</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the TransportUnitType assigned to the TransportUnit</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>strict</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If true, the service fails if the TransportUnit already exist, if false it does not fail and returns the existing one</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>The server stores a <code>TransportUnit</code> instance with the given values and default values for other fields of the <code>TransportUnit</code>. The response
 contains a link to the newly created resource.</p>
@@ -2670,7 +2700,7 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/367a1be0-edb7-4922-a064-81696ae1e3a9/</code></pre>
+Location: http://localhost:8080/v1/transport-units/c979668e-3537-470d-a3b3-42f2ae289d7f/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2694,13 +2724,35 @@ Content-Length: 168
 }</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>strict</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If true, the service fails if the TransportUnit already exist, if false it does not fail and returns the existing one</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>Like before the server responds with a link to the newly created resource as far as the operation succeeds.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/05c63004-3061-4a76-9e2d-fc53e712a7d7/</code></pre>
+Location: http://localhost:8080/v1/transport-units/68614587-3aff-468c-a22a-0a97edb139ba/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2743,6 +2795,28 @@ Location where the <code>TransportUnit</code> shall be booked on.</p>
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>newLocation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The target Location where to move the TransportUnit to</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>The server returns the updated <code>TransportUnit</code> instance.</p>
 </div>
@@ -2768,7 +2842,7 @@ Content-Length: 466
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0013",
-  "actualLocationDate" : "2020-01-08T00:09:09.205+0000"
+  "actualLocationDate" : "2020-01-08T08:59:19.859+0000"
 }</code></pre>
 </div>
 </div>
@@ -2784,6 +2858,24 @@ Content-Length: 466
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>If the <code>TransportUnit</code> has been found the server returns a JSON representation:</p>
 </div>
@@ -2810,7 +2902,7 @@ Content-Length: 732
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-01-08T00:09:09.057+0000",
+  "actualLocationDate" : "2020-01-08T08:59:19.716+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2868,7 +2960,7 @@ Content-Length: 732
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-01-08T00:09:08.829+0000",
+  "actualLocationDate" : "2020-01-08T08:59:19.468+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2891,6 +2983,24 @@ Content-Length: 732
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bks</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A set of identifying Barcodes of the TransportUnit to search for</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>This returns an array with the <code>TransportUnits</code> found:</p>
 </div>
@@ -2917,7 +3027,7 @@ Content-Length: 1473
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-01-08T00:09:08.529+0000",
+  "actualLocationDate" : "2020-01-08T08:59:19.051+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2942,7 +3052,7 @@ Content-Length: 1473
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2020-01-08T00:09:08.529+0000",
+  "actualLocationDate" : "2020-01-08T08:59:19.051+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2965,6 +3075,24 @@ Content-Length: 1473
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>actualLocation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The Location to find all TransportUnits booked on</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>The <code>TransportUnit</code> with <code>Barcode</code> == <code>00000000000000004712</code> is returned:</p>
 </div>
@@ -2991,7 +3119,7 @@ Content-Length: 739
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2020-01-08T00:09:09.262+0000",
+  "actualLocationDate" : "2020-01-08T08:59:19.917+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -3008,7 +3136,7 @@ Content-Length: 739
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-01-08 00:05:38 UTC
+Last updated 2020-01-08 08:55:38 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">
