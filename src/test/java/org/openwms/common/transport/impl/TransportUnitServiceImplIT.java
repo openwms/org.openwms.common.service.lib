@@ -21,6 +21,7 @@ import org.ameba.exception.ServiceLayerException;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestData;
+import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.transport.Barcode;
 import org.openwms.common.transport.TransportUnit;
@@ -113,6 +114,16 @@ class TransportUnitServiceImplIT {
             assertThat(transportUnit.getBarcode()).isEqualTo(Barcode.of(TestData.TU_1_ID));
         }
 
+        @Test void shall_delete_multiple() throws Exception {
+            TransportUnitType transportUnitType = em.find(TransportUnitType.class, TestData.TUT_PK_PALLET);
+            testee.deleteTransportUnits(
+                    List.of(
+                            new TransportUnit(Barcode.of(TestData.TU_1_ID), transportUnitType, Location.create(LocationPK.fromString(TestData.LOCATION_ID_EXT)))
+                    )
+            );
+//            Thread.sleep(1000);
+//            assertThat(em.find(TransportUnit.class, TestData.TU_1_PK)).isNull();
+        }
 
         @Test void findByBarcode() {
             TransportUnit tu = testee.findByBarcode(Barcode.of(TestData.TU_1_ID));

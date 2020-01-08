@@ -46,6 +46,7 @@ import javax.validation.Validator;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -213,7 +214,8 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Measured
     public void deleteTransportUnits(List<TransportUnit> transportUnits) {
         if (transportUnits != null && !transportUnits.isEmpty()) {
-            transportUnits.sort((o1, o2) -> {
+            List<TransportUnit> tus = new ArrayList<>(transportUnits);
+            tus.sort((o1, o2) -> {
                 if (o1.getChildren().isEmpty() && o2.getChildren().isEmpty() ||
                         !o1.getChildren().isEmpty() && !o2.getChildren().isEmpty()) {
                     return 0;
@@ -223,7 +225,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
                     return 1;
                 }
             });
-            transportUnits.forEach(this::delete);
+            tus.forEach(this::delete);
         }
     }
 
