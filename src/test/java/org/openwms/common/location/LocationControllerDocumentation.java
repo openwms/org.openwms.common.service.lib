@@ -169,6 +169,11 @@ class LocationControllerDocumentation {
                     .andExpect(status().isNotFound())
                     .andDo(document("loc-find-coordinate-wildcard-404"));
         }
+
+        @Test void shall_findby_locationPk_wildcard_All() throws Exception {
+            mockMvc.perform(get(CommonConstants.API_LOCATIONS))
+                    .andExpect(status().isOk());
+        }
         /*
     }
 

@@ -90,20 +90,20 @@ public class LocationController extends AbstractWebController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = API_LOCATIONS, params = {"area", "aisle", "x", "y", "z"})
+    @GetMapping(value = API_LOCATIONS)
     public ResponseEntity<List<LocationVO>> findLocations(
-            @RequestParam(value = "area", required = false) String area,
-            @RequestParam(value = "aisle", required = false) String aisle,
-            @RequestParam(value = "x", required = false) String x,
-            @RequestParam(value = "y", required = false) String y,
-            @RequestParam(value = "z", required = false) String z
+            @RequestParam(value = "area", required = false, defaultValue = "%") String area,
+            @RequestParam(value = "aisle", required = false, defaultValue = "%") String aisle,
+            @RequestParam(value = "x", required = false, defaultValue = "%") String x,
+            @RequestParam(value = "y", required = false, defaultValue = "%") String y,
+            @RequestParam(value = "z", required = false, defaultValue = "%") String z
     ) {
         LocationPK pk = LocationPK.newBuilder()
-                .area(area == null || area.equals("") ? "%" : area)
-                .aisle(aisle == null || aisle.equals("") ? "%" : aisle)
-                .x(x == null || x.equals("") ? "%" : x)
-                .y(y == null || y.equals("") ? "%" : y)
-                .z(z == null || z.equals("") ? "%" : z)
+                .area(area)
+                .aisle(aisle)
+                .x(x)
+                .y(y)
+                .z(z)
                 .build();
         List<Location> locations = locationService.findLocations(pk);
         return locations.isEmpty()
