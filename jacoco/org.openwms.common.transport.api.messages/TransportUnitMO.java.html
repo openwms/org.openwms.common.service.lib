@@ -31,7 +31,7 @@ import java.util.StringJoiner;
  */
 public class TransportUnitMO implements Serializable {
 
-    @NotEmpty(groups = ValidationGroups.TransportUnit.Request.class)
+    @NotEmpty(groups = {ValidationGroups.TransportUnit.Request.class, ValidationGroups.TransportUnit.Remove.class})
     private String pKey;
     @NotEmpty(groups = {ValidationGroups.TransportUnit.ChangeTarget.class, ValidationGroups.TransportUnit.Create.class})
     private String barcode;
@@ -53,20 +53,20 @@ public class TransportUnitMO implements Serializable {
     @Deprecated
 <span class="fc" id="L54">    TransportUnitMO() { }</span>
 
-<span class="nc" id="L56">    private TransportUnitMO(Builder builder) {</span>
-<span class="nc" id="L57">        setpKey(builder.pKey);</span>
-<span class="nc" id="L58">        setBarcode(builder.barcode);</span>
-<span class="nc" id="L59">        setActualLocationDate(builder.actualLocationDate);</span>
-<span class="nc" id="L60">        setState(builder.state);</span>
-<span class="nc" id="L61">        setActualLocation(builder.actualLocation);</span>
-<span class="nc" id="L62">        setPlcCode(builder.plcCode);</span>
-<span class="nc" id="L63">        setTargetLocation(builder.targetLocation);</span>
-<span class="nc" id="L64">        setTransportUnitType(builder.transportUnitType);</span>
-<span class="nc" id="L65">        setParent(builder.parent);</span>
-<span class="nc" id="L66">    }</span>
+<span class="fc" id="L56">    private TransportUnitMO(Builder builder) {</span>
+<span class="fc" id="L57">        setpKey(builder.pKey);</span>
+<span class="fc" id="L58">        setBarcode(builder.barcode);</span>
+<span class="fc" id="L59">        setActualLocationDate(builder.actualLocationDate);</span>
+<span class="fc" id="L60">        setState(builder.state);</span>
+<span class="fc" id="L61">        setActualLocation(builder.actualLocation);</span>
+<span class="fc" id="L62">        setPlcCode(builder.plcCode);</span>
+<span class="fc" id="L63">        setTargetLocation(builder.targetLocation);</span>
+<span class="fc" id="L64">        setTransportUnitType(builder.transportUnitType);</span>
+<span class="fc" id="L65">        setParent(builder.parent);</span>
+<span class="fc" id="L66">    }</span>
 
     public static Builder newBuilder() {
-<span class="nc" id="L69">        return new Builder();</span>
+<span class="fc" id="L69">        return new Builder();</span>
     }
 
     public String getpKey() {
@@ -74,72 +74,72 @@ public class TransportUnitMO implements Serializable {
     }
 
     public void setpKey(String pKey) {
-<span class="nc" id="L77">        this.pKey = pKey;</span>
-<span class="nc" id="L78">    }</span>
+<span class="fc" id="L77">        this.pKey = pKey;</span>
+<span class="fc" id="L78">    }</span>
 
     public String getBarcode() {
 <span class="fc" id="L81">        return barcode;</span>
     }
 
     public void setBarcode(String barcode) {
-<span class="nc" id="L85">        this.barcode = barcode;</span>
-<span class="nc" id="L86">    }</span>
+<span class="fc" id="L85">        this.barcode = barcode;</span>
+<span class="fc" id="L86">    }</span>
 
     public Date getActualLocationDate() {
 <span class="fc" id="L89">        return actualLocationDate;</span>
     }
 
     public void setActualLocationDate(Date actualLocationDate) {
-<span class="nc" id="L93">        this.actualLocationDate = actualLocationDate;</span>
-<span class="nc" id="L94">    }</span>
+<span class="fc" id="L93">        this.actualLocationDate = actualLocationDate;</span>
+<span class="fc" id="L94">    }</span>
 
     public String getState() {
 <span class="fc" id="L97">        return state;</span>
     }
 
     public void setState(String state) {
-<span class="nc" id="L101">        this.state = state;</span>
-<span class="nc" id="L102">    }</span>
+<span class="fc" id="L101">        this.state = state;</span>
+<span class="fc" id="L102">    }</span>
 
     public String getActualLocation() {
 <span class="fc" id="L105">        return actualLocation;</span>
     }
 
     public void setActualLocation(String actualLocation) {
-<span class="nc" id="L109">        this.actualLocation = actualLocation;</span>
-<span class="nc" id="L110">    }</span>
+<span class="fc" id="L109">        this.actualLocation = actualLocation;</span>
+<span class="fc" id="L110">    }</span>
 
     public String getPlcCode() {
 <span class="fc" id="L113">        return plcCode;</span>
     }
 
     public void setPlcCode(String plcCode) {
-<span class="nc" id="L117">        this.plcCode = plcCode;</span>
-<span class="nc" id="L118">    }</span>
+<span class="fc" id="L117">        this.plcCode = plcCode;</span>
+<span class="fc" id="L118">    }</span>
 
     public String getTargetLocation() {
 <span class="fc" id="L121">        return targetLocation;</span>
     }
 
     public void setTargetLocation(String targetLocation) {
-<span class="nc" id="L125">        this.targetLocation = targetLocation;</span>
-<span class="nc" id="L126">    }</span>
+<span class="fc" id="L125">        this.targetLocation = targetLocation;</span>
+<span class="fc" id="L126">    }</span>
 
     public TransportUnitTypeMO getTransportUnitType() {
 <span class="fc" id="L129">        return transportUnitType;</span>
     }
 
     public void setTransportUnitType(TransportUnitTypeMO transportUnitType) {
-<span class="nc" id="L133">        this.transportUnitType = transportUnitType;</span>
-<span class="nc" id="L134">    }</span>
+<span class="fc" id="L133">        this.transportUnitType = transportUnitType;</span>
+<span class="fc" id="L134">    }</span>
 
     public String getParent() {
 <span class="fc" id="L137">        return parent;</span>
     }
 
     public void setParent(String parent) {
-<span class="nc" id="L141">        this.parent = parent;</span>
-<span class="nc" id="L142">    }</span>
+<span class="fc" id="L141">        this.parent = parent;</span>
+<span class="fc" id="L142">    }</span>
 
     @Override
     public String toString() {
@@ -161,8 +161,8 @@ public class TransportUnitMO implements Serializable {
         }
 
         public Builder withPKey(String val) {
-<span class="nc" id="L164">            pKey = val;</span>
-<span class="nc" id="L165">            return this;</span>
+<span class="fc" id="L164">            pKey = val;</span>
+<span class="fc" id="L165">            return this;</span>
         }
 
         public Builder withBarcode(String val) {
@@ -206,7 +206,7 @@ public class TransportUnitMO implements Serializable {
         }
 
         public TransportUnitMO build() {
-<span class="nc" id="L209">            return new TransportUnitMO(this);</span>
+<span class="fc" id="L209">            return new TransportUnitMO(this);</span>
         }
     }
 

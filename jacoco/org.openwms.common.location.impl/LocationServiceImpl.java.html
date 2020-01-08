@@ -18,11 +18,9 @@ package org.openwms.common.location.impl;
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
-import org.ameba.exception.ServiceLayerException;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
-import org.openwms.common.location.Message;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.events.LocationEvent;
@@ -48,26 +46,13 @@ class LocationServiceImpl implements LocationService {
     private final ErrorCodeTransformers.LocationStateOut stateOutTransformer;
     private final ApplicationContext ctx;
 
-<span class="fc" id="L51">    LocationServiceImpl(LocationRepository repository, ErrorCodeTransformers.LocationStateIn stateInTransformer,</span>
+<span class="fc" id="L49">    LocationServiceImpl(LocationRepository repository, ErrorCodeTransformers.LocationStateIn stateInTransformer,</span>
             ErrorCodeTransformers.LocationStateOut stateOutTransformer, ApplicationContext ctx) {
-<span class="fc" id="L53">        this.repository = repository;</span>
-<span class="fc" id="L54">        this.stateInTransformer = stateInTransformer;</span>
-<span class="fc" id="L55">        this.stateOutTransformer = stateOutTransformer;</span>
-<span class="fc" id="L56">        this.ctx = ctx;</span>
-<span class="fc" id="L57">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Measured
-    public Location removeMessages(String pKey, List&lt;Message&gt; messages) {
-<span class="nc" id="L65">        Location location = repository</span>
-<span class="nc" id="L66">                .findBypKey(pKey)</span>
-<span class="nc" id="L67">                .orElseThrow(() -&gt; new ServiceLayerException(format(&quot;Location with pKey [%s] not found&quot;, pKey)));</span>
-<span class="nc" id="L68">        location.removeMessages(messages.toArray(new Message[0]));</span>
-<span class="nc" id="L69">        return location;</span>
-    }
+<span class="fc" id="L51">        this.repository = repository;</span>
+<span class="fc" id="L52">        this.stateInTransformer = stateInTransformer;</span>
+<span class="fc" id="L53">        this.stateOutTransformer = stateOutTransformer;</span>
+<span class="fc" id="L54">        this.ctx = ctx;</span>
+<span class="fc" id="L55">    }</span>
 
     /**
      * {@inheritDoc}
@@ -75,7 +60,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-<span class="fc" id="L78">    public Optional&lt;Location&gt; findByLocationId(LocationPK locationPK) {</span>
+<span class="fc" id="L63">    public Optional&lt;Location&gt; findByLocationId(LocationPK locationPK) {</span>
         return repository.findByLocationId(locationPK);
     }
 
@@ -85,7 +70,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-<span class="fc" id="L88">    public Optional&lt;Location&gt; findByPlcCode(String plcCode) {</span>
+<span class="fc" id="L73">    public Optional&lt;Location&gt; findByPlcCode(String plcCode) {</span>
         return repository.findByPlcCode(plcCode);
     }
 
@@ -95,7 +80,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-<span class="fc" id="L98">    public Optional&lt;Location&gt; findByLocationId(String locationPK) {</span>
+<span class="fc" id="L83">    public Optional&lt;Location&gt; findByLocationId(String locationPK) {</span>
         if (!LocationPK.isValid(locationPK)) {
             throw new IllegalArgumentException(format(&quot;The given locationPK [%s] is not of valid format&quot;, locationPK));
         }
@@ -108,7 +93,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-<span class="fc" id="L111">    public List&lt;Location&gt; findAllOf(List&lt;String&gt; locationGroupNames) {</span>
+<span class="fc" id="L96">    public List&lt;Location&gt; findAllOf(List&lt;String&gt; locationGroupNames) {</span>
         return locationGroupNames.size() == 1
                 ? repository.findByLocationGroup_Name(locationGroupNames.get(0))
                 : repository.findByLocationGroup_Name(locationGroupNames);
@@ -120,35 +105,35 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public void changeState(String pKey, ErrorCodeVO errorCode) {
-<span class="fc" id="L123">        Location location = repository</span>
-<span class="fc" id="L124">                .findBypKey(pKey)</span>
-<span class="fc" id="L125">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with persistent key [%s] found&quot;, pKey)));</span>
+<span class="fc" id="L108">        Location location = repository</span>
+<span class="fc" id="L109">                .findBypKey(pKey)</span>
+<span class="fc" id="L110">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with persistent key [%s] found&quot;, pKey)));</span>
 
-<span class="fc" id="L127">        boolean changed = false;</span>
-<span class="pc bpc" id="L128" title="1 of 4 branches missed.">        if (Optional.ofNullable(errorCode.getPlcState()).isPresent() &amp;&amp; errorCode.getPlcState() != location.getPlcState()) {</span>
-<span class="fc" id="L129">            location.setPlcState(errorCode.getPlcState());</span>
-<span class="fc" id="L130">            changed = true;</span>
+<span class="fc" id="L112">        boolean changed = false;</span>
+<span class="pc bpc" id="L113" title="1 of 4 branches missed.">        if (Optional.ofNullable(errorCode.getPlcState()).isPresent() &amp;&amp; errorCode.getPlcState() != location.getPlcState()) {</span>
+<span class="fc" id="L114">            location.setPlcState(errorCode.getPlcState());</span>
+<span class="fc" id="L115">            changed = true;</span>
         }
-<span class="fc" id="L132">        Optional&lt;Boolean&gt; infeedAvailable = stateInTransformer.available(errorCode.getErrorCode());</span>
-<span class="fc bfc" id="L133" title="All 2 branches covered.">        if (infeedAvailable.isPresent() &amp;&amp;</span>
+<span class="fc" id="L117">        Optional&lt;Boolean&gt; infeedAvailable = stateInTransformer.available(errorCode.getErrorCode());</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (infeedAvailable.isPresent() &amp;&amp;</span>
                 //location.getLocationGroup().isInfeedAllowed() &amp;&amp;
-<span class="pc bpc" id="L135" title="1 of 2 branches missed.">                !infeedAvailable.get().equals(location.isInfeedActive())) {</span>
-<span class="fc" id="L136">            location.setInfeed(infeedAvailable.get());</span>
-<span class="fc" id="L137">            changed = true;</span>
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">                !infeedAvailable.get().equals(location.isInfeedActive())) {</span>
+<span class="fc" id="L121">            location.setInfeed(infeedAvailable.get());</span>
+<span class="fc" id="L122">            changed = true;</span>
         }
-<span class="fc" id="L139">        Optional&lt;Boolean&gt; outfeedAvailable = stateOutTransformer.available(errorCode.getErrorCode());</span>
-<span class="fc bfc" id="L140" title="All 2 branches covered.">        if (outfeedAvailable.isPresent() &amp;&amp;</span>
+<span class="fc" id="L124">        Optional&lt;Boolean&gt; outfeedAvailable = stateOutTransformer.available(errorCode.getErrorCode());</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        if (outfeedAvailable.isPresent() &amp;&amp;</span>
                 //location.getLocationGroup().isOutfeedAllowed() &amp;&amp;
-<span class="pc bpc" id="L142" title="1 of 2 branches missed.">                !outfeedAvailable.get().equals(location.isOutfeedActive())) {</span>
-<span class="fc" id="L143">            location.setOutfeed(outfeedAvailable.get());</span>
-<span class="fc" id="L144">            changed = true;</span>
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">                !outfeedAvailable.get().equals(location.isOutfeedActive())) {</span>
+<span class="fc" id="L128">            location.setOutfeed(outfeedAvailable.get());</span>
+<span class="fc" id="L129">            changed = true;</span>
         }
-<span class="pc bpc" id="L146" title="1 of 2 branches missed.">        if (changed) {</span>
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">        if (changed) {</span>
 
             // don't send twice only if one has changed
-<span class="fc" id="L149">            ctx.publishEvent(LocationEvent.of(location, LocationEvent.LocationEventType.STATE_CHANGE));</span>
+<span class="fc" id="L134">            ctx.publishEvent(LocationEvent.of(location, LocationEvent.LocationEventType.STATE_CHANGE));</span>
         }
-<span class="fc" id="L151">    }</span>
+<span class="fc" id="L136">    }</span>
 
     /**
      * {@inheritDoc}
@@ -156,7 +141,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-<span class="fc" id="L159">    public List&lt;Location&gt; findLocations(LocationPK locationPK) {</span>
+<span class="fc" id="L144">    public List&lt;Location&gt; findLocations(LocationPK locationPK) {</span>
         List&lt;Location&gt; result = repository.findByLocationIdContaining(locationPK);
         return result == null ? Collections.emptyList() : result;
     }
