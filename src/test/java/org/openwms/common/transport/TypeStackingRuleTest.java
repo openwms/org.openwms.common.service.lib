@@ -49,10 +49,16 @@ class TypeStackingRuleTest {
         TypeStackingRule rule1 = new TypeStackingRule(1, TransportUnitType.newBuilder("PG").build(), TransportUnitType.newBuilder("FG").build());
         TypeStackingRule rule11 = new TypeStackingRule(1, TransportUnitType.newBuilder("PG").build(), TransportUnitType.newBuilder("FG").build());
         TypeStackingRule rule2 = new TypeStackingRule(2, TransportUnitType.newBuilder("PG").build(), TransportUnitType.newBuilder("FG").build());
+        TypeStackingRule rule3 = new TypeStackingRule(2, TransportUnitType.newBuilder("FG").build(), TransportUnitType.newBuilder("FG").build());
+        TypeStackingRule rule4 = new TypeStackingRule(2, TransportUnitType.newBuilder("FG").build(), TransportUnitType.newBuilder("PG").build());
 
         assertThat(rule1).isEqualTo(rule11);
         assertThat(rule11).isEqualTo(rule1);
         assertThat(rule1).isNotEqualTo(rule2);
+        assertThat(rule2).isNotEqualTo(rule3);
+        assertThat(rule3).isNotEqualTo(rule2);
+        assertThat(rule3).isNotEqualTo(rule4);
+        assertThat(rule4).isNotEqualTo(rule3);
 
         HashSet<TypeStackingRule> set = new HashSet<>();
         set.add(rule1);

@@ -22,7 +22,6 @@ import java.util.HashSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * A TypePlacingRuleTest.
@@ -59,10 +58,13 @@ class TypePlacingRuleTest {
         TypePlacingRule rule1 = new TypePlacingRule(TransportUnitType.newBuilder("PG").build(), new LocationType("Pallet Conveyor"));
         TypePlacingRule rule11 = new TypePlacingRule(TransportUnitType.newBuilder("PG").build(), new LocationType("Pallet Conveyor"), TypePlacingRule.DEF_PRIVILEGE_LEVEL);
         TypePlacingRule rule2 = new TypePlacingRule(TransportUnitType.newBuilder("FG").build(), new LocationType("Flat Good Conveyor"));
+        TypePlacingRule rule3 = new TypePlacingRule(TransportUnitType.newBuilder("FG").build(), new LocationType("Flat Good"));
 
         assertThat(rule1).isEqualTo(rule11);
         assertThat(rule11).isEqualTo(rule1);
         assertThat(rule1).isNotEqualTo(rule2);
+        assertThat(rule2).isNotEqualTo(rule3);
+        assertThat(rule3).isNotEqualTo(rule2);
 
         HashSet<TypePlacingRule> set = new HashSet<>();
         set.add(rule1);
