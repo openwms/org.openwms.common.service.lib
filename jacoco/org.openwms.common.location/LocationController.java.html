@@ -90,20 +90,20 @@ public class LocationController extends AbstractWebController {
 <span class="fc" id="L90">        return ResponseEntity.ok().build();</span>
     }
 
-    @GetMapping(value = API_LOCATIONS, params = {&quot;area&quot;, &quot;aisle&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;})
+    @GetMapping(value = API_LOCATIONS)
     public ResponseEntity&lt;List&lt;LocationVO&gt;&gt; findLocations(
-            @RequestParam(value = &quot;area&quot;, required = false) String area,
-            @RequestParam(value = &quot;aisle&quot;, required = false) String aisle,
-            @RequestParam(value = &quot;x&quot;, required = false) String x,
-            @RequestParam(value = &quot;y&quot;, required = false) String y,
-            @RequestParam(value = &quot;z&quot;, required = false) String z
+            @RequestParam(value = &quot;area&quot;, required = false, defaultValue = &quot;%&quot;) String area,
+            @RequestParam(value = &quot;aisle&quot;, required = false, defaultValue = &quot;%&quot;) String aisle,
+            @RequestParam(value = &quot;x&quot;, required = false, defaultValue = &quot;%&quot;) String x,
+            @RequestParam(value = &quot;y&quot;, required = false, defaultValue = &quot;%&quot;) String y,
+            @RequestParam(value = &quot;z&quot;, required = false, defaultValue = &quot;%&quot;) String z
     ) {
 <span class="fc" id="L101">        LocationPK pk = LocationPK.newBuilder()</span>
-<span class="pc bpc" id="L102" title="2 of 4 branches missed.">                .area(area == null || area.equals(&quot;&quot;) ? &quot;%&quot; : area)</span>
-<span class="pc bpc" id="L103" title="2 of 4 branches missed.">                .aisle(aisle == null || aisle.equals(&quot;&quot;) ? &quot;%&quot; : aisle)</span>
-<span class="pc bpc" id="L104" title="2 of 4 branches missed.">                .x(x == null || x.equals(&quot;&quot;) ? &quot;%&quot; : x)</span>
-<span class="pc bpc" id="L105" title="2 of 4 branches missed.">                .y(y == null || y.equals(&quot;&quot;) ? &quot;%&quot; : y)</span>
-<span class="pc bpc" id="L106" title="2 of 4 branches missed.">                .z(z == null || z.equals(&quot;&quot;) ? &quot;%&quot; : z)</span>
+<span class="fc" id="L102">                .area(area)</span>
+<span class="fc" id="L103">                .aisle(aisle)</span>
+<span class="fc" id="L104">                .x(x)</span>
+<span class="fc" id="L105">                .y(y)</span>
+<span class="fc" id="L106">                .z(z)</span>
 <span class="fc" id="L107">                .build();</span>
 <span class="fc" id="L108">        List&lt;Location&gt; locations = locationService.findLocations(pk);</span>
 <span class="fc bfc" id="L109" title="All 2 branches covered.">        return locations.isEmpty()</span>
