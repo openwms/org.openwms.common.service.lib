@@ -49,7 +49,7 @@ public class TransportUnitEvent extends RootApplicationEvent {
     }
 
     public Location getActualLocation() {
-<span class="nc" id="L52">        return actualLocation;</span>
+<span class="fc" id="L52">        return actualLocation;</span>
     }
 
     public static TransportUnitEvent of(TransportUnit tu, TransportUnitEventType type) {
@@ -79,12 +79,12 @@ public class TransportUnitEvent extends RootApplicationEvent {
         }
 
         public Builder actualLocation(Location val) {
-<span class="nc" id="L82">            actualLocation = val;</span>
-<span class="nc" id="L83">            return this;</span>
+<span class="fc" id="L82">            actualLocation = val;</span>
+<span class="fc" id="L83">            return this;</span>
         }
 
         public TransportUnitEvent build() {
-<span class="pc bpc" id="L87" title="3 of 4 branches missed.">            if (type == TransportUnitEventType.MOVED &amp;&amp; actualLocation == null) {</span>
+<span class="pc bpc" id="L87" title="1 of 4 branches missed.">            if (type == TransportUnitEventType.MOVED &amp;&amp; actualLocation == null) {</span>
 <span class="nc" id="L88">                throw new IllegalArgumentException(&quot;TU MOVED events must contain the actualLocation&quot;);</span>
             }
 <span class="fc" id="L90">            return new TransportUnitEvent(this);</span>

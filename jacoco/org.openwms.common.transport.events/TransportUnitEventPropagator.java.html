@@ -50,7 +50,7 @@ class TransportUnitEventPropagator {
 
     @TransactionalEventListener(fallbackExecution = true)
     public void onEvent(TransportUnitEvent event) {
-<span class="pc bpc" id="L53" title="5 of 6 branches missed.">        switch (event.getType()) {</span>
+<span class="pc bpc" id="L53" title="4 of 6 branches missed.">        switch (event.getType()) {</span>
             case CREATED:
 <span class="fc" id="L55">                amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.created&quot;, mapper.map(event.getSource(), TransportUnitMO.class));</span>
 <span class="fc" id="L56">                break;</span>
@@ -64,8 +64,8 @@ class TransportUnitEventPropagator {
 <span class="nc" id="L64">                amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.state-changed&quot;, mapper.map(event.getSource(), TransportUnitMO.class));</span>
 <span class="nc" id="L65">                break;</span>
             case MOVED:
-<span class="nc" id="L67">                amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.moved.&quot;+event.getActualLocation().getLocationId(), mapper.map(event.getSource(), TransportUnitMO.class));</span>
-<span class="nc" id="L68">                break;</span>
+<span class="fc" id="L67">                amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.moved.&quot;+event.getActualLocation().getLocationId(), mapper.map(event.getSource(), TransportUnitMO.class));</span>
+<span class="fc" id="L68">                break;</span>
             default:
 <span class="nc" id="L70">                throw new UnsupportedOperationException(format(&quot;Eventtype [%s] not supported&quot;, event.getType()));</span>
         }

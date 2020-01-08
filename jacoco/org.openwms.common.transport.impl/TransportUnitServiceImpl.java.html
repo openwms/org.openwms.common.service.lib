@@ -181,18 +181,18 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public TransportUnit moveTransportUnit(@NotNull Barcode barcode, @NotNull LocationPK targetLocationPK) {
-<span class="nc" id="L184">        TransportUnit transportUnit = repository.findByBarcode(barcode).orElseThrow(() -&gt; new NotFoundException(format(&quot;TransportUnit with Barcode [%s] not found&quot;, barcode)));</span>
-<span class="nc" id="L185">        transportUnit.setActualLocation(locationService.findByLocationId(targetLocationPK).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with LocationPk [%s] found&quot;, targetLocationPK))));</span>
-<span class="nc bnc" id="L186" title="All 2 branches missed.">        if (LOGGER.isInfoEnabled()) {</span>
-<span class="nc" id="L187">            LOGGER.info(&quot;Moving TransportUnit with barcode [{}] to Location [{}]&quot;, barcode, targetLocationPK);</span>
+<span class="pc" id="L184">        TransportUnit transportUnit = repository.findByBarcode(barcode).orElseThrow(() -&gt; new NotFoundException(format(&quot;TransportUnit with Barcode [%s] not found&quot;, barcode)));</span>
+<span class="pc" id="L185">        transportUnit.setActualLocation(locationService.findByLocationId(targetLocationPK).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with LocationPk [%s] found&quot;, targetLocationPK))));</span>
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">        if (LOGGER.isInfoEnabled()) {</span>
+<span class="fc" id="L187">            LOGGER.info(&quot;Moving TransportUnit with barcode [{}] to Location [{}]&quot;, barcode, targetLocationPK);</span>
         }
-<span class="nc" id="L189">        TransportUnit saved = repository.save(transportUnit);</span>
-<span class="nc" id="L190">        publisher.publishEvent(</span>
-<span class="nc" id="L191">                TransportUnitEvent.newBuilder()</span>
-<span class="nc" id="L192">                        .tu(saved)</span>
-<span class="nc" id="L193">                        .type(TransportUnitEvent.TransportUnitEventType.MOVED).actualLocation(transportUnit.getActualLocation()).build()</span>
+<span class="fc" id="L189">        TransportUnit saved = repository.save(transportUnit);</span>
+<span class="fc" id="L190">        publisher.publishEvent(</span>
+<span class="fc" id="L191">                TransportUnitEvent.newBuilder()</span>
+<span class="fc" id="L192">                        .tu(saved)</span>
+<span class="fc" id="L193">                        .type(TransportUnitEvent.TransportUnitEventType.MOVED).actualLocation(transportUnit.getActualLocation()).build()</span>
         );
-<span class="nc" id="L195">        return saved;</span>
+<span class="fc" id="L195">        return saved;</span>
     }
 
     /**

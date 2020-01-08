@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<meta name="author" content="(1.6.0-SNAPSHOT-345)">
+<meta name="author" content="(1.6.0-SNAPSHOT-346)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -436,7 +436,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.6.0-SNAPSHOT-345)</span><br>
+<span id="author" class="author">(1.6.0-SNAPSHOT-346)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -517,6 +517,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_transportunit_index">TransportUnit Index</a></li>
 <li><a href="#_create_a_transportunit">Create a TransportUnit</a></li>
+<li><a href="#_move_a_transportunit">Move a TransportUnit</a></li>
 <li><a href="#_find_by_barcode">Find by Barcode</a></li>
 <li><a href="#_find_by_multiple_barcodes">Find by multiple Barcodes</a></li>
 <li><a href="#_find_transportunits_on_a_location">Find TransportUnits on a Location</a></li>
@@ -2669,7 +2670,7 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/d6be1b6c-84f7-408c-b813-1f666a9ba3cc/</code></pre>
+Location: http://localhost:8080/v1/transport-units/367a1be0-edb7-4922-a064-81696ae1e3a9/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2699,7 +2700,7 @@ Content-Length: 168
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/0ad2e2a0-5a47-4ccd-b687-e705636e879e/</code></pre>
+Location: http://localhost:8080/v1/transport-units/05c63004-3061-4a76-9e2d-fc53e712a7d7/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2727,6 +2728,48 @@ Content-Length: 138
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_move_a_transportunit"><a class="anchor" href="#_move_a_transportunit"></a><a class="link" href="#_move_a_transportunit">Move a TransportUnit</a></h3>
+<div class="paragraph">
+<p>To move a <code>TransportUnit</code> from it&#8217;s current Location to a new Location, simply call the API with the identifying Barcode and the new
+Location where the <code>TransportUnit</code> shall be booked on.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/transport-units HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server returns the updated <code>TransportUnit</code> instance.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 466
+
+{
+  "barcode" : "00000000000000004711",
+  "actualLocation" : {
+    "pKey" : "896384899357",
+    "locationId" : "FGIN/0001/LEFT/0000/0000",
+    "locationGroupName" : "FGAISLE1LEFT",
+    "plcCode" : "PLC_0013",
+    "incomingActive" : true,
+    "outgoingActive" : true,
+    "plcState" : 0
+  },
+  "transportUnitType" : "PALLET",
+  "length" : 120,
+  "width" : 80,
+  "height" : 102,
+  "actualPlcCode" : "PLC_0013",
+  "actualLocationDate" : "2020-01-08T00:09:09.205+0000"
+}</code></pre>
 </div>
 </div>
 </div>
@@ -2767,7 +2810,7 @@ Content-Length: 732
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-01-07T22:52:04.249+0000",
+  "actualLocationDate" : "2020-01-08T00:09:09.057+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2825,7 +2868,7 @@ Content-Length: 732
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-01-07T22:52:03.944+0000",
+  "actualLocationDate" : "2020-01-08T00:09:08.829+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2874,7 +2917,7 @@ Content-Length: 1473
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-01-07T22:52:03.577+0000",
+  "actualLocationDate" : "2020-01-08T00:09:08.529+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2899,7 +2942,7 @@ Content-Length: 1473
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2020-01-07T22:52:03.577+0000",
+  "actualLocationDate" : "2020-01-08T00:09:08.529+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2948,7 +2991,7 @@ Content-Length: 739
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2020-01-07T22:52:04.408+0000",
+  "actualLocationDate" : "2020-01-08T00:09:09.262+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -2965,7 +3008,7 @@ Content-Length: 739
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-01-07 22:48:10 UTC
+Last updated 2020-01-08 00:05:38 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">

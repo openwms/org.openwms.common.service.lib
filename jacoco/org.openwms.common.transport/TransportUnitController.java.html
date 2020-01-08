@@ -142,8 +142,8 @@ public class TransportUnitController extends AbstractWebController {
 
     @PatchMapping(value = API_TRANSPORT_UNITS, params = {&quot;bk&quot;, &quot;newLocation&quot;})
     public TransportUnitVO moveTU(@RequestParam(&quot;bk&quot;) String transportUnitBK, @RequestParam(&quot;newLocation&quot;) String newLocation) {
-<span class="nc" id="L145">        TransportUnit tu = service.moveTransportUnit(Barcode.of(transportUnitBK), fromString(newLocation));</span>
-<span class="nc" id="L146">        return mapper.map(tu, TransportUnitVO.class);</span>
+<span class="fc" id="L145">        TransportUnit tu = service.moveTransportUnit(Barcode.of(transportUnitBK), fromString(newLocation));</span>
+<span class="fc" id="L146">        return mapper.map(tu, TransportUnitVO.class);</span>
     }
 
     @PostMapping(value = API_TRANSPORT_UNIT + &quot;/error&quot;, params = {&quot;bk&quot;, &quot;errorCode&quot;})
