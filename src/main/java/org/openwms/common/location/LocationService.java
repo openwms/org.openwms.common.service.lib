@@ -28,15 +28,6 @@ import java.util.Optional;
 public interface LocationService {
 
     /**
-     * Removes a list of {@link Message}s from a Location.
-     *
-     * @param pKey The persistent key identifier of the Location
-     * @param messages The messages to be removed
-     * @return The updated Location
-     */
-    Location removeMessages(String pKey, List<Message> messages);
-
-    /**
      * Find and return a Location identified by the given {@code locationPK}.
      *
      * @param locationPK The business key of the Location to search for

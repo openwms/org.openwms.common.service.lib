@@ -18,11 +18,9 @@ package org.openwms.common.location.impl;
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
-import org.ameba.exception.ServiceLayerException;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
-import org.openwms.common.location.Message;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.events.LocationEvent;
@@ -54,19 +52,6 @@ class LocationServiceImpl implements LocationService {
         this.stateInTransformer = stateInTransformer;
         this.stateOutTransformer = stateOutTransformer;
         this.ctx = ctx;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Measured
-    public Location removeMessages(String pKey, List<Message> messages) {
-        Location location = repository
-                .findBypKey(pKey)
-                .orElseThrow(() -> new ServiceLayerException(format("Location with pKey [%s] not found", pKey)));
-        location.removeMessages(messages.toArray(new Message[0]));
-        return location;
     }
 
     /**

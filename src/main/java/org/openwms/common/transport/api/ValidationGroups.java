@@ -27,6 +27,7 @@ public interface ValidationGroups {
         interface WithTuT {}
         interface ChangeTarget{}
         interface Request{}
+        interface Remove{}
         interface Create{}
     }
 }

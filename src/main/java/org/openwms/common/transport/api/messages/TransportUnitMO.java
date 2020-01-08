@@ -31,7 +31,7 @@ import java.util.StringJoiner;
  */
 public class TransportUnitMO implements Serializable {
 
-    @NotEmpty(groups = ValidationGroups.TransportUnit.Request.class)
+    @NotEmpty(groups = {ValidationGroups.TransportUnit.Request.class, ValidationGroups.TransportUnit.Remove.class})
     private String pKey;
     @NotEmpty(groups = {ValidationGroups.TransportUnit.ChangeTarget.class, ValidationGroups.TransportUnit.Create.class})
     private String barcode;

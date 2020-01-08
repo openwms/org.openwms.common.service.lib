@@ -29,6 +29,7 @@ import org.openwms.common.transport.TransportUnitType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -131,7 +132,7 @@ class TransportUnitServiceImplIT {
         }
 
         @Test void findByBarcodes() {
-            List<TransportUnit> tu = testee.findByBarcodes(asList(Barcode.of(TestData.TU_1_ID)));
+            List<TransportUnit> tu = testee.findByBarcodes(Collections.singletonList(Barcode.of(TestData.TU_1_ID)));
             assertThat(tu).isNotNull();
             assertThat(tu.get(0)).hasFieldOrPropertyWithValue("barcode", Barcode.of(TestData.TU_1_ID));
         }

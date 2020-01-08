@@ -30,6 +30,7 @@ import org.openwms.common.transport.Barcode;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.TransportUnitType;
+import org.openwms.common.transport.api.ValidationGroups;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.common.transport.events.TransportUnitEvent;
@@ -41,6 +42,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.validation.Validator;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -50,6 +52,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import static java.lang.String.format;
+import static org.ameba.system.ValidationUtil.validate;
 import static org.openwms.common.transport.api.commands.TUCommand.Type.REMOVING;
 
 /**
@@ -70,17 +73,19 @@ class TransportUnitServiceImpl implements TransportUnitService {
     private final TransportUnitTypeRepository transportUnitTypeRepository;
     private final Translator translator;
     private final BeanMapper mapper;
+    private final Validator validator;
     private final ApplicationEventPublisher publisher;
 
     TransportUnitServiceImpl(Translator translator,
             TransportUnitTypeRepository transportUnitTypeRepository,
             LocationService locationService, TransportUnitRepository repository,
-            BeanMapper mapper, ApplicationEventPublisher publisher) {
+            BeanMapper mapper, Validator validator, ApplicationEventPublisher publisher) {
         this.translator = translator;
         this.transportUnitTypeRepository = transportUnitTypeRepository;
         this.locationService = locationService;
         this.repository = repository;
         this.mapper = mapper;
+        this.validator = validator;
         this.publisher = publisher;
     }
 
@@ -227,6 +232,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @EventListener
     public void onEvent(TUCommand command) {
         if (command.getType() == TUCommand.Type.REMOVE) {
+            validate(validator, command, ValidationGroups.TransportUnit.Remove.class);
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Got command to REMOVE TransportUnit with pKey [{}]", command.getTransportUnit().getpKey());
             }

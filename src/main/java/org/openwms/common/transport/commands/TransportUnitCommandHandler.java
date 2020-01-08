@@ -28,19 +28,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Path;
-import javax.validation.ValidationException;
 import javax.validation.Validator;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import static java.lang.String.format;
+import static org.ameba.system.ValidationUtil.validate;
 import static org.openwms.common.transport.api.commands.TUCommand.Type.UPDATE_CACHE;
 
 /**
- * A TransportUnitCommandHandler passes incoming {@link TUCommand}s to the internal
- * ApplicationContext.
+ * A TransportUnitCommandHandler is just a handler or an adapter implementation that is used by a listener and passes incoming {@link TUCommand}s
+ * to the internal ApplicationContext.
  *
  * @author Heiko Scherrer
  * @see TUCommand
@@ -70,15 +65,16 @@ class TransportUnitCommandHandler {
                 service.moveTransportUnit(Barcode.of(command.getTransportUnit().getBarcode()), LocationPK.fromString(command.getTransportUnit().getActualLocation()));
                 break;
             case CHANGE_TARGET:
-                validate(command, ValidationGroups.TransportUnit.ChangeTarget.class);
+                validate(validator, command, ValidationGroups.TransportUnit.ChangeTarget.class);
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Got command to CHANGE the target of the TransportUnit with id [{}] to [{}]", command.getTransportUnit().getBarcode(), command.getTransportUnit().getTargetLocation());
                 }
                 service.changeTarget(Barcode.of(command.getTransportUnit().getBarcode()), command.getTransportUnit().getTargetLocation());
                 break;
             case REMOVE:
+                validate(validator, command, ValidationGroups.TransportUnit.Remove.class);
                 if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Got command to REMOVE TransportUnit with id [{}]", command.getTransportUnit().getBarcode());
+                    LOGGER.debug("Got command to REMOVE TransportUnit with pKey [{}]", command.getTransportUnit().getpKey());
                 }
                 ctx.publishEvent(command);
                 break;
@@ -86,7 +82,7 @@ class TransportUnitCommandHandler {
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Got a request command for a TransportUnit");
                 }
-                validate(command, ValidationGroups.TransportUnit.Request.class);
+                validate(validator, command, ValidationGroups.TransportUnit.Request.class);
                 TransportUnit tu = service.findByPKey(command.getTransportUnit().getpKey());
                 TransportUnitMO mo = mapper.map(tu, TransportUnitMO.class);
                 ctx.publishEvent(
@@ -97,7 +93,7 @@ class TransportUnitCommandHandler {
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Got a command to create a TransportUnit");
                 }
-                validate(command, ValidationGroups.TransportUnit.Create.class);
+                validate(validator, command, ValidationGroups.TransportUnit.Create.class);
                 tu = service.create(
                         Barcode.of(command.getTransportUnit().getBarcode()),
                         command.getTransportUnit().getTransportUnitType().getType(),
@@ -111,19 +107,6 @@ class TransportUnitCommandHandler {
                 break;
             default:
                 LOGGER.error("TUCommand [{}] not supported", command.getType());
-        }
-    }
-
-    private void validate(TUCommand command, Class<?> changeTargetClass) {
-        Set<ConstraintViolation<TUCommand>> violations = validator.validate(command, changeTargetClass);
-        if (!violations.isEmpty()) {
-            throw new ValidationException(format("Command to process is not valid! Invalid fields [%s]",
-                    violations
-                            .stream()
-                            .map(ConstraintViolation::getPropertyPath)
-                            .map(Path::toString)
-                            .collect(Collectors.joining()))
-            );
         }
     }
 }
