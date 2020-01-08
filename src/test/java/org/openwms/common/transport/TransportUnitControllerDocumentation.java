@@ -35,11 +35,13 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -84,7 +86,14 @@ class TransportUnitControllerDocumentation {
                 .param("strict", "false"))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists(HttpHeaders.LOCATION))
-                .andDo(document("tu-create-simple"));
+                .andDo(document("tu-create-simple",
+                        requestParameters(
+                                parameterWithName("bk").description("The identifying Barcode of the TransportUnit"),
+                                parameterWithName("actualLocation").description("The Location where to book on the TransportUnit initially"),
+                                parameterWithName("tut").description("The name of the TransportUnitType assigned to the TransportUnit"),
+                                parameterWithName("strict").description("If true, the service fails if the TransportUnit already exist, if false it does not fail and returns the existing one")
+                        )
+                ));
     }
 
     @Test void shall_createSimple_with_error() throws Exception {
@@ -106,7 +115,12 @@ class TransportUnitControllerDocumentation {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists(HttpHeaders.LOCATION))
-                .andDo(document("tu-create-full"));
+                .andDo(document("tu-create-full",
+                        requestParameters(
+                                parameterWithName("bk").description("The identifying Barcode of the TransportUnit"),
+                                parameterWithName("strict").description("If true, the service fails if the TransportUnit already exist, if false it does not fail and returns the existing one")
+                        )
+                ));
     }
 
     @Test void shall_create_with_invalid() throws Exception {
@@ -133,26 +147,38 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_move() throws Exception {
-        TransportUnitVO transportUnit = new TransportUnitVO("4711", TestData.TUT_TYPE_PALLET, new LocationVO(TestData.LOCATION_ID_EXT));
         mockMvc.perform(patch(CommonConstants.API_TRANSPORT_UNITS)
                 .param("bk", "00000000000000004711")
-                .param("newLocation", TestData.LOCATION_ID_FGIN0001LEFT))
+                .param("newLocation", TestData.LOCATION_ID_FGIN0001LEFT).header(HttpHeaders.CONTENT_TYPE, ""))
                 .andExpect(status().isOk())
-                .andDo(document("tu-move"));
+                .andDo(document("tu-move",
+                        requestParameters(
+                                parameterWithName("bk").description("The identifying Barcode of the TransportUnit"),
+                                parameterWithName("newLocation").description("The target Location where to move the TransportUnit to")
+                        )
+                ));
     }
 
     @Test void shall_findByBarcode() throws Exception {
         mockMvc.perform(get(CommonConstants.API_TRANSPORT_UNITS)
                 .param("bk", "00000000000000004711"))
                 .andExpect(status().isOk())
-                .andDo(document("tu-find-by-barcode"));
+                .andDo(document("tu-find-by-barcode",
+                        requestParameters(
+                                parameterWithName("bk").description("The identifying Barcode of the TransportUnit")
+                        )
+                ));
     }
 
     @Test void shall_findByBarcode_short() throws Exception {
         mockMvc.perform(get(CommonConstants.API_TRANSPORT_UNITS)
                 .param("bk", "4711"))
                 .andExpect(status().isOk())
-                .andDo(document("tu-find-by-barcode-short"));
+                .andDo(document("tu-find-by-barcode-short",
+                        requestParameters(
+                                parameterWithName("bk").description("The identifying Barcode of the TransportUnit")
+                        )
+                ));
     }
 
     @Test void shall_findByBarcode_404() throws Exception {
@@ -169,13 +195,21 @@ class TransportUnitControllerDocumentation {
                 .param("bks", "00000000000000004712")
                 .param("bks", "00000000000000004713"))
                 .andExpect(status().isOk())
-                .andDo(document("tu-find-by-barcodes"));
+                .andDo(document("tu-find-by-barcodes",
+                        requestParameters(
+                                parameterWithName("bks").description("A set of identifying Barcodes of the TransportUnit to search for")
+                                )
+                ));
     }
 
     @Test void shall_findOnLocation() throws Exception {
         mockMvc.perform(get(CommonConstants.API_TRANSPORT_UNITS)
                 .param("actualLocation", "FGIN/IPNT/0001/0000/0000"))
                 .andExpect(status().isOk())
-                .andDo(document("tu-find-on-location"));
+                .andDo(document("tu-find-on-location",
+                        requestParameters(
+                                parameterWithName("actualLocation").description("The Location to find all TransportUnits booked on")
+                                )
+                ));
     }
 }

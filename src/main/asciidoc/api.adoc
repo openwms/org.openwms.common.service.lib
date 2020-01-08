@@ -603,6 +603,8 @@ The simplest way to create a `TransportUnit` is to just pass the mandatory field
 
 include::{generated}/tu-create-simple/http-request.adoc[]
 
+include::{generated}/tu-create-simple/request-parameters.adoc[]
+
 The server stores a `TransportUnit` instance with the given values and default values for other fields of the `TransportUnit`. The response
 contains a link to the newly created resource.
 
@@ -611,6 +613,8 @@ include::{generated}/tu-create-simple/http-response.adoc[]
 In a second approach the client may pass the structure of the `TransportUnit` to create as request body to the API:
 
 include::{generated}/tu-create-full/http-request.adoc[]
+
+include::{generated}/tu-create-full/request-parameters.adoc[]
 
 Like before the server responds with a link to the newly created resource as far as the operation succeeds.
 
@@ -633,6 +637,8 @@ Location where the `TransportUnit` shall be booked on.
 
 include::{generated}/tu-move/http-request.adoc[]
 
+include::{generated}/tu-move/request-parameters.adoc[]
+
 The server returns the updated `TransportUnit` instance.
 
 include::{generated}/tu-move/http-response.adoc[]
@@ -641,6 +647,8 @@ include::{generated}/tu-move/http-response.adoc[]
 Find a `TransportUnit` by its unique `Barcode`.
 
 include::{generated}/tu-find-by-barcode/http-request.adoc[]
+
+include::{generated}/tu-find-by-barcode/request-parameters.adoc[]
 
 If the `TransportUnit` has been found the server returns a JSON representation:
 
@@ -660,6 +668,8 @@ Also multiple `Barcodes` can be passed to the API in order to search for multipl
 
 include::{generated}/tu-find-by-barcodes/http-request.adoc[]
 
+include::{generated}/tu-find-by-barcodes/request-parameters.adoc[]
+
 This returns an array with the `TransportUnits` found:
 
 include::{generated}/tu-find-by-barcodes/http-response.adoc[]
@@ -668,6 +678,8 @@ include::{generated}/tu-find-by-barcodes/http-response.adoc[]
 Search and return all `TransportUnits` that are currently booked on a given `Location`.
 
 include::{generated}/tu-find-on-location/http-request.adoc[]
+
+include::{generated}/tu-find-on-location/request-parameters.adoc[]
 
 The `TransportUnit` with `Barcode` == `00000000000000004712` is returned:
 

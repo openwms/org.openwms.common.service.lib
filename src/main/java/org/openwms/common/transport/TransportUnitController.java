@@ -136,18 +136,27 @@ public class TransportUnitController extends AbstractWebController {
     }
 
     @PutMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
-    public TransportUnitVO updateTU(@RequestParam("bk") String transportUnitBK, @RequestBody TransportUnitVO tu) {
+    public TransportUnitVO updateTU(
+            @RequestParam("bk") String transportUnitBK,
+            @RequestBody TransportUnitVO tu
+    ) {
         return mapper.map(service.update(Barcode.of(transportUnitBK), mapper.map(tu, TransportUnit.class)), TransportUnitVO.class);
     }
 
     @PatchMapping(value = API_TRANSPORT_UNITS, params = {"bk", "newLocation"})
-    public TransportUnitVO moveTU(@RequestParam("bk") String transportUnitBK, @RequestParam("newLocation") String newLocation) {
+    public TransportUnitVO moveTU(
+            @RequestParam("bk") String transportUnitBK,
+            @RequestParam("newLocation") String newLocation
+    ) {
         TransportUnit tu = service.moveTransportUnit(Barcode.of(transportUnitBK), fromString(newLocation));
         return mapper.map(tu, TransportUnitVO.class);
     }
 
     @PostMapping(value = API_TRANSPORT_UNIT + "/error", params = {"bk", "errorCode"})
-    public void addErrorToTransportUnit(@RequestParam("bk") String transportUnitBK, @RequestParam(value = "errorCode") String errorCode) {
+    public void addErrorToTransportUnit(
+            @RequestParam("bk") String transportUnitBK,
+            @RequestParam(value = "errorCode") String errorCode
+    ) {
         MessageCommand messageCommand = MessageCommand.newBuilder()
                 .withType(MessageCommand.Type.ADD_TO_TU)
                 .withTransportUnitId(transportUnitBK)
