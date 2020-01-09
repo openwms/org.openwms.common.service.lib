@@ -48,7 +48,7 @@ class TransportUnitCommandListenerIT {
     @Autowired
     private TransportUnitService service;
 
-    @Test void testCommandHandling() {
+    @Test void test_REMOVE_command() {
         assertThat(service.findByPKey(TestData.TU_1_PKEY)).isNotNull();
         listener.onCommand(TUCommand.newBuilder(TUCommand.Type.REMOVE)
                 .withTransportUnit(
@@ -57,5 +57,20 @@ class TransportUnitCommandListenerIT {
                 .build()
         );
         assertThatThrownBy(() -> service.findByPKey(TestData.TU_1_PKEY)).isInstanceOf(NotFoundException.class);
+    }
+
+    @Test void test_CHANGE_ACTUAL_LOCATION_command() {
+        assertThat(service.findByPKey(TestData.TU_1_PKEY).getActualLocation().getLocationId()).isNotEqualTo(TestData.LOCATION_ID_FGIN0001LEFT);
+        listener.onCommand(TUCommand.newBuilder(TUCommand.Type.CHANGE_ACTUAL_LOCATION)
+                .withTransportUnit(
+                        TransportUnitMO.newBuilder()
+                                .withPKey(TestData.TU_1_PKEY)
+                                .withBarcode(TestData.TU_1_ID)
+                                .withActualLocation(TestData.LOCATION_ID_FGIN0001LEFT)
+                                .build()
+                )
+                .build()
+        );
+        assertThat(service.findByPKey(TestData.TU_1_PKEY).getActualLocation().getLocationId().toString()).isEqualTo(TestData.LOCATION_ID_FGIN0001LEFT);
     }
 }
