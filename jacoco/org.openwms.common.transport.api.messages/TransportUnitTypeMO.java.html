@@ -43,19 +43,19 @@ public class TransportUnitTypeMO implements Serializable {
      */
 <span class="fc" id="L44">    protected TransportUnitTypeMO() { }</span>
 
-<span class="nc" id="L46">    private TransportUnitTypeMO(Builder builder) {</span>
-<span class="nc" id="L47">        setType(builder.type);</span>
-<span class="nc" id="L48">        setLength(builder.length);</span>
-<span class="nc" id="L49">        setWidth(builder.width);</span>
-<span class="nc" id="L50">        setHeight(builder.height);</span>
-<span class="nc" id="L51">        setWeightTare(builder.weightTare);</span>
-<span class="nc" id="L52">        setWeightMax(builder.weightMax);</span>
-<span class="nc" id="L53">        setPayload(builder.payload);</span>
-<span class="nc" id="L54">        setCompatibility(builder.compatibility);</span>
-<span class="nc" id="L55">    }</span>
+<span class="fc" id="L46">    private TransportUnitTypeMO(Builder builder) {</span>
+<span class="fc" id="L47">        setType(builder.type);</span>
+<span class="fc" id="L48">        setLength(builder.length);</span>
+<span class="fc" id="L49">        setWidth(builder.width);</span>
+<span class="fc" id="L50">        setHeight(builder.height);</span>
+<span class="fc" id="L51">        setWeightTare(builder.weightTare);</span>
+<span class="fc" id="L52">        setWeightMax(builder.weightMax);</span>
+<span class="fc" id="L53">        setPayload(builder.payload);</span>
+<span class="fc" id="L54">        setCompatibility(builder.compatibility);</span>
+<span class="fc" id="L55">    }</span>
 
     public static Builder newBuilder() {
-<span class="nc" id="L58">        return new Builder();</span>
+<span class="fc" id="L58">        return new Builder();</span>
     }
 
     public String getType() {
@@ -111,16 +111,16 @@ public class TransportUnitTypeMO implements Serializable {
     }
 
     public void setPayload(BigDecimal payload) {
-<span class="nc" id="L114">        this.payload = payload;</span>
-<span class="nc" id="L115">    }</span>
+<span class="fc" id="L114">        this.payload = payload;</span>
+<span class="fc" id="L115">    }</span>
 
     public String getCompatibility() {
 <span class="fc" id="L118">        return compatibility;</span>
     }
 
     public void setCompatibility(String compatibility) {
-<span class="nc" id="L122">        this.compatibility = compatibility;</span>
-<span class="nc" id="L123">    }</span>
+<span class="fc" id="L122">        this.compatibility = compatibility;</span>
+<span class="fc" id="L123">    }</span>
 
     public static final class Builder {
         private String type;
@@ -136,8 +136,8 @@ public class TransportUnitTypeMO implements Serializable {
         }
 
         public Builder type(@NotNull(groups = ValidationGroups.TransportUnit.Create.class) String val) {
-<span class="nc" id="L139">            type = val;</span>
-<span class="nc" id="L140">            return this;</span>
+<span class="fc" id="L139">            type = val;</span>
+<span class="fc" id="L140">            return this;</span>
         }
 
         public Builder length(int val) {
@@ -176,7 +176,7 @@ public class TransportUnitTypeMO implements Serializable {
         }
 
         public TransportUnitTypeMO build() {
-<span class="nc" id="L179">            return new TransportUnitTypeMO(this);</span>
+<span class="fc" id="L179">            return new TransportUnitTypeMO(this);</span>
         }
     }
 }
