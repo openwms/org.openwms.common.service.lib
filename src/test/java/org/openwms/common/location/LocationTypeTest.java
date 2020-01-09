@@ -17,6 +17,8 @@ package org.openwms.common.location;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -42,6 +44,20 @@ class LocationTypeTest {
     }
 
     @Test
+    void testCreation() {
+        new LocationType(); //jpa
+        LocationType type = new LocationType("PG");
+        type.setDescription("pallet conveyor");
+        type.setHeight(99);
+        type.setLength(98);
+        type.setWidth(97);
+        assertThat(type.getDescription()).isEqualTo("pallet conveyor");
+        assertThat(type.getHeight()).isEqualTo(99);
+        assertThat(type.getLength()).isEqualTo(98);
+        assertThat(type.getWidth()).isEqualTo(97);
+    }
+
+    @Test
     void testDefaultValues() {
         LocationType lt = new LocationType("conveyor");
         assertThat(lt.getDescription()).isEqualTo(LocationType.DEF_TYPE_DESCRIPTION);
@@ -61,6 +77,14 @@ class LocationTypeTest {
         assertThat(conveyor).isEqualTo(conveyor);
         assertThat(conveyor).isEqualTo(conveyor2);
         assertThat(conveyor2).isEqualTo(conveyor);
+
+        HashSet<LocationType> set = new HashSet<>();
+        set.add(conveyor);
+        assertThat(set).hasSize(1);
+        set.add(workplace);
+        assertThat(set).hasSize(2);
+        set.add(conveyor2);
+        assertThat(set).hasSize(2);
     }
 
     @Test
