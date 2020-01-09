@@ -48,14 +48,14 @@ class TransportUnitCommandListener {
     @RabbitListener(queues = &quot;${owms.commands.common.tu.queue-name}&quot;)
     public void onCommand(@Payload Command command) {
         try {
-<span class="nc bnc" id="L51" title="All 2 branches missed.">            if (command instanceof TUCommand) {</span>
-<span class="nc" id="L52">                handler.handle((TUCommand) command);</span>
-<span class="nc bnc" id="L53" title="All 2 branches missed.">            } else if (command instanceof MessageCommand) {</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">            if (command instanceof TUCommand) {</span>
+<span class="fc" id="L52">                handler.handle((TUCommand) command);</span>
+<span class="pc bnc" id="L53" title="All 2 branches missed.">            } else if (command instanceof MessageCommand) {</span>
 <span class="nc" id="L54">                messageCommandHandler.handle((MessageCommand) command);</span>
             }
 <span class="nc" id="L56">        } catch (Exception e) {</span>
 <span class="nc" id="L57">            throw new AmqpRejectAndDontRequeueException(e.getMessage(), e);</span>
         }
-<span class="nc" id="L59">    }</span>
+<span class="fc" id="L59">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

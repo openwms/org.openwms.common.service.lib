@@ -57,7 +57,7 @@ class TransportUnitCommandHandler {
 <span class="fc" id="L57">    }</span>
 
     public void handle(TUCommand command) {
-<span class="nc bnc" id="L60" title="All 6 branches missed.">        switch(command.getType()) {</span>
+<span class="pc bpc" id="L60" title="5 of 6 branches missed.">        switch(command.getType()) {</span>
             case CHANGE_ACTUAL_LOCATION:
 <span class="nc bnc" id="L62" title="All 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
 <span class="nc" id="L63">                    LOGGER.debug(&quot;Got command to MOVE TransportUnit with id [{}] to [{}]&quot;, command.getTransportUnit().getBarcode(), command.getTransportUnit().getActualLocation());</span>
@@ -72,12 +72,12 @@ class TransportUnitCommandHandler {
 <span class="nc" id="L72">                service.changeTarget(Barcode.of(command.getTransportUnit().getBarcode()), command.getTransportUnit().getTargetLocation());</span>
 <span class="nc" id="L73">                break;</span>
             case REMOVE:
-<span class="nc" id="L75">                validate(validator, command, ValidationGroups.TransportUnit.Remove.class);</span>
-<span class="nc bnc" id="L76" title="All 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L77">                    LOGGER.debug(&quot;Got command to REMOVE TransportUnit with pKey [{}]&quot;, command.getTransportUnit().getpKey());</span>
+<span class="fc" id="L75">                validate(validator, command, ValidationGroups.TransportUnit.Remove.class);</span>
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
+<span class="fc" id="L77">                    LOGGER.debug(&quot;Got command to REMOVE TransportUnit with pKey [{}]&quot;, command.getTransportUnit().getpKey());</span>
                 }
-<span class="nc" id="L79">                ctx.publishEvent(command);</span>
-<span class="nc" id="L80">                break;</span>
+<span class="fc" id="L79">                ctx.publishEvent(command);</span>
+<span class="fc" id="L80">                break;</span>
             case REQUEST:
 <span class="nc bnc" id="L82" title="All 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
 <span class="nc" id="L83">                    LOGGER.debug(&quot;Got a request command for a TransportUnit&quot;);</span>
@@ -108,6 +108,6 @@ class TransportUnitCommandHandler {
             default:
 <span class="nc" id="L109">                LOGGER.error(&quot;TUCommand [{}] not supported&quot;, command.getType());</span>
         }
-<span class="nc" id="L111">    }</span>
+<span class="fc" id="L111">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
