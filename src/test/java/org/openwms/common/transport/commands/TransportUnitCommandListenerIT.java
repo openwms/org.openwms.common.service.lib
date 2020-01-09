@@ -19,9 +19,12 @@ import org.ameba.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestData;
+import org.openwms.common.transport.Barcode;
+import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
+import org.openwms.common.transport.api.messages.TransportUnitTypeMO;
 import org.openwms.core.SpringProfiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -72,5 +75,40 @@ class TransportUnitCommandListenerIT {
                 .build()
         );
         assertThat(service.findByPKey(TestData.TU_1_PKEY).getActualLocation().getLocationId().toString()).isEqualTo(TestData.LOCATION_ID_FGIN0001LEFT);
+    }
+
+    @Test void test_CHANGE_TARGET_command() {
+        assertThat(service.findByPKey(TestData.TU_1_PKEY).getActualLocation().getLocationId()).isNotEqualTo(TestData.LOCATION_ID_FGIN0001LEFT);
+        assertThat(service.findByPKey(TestData.TU_1_PKEY).getTargetLocation()).isNull();
+        listener.onCommand(TUCommand.newBuilder(TUCommand.Type.CHANGE_TARGET)
+                .withTransportUnit(
+                        TransportUnitMO.newBuilder()
+                                .withBarcode(TestData.TU_1_ID)
+                                .withTargetLocation(TestData.LOCATION_ID_FGIN0001LEFT)
+                                .build()
+                )
+                .build()
+        );
+        assertThat(service.findByPKey(TestData.TU_1_PKEY).getTargetLocation().getLocationId().toString()).isEqualTo(TestData.LOCATION_ID_FGIN0001LEFT);
+    }
+
+    @Test void test_CREATE_command() {
+        listener.onCommand(TUCommand.newBuilder(TUCommand.Type.CREATE)
+                .withTransportUnit(
+                        TransportUnitMO.newBuilder()
+                                .withBarcode("0815")
+                                .withTransportUnitType(
+                                        TransportUnitTypeMO.newBuilder()
+                                                .type(TestData.TUT_TYPE_PALLET)
+                                                .build()
+                                )
+                                .withActualLocation(TestData.LOCATION_ID_FGIN0001LEFT)
+                                .build()
+                )
+                .build()
+        );
+        TransportUnit tu = service.findByBarcode(Barcode.of("0815"));
+        assertThat(tu.getActualLocation().getLocationId().toString()).isEqualTo(TestData.LOCATION_ID_FGIN0001LEFT);
+        assertThat(tu.getTransportUnitType().getType()).isEqualTo(TestData.TUT_TYPE_PALLET);
     }
 }
