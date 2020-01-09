@@ -52,11 +52,11 @@ public class TransportUnitVO extends AbstractBase implements Serializable {
 <span class="fc" id="L52">    protected TransportUnitVO() {</span>
 <span class="fc" id="L53">    }</span>
 
-<span class="fc" id="L55">    public TransportUnitVO(@NotEmpty String barcode) {</span>
+<span class="fc" id="L55">    public TransportUnitVO(String barcode) {</span>
 <span class="fc" id="L56">        this.barcode = barcode;</span>
 <span class="fc" id="L57">    }</span>
 
-<span class="fc" id="L59">    public TransportUnitVO(@NotEmpty String barcode, @NotEmpty String transportUnitType, LocationVO actualLocation) {</span>
+<span class="fc" id="L59">    public TransportUnitVO(String barcode, String transportUnitType, LocationVO actualLocation) {</span>
 <span class="fc" id="L60">        this.barcode = barcode;</span>
 <span class="fc" id="L61">        this.transportUnitType = transportUnitType;</span>
 <span class="fc" id="L62">        this.actualLocation = actualLocation;</span>
