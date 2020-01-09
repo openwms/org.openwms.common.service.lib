@@ -34,9 +34,7 @@ OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImp
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationPKConverter,0,15,0,2,0,4,0,4,0,3
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupStateConverter,14,16,5,3,4,4,4,3,1,2
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupEventPropagator,104,60,8,2,14,15,8,4,0,4
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl,132,123,12,2,22,28,12,9,5,9
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl.AjcClosure3,13,0,0,0,1,0,2,0,2,0
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl.AjcClosure1,13,0,0,0,1,0,2,0,2,0
+OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl,24,121,4,2,0,27,4,8,1,8
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure1,0,17,0,0,0,1,0,2,0,2
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure3,0,17,0,0,0,1,0,2,0,2
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure5,0,17,0,0,0,1,0,2,0,2
@@ -52,7 +50,7 @@ OpenWMS.org COMMON: Services,org.openwms.common.location,LocationGroup,72,473,32
 OpenWMS.org COMMON: Services,org.openwms.common.location,LocationController,0,207,0,4,0,31,0,11,0,9
 OpenWMS.org COMMON: Services,org.openwms.common.location,LocationPK,9,210,9,13,3,41,9,17,0,15
 OpenWMS.org COMMON: Services,org.openwms.common.location,Message.Builder,0,15,0,0,0,5,0,3,0,3
-OpenWMS.org COMMON: Services,org.openwms.common.location,LocationType,14,88,2,4,6,23,5,12,3,11
+OpenWMS.org COMMON: Services,org.openwms.common.location,LocationType,2,100,2,4,0,29,2,15,0,14
 OpenWMS.org COMMON: Services,org.openwms.common.location,Target,0,3,0,0,0,1,0,1,0,1
 OpenWMS.org COMMON: Services,org.openwms.common.location,Subsystem,32,0,0,0,14,0,7,0,7,0
 OpenWMS.org COMMON: Services,org.openwms.common.location,Location,16,262,3,13,4,62,7,39,4,34
