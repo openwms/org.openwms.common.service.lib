@@ -24,10 +24,7 @@ import org.openwms.common.location.LocationGroup;
 import org.openwms.common.location.LocationGroupService;
 import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.events.LocationGroupEvent;
-import org.openwms.core.util.TreeNode;
-import org.openwms.core.util.TreeNodeImpl;
 import org.springframework.context.ApplicationContext;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -118,47 +115,5 @@ class LocationGroupServiceImpl implements LocationGroupService {
     public List<LocationGroup> findByNames(List<String> locationGroupNames) {
         List<LocationGroup> result = repository.findByNameIn(locationGroupNames);
         return result == null ? Collections.emptyList() : result;
-    }
-
-    @Transactional(readOnly = true)
-    public TreeNode<LocationGroup> getLocationGroupsAsTree() {
-        return createTree(new TreeNodeImpl<>(), getLocationGroupsAsList());
-    }
-
-    @Transactional(readOnly = true)
-    public List<LocationGroup> getLocationGroupsAsList() {
-        return repository.findAll();
-    }
-
-    private TreeNode<LocationGroup> createTree(TreeNode<LocationGroup> root, List<LocationGroup> locationGroups) {
-        for (LocationGroup l : locationGroups) {
-            searchForNode(l, root);
-        }
-        return root;
-    }
-
-    private TreeNode<LocationGroup> searchForNode(LocationGroup lg, TreeNode<LocationGroup> root) {
-        TreeNode<LocationGroup> node;
-        if (lg.getParent() == null) {
-            node = root.getChild(lg);
-            if (node == null) {
-                TreeNode<LocationGroup> n1 = new TreeNodeImpl<>();
-                n1.setData(lg);
-                n1.setParent(root);
-                root.addChild(n1.getData(), n1);
-                return n1;
-            }
-            return node;
-        } else {
-            node = searchForNode(lg.getParent(), root);
-            TreeNode<LocationGroup> child = node.getChild(lg);
-            if (child == null) {
-                child = new TreeNodeImpl<>();
-                child.setData(lg);
-                child.setParent(node);
-                node.addChild(lg, child);
-            }
-            return child;
-        }
     }
 }
