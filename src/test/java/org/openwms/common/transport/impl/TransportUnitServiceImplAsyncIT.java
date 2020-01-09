@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport.impl;
 
+import org.ameba.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestData;
@@ -25,9 +26,12 @@ import org.openwms.core.SpringProfiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Profile;
+import org.springframework.test.annotation.Rollback;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * A TransportUnitServiceImplAsyncIT.
@@ -37,22 +41,22 @@ import javax.transaction.Transactional;
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @CommonApplicationTest
 @Transactional
+@Rollback
 class TransportUnitServiceImplAsyncIT {
 
-    @Autowired
-    private EntityManager em;
     @Autowired
     private ApplicationEventPublisher publisher;
     @Autowired
     private TransportUnitService testee;
 
     @Test void shall_trigger_deletion() {
+        assertThat(testee.findByPKey(TestData.TU_1_PKEY)).isNotNull();
         TUCommand command = TUCommand.newBuilder(TUCommand.Type.REMOVE)
                 .withTransportUnit(
                         TransportUnitMO.newBuilder().withPKey(TestData.TU_1_PKEY).build()
                 )
                 .build();
         publisher.publishEvent(command);
-//        assertThatThrownBy(() -> testee.findByPKey(TestData.TU_1_PKEY)).isInstanceOf(NotFoundException.class);
+        assertThatThrownBy(() -> testee.findByPKey(TestData.TU_1_PKEY)).isInstanceOf(NotFoundException.class);
     }
 }
