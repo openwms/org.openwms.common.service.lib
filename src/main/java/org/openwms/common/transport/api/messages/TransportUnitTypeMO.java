@@ -40,10 +40,8 @@ public class TransportUnitTypeMO implements Serializable {
 
     /**
      * Required Default constructor.
-     * @deprecated Should only be used by frameworks
      */
-    @Deprecated
-    TransportUnitTypeMO() { }
+    protected TransportUnitTypeMO() { }
 
     private TransportUnitTypeMO(Builder builder) {
         setType(builder.type);
@@ -125,7 +123,7 @@ public class TransportUnitTypeMO implements Serializable {
     }
 
     public static final class Builder {
-        private @NotNull(groups = ValidationGroups.TransportUnit.Create.class) String type;
+        private String type;
         private int length;
         private int width;
         private int height;

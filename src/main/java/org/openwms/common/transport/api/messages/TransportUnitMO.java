@@ -48,10 +48,8 @@ public class TransportUnitMO implements Serializable {
 
     /**
      * Required Default constructor.
-     * @deprecated Should only be used by frameworks
      */
-    @Deprecated
-    TransportUnitMO() { }
+    protected TransportUnitMO() { }
 
     private TransportUnitMO(Builder builder) {
         setpKey(builder.pKey);
