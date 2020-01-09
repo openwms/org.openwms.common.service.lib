@@ -57,13 +57,13 @@ class TransportUnitCommandHandler {
 <span class="fc" id="L57">    }</span>
 
     public void handle(TUCommand command) {
-<span class="pc bpc" id="L60" title="5 of 6 branches missed.">        switch(command.getType()) {</span>
+<span class="pc bpc" id="L60" title="4 of 6 branches missed.">        switch(command.getType()) {</span>
             case CHANGE_ACTUAL_LOCATION:
-<span class="nc bnc" id="L62" title="All 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L63">                    LOGGER.debug(&quot;Got command to MOVE TransportUnit with id [{}] to [{}]&quot;, command.getTransportUnit().getBarcode(), command.getTransportUnit().getActualLocation());</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
+<span class="fc" id="L63">                    LOGGER.debug(&quot;Got command to MOVE TransportUnit with id [{}] to [{}]&quot;, command.getTransportUnit().getBarcode(), command.getTransportUnit().getActualLocation());</span>
                 }
-<span class="nc" id="L65">                service.moveTransportUnit(Barcode.of(command.getTransportUnit().getBarcode()), LocationPK.fromString(command.getTransportUnit().getActualLocation()));</span>
-<span class="nc" id="L66">                break;</span>
+<span class="fc" id="L65">                service.moveTransportUnit(Barcode.of(command.getTransportUnit().getBarcode()), LocationPK.fromString(command.getTransportUnit().getActualLocation()));</span>
+<span class="fc" id="L66">                break;</span>
             case CHANGE_TARGET:
 <span class="nc" id="L68">                validate(validator, command, ValidationGroups.TransportUnit.ChangeTarget.class);</span>
 <span class="nc bnc" id="L69" title="All 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
