@@ -48,12 +48,12 @@ class TransportUnitCommandListener {
     @RabbitListener(queues = &quot;${owms.commands.common.tu.queue-name}&quot;)
     public void onCommand(@Payload Command command) {
         try {
-<span class="pc bpc" id="L51" title="1 of 2 branches missed.">            if (command instanceof TUCommand) {</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">            if (command instanceof TUCommand) {</span>
 <span class="fc" id="L52">                handler.handle((TUCommand) command);</span>
-<span class="pc bnc" id="L53" title="All 2 branches missed.">            } else if (command instanceof MessageCommand) {</span>
-<span class="nc" id="L54">                messageCommandHandler.handle((MessageCommand) command);</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">            } else if (command instanceof MessageCommand) {</span>
+<span class="fc" id="L54">                messageCommandHandler.handle((MessageCommand) command);</span>
             }
-<span class="nc" id="L56">        } catch (Exception e) {</span>
+<span class="pc" id="L56">        } catch (Exception e) {</span>
 <span class="nc" id="L57">            throw new AmqpRejectAndDontRequeueException(e.getMessage(), e);</span>
         }
 <span class="fc" id="L59">    }</span>
