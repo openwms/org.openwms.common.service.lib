@@ -164,8 +164,7 @@ public class TransportUnitController extends AbstractWebController {
             @RequestParam("bk") String transportUnitBK,
             @RequestParam(value = "errorCode") String errorCode
     ) {
-        MessageCommand messageCommand = MessageCommand.newBuilder()
-                .withType(MessageCommand.Type.ADD_TO_TU)
+        MessageCommand messageCommand = MessageCommand.newBuilder(MessageCommand.Type.ADD_TO_TU)
                 .withTransportUnitId(transportUnitBK)
                 .withMessageNumber(errorCode)
                 .withMessageOccurred(new Date())

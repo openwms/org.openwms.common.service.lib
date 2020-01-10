@@ -58,8 +58,8 @@ public class MessageCommand implements Command<MessageCommand.Type>, Serializabl
     }
 
     /*~-------------------- methods --------------------*/
-    public static Builder newBuilder() {
-        return new Builder();
+    public static Builder newBuilder(Type type) {
+        return new Builder(type);
     }
 
     /*~-------------------- accessors --------------------*/
@@ -110,12 +110,8 @@ public class MessageCommand implements Command<MessageCommand.Type>, Serializabl
         private String messageNumber;
         private Date messageOccurred;
 
-        private Builder() {
-        }
-
-        public Builder withType(@NotNull Type val) {
-            type = val;
-            return this;
+        private Builder(Type type) {
+            this.type = type;
         }
 
         public Builder withTransportUnitId(String val) {

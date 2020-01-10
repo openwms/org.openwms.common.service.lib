@@ -22,6 +22,7 @@ import org.openwms.common.TestData;
 import org.openwms.common.transport.Barcode;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
+import org.openwms.common.transport.api.commands.MessageCommand;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.common.transport.api.messages.TransportUnitTypeMO;
@@ -31,6 +32,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -110,5 +112,15 @@ class TransportUnitCommandListenerIT {
         TransportUnit tu = service.findByBarcode(Barcode.of("0815"));
         assertThat(tu.getActualLocation().getLocationId().toString()).isEqualTo(TestData.LOCATION_ID_FGIN0001LEFT);
         assertThat(tu.getTransportUnitType().getType()).isEqualTo(TestData.TUT_TYPE_PALLET);
+    }
+
+    @Test void test_ADD_TO_TU_command() {
+        listener.onCommand(MessageCommand.newBuilder(MessageCommand.Type.ADD_TO_TU)
+                .withTransportUnitId(TestData.TU_1_ID).withMessageNumber("999").withMessageText("TEXT").withMessageOccurred(new Date()).build());
+        TransportUnit tu = service.findByBarcode(Barcode.of(TestData.TU_1_ID));
+        assertThat(tu.getErrors()).hasSize(1);
+        assertThat(tu.getErrors().get(0).getErrorNo()).isEqualTo("999");
+        assertThat(tu.getErrors().get(0).getErrorText()).isEqualTo("TEXT");
+        assertThat(tu.getErrors().get(0).getCreateDt()).isNotNull();
     }
 }
