@@ -320,9 +320,11 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
         Assert.notNull(error, () -> "Error must not be null, this: " + this);
         error.setTu(this);
         if (em != null && em.contains(this)) {
+            System.out.println("Persisting new error " + error);
             em.persist(error);
             error = em.merge(error);
         } else {
+            System.out.println("Adding new error " + error);
             this.errors.add(error);
         }
         return error;
