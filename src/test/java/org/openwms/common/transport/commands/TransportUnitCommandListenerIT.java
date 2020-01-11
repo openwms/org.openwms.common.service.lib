@@ -119,6 +119,7 @@ class TransportUnitCommandListenerIT {
                 .withTransportUnitId(TestData.TU_1_ID).withMessageNumber("999").withMessageText("TEXT").withMessageOccurred(new Date()).build());
         TransportUnit tu = service.findByBarcode(Barcode.of(TestData.TU_1_ID));
         assertThat(tu.getErrors()).hasSize(1);
+        System.out.println(tu.getErrors().get(0));
         assertThat(tu.getErrors().get(0).getErrorNo()).isEqualTo("999");
         assertThat(tu.getErrors().get(0).getErrorText()).isEqualTo("TEXT");
         assertThat(tu.getErrors().get(0).getCreateDt()).isNotNull();
