@@ -45,6 +45,7 @@ import java.lang.annotation.Target;
 @SpringBootTest(classes = {
         CommonStarter.class
 }, properties = {
+        "spring.cloud.discovery.enabled=false",
         "spring.jpa.show-sql=false",
         "spring.main.banner-mode=OFF",
         "spring.jackson.serialization.INDENT_OUTPUT=true"
