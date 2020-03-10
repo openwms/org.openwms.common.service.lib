@@ -19,7 +19,6 @@ import org.openwms.core.event.RootApplicationEvent;
 import org.springframework.util.Assert;
 
 import javax.validation.constraints.NotNull;
-import java.beans.ConstructorProperties;
 import java.io.Serializable;
 
 /**
@@ -37,7 +36,6 @@ public class LocationGroupEvent extends RootApplicationEvent implements Serializ
      * @param source The event sender
      * @param type The event type
      */
-    @ConstructorProperties({"source", "type"})
     public LocationGroupEvent(@NotNull Object source, @NotNull LocationGroupEventType type) {
         super(assertThis(source, type));
         this.type = type;

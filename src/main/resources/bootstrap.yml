@@ -79,6 +79,23 @@ management:
   health:
     rabbit:
       enabled: false
+  metrics:
+    web:
+      server:
+        request:
+          autotime:
+            enabled: false
+    export:
+      prometheus:
+        enabled: false
+        pushgateway:
+          enabled: true
+          push-rate: 5s
+          base-url: http://localhost:9091
+  info:
+    git:
+      mode: full
+
 logging:
   file:
     name: BOOT-COMMON-Service.log

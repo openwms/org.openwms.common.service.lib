@@ -38,7 +38,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Heiko Scherrer
  */
 @CommonApplicationTest
-
 class IndexControllerDocumentation {
 
     @Autowired

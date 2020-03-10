@@ -15,6 +15,7 @@
  */
 package org.openwms.common;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import org.ameba.IDGenerator;
 import org.ameba.JdkIDGenerator;
 import org.ameba.annotation.EnableAspects;
@@ -25,6 +26,8 @@ import org.ameba.i18n.AbstractTranslator;
 import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.ameba.mapping.DozerMapperImpl;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -56,6 +59,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @Import(BaseConfiguration.class)
 public class CommonModuleConfiguration {
+
+    @Bean
+    MeterRegistryCustomizer<MeterRegistry> metricsCommonTags(@Value("${spring.application.name}") String applicationName) {
+        return registry -> registry.config().commonTags("application", applicationName);
+    }
 
     public @Bean
     Translator translator() {
