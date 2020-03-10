@@ -19,7 +19,6 @@ import org.openwms.core.event.RootApplicationEvent;
 import org.springframework.util.Assert;
 
 import javax.validation.constraints.NotNull;
-import java.beans.ConstructorProperties;
 import java.io.Serializable;
 
 /**
@@ -37,32 +36,31 @@ public class LocationGroupEvent extends RootApplicationEvent implements Serializ
      * @param source The event sender
      * @param type The event type
      */
-    @ConstructorProperties({&quot;source&quot;, &quot;type&quot;})
     public LocationGroupEvent(@NotNull Object source, @NotNull LocationGroupEventType type) {
-<span class="fc" id="L42">        super(assertThis(source, type));</span>
-<span class="fc" id="L43">        this.type = type;</span>
-<span class="fc" id="L44">    }</span>
+<span class="fc" id="L40">        super(assertThis(source, type));</span>
+<span class="fc" id="L41">        this.type = type;</span>
+<span class="fc" id="L42">    }</span>
 
     private static Object assertThis(Object source, LocationGroupEventType type) {
-<span class="fc" id="L47">        Assert.notNull(source, &quot;source is null&quot;);</span>
-<span class="fc" id="L48">        Assert.notNull(type, &quot;type is null&quot;);</span>
-<span class="fc" id="L49">        return source;</span>
+<span class="fc" id="L45">        Assert.notNull(source, &quot;source is null&quot;);</span>
+<span class="fc" id="L46">        Assert.notNull(type, &quot;type is null&quot;);</span>
+<span class="fc" id="L47">        return source;</span>
     }
 
     public static LocationGroupEvent boot() {
-<span class="fc" id="L53">        return new LocationGroupEvent(&quot;BOOT&quot;, LocationGroupEventType.BOOT);</span>
+<span class="fc" id="L51">        return new LocationGroupEvent(&quot;BOOT&quot;, LocationGroupEventType.BOOT);</span>
     }
 
     public LocationGroupEventType getType() {
-<span class="fc" id="L57">        return type;</span>
+<span class="fc" id="L55">        return type;</span>
     }
 
     public static LocationGroupEvent of(Object obj, LocationGroupEventType type) {
-<span class="fc" id="L61">        return new LocationGroupEvent(obj, type);</span>
+<span class="fc" id="L59">        return new LocationGroupEvent(obj, type);</span>
     }
 
-<span class="fc" id="L64">    public enum LocationGroupEventType {</span>
-<span class="fc" id="L65">        BOOT, CREATED, CHANGED, DELETED, STATE_CHANGE;</span>
+<span class="fc" id="L62">    public enum LocationGroupEventType {</span>
+<span class="fc" id="L63">        BOOT, CREATED, CHANGED, DELETED, STATE_CHANGE;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

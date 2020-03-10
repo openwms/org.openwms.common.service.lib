@@ -15,6 +15,7 @@
  */
 package org.openwms.common;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import org.ameba.IDGenerator;
 import org.ameba.JdkIDGenerator;
 import org.ameba.annotation.EnableAspects;
@@ -25,6 +26,8 @@ import org.ameba.i18n.AbstractTranslator;
 import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.ameba.mapping.DozerMapperImpl;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -55,41 +58,46 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableMultiTenancy(enabled = false)
 @EnableTransactionManagement
 @Import(BaseConfiguration.class)
-<span class="fc" id="L58">public class CommonModuleConfiguration {</span>
+<span class="fc" id="L61">public class CommonModuleConfiguration {</span>
+
+    @Bean
+    MeterRegistryCustomizer&lt;MeterRegistry&gt; metricsCommonTags(@Value(&quot;${spring.application.name}&quot;) String applicationName) {
+<span class="fc" id="L65">        return registry -&gt; registry.config().commonTags(&quot;application&quot;, applicationName);</span>
+    }
 
     public @Bean
     Translator translator() {
-<span class="fc" id="L62">        return new AbstractTranslator() {</span>
+<span class="fc" id="L70">        return new AbstractTranslator() {</span>
             @Override
             protected MessageSource getMessageSource() {
-<span class="fc" id="L65">                return messageSource();</span>
+<span class="fc" id="L73">                return messageSource();</span>
             }
         };
     }
 
     public @Bean
     MessageSource messageSource() {
-<span class="fc" id="L72">        ResourceBundleMessageSource nrrbm = new ResourceBundleMessageSource();</span>
-<span class="fc" id="L73">        nrrbm.setBasename(&quot;i18n&quot;);</span>
-<span class="fc" id="L74">        return nrrbm;</span>
+<span class="fc" id="L80">        ResourceBundleMessageSource nrrbm = new ResourceBundleMessageSource();</span>
+<span class="fc" id="L81">        nrrbm.setBasename(&quot;i18n&quot;);</span>
+<span class="fc" id="L82">        return nrrbm;</span>
     }
 
     public @Bean
     BeanMapper beanMapper() {
-<span class="fc" id="L79">        return new DozerMapperImpl(&quot;META-INF/dozer/common-bean-mappings.xml&quot;);</span>
+<span class="fc" id="L87">        return new DozerMapperImpl(&quot;META-INF/dozer/common-bean-mappings.xml&quot;);</span>
     }
 
     /*~ ------------- Request ID handling ----------- */
     public @Bean
     IDGenerator&lt;String&gt; uuidGenerator() {
-<span class="fc" id="L85">        return new JdkIDGenerator();</span>
+<span class="fc" id="L93">        return new JdkIDGenerator();</span>
     }
 
     public @Bean
     FilterRegistrationBean requestIDFilter(IDGenerator&lt;String&gt; uuidGenerator) {
-<span class="fc" id="L90">        FilterRegistrationBean frb = new FilterRegistrationBean(new RequestIDFilter(uuidGenerator));</span>
-<span class="fc" id="L91">        frb.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);</span>
-<span class="fc" id="L92">        return frb;</span>
+<span class="fc" id="L98">        FilterRegistrationBean frb = new FilterRegistrationBean(new RequestIDFilter(uuidGenerator));</span>
+<span class="fc" id="L99">        frb.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);</span>
+<span class="fc" id="L100">        return frb;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
