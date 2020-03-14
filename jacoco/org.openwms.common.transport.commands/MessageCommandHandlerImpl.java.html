@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A MessageCommandHandlerImpl handles {@link MessageCommand}s.
+ * A MessageCommandHandlerImpl is a transactional Spring managed bean that processes {@link MessageCommand}s.
  *
  * @author Heiko Scherrer
  * @see MessageCommand
@@ -40,24 +40,25 @@ class MessageCommandHandlerImpl implements MessageCommandHandler {
 <span class="fc" id="L40">        this.service = service;</span>
 <span class="fc" id="L41">    }</span>
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handle(MessageCommand command) {
-<span class="pc bpc" id="L45" title="1 of 2 branches missed.">        if (command.getType() == MessageCommand.Type.ADD_TO_TU) {</span>
-<span class="pc bpc" id="L46" title="1 of 2 branches missed.">            if (LOGGER.isDebugEnabled()) {</span>
-<span class="fc" id="L47">                LOGGER.debug(&quot;Got command to ADD a Message to the TransportUnit with id [{}]&quot;, command.getTransportUnitId());</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if (command.getType() == MessageCommand.Type.ADD_TO_TU) {</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">            if (LOGGER.isDebugEnabled()) {</span>
+<span class="fc" id="L50">                LOGGER.debug(&quot;Got command to ADD a Message to the TransportUnit with id [{}]&quot;, command.getTransportUnitId());</span>
             }
-<span class="fc" id="L49">            TransportUnit tu = service.findByBarcode(</span>
-<span class="fc" id="L50">                    Barcode.of(command.getTransportUnitId())</span>
+<span class="fc" id="L52">            TransportUnit tu = service.findByBarcode(Barcode.of(command.getTransportUnitId()));</span>
+<span class="fc" id="L53">            tu.addError(</span>
+<span class="fc" id="L54">                    UnitError.newBuilder()</span>
+<span class="fc" id="L55">                            .errorText(command.getMessageText())</span>
+<span class="fc" id="L56">                            .errorNo(command.getMessageNumber())</span>
+<span class="fc" id="L57">                            .build()</span>
             );
-<span class="fc" id="L52">            tu.addError(</span>
-<span class="fc" id="L53">                    UnitError.newBuilder()</span>
-<span class="fc" id="L54">                            .errorText(command.getMessageText())</span>
-<span class="fc" id="L55">                            .errorNo(command.getMessageNumber())</span>
-<span class="fc" id="L56">                            .build()</span>
-            );
-<span class="fc" id="L58">        } else {</span>
-<span class="nc" id="L59">            LOGGER.debug(&quot;MessageCommand [{}] not supported&quot;, command.getType());</span>
+<span class="fc" id="L59">        } else {</span>
+<span class="nc" id="L60">            LOGGER.debug(&quot;MessageCommand [{}] not supported&quot;, command.getType());</span>
         }
-<span class="fc" id="L61">    }</span>
+<span class="fc" id="L62">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
