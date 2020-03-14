@@ -16,7 +16,6 @@
 package org.openwms.common.transport.commands;
 
 import org.ameba.annotation.Measured;
-import org.ameba.annotation.TxService;
 import org.openwms.common.transport.api.commands.Command;
 import org.openwms.common.transport.api.commands.MessageCommand;
 import org.openwms.common.transport.api.commands.TUCommand;
@@ -25,6 +24,7 @@ import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Component;
 
 /**
  * A TransportUnitCommandListener is listening on {@link TUCommand}s to process.
@@ -33,7 +33,7 @@ import org.springframework.messaging.handler.annotation.Payload;
  * @see TUCommand
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
-@TxService
+@Component
 class TransportUnitCommandListener {
 
     private final TransportUnitCommandHandler handler;

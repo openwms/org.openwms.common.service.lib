@@ -132,7 +132,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     private Set<TransportUnit> children = new HashSet<>();
 
     /** A List of errors occurred on the {@code TransportUnit}. */
-    @OneToMany(mappedBy = "tu", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "tu", cascade = {CascadeType.ALL})
     @NotAudited
     private List<UnitError> errors = new ArrayList<>(0);
 
@@ -320,13 +320,11 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
         Assert.notNull(error, () -> "Error must not be null, this: " + this);
         error.setTu(this);
         if (em != null && em.contains(this)) {
-            System.out.println("Persisting new error " + error);
+            // if the instance is currently bound to a PC...
             em.persist(error);
             error = em.merge(error);
-        } else {
-            System.out.println("Adding new error " + error);
-            this.errors.add(error);
         }
+        this.errors.add(error);
         return error;
     }
 

@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A MessageCommandHandlerImpl handles {@link MessageCommand}s.
+ * A MessageCommandHandlerImpl is a transactional Spring managed bean that processes {@link MessageCommand}s.
  *
  * @author Heiko Scherrer
  * @see MessageCommand
@@ -40,15 +40,16 @@ class MessageCommandHandlerImpl implements MessageCommandHandler {
         this.service = service;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handle(MessageCommand command) {
         if (command.getType() == MessageCommand.Type.ADD_TO_TU) {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Got command to ADD a Message to the TransportUnit with id [{}]", command.getTransportUnitId());
             }
-            TransportUnit tu = service.findByBarcode(
-                    Barcode.of(command.getTransportUnitId())
-            );
+            TransportUnit tu = service.findByBarcode(Barcode.of(command.getTransportUnitId()));
             tu.addError(
                     UnitError.newBuilder()
                             .errorText(command.getMessageText())
