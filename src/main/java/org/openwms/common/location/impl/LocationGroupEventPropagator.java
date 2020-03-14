@@ -28,8 +28,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import javax.annotation.PostConstruct;
+import javax.validation.Validator;
 
 import static java.lang.String.format;
+import static org.ameba.system.ValidationUtil.validate;
 
 /**
  * A LocationGroupEventPropagator.
@@ -41,11 +43,13 @@ import static java.lang.String.format;
 class LocationGroupEventPropagator {
 
     private final AmqpTemplate amqpTemplate;
+    private final Validator validator;
     private final String exchangeName;
     private final BeanMapper mapper;
 
-    LocationGroupEventPropagator(AmqpTemplate amqpTemplate, @Value("${owms.events.common.lg.exchange-name}") String exchangeName, BeanMapper mapper) {
+    LocationGroupEventPropagator(AmqpTemplate amqpTemplate, Validator validator, @Value("${owms.events.common.lg.exchange-name}") String exchangeName, BeanMapper mapper) {
         this.amqpTemplate = amqpTemplate;
+        this.validator = validator;
         this.exchangeName = exchangeName;
         this.mapper = mapper;
     }
@@ -68,7 +72,9 @@ class LocationGroupEventPropagator {
                 amqpTemplate.convertAndSend(exchangeName, "lg.event.deleted", mapper.map(event.getSource(), LocationGroupMO.class));
                 break;
             case STATE_CHANGE:
-                amqpTemplate.convertAndSend(exchangeName, "lg.event.state-changed", mapper.map(event.getSource(), LocationGroupMO.class));
+                LocationGroupMO msg = mapper.map(event.getSource(), LocationGroupMO.class);
+                validate(validator, msg);
+                amqpTemplate.convertAndSend(exchangeName, "lg.event.state-changed", msg);
                 break;
             default:
                 throw new UnsupportedOperationException(format("Eventtype [%s] currently not supported", event.getType()));
