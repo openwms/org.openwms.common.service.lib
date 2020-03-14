@@ -87,9 +87,8 @@ management:
             enabled: false
     export:
       prometheus:
-        enabled: false
         pushgateway:
-          enabled: true
+          enabled: false
           push-rate: 5s
           base-url: http://localhost:9091
   info:
