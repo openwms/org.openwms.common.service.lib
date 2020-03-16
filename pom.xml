@@ -72,6 +72,7 @@
     </ciManagement>
 
     <properties>
+        <ameba-lib.version>2.4-SNAPSHOT</ameba-lib.version>
         <core.version>1.7.0-SNAPSHOT</core.version>
         <core.units.version>0.4.0-SNAPSHOT</core.units.version>
         <indriya.version>2.0</indriya.version>

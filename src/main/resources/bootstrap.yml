@@ -32,6 +32,8 @@ spring:
             default_schema: public
             audit_strategy_validity_end_rev_field_name: C_REV_END
             audit_strategy_validity_revend_timestamp_field_name: C_REVEND_TSTMP
+  main:
+    allow-bean-definition-overriding: true
   jackson:
     date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
   zipkin:
@@ -84,13 +86,14 @@ management:
       server:
         request:
           autotime:
-            enabled: false
+            enabled: true
     export:
       prometheus:
         pushgateway:
-          enabled: false
+          enabled: true
           push-rate: 5s
           base-url: http://localhost:9091
+        enabled: true
   info:
     git:
       mode: full
