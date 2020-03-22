@@ -42,10 +42,10 @@ script:
   - if [[ ( "$TRAVIS_BRANCH" == "master" ) ]]; then doc/docToolchain-master/bin/doctoolchain doc publishToConfluence; fi
 
 after_success:
-  - docker build -t openwms/org.openwms.common.service:latest .
+  - ./scripts/docker_build
 
 deploy:
   provider: script
-  script: bash docker_push
+  script: bash scripts/docker_push
   on:
     branch: master

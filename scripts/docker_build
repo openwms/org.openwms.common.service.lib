@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "$DOCKER_PASSWORD" | docker login -u openwms --password-stdin
+echo ${PWD}
+docker build -t openwms/org.openwms.common.service:latest .
