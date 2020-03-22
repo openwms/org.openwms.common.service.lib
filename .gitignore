@@ -10,6 +10,8 @@ libs/
 **/node_modules/
 **/typings/
 **/*.js.map
+doc/build/
+doc/.gradle/
 
 # OS Files #
 .DS_Store
