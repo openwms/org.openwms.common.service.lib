@@ -42,7 +42,7 @@ script:
   - if [[ ( "$TRAVIS_BRANCH" == "master" ) ]]; then doc/docToolchain-master/bin/doctoolchain doc publishToConfluence; fi
 
 after_success:
-  - ./docker_build
+  - ./scripts/docker_build
 
 deploy:
   provider: script
