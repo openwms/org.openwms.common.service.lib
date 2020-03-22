@@ -23,25 +23,31 @@ Various options:
 
 === Business Context
 
-[role="arc42help"]
-****
-.Contents
-Specification of *all* communication partners (users, IT-systems, ...) with explanations of domain specific inputs and outputs or interfaces.
-Optionally you can add domain specific formats or communication protocols.
+The Common Service is a central service used by many other services of the Transport Management (TMS) domain and the Warehouse Management (WMS)
+domain. Itself does not depend or use other OpenWMS.org services, hence it can be seen as the essential base service of each system.
 
-.Motivation
-All stakeholders should understand which data are exchanged with the environment of the system.
+image:03-business_context-EN.png["Business Context"]
 
-.Form
-All kinds of diagrams that show the system as a black box and specify the domain interfaces to communication partners.
+[cols="1,2" options="header"]
+|===
+| **Name** | **Responsibility**
+| Common Service | Base service of the COMMON domain responsible to manage `TransportUnit`s, `Location`s and `LocationGroup`s. Functionality if offered as a REST API over HTTP and an asynchronous command API
+| User Interface | An user interface, ie. for operators, may interact with the Common Service
+| Transport Management Services | All services of the automatic and manual transport management may access the Common Service directly
+| Warehouse Management Services | All services of the warehouse management domain may interact with the Common Service directly
+|===
 
-Alternatively (or additionally) you can use a table.
-The title of the table is the name of your system, the three columns contain the name of the communication partner, the inputs, and the outputs.
-****
+Exposed resources to API clients
 
-**<Diagram or Table>**
-
-**<optionally: Explanation of external domain interfaces>**
+[cols="1,2" options="header"]
+|===
+| **Name** | **Responsibility**
+| Location | A `Location`, represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a conveyor location. Even error locations can be represented with the `Location`. Multiple Locations with same characteristics are grouped to a `LocationGroup`
+| LocationGroup | A `LocationGroup` is a logical group of `Location`s with same characteristics
+| Target | A `Target` is either a physical or a logical endpoint of any kind of warehouse order. A `TransportOrder` has a `Target` assigned where it has to be moved to
+| TransportUnit | A `TransportUnit` is an item like a box, a toad, a bin or a pallet that is moved within a warehouse and can carry goods. It can be moved between `Location`s
+| TransportUnitType | A `TransportUnitType` is a type of a certain `TransportUnit`. Typically to store characteristic attributes of `TransportUnit`s, such as the length, the height, or the weight of `TransportUnit`s
+|===
 
 === Technical Context
 
