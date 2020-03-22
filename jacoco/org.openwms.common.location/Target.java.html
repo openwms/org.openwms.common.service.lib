@@ -22,8 +22,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 
 /**
- * A Target is either a physical or a logical endpoint of any kind of warehouse order. A {@code TransportOrder} has a Target set,
- * to where a {@code TransportUnit} has to be moved to.
+ * A Target is either a physical or a logical endpoint of any kind of warehouse order. A {@code TransportOrder} has a Target assigned, where
+ * it has to be moved to.
  * 
  * @GlossaryTerm
  * @author Heiko Scherrer

@@ -41,8 +41,8 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * A Location, represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a location
- * on a conveyor. Even error locations can be represented with the Location. Multiple Locations with same characteristics are grouped to a
+ * A Location, represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a conveyor
+ * location. Even error locations can be represented with the Location. Multiple Locations with same characteristics are grouped to a
  * {@link LocationGroup}.
  *
  * @author Heiko Scherrer
