@@ -20,7 +20,7 @@ services:
 
 before_install:
   - "sudo apt-get install graphviz"
-  - ./toolsetup
+  - ./scripts/toolsetup
 
 install: true
 
