@@ -14,17 +14,17 @@ $ ./mvnw package
 
 Run in standalone mode:
 ```
-$ java -jar target/openwms-common-service.jar 
+$ java -jar target/openwms-common-service-exec.jar 
 ```
 
 Or run with some sample data:
 ```
-$ java -Dspring.profiles.active=DEMO -jar target/openwms-common-service.jar 
+$ java -Dspring.profiles.active=DEMO -jar target/openwms-common-service-exec.jar 
 ```
 
 Or additionally run in a distributed environment with an already running Service Registry, Configuration Server and a RabbitMQ broker:
 ```
-$ java -Dspring.profiles.active=ASYNCHRONOUS,DEMO -jar target/openwms-common-service.jar 
+$ java -Dspring.profiles.active=ASYNCHRONOUS,DEMO -jar target/openwms-common-service-exec.jar 
 ```
 
 # Resources
