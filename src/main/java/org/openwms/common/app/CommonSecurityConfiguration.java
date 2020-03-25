@@ -13,20 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common;
+package org.openwms.common.app;
 
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 /**
- * A CommonStandaloneConfiguration is activated when the service is deployed as a
- * microservice, not packaged within an application. Then Service Discovery is activated.
+ * A CommonSecurityConfiguration.
  *
  * @author Heiko Scherrer
  */
-@Profile("!INMEM")
 @Configuration
-@EnableDiscoveryClient
-public class CommonStandaloneConfiguration {
+class CommonSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * API is for non browser clients!
+     */
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests().anyRequest().permitAll()
+            .and()
+            .csrf().disable();
+    }
 }

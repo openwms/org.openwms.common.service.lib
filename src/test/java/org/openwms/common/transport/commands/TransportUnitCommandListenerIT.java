@@ -16,6 +16,7 @@
 package org.openwms.common.transport.commands;
 
 import org.ameba.exception.NotFoundException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestData;
@@ -28,7 +29,6 @@ import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.common.transport.api.messages.TransportUnitTypeMO;
 import org.openwms.core.SpringProfiles;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
@@ -36,13 +36,13 @@ import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * A TransportUnitCommandListenerIT.
  *
  * @author Heiko Scherrer
  */
-@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @CommonApplicationTest
 @Transactional
 @Rollback
@@ -52,6 +52,11 @@ class TransportUnitCommandListenerIT {
     private TransportUnitCommandListener listener;
     @Autowired
     private TransportUnitService service;
+
+    @BeforeAll
+    public static void enableWithRabbitOnly() {
+        assumeTrue(System.getProperty("spring.profiles.active", "default").contains(SpringProfiles.ASYNCHRONOUS_PROFILE));
+    }
 
     @Test void test_REMOVE_command() {
         assertThat(service.findByPKey(TestData.TU_1_PKEY)).isNotNull();

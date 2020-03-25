@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common;
+package org.openwms.common.app;
 
 import org.openwms.core.SpringProfiles;
 import org.springframework.amqp.core.Binding;
