@@ -1,4 +1,5 @@
 org.openwms.common
+org.openwms.common.app
 org.openwms.common.jpa
 org.openwms.common.location
 org.openwms.common.location.api
