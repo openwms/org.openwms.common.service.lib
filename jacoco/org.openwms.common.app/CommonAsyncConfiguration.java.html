@@ -16,9 +16,6 @@
 package org.openwms.common.app;
 
 import org.openwms.core.SpringProfiles;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,24 +32,11 @@ import org.springframework.context.annotation.Profile;
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Configuration
 @EnableRabbit
-<span class="fc" id="L38">class CommonAsyncConfiguration {</span>
+<span class="fc" id="L35">class CommonAsyncConfiguration {</span>
 
     @Bean
     TopicExchange lgExchange(@Value(&quot;${owms.events.common.lg.exchange-name}&quot;) String exchangeName) {
-<span class="fc" id="L42">        return new TopicExchange(exchangeName, true, false);</span>
-    }
-
-    @Bean
-    Queue lgQueue(@Value(&quot;${owms.events.common.lg.queue-name}&quot;) String queueName) {
-<span class="fc" id="L47">        return new Queue(queueName, true);</span>
-    }
-
-    @Bean
-    Binding lgBinding(TopicExchange lgExchange, Queue lgQueue, @Value(&quot;${owms.events.common.lg.routing-key}&quot;) String routingKey) {
-<span class="fc" id="L52">        return BindingBuilder</span>
-<span class="fc" id="L53">                .bind(lgQueue)</span>
-<span class="fc" id="L54">                .to(lgExchange)</span>
-<span class="fc" id="L55">                .with(routingKey);</span>
+<span class="fc" id="L39">        return new TopicExchange(exchangeName, true, false);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
