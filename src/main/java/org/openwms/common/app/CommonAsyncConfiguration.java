@@ -16,9 +16,6 @@
 package org.openwms.common.app;
 
 import org.openwms.core.SpringProfiles;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,18 +37,5 @@ class CommonAsyncConfiguration {
     @Bean
     TopicExchange lgExchange(@Value("${owms.events.common.lg.exchange-name}") String exchangeName) {
         return new TopicExchange(exchangeName, true, false);
-    }
-
-    @Bean
-    Queue lgQueue(@Value("${owms.events.common.lg.queue-name}") String queueName) {
-        return new Queue(queueName, true);
-    }
-
-    @Bean
-    Binding lgBinding(TopicExchange lgExchange, Queue lgQueue, @Value("${owms.events.common.lg.routing-key}") String routingKey) {
-        return BindingBuilder
-                .bind(lgQueue)
-                .to(lgExchange)
-                .with(routingKey);
     }
 }

@@ -68,23 +68,6 @@ class CommonOptAsyncConfiguration {
         return new TopicExchange(exchangeName, true, false);
     }
 
-    @Bean
-    Queue eventsQueue(@Value("${owms.events.common.tu.queue-name}") String queueName) {
-        return new Queue(queueName);
-    }
-
-    @Bean
-    Binding binding(
-            TopicExchange commonTuExchange,
-            Queue eventsQueue,
-            @Value("${owms.events.common.tu.routing-key}") String routingKey
-    ) {
-        return BindingBuilder
-                .bind(eventsQueue)
-                .to(commonTuExchange)
-                .with(routingKey);
-    }
-
     /*~ ------------ Commands ------------- */
     @Bean
     Queue commandsQueue(@Value("${owms.commands.common.tu.queue-name}") String queueName) {
