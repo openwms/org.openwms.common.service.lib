@@ -358,7 +358,7 @@ The server sends back a list of all `LocationGroups` or an empty list if no `Loc
 include::{generated}/lg/shall_findby_names/http-response.adoc[]
 
 === Change a LocationGroup's State
-A `LocationGroup` has an inbound and an outbound state, sometimes also refered as infeed or outfeed state. Both states can be set to
+A `LocationGroup` has an inbound and an outbound state, sometimes also referred as infeed or outfeed state. Both states can be set to
 `AVAILABLE` or `NOT_AVAILABLE` independent from each other. Is a `LocationGroup` not available for infeed, then no transports towards this
 `LocationGroup` are created, similar is true for the outbound state.
 
@@ -399,18 +399,18 @@ include::{generated}/lg/shall_change_state/http-response.adoc[]
 == Target
 A `Target` is a `Location` or a group of `Locations` (`LocationGroup`) where a `TransportUnit` may be sent to.
 
-A `Target` can be locked for *inbound*/*outbound*, for *operation* or for both. When the `Target` is locked for inbound, no new
+A `Target` can be locked for *inbound*/*outbound*, for *operation* or permanently. When the `Target` is locked for inbound, no new
 `TransportUnit` movements (`TransportOrders` in automatic warehouses) are created to this `Target` (like a Putaway lock).
 In contrast, no movements can be created away from this `Target` if it is locked for outbound (like Allocation). Locking inbound/outbound
 has no impact on the operation mode of the `Target`. So the `Target` may _still process_ existing orders, even if it is locked for
 inbound/outbound.
 
-The operation mode of a `Target` is controlled separately. If the `Targets` operation mode is set to `*BLOCKED*` the `Target` stops
-all operations and does no longer process any commands or telegrams.
+The operation mode of a `Target` is controlled separately. If the `Targets` is in PERMANENT operation mode it stops all operations and does
+no longer process any commands or telegrams.
 
-=== Locking Inbound/Outbound
-Locking the Inbound/Outbound of a `Target` is controlled with a HTTP POST request against the URI `/v1/targets/{name}` with a set of
-query parameters.
+=== Inbound/Outbound Locking
+Locking a `Target` for Inbound/Outbound operation is controlled with a HTTP POST request against the URI `/v1/targets/ALLOCATION_LOCK` with
+a set of query parameters.
 
 |===
 | HTTP Verb | Query Param `type` | Query Param `mode` | Description

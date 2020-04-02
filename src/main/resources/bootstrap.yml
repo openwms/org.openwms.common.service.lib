@@ -32,10 +32,10 @@ spring:
             default_schema: public
             audit_strategy_validity_end_rev_field_name: C_REV_END
             audit_strategy_validity_revend_timestamp_field_name: C_REVEND_TSTMP
-  main:
-    allow-bean-definition-overriding: true
   jackson:
     date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
+  main:
+    allow-bean-definition-overriding: true
   zipkin:
     sender:
       type: web
@@ -73,6 +73,7 @@ eureka:
       password: ${spring.security.user.password}
       protocol: ${owms.srv.protocol}
       zone: ${owms.eureka.zone}
+
 management:
   endpoints:
     web:
