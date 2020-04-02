@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<meta name="author" content="(1.6.0-SNAPSHOT-380)">
+<meta name="author" content="(1.6.0-SNAPSHOT-381)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -436,7 +436,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.6.0-SNAPSHOT-380)</span><br>
+<span id="author" class="author">(1.6.0-SNAPSHOT-381)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -480,7 +480,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_target">Target</a>
 <ul class="sectlevel2">
-<li><a href="#_locking_inboundoutbound">Locking Inbound/Outbound</a>
+<li><a href="#_inboundoutbound_locking">Inbound/Outbound Locking</a>
 <ul class="sectlevel3">
 <li><a href="#_lock_inbound_putaway_infeed">Lock Inbound (Putaway, Infeed)</a></li>
 <li><a href="#_lock_outbound_dispatching_allocation_outfeed">Lock Outbound (Dispatching, Allocation, Outfeed)</a></li>
@@ -1999,7 +1999,7 @@ Content-Length: 603
 <div class="sect2">
 <h3 id="_change_a_locationgroups_state"><a class="anchor" href="#_change_a_locationgroups_state"></a><a class="link" href="#_change_a_locationgroups_state">Change a LocationGroup&#8217;s State</a></h3>
 <div class="paragraph">
-<p>A <code>LocationGroup</code> has an inbound and an outbound state, sometimes also refered as infeed or outfeed state. Both states can be set to
+<p>A <code>LocationGroup</code> has an inbound and an outbound state, sometimes also referred as infeed or outfeed state. Both states can be set to
 <code>AVAILABLE</code> or <code>NOT_AVAILABLE</code> independent from each other. Is a <code>LocationGroup</code> not available for infeed, then no transports towards this
 <code>LocationGroup</code> are created, similar is true for the outbound state.</p>
 </div>
@@ -2149,21 +2149,21 @@ Content-Length: 30
 <p>A <code>Target</code> is a <code>Location</code> or a group of <code>Locations</code> (<code>LocationGroup</code>) where a <code>TransportUnit</code> may be sent to.</p>
 </div>
 <div class="paragraph">
-<p>A <code>Target</code> can be locked for <strong>inbound</strong>/<strong>outbound</strong>, for <strong>operation</strong> or for both. When the <code>Target</code> is locked for inbound, no new
+<p>A <code>Target</code> can be locked for <strong>inbound</strong>/<strong>outbound</strong>, for <strong>operation</strong> or permanently. When the <code>Target</code> is locked for inbound, no new
 <code>TransportUnit</code> movements (<code>TransportOrders</code> in automatic warehouses) are created to this <code>Target</code> (like a Putaway lock).
 In contrast, no movements can be created away from this <code>Target</code> if it is locked for outbound (like Allocation). Locking inbound/outbound
 has no impact on the operation mode of the <code>Target</code>. So the <code>Target</code> may <em>still process</em> existing orders, even if it is locked for
 inbound/outbound.</p>
 </div>
 <div class="paragraph">
-<p>The operation mode of a <code>Target</code> is controlled separately. If the <code>Targets</code> operation mode is set to <code><strong>BLOCKED</strong></code> the <code>Target</code> stops
-all operations and does no longer process any commands or telegrams.</p>
+<p>The operation mode of a <code>Target</code> is controlled separately. If the <code>Targets</code> is in PERMANENT operation mode it stops all operations and does
+no longer process any commands or telegrams.</p>
 </div>
 <div class="sect2">
-<h3 id="_locking_inboundoutbound"><a class="anchor" href="#_locking_inboundoutbound"></a><a class="link" href="#_locking_inboundoutbound">Locking Inbound/Outbound</a></h3>
+<h3 id="_inboundoutbound_locking"><a class="anchor" href="#_inboundoutbound_locking"></a><a class="link" href="#_inboundoutbound_locking">Inbound/Outbound Locking</a></h3>
 <div class="paragraph">
-<p>Locking the Inbound/Outbound of a <code>Target</code> is controlled with a HTTP POST request against the URI <code>/v1/targets/{name}</code> with a set of
-query parameters.</p>
+<p>Locking a <code>Target</code> for Inbound/Outbound operation is controlled with a HTTP POST request against the URI <code>/v1/targets/ALLOCATION_LOCK</code> with
+a set of query parameters.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -2702,7 +2702,7 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/92aaf3f9-c2dc-4827-b67d-357fadf8503d/</code></pre>
+Location: http://localhost:8080/v1/transport-units/fde082e0-8635-4cf6-aaef-bfb232414be9/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2754,7 +2754,7 @@ Content-Length: 168
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/ecad538c-1dc4-4c91-867f-a07004fce5c5/</code></pre>
+Location: http://localhost:8080/v1/transport-units/a4e22fb8-4d56-4016-a031-95c4581e59b3/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2844,7 +2844,7 @@ Content-Length: 466
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0013",
-  "actualLocationDate" : "2020-04-02T08:10:03.611+0000"
+  "actualLocationDate" : "2020-04-02T22:00:05.953+0000"
 }</code></pre>
 </div>
 </div>
@@ -2919,7 +2919,7 @@ Content-Length: 466
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0013",
-  "actualLocationDate" : "2020-04-02T08:10:03.115+0000"
+  "actualLocationDate" : "2020-04-02T22:00:05.451+0000"
 }</code></pre>
 </div>
 </div>
@@ -2995,7 +2995,7 @@ Content-Length: 732
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-04-02T08:10:03.420+0000",
+  "actualLocationDate" : "2020-04-02T22:00:05.736+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -3053,7 +3053,7 @@ Content-Length: 732
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-04-02T08:10:03.170+0000",
+  "actualLocationDate" : "2020-04-02T22:00:05.496+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -3120,7 +3120,7 @@ Content-Length: 1473
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-04-02T08:10:02.734+0000",
+  "actualLocationDate" : "2020-04-02T22:00:05.061+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -3145,7 +3145,7 @@ Content-Length: 1473
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2020-04-02T08:10:02.734+0000",
+  "actualLocationDate" : "2020-04-02T22:00:05.061+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -3212,7 +3212,7 @@ Content-Length: 739
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2020-04-02T08:10:03.642+0000",
+  "actualLocationDate" : "2020-04-02T22:00:05.986+0000",
   "links" : [ {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -3276,7 +3276,7 @@ bk=00000000000000004711&amp;errorCode=bla</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-04-02 08:06:02 UTC
+Last updated 2020-04-02 21:55:49 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">
