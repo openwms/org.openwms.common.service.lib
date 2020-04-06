@@ -78,7 +78,7 @@
         <indriya.version>2.0</indriya.version>
         <spring-cloud-dependencies.version>Hoxton.RELEASE</spring-cloud-dependencies.version>
         <start-class>org.openwms.common.CommonStarter</start-class>
-        <surefireArgs>-Dspring.profiles.active=TEST -Deureka.client.enabled=false</surefireArgs>
+        <surefireArgs>-Dspring.profiles.active=TEST -Deureka.client.enabled=true</surefireArgs>
     </properties>
 
     <reporting>
