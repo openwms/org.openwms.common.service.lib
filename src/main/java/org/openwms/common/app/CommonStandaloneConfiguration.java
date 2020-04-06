@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Profile;
  *
  * @author Heiko Scherrer
  */
-@Profile("!INMEM")
+@Profile("!INMEM & !TEST")
 @Configuration
 @EnableDiscoveryClient
 public class CommonStandaloneConfiguration {
