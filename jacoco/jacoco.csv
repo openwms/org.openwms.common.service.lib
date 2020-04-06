@@ -88,7 +88,7 @@ OpenWMS.org COMMON: Services,org.openwms.common.app,CommonSecurityConfiguration,
 OpenWMS.org COMMON: Services,org.openwms.common.app,CommonOptAsyncConfiguration,0,68,0,0,0,19,0,7,0,7
 OpenWMS.org COMMON: Services,org.openwms.common.app,CommonModuleConfiguration,0,60,0,0,0,11,0,8,0,8
 OpenWMS.org COMMON: Services,org.openwms.common.app,CommonModuleConfiguration.new AbstractTranslator() {...},0,10,0,0,0,2,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.app,CommonStandaloneConfiguration,0,3,0,0,0,1,0,1,0,1
+OpenWMS.org COMMON: Services,org.openwms.common.app,CommonStandaloneConfiguration,3,0,0,0,1,0,1,0,1,0
 OpenWMS.org COMMON: Services,org.openwms.common.app,CommonAsyncConfiguration,0,10,0,0,0,2,0,2,0,2
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitType.Builder,0,66,0,0,0,26,0,13,0,13
 OpenWMS.org COMMON: Services,org.openwms.common.transport,Barcode.BARCODE_ALIGN,0,24,0,0,0,5,0,1,0,1

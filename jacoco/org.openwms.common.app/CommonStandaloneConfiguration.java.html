@@ -25,9 +25,9 @@ import org.springframework.context.annotation.Profile;
  *
  * @author Heiko Scherrer
  */
-@Profile(&quot;!INMEM&quot;)
+@Profile(&quot;!INMEM &amp; !TEST&quot;)
 @Configuration
 @EnableDiscoveryClient
-<span class="fc" id="L31">public class CommonStandaloneConfiguration {</span>
+<span class="nc" id="L31">public class CommonStandaloneConfiguration {</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
