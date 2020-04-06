@@ -156,7 +156,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      * @return The instance
      */
     public static TransportUnitType of(String type) {
-<span class="fc" id="L159">        return new TransportUnitType(type);</span>
+<span class="nc" id="L159">        return new TransportUnitType(type);</span>
     }
 
     /**
@@ -422,7 +422,7 @@ public class TransportUnitType extends BaseEntity implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-<span class="fc bfc" id="L425" title="All 2 branches covered.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L425" title="1 of 2 branches missed.">        if (this == o) return true;</span>
 <span class="pc bpc" id="L426" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
 <span class="fc" id="L427">        TransportUnitType that = (TransportUnitType) o;</span>
 <span class="fc" id="L428">        return Objects.equals(type, that.type);</span>
