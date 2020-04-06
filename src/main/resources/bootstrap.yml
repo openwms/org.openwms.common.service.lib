@@ -189,10 +189,7 @@ spring:
       fail-fast: false
   main:
     banner-mode: "off"
-eureka:
-  client:
-    enabled: false
-    
+
 ---
 spring:
   profiles: TESTPG

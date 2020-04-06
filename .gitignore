@@ -10,9 +10,9 @@ libs/
 **/node_modules/
 **/typings/
 **/*.js.map
-doc/build/
-doc/.gradle/
-docToolchain-master/
+/doc/build/
+/doc/.gradle/
+/doc/master/
 # OS Files #
 .DS_Store
 **/javadoc.sh
