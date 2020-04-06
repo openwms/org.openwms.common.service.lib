@@ -45,6 +45,10 @@ import java.lang.annotation.Target;
 @SpringBootTest(classes = {
         CommonStarter.class
 }, properties = {
+        "eureka.client.enabled=false",
+        "spring.cloud.config.enabled=false",
+        "spring.cloud.config.discovery.enabled=false",
+        "spring.cloud.discovery.enabled=false",
         "spring.jpa.show-sql=false",
         "spring.main.banner-mode=OFF",
         "spring.jackson.serialization.INDENT_OUTPUT=true"

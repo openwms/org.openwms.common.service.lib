@@ -1,0 +1,1 @@
+| https://www.github.com/openwms/org.openwms.common.service/issues/41[41]| 1.6.0| Use RFC7807 for all error responses| https://www.github.com/openwms/org.openwms.common.service/issues/40[40]| 1.6.0| Implement API Security| https://www.github.com/openwms/org.openwms.common.service/issues/12[12]| n/a| Provide DI exporter
