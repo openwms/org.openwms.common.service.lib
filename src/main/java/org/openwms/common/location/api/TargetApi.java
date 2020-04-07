@@ -15,16 +15,19 @@
  */
 package org.openwms.common.location.api;
 
-import org.openwms.common.CommonConstants;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import static org.openwms.common.CommonConstants.API_TARGETS;
 
 /**
  * A TargetApi offers operations on Targets (i.e. resources), like locking and releasing a resource.
  *
  * @author Heiko Scherrer
  */
+@FeignClient(name = "common-service", qualifier = "targetApi", decode404 = true)
 public interface TargetApi {
 
     /**
@@ -34,7 +37,7 @@ public interface TargetApi {
      * @param type The type of lock to apply to the Target
      * @param mode The mode to apply to the Targets lock
      */
-    @PostMapping(value = CommonConstants.API_TARGETS + "/{targetBK}", params = {"type", "mode", "op=change-state"})
+    @PostMapping(value = API_TARGETS + "/{targetBK}", params = {"type", "mode", "op=change-state"})
     void changeState(
             @PathVariable("targetBK") String targetBK,
             @RequestParam("type") LockType type,
@@ -47,7 +50,7 @@ public interface TargetApi {
      * @param targetBK The business key of the Target, can be a {@code LocationPK} in String format or a LocationGroup name
      * @param reallocation If {@literal true} open outfeed orders will be re-allocated
      */
-    @PostMapping(value = CommonConstants.API_TARGETS + "/{targetBK}", params = {"op=lock"})
+    @PostMapping(value = API_TARGETS + "/{targetBK}", params = {"op=lock"})
     void lock(
             @PathVariable("targetBK") String targetBK,
             @RequestParam("reallocation") Boolean reallocation
@@ -58,7 +61,7 @@ public interface TargetApi {
      *
      * @param targetBK The business key of the Target, can be a {@code LocationPK} in String format or a LocationGroup name
      */
-    @PostMapping(value = CommonConstants.API_TARGETS + "/{targetBK}", params = {"op=unlock"})
+    @PostMapping(value = API_TARGETS + "/{targetBK}", params = {"op=unlock"})
     void release(
             @PathVariable("targetBK") String targetBK
     );

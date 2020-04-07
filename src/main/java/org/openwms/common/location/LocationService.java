@@ -21,52 +21,52 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * A LocationService offers useful methods according to the handling of {@link Location}s.
+ * A LocationService offers useful methods according to the handling of {@code Location}s.
  *
  * @author Heiko Scherrer
  */
 public interface LocationService {
 
     /**
-     * Find and return a Location identified by the given {@code locationPK}.
+     * Find and return a {@code Location}.
      *
-     * @param locationPK The business key of the Location to search for
-     * @return The Location
+     * @param locationId The business key of the Location to search for
+     * @return The Location instance
      */
-    Optional<Location> findByLocationId(LocationPK locationPK);
+    Optional<Location> findByLocationId(LocationPK locationId);
 
     /**
-     * Find and return a Location identified by the given {@code locationPK}.
+     * Find and return a {@code Location}.
      *
-     * @param locationPK The business key as String of the Location to search for
-     * @return The Location
+     * @param locationId The business key as String of the Location to search for
+     * @return The Location instance
      */
-    Optional<Location> findByLocationId(String locationPK);
+    Optional<Location> findByLocationId(String locationId);
 
     /**
-     * Find and return all Locations that match the {@code locationPK} whereas the
-     * attributes of the LocationPK may include SQL wildcard operators, like '%', '_'.
+     * Find and return all {@code Location}s that match the {@code locationIds} whereas the attributes of the {@code LocationPK} may include
+     * SQL wildcard operators, like '%', '_'.
      *
-     * @param locationPK The LocationPK
-     * @return All Locations or an empty list, never {@literal null}
+     * @param locationIds The business keys of the Locations to search for
+     * @return The Location instances or an empty list, never {@literal null}
      */
-    List<Location> findLocations(LocationPK locationPK);
+    List<Location> findLocations(LocationPK locationIds);
 
     /**
-     * Find and return a Location by the given {@code plcCode}.
+     * Find and return a {@code Location}.
      *
-     * @param plcCode The PLC Code
-     * @return The Location
+     * @param plcCode The PLC Code to search for the Location
+     * @return The Location instance
      */
     Optional<Location> findByPlcCode(String plcCode);
 
     /**
-     * Find and return all Locations that belong to a LocationGroup with the name {@code locationGroupName}.
+     * Find and return all Locations that belong to a {@code LocationGroup}.
      *
-     * @param locationGroupName The name of the LocationGroup
-     * @return All LocationGroups or an empty list, never {@literal null}
+     * @param locationGroupNames One ore names identifying the LocationGroups to search Locations for
+     * @return The LocationGroup instances or an empty list, never {@literal null}
      */
-    List<Location> findAllOf(List<String> locationGroupName);
+    List<Location> findAllOf(List<String> locationGroupNames);
 
     /**
      * Change the infeed and outfeed state of a {@link Location} in respect of the according {@code LocationGroup}.

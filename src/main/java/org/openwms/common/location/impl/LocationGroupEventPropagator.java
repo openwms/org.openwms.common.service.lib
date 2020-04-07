@@ -56,7 +56,11 @@ class LocationGroupEventPropagator {
 
     @PostConstruct
     void onStartup() {
-        amqpTemplate.convertAndSend(exchangeName, "lg.event.boot", LocationGroupEvent.boot());
+        try {
+            amqpTemplate.convertAndSend(exchangeName, "lg.event.boot", LocationGroupEvent.boot());
+        } catch (Exception e) {
+            // Its fine if the event broker is not available on startup
+        }
     }
 
     @TransactionalEventListener(fallbackExecution = true)
