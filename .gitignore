@@ -1,4 +1,5 @@
 # Directories #
+/.gradle/
 /build/
 /bin/
 target/
