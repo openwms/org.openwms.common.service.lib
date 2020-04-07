@@ -33,7 +33,7 @@ OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImp
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure9,0,17,0,0,0,1,0,2,0,2
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationPKConverter,0,15,0,2,0,4,0,4,0,3
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupStateConverter,14,16,5,3,4,4,4,3,1,2
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupEventPropagator,104,73,8,2,14,18,8,4,0,4
+OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupEventPropagator,105,74,8,2,14,19,8,4,0,4
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl,24,121,4,2,0,27,4,8,1,8
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure1,0,17,0,0,0,1,0,2,0,2
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure3,0,17,0,0,0,1,0,2,0,2
