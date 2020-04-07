@@ -1,5 +1,7 @@
 # Directories #
 /.gradle/
+/docToolchain-master/
+doc/master.zip
 /build/
 /bin/
 target/
