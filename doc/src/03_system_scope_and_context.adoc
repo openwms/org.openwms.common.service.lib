@@ -31,7 +31,7 @@ image:03-business_context-EN.png["Business Context"]
 [cols="1,2" options="header"]
 |===
 | **Name** | **Responsibility**
-| Common Service | Base service of the COMMON domain responsible to manage `TransportUnit`s, `Location`s and `LocationGroup`s. Functionality if offered as a REST API over HTTP and an asynchronous command API
+| Common Service | Base service of the COMMON domain responsible to manage `TransportUnits`, `Locations` and `LocationGroups`. Functionality if offered as a REST API over HTTP and an asynchronous command API
 | User Interface | An user interface, ie. for operators, may interact with the Common Service
 | Transport Management Services | All services of the automatic and manual transport management may access the Common Service directly
 | Warehouse Management Services | All services of the warehouse management domain may interact with the Common Service directly
@@ -43,30 +43,32 @@ Exposed resources to API clients
 |===
 | **Name** | **Responsibility**
 | Location | A `Location`, represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a conveyor location. Even error locations can be represented with the `Location`. Multiple Locations with same characteristics are grouped to a `LocationGroup`
-| LocationGroup | A `LocationGroup` is a logical group of `Location`s with same characteristics
+| LocationGroup | A `LocationGroup` is a logical group of `Locations` with same characteristics
 | Target | A `Target` is either a physical or a logical endpoint of any kind of warehouse order. A `TransportOrder` has a `Target` assigned where it has to be moved to
 | TransportUnit | A `TransportUnit` is an item like a box, a toad, a bin or a pallet that is moved within a warehouse and can carry goods. It can be moved between `Location`s
-| TransportUnitType | A `TransportUnitType` is a type of a certain `TransportUnit`. Typically to store characteristic attributes of `TransportUnit`s, such as the length, the height, or the weight of `TransportUnit`s
+| TransportUnitType | A `TransportUnitType` is a type of a certain `TransportUnit`. Typically to store characteristic attributes of `TransportUnits`, such as the length, the height, or the weight of `TransportUnits`
 |===
 
 === Technical Context
 
-[role="arc42help"]
-****
-.Contents
-Technical interfaces (channels and transmission media) linking your system to its environment. In addition a mapping of domain specific input/output to the channels, i.e. an explanation with I/O uses which channel.
+The Technical Context illustrates interfaces (channels and transmission media) linking the system to its environment. In addition a mapping
+of domain specific input/output to the channels, i.e. an explanation with I/O uses which channel.
 
-.Motivation
-Many stakeholders make architectural decision based on the technical interfaces between the system and its context. Especially infrastructure or hardware designers decide these technical interfaces.
+The Common Service exposes several resources over HTTP REST. The current available and detailed interface description can be found https://openwms.github.io/org.openwms.common.service/rest/1.6.0-SNAPSHOT/api.html[here].
+In addition the service sends event notifications out to surrounding services about master data changes and actions that occur within the
+service.
 
-.Form
-E.g. UML deployment diagram describing channels to neighboring systems,
-together with a mapping table showing the relationships between channels and input/output.
+It offers an asynchronous API to trigger actions via commands from the outside.
 
-****
+image:03-technical_context-EN.png["Technical Context"]
 
-**<Diagram or Table>**
-
-**<optionally: Explanation of technical interfaces>**
-
-**<Mapping Input/Output to Channels>**
+[cols="1,2,3" options="header"]
+|===
+| **Name** | **Type** | **Responsibility**
+| REST API | Synchronous API over HTTP | API to retrieve data from and to trigger actions on the Common domain objects
+| common.lg | RabbitMQ Exchange | Outgoing exchange to send events according to changes on `Locations` and `LocationGroups`
+| common.tu | RabbitMQ Exchange | Outgoing exchange to send events according to changes on `TransportUnits`
+| common.tu.commands | RabbitMQ Exchange | An exchange where the service binds an receiving queue to, in order to get commands to process. This exchange is defined by the Common Service
+| inventory-tu-command-queue | RabbitMQ Queue | The incoming queue bound to the inventory exchange that actually receives the commands on the WMS Inventory Service
+| WMS Inventory Service | OpenWMS.org Microservice | The Inventory service is sending commands to the Common Service' exchange
+|===
