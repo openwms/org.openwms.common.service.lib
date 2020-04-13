@@ -28,6 +28,7 @@ import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.common.transport.api.messages.TransportUnitTypeMO;
 import org.openwms.core.SpringProfiles;
+import org.springframework.amqp.rabbit.junit.RabbitAvailable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.PayloadApplicationEvent;
@@ -41,7 +42,6 @@ import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * A TransportUnitCommandListenerIT.
@@ -49,6 +49,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * @author Heiko Scherrer
  */
 @CommonApplicationTest
+@RabbitAvailable
 @ContextConfiguration(classes = TransportUnitCommandListenerIT.TestConfig.class)
 @Transactional
 @Rollback
@@ -71,10 +72,13 @@ class TransportUnitCommandListenerIT {
     private TransportUnitCommandListener listener;
     @Autowired
     private TransportUnitService service;
+    @Autowired
+    private TestConfig config;
 
     @BeforeAll
     public static void enableWithRabbitOnly() {
-        assumeTrue(System.getProperty("spring.profiles.active", "default").contains(SpringProfiles.ASYNCHRONOUS_PROFILE));
+        System.setProperty("spring.profiles.active", SpringProfiles.ASYNCHRONOUS_PROFILE);
+        //assumeTrue(System.getProperty("spring.profiles.active", "default").contains(SpringProfiles.ASYNCHRONOUS_PROFILE));
     }
 
     @Test void test_REMOVE_command() {
@@ -151,5 +155,18 @@ class TransportUnitCommandListenerIT {
         assertThat(tu.getErrors().get(0).getErrorNo()).isEqualTo("999");
         assertThat(tu.getErrors().get(0).getErrorText()).isEqualTo("TEXT");
         assertThat(tu.getErrors().get(0).getCreateDt()).isNotNull();
+    }
+
+    @Test void test_REQUEST_TU_command() {
+        listener.onCommand(TUCommand.newBuilder(TUCommand.Type.REQUEST)
+                .withTransportUnit(
+                        TransportUnitMO.newBuilder()
+                                .withPKey(TestData.TU_1_PKEY)
+                                .build()
+                )
+                .build()
+        );
+        assertThat(config.lastCommand.getTransportUnit().getpKey()).isEqualTo(TestData.TU_1_PKEY);
+        assertThat(config.lastCommand.getType()).isEqualTo(TUCommand.Type.UPDATE_CACHE);
     }
 }
