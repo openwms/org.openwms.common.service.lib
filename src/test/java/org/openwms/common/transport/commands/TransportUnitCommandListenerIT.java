@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2019 the original author or authors.
+ * Copyright 2005-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 package org.openwms.common.transport.commands;
-
 import org.ameba.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -27,16 +26,19 @@ import org.openwms.common.transport.api.commands.MessageCommand;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.common.transport.api.messages.TransportUnitTypeMO;
-import org.openwms.core.SpringProfiles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.PayloadApplicationEvent;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
 
 import javax.transaction.Transactional;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * A TransportUnitCommandListenerIT.
@@ -44,9 +46,23 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * @author Heiko Scherrer
  */
 @CommonApplicationTest
+@ContextConfiguration(classes = TransportUnitCommandListenerIT.TestConfig.class)
 @Transactional
 @Rollback
 class TransportUnitCommandListenerIT {
+
+    @Configuration
+    public static class TestConfig {
+        public TUCommand lastCommand;
+        @Bean
+        ApplicationListener<?> testListener() {
+            return event -> {
+                if (event instanceof PayloadApplicationEvent) {
+                    lastCommand = ((PayloadApplicationEvent<TUCommand>) event).getPayload();
+                }
+            };
+        }
+    }
 
     @Autowired
     private TransportUnitCommandListener listener;

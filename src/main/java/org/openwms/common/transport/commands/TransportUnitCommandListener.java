@@ -27,7 +27,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 /**
- * A TransportUnitCommandListener is listening on {@link TUCommand}s to process.
+ * A TransportUnitCommandListener is listening on {@code TUCommand}s to process.
  *
  * @author Heiko Scherrer
  * @see TUCommand
@@ -46,7 +46,7 @@ class TransportUnitCommandListener {
 
     @Measured
     @RabbitListener(queues = "${owms.commands.common.tu.queue-name}")
-    public void onCommand(@Payload Command command) {
+    public void onCommand(@Payload Command<?> command) {
         try {
             if (command instanceof TUCommand) {
                 handler.handle((TUCommand) command);

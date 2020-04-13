@@ -31,24 +31,30 @@ import java.util.StringJoiner;
  */
 public class TransportUnitMO implements Serializable {
 
+    /** The persistent key of TransportUnit. */
     @NotEmpty(groups = {ValidationGroups.TransportUnit.Request.class, ValidationGroups.TransportUnit.Remove.class})
     private String pKey;
+    /** The business key of the TransportUnit. */
     @NotEmpty(groups = {ValidationGroups.TransportUnit.ChangeTarget.class, ValidationGroups.TransportUnit.Create.class})
     private String barcode;
+    /** The actualLocationDate of the TransportUnit. */
     private Date actualLocationDate;
+    /** The state of the TransportUnit. */
     private String state;
+    /** The actualLocation of the TransportUnit. */
     @NotNull(groups = ValidationGroups.TransportUnit.Create.class)
     private String actualLocation;
+    /** The plcCode of the TransportUnit. */
     private String plcCode;
+    /** The targetLocation of the TransportUnit. */
     @NotEmpty(groups = ValidationGroups.TransportUnit.ChangeTarget.class)
     private String targetLocation;
+    /** The transportUnitType of the TransportUnit. */
     @Valid
     private TransportUnitTypeMO transportUnitType;
+    /** The business key of the parent TransportUnit. */
     private String parent;
 
-    /**
-     * Required Default constructor.
-     */
     protected TransportUnitMO() { }
 
     private TransportUnitMO(Builder builder) {
