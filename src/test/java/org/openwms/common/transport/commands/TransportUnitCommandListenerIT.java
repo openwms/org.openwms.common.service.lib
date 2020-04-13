@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package org.openwms.common.transport.commands;
+
 import org.ameba.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,7 @@ import org.openwms.common.transport.api.commands.MessageCommand;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.common.transport.api.messages.TransportUnitTypeMO;
+import org.openwms.core.SpringProfiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.PayloadApplicationEvent;
@@ -39,6 +41,7 @@ import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * A TransportUnitCommandListenerIT.
