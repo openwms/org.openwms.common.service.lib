@@ -69,7 +69,7 @@ OpenWMS.org COMMON: Services,org.openwms.common.location.spi,DefaultGroupStateOu
 OpenWMS.org COMMON: Services,org.openwms.common.transport.commands,MessageCommandHandlerImpl,5,42,2,2,1,15,2,3,0,3
 OpenWMS.org COMMON: Services,org.openwms.common.transport.commands,TransportUnitCommandListener,8,28,1,3,1,10,1,3,0,2
 OpenWMS.org COMMON: Services,org.openwms.common.transport.commands,TransportUnitCommandPropagator,22,54,5,4,7,18,5,3,0,3
-OpenWMS.org COMMON: Services,org.openwms.common.transport.commands,TransportUnitCommandHandler,45,161,8,8,9,35,7,6,0,3
+OpenWMS.org COMMON: Services,org.openwms.common.transport.commands,TransportUnitCommandHandler,5,201,6,10,1,43,6,7,0,3
 OpenWMS.org COMMON: Services,org.openwms.common.transport.events,TransportUnitEventPropagator,39,66,3,3,5,13,3,4,0,2
 OpenWMS.org COMMON: Services,org.openwms.common.transport.events,TransportUnitTypeEvent.Builder,0,15,0,0,0,5,0,3,0,3
 OpenWMS.org COMMON: Services,org.openwms.common.transport.events,TransportUnitEvent.Builder,5,27,1,3,1,8,1,5,0,4
@@ -88,7 +88,7 @@ OpenWMS.org COMMON: Services,org.openwms.common.app,CommonSecurityConfiguration,
 OpenWMS.org COMMON: Services,org.openwms.common.app,CommonOptAsyncConfiguration,0,68,0,0,0,19,0,7,0,7
 OpenWMS.org COMMON: Services,org.openwms.common.app,CommonModuleConfiguration,0,60,0,0,0,11,0,8,0,8
 OpenWMS.org COMMON: Services,org.openwms.common.app,CommonModuleConfiguration.new AbstractTranslator() {...},0,10,0,0,0,2,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.app,CommonStandaloneConfiguration,3,0,0,0,1,0,1,0,1,0
+OpenWMS.org COMMON: Services,org.openwms.common.app,CommonStandaloneConfiguration,0,3,0,0,0,1,0,1,0,1
 OpenWMS.org COMMON: Services,org.openwms.common.app,CommonAsyncConfiguration,0,10,0,0,0,2,0,2,0,2
 OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitType.Builder,0,66,0,0,0,26,0,13,0,13
 OpenWMS.org COMMON: Services,org.openwms.common.transport,Barcode.BARCODE_ALIGN,0,24,0,0,0,5,0,1,0,1
