@@ -29,9 +29,10 @@ import static org.openwms.common.CommonConstants.API_TRANSPORT_UNIT;
 import static org.openwms.common.CommonConstants.API_TRANSPORT_UNITS;
 
 /**
- * A TransportUnitApi.
+ * A TransportUnitApi is the public REST API to manage {@code TransportUnits}. It is implemented by a {@code Feign} client stub.
  *
  * @author Heiko Scherrer
+ * @see org.springframework.cloud.openfeign.FeignClient
  */
 @FeignClient(name = "common-service", qualifier = "transportUnitApi")
 public interface TransportUnitApi {
