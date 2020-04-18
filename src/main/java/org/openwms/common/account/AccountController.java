@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
-import static org.openwms.common.account.api.AccountApi.API_ACCOUNTS;
+import static org.openwms.common.account.api.AccountApiConstants.API_ACCOUNTS;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 

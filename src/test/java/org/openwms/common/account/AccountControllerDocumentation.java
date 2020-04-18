@@ -18,12 +18,12 @@ package org.openwms.common.account;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
-import org.openwms.common.account.api.AccountApi;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.openwms.common.account.api.AccountApiConstants.API_ACCOUNTS;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
@@ -52,7 +52,7 @@ class AccountControllerDocumentation {
     void shall_return_index() throws Exception {
         mockMvc
                 .perform(
-                        get(AccountApi.API_ACCOUNTS + "/index")
+                        get(API_ACCOUNTS + "/index")
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$._links.accounts-findall").exists())
@@ -61,7 +61,7 @@ class AccountControllerDocumentation {
     }
 
     @Test void shall_findAll() throws Exception {
-        mockMvc.perform(get(AccountApi.API_ACCOUNTS))
+        mockMvc.perform(get(API_ACCOUNTS))
                 .andExpect(status().isOk())
                 .andDo(document("acc-find-all", preprocessResponse(prettyPrint())));
     }

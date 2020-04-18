@@ -35,8 +35,8 @@ import java.util.Optional;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static org.openwms.common.location.api.LocationApi.API_LOCATION;
-import static org.openwms.common.location.api.LocationApi.API_LOCATIONS;
+import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION;
+import static org.openwms.common.location.api.LocationApiConstants.API_LOCATIONS;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 

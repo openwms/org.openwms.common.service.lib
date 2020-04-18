@@ -15,30 +15,18 @@
  */
 package org.openwms.common.account.api;
 
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
-
-import static org.openwms.common.account.api.AccountApiConstants.API_ACCOUNTS;
-
 /**
- * A AccountApi.
+ * A AccountApiConstants.
  *
  * @author Heiko Scherrer
  */
-@FeignClient(name = "common-service", qualifier = "accountApi", decode404 = true)
-public interface AccountApi {
+public final class AccountApiConstants {
 
-    /**
-     * Find and return all existing {@code Account}s.
-     *
-     * @return An (empty) list of all Accounts.
-     */
-    @GetMapping(API_ACCOUNTS)
-    @Cacheable("accounts")
-    ResponseEntity<List<AccountVO>> findAll();
+    /** API version. */
+    public static final String API_VERSION = "v1";
+    /** API root to hit Accounts (plural). */
+    public static final String API_ACCOUNTS = "/" + API_VERSION + "/accounts";
 
+    private AccountApiConstants() {
+    }
 }

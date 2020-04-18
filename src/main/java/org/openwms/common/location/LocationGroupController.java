@@ -38,8 +38,8 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static org.openwms.common.location.api.LocationGroupApi.API_LOCATION_GROUP;
-import static org.openwms.common.location.api.LocationGroupApi.API_LOCATION_GROUPS;
+import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION_GROUP;
+import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION_GROUPS;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
