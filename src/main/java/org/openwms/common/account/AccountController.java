@@ -17,6 +17,7 @@ package org.openwms.common.account;
 
 import org.ameba.http.MeasuredRestController;
 import org.ameba.mapping.BeanMapper;
+import org.openwms.common.Index;
 import org.openwms.common.account.api.AccountVO;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 import static org.openwms.common.account.api.AccountApi.API_ACCOUNTS;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * A AccountController is a measured and Spring managed REST controller that serves Account information.
@@ -45,5 +48,14 @@ public class AccountController extends AbstractWebController {
     @GetMapping(API_ACCOUNTS)
     public ResponseEntity<List<AccountVO>> findAll() {
         return ResponseEntity.ok(mapper.map(service.findAll(), AccountVO.class));
+    }
+
+    @GetMapping(API_ACCOUNTS + "/index")
+    public ResponseEntity<Index> index() {
+        return ResponseEntity.ok(
+                new Index(
+                        linkTo(methodOn(AccountController.class).findAll()).withRel("accounts-findall")
+                )
+        );
     }
 }

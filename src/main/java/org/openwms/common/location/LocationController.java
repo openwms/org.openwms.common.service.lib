@@ -19,7 +19,6 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.Index;
 import org.openwms.common.location.api.ErrorCodeVO;
-import org.openwms.common.location.api.LocationApi;
 import org.openwms.common.location.api.LocationVO;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.annotation.Profile;
@@ -111,7 +110,7 @@ public class LocationController extends AbstractWebController {
                 : ResponseEntity.ok(mapper.map(locations, LocationVO.class));
     }
 
-    @GetMapping(LocationApi.API_LOCATIONS + "/index")
+    @GetMapping(API_LOCATIONS + "/index")
     public ResponseEntity<Index> index() {
         return ResponseEntity.ok(
                 new Index(

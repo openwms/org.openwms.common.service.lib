@@ -16,6 +16,7 @@
 package org.openwms.common.account.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
@@ -29,8 +30,10 @@ import java.io.Serializable;
 public class AccountVO extends RepresentationModel<AccountVO> implements Serializable {
 
     /** Unique identifier. */
+    @JsonProperty("identifier")
     private String identifier;
     /** Name. */
+    @JsonProperty("name")
     private String name;
 
     public String getIdentifier() {
