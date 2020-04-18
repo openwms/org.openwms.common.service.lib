@@ -15,7 +15,10 @@
  */
 package org.openwms.common.transport.api;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * An UnitError represents an error occurring on {@code TransportUnit}s, on {@code LoadUnit}s or others.
@@ -25,9 +28,11 @@ import java.io.Serializable;
 public class UnitErrorVO implements Serializable {
 
     /** Error number. */
+    @JsonProperty("errorNo")
     private String errorNo;
 
     /** Error message text. */
+    @JsonProperty("errorText")
     private String errorText;
 
     public String getErrorNo() {
@@ -44,5 +49,19 @@ public class UnitErrorVO implements Serializable {
 
     public void setErrorText(String errorText) {
         this.errorText = errorText;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UnitErrorVO that = (UnitErrorVO) o;
+        return Objects.equals(errorNo, that.errorNo) &&
+                Objects.equals(errorText, that.errorText);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(errorNo, errorText);
     }
 }

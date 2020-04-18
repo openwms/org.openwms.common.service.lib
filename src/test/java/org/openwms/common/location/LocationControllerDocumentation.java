@@ -124,6 +124,7 @@ class LocationControllerDocumentation {
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("pKey").exists())
                     .andExpect(jsonPath("locationId", is(TestData.LOCATION_ID_EXT)))
+                    .andExpect(jsonPath("accountId").exists())
                     .andExpect(jsonPath("locationGroupName").exists())
                     .andExpect(jsonPath("plcCode", is(TestData.LOCATION_PLC_CODE_EXT)))
                     .andExpect(jsonPath("incomingActive", is(true)))

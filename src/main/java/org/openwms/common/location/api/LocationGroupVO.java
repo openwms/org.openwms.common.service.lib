@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.RepresentationModel;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -33,17 +34,20 @@ import java.util.Objects;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PUBLIC_ONLY)
 public class LocationGroupVO extends RepresentationModel implements TargetVO, Serializable {
 
-    @JsonProperty
+    @JsonProperty("pKey")
     private String pKey;
-    @JsonProperty
+    @NotEmpty
+    @JsonProperty("name")
     private String name;
-    @JsonProperty
+    @JsonProperty("accountId")
+    private String accountId;
+    @JsonProperty("parentName")
     private String parent;
-    @JsonProperty
+    @JsonProperty("operationMode")
     private String operationMode;
-    @JsonProperty
+    @JsonProperty("groupStateIn")
     private LocationGroupState groupStateIn;
-    @JsonProperty
+    @JsonProperty("groupStateOut")
     private LocationGroupState groupStateOut;
 
     /*~ ------------------ constructors ----------------------*/
@@ -139,6 +143,14 @@ public class LocationGroupVO extends RepresentationModel implements TargetVO, Se
         this.name = name;
     }
 
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
     public String getParent() {
         return parent;
     }
@@ -163,14 +175,17 @@ public class LocationGroupVO extends RepresentationModel implements TargetVO, Se
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        if (!super.equals(o))
-            return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         LocationGroupVO that = (LocationGroupVO) o;
-        return Objects.equals(pKey, that.pKey) && Objects.equals(name, that.name) && Objects.equals(parent, that.parent) && groupStateIn == that.groupStateIn && groupStateOut == that.groupStateOut;
+        return Objects.equals(pKey, that.pKey) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(accountId, that.accountId) &&
+                Objects.equals(parent, that.parent) &&
+                Objects.equals(operationMode, that.operationMode) &&
+                groupStateIn == that.groupStateIn &&
+                groupStateOut == that.groupStateOut;
     }
 
     /**
@@ -180,7 +195,7 @@ public class LocationGroupVO extends RepresentationModel implements TargetVO, Se
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), pKey, name, parent, groupStateIn, groupStateOut);
+        return Objects.hash(super.hashCode(), pKey, name, accountId, parent, operationMode, groupStateIn, groupStateOut);
     }
 
     /**

@@ -32,6 +32,10 @@
 				<class-a>java.lang.String</class-a>
 				<class-b>org.openwms.common.transport.TransportUnitType</class-b>
 			</converter>
+			<converter type="org.openwms.common.account.impl.AccountConverter">
+				<class-a>java.lang.String</class-a>
+				<class-b>org.openwms.common.account.Account</class-b>
+			</converter>
         </custom-converters>
 	</configuration>
 
@@ -153,6 +157,10 @@
 			<a is-accessible="true">locationId</a>
 			<b is-accessible="true">locationId</b>
 		</field>
+		<field>
+			<a is-accessible="true">account</a>
+			<b is-accessible="true">accountId</b>
+		</field>
 		<field type="one-way">
 			<a is-accessible="true">locationGroup.name</a>
 			<b is-accessible="true">locationGroupName</b>
@@ -183,6 +191,10 @@
 			<b is-accessible="true">name</b>
 		</field>
 		<field>
+			<a is-accessible="true">account</a>
+			<b is-accessible="true">accountId</b>
+		</field>
+		<field>
 			<a is-accessible="true">parent.name</a>
 			<b is-accessible="true">parent</b>
 		</field>
@@ -204,6 +216,10 @@
 			<b is-accessible="true">id</b>
 		</field>
 		<field>
+			<a is-accessible="true">account</a>
+			<b is-accessible="true">accountId</b>
+		</field>
+		<field>
 			<a is-accessible="true">locationGroup.name</a>
 			<b is-accessible="true">parent</b>
 		</field>
@@ -223,6 +239,10 @@
 		<field>
 			<a is-accessible="true">name</a>
 			<b is-accessible="true">name</b>
+		</field>
+		<field>
+			<a is-accessible="true">account</a>
+			<b is-accessible="true">accountId</b>
 		</field>
 		<field>
 			<a is-accessible="true">parent.name</a>

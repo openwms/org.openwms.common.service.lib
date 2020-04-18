@@ -42,7 +42,7 @@ public class Account extends ApplicationEntity implements Serializable {
 
     /** Unique identifier. */
     @NotEmpty
-    @Column(name = "C_IDENTIFIER", nullable = false)
+    @Column(name = "C_IDENTIFIER", nullable = false, updatable = false)
     private String identifier;
     /** Name. */
     @NotEmpty

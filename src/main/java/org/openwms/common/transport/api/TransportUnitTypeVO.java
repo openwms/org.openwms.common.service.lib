@@ -16,9 +16,11 @@
 package org.openwms.common.transport.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A TransportUnitTypeVO.
@@ -28,13 +30,18 @@ import java.io.Serializable;
 public class TransportUnitTypeVO implements Serializable {
 
     @NotEmpty
+    @JsonProperty("type")
     private String type;
+    @JsonProperty("description")
     private String description;
     @NotEmpty
+    @JsonProperty("height")
     private String height;
     @NotEmpty
+    @JsonProperty("width")
     private String width;
     @NotEmpty
+    @JsonProperty("length")
     private String length;
 
     /*~-------------------- constructors --------------------*/
@@ -86,5 +93,22 @@ public class TransportUnitTypeVO implements Serializable {
 
     public void setLength(String length) {
         this.length = length;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TransportUnitTypeVO that = (TransportUnitTypeVO) o;
+        return Objects.equals(type, that.type) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(height, that.height) &&
+                Objects.equals(width, that.width) &&
+                Objects.equals(length, that.length);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, description, height, width, length);
     }
 }

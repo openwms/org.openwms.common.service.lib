@@ -18,6 +18,7 @@ package org.openwms.common.location.api;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotEmpty;
@@ -34,13 +35,22 @@ import java.util.StringJoiner;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PUBLIC_ONLY)
 public class LocationVO extends RepresentationModel<LocationVO> implements TargetVO, Serializable {
 
+    @JsonProperty("pKey")
     private String pKey;
+    @JsonProperty("locationId")
     @NotEmpty
     private String locationId;
+    @JsonProperty("accountId")
+    private String accountId;
+    @JsonProperty("locationGroupName")
     private String locationGroupName;
+    @JsonProperty("plcCode")
     private String plcCode;
+    @JsonProperty("incomingActive")
     private Boolean incomingActive;
+    @JsonProperty("outgoingActive")
     private Boolean outgoingActive;
+    @JsonProperty("plcState")
     private Integer plcState;
 
     /*~-------------------- constructors --------------------*/
@@ -75,6 +85,14 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
     }
 
     /*~-------------------- accessors --------------------*/
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
     public String getLocationGroupName() {
         return locationGroupName;
     }
@@ -155,14 +173,18 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        if (!super.equals(o))
-            return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         LocationVO that = (LocationVO) o;
-        return incomingActive == that.incomingActive && outgoingActive == that.outgoingActive && plcState == that.plcState && Objects.equals(pKey, that.pKey) && Objects.equals(locationId, that.locationId) && Objects.equals(locationGroupName, that.locationGroupName) && Objects.equals(plcCode, that.plcCode);
+        return Objects.equals(pKey, that.pKey) &&
+                Objects.equals(locationId, that.locationId) &&
+                Objects.equals(accountId, that.accountId) &&
+                Objects.equals(locationGroupName, that.locationGroupName) &&
+                Objects.equals(plcCode, that.plcCode) &&
+                Objects.equals(incomingActive, that.incomingActive) &&
+                Objects.equals(outgoingActive, that.outgoingActive) &&
+                Objects.equals(plcState, that.plcState);
     }
 
     /**
@@ -172,6 +194,6 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), pKey, locationId, locationGroupName, plcCode, incomingActive, outgoingActive, plcState);
+        return Objects.hash(super.hashCode(), pKey, locationId, accountId, locationGroupName, plcCode, incomingActive, outgoingActive, plcState);
     }
 }

@@ -1,4 +1,4 @@
-[[sitemap-prg]]
+[[section-sitemap]]
 = Interaction Map
 
 This chapter describes the actions, respectively the flow of actions, an API consumer can perform to achieve the use cases. The COMMON

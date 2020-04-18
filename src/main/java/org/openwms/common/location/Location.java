@@ -15,6 +15,7 @@
  */
 package org.openwms.common.location;
 
+import org.openwms.common.account.Account;
 import org.springframework.util.Assert;
 
 import javax.persistence.AttributeOverride;
@@ -23,6 +24,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
@@ -50,7 +52,7 @@ import java.util.Set;
  * @see org.openwms.common.location.LocationGroup
  */
 @Entity
-@Table(name = Location.TABLE, uniqueConstraints = @UniqueConstraint(columnNames = {"C_AREA", "C_AISLE", "C_X", "C_Y", "C_Z"}))
+@Table(name = Location.TABLE, uniqueConstraints = @UniqueConstraint(name = "UC_LOC_ID", columnNames = {"C_AREA", "C_AISLE", "C_X", "C_Y", "C_Z"}))
 public class Location extends Target implements Serializable {
 
     /** Table name. */
@@ -66,6 +68,11 @@ public class Location extends Target implements Serializable {
             @AttributeOverride(name = "z", column = @Column(name = "C_Z"))
     })
     private LocationPK locationId;
+
+    /** The Location might be assigned to an {@link Account}. */
+    @ManyToOne
+    @JoinColumn(name = "C_ACCOUNT", referencedColumnName = "C_IDENTIFIER", foreignKey = @ForeignKey(name = "FK_LOC_ACC"))
+    private Account account;
 
     /** PLC code of the Location. */
     @Column(name = "C_PLC_CODE", unique = true)
@@ -166,12 +173,12 @@ public class Location extends Target implements Serializable {
 
     /** The {@link LocationType} this Location belongs to. */
     @ManyToOne
-    @JoinColumn(name = "C_LOCATION_TYPE")
+    @JoinColumn(name = "C_LOCATION_TYPE", foreignKey = @ForeignKey(name = "FK_LOC_LT"))
     private LocationType locationType;
 
     /** The {@link LocationGroup} this Location belongs to. */
     @ManyToOne
-    @JoinColumn(name = "C_LOCATION_GROUP")
+    @JoinColumn(name = "C_LOCATION_GROUP", foreignKey = @ForeignKey(name = "FK_LOC_LG"))
     private LocationGroup locationGroup;
 
     /** Stored {@link Message}s on this Location. */
@@ -206,6 +213,15 @@ public class Location extends Target implements Serializable {
         return new Location(locationId);
     }
     /*~ ----------------------------- methods ------------------- */
+
+    /**
+     * Return the {@link Account} this {@code Location} is assigned to.
+     *
+     * @return The Account
+     */
+    public Account getAccount() {
+        return account;
+    }
 
     /**
      * Get the ERP Code of the Location.

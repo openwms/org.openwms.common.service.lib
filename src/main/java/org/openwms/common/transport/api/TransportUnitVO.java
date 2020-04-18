@@ -17,6 +17,7 @@ package org.openwms.common.transport.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.ameba.http.AbstractBase;
 import org.openwms.common.location.api.LocationVO;
 
@@ -35,16 +36,25 @@ import java.util.Objects;
 public class TransportUnitVO extends AbstractBase implements Serializable {
 
     @NotEmpty
+    @JsonProperty("barcode")
     private String barcode;
     @NotNull(groups = ValidationGroups.TransportUnit.Create.class)
+    @JsonProperty("actualLocation")
     private LocationVO actualLocation;
+    @JsonProperty("target")
     private String target;
     @NotEmpty(groups = {ValidationGroups.TransportUnit.Create.class, ValidationGroups.TransportUnit.WithTuT.class})
+    @JsonProperty("transportUnitTypeName")
     private String transportUnitType;
+    @JsonProperty("length")
     private Integer length;
+    @JsonProperty("width")
     private Integer width;
+    @JsonProperty("height")
     private Integer height;
+    @JsonProperty("actualPlcCode")
     private String actualPlcCode;
+    @JsonProperty("actualLocationDate")
     private Date actualLocationDate;
 
     /*~-------------------- constructors --------------------*/

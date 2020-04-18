@@ -1,4 +1,4 @@
-[[representation]]
+[[section-representation]]
 = Representation Formats
 Basically JSON is used as representation format by default if not otherwise requested or mentioned below. XML format is supported for the
 index pages as well, but must be requested explicitly. Furthermore a vendor specific JSON format is used to represent resource

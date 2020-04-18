@@ -17,6 +17,7 @@ package org.openwms.common.location;
 
 import org.ameba.exception.ServiceLayerException;
 import org.openwms.common.StateChangeException;
+import org.openwms.common.account.Account;
 import org.openwms.common.location.api.LocationGroupMode;
 import org.openwms.common.location.api.LocationGroupState;
 import org.springframework.util.Assert;
@@ -27,6 +28,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -54,6 +56,11 @@ public class LocationGroup extends Target implements Serializable {
     /** Length of the name field; used for telegram mapping and for column definition. */
     public static final int LENGTH_NAME = 20;
 
+    /** The LocationGroup might be assigned to an {@link Account}. */
+    @ManyToOne
+    @JoinColumn(name = "C_ACCOUNT", referencedColumnName = "C_IDENTIFIER", foreignKey = @ForeignKey(name = "FK_LG_ACC"))
+    private Account account;
+
     /** Description for the {@code LocationGroup}. */
     @Column(name = "C_DESCRIPTION")
     private String description;
@@ -77,7 +84,7 @@ public class LocationGroup extends Target implements Serializable {
 
     /** References the {@code LocationGroup} that locked this {@code LocationGroup} for infeed. */
     @ManyToOne
-    @JoinColumn(name = "C_IN_LOCKER")
+    @JoinColumn(name = "C_IN_LOCKER", foreignKey = @ForeignKey(name = "FK_LG_LG_INLOCKER"))
     private LocationGroup stateInLocker;
 
     /** State of outfeed. */
@@ -87,7 +94,7 @@ public class LocationGroup extends Target implements Serializable {
 
     /** References the {@code LocationGroup} that locked this {@code LocationGroup} for outfeed. */
     @ManyToOne
-    @JoinColumn(name = "C_OUT_LOCKER")
+    @JoinColumn(name = "C_OUT_LOCKER", foreignKey = @ForeignKey(name = "FK_LG_LG_OUTLOCKER"))
     private LocationGroup stateOutLocker;
 
     /** Maximum fill level of the {@code LocationGroup}. */
@@ -101,7 +108,7 @@ public class LocationGroup extends Target implements Serializable {
     /* ------------------- collection mapping ------------------- */
     /** Parent {@code LocationGroup}. */
     @ManyToOne
-    @JoinColumn(name = "C_PARENT")
+    @JoinColumn(name = "C_PARENT", foreignKey = @ForeignKey(name = "FK_LG_LG_PARENT"))
     private LocationGroup parent;
 
     /** Child {@code LocationGroup}s. */
@@ -135,6 +142,15 @@ public class LocationGroup extends Target implements Serializable {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Return the {@link Account} this {@code LocationGroup} is assigned to.
+     *
+     * @return The Account
+     */
+    public Account getAccount() {
+        return account;
     }
 
     /**
