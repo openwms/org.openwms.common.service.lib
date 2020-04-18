@@ -18,11 +18,17 @@ package org.openwms.common.account;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
+import org.openwms.common.CommonMessageCodes;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.persistence.EntityManager;
+
+import static org.hamcrest.CoreMatchers.is;
 import static org.openwms.common.account.api.AccountApiConstants.API_ACCOUNTS;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -41,6 +47,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AccountControllerDocumentation {
 
     private MockMvc mockMvc;
+    @Autowired
+    private EntityManager em;
 
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation, WebApplicationContext context) {
@@ -56,6 +64,9 @@ class AccountControllerDocumentation {
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$._links.accounts-findall").exists())
+                .andExpect(jsonPath("$._links.accounts-finddefault").exists())
+                .andExpect(jsonPath("$._links.accounts-findbyidentifier").exists())
+                .andExpect(jsonPath("$._links.accounts-findbyname").exists())
                 .andDo(document("acc-index", preprocessResponse(prettyPrint())))
         ;
     }
@@ -84,7 +95,26 @@ class AccountControllerDocumentation {
         mockMvc.perform(get(API_ACCOUNTS)
                 .param("name", "UNKNOWN"))
                 .andExpect(status().isNotFound())
+                .andExpect(jsonPath("messageKey", is(CommonMessageCodes.ACCOUNT_NOT_FOUND)))
                 .andDo(document("acc-find-byName404", preprocessResponse(prettyPrint())));
+    }
+
+    @Test void shall_findDefault() throws Exception {
+        mockMvc.perform(get(API_ACCOUNTS)
+                .param("default", "true"))
+                .andExpect(status().isOk())
+                .andDo(document("acc-find-default", preprocessResponse(prettyPrint())));
+    }
+
+    @Transactional
+    @Test void shall_findDefault_404() throws Exception {
+        em.createNativeQuery("update com_account set c_default=false where c_pk=1000").executeUpdate();
+        mockMvc.perform(get(API_ACCOUNTS)
+                .param("default", "true"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("messageKey", is(CommonMessageCodes.ACCOUNT_NO_DEFAULT)))
+                .andDo(document("acc-find-default404", preprocessResponse(prettyPrint())));
+        em.createNativeQuery("update com_account set c_default=true where c_pk=1000").executeUpdate();
     }
 }
 

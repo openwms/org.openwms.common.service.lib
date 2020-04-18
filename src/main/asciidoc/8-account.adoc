@@ -7,7 +7,7 @@ through the API.
 === Account Index
 The index with all possible operations can be retrieved with an `GET request:
 
-include::{generated}/àcc-index/http-request.adoc[]
+include::{generated}/acc-index/http-request.adoc[]
 
 The response lists all the operations with a name and the corresponding href link:
 
@@ -20,7 +20,7 @@ include::{generated}/acc-find-all/http-request.adoc[]
 
 The response contains all existing `Accounts`:
 
-include::{generated}/tut-find-all/http-response.adoc[]
+include::{generated}/acc-find-all/http-response.adoc[]
 
 === Find an Account
 The `name` and the `identifier` of the `Account` are unique and mandatory attributes. So an `Account` can be searched for both fields.
@@ -32,7 +32,19 @@ or find an `Account` by identifier:
 include::{generated}/acc-find-byIdentifier/http-request.adoc[]
 
 The server responds with the Account entity if it exists:
-include::{generated}/tut-find-byName/http-response.adoc[]
+include::{generated}/acc-find-byName/http-response.adoc[]
 
 or with a `404-Not Found` if no `Account` exists:
-include::{generated}/tut-find-byName404/http-response.adoc[]
+include::{generated}/acc-find-byName404/http-response.adoc[]
+
+=== Find the default Account
+At least one `Account` must exist in the system and must be defined as the default `Account`. This `Account` is used when no other account information is available. To get the default `Account`
+from the Common Service a `GET` request must be send to the server:
+
+include::{generated}/acc-find-default/http-request.adoc[]
+
+The server sends back the Account entity if it exists
+include::{generated}/acc-find-default/http-response.adoc[]
+
+Otherwise a 404-Not Found if not exist:
+include::{generated}/acc-find-default404/http-response.adoc[]

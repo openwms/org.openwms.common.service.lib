@@ -49,6 +49,10 @@ public class Account extends ApplicationEntity implements Serializable {
     @Column(name = "C_NAME", nullable = false)
     private String name;
 
+    /** Flag to set the Account as default. */
+    @Column(name = "C_DEFAULT", nullable = false)
+    private boolean defaultAccount = false;
+
     public String getIdentifier() {
         return identifier;
     }
@@ -63,6 +67,14 @@ public class Account extends ApplicationEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isDefaultAccount() {
+        return defaultAccount;
+    }
+
+    public void setDefaultAccount(boolean defaultAccount) {
+        this.defaultAccount = defaultAccount;
     }
 
     /**
@@ -85,7 +97,8 @@ public class Account extends ApplicationEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return Objects.equals(identifier, account.identifier) &&
+        return defaultAccount == account.defaultAccount &&
+                Objects.equals(identifier, account.identifier) &&
                 Objects.equals(name, account.name);
     }
 
@@ -96,6 +109,6 @@ public class Account extends ApplicationEntity implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(identifier, name);
+        return Objects.hash(identifier, name, defaultAccount);
     }
 }

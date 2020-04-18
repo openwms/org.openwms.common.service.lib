@@ -47,4 +47,10 @@ public interface AccountService {
      * @return The Account instance
      */
     Optional<Account> findByName(String name);
+
+    /**
+     *
+     * @return
+     */
+    Optional<Account> findDefault();
 }

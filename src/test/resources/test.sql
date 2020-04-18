@@ -11,7 +11,8 @@ delete from com_location_type;
 delete from com_account;
 
 -- Accounts
-insert into com_account (c_pk,c_pid,c_identifier,c_name,c_ol,c_created,c_updated) values (1000,'1000','D','Default',0,now(),now());
+insert into com_account (c_pk,c_pid,c_identifier,c_name,c_default,c_ol,c_created) values (1000,'1000','D','Default',true,0,now());
+insert into com_account (c_pk,c_pid,c_identifier,c_name,c_default,c_ol,c_created) values (1001,'1001','A1','Cost Center FIN',false,0,now());
 
 -- LocationTypes
 insert into com_location_type (c_pk,c_pid,c_type,c_description,c_height,c_length,c_width,c_ol,c_created,c_updated) values (1000,326981811784,'FG','Flat Good Location',20,30,50,0,now(),now());

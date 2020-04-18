@@ -17,7 +17,9 @@ package org.openwms.common.account;
 
 import org.ameba.exception.NotFoundException;
 import org.ameba.http.MeasuredRestController;
+import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
+import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.Index;
 import org.openwms.common.account.api.AccountVO;
 import org.openwms.core.http.AbstractWebController;
@@ -25,9 +27,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.Serializable;
 import java.util.List;
 
-import static java.lang.String.format;
 import static org.openwms.common.account.api.AccountApiConstants.API_ACCOUNTS;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -42,10 +44,12 @@ public class AccountController extends AbstractWebController {
 
     private final AccountService service;
     private final BeanMapper mapper;
+    private final Translator translator;
 
-    public AccountController(AccountService service, BeanMapper mapper) {
+    public AccountController(AccountService service, BeanMapper mapper, Translator translator) {
         this.service = service;
         this.mapper = mapper;
+        this.translator = translator;
     }
 
     @GetMapping(API_ACCOUNTS)
@@ -53,12 +57,22 @@ public class AccountController extends AbstractWebController {
         return ResponseEntity.ok(mapper.map(service.findAll(), AccountVO.class));
     }
 
+    @GetMapping(value = API_ACCOUNTS, params = "default")
+    public ResponseEntity<AccountVO> findDefault() {
+        return ResponseEntity.ok(
+                mapper.map(
+                        service.findDefault().orElseThrow(
+                                ()-> new NotFoundException(translator, CommonMessageCodes.ACCOUNT_NO_DEFAULT)), AccountVO.class
+                ));
+    }
+
     @GetMapping(value = API_ACCOUNTS, params = "identifier")
     public ResponseEntity<AccountVO> findByIdentifier(@RequestParam("identifier") String identifier) {
         return ResponseEntity.ok(
                 mapper.map(
                         service.findByIdentifier(identifier).orElseThrow(
-                                ()-> new NotFoundException(format("Account with identifier [%s] does not exist", identifier))), AccountVO.class
+                                () -> new NotFoundException(translator, CommonMessageCodes.ACCOUNT_NOT_FOUND,
+                                        new Serializable[]{identifier}, identifier)), AccountVO.class
                 ));
     }
 
@@ -67,7 +81,8 @@ public class AccountController extends AbstractWebController {
         return ResponseEntity.ok(
                 mapper.map(
                         service.findByName(name).orElseThrow(
-                                ()-> new NotFoundException(format("Account with name [%s] does not exist", name))), AccountVO.class
+                                ()-> new NotFoundException(translator, CommonMessageCodes.ACCOUNT_NOT_FOUND,
+                                        new Serializable[]{name}, name)), AccountVO.class
                 ));
     }
 
@@ -75,7 +90,10 @@ public class AccountController extends AbstractWebController {
     public ResponseEntity<Index> index() {
         return ResponseEntity.ok(
                 new Index(
-                        linkTo(methodOn(AccountController.class).findAll()).withRel("accounts-findall")
+                        linkTo(methodOn(AccountController.class).findAll()).withRel("accounts-findall"),
+                        linkTo(methodOn(AccountController.class).findDefault()).withRel("accounts-finddefault"),
+                        linkTo(methodOn(AccountController.class).findByIdentifier("identifier")).withRel("accounts-findbyidentifier"),
+                        linkTo(methodOn(AccountController.class).findByName("name")).withRel("accounts-findbyname")
                 )
         );
     }

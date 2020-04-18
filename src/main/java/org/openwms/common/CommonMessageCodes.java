@@ -22,6 +22,8 @@ package org.openwms.common;
  */
 public final class CommonMessageCodes {
 
+    public static final String ACCOUNT_NO_DEFAULT ="COMMON.ACCOUNT_NO_DEFAULT";
+    public static final String ACCOUNT_NOT_FOUND ="COMMON.ACCOUNT_NOT_FOUND";
     /** Code to signal that no TransportUnit with given Barcode exists. */
     public static final String BARCODE_NOT_FOUND ="COMMON.BARCODE_NOT_FOUND";
     public static final String LOCATION_NOT_FOUND = "COMMON.LOCATION_NOT_FOUND";

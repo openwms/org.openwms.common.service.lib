@@ -17,6 +17,7 @@ package org.openwms.common.account.api;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,6 +32,15 @@ import static org.openwms.common.account.api.AccountApiConstants.API_ACCOUNTS;
  */
 @FeignClient(name = "common-service", qualifier = "accountApi", decode404 = true)
 public interface AccountApi {
+
+    /**
+     * Find and return the Account marked as default.
+     *
+     * @return The instance or 404-Not Found
+     */
+    @GetMapping(value = API_ACCOUNTS, params = "default")
+    @Cacheable("accounts")
+    ResponseEntity<AccountVO> findDefault();
 
     /**
      * Find and return all existing {@code Account}s.

@@ -67,4 +67,14 @@ class AccountServiceImpl implements AccountService {
     public Optional<Account> findByName(String name) {
         return repository.findByName(name);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Measured
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<Account> findDefault() {
+        return repository.findByDefaultAccount(true);
+    }
 }

@@ -30,4 +30,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByIdentifier(String identifier);
 
     Optional<Account> findByName(String name);
+
+    Optional<Account> findByDefaultAccount(boolean value);
 }

@@ -142,7 +142,7 @@ class LocationControllerDocumentation {
 
         @Test void shall_findby_locationPk_400() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
-                    .param("locationPK", "///"))
+                    .param("locationPK", "INVALID_COORDINATE"))
                     .andExpect(status().isNotFound())
                     .andDo(document("loc-find-coordinate-400"));
         }
