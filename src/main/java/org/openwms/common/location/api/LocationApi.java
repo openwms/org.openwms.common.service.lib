@@ -27,9 +27,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Optional;
 
-import static org.openwms.common.CommonConstants.API_LOCATION;
-import static org.openwms.common.CommonConstants.API_LOCATIONS;
-
 /**
  * A LocationApi deals with {@code Location}s.
  *
@@ -37,6 +34,13 @@ import static org.openwms.common.CommonConstants.API_LOCATIONS;
  */
 @FeignClient(name = "common-service", qualifier = "locationApi", decode404 = true)
 public interface LocationApi {
+
+    /** API version. */
+    String API_VERSION = "v1";
+    /** API root to hit a Location. */
+    String API_LOCATION = "/" + API_VERSION + "/location";
+    /** API root to hit Locations (plural). */
+    String API_LOCATIONS = "/" + API_VERSION + "/locations";
 
     /**
      * Find and return a {@code Location} representation by the given {@code locationPK}.

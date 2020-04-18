@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import static org.openwms.common.CommonConstants.API_TARGETS;
-
 /**
  * A TargetApi offers operations on Targets (i.e. resources), like locking and releasing a resource.
  *
@@ -29,6 +27,11 @@ import static org.openwms.common.CommonConstants.API_TARGETS;
  */
 @FeignClient(name = "common-service", qualifier = "targetApi", decode404 = true)
 public interface TargetApi {
+
+    /** API version. */
+    String API_VERSION = "v1";
+    /** API root to hit Targets (plural). */
+    String API_TARGETS = "/" + API_VERSION + "/targets";
 
     /**
      * Change the current {@code mode} a {@code Target}, identified by {@code targetBK} operates in.

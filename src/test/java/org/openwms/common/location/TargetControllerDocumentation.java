@@ -22,7 +22,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
-import org.openwms.common.CommonConstants;
 import org.openwms.common.location.api.LocationGroupMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -32,6 +31,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.openwms.common.location.api.TargetApi.API_TARGETS;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -65,7 +65,7 @@ class TargetControllerDocumentation {
      */
         @Test
         void shall_lock_LocationGroup_IN() throws Exception {
-            mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
+            mockMvc.perform(post(API_TARGETS + "/IPOINT")
                     .param("type", "ALLOCATION_LOCK")
                     .param("mode", "IN"))
                     .andExpect(status().isOk())
@@ -81,7 +81,7 @@ class TargetControllerDocumentation {
 
         @Test
         void shall_lock_LocationGroup_OUT() throws Exception {
-            mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
+            mockMvc.perform(post(API_TARGETS + "/IPOINT")
                     .param("type", "ALLOCATION_LOCK")
                     .param("mode", "OUT"))
                     .andExpect(status().isOk())
@@ -97,7 +97,7 @@ class TargetControllerDocumentation {
 
         @Test
         void shall_lock_LocationGroup_INOUT() throws Exception {
-            mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
+            mockMvc.perform(post(API_TARGETS + "/IPOINT")
                     .param("type", "ALLOCATION_LOCK")
                     .param("mode", "IN_AND_OUT"))
                     .andExpect(status().isOk())
@@ -110,7 +110,7 @@ class TargetControllerDocumentation {
 
         @Test
         void shall_lock_LocationGroup_NONE() throws Exception {
-            mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
+            mockMvc.perform(post(API_TARGETS + "/IPOINT")
                     .param("type", "ALLOCATION_LOCK")
                     .param("mode", "NONE"))
                     .andExpect(status().isOk())
@@ -129,7 +129,7 @@ class TargetControllerDocumentation {
     @DisplayName("Permanent Locks")
     class PermanentLockTests {
         @Test void shall_lock_LocationGroup() throws Exception {
-            mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
+            mockMvc.perform(post(API_TARGETS + "/IPOINT")
                     .param("reallocation", "true")
                     .param("type", "PERMANENT_LOCK")
                     .param("mode", "lock"))
@@ -146,7 +146,7 @@ class TargetControllerDocumentation {
         }
 
         @Test void shall_lock_unknown_LocationGroup() throws Exception {
-            mockMvc.perform(post(CommonConstants.API_TARGETS + "/FOO")
+            mockMvc.perform(post(API_TARGETS + "/FOO")
                     .param("type", "PERMANENT_LOCK")
                     .param("mode", "lock"))
                     .andExpect(status().isNotFound())
@@ -156,7 +156,7 @@ class TargetControllerDocumentation {
         }
 
         @Test void shall_unlock_LocationGroup() throws Exception {
-            mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
+            mockMvc.perform(post(API_TARGETS + "/IPOINT")
                     .param("type", "PERMANENT_LOCK")
                     .param("mode", "unlock"))
                     .andExpect(status().isOk())
@@ -168,7 +168,7 @@ class TargetControllerDocumentation {
         }
 
         @Test void shall_unlock_unknown_LocationGroup() throws Exception {
-            mockMvc.perform(post(CommonConstants.API_TARGETS + "/FOO")
+            mockMvc.perform(post(API_TARGETS + "/FOO")
                     .param("type", "PERMANENT_LOCK")
                     .param("mode", "unlock"))
                     .andExpect(status().isNotFound())

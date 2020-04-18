@@ -25,9 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-import static org.openwms.common.CommonConstants.API_TRANSPORT_UNIT;
-import static org.openwms.common.CommonConstants.API_TRANSPORT_UNITS;
-
 /**
  * A TransportUnitApi is the public REST API to manage {@code TransportUnits}. It is implemented by a {@code Feign} client stub.
  *
@@ -36,6 +33,13 @@ import static org.openwms.common.CommonConstants.API_TRANSPORT_UNITS;
  */
 @FeignClient(name = "common-service", qualifier = "transportUnitApi")
 public interface TransportUnitApi {
+
+    /** API version. */
+    String API_VERSION = "v1";
+    /** API root to hit a TransportUnit. */
+    String API_TRANSPORT_UNIT = "/" + API_VERSION + "/transport-unit";
+    /** API root to hit TransportUnits (plural). */
+    String API_TRANSPORT_UNITS = "/" + API_VERSION + "/transport-units";
 
     /*~----------------------------- Finders --------------------------------*/
     /**

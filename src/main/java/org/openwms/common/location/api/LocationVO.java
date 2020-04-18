@@ -32,7 +32,7 @@ import java.util.StringJoiner;
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PUBLIC_ONLY)
-public class LocationVO extends RepresentationModel implements TargetVO, Serializable {
+public class LocationVO extends RepresentationModel<LocationVO> implements TargetVO, Serializable {
 
     private String pKey;
     @NotEmpty

@@ -19,7 +19,6 @@ import org.ameba.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
-import org.openwms.common.CommonConstants;
 import org.openwms.common.location.api.LocationGroupMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -28,6 +27,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.openwms.common.location.api.TargetApi.API_TARGETS;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -55,7 +55,7 @@ class TargetControllerOperationalLocksDocumentation {
 
     @Test
     void shall_olock_LocationGroup_IN() throws Exception {
-        mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
+        mockMvc.perform(post(API_TARGETS + "/IPOINT")
                 .param("reallocation", "true")
                 .param("type", "OPERATION_LOCK")
                 .param("mode", "IN"))
@@ -73,7 +73,7 @@ class TargetControllerOperationalLocksDocumentation {
 
     @Test
     void shall_olock_LocationGroup_OUT() throws Exception {
-        mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
+        mockMvc.perform(post(API_TARGETS + "/IPOINT")
                 .param("type", "OPERATION_LOCK")
                 .param("mode", "OUT"))
                 .andExpect(status().isOk())
@@ -90,7 +90,7 @@ class TargetControllerOperationalLocksDocumentation {
 
     @Test
     void shall_olock_LocationGroup_INOUT() throws Exception {
-        mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
+        mockMvc.perform(post(API_TARGETS + "/IPOINT")
                 .param("type", "OPERATION_LOCK")
                 .param("mode", "IN_AND_OUT"))
                 .andExpect(status().isOk())
@@ -103,7 +103,7 @@ class TargetControllerOperationalLocksDocumentation {
 
     @Test
     void shall_olock_LocationGroup_NONE() throws Exception {
-        mockMvc.perform(post(CommonConstants.API_TARGETS + "/IPOINT")
+        mockMvc.perform(post(API_TARGETS + "/IPOINT")
                 .param("type", "OPERATION_LOCK")
                 .param("mode", "NONE"))
                 .andExpect(status().isOk())

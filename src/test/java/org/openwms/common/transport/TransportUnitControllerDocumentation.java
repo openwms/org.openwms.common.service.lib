@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
-import org.openwms.common.CommonConstants;
 import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.TestData;
 import org.openwms.common.location.LocationPK;
@@ -35,6 +34,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.openwms.common.transport.api.TransportUnitApi.API_TRANSPORT_UNIT;
+import static org.openwms.common.transport.api.TransportUnitApi.API_TRANSPORT_UNITS;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -72,7 +73,7 @@ class TransportUnitControllerDocumentation {
     @Test void shall_return_index() throws Exception {
         mockMvc
                 .perform(
-                        get(CommonConstants.API_TRANSPORT_UNITS + "/index")
+                        get(API_TRANSPORT_UNITS + "/index")
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$._links.transport-unit-findbybarcode").exists())
@@ -84,7 +85,7 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_createSimple() throws Exception {
-        mockMvc.perform(post(CommonConstants.API_TRANSPORT_UNITS)
+        mockMvc.perform(post(API_TRANSPORT_UNITS)
                 .param("bk", "00000000000000004710")
                 .param("actualLocation", TestData.LOCATION_ID_EXT)
                 .param("tut", TestData.TUT_TYPE_PALLET)
@@ -102,7 +103,7 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_createSimple_with_error() throws Exception {
-        mockMvc.perform(post(CommonConstants.API_TRANSPORT_UNITS)
+        mockMvc.perform(post(API_TRANSPORT_UNITS)
                 .param("bk", "00000000000000004711")
                 .param("actualLocation", TestData.LOCATION_ID_EXT)
                 .param("tut", TestData.TUT_TYPE_PALLET)
@@ -113,7 +114,7 @@ class TransportUnitControllerDocumentation {
 
     @Test void shall_createFull() throws Exception {
         TransportUnitVO transportUnit = new TransportUnitVO("4710", TestData.TUT_TYPE_PALLET, new LocationVO(TestData.LOCATION_ID_EXT));
-        mockMvc.perform(post(CommonConstants.API_TRANSPORT_UNITS)
+        mockMvc.perform(post(API_TRANSPORT_UNITS)
                 .param("bk", "00000000000000004710")
                 .param("strict", "false")
                 .content(om.writeValueAsString(transportUnit))
@@ -131,7 +132,7 @@ class TransportUnitControllerDocumentation {
     @Test void shall_create_with_invalid() throws Exception {
         TransportUnitVO transportUnit = new TransportUnitVO("4711", TestData.TUT_TYPE_PALLET, new LocationVO(TestData.LOCATION_ID_EXT));
         transportUnit.setActualLocation(null);
-        mockMvc.perform(post(CommonConstants.API_TRANSPORT_UNITS)
+        mockMvc.perform(post(API_TRANSPORT_UNITS)
                 .param("bk", "00000000000000004711")
                 .param("strict", "false")
                 .content(om.writeValueAsString(transportUnit))
@@ -142,7 +143,7 @@ class TransportUnitControllerDocumentation {
 
     @Test void shall_create_with_error() throws Exception {
         TransportUnitVO transportUnit = new TransportUnitVO("4711", TestData.TUT_TYPE_PALLET, new LocationVO(TestData.LOCATION_ID_EXT));
-        mockMvc.perform(post(CommonConstants.API_TRANSPORT_UNITS)
+        mockMvc.perform(post(API_TRANSPORT_UNITS)
                 .param("bk", "00000000000000004711")
                 .param("strict", "true")
                 .content(om.writeValueAsString(transportUnit))
@@ -154,7 +155,7 @@ class TransportUnitControllerDocumentation {
     @Test void shall_update_existing() throws Exception {
         TransportUnitVO transportUnit = new TransportUnitVO("00000000000000004711");
         transportUnit.setActualLocation(new LocationVO(TestData.LOCATION_ID_FGIN0001LEFT));
-        mockMvc.perform(put(CommonConstants.API_TRANSPORT_UNITS)
+        mockMvc.perform(put(API_TRANSPORT_UNITS)
                 .param("bk", "00000000000000004711")
                 .content(om.writeValueAsString(transportUnit))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -171,7 +172,7 @@ class TransportUnitControllerDocumentation {
     @Test void shall_update_404() throws Exception {
         TransportUnitVO transportUnit = new TransportUnitVO("00000000000000004710");
         transportUnit.setActualLocation(new LocationVO(TestData.LOCATION_ID_FGIN0001LEFT));
-        mockMvc.perform(put(CommonConstants.API_TRANSPORT_UNITS)
+        mockMvc.perform(put(API_TRANSPORT_UNITS)
                 .param("bk", "00000000000000004710")
                 .content(om.writeValueAsString(transportUnit))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -184,7 +185,7 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_move() throws Exception {
-        mockMvc.perform(patch(CommonConstants.API_TRANSPORT_UNITS)
+        mockMvc.perform(patch(API_TRANSPORT_UNITS)
                 .param("bk", "00000000000000004711")
                 .param("newLocation", TestData.LOCATION_ID_FGIN0001LEFT).header(HttpHeaders.CONTENT_TYPE, ""))
                 .andExpect(status().isOk())
@@ -197,7 +198,7 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_add_error() throws Exception {
-        mockMvc.perform(post(CommonConstants.API_TRANSPORT_UNIT + "/error")
+        mockMvc.perform(post(API_TRANSPORT_UNIT + "/error")
                 .param("bk", "00000000000000004711")
                 .param("errorCode", "bla"))
                 .andExpect(status().isOk())
@@ -210,7 +211,7 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_findByBarcode() throws Exception {
-        mockMvc.perform(get(CommonConstants.API_TRANSPORT_UNITS)
+        mockMvc.perform(get(API_TRANSPORT_UNITS)
                 .param("bk", "00000000000000004711"))
                 .andExpect(status().isOk())
                 .andDo(document("tu-find-by-barcode",
@@ -221,7 +222,7 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_findByBarcode_short() throws Exception {
-        mockMvc.perform(get(CommonConstants.API_TRANSPORT_UNITS)
+        mockMvc.perform(get(API_TRANSPORT_UNITS)
                 .param("bk", "4711"))
                 .andExpect(status().isOk())
                 .andDo(document("tu-find-by-barcode-short",
@@ -232,7 +233,7 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_findByBarcode_404() throws Exception {
-        mockMvc.perform(get(CommonConstants.API_TRANSPORT_UNITS)
+        mockMvc.perform(get(API_TRANSPORT_UNITS)
                 .param("bk", "999"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("messageKey", is(CommonMessageCodes.BARCODE_NOT_FOUND)))
@@ -240,7 +241,7 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_findByBarcodes() throws Exception {
-        mockMvc.perform(get(CommonConstants.API_TRANSPORT_UNITS)
+        mockMvc.perform(get(API_TRANSPORT_UNITS)
                 .param("bks", "00000000000000004711")
                 .param("bks", "00000000000000004712")
                 .param("bks", "00000000000000004713"))
@@ -253,7 +254,7 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_findOnLocation() throws Exception {
-        mockMvc.perform(get(CommonConstants.API_TRANSPORT_UNITS)
+        mockMvc.perform(get(API_TRANSPORT_UNITS)
                 .param("actualLocation", "FGIN/IPNT/0001/0000/0000"))
                 .andExpect(status().isOk())
                 .andDo(document("tu-find-on-location",

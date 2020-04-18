@@ -22,27 +22,6 @@ package org.openwms.common;
  */
 public final class CommonConstants {
 
-    /** API version. */
-    public static final String API_VERSION = "v1";
-    /** API root to hit a Location. */
-    public static final String API_LOCATION = "/" + API_VERSION + "/location";
-    /** API root to hit Locations (plural). */
-    public static final String API_LOCATIONS = "/" + API_VERSION + "/locations";
-    /** API root to hit a LocationGroup. */
-    public static final String API_LOCATION_GROUP = "/" + API_VERSION + "/location-group";
-    /** API root to hit LocationGroups (plural). */
-    public static final String API_LOCATION_GROUPS = "/" + API_VERSION + "/location-groups";
-    /** API root to hit a TransportUnitType. */
-    public static final String API_TRANSPORT_UNIT_TYPE = "/" + API_VERSION + "/transport-unit-type";
-    /** API root to hit TransportUnitTypes (plural). */
-    public static final String API_TRANSPORT_UNIT_TYPES = "/" + API_VERSION + "/transport-unit-types";
-    /** API root to hit a TransportUnit. */
-    public static final String API_TRANSPORT_UNIT = "/" + API_VERSION + "/transport-unit";
-    /** API root to hit TransportUnits (plural). */
-    public static final String API_TRANSPORT_UNITS = "/" + API_VERSION + "/transport-units";
-    /** API root to hit Targets (plural). */
-    public static final String API_TARGETS = "/" + API_VERSION + "/targets";
-
     private CommonConstants() {
     }
 }

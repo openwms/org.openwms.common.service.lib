@@ -26,9 +26,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Optional;
 
-import static org.openwms.common.CommonConstants.API_LOCATION_GROUP;
-import static org.openwms.common.CommonConstants.API_LOCATION_GROUPS;
-
 /**
  * A LocationGroupApi.
  *
@@ -36,6 +33,13 @@ import static org.openwms.common.CommonConstants.API_LOCATION_GROUPS;
  */
 @FeignClient(name = "common-service", qualifier = "locationGroupApi", decode404 = true)
 public interface LocationGroupApi {
+
+    /** API version. */
+    String API_VERSION = "v1";
+    /** API root to hit a LocationGroup. */
+    String API_LOCATION_GROUP = "/" + API_VERSION + "/location-group";
+    /** API root to hit LocationGroups (plural). */
+    String API_LOCATION_GROUPS = "/" + API_VERSION + "/location-groups";
 
     /**
      * Find a {@code LocationGroup} with the given {@code name}.
