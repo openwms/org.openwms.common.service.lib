@@ -18,10 +18,16 @@ package org.openwms.common.account.impl;
 import org.openwms.common.account.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 /**
  * A AccountRepository.
  *
  * @author Heiko Scherrer
  */
 public interface AccountRepository extends JpaRepository<Account, Long> {
+
+    Optional<Account> findByIdentifier(String identifier);
+
+    Optional<Account> findByName(String name);
 }

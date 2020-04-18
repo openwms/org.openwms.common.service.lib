@@ -66,5 +66,25 @@ class AccountControllerDocumentation {
                 .andDo(document("acc-find-all", preprocessResponse(prettyPrint())));
     }
 
+    @Test void shall_findByIdentifier() throws Exception {
+        mockMvc.perform(get(API_ACCOUNTS)
+                .param("identifier", "D"))
+                .andExpect(status().isOk())
+                .andDo(document("acc-find-byIdentifier", preprocessResponse(prettyPrint())));
+    }
+
+    @Test void shall_findByName() throws Exception {
+        mockMvc.perform(get(API_ACCOUNTS)
+                .param("name", "Default"))
+                .andExpect(status().isOk())
+                .andDo(document("acc-find-byName", preprocessResponse(prettyPrint())));
+    }
+
+    @Test void shall_findByName_404() throws Exception {
+        mockMvc.perform(get(API_ACCOUNTS)
+                .param("name", "UNKNOWN"))
+                .andExpect(status().isNotFound())
+                .andDo(document("acc-find-byName404", preprocessResponse(prettyPrint())));
+    }
 }
 

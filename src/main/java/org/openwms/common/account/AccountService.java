@@ -16,6 +16,7 @@
 package org.openwms.common.account;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A AccountService.
@@ -30,4 +31,20 @@ public interface AccountService {
      * @return A list, never {@literal null}
      */
     List<Account> findAll();
+
+    /**
+     * Find and return the {@link Account}.
+     *
+     * @param identifier The Account's identifier
+     * @return The Account instance
+     */
+    Optional<Account> findByIdentifier(String identifier);
+
+    /**
+     * Find and return the {@link Account}.
+     *
+     * @param name The Account's name
+     * @return The Account instance
+     */
+    Optional<Account> findByName(String name);
 }

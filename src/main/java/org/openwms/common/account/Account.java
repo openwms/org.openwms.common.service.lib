@@ -34,7 +34,10 @@ import java.util.Objects;
  * @GlossaryTerm
  */
 @Entity
-@Table(name = "COM_ACCOUNT", uniqueConstraints = @UniqueConstraint(name = "UC_ACC_ID", columnNames = "C_IDENTIFIER"))
+@Table(name = "COM_ACCOUNT", uniqueConstraints = {
+        @UniqueConstraint(name = "UC_ACC_ID", columnNames = "C_IDENTIFIER"),
+        @UniqueConstraint(name = "UC_ACC_NAME", columnNames = "C_NAME")
+})
 public class Account extends ApplicationEntity implements Serializable {
 
     /** Unique identifier. */

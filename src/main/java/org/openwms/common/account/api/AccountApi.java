@@ -17,8 +17,8 @@ package org.openwms.common.account.api;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -39,6 +39,26 @@ public interface AccountApi {
      */
     @GetMapping(API_ACCOUNTS)
     @Cacheable("accounts")
-    ResponseEntity<List<AccountVO>> findAll();
+    List<AccountVO> findAll();
+
+    /**
+     * Find and return an {@code Account}.
+     *
+     * @param identifier The Account's identifier
+     * @return The Account instance or 404-Not Found
+     */
+    @GetMapping(value = API_ACCOUNTS, params = "identifier")
+    @Cacheable("accounts")
+    AccountVO findByIdentifier(@RequestParam("identifier") String identifier);
+
+    /**
+     * Find and return an {@code Account}.
+     *
+     * @param name The Account's name
+     * @return The Account instance or 404-Not Found
+     */
+    @GetMapping(value = API_ACCOUNTS, params = "name")
+    @Cacheable("accounts")
+    AccountVO findByName(@RequestParam("name") String name);
 
 }

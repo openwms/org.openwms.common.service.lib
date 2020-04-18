@@ -22,6 +22,7 @@ import org.openwms.common.account.AccountService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A AccountServiceImpl.
@@ -45,5 +46,25 @@ class AccountServiceImpl implements AccountService {
     @Override
     public List<Account> findAll() {
         return repository.findAll();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Measured
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<Account> findByIdentifier(String identifier) {
+        return repository.findByIdentifier(identifier);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Measured
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<Account> findByName(String name) {
+        return repository.findByName(name);
     }
 }

@@ -21,3 +21,18 @@ include::{generated}/acc-find-all/http-request.adoc[]
 The response contains all existing `Accounts`:
 
 include::{generated}/tut-find-all/http-response.adoc[]
+
+=== Find an Account
+The `name` and the `identifier` of the `Account` are unique and mandatory attributes. So an `Account` can be searched for both fields.
+
+Find an `Account` by name:
+include::{generated}/acc-find-byName/http-request.adoc[]
+
+or find an `Account` by identifier:
+include::{generated}/acc-find-byIdentifier/http-request.adoc[]
+
+The server responds with the Account entity if it exists:
+include::{generated}/tut-find-byName/http-response.adoc[]
+
+or with a `404-Not Found` if no `Account` exists:
+include::{generated}/tut-find-byName404/http-response.adoc[]
