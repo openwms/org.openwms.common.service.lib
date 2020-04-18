@@ -35,7 +35,7 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 
 import static java.lang.String.format;
-import static org.openwms.common.location.api.TargetApi.API_TARGETS;
+import static org.openwms.common.location.api.LocationApiConstants.API_TARGETS;
 
 /**
  * A TargetController represents the REST API to handle the state and availability of {@code Target}s.

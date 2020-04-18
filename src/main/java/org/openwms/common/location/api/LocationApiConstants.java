@@ -32,6 +32,8 @@ public final class LocationApiConstants {
     public static final String API_LOCATION_GROUP = "/" + API_VERSION + "/location-group";
     /** API root to hit LocationGroups (plural). */
     public static final String API_LOCATION_GROUPS = "/" + API_VERSION + "/location-groups";
+    /** API root to hit Targets (plural). */
+    public static final String API_TARGETS = "/" + API_VERSION + "/targets";
 
     private LocationApiConstants() {}
 }

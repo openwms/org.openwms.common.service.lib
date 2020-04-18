@@ -28,11 +28,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "common-service", qualifier = "targetApi", decode404 = true)
 public interface TargetApi {
 
-    /** API version. */
-    String API_VERSION = "v1";
-    /** API root to hit Targets (plural). */
-    String API_TARGETS = "/" + API_VERSION + "/targets";
-
     /**
      * Change the current {@code mode} a {@code Target}, identified by {@code targetBK} operates in.
      *
@@ -40,7 +35,7 @@ public interface TargetApi {
      * @param type The type of lock to apply to the Target
      * @param mode The mode to apply to the Targets lock
      */
-    @PostMapping(value = API_TARGETS + "/{targetBK}", params = {"type", "mode", "op=change-state"})
+    @PostMapping(value = LocationApiConstants.API_TARGETS + "/{targetBK}", params = {"type", "mode", "op=change-state"})
     void changeState(
             @PathVariable("targetBK") String targetBK,
             @RequestParam("type") LockType type,
@@ -53,7 +48,7 @@ public interface TargetApi {
      * @param targetBK The business key of the Target, can be a {@code LocationPK} in String format or a LocationGroup name
      * @param reallocation If {@literal true} open outfeed orders will be re-allocated
      */
-    @PostMapping(value = API_TARGETS + "/{targetBK}", params = {"op=lock"})
+    @PostMapping(value = LocationApiConstants.API_TARGETS + "/{targetBK}", params = {"op=lock"})
     void lock(
             @PathVariable("targetBK") String targetBK,
             @RequestParam("reallocation") Boolean reallocation
@@ -64,7 +59,7 @@ public interface TargetApi {
      *
      * @param targetBK The business key of the Target, can be a {@code LocationPK} in String format or a LocationGroup name
      */
-    @PostMapping(value = API_TARGETS + "/{targetBK}", params = {"op=unlock"})
+    @PostMapping(value = LocationApiConstants.API_TARGETS + "/{targetBK}", params = {"op=unlock"})
     void release(
             @PathVariable("targetBK") String targetBK
     );

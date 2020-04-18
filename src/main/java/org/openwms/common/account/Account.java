@@ -20,6 +20,8 @@ import org.ameba.integration.jpa.ApplicationEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -32,14 +34,16 @@ import java.util.Objects;
  * @GlossaryTerm
  */
 @Entity
-@Table(name = "COM_ACCOUNT")
+@Table(name = "COM_ACCOUNT", uniqueConstraints = @UniqueConstraint(name = "UC_ACC_ID", columnNames = "C_IDENTIFIER"))
 public class Account extends ApplicationEntity implements Serializable {
 
     /** Unique identifier. */
-    @Column(name = "C_IDENTIFIER")
+    @NotEmpty
+    @Column(name = "C_IDENTIFIER", nullable = false)
     private String identifier;
     /** Name. */
-    @Column(name = "C_NAME")
+    @NotEmpty
+    @Column(name = "C_NAME", nullable = false)
     private String name;
 
     public String getIdentifier() {

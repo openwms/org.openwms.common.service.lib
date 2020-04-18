@@ -31,7 +31,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
-import static org.openwms.common.location.api.TargetApi.API_TARGETS;
+import static org.openwms.common.location.api.LocationApiConstants.API_TARGETS;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
