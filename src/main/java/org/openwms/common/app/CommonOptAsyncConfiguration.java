@@ -68,6 +68,11 @@ class CommonOptAsyncConfiguration {
         return new TopicExchange(exchangeName, true, false);
     }
 
+    @Bean
+    TopicExchange commonTuTExchange(@Value("${owms.events.common.tut.exchange-name}") String exchangeName) {
+        return new TopicExchange(exchangeName, true, false);
+    }
+
     /*~ ------------ Commands ------------- */
     @Bean
     Queue commandsQueue(@Value("${owms.commands.common.tu.queue-name}") String queueName) {

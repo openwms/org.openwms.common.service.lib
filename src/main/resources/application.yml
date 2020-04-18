@@ -20,3 +20,5 @@ owms:
         exchange-name: common.lg
       tu:
         exchange-name: common.tu
+      tut:
+        exchange-name: common.tut
