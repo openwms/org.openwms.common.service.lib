@@ -15,7 +15,7 @@
  */
 package org.openwms.common.transport;
 
-import org.ameba.integration.jpa.BaseEntity;
+import org.ameba.integration.jpa.ApplicationEntity;
 import org.openwms.common.location.LocationType;
 import org.springframework.util.Assert;
 
@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
  */
 @Entity
 @Table(name = "COM_TRANSPORT_UNIT_TYPE")
-public class TransportUnitType extends BaseEntity implements Serializable {
+public class TransportUnitType extends ApplicationEntity implements Serializable {
 
     /** Unique natural key. */
     @Column(name = "C_TYPE", unique = true, nullable = false)
