@@ -1,0 +1,94 @@
+== LocationGroup
+
+A `LocationGroup` is used to group `Locations` with same characteristics or to define a warehouse area that can be seen as one cohesive
+block controlled by one single subsystem.
+
+=== LocationGroup Index
+The index with all possible operations can be retrieved with the following GET request:
+
+include::{generated}/lg-index/http-request.adoc[]
+
+The response lists all the operations with a name and the corresponding href link:
+
+include::{generated}/lg-index/http-response.adoc[]
+
+=== Find all LocationGroups
+To retrieve a list of all existing `LocationGroups` a client must send a GET request to the server:
+
+include::{generated}/lg-find-all/http-request.adoc[]
+
+If no `LocationGroups` exist the returned array is empty otherwise the response looks like:
+
+include::{generated}/lg-find-all/http-response.adoc[]
+
+Each `LocationGroup` has a link to its parent `LocationGroup` except the root `LocationGroup` that has no parent. Notice the returned
+`Content-Type` is `application/hal+json` that enables support for hypermedia links.
+
+=== Find LocationGroup by Name
+Send a HTTP GET request with the unique name of the `LocationGroup`.
+
+include::{generated}/lg/shall_findby_name/http-request.adoc[]
+
+Request parameters:
+
+include::{generated}/lg/shall_findby_name/request-parameters.adoc[]
+
+If the `LocationGroup` exists the server responds with
+
+include::{generated}/lg/shall_findby_name/http-response.adoc[]
+
+If the `LocationGroup` with the given name does not exist, the server responds with
+
+include::{generated}/lg-find-name-404/http-response.adoc[]
+
+=== Find multiple LocationGroups by Name
+Send a HTTP GET request with a list of unique `LocationGroup` names.
+
+include::{generated}/lg/shall_findby_names/http-request.adoc[]
+
+Request parameters:
+
+include::{generated}/lg/shall_findby_names/request-parameters.adoc[]
+
+The server sends back a list of all `LocationGroups` or an empty list if no `LocationGroups` exist.
+
+include::{generated}/lg/shall_findby_names/http-response.adoc[]
+
+=== Change a LocationGroup's State
+A `LocationGroup` has an inbound and an outbound state, sometimes also referred as infeed or outfeed state. Both states can be set to
+`AVAILABLE` or `NOT_AVAILABLE` independent from each other. Is a `LocationGroup` not available for infeed, then no transports towards this
+`LocationGroup` are created, similar is true for the outbound state.
+
+To change the state of a `LocationGroup` a `PATCH` request on the identified resource is accepted:
+
+include::{generated}/lg/shall_change_state_p-key/http-request.adoc[]
+
+Request path variables:
+
+include::{generated}/lg/shall_change_state_p-key/path-parameters.adoc[]
+
+Request parameters:
+
+include::{generated}/lg/shall_change_state_p-key/request-parameters.adoc[]
+
+If the state change operation could be processed successfully, the server responds with:
+
+include::{generated}/lg/shall_change_state_p-key/http-response.adoc[]
+
+If the resource can't be identified the server response looks like:
+
+include::{generated}/lg-state-404/http-response.adoc[]
+
+Instead of passing both state values for inbound and outbound directly as query parameters it is also possible to encode the state into a
+8-digit bitmap field and pass it to the request. This is very handy when the subsystem (aka. PLC) sends an error bitmap to the server that
+can then directly passed to the API.
+
+include::{generated}/lg/shall_change_state/http-request.adoc[]
+
+Request parameters:
+
+include::{generated}/lg/shall_change_state/request-parameters.adoc[]
+
+The server response is:
+
+include::{generated}/lg/shall_change_state/http-response.adoc[]

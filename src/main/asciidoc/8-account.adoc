@@ -1,0 +1,23 @@
+== Account
+
+An `Account` reflects to a customers cost center. A project may know about several cost centers - `Accounts`. The `Account` information is
+usually defined at project setup and does not change at runtime. So it is not foreseen that `Account` instances are created or deleted
+through the API.
+
+=== Account Index
+The index with all possible operations can be retrieved with an `GET request:
+
+include::{generated}/àcc-index/http-request.adoc[]
+
+The response lists all the operations with a name and the corresponding href link:
+
+include::{generated}/acc-index/http-response.adoc[]
+
+=== Find all Accounts
+To retrieve a list of all existing `Accounts` a client must send a `GET` request to the server:
+
+include::{generated}/acc-find-all/http-request.adoc[]
+
+The response contains all existing `Accounts`:
+
+include::{generated}/tut-find-all/http-response.adoc[]

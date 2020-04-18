@@ -1,0 +1,35 @@
+== TransportUnitType
+
+A `TransportUnitType` is a type of a certain `TransportUnit`. Typically to store some static attributes of `TransportUnits`, such as the
+length, the height, or the weight of `TransportUnits`. It is possible to group and characterize `TransportUnits`.
+
+=== TransportUnitType Index
+The index with all possible operations can be retrieved with the following GET request:
+
+include::{generated}/tut-index/http-request.adoc[]
+
+The response lists all the operations with a name and the corresponding href link:
+
+include::{generated}/tut-index/http-response.adoc[]
+
+=== Find all TransportUnitTypes
+To retrieve a list of all existing `TransportUnitTypes` a client must send a GET request to the server:
+
+include::{generated}/tut-find-all/http-request.adoc[]
+
+The response contains all existing `TransportUnitTypes`:
+
+include::{generated}/tut-find-all/http-response.adoc[]
+
+=== Find a TransportUnitType by Name
+Each `TransportUnitType` has an unique name by that it can be identified. Query the resource with a `type` parameter:
+
+include::{generated}/tut-find-type/http-request.adoc[]
+
+If the `TransportUnitType` exists the response looks like:
+
+include::{generated}/tut-find-type/http-response.adoc[]
+
+If no `TransportUnitType` with the given name exist the server sends a 404-NOT FOUND:
+
+include::{generated}/tut-find-type-404/http-response.adoc[]
