@@ -17,6 +17,7 @@ package org.openwms.common.transport.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.ameba.http.AbstractBase;
 import org.openwms.common.location.api.LocationVO;
 
@@ -35,142 +36,151 @@ import java.util.Objects;
 public class TransportUnitVO extends AbstractBase implements Serializable {
 
     @NotEmpty
+    @JsonProperty(&quot;barcode&quot;)
     private String barcode;
     @NotNull(groups = ValidationGroups.TransportUnit.Create.class)
+    @JsonProperty(&quot;actualLocation&quot;)
     private LocationVO actualLocation;
+    @JsonProperty(&quot;target&quot;)
     private String target;
     @NotEmpty(groups = {ValidationGroups.TransportUnit.Create.class, ValidationGroups.TransportUnit.WithTuT.class})
+    @JsonProperty(&quot;transportUnitTypeName&quot;)
     private String transportUnitType;
+    @JsonProperty(&quot;length&quot;)
     private Integer length;
+    @JsonProperty(&quot;width&quot;)
     private Integer width;
+    @JsonProperty(&quot;height&quot;)
     private Integer height;
+    @JsonProperty(&quot;actualPlcCode&quot;)
     private String actualPlcCode;
+    @JsonProperty(&quot;actualLocationDate&quot;)
     private Date actualLocationDate;
 
     /*~-------------------- constructors --------------------*/
     @JsonCreator
-<span class="fc" id="L52">    protected TransportUnitVO() {</span>
-<span class="fc" id="L53">    }</span>
-
-<span class="fc" id="L55">    public TransportUnitVO(String barcode) {</span>
-<span class="fc" id="L56">        this.barcode = barcode;</span>
-<span class="fc" id="L57">    }</span>
-
-<span class="fc" id="L59">    public TransportUnitVO(String barcode, String transportUnitType, LocationVO actualLocation) {</span>
-<span class="fc" id="L60">        this.barcode = barcode;</span>
-<span class="fc" id="L61">        this.transportUnitType = transportUnitType;</span>
-<span class="fc" id="L62">        this.actualLocation = actualLocation;</span>
+<span class="fc" id="L62">    protected TransportUnitVO() {</span>
 <span class="fc" id="L63">    }</span>
 
-<span class="nc" id="L65">    private TransportUnitVO(Builder builder) {</span>
-<span class="nc" id="L66">        barcode = builder.barcode;</span>
-<span class="nc" id="L67">        actualLocation = builder.actualLocation;</span>
-<span class="nc" id="L68">        target = builder.target;</span>
-<span class="nc" id="L69">        transportUnitType = builder.transportUnitType;</span>
-<span class="nc" id="L70">        length = builder.length;</span>
-<span class="nc" id="L71">        width = builder.width;</span>
-<span class="nc" id="L72">        height = builder.height;</span>
-<span class="nc" id="L73">        actualPlcCode = builder.actualPlcCode;</span>
-<span class="nc" id="L74">        actualLocationDate = builder.actualLocationDate;</span>
-<span class="nc" id="L75">    }</span>
+<span class="fc" id="L65">    public TransportUnitVO(String barcode) {</span>
+<span class="fc" id="L66">        this.barcode = barcode;</span>
+<span class="fc" id="L67">    }</span>
+
+<span class="fc" id="L69">    public TransportUnitVO(String barcode, String transportUnitType, LocationVO actualLocation) {</span>
+<span class="fc" id="L70">        this.barcode = barcode;</span>
+<span class="fc" id="L71">        this.transportUnitType = transportUnitType;</span>
+<span class="fc" id="L72">        this.actualLocation = actualLocation;</span>
+<span class="fc" id="L73">    }</span>
+
+<span class="nc" id="L75">    private TransportUnitVO(Builder builder) {</span>
+<span class="nc" id="L76">        barcode = builder.barcode;</span>
+<span class="nc" id="L77">        actualLocation = builder.actualLocation;</span>
+<span class="nc" id="L78">        target = builder.target;</span>
+<span class="nc" id="L79">        transportUnitType = builder.transportUnitType;</span>
+<span class="nc" id="L80">        length = builder.length;</span>
+<span class="nc" id="L81">        width = builder.width;</span>
+<span class="nc" id="L82">        height = builder.height;</span>
+<span class="nc" id="L83">        actualPlcCode = builder.actualPlcCode;</span>
+<span class="nc" id="L84">        actualLocationDate = builder.actualLocationDate;</span>
+<span class="nc" id="L85">    }</span>
 
     public static Builder newBuilder() {
-<span class="nc" id="L78">        return new Builder();</span>
+<span class="nc" id="L88">        return new Builder();</span>
     }
 
     public static Builder builder() {
-<span class="nc" id="L82">        return new Builder();</span>
+<span class="nc" id="L92">        return new Builder();</span>
     }
 
     /*~-------------------- accessors --------------------*/
     public String getBarcode() {
-<span class="fc" id="L87">        return barcode;</span>
+<span class="fc" id="L97">        return barcode;</span>
     }
 
     public LocationVO getActualLocation() {
-<span class="fc" id="L91">        return actualLocation;</span>
+<span class="fc" id="L101">        return actualLocation;</span>
     }
 
     public void setActualLocation(LocationVO actualLocation) {
-<span class="fc" id="L95">        this.actualLocation = actualLocation;</span>
-<span class="fc" id="L96">    }</span>
+<span class="fc" id="L105">        this.actualLocation = actualLocation;</span>
+<span class="fc" id="L106">    }</span>
 
     public String getTarget() {
-<span class="fc" id="L99">        return target;</span>
+<span class="fc" id="L109">        return target;</span>
     }
 
     public void setTarget(String target) {
-<span class="nc" id="L103">        this.target = target;</span>
-<span class="nc" id="L104">    }</span>
+<span class="nc" id="L113">        this.target = target;</span>
+<span class="nc" id="L114">    }</span>
 
     public String getTransportUnitType() {
-<span class="fc" id="L107">        return transportUnitType;</span>
+<span class="fc" id="L117">        return transportUnitType;</span>
     }
 
     public void setTransportUnitType(String transportUnitType) {
-<span class="fc" id="L111">        this.transportUnitType = transportUnitType;</span>
-<span class="fc" id="L112">    }</span>
+<span class="fc" id="L121">        this.transportUnitType = transportUnitType;</span>
+<span class="fc" id="L122">    }</span>
 
     public Integer getLength() {
-<span class="fc" id="L115">        return length;</span>
+<span class="fc" id="L125">        return length;</span>
     }
 
     public void setLength(Integer length) {
-<span class="nc" id="L119">        this.length = length;</span>
-<span class="nc" id="L120">    }</span>
+<span class="nc" id="L129">        this.length = length;</span>
+<span class="nc" id="L130">    }</span>
 
     public Integer getWidth() {
-<span class="fc" id="L123">        return width;</span>
+<span class="fc" id="L133">        return width;</span>
     }
 
     public void setWidth(Integer width) {
-<span class="nc" id="L127">        this.width = width;</span>
-<span class="nc" id="L128">    }</span>
+<span class="nc" id="L137">        this.width = width;</span>
+<span class="nc" id="L138">    }</span>
 
     public Integer getHeight() {
-<span class="fc" id="L131">        return height;</span>
+<span class="fc" id="L141">        return height;</span>
     }
 
     public void setHeight(Integer height) {
-<span class="nc" id="L135">        this.height = height;</span>
-<span class="nc" id="L136">    }</span>
+<span class="nc" id="L145">        this.height = height;</span>
+<span class="nc" id="L146">    }</span>
 
     public String getActualPlcCode() {
-<span class="fc" id="L139">        return actualPlcCode;</span>
+<span class="fc" id="L149">        return actualPlcCode;</span>
     }
 
     public void setActualPlcCode(String actualPlcCode) {
-<span class="nc" id="L143">        this.actualPlcCode = actualPlcCode;</span>
-<span class="nc" id="L144">    }</span>
+<span class="nc" id="L153">        this.actualPlcCode = actualPlcCode;</span>
+<span class="nc" id="L154">    }</span>
 
     public Date getActualLocationDate() {
-<span class="fc" id="L147">        return actualLocationDate;</span>
+<span class="fc" id="L157">        return actualLocationDate;</span>
     }
 
     public void setActualLocationDate(Date actualLocationDate) {
-<span class="nc" id="L151">        this.actualLocationDate = actualLocationDate;</span>
-<span class="nc" id="L152">    }</span>
+<span class="nc" id="L161">        this.actualLocationDate = actualLocationDate;</span>
+<span class="nc" id="L162">    }</span>
 
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L156" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L157" title="All 2 branches missed.">        if (!(o instanceof TransportUnitVO)) return false;</span>
-<span class="nc bnc" id="L158" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
-<span class="nc" id="L159">        TransportUnitVO that = (TransportUnitVO) o;</span>
-<span class="nc bnc" id="L160" title="All 2 branches missed.">        return Objects.equals(barcode, that.barcode) &amp;&amp;</span>
-<span class="nc bnc" id="L161" title="All 2 branches missed.">                Objects.equals(actualLocation, that.actualLocation) &amp;&amp;</span>
-<span class="nc bnc" id="L162" title="All 2 branches missed.">                Objects.equals(target, that.target) &amp;&amp;</span>
-<span class="nc bnc" id="L163" title="All 2 branches missed.">                Objects.equals(transportUnitType, that.transportUnitType) &amp;&amp;</span>
-<span class="nc bnc" id="L164" title="All 2 branches missed.">                Objects.equals(length, that.length) &amp;&amp;</span>
-<span class="nc bnc" id="L165" title="All 2 branches missed.">                Objects.equals(width, that.width) &amp;&amp;</span>
-<span class="nc bnc" id="L166" title="All 2 branches missed.">                Objects.equals(height, that.height) &amp;&amp;</span>
-<span class="nc bnc" id="L167" title="All 2 branches missed.">                Objects.equals(actualPlcCode, that.actualPlcCode) &amp;&amp;</span>
-<span class="nc bnc" id="L168" title="All 2 branches missed.">                Objects.equals(actualLocationDate, that.actualLocationDate);</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">        if (!(o instanceof TransportUnitVO)) return false;</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
+<span class="nc" id="L169">        TransportUnitVO that = (TransportUnitVO) o;</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">        return Objects.equals(barcode, that.barcode) &amp;&amp;</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">                Objects.equals(actualLocation, that.actualLocation) &amp;&amp;</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">                Objects.equals(target, that.target) &amp;&amp;</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">                Objects.equals(transportUnitType, that.transportUnitType) &amp;&amp;</span>
+<span class="nc bnc" id="L174" title="All 2 branches missed.">                Objects.equals(length, that.length) &amp;&amp;</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">                Objects.equals(width, that.width) &amp;&amp;</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">                Objects.equals(height, that.height) &amp;&amp;</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">                Objects.equals(actualPlcCode, that.actualPlcCode) &amp;&amp;</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">                Objects.equals(actualLocationDate, that.actualLocationDate);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="nc" id="L173">        return Objects.hash(super.hashCode(), barcode, actualLocation, target, transportUnitType, length, width, height, actualPlcCode, actualLocationDate);</span>
+<span class="nc" id="L183">        return Objects.hash(super.hashCode(), barcode, actualLocation, target, transportUnitType, length, width, height, actualPlcCode, actualLocationDate);</span>
     }
 
     /*~-------------------- Builder --------------------*/
@@ -189,52 +199,52 @@ public class TransportUnitVO extends AbstractBase implements Serializable {
         }
 
         public Builder barcode(@NotEmpty String val) {
-<span class="nc" id="L192">            barcode = val;</span>
-<span class="nc" id="L193">            return this;</span>
-        }
-
-        public Builder actualLocation(LocationVO val) {
-<span class="nc" id="L197">            actualLocation = val;</span>
-<span class="nc" id="L198">            return this;</span>
-        }
-
-        public Builder target(String val) {
-<span class="nc" id="L202">            target = val;</span>
+<span class="nc" id="L202">            barcode = val;</span>
 <span class="nc" id="L203">            return this;</span>
         }
 
-        public Builder transportUnitType(@NotEmpty(groups = ValidationGroups.TransportUnit.WithTuT.class) String val) {
-<span class="nc" id="L207">            transportUnitType = val;</span>
+        public Builder actualLocation(LocationVO val) {
+<span class="nc" id="L207">            actualLocation = val;</span>
 <span class="nc" id="L208">            return this;</span>
         }
 
-        public Builder length(Integer val) {
-<span class="nc" id="L212">            length = val;</span>
+        public Builder target(String val) {
+<span class="nc" id="L212">            target = val;</span>
 <span class="nc" id="L213">            return this;</span>
         }
 
-        public Builder width(Integer val) {
-<span class="nc" id="L217">            width = val;</span>
+        public Builder transportUnitType(@NotEmpty(groups = ValidationGroups.TransportUnit.WithTuT.class) String val) {
+<span class="nc" id="L217">            transportUnitType = val;</span>
 <span class="nc" id="L218">            return this;</span>
         }
 
-        public Builder height(Integer val) {
-<span class="nc" id="L222">            height = val;</span>
+        public Builder length(Integer val) {
+<span class="nc" id="L222">            length = val;</span>
 <span class="nc" id="L223">            return this;</span>
         }
 
-        public Builder actualPlcCode(String val) {
-<span class="nc" id="L227">            actualPlcCode = val;</span>
+        public Builder width(Integer val) {
+<span class="nc" id="L227">            width = val;</span>
 <span class="nc" id="L228">            return this;</span>
         }
 
-        public Builder actualLocationDate(Date val) {
-<span class="nc" id="L232">            actualLocationDate = val;</span>
+        public Builder height(Integer val) {
+<span class="nc" id="L232">            height = val;</span>
 <span class="nc" id="L233">            return this;</span>
         }
 
+        public Builder actualPlcCode(String val) {
+<span class="nc" id="L237">            actualPlcCode = val;</span>
+<span class="nc" id="L238">            return this;</span>
+        }
+
+        public Builder actualLocationDate(Date val) {
+<span class="nc" id="L242">            actualLocationDate = val;</span>
+<span class="nc" id="L243">            return this;</span>
+        }
+
         public TransportUnitVO build() {
-<span class="nc" id="L237">            return new TransportUnitVO(this);</span>
+<span class="nc" id="L247">            return new TransportUnitVO(this);</span>
         }
     }
 }

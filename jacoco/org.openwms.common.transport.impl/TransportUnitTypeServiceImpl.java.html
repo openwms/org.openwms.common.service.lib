@@ -155,7 +155,12 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
 <span class="fc" id="L155">                tut.removeTypePlacingRules(locationType);</span>
             }
         }
-<span class="fc" id="L158">        return transportUnitTypeRepository.save(tut);</span>
+<span class="fc" id="L158">        tut = transportUnitTypeRepository.save(tut);</span>
+<span class="fc" id="L159">        publisher.publishEvent(TransportUnitTypeEvent.newBuilder()</span>
+<span class="fc" id="L160">                .tut(tut)</span>
+<span class="fc" id="L161">                .type(CHANGED)</span>
+<span class="fc" id="L162">                .build());</span>
+<span class="fc" id="L163">        return tut;</span>
     }
 
     /**
@@ -164,10 +169,10 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
     @Override
     @Measured
     public List&lt;Rule&gt; loadRules(@NotEmpty String transportUnitType) {
-<span class="fc" id="L167">        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -&gt; new NotFoundException(format(&quot;TransportUnitType with type [%s] does not exist&quot;, transportUnitType)));</span>
-<span class="fc" id="L168">        List&lt;Rule&gt; rules = new ArrayList&lt;&gt;(type.getTypePlacingRules());</span>
-<span class="fc" id="L169">        rules.addAll(type.getTypeStackingRules());</span>
-<span class="fc" id="L170">        return rules;</span>
+<span class="fc" id="L172">        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -&gt; new NotFoundException(format(&quot;TransportUnitType with type [%s] does not exist&quot;, transportUnitType)));</span>
+<span class="fc" id="L173">        List&lt;Rule&gt; rules = new ArrayList&lt;&gt;(type.getTypePlacingRules());</span>
+<span class="fc" id="L174">        rules.addAll(type.getTypeStackingRules());</span>
+<span class="fc" id="L175">        return rules;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

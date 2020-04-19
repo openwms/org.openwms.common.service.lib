@@ -25,49 +25,58 @@ import java.io.Serializable;
 <span class="fc" id="L25">public class LocationMO implements Serializable {</span>
 
     private String id;
+    private String accountId;
     private String parent;
     private boolean incomingActive;
     private boolean outgoingActive;
     private int plcState;
 
     public String getId() {
-<span class="fc" id="L34">        return id;</span>
+<span class="fc" id="L35">        return id;</span>
     }
 
     public void setId(String id) {
-<span class="nc" id="L38">        this.id = id;</span>
-<span class="nc" id="L39">    }</span>
+<span class="nc" id="L39">        this.id = id;</span>
+<span class="nc" id="L40">    }</span>
+
+    public String getAccountId() {
+<span class="fc" id="L43">        return accountId;</span>
+    }
+
+    public void setAccountId(String accountId) {
+<span class="nc" id="L47">        this.accountId = accountId;</span>
+<span class="nc" id="L48">    }</span>
 
     public String getParent() {
-<span class="fc" id="L42">        return parent;</span>
+<span class="fc" id="L51">        return parent;</span>
     }
 
     public void setParent(String parent) {
-<span class="nc" id="L46">        this.parent = parent;</span>
-<span class="nc" id="L47">    }</span>
+<span class="nc" id="L55">        this.parent = parent;</span>
+<span class="nc" id="L56">    }</span>
 
     public boolean isIncomingActive() {
-<span class="fc" id="L50">        return incomingActive;</span>
+<span class="fc" id="L59">        return incomingActive;</span>
     }
 
     public void setIncomingActive(boolean incomingActive) {
-<span class="nc" id="L54">        this.incomingActive = incomingActive;</span>
-<span class="nc" id="L55">    }</span>
+<span class="nc" id="L63">        this.incomingActive = incomingActive;</span>
+<span class="nc" id="L64">    }</span>
 
     public boolean isOutgoingActive() {
-<span class="fc" id="L58">        return outgoingActive;</span>
+<span class="fc" id="L67">        return outgoingActive;</span>
     }
 
     public void setOutgoingActive(boolean outgoingActive) {
-<span class="nc" id="L62">        this.outgoingActive = outgoingActive;</span>
-<span class="nc" id="L63">    }</span>
+<span class="nc" id="L71">        this.outgoingActive = outgoingActive;</span>
+<span class="nc" id="L72">    }</span>
 
     public int getPlcState() {
-<span class="fc" id="L66">        return plcState;</span>
+<span class="fc" id="L75">        return plcState;</span>
     }
 
     public void setPlcState(int plcState) {
-<span class="fc" id="L70">        this.plcState = plcState;</span>
-<span class="fc" id="L71">    }</span>
+<span class="fc" id="L79">        this.plcState = plcState;</span>
+<span class="fc" id="L80">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

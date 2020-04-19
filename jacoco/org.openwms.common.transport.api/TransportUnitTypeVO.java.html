@@ -16,9 +16,11 @@
 package org.openwms.common.transport.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A TransportUnitTypeVO.
@@ -28,64 +30,86 @@ import java.io.Serializable;
 public class TransportUnitTypeVO implements Serializable {
 
     @NotEmpty
+    @JsonProperty(&quot;type&quot;)
     private String type;
+    @JsonProperty(&quot;description&quot;)
     private String description;
     @NotEmpty
+    @JsonProperty(&quot;height&quot;)
     private String height;
     @NotEmpty
+    @JsonProperty(&quot;width&quot;)
     private String width;
     @NotEmpty
+    @JsonProperty(&quot;length&quot;)
     private String length;
 
     /*~-------------------- constructors --------------------*/
     @JsonCreator
-<span class="fc" id="L42">    protected TransportUnitTypeVO() {</span>
-<span class="fc" id="L43">    }</span>
+<span class="fc" id="L49">    protected TransportUnitTypeVO() {</span>
+<span class="fc" id="L50">    }</span>
 
-<span class="nc" id="L45">    public TransportUnitTypeVO(String type) {</span>
-<span class="nc" id="L46">        this.type = type;</span>
-<span class="nc" id="L47">    }</span>
+<span class="nc" id="L52">    public TransportUnitTypeVO(String type) {</span>
+<span class="nc" id="L53">        this.type = type;</span>
+<span class="nc" id="L54">    }</span>
 
     /*~-------------------- accessors --------------------*/
 
     public String getType() {
-<span class="fc" id="L52">        return type;</span>
+<span class="fc" id="L59">        return type;</span>
     }
 
     public void setType(String type) {
-<span class="nc" id="L56">        this.type = type;</span>
-<span class="nc" id="L57">    }</span>
+<span class="nc" id="L63">        this.type = type;</span>
+<span class="nc" id="L64">    }</span>
 
     public String getDescription() {
-<span class="fc" id="L60">        return description;</span>
+<span class="fc" id="L67">        return description;</span>
     }
 
     public void setDescription(String description) {
-<span class="nc" id="L64">        this.description = description;</span>
-<span class="nc" id="L65">    }</span>
+<span class="nc" id="L71">        this.description = description;</span>
+<span class="nc" id="L72">    }</span>
 
     public String getHeight() {
-<span class="fc" id="L68">        return height;</span>
+<span class="fc" id="L75">        return height;</span>
     }
 
     public void setHeight(String height) {
-<span class="nc" id="L72">        this.height = height;</span>
-<span class="nc" id="L73">    }</span>
+<span class="nc" id="L79">        this.height = height;</span>
+<span class="nc" id="L80">    }</span>
 
     public String getWidth() {
-<span class="fc" id="L76">        return width;</span>
+<span class="fc" id="L83">        return width;</span>
     }
 
     public void setWidth(String width) {
-<span class="nc" id="L80">        this.width = width;</span>
-<span class="nc" id="L81">    }</span>
+<span class="nc" id="L87">        this.width = width;</span>
+<span class="nc" id="L88">    }</span>
 
     public String getLength() {
-<span class="fc" id="L84">        return length;</span>
+<span class="fc" id="L91">        return length;</span>
     }
 
     public void setLength(String length) {
-<span class="nc" id="L88">        this.length = length;</span>
-<span class="nc" id="L89">    }</span>
+<span class="nc" id="L95">        this.length = length;</span>
+<span class="nc" id="L96">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L101" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L102">        TransportUnitTypeVO that = (TransportUnitTypeVO) o;</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        return Objects.equals(type, that.type) &amp;&amp;</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">                Objects.equals(description, that.description) &amp;&amp;</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">                Objects.equals(height, that.height) &amp;&amp;</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">                Objects.equals(width, that.width) &amp;&amp;</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">                Objects.equals(length, that.length);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L112">        return Objects.hash(type, description, height, width, length);</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

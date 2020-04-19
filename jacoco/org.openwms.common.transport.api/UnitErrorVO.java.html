@@ -15,35 +15,54 @@
  */
 package org.openwms.common.transport.api;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * An UnitError represents an error occurring on {@code TransportUnit}s, on {@code LoadUnit}s or others.
  *
  * @author Heiko Scherrer
  */
-<span class="nc" id="L25">public class UnitErrorVO implements Serializable {</span>
+<span class="nc" id="L28">public class UnitErrorVO implements Serializable {</span>
 
     /** Error number. */
+    @JsonProperty(&quot;errorNo&quot;)
     private String errorNo;
 
     /** Error message text. */
+    @JsonProperty(&quot;errorText&quot;)
     private String errorText;
 
     public String getErrorNo() {
-<span class="nc" id="L34">        return errorNo;</span>
+<span class="nc" id="L39">        return errorNo;</span>
     }
 
     public void setErrorNo(String errorNo) {
-<span class="nc" id="L38">        this.errorNo = errorNo;</span>
-<span class="nc" id="L39">    }</span>
+<span class="nc" id="L43">        this.errorNo = errorNo;</span>
+<span class="nc" id="L44">    }</span>
 
     public String getErrorText() {
-<span class="nc" id="L42">        return errorText;</span>
+<span class="nc" id="L47">        return errorText;</span>
     }
 
     public void setErrorText(String errorText) {
-<span class="nc" id="L46">        this.errorText = errorText;</span>
-<span class="nc" id="L47">    }</span>
+<span class="nc" id="L51">        this.errorText = errorText;</span>
+<span class="nc" id="L52">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L57" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L58">        UnitErrorVO that = (UnitErrorVO) o;</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        return Objects.equals(errorNo, that.errorNo) &amp;&amp;</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">                Objects.equals(errorText, that.errorText);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L65">        return Objects.hash(errorNo, errorText);</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

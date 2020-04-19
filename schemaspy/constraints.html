@@ -30,7 +30,7 @@
 <div class='indent'>
 <table width='100%'>
 <tr><td class='container' valign='bottom'><b>
-17 Foreign Key Constraints:</b>
+19 Foreign Key Constraints:</b>
 </td><td class='container' align='right'>
 <table>
 <tr><td class='container'>
@@ -73,16 +73,58 @@
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='odd'>
-  <td class='detail'>fk_tu_pk</td>
-  <td class='detail'><a href='tables/com_unit_error.html'>com_unit_error</a>.c_tu_id</td>
-  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_pk</td>
+  <td class='detail'>fk_lg_acc</td>
+  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_account</td>
+  <td class='detail'><a href='tables/com_account.html'>com_account</a>.c_identifier</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='even'>
-  <td class='detail'>fkalpik4lhj0ril9gd629e6nwgm</td>
+  <td class='detail'>fk_lg_lg_inlocker</td>
+  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_in_locker</td>
+  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_pk</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='odd'>
+  <td class='detail'>fk_lg_lg_outlocker</td>
+  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_out_locker</td>
+  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_pk</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='even'>
+  <td class='detail'>fk_lg_lg_parent</td>
   <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_parent</td>
   <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_pk</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='odd'>
+  <td class='detail'>fk_loc_acc</td>
+  <td class='detail'><a href='tables/com_location.html'>com_location</a>.c_account</td>
+  <td class='detail'><a href='tables/com_account.html'>com_account</a>.c_identifier</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='even'>
+  <td class='detail'>fk_loc_lg</td>
+  <td class='detail'><a href='tables/com_location.html'>com_location</a>.c_location_group</td>
+  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_pk</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='odd'>
+  <td class='detail'>fk_loc_lt</td>
+  <td class='detail'><a href='tables/com_location.html'>com_location</a>.c_location_type</td>
+  <td class='detail'><a href='tables/com_location_type.html'>com_location_type</a>.c_pk</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='even'>
+  <td class='detail'>fk_tu_pk</td>
+  <td class='detail'><a href='tables/com_unit_error.html'>com_unit_error</a>.c_tu_id</td>
+  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
@@ -115,23 +157,9 @@
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='odd'>
-  <td class='detail'>fkm96ln87qaagwc4wuuwhojv371</td>
-  <td class='detail'><a href='tables/com_location.html'>com_location</a>.c_location_type</td>
-  <td class='detail'><a href='tables/com_location_type.html'>com_location_type</a>.c_pk</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='even'>
   <td class='detail'>fkpa9ruvoy3id2cjat3hjkt6i7d</td>
   <td class='detail'><a href='tables/com_location_message.html'>com_location_message</a>.c_message_id</td>
   <td class='detail'><a href='tables/cor_message.html'>cor_message</a>.c_pk</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='odd'>
-  <td class='detail'>fkq3hta0bed38aexpv3ar3opanf</td>
-  <td class='detail'><a href='tables/com_location.html'>com_location</a>.c_location_group</td>
-  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
@@ -146,20 +174,6 @@
   <td class='detail'>fkqjpw6i7sq7aq2yrkkcybab8jy</td>
   <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_target_location</td>
   <td class='detail'><a href='tables/com_location.html'>com_location</a>.c_pk</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='even'>
-  <td class='detail'>fkr8d6ics7fgw7wdmuqsf6lbvmo</td>
-  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_in_locker</td>
-  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_pk</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='odd'>
-  <td class='detail'>fksi531aiyj2s8r3eu3d5e88jtv</td>
-  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_out_locker</td>
-  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>

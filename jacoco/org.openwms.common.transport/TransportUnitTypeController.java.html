@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import static java.lang.String.format;
-import static org.openwms.common.CommonConstants.API_TRANSPORT_UNIT_TYPES;
+import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPORT_UNIT_TYPES;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 

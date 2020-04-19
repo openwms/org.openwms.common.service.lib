@@ -43,7 +43,7 @@ public class TransportUnitTypeEvent extends RootApplicationEvent {
     }
 
     public TransportUnitTypeEventType getType() {
-<span class="nc" id="L46">        return type;</span>
+<span class="fc" id="L46">        return type;</span>
     }
 
     public static TransportUnitTypeEvent of(TransportUnit tu, TransportUnitTypeEventType type) {
@@ -51,7 +51,7 @@ public class TransportUnitTypeEvent extends RootApplicationEvent {
     }
 
 <span class="fc" id="L53">    public enum TransportUnitTypeEventType {</span>
-<span class="fc" id="L54">        CREATED, CHANGED, DELETED, MOVED, STATE_CHANGE;</span>
+<span class="fc" id="L54">        CREATED, CHANGED, DELETED;</span>
     }
 
     public static final class Builder {

@@ -81,7 +81,7 @@
 </tr>
 </thead>
 <tbody valign='top'>
-<tr class='odd'>
+<tr class='even'>
  <td class='primaryKey' title='Primary Key'>c_pk</td>
  <td class='detail'>int8</td>
  <td class='detail' align='right'>19</td>
@@ -90,25 +90,25 @@
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="com_transport_unit.c_transport_unit_type refs com_transport_unit_type.c_pk via fkt63fgfc9ycwpboaqn076xclb1"><a href='com_transport_unit.html'>com_transport_unit</a><span class='relatedKey'>.c_transport_unit_type</span>
     </td>
     <td class='constraint detail'>fkt63fgfc9ycwpboaqn076xclb1<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="com_type_placing_rule.c_tut_id refs com_transport_unit_type.c_pk via fkexme0g9srxcxt8m3jv2101k1d"><a href='com_type_placing_rule.html'>com_type_placing_rule</a><span class='relatedKey'>.c_tut_id</span>
     </td>
     <td class='constraint detail'>fkexme0g9srxcxt8m3jv2101k1d<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="com_type_stacking_rule.c_allowed_transport_unit_type refs com_transport_unit_type.c_pk via fk9wojgpvaignw39k200ha80eug"><a href='com_type_stacking_rule.html'>com_type_stacking_rule</a><span class='relatedKey'>.c_allowed_transport_unit_type</span>
     </td>
     <td class='constraint detail'>fk9wojgpvaignw39k200ha80eug<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="com_type_stacking_rule.c_transport_unit_type refs com_transport_unit_type.c_pk via fk6pn2579hr73ige890tnrtlids"><a href='com_type_stacking_rule.html'>com_type_stacking_rule</a><span class='relatedKey'>.c_transport_unit_type</span>
     </td>
     <td class='constraint detail'>fk6pn2579hr73ige890tnrtlids<span title='Restrict delete:
@@ -119,7 +119,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>c_created</td>
  <td class='detail'>timestamp</td>
  <td class='detail' align='right'>29,6</td>
@@ -130,7 +130,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>c_updated</td>
  <td class='detail'>timestamp</td>
  <td class='detail' align='right'>29,6</td>
@@ -141,13 +141,24 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>c_ol</td>
  <td class='detail'>int8</td>
  <td class='detail' align='right'>19</td>
  <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
  <td class='detail' align='center'></td>
  <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'></td>
+</tr>
+<tr class='even'>
+ <td class='detail'>c_pid</td>
+ <td class='detail'>varchar</td>
+ <td class='detail' align='right'>255</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='center'></td>
+ <td class='detail'></td>
  <td class='detail'></td>
  <td class='detail'> </td>
  <td class='comment detail'></td>
@@ -252,7 +263,7 @@
  <td class='comment detail'></td>
 </tr>
 </table>
-<p title='13 columns'>Table contained 2 rows at Wed Apr 15 21:57 UTC 2020<p/>
+<p title='14 columns'>Table contained 2 rows at Sun Apr 19 20:24 UTC 2020<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -285,7 +296,7 @@
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
 <area shape="rect" id="node1" href="com_transport_unit.html" title="com_transport_unit" alt="" coords="314,5,491,473">
-<area shape="rect" id="node2" href="com_transport_unit_type.html" title="com_transport_unit_type" alt="" coords="5,742,245,1119">
+<area shape="rect" id="node2" href="com_transport_unit_type.html" title="com_transport_unit_type" alt="" coords="5,742,245,1143">
 <area shape="rect" id="node3" href="com_type_placing_rule.html" title="com_type_placing_rule" alt="" coords="309,490,497,718">
 <area shape="rect" id="node4" href="com_type_stacking_rule.html" title="com_type_stacking_rule" alt="" coords="289,735,516,963">
 </map>
@@ -294,7 +305,7 @@
 <area shape="rect" id="node1" href="com_location.html" title="com_location" alt="" coords="251,365,392,449">
 <area shape="rect" id="node2" href="com_location_type.html" title="com_location_type" alt="" coords="6,426,157,510">
 <area shape="rect" id="node3" href="com_transport_unit.html" title="com_transport_unit" alt="" coords="510,5,687,473">
-<area shape="rect" id="node4" href="com_transport_unit_type.html" title="com_transport_unit_type" alt="" coords="201,742,441,1119">
+<area shape="rect" id="node4" href="com_transport_unit_type.html" title="com_transport_unit_type" alt="" coords="201,742,441,1143">
 <area shape="rect" id="node5" href="com_type_placing_rule.html" title="com_type_placing_rule" alt="" coords="505,490,693,718">
 <area shape="rect" id="node6" href="com_type_stacking_rule.html" title="com_type_stacking_rule" alt="" coords="485,735,712,963">
 <area shape="rect" id="node7" href="com_unit_error.html" title="com_unit_error" alt="" coords="756,5,884,89">

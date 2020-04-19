@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A ErrorCodeVO.
@@ -29,51 +30,65 @@ import java.io.Serializable;
 public class ErrorCodeVO implements Serializable {
 
     public static final String ALL_NOT_SET = &quot;********&quot;;
-<span class="fc" id="L32">    public static final int STATE_IN_POSITION = ALL_NOT_SET.length()-1;</span>
-<span class="fc" id="L33">    public static final int STATE_OUT_POSITION = ALL_NOT_SET.length()-2;</span>
+<span class="fc" id="L33">    public static final int STATE_IN_POSITION = ALL_NOT_SET.length()-1;</span>
+<span class="fc" id="L34">    public static final int STATE_OUT_POSITION = ALL_NOT_SET.length()-2;</span>
 
-<span class="fc" id="L35">    public static final ErrorCodeVO LOCK_STATE_IN = new ErrorCodeVO(&quot;*******1&quot;);</span>
-<span class="fc" id="L36">    public static final ErrorCodeVO UNLOCK_STATE_IN = new ErrorCodeVO(&quot;*******0&quot;);</span>
-<span class="fc" id="L37">    public static final ErrorCodeVO LOCK_STATE_OUT = new ErrorCodeVO(&quot;******1*&quot;);</span>
-<span class="fc" id="L38">    public static final ErrorCodeVO UNLOCK_STATE_OUT = new ErrorCodeVO(&quot;******0*&quot;);</span>
-<span class="fc" id="L39">    public static final ErrorCodeVO LOCK_STATE_IN_AND_OUT = new ErrorCodeVO(&quot;******11&quot;);</span>
-<span class="fc" id="L40">    public static final ErrorCodeVO UNLOCK_STATE_IN_AND_OUT = new ErrorCodeVO(&quot;******00&quot;);</span>
+<span class="fc" id="L36">    public static final ErrorCodeVO LOCK_STATE_IN = new ErrorCodeVO(&quot;*******1&quot;);</span>
+<span class="fc" id="L37">    public static final ErrorCodeVO UNLOCK_STATE_IN = new ErrorCodeVO(&quot;*******0&quot;);</span>
+<span class="fc" id="L38">    public static final ErrorCodeVO LOCK_STATE_OUT = new ErrorCodeVO(&quot;******1*&quot;);</span>
+<span class="fc" id="L39">    public static final ErrorCodeVO UNLOCK_STATE_OUT = new ErrorCodeVO(&quot;******0*&quot;);</span>
+<span class="fc" id="L40">    public static final ErrorCodeVO LOCK_STATE_IN_AND_OUT = new ErrorCodeVO(&quot;******11&quot;);</span>
+<span class="fc" id="L41">    public static final ErrorCodeVO UNLOCK_STATE_IN_AND_OUT = new ErrorCodeVO(&quot;******00&quot;);</span>
 
-    @JsonProperty
-<span class="fc" id="L43">    private String errorCode = ErrorCodeVO.ALL_NOT_SET;</span>
-    @JsonProperty
+    @JsonProperty(&quot;errorCode&quot;)
+<span class="fc" id="L44">    private String errorCode = ErrorCodeVO.ALL_NOT_SET;</span>
+    @JsonProperty(&quot;plcState&quot;)
     private Integer plcState;
 
-<span class="fc" id="L47">    public ErrorCodeVO() {</span>
-<span class="fc" id="L48">    }</span>
+<span class="fc" id="L48">    public ErrorCodeVO() {</span>
+<span class="fc" id="L49">    }</span>
 
-<span class="fc" id="L50">    public ErrorCodeVO(String errorCode) {</span>
-<span class="fc" id="L51">        this.errorCode = errorCode;</span>
-<span class="fc" id="L52">    }</span>
+<span class="fc" id="L51">    public ErrorCodeVO(String errorCode) {</span>
+<span class="fc" id="L52">        this.errorCode = errorCode;</span>
+<span class="fc" id="L53">    }</span>
 
-<span class="fc" id="L54">    public ErrorCodeVO(int plcState) {</span>
-<span class="fc" id="L55">        this.plcState = plcState;</span>
-<span class="fc" id="L56">    }</span>
+<span class="fc" id="L55">    public ErrorCodeVO(int plcState) {</span>
+<span class="fc" id="L56">        this.plcState = plcState;</span>
+<span class="fc" id="L57">    }</span>
 
-<span class="fc" id="L58">    public ErrorCodeVO(String errorCode, int plcState) {</span>
-<span class="fc" id="L59">        this.errorCode = errorCode;</span>
-<span class="fc" id="L60">        this.plcState = plcState;</span>
-<span class="fc" id="L61">    }</span>
+<span class="fc" id="L59">    public ErrorCodeVO(String errorCode, int plcState) {</span>
+<span class="fc" id="L60">        this.errorCode = errorCode;</span>
+<span class="fc" id="L61">        this.plcState = plcState;</span>
+<span class="fc" id="L62">    }</span>
 
     public String getErrorCode() {
-<span class="fc" id="L64">        return errorCode;</span>
+<span class="fc" id="L65">        return errorCode;</span>
     }
 
     public void setErrorCode(String errorCode) {
-<span class="fc" id="L68">        this.errorCode = errorCode;</span>
-<span class="fc" id="L69">    }</span>
+<span class="fc" id="L69">        this.errorCode = errorCode;</span>
+<span class="fc" id="L70">    }</span>
 
     public Integer getPlcState() {
-<span class="fc" id="L72">        return plcState;</span>
+<span class="fc" id="L73">        return plcState;</span>
     }
 
     public void setPlcState(Integer plcState) {
-<span class="fc" id="L76">        this.plcState = plcState;</span>
-<span class="fc" id="L77">    }</span>
+<span class="fc" id="L77">        this.plcState = plcState;</span>
+<span class="fc" id="L78">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L83" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L84">        ErrorCodeVO that = (ErrorCodeVO) o;</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        return Objects.equals(errorCode, that.errorCode) &amp;&amp;</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                Objects.equals(plcState, that.plcState);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L91">        return Objects.hash(errorCode, plcState);</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -15,6 +15,7 @@
  */
 package org.openwms.common;
 
+import org.openwms.common.account.AccountController;
 import org.openwms.common.location.LocationController;
 import org.openwms.common.location.LocationGroupController;
 import org.openwms.common.transport.TransportUnitController;
@@ -32,16 +33,17 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  * @author Heiko Scherrer
  */
 @RestController
-<span class="fc" id="L35">class IndexController {</span>
+<span class="fc" id="L36">class IndexController {</span>
 
     @GetMapping(&quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; getIndex() {
-<span class="fc" id="L39">        return ResponseEntity.ok(</span>
-<span class="fc" id="L40">                new Index(</span>
-<span class="fc" id="L41">                        linkTo(methodOn(LocationController.class).index()).withRel(&quot;location-index&quot;),</span>
-<span class="fc" id="L42">                        linkTo(methodOn(LocationGroupController.class).index()).withRel(&quot;location-group-index&quot;),</span>
-<span class="fc" id="L43">                        linkTo(methodOn(TransportUnitTypeController.class).index()).withRel(&quot;transport-unit-type-index&quot;),</span>
-<span class="fc" id="L44">                        linkTo(methodOn(TransportUnitController.class).index()).withRel(&quot;transport-unit-index&quot;)</span>
+<span class="fc" id="L40">        return ResponseEntity.ok(</span>
+<span class="fc" id="L41">                new Index(</span>
+<span class="fc" id="L42">                        linkTo(methodOn(AccountController.class).index()).withRel(&quot;account-index&quot;),</span>
+<span class="fc" id="L43">                        linkTo(methodOn(LocationController.class).index()).withRel(&quot;location-index&quot;),</span>
+<span class="fc" id="L44">                        linkTo(methodOn(LocationGroupController.class).index()).withRel(&quot;location-group-index&quot;),</span>
+<span class="fc" id="L45">                        linkTo(methodOn(TransportUnitTypeController.class).index()).withRel(&quot;transport-unit-type-index&quot;),</span>
+<span class="fc" id="L46">                        linkTo(methodOn(TransportUnitController.class).index()).withRel(&quot;transport-unit-index&quot;)</span>
                 )
         );
     }

@@ -9,4 +9,5 @@ com_location_group
 cor_message
 com_srv_revision
 com_location_type
+com_account
 com_transport_unit_type
