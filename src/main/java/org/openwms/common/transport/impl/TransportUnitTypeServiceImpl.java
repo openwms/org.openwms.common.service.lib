@@ -155,7 +155,12 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
                 tut.removeTypePlacingRules(locationType);
             }
         }
-        return transportUnitTypeRepository.save(tut);
+        tut = transportUnitTypeRepository.save(tut);
+        publisher.publishEvent(TransportUnitTypeEvent.newBuilder()
+                .tut(tut)
+                .type(CHANGED)
+                .build());
+        return tut;
     }
 
     /**

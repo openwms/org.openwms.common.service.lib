@@ -20,10 +20,10 @@ import org.ameba.Messages;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
-import org.openwms.common.CommonConstants;
 import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.TestData;
 import org.openwms.common.location.api.ErrorCodeVO;
+import org.openwms.common.location.api.LocationApiConstants;
 import org.openwms.common.location.api.LocationGroupMode;
 import org.openwms.common.location.api.LocationGroupState;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.openwms.common.CommonConstants.API_LOCATION_GROUP;
+import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION_GROUP;
 import static org.springframework.restdocs.http.HttpDocumentation.httpRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -82,7 +82,7 @@ class LocationGroupControllerDocumentation {
     void shall_return_index() throws Exception {
         mockMvc
                 .perform(
-                        get(CommonConstants.API_LOCATION_GROUPS + "/index")
+                        get(LocationApiConstants.API_LOCATION_GROUPS + "/index")
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$._links.location-group-findall").exists())
@@ -100,11 +100,12 @@ class LocationGroupControllerDocumentation {
      */
         @Test
         void shall_findby_name() throws Exception {
-            mockMvc.perform(get(CommonConstants.API_LOCATION_GROUPS)
+            mockMvc.perform(get(LocationApiConstants.API_LOCATION_GROUPS)
                     .param("name", TestData.LOCATION_GROUP_NAME_LG2))
                     .andExpect(jsonPath("pKey").exists())
                     .andExpect(jsonPath("name", is(TestData.LOCATION_GROUP_NAME_LG2)))
-                    .andExpect(jsonPath("parent").exists())
+                    .andExpect(jsonPath("parentName").exists())
+                    .andExpect(jsonPath("accountId").exists())
                     .andExpect(jsonPath("operationMode", is(LocationGroupMode.INFEED_AND_OUTFEED)))
                     .andExpect(jsonPath("groupStateIn", is(LocationGroupState.AVAILABLE.toString())))
                     .andExpect(jsonPath("groupStateOut", is(LocationGroupState.AVAILABLE.toString())))
@@ -122,7 +123,7 @@ class LocationGroupControllerDocumentation {
 
         @Test
         void shall_findby_name_404() throws Exception {
-            mockMvc.perform(get(CommonConstants.API_LOCATION_GROUPS)
+            mockMvc.perform(get(LocationApiConstants.API_LOCATION_GROUPS)
                     .param("name", "NOT_EXISTS"))
                     .andExpect(status().isNotFound())
                     .andExpect(jsonPath("messageKey", is(Messages.NOT_FOUND)))
@@ -131,7 +132,7 @@ class LocationGroupControllerDocumentation {
 
         @Test
         void shall_findby_names() throws Exception {
-            mockMvc.perform(get(CommonConstants.API_LOCATION_GROUPS)
+            mockMvc.perform(get(LocationApiConstants.API_LOCATION_GROUPS)
                     .param("names", TestData.LOCATION_GROUP_NAME_LG2)
                     .param("names", TestData.LOCATION_GROUP_NAME_LG3))
                     .andExpect(status().isOk())
@@ -139,7 +140,8 @@ class LocationGroupControllerDocumentation {
                     .andExpect(jsonPath("$.length()", is(2)))
                     .andExpect(jsonPath("$[1].pKey").exists())
                     .andExpect(jsonPath("$[1].name", anyOf(is(TestData.LOCATION_GROUP_NAME_LG2), is(TestData.LOCATION_GROUP_NAME_LG3))))
-                    .andExpect(jsonPath("$[1].parent").exists())
+                    .andExpect(jsonPath("$[1].accountId").exists())
+                    .andExpect(jsonPath("$[1].parentName").exists())
                     .andExpect(jsonPath("$[1].operationMode", notNullValue()))
                     .andExpect(jsonPath("$[1].groupStateIn", is(LocationGroupState.AVAILABLE.toString())))
                     .andExpect(jsonPath("$[1].groupStateOut", is(LocationGroupState.AVAILABLE.toString())))
@@ -156,7 +158,7 @@ class LocationGroupControllerDocumentation {
 
         @Test
         void shall_findAll() throws Exception {
-            mockMvc.perform(get(CommonConstants.API_LOCATION_GROUPS))
+            mockMvc.perform(get(LocationApiConstants.API_LOCATION_GROUPS))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$").isArray())
                     .andDo(document("lg-find-all"));
@@ -173,7 +175,7 @@ class LocationGroupControllerDocumentation {
 
      */
         @Test void shall_changeState_pkey_404() throws Exception {
-            mockMvc.perform(patch(CommonConstants.API_LOCATION_GROUPS)
+            mockMvc.perform(patch(LocationApiConstants.API_LOCATION_GROUPS)
                     .param("name", "NOT_EXISTS")
                     .param("op","change-state")
                     .content(mapper.writeValueAsString(ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT))
@@ -184,7 +186,7 @@ class LocationGroupControllerDocumentation {
         }
 
         @Test void shall_change_state() throws Exception {
-            mockMvc.perform(patch(CommonConstants.API_LOCATION_GROUPS)
+            mockMvc.perform(patch(LocationApiConstants.API_LOCATION_GROUPS)
                     .param("name", TestData.LOCATION_GROUP_NAME_LG3)
                     .param("op","change-state")
                     .content(mapper.writeValueAsString(ErrorCodeVO.LOCK_STATE_IN_AND_OUT))

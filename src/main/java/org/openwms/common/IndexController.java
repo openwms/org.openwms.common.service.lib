@@ -15,6 +15,7 @@
  */
 package org.openwms.common;
 
+import org.openwms.common.account.AccountController;
 import org.openwms.common.location.LocationController;
 import org.openwms.common.location.LocationGroupController;
 import org.openwms.common.transport.TransportUnitController;
@@ -38,6 +39,7 @@ class IndexController {
     public ResponseEntity<Index> getIndex() {
         return ResponseEntity.ok(
                 new Index(
+                        linkTo(methodOn(AccountController.class).index()).withRel("account-index"),
                         linkTo(methodOn(LocationController.class).index()).withRel("location-index"),
                         linkTo(methodOn(LocationGroupController.class).index()).withRel("location-group-index"),
                         linkTo(methodOn(TransportUnitTypeController.class).index()).withRel("transport-unit-type-index"),

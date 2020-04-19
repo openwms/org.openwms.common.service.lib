@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A ErrorCodeVO.
@@ -39,9 +40,9 @@ public class ErrorCodeVO implements Serializable {
     public static final ErrorCodeVO LOCK_STATE_IN_AND_OUT = new ErrorCodeVO("******11");
     public static final ErrorCodeVO UNLOCK_STATE_IN_AND_OUT = new ErrorCodeVO("******00");
 
-    @JsonProperty
+    @JsonProperty("errorCode")
     private String errorCode = ErrorCodeVO.ALL_NOT_SET;
-    @JsonProperty
+    @JsonProperty("plcState")
     private Integer plcState;
 
     public ErrorCodeVO() {
@@ -74,5 +75,19 @@ public class ErrorCodeVO implements Serializable {
 
     public void setPlcState(Integer plcState) {
         this.plcState = plcState;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ErrorCodeVO that = (ErrorCodeVO) o;
+        return Objects.equals(errorCode, that.errorCode) &&
+                Objects.equals(plcState, that.plcState);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(errorCode, plcState);
     }
 }

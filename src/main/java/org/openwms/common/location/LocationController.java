@@ -17,7 +17,6 @@ package org.openwms.common.location;
 
 import org.ameba.exception.NotFoundException;
 import org.ameba.mapping.BeanMapper;
-import org.openwms.common.CommonConstants;
 import org.openwms.common.Index;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationVO;
@@ -36,8 +35,8 @@ import java.util.Optional;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static org.openwms.common.CommonConstants.API_LOCATION;
-import static org.openwms.common.CommonConstants.API_LOCATIONS;
+import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION;
+import static org.openwms.common.location.api.LocationApiConstants.API_LOCATIONS;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -111,7 +110,7 @@ public class LocationController extends AbstractWebController {
                 : ResponseEntity.ok(mapper.map(locations, LocationVO.class));
     }
 
-    @GetMapping(CommonConstants.API_LOCATIONS + "/index")
+    @GetMapping(API_LOCATIONS + "/index")
     public ResponseEntity<Index> index() {
         return ResponseEntity.ok(
                 new Index(

@@ -1,0 +1,134 @@
+== TransportUnit
+A TransportUnit is an item like a box, a toad, a bin or a pallet that is moved within a warehouse and can carry goods. Used as container to
+transport items like `LoadUnits`. It is moved between `Locations`.
+
+=== TransportUnit Index
+The index with all possible operations can be retrieved with the following GET request:
+
+include::{generated}/tu-index/http-request.adoc[]
+
+The response lists all the operations with a name and the corresponding href link:
+
+include::{generated}/tu-index/http-response.adoc[]
+
+=== Create a TransportUnit
+Currently the API offers to variants to create a `TransportUnit`. Both require a HTTP POST request sent to the same context path but with
+different request parameters.
+
+The simplest way to create a `TransportUnit` is to just pass the mandatory fields of a `TransportUnit` to the API:
+
+include::{generated}/tu-create-simple/http-request.adoc[]
+
+include::{generated}/tu-create-simple/request-parameters.adoc[]
+
+The server stores a `TransportUnit` instance with the given values and default values for other fields of the `TransportUnit`. The response
+contains a link to the newly created resource.
+
+include::{generated}/tu-create-simple/http-response.adoc[]
+
+In a second approach the client may pass the structure of the `TransportUnit` to create as request body to the API:
+
+include::{generated}/tu-create-full/http-request.adoc[]
+
+include::{generated}/tu-create-full/request-parameters.adoc[]
+
+Like before the server responds with a link to the newly created resource as far as the operation succeeds.
+
+include::{generated}/tu-create-full/http-response.adoc[]
+
+Notice the `strict` attribute. When the client passes `true` as value for `strict` the server ensures there is no `TransportUnit` with the
+given business key. When the attribute is omitted or set to `false` no such validation happens and the reference to an already existing
+`TransportUnit` or the newly created is returned. If the API call fails because a `TransportUnit` with the given `Barcode` exists, the
+response looks like:
+
+include::{generated}/tu-create-error/http-response.adoc[]
+
+If the request is invalid or contains invalid fields the server responds with:
+
+include::{generated}/tu-create-invalid/http-response.adoc[]
+
+=== Move a TransportUnit
+To move a `TransportUnit` from it's current Location to a new Location, simply call the API with the identifying Barcode and the new
+Location where the `TransportUnit` shall be booked on.
+
+include::{generated}/tu-move/http-request.adoc[]
+
+include::{generated}/tu-move/request-parameters.adoc[]
+
+The server returns the updated `TransportUnit` instance.
+
+include::{generated}/tu-move/http-response.adoc[]
+
+=== Modify a TransportUnit
+Already existing `TransportUnits` can be modified by some degree. Not every attribute is allowed to change but most of the non-identifying
+ones can be changed. For example it is not foreseen to change the Barcode of an existing `TransportUnit`, nor the internal persistent key.
+The date when the `TransportUnit` has been recently moved is only changed together with the `actualLocation`.
+
+Send a HTTP PUT request to the server together with the `TransportUnit` as part of the request body.
+
+include::{generated}/tu-update/http-request.adoc[]
+
+include::{generated}/tu-update/request-parameters.adoc[]
+
+If the server saved the changes, the response contains the updated representation of the `TransportUnit`.
+
+include::{generated}/tu-update/http-response.adoc[]
+
+In case no `TransportUnit` with the Barcode exists the server returns an error:
+
+include::{generated}/tu-update-404/http-response.adoc[]
+
+=== Find by Barcode
+Find a `TransportUnit` by its unique `Barcode`.
+
+include::{generated}/tu-find-by-barcode/http-request.adoc[]
+
+include::{generated}/tu-find-by-barcode/request-parameters.adoc[]
+
+If the `TransportUnit` has been found the server returns a JSON representation:
+
+include::{generated}/tu-find-by-barcode/http-response.adoc[]
+
+In case a `TransportUnit` with the requested `Barcode` == `9999` does not exist the response looks like:
+
+include::{generated}/tu-find-by-barcode-404/http-response.adoc[]
+
+Also the short form of a `Barcode` can be passed to the API and the server implementation adjusts the given `Barcode` to the configured
+style, like it is left or right aligned and padded.
+
+include::{generated}/tu-find-by-barcode-short/http-response.adoc[]
+
+=== Find by multiple Barcodes
+Also multiple `Barcodes` can be passed to the API in order to search for multiple `TransportUnits`:
+
+include::{generated}/tu-find-by-barcodes/http-request.adoc[]
+
+include::{generated}/tu-find-by-barcodes/request-parameters.adoc[]
+
+This returns an array with the `TransportUnits` found:
+
+include::{generated}/tu-find-by-barcodes/http-response.adoc[]
+
+=== Find TransportUnits on a Location
+Search and return all `TransportUnits` that are currently booked on a given `Location`.
+
+include::{generated}/tu-find-on-location/http-request.adoc[]
+
+include::{generated}/tu-find-on-location/request-parameters.adoc[]
+
+The `TransportUnit` with `Barcode` == `00000000000000004712` is returned:
+
+include::{generated}/tu-find-on-location/http-response.adoc[]
+
+=== Add an Error to a TransportUnit
+During the handling of `TransportUnits`, errors or failure situations may occur that make it necessary to store some kind of error message
+for further analysis. Therefore each `TransportUnit` has a history of error messages attached that can be populated with new messages. A
+client simple calls this API to store a new error message for an existing `TransportUnit`.
+
+include::{generated}/tu-add-error/http-request.adoc[]
+
+include::{generated}/tu-add-error/request-parameters.adoc[]
+
+The server acknowledges the request and stores the error message asynchronously.
+
+include::{generated}/tu-add-error/http-response.adoc[]

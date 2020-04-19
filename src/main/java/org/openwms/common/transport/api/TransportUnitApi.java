@@ -25,9 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-import static org.openwms.common.CommonConstants.API_TRANSPORT_UNIT;
-import static org.openwms.common.CommonConstants.API_TRANSPORT_UNITS;
-
 /**
  * A TransportUnitApi is the public REST API to manage {@code TransportUnits}. It is implemented by a {@code Feign} client stub.
  *
@@ -44,7 +41,7 @@ public interface TransportUnitApi {
      * @param transportUnitBK The unique (physical) identifier
      * @return The instance or the implementation may return a 404-Not Found
      */
-    @GetMapping(value = API_TRANSPORT_UNITS, params = {"bk"}, produces = "application/vnd.openwms.transport-unit-v1+json")
+    @GetMapping(value = TransportApiConstants.API_TRANSPORT_UNITS, params = {"bk"}, produces = "application/vnd.openwms.transport-unit-v1+json")
     TransportUnitVO findTransportUnit(
             @RequestParam("bk") String transportUnitBK
     );
@@ -55,7 +52,7 @@ public interface TransportUnitApi {
      * @param transportUnitBKs The unique (physical) identifiers
      * @return All TransportUnits or an empty List never {@literal null}
      */
-    @GetMapping(value = API_TRANSPORT_UNITS, params = {"bks"}, produces = "application/vnd.openwms.transport-unit-v1+json")
+    @GetMapping(value = TransportApiConstants.API_TRANSPORT_UNITS, params = {"bks"}, produces = "application/vnd.openwms.transport-unit-v1+json")
     List<TransportUnitVO> findTransportUnits(
             @RequestParam("bks") List<String> transportUnitBKs
     );
@@ -66,7 +63,7 @@ public interface TransportUnitApi {
      * @param actualLocation The Location to search for TransportUnits
      * @return All TransportUnits on that Location or an empty List never {@literal null}
      */
-    @GetMapping(value = API_TRANSPORT_UNITS, params = {"actualLocation"}, produces = "application/vnd.openwms.transport-unit-v1+json")
+    @GetMapping(value = TransportApiConstants.API_TRANSPORT_UNITS, params = {"actualLocation"}, produces = "application/vnd.openwms.transport-unit-v1+json")
     List<TransportUnitVO> findTransportUnitsOn(
             @RequestParam("actualLocation") String actualLocation
     );
@@ -80,7 +77,7 @@ public interface TransportUnitApi {
      * @param strict If the {@code TransportUnit} already exists and this is {@code true}
      * an error is thrown. If {@code false}, the implementation exists silently (default)
      */
-    @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS, params = {"bk"})
     void createTU(
             @RequestParam("bk") String transportUnitBK,
             @RequestBody TransportUnitVO tu,
@@ -96,7 +93,7 @@ public interface TransportUnitApi {
      * @param strict If the {@code TransportUnit} already exists and this is {@code true}
      * an error is thrown. If {@code false}, the implementation exists silently (default)
      */
-    @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk", "actualLocation", "tut"})
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS, params = {"bk", "actualLocation", "tut"})
     void createTU(
             @RequestParam("bk") String transportUnitBK,
             @RequestParam("actualLocation") String actualLocation,
@@ -112,7 +109,7 @@ public interface TransportUnitApi {
      * @param tu Detailed structure of the {@code TransportUnit} to create
      * @return The updated instance
      */
-    @PutMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
+    @PutMapping(value = TransportApiConstants.API_TRANSPORT_UNITS, params = {"bk"})
     TransportUnitVO updateTU(
             @RequestParam("bk") String transportUnitBK,
             @RequestBody TransportUnitVO tu
@@ -125,7 +122,7 @@ public interface TransportUnitApi {
      * @param newLocation The new {@code Location} to move to
      * @return The updated instance
      */
-    @PatchMapping(value = API_TRANSPORT_UNITS, params = {"bk", "newLocation"})
+    @PatchMapping(value = TransportApiConstants.API_TRANSPORT_UNITS, params = {"bk", "newLocation"})
     TransportUnitVO moveTU(
             @RequestParam("bk") String transportUnitBK,
             @RequestParam("newLocation") String newLocation
@@ -137,7 +134,7 @@ public interface TransportUnitApi {
      * @param transportUnitBK The unique (physical) identifier
      * @param errorCode The message to store with the TransportUnit
      */
-    @PostMapping(value = API_TRANSPORT_UNIT + "/error", params = {"bk", "errorCode"})
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNIT + "/error", params = {"bk", "errorCode"})
     void addErrorToTransportUnit(
             @RequestParam("bk") String transportUnitBK,
             @RequestParam(value = "errorCode") String errorCode

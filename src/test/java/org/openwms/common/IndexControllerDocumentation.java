@@ -57,11 +57,12 @@ class IndexControllerDocumentation {
                         get("/index")
                 )
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$._links.account-index").exists())
                 .andExpect(jsonPath("$._links.location-index").exists())
                 .andExpect(jsonPath("$._links.location-group-index").exists())
                 .andExpect(jsonPath("$._links.transport-unit-type-index").exists())
                 .andExpect(jsonPath("$._links.transport-unit-index").exists())
-                .andExpect(jsonPath("$._links.length()", is(4)))
+                .andExpect(jsonPath("$._links.length()", is(5)))
                 .andDo(document("get-index", preprocessResponse(prettyPrint())))
         ;
     }

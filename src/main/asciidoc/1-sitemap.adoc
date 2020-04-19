@@ -1,0 +1,14 @@
+[[section-sitemap]]
+= Interaction Map
+
+This chapter describes the actions, respectively the flow of actions, an API consumer can perform to achieve the use cases. The COMMON
+Service API deals essentially with `Locations`, `LocationGroups` and `TransportUnits` therefore those entities are centric elements in the
+interaction model and can be referenced from the main index page.
+
+Like human readable websites provide a sitemap, a machine readable API can be visualized with an interaction map. A fully automated RESTful
+maturity-level-3 API offers index resources beside typical business resources. The API entry point is the top-level index resource that is
+used to navigate to all possible entities with their operations.
+
+image::common-service-index.svg[]
+
+This top-level, or root, index page offers further links to primary resources, like `Locations`, `LocationGroups` and `TransportUnits`.

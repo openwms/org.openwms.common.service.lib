@@ -19,7 +19,6 @@ import org.ameba.Messages;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
-import org.openwms.common.CommonConstants;
 import org.openwms.common.TestData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -28,6 +27,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPORT_UNIT_TYPES;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
@@ -58,7 +58,7 @@ class TransportUnitTypeControllerDocumentation {
     void shall_return_index() throws Exception {
         mockMvc
                 .perform(
-                        get(CommonConstants.API_TRANSPORT_UNIT_TYPES + "/index")
+                        get(API_TRANSPORT_UNIT_TYPES + "/index")
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$._links.transport-unit-types-findtransportunittype").exists())
@@ -69,7 +69,7 @@ class TransportUnitTypeControllerDocumentation {
     }
 
     @Test void shall_findall() throws Exception {
-        mockMvc.perform(get(CommonConstants.API_TRANSPORT_UNIT_TYPES))
+        mockMvc.perform(get(API_TRANSPORT_UNIT_TYPES))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()", is(2)))
                 .andExpect(status().isOk())
@@ -77,7 +77,7 @@ class TransportUnitTypeControllerDocumentation {
     }
 
     @Test void shall_findby_name() throws Exception {
-        mockMvc.perform(get(CommonConstants.API_TRANSPORT_UNIT_TYPES)
+        mockMvc.perform(get(API_TRANSPORT_UNIT_TYPES)
                 .param("type", TestData.TUT_TYPE_PALLET))
                 .andExpect(jsonPath("$.type", is("PALLET")))
                 .andExpect(jsonPath("$.description", is("Euro pallet")))
@@ -89,7 +89,7 @@ class TransportUnitTypeControllerDocumentation {
     }
 
     @Test void shall_findby_name_404() throws Exception {
-        mockMvc.perform(get(CommonConstants.API_TRANSPORT_UNIT_TYPES)
+        mockMvc.perform(get(API_TRANSPORT_UNIT_TYPES)
                 .param("type", "NOT_EXISTS"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("messageKey", is(Messages.NOT_FOUND)))

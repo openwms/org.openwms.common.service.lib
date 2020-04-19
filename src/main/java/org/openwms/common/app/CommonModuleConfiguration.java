@@ -26,6 +26,7 @@ import org.ameba.i18n.AbstractTranslator;
 import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.ameba.mapping.DozerMapperImpl;
+import org.ameba.system.NestedReloadableResourceBundleMessageSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -34,14 +35,16 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.Ordered;
 import org.springframework.data.envers.repository.support.EnversRevisionRepositoryFactoryBean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import java.util.Properties;
 
 /**
  * A CommonModuleConfiguration.
@@ -50,6 +53,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableAspects(propagateRootCause = true)
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableConfigurationProperties
 @EnableSpringConfigured
 @EnableJpaAuditing
@@ -77,8 +81,10 @@ public class CommonModuleConfiguration {
 
     public @Bean
     MessageSource messageSource() {
-        ResourceBundleMessageSource nrrbm = new ResourceBundleMessageSource();
-        nrrbm.setBasename("i18n");
+        NestedReloadableResourceBundleMessageSource nrrbm = new NestedReloadableResourceBundleMessageSource();
+        nrrbm.setBasename("classpath:i18n");
+        nrrbm.setDefaultEncoding("UTF-8");
+        nrrbm.setCommonMessages(new Properties());
         return nrrbm;
     }
 

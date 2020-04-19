@@ -15,7 +15,6 @@
  */
 package org.openwms.common.transport.api;
 
-import org.openwms.common.CommonConstants;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +39,7 @@ public interface TransportUnitTypeApi {
      * @param type The unique identifier
      * @return The instance or the implementation may return a 404-Not Found
      */
-    @GetMapping(value = CommonConstants.API_TRANSPORT_UNIT_TYPES, params = {"type"})
+    @GetMapping(value = TransportApiConstants.API_TRANSPORT_UNIT_TYPES, params = {"type"})
     @ResponseBody
     @Cacheable("transportUnitTypes")
     TransportUnitTypeVO findTransportUnitType(
@@ -52,7 +51,7 @@ public interface TransportUnitTypeApi {
      *
      * @return All instances or an empty list, never {@literal null}
      */
-    @GetMapping(value = CommonConstants.API_TRANSPORT_UNIT_TYPES)
+    @GetMapping(TransportApiConstants.API_TRANSPORT_UNIT_TYPES)
     @ResponseBody
     @Cacheable("transportUnitTypes")
     List<TransportUnitTypeVO> findTransportUnitTypes();

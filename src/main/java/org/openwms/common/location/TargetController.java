@@ -16,7 +16,6 @@
 package org.openwms.common.location;
 
 import org.ameba.exception.NotFoundException;
-import org.openwms.common.CommonConstants;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationGroupMode;
 import org.openwms.common.location.api.LocationGroupState;
@@ -36,6 +35,7 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 
 import static java.lang.String.format;
+import static org.openwms.common.location.api.LocationApiConstants.API_TARGETS;
 
 /**
  * A TargetController represents the REST API to handle the state and availability of {@code Target}s.
@@ -62,7 +62,7 @@ class TargetController extends AbstractWebController {
      * @param type The type of lock to apply to the Target
      * @param mode The mode to apply to the Targets lock
      */
-    @PostMapping(path = CommonConstants.API_TARGETS + "/{targetBK}", params = {"type!=PERMANENT_LOCK", "mode"})
+    @PostMapping(path = API_TARGETS + "/{targetBK}", params = {"type!=PERMANENT_LOCK", "mode"})
     public void changeState(
             @PathVariable("targetBK") String targetBK,
             @RequestParam("type") LockType type,
@@ -185,7 +185,7 @@ class TargetController extends AbstractWebController {
      * @param targetBK The business key of the Target, can be a {@code LocationPK} in String format or a LocationGroup name
      * @param reAllocation If {@literal true} open outfeed orders will be re-allocated
      */
-    @PostMapping(path = CommonConstants.API_TARGETS + "/{targetBK}", params = {"type=PERMANENT_LOCK", "mode=lock"})
+    @PostMapping(path = API_TARGETS + "/{targetBK}", params = {"type=PERMANENT_LOCK", "mode=lock"})
     public void lock(
             @PathVariable("targetBK") String targetBK,
             @RequestParam(value = "reallocation", required = false) Boolean reAllocation
@@ -218,7 +218,7 @@ class TargetController extends AbstractWebController {
      * @param targetBK The business key of the Target, can be a {@code LocationPK} in String format or a LocationGroup name
      */
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping(value = CommonConstants.API_TARGETS + "/{targetBK}", params = {"type=PERMANENT_LOCK", "mode=unlock"})
+    @PostMapping(value = API_TARGETS + "/{targetBK}", params = {"type=PERMANENT_LOCK", "mode=unlock"})
     public void release(
             @PathVariable("targetBK") String targetBK
     ) {

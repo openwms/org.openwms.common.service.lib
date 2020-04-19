@@ -27,6 +27,7 @@ import java.io.Serializable;
 public class LocationGroupMO implements Serializable {
 
     private String name;
+    private String accountId;
     private String parent;
     private String operationMode;
     private boolean incomingActive;
@@ -49,6 +50,14 @@ public class LocationGroupMO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public String getParent() {

@@ -37,4 +37,7 @@ github.with {
     user = "${System.getenv('GITHUB_USER')}"
     password = "${System.getenv('GITHUB_PASSWORD')}"
     root = "https://api.github.com/"
+    organization = "openwms"
+    repository = "org.openwms.common.service"
+    resultsPerPage = 100
 }

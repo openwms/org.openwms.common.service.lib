@@ -25,6 +25,7 @@ import java.io.Serializable;
 public class LocationMO implements Serializable {
 
     private String id;
+    private String accountId;
     private String parent;
     private boolean incomingActive;
     private boolean outgoingActive;
@@ -36,6 +37,14 @@ public class LocationMO implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public String getParent() {

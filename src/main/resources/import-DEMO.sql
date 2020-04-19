@@ -1,3 +1,7 @@
+-- Accounts
+insert into com_account (c_pk,c_pid,c_identifier,c_name,c_default,c_ol,c_created) values (1000,'1000','D','Default',true,0,now());
+insert into com_account (c_pk,c_pid,c_identifier,c_name,c_default,c_ol,c_created) values (1001,'1001','A1','Cost Center FIN',false,0,now());
+
 -- LocationTypes
 insert into com_location_type (c_pk,c_pid,c_type,c_description,c_height,c_length,c_width,c_ol,c_created,c_updated) values (0,326981811784,'FG','Flat Good Location',20,30,50,0,now(),now());
 insert into com_location_type (c_pk,c_pid,c_type,c_description,c_height,c_length,c_width,c_ol,c_created,c_updated) values (1,404376159041,'PG','Pallet Good Location',250,120,120,1,now(),now());
@@ -81,7 +85,7 @@ insert into com_location (c_pk,c_area,c_aisle,c_x,c_y,c_z,c_description,c_locati
 insert into com_location (c_pk,c_area,c_aisle,c_x,c_y,c_z,c_description,c_location_type,c_no_max_transport_units,c_counting_active,c_location_group,c_plc_state,c_ol,c_pid,c_considered_in_allocation,c_incoming_active,c_outgoing_active,c_lg_counting_active,c_plc_code,c_created,c_updated) values (1031,'FGIN','IPNT','0002','0000','0000','I-Point 2'                          ,1,1,false,10030,0,'31','227916500906',true,true,true,true,'PLC_0032',now(),null);
 
 -- TransportUnitTypes
-insert into com_transport_unit_type (c_pk,c_type,c_description,c_height,c_length,c_width,c_weight_tare,c_weight_max,c_ol,c_created,c_updated) values (1000,'PALLET','Euro pallet',102,120,80,25,-1,1,now(),now());
+insert into com_transport_unit_type (c_pk,c_pid,c_type,c_description,c_height,c_length,c_width,c_weight_tare,c_weight_max,c_ol,c_created,c_updated) values (1000,'1000','PALLET','Euro pallet',102,120,80,25,-1,1,now(),now());
 
 -- TransportUnit
 insert into com_transport_unit (c_pk,c_pid,c_barcode,c_state,c_actual_location,c_transport_unit_type,c_actual_location_date,c_ol,c_created) values (1000,1,'00000000000000004711','AVAILABLE',1029,1000,now(),1,now());

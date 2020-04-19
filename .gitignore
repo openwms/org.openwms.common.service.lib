@@ -2,6 +2,7 @@
 /.gradle/
 /docToolchain-master/
 doc/master.zip
+doc/src/*GitHubIssues.adoc
 /build/
 /bin/
 target/
