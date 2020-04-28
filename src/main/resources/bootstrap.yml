@@ -183,6 +183,18 @@ management:
 
 ---
 spring:
+  profiles: DISTRIBUTED
+  cloud:
+    config:
+      discovery:
+        enabled: true
+      enabled: true
+      fail-fast: true # true means retry
+    discovery:
+      enabled: true
+
+---
+spring:
   profiles: TEST
   cloud:
     config:
