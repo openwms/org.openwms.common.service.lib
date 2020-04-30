@@ -35,14 +35,14 @@ image::ClassDiagram.svg[]
 
 include::2-index.adoc[]
 
-include::8-account.adoc[]
+include::3-account.adoc[]
 
-include::3-location.adoc[]
+include::4-location.adoc[]
 
-include::4-location-group.adoc[]
+include::5-location-group.adoc[]
 
-include::5-target.adoc[]
+include::6-target.adoc[]
 
-include::6-transport-unit-type.adoc[]
+include::7-transport-unit-type.adoc[]
 
-include::6-transport-unit.adoc[]
+include::8-transport-unit.adoc[]
