@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<title>Target</title>
+<title>Account</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -435,335 +435,180 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_target">Target</h2>
+<h2 id="_account">Account</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A <code>Target</code> is a <code>Location</code> or a group of <code>Locations</code> (<code>LocationGroup</code>) where a <code>TransportUnit</code> may be sent to.</p>
-</div>
-<div class="paragraph">
-<p>A <code>Target</code> can be locked for <strong>inbound</strong>/<strong>outbound</strong>, for <strong>operation</strong> or permanently. When the <code>Target</code> is locked for inbound, no new
-<code>TransportUnit</code> movements (<code>TransportOrders</code> in automatic warehouses) are created to this <code>Target</code> (like a Putaway lock).
-In contrast, no movements can be created away from this <code>Target</code> if it is locked for outbound (like Allocation). Locking inbound/outbound
-has no impact on the operation mode of the <code>Target</code>. So the <code>Target</code> may <em>still process</em> existing orders, even if it is locked for
-inbound/outbound.</p>
-</div>
-<div class="paragraph">
-<p>The operation mode of a <code>Target</code> is controlled separately. If the <code>Targets</code> is in PERMANENT operation mode it stops all operations and does
-no longer process any commands or telegrams.</p>
+<p>An <code>Account</code> reflects to a customers cost center. A project may know about several cost centers - <code>Accounts</code>. The <code>Account</code> information is
+usually defined at project setup and does not change at runtime. So it is not foreseen that <code>Account</code> instances are created or deleted
+through the API.</p>
 </div>
 <div class="sect2">
-<h3 id="_inboundoutbound_locking">Inbound/Outbound Locking</h3>
+<h3 id="_account_index">Account Index</h3>
 <div class="paragraph">
-<p>Locking a <code>Target</code> for Inbound/Outbound operation is controlled with a HTTP POST request against the URI <code>/v1/targets/ALLOCATION_LOCK</code> with
-a set of query parameters.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">HTTP Verb</th>
-<th class="tableblock halign-left valign-top">Query Param <code>type</code></th>
-<th class="tableblock halign-left valign-top">Query Param <code>mode</code></th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for Inbound allocation</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OUT</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for Outbound allocation</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN_AND_OUT</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for Inbound and Outbound allocation</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NONE</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Release the <code>Target</code> for all kind of allocation</p></td>
-</tr>
-</tbody>
-</table>
-<div class="sect3">
-<h4 id="_lock_inbound_putaway_infeed">Lock Inbound (Putaway, Infeed)</h4>
-<div class="paragraph">
-<p>To lock a <code>Target</code> to be not considered in inbound, like Putaway, the server requires a HTTP POST request with the lock type
-<code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
+<p>The index with all possible operations can be retrieved with an `GET request:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response lists all the operations with a name and the corresponding href link:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 409
 
-type=ALLOCATION_LOCK&amp;mode=IN</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_lock_outbound_dispatching_allocation_outfeed">Lock Outbound (Dispatching, Allocation, Outfeed)</h4>
-<div class="paragraph">
-<p>To lock a <code>Target</code> for outbound, like Allocation and Outfeed, the server requires a HTTP POST request with the lock type
-<code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=ALLOCATION_LOCK&amp;mode=OUT</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_lock_inbound_outbound">Lock Inbound &amp; Outbound</h4>
-<div class="paragraph">
-<p>To lock a <code>Target</code> for inbound and outbound, like Putaway and Allocation, the server requires a HTTP POST request with the
-lock type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=ALLOCATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_release_lock">Release Lock</h4>
-<div class="paragraph">
-<p>To release all locks on a <code>Target</code> and allow any inbound and outbound operation, the server requires a HTTP POST request with the lock
-type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=ALLOCATION_LOCK&amp;mode=NONE</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_response_success">Response: Success</h4>
-<div class="paragraph">
-<p>In any of the previous cases the server responds with the following success message.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
-</div>
+{
+  "_links" : {
+    "accounts-findall" : {
+      "href" : "http://localhost:8080/v1/accounts"
+    },
+    "accounts-finddefault" : {
+      "href" : "http://localhost:8080/v1/accounts"
+    },
+    "accounts-findbyidentifier" : {
+      "href" : "http://localhost:8080/v1/accounts?identifier=identifier"
+    },
+    "accounts-findbyname" : {
+      "href" : "http://localhost:8080/v1/accounts?name=name"
+    }
+  }
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_locking_operational_processing">Locking Operational Processing</h3>
+<h3 id="_find_all_accounts">Find all Accounts</h3>
 <div class="paragraph">
-<p>A <code>Target</code> could also be locked for operation only but not for further Allocation. This means, the <code>Target</code> is active and looks available
-in warehouse counting and order allocation but is currently out-of-order and not ready to execute any (physical) operation. This is useful
-for planned short term locks, where a <code>Target</code> is taken out of operation but should still be considered by the system.</p>
-</div>
-<div class="paragraph">
-<p>Like the infeed/outfeed locking an <strong>operational lock</strong> can be set to different modes.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">HTTP Verb</th>
-<th class="tableblock halign-left valign-top">Query Param <code>type</code></th>
-<th class="tableblock halign-left valign-top">Query Param <code>mode</code></th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for all inbound operations</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OUT</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for all outbound operations</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN_AND_OUT</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for all inbound and outbound operations</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NONE</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Release the <code>Target</code> for all kind of operations</p></td>
-</tr>
-</tbody>
-</table>
-<div class="sect3">
-<h4 id="_lock_for_inbound_operations">Lock for inbound Operations</h4>
-<div class="paragraph">
-<p>To lock a <code>Target</code> for inbound operations only, the server requires a HTTP POST request with the lock type
-<code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
+<p>To retrieve a list of all existing <code>Accounts</code> a client must send a <code>GET</code> request to the server:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response contains all existing <code>Accounts</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 141
 
-reallocation=true&amp;type=OPERATION_LOCK&amp;mode=IN</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_lock_for_outbound_operations">Lock for outbound Operations</h4>
-<div class="paragraph">
-<p>To lock a <code>Target</code> for outbound operations only, the server requires a HTTP POST request with the lock type
-<code>type=OPERATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=OPERATION_LOCK&amp;mode=OUT</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_lock_inbound_outbound_operations">Lock inbound &amp; outbound Operations</h4>
-<div class="paragraph">
-<p>To lock a <code>Target</code> for inbound and outbound operations, the server requires a HTTP POST request with the
-lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=OPERATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_release_lock_2">Release Lock</h4>
-<div class="paragraph">
-<p>To release all operational locks on a <code>Target</code> and allow any inbound and outbound operation, the server requires a HTTP POST request with
-the lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=OPERATION_LOCK&amp;mode=NONE</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_response_success_2">Response: Success</h4>
-<div class="paragraph">
-<p>In any of the previous cases the server responds with the following success message.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
-</div>
+[ {
+  "links" : [ ],
+  "identifier" : "D",
+  "name" : "Default"
+}, {
+  "links" : [ ],
+  "identifier" : "A1",
+  "name" : "Cost Center FIN"
+} ]</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_locking_unlocking_a_target_for_allocation_and_processing">Locking / Unlocking a Target for Allocation and Processing</h3>
+<h3 id="_find_an_account">Find an Account</h3>
 <div class="paragraph">
-<p>If a <code>Target</code> locked for operation it does not process and requests anymore. In case of a physical <code>Target</code>, like a Crane, no new movements
-are accepted and the Crane will stop working. This depends on the implemented Crane strategy. The Crane could stop immediately or after it
-finishes the current operation.</p>
+<p>The <code>name</code> and the <code>identifier</code> of the <code>Account</code> are unique and mandatory attributes. So an <code>Account</code> can be searched for both fields.</p>
 </div>
 <div class="paragraph">
-<p>To permanently lock or unlock a <code>Target</code> for allocation <em>and</em> processing send a HTTP POST request with the name of the <code>Target</code> to the
-server. Locking  the <code>Target</code> allows an optional flag to signal a re-allocation of already assigned movements and orders.</p>
-</div>
-<div class="paragraph">
-<p>In this example the <code>Target</code> is a <code>LocationGroup</code> with the name <code>IPOINT</code> that gets locked. The server is requested to re-allocate existing
-orders.</p>
+<p>Find an <code>Account</code> by name:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts?name=Default HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or find an <code>Account</code> by identifier:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts?identifier=D HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with the Account entity if it exists:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 46
 
-reallocation=true&amp;type=PERMANENT_LOCK&amp;mode=lock</code></pre>
+{
+  "identifier" : "D",
+  "name" : "Default"
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>To unlock the same <code>Target</code> with name <code>IPOINT</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=PERMANENT_LOCK&amp;mode=unlock</code></pre>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_response_success_3">Response: Success</h4>
-<div class="paragraph">
-<p>If the server has successfully locked or unlocked the <code>Target</code> the response is:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_response_target_does_not_exist">Response: Target does not exist</h4>
-<div class="paragraph">
-<p>If the given <code>Target</code> (FOO) does not exist the server responds with:</p>
+<p>or with a <code>404-Not Found</code> if no <code>Account</code> exists:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 194
+Content-Length: 163
 
 {
-  "message" : "The Target with name [FOO] is neither a Location nor a LocationGroup. Other types of Targets are currently not supported",
-  "messageKey" : "not.found",
+  "message" : "Account [UNKNOWN] not found",
+  "messageKey" : "COMMON.ACCOUNT_NOT_FOUND",
+  "obj" : [ "UNKNOWN" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_the_default_account">Find the default Account</h3>
+<div class="paragraph">
+<p>At least one <code>Account</code> must exist in the system and must be defined as the default <code>Account</code>. This <code>Account</code> is used when no other account information is available. To get the default <code>Account</code>
+from the Common Service a <code>GET</code> request must be send to the server:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts?default=true HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server sends back the Account entity if it exists</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 46
+
+{
+  "identifier" : "D",
+  "name" : "Default"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Otherwise a 404-Not Found if not exist:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 115
+
+{
+  "message" : "No default Account exists",
+  "messageKey" : "COMMON.ACCOUNT_NO_DEFAULT",
   "httpStatus" : "404"
 }</code></pre>
 </div>
@@ -772,10 +617,9 @@ Content-Length: 194
 </div>
 </div>
 </div>
-</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-04-28 20:57:24 UTC
+Last updated 2020-04-30 09:20:43 UTC
 </div>
 </div>
 </body>

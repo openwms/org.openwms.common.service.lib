@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<title>Location</title>
+<title>Target</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -435,494 +435,338 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_location">Location</h2>
+<h2 id="_target">Target</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A <code>Location</code> represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a location on
-the conveyor. Even error locations can be represented with the <code>Location</code>. Multiple <code>Locations</code> with same characteristics are grouped to a
-<code>LocationGroup</code>.</p>
+<p>A <code>Target</code> is a <code>Location</code> or a group of <code>Locations</code> (<code>LocationGroup</code>) where a <code>TransportUnit</code> may be sent to.</p>
 </div>
 <div class="paragraph">
-<p>A <code>Location</code> is identified by the 5-tuple coordinate, the LocationID, as well as a persistent key (the pKey). The PLC Code is an additional
-identifier of a <code>Location</code> that might be null in project setups. It is the identifying name a PLC unit uses in automatic warehouses - not
-used in manual warehouses.</p>
+<p>A <code>Target</code> can be locked for <strong>inbound</strong>/<strong>outbound</strong>, for <strong>operation</strong> or permanently. When the <code>Target</code> is locked for inbound, no new
+<code>TransportUnit</code> movements (<code>TransportOrders</code> in automatic warehouses) are created to this <code>Target</code> (like a Putaway lock).
+In contrast, no movements can be created away from this <code>Target</code> if it is locked for outbound (like Allocation). Locking inbound/outbound
+has no impact on the operation mode of the <code>Target</code>. So the <code>Target</code> may <em>still process</em> existing orders, even if it is locked for
+inbound/outbound.</p>
 </div>
 <div class="paragraph">
-<p>A <code>Location</code> always belongs to a <code>LocationGroup</code> where the name of that group is stored in the <code>locationGroupName</code> property.</p>
-</div>
-<div class="paragraph">
-<p>A <code>Location</code> can be a <code>Target</code> to send <code>TransportUnits</code> to, i.e. the target of an automatic <code>TransportOrder</code> or a manual <code>Movement</code>.</p>
-</div>
-<div class="paragraph">
-<p>Multiple state properties with different meaning exist for a <code>Location</code>. The <code>plcState</code> is exclusively managed by the PLC in automatic
-warehouses. Any error signaled by the PLC are stored on this field with a value greater than 0. Two other state fields <code>incomingActive</code> and
-<code>outgoindActive</code> are used to control the material flow control of this <code>Location</code>. If <code>incomingActive</code> is set to <code>false</code>, the particular
-<code>Location</code> is not considered in Inbound activities, like Putaway. Whereas the <code>outgoindActive</code> can be set to <code>false</code> to lock Outbound
-operations off this <code>Location</code>.</p>
-</div>
-<div class="paragraph">
-<p>The API allows to search for <code>Locations</code> and to mutate the <code>Locations</code> state.</p>
+<p>The operation mode of a <code>Target</code> is controlled separately. If the <code>Targets</code> is in PERMANENT operation mode it stops all operations and does
+no longer process any commands or telegrams.</p>
 </div>
 <div class="sect2">
-<h3 id="_location_index">Location Index</h3>
+<h3 id="_inboundoutbound_locking">Inbound/Outbound Locking</h3>
 <div class="paragraph">
-<p>The Location Index with all possible operations can be retrieved with the following GET request:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations/index HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The response lists all the operations with a name and the corresponding href link:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 504
-
-{
-  "_links" : {
-    "location-findbycoordinate" : {
-      "href" : "http://localhost:8080/v1/locations?locationPK=AREA/AISLE/X/Y/Z"
-    },
-    "location-findbyplccode" : {
-      "href" : "http://localhost:8080/v1/locations?plcCode=PLC_CODE"
-    },
-    "location-forlocationgroup" : {
-      "href" : "http://localhost:8080/v1/locations?locationGroupNames=LG1&amp;locationGroupNames=LG2"
-    },
-    "location-changestate" : {
-      "href" : "http://localhost:8080/v1/location/pKey?op=change-state"
-    }
-  }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_find_location_by_coordinate">Find Location by Coordinate</h3>
-<div class="paragraph">
-<p>Send a HTTP GET request with the 5-tuple coordinate as query parameter to find a <code>Location</code> identified by this coordinate.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?locationPK=EXT_%2F0000%2F0000%2F0000%2F0000 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the <code>Location</code> exists the server responds with</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 242
-
-{
-  "links" : [ ],
-  "pKey" : "113646454019",
-  "locationId" : "EXT_/0000/0000/0000/0000",
-  "accountId" : "D",
-  "locationGroupName" : "ZILE",
-  "plcCode" : "PLC_0030",
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the <code>Location</code> with the requested coordinate does not exist, the server responds with</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 134
-
-{
-  "message" : "No Location with locationPk [EXT_/9999/9999/9999/9999] found",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the passed coordinate is not well formatted and rejected by the server the response looks like</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 111
-
-{
-  "message" : "Invalid location [INVALID_COORDINATE]",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_find_location_by_coordinate_with_wildcards">Find Location by Coordinate with Wildcards</h3>
-<div class="paragraph">
-<p>The API to search for <code>Locations</code> also accepts typical SQL wildcards in each part of the 5-tuple coordinate. Let&#8217;s assume one searches for
-all Lift <code>Locations</code> in the Flat Good area, this could look like this:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?area=FGIN&amp;aisle=00__&amp;x=LIFT&amp;y=0000&amp;z=%25 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>In this case the Flat Good area has only 2 Lift positions and the server returns both:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 506
-
-[ {
-  "links" : [ ],
-  "pKey" : "798136030917",
-  "locationId" : "FGIN/0001/LIFT/0000/0000",
-  "accountId" : "D",
-  "locationGroupName" : "FGAISLE1LIFT",
-  "plcCode" : "PLC_0012",
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0
-}, {
-  "links" : [ ],
-  "pKey" : "852306856430",
-  "locationId" : "FGIN/0002/LIFT/0000/0000",
-  "accountId" : "D",
-  "locationGroupName" : "FGAISLE2LIFT",
-  "plcCode" : "PLC_0015",
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0
-} ]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the search query did not find any <code>Locations</code> the server responds with:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_find_location_by_plc_code">Find Location by PLC code</h3>
-<div class="paragraph">
-<p>Send a HTTP GET request with the PLC code as query parameter to find a <code>Location</code> identified by this PLC code.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?plcCode=PLC_0030 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the <code>Location</code> exists the server responds with</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 242
-
-{
-  "links" : [ ],
-  "pKey" : "113646454019",
-  "locationId" : "EXT_/0000/0000/0000/0000",
-  "accountId" : "D",
-  "locationGroupName" : "ZILE",
-  "plcCode" : "PLC_0030",
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If no <code>Location</code> with the requested PLC code exists, the server responds with</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 118
-
-{
-  "message" : "No Location with PLC Code [NOT EXISTS] found",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_find_locations_of_a_locationgroup">Find Locations of a LocationGroup</h3>
-<div class="paragraph">
-<p>Send a HTTP GET request with the name of a <code>LocationGroup</code> as query parameter to find all <code>Locations</code> that belong to this group.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?locationGroupNames=ZILE HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The server responds with the list of all <code>Locations</code> - the name of the <code>LocationGroup</code> is not validated.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 490
-
-[ {
-  "links" : [ ],
-  "pKey" : "171919359409",
-  "locationId" : "INIT/0000/0000/0000/0000",
-  "accountId" : "D",
-  "locationGroupName" : "ZILE",
-  "plcCode" : "PLC_0029",
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0
-}, {
-  "links" : [ ],
-  "pKey" : "113646454019",
-  "locationId" : "EXT_/0000/0000/0000/0000",
-  "accountId" : "D",
-  "locationGroupName" : "ZILE",
-  "plcCode" : "PLC_0030",
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0
-} ]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The server accepts multiple <code>LocationGroup</code> names as request parameter to get a combined list of <code>Locations</code> that belong to group with name
-<code>ZILE</code> and <code>FGRECEIVING</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?locationGroupNames=ZILE&amp;locationGroupNames=FGRECEIVING HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Wildcards in the <code>LocationGroup</code> name are supported if only one <code>LocationGroup</code> name is provided:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?locationGroupNames=IP%25 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The response is a list of <code>Locations</code> that belong to a <code>LocationGroup</code> where the name starts with <code>IP</code> (matching the groups <code>IPOINT</code>,
-<code>IPOINT1</code> and <code>IPOINT2</code> in this example:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 496
-
-[ {
-  "links" : [ ],
-  "pKey" : "439649733836",
-  "locationId" : "FGIN/IPNT/0001/0000/0000",
-  "accountId" : "D",
-  "locationGroupName" : "IPOINT1",
-  "plcCode" : "PLC_0031",
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0
-}, {
-  "links" : [ ],
-  "pKey" : "227916500906",
-  "locationId" : "FGIN/IPNT/0002/0000/0000",
-  "accountId" : "D",
-  "locationGroupName" : "IPOINT2",
-  "plcCode" : "PLC_0032",
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0
-} ]</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_change_a_locations_state">Change a Location&#8217;s State</h3>
-<div class="paragraph">
-<p>Send a HTTP PATCH request with the persistent identifying key of an existing <code>Location</code> along the new state decoded as <code>ErrorCodeVO</code> request
-parameter.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /v1/location/NOTEXISTS?op=change-state HTTP/1.1
-Content-Type: application/json
-Host: localhost:8080
-Content-Length: 30
-
-{
-  "errorCode" : "******00"
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the <code>Location</code> with the given persistent key does not exist, the server responds with</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 123
-
-{
-  "message" : "No Location with persistent key [NOTEXISTS] found",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The <code>ErrorCodeVO</code> contains a ternary error bitmap that decodes all state information. It is expected as 8-digit String with allowed symbols
-<code>*|0|1</code>. Each digit is assigned to one of the state attribute of the <code>Location</code> or <code>LocationGroup</code>:</p>
+<p>Locking a <code>Target</code> for Inbound/Outbound operation is controlled with a HTTP POST request against the URI <code>/v1/targets/ALLOCATION_LOCK</code> with
+a set of query parameters.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Digit Position (RtL)</th>
-<th class="tableblock halign-left valign-top">Assigned attribute</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>0</sup></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Location.incomingActive</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>1</sup></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Location.outgoingActive</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>2</sup></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Location.groupStateIn</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>3</sup></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Location.groupStateOut</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>The following table shows all currently accepted decodings of the <code>ErrorCodeVO.errorCode</code> String that is sent with the request body:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">ErrorCode String</th>
+<th class="tableblock halign-left valign-top">HTTP Verb</th>
+<th class="tableblock halign-left valign-top">Query Param <code>type</code></th>
+<th class="tableblock halign-left valign-top">Query Param <code>mode</code></th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>********</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Content is ignored</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for Inbound allocation</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******00</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Release Location for Inbound and Outbound operations</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OUT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for Outbound allocation</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******01</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Inbound operation to the Location</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN_AND_OUT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for Inbound and Outbound allocation</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******10</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Outbound operation from the Location</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******11</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Inbound and Outbound operation for the Location</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NONE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release the <code>Target</code> for all kind of allocation</p></td>
 </tr>
 </tbody>
 </table>
+<div class="sect3">
+<h4 id="_lock_inbound_putaway_infeed">Lock Inbound (Putaway, Infeed)</h4>
 <div class="paragraph">
-<p>In this example a <code>Location</code> identified with the given persistent key is locked for Inbound operations with the following request:</p>
+<p>To lock a <code>Target</code> to be not considered in inbound, like Putaway, the server requires a HTTP POST request with the lock type
+<code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /v1/location/113646454019?op=change-state HTTP/1.1
-Content-Type: application/json
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
 Host: localhost:8080
-Content-Length: 30
+Content-Type: application/x-www-form-urlencoded
 
-{
-  "errorCode" : "*******1"
-}</code></pre>
+type=ALLOCATION_LOCK&amp;mode=IN</code></pre>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_lock_outbound_dispatching_allocation_outfeed">Lock Outbound (Dispatching, Allocation, Outfeed)</h4>
 <div class="paragraph">
-<p>If the server could lock the <code>Location</code> successfully the response looks like:</p>
+<p>To lock a <code>Target</code> for outbound, like Allocation and Outfeed, the server requires a HTTP POST request with the lock type
+<code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=ALLOCATION_LOCK&amp;mode=OUT</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lock_inbound_outbound">Lock Inbound &amp; Outbound</h4>
+<div class="paragraph">
+<p>To lock a <code>Target</code> for inbound and outbound, like Putaway and Allocation, the server requires a HTTP POST request with the
+lock type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=ALLOCATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_release_lock">Release Lock</h4>
+<div class="paragraph">
+<p>To release all locks on a <code>Target</code> and allow any inbound and outbound operation, the server requires a HTTP POST request with the lock
+type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=ALLOCATION_LOCK&amp;mode=NONE</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_success">Response: Success</h4>
+<div class="paragraph">
+<p>In any of the previous cases the server responds with the following success message.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
 </div>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_locking_operational_processing">Locking Operational Processing</h3>
 <div class="paragraph">
-<p>Beside locking the <code>Location</code> for Inbound- and Outbound processing it is also possible to change the PLC state of the <code>Location</code> through
-this API. Therefor the <code>ErrorCodeVO</code> data structure contains a property <code>plcState</code> that can be set to a numeric integer value. Usually a
-PLC state of <code>0</code> means the <code>Location</code> is not blocked and available for any operation. A PLC may set the state to a value greater than 0 to
-signal an error occurred on the <code>Location</code>.</p>
+<p>A <code>Target</code> could also be locked for operation only but not for further Allocation. This means, the <code>Target</code> is active and looks available
+in warehouse counting and order allocation but is currently out-of-order and not ready to execute any (physical) operation. This is useful
+for planned short term locks, where a <code>Target</code> is taken out of operation but should still be considered by the system.</p>
 </div>
 <div class="paragraph">
-<p>Set the <code>plcState</code> to <code>31</code> (In terms of <a href="https://interface21-io.gitbook.io/osip">OSIP</a> this means <code>Location unexpected occupied</code>):</p>
+<p>Like the infeed/outfeed locking an <strong>operational lock</strong> can be set to different modes.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">HTTP Verb</th>
+<th class="tableblock halign-left valign-top">Query Param <code>type</code></th>
+<th class="tableblock halign-left valign-top">Query Param <code>mode</code></th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for all inbound operations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OUT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for all outbound operations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN_AND_OUT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for all inbound and outbound operations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NONE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release the <code>Target</code> for all kind of operations</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect3">
+<h4 id="_lock_for_inbound_operations">Lock for inbound Operations</h4>
+<div class="paragraph">
+<p>To lock a <code>Target</code> for inbound operations only, the server requires a HTTP POST request with the lock type
+<code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /v1/location/113646454019?op=change-state HTTP/1.1
-Content-Type: application/json
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
 Host: localhost:8080
-Content-Length: 49
+Content-Type: application/x-www-form-urlencoded
 
-{
-  "errorCode" : "********",
-  "plcState" : 31
-}</code></pre>
+reallocation=true&amp;type=OPERATION_LOCK&amp;mode=IN</code></pre>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_lock_for_outbound_operations">Lock for outbound Operations</h4>
 <div class="paragraph">
-<p>If the server could set the state successfully the response is:</p>
+<p>To lock a <code>Target</code> for outbound operations only, the server requires a HTTP POST request with the lock type
+<code>type=OPERATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=OPERATION_LOCK&amp;mode=OUT</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lock_inbound_outbound_operations">Lock inbound &amp; outbound Operations</h4>
+<div class="paragraph">
+<p>To lock a <code>Target</code> for inbound and outbound operations, the server requires a HTTP POST request with the
+lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=OPERATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_release_lock_2">Release Lock</h4>
+<div class="paragraph">
+<p>To release all operational locks on a <code>Target</code> and allow any inbound and outbound operation, the server requires a HTTP POST request with
+the lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=OPERATION_LOCK&amp;mode=NONE</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_success_2">Response: Success</h4>
+<div class="paragraph">
+<p>In any of the previous cases the server responds with the following success message.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_locking_unlocking_a_target_for_allocation_and_processing">Locking / Unlocking a Target for Allocation and Processing</h3>
+<div class="paragraph">
+<p>If a <code>Target</code> locked for operation it does not process and requests anymore. In case of a physical <code>Target</code>, like a Crane, no new movements
+are accepted and the Crane will stop working. This depends on the implemented Crane strategy. The Crane could stop immediately or after it
+finishes the current operation.</p>
+</div>
+<div class="paragraph">
+<p>To permanently lock or unlock a <code>Target</code> for allocation <em>and</em> processing send a HTTP POST request with the name of the <code>Target</code> to the
+server. Locking  the <code>Target</code> allows an optional flag to signal a re-allocation of already assigned movements and orders.</p>
+</div>
+<div class="paragraph">
+<p>In this example the <code>Target</code> is a <code>LocationGroup</code> with the name <code>IPOINT</code> that gets locked. The server is requested to re-allocate existing
+orders.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+reallocation=true&amp;type=PERMANENT_LOCK&amp;mode=lock</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To unlock the same <code>Target</code> with name <code>IPOINT</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=PERMANENT_LOCK&amp;mode=unlock</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_success_3">Response: Success</h4>
+<div class="paragraph">
+<p>If the server has successfully locked or unlocked the <code>Target</code> the response is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_target_does_not_exist">Response: Target does not exist</h4>
+<div class="paragraph">
+<p>If the given <code>Target</code> (FOO) does not exist the server responds with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 194
+
+{
+  "message" : "The Target with name [FOO] is neither a Location nor a LocationGroup. Other types of Targets are currently not supported",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -931,7 +775,7 @@ Content-Length: 49
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-04-28 20:57:24 UTC
+Last updated 2020-04-30 09:20:43 UTC
 </div>
 </div>
 </body>

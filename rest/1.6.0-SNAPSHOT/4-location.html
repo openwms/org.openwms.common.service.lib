@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<title>Account</title>
+<title>Location</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -435,21 +435,42 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_account">Account</h2>
+<h2 id="_location">Location</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>An <code>Account</code> reflects to a customers cost center. A project may know about several cost centers - <code>Accounts</code>. The <code>Account</code> information is
-usually defined at project setup and does not change at runtime. So it is not foreseen that <code>Account</code> instances are created or deleted
-through the API.</p>
+<p>A <code>Location</code> represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a location on
+the conveyor. Even error locations can be represented with the <code>Location</code>. Multiple <code>Locations</code> with same characteristics are grouped to a
+<code>LocationGroup</code>.</p>
+</div>
+<div class="paragraph">
+<p>A <code>Location</code> is identified by the 5-tuple coordinate, the LocationID, as well as a persistent key (the pKey). The PLC Code is an additional
+identifier of a <code>Location</code> that might be null in project setups. It is the identifying name a PLC unit uses in automatic warehouses - not
+used in manual warehouses.</p>
+</div>
+<div class="paragraph">
+<p>A <code>Location</code> always belongs to a <code>LocationGroup</code> where the name of that group is stored in the <code>locationGroupName</code> property.</p>
+</div>
+<div class="paragraph">
+<p>A <code>Location</code> can be a <code>Target</code> to send <code>TransportUnits</code> to, i.e. the target of an automatic <code>TransportOrder</code> or a manual <code>Movement</code>.</p>
+</div>
+<div class="paragraph">
+<p>Multiple state properties with different meaning exist for a <code>Location</code>. The <code>plcState</code> is exclusively managed by the PLC in automatic
+warehouses. Any error signaled by the PLC are stored on this field with a value greater than 0. Two other state fields <code>incomingActive</code> and
+<code>outgoindActive</code> are used to control the material flow control of this <code>Location</code>. If <code>incomingActive</code> is set to <code>false</code>, the particular
+<code>Location</code> is not considered in Inbound activities, like Putaway. Whereas the <code>outgoindActive</code> can be set to <code>false</code> to lock Outbound
+operations off this <code>Location</code>.</p>
+</div>
+<div class="paragraph">
+<p>The API allows to search for <code>Locations</code> and to mutate the <code>Locations</code> state.</p>
 </div>
 <div class="sect2">
-<h3 id="_account_index">Account Index</h3>
+<h3 id="_location_index">Location Index</h3>
 <div class="paragraph">
-<p>The index with all possible operations can be retrieved with an `GET request:</p>
+<p>The Location Index with all possible operations can be retrieved with the following GET request:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts/index HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations/index HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -460,21 +481,21 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 409
+Content-Length: 504
 
 {
   "_links" : {
-    "accounts-findall" : {
-      "href" : "http://localhost:8080/v1/accounts"
+    "location-findbycoordinate" : {
+      "href" : "http://localhost:8080/v1/locations?locationPK=AREA/AISLE/X/Y/Z"
     },
-    "accounts-finddefault" : {
-      "href" : "http://localhost:8080/v1/accounts"
+    "location-findbyplccode" : {
+      "href" : "http://localhost:8080/v1/locations?plcCode=PLC_CODE"
     },
-    "accounts-findbyidentifier" : {
-      "href" : "http://localhost:8080/v1/accounts?identifier=identifier"
+    "location-forlocationgroup" : {
+      "href" : "http://localhost:8080/v1/locations?locationGroupNames=LG1&amp;locationGroupNames=LG2"
     },
-    "accounts-findbyname" : {
-      "href" : "http://localhost:8080/v1/accounts?name=name"
+    "location-changestate" : {
+      "href" : "http://localhost:8080/v1/location/pKey?op=change-state"
     }
   }
 }</code></pre>
@@ -482,135 +503,426 @@ Content-Length: 409
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_all_accounts">Find all Accounts</h3>
+<h3 id="_find_location_by_coordinate">Find Location by Coordinate</h3>
 <div class="paragraph">
-<p>To retrieve a list of all existing <code>Accounts</code> a client must send a <code>GET</code> request to the server:</p>
+<p>Send a HTTP GET request with the 5-tuple coordinate as query parameter to find a <code>Location</code> identified by this coordinate.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?locationPK=EXT_%2F0000%2F0000%2F0000%2F0000 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The response contains all existing <code>Accounts</code>:</p>
+<p>If the <code>Location</code> exists the server responds with</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 141
+Content-Length: 242
+
+{
+  "links" : [ ],
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "accountId" : "D",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0030",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> with the requested coordinate does not exist, the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 134
+
+{
+  "message" : "No Location with locationPk [EXT_/9999/9999/9999/9999] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the passed coordinate is not well formatted and rejected by the server the response looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 111
+
+{
+  "message" : "Invalid location [INVALID_COORDINATE]",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_location_by_coordinate_with_wildcards">Find Location by Coordinate with Wildcards</h3>
+<div class="paragraph">
+<p>The API to search for <code>Locations</code> also accepts typical SQL wildcards in each part of the 5-tuple coordinate. Let&#8217;s assume one searches for
+all Lift <code>Locations</code> in the Flat Good area, this could look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?area=FGIN&amp;aisle=00__&amp;x=LIFT&amp;y=0000&amp;z=%25 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this case the Flat Good area has only 2 Lift positions and the server returns both:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 506
 
 [ {
   "links" : [ ],
-  "identifier" : "D",
-  "name" : "Default"
+  "pKey" : "798136030917",
+  "locationId" : "FGIN/0001/LIFT/0000/0000",
+  "accountId" : "D",
+  "locationGroupName" : "FGAISLE1LIFT",
+  "plcCode" : "PLC_0012",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
 }, {
   "links" : [ ],
-  "identifier" : "A1",
-  "name" : "Cost Center FIN"
+  "pKey" : "852306856430",
+  "locationId" : "FGIN/0002/LIFT/0000/0000",
+  "accountId" : "D",
+  "locationGroupName" : "FGAISLE2LIFT",
+  "plcCode" : "PLC_0015",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+} ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the search query did not find any <code>Locations</code> the server responds with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_location_by_plc_code">Find Location by PLC code</h3>
+<div class="paragraph">
+<p>Send a HTTP GET request with the PLC code as query parameter to find a <code>Location</code> identified by this PLC code.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?plcCode=PLC_0030 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> exists the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 242
+
+{
+  "links" : [ ],
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "accountId" : "D",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0030",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no <code>Location</code> with the requested PLC code exists, the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 118
+
+{
+  "message" : "No Location with PLC Code [NOT EXISTS] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_locations_of_a_locationgroup">Find Locations of a LocationGroup</h3>
+<div class="paragraph">
+<p>Send a HTTP GET request with the name of a <code>LocationGroup</code> as query parameter to find all <code>Locations</code> that belong to this group.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?locationGroupNames=ZILE HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with the list of all <code>Locations</code> - the name of the <code>LocationGroup</code> is not validated.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 490
+
+[ {
+  "links" : [ ],
+  "pKey" : "171919359409",
+  "locationId" : "INIT/0000/0000/0000/0000",
+  "accountId" : "D",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0029",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "links" : [ ],
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "accountId" : "D",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0030",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+} ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server accepts multiple <code>LocationGroup</code> names as request parameter to get a combined list of <code>Locations</code> that belong to group with name
+<code>ZILE</code> and <code>FGRECEIVING</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?locationGroupNames=ZILE&amp;locationGroupNames=FGRECEIVING HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Wildcards in the <code>LocationGroup</code> name are supported if only one <code>LocationGroup</code> name is provided:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?locationGroupNames=IP%25 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response is a list of <code>Locations</code> that belong to a <code>LocationGroup</code> where the name starts with <code>IP</code> (matching the groups <code>IPOINT</code>,
+<code>IPOINT1</code> and <code>IPOINT2</code> in this example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 496
+
+[ {
+  "links" : [ ],
+  "pKey" : "439649733836",
+  "locationId" : "FGIN/IPNT/0001/0000/0000",
+  "accountId" : "D",
+  "locationGroupName" : "IPOINT1",
+  "plcCode" : "PLC_0031",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "links" : [ ],
+  "pKey" : "227916500906",
+  "locationId" : "FGIN/IPNT/0002/0000/0000",
+  "accountId" : "D",
+  "locationGroupName" : "IPOINT2",
+  "plcCode" : "PLC_0032",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
 } ]</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_an_account">Find an Account</h3>
+<h3 id="_change_a_locations_state">Change a Location&#8217;s State</h3>
 <div class="paragraph">
-<p>The <code>name</code> and the <code>identifier</code> of the <code>Account</code> are unique and mandatory attributes. So an <code>Account</code> can be searched for both fields.</p>
-</div>
-<div class="paragraph">
-<p>Find an <code>Account</code> by name:</p>
+<p>Send a HTTP PATCH request with the persistent identifying key of an existing <code>Location</code> along the new state decoded as <code>ErrorCodeVO</code> request
+parameter.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts?name=Default HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>or find an <code>Account</code> by identifier:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts?identifier=D HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The server responds with the Account entity if it exists:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 46
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /v1/location/NOTEXISTS?op=change-state HTTP/1.1
+Content-Type: application/json
+Host: localhost:8080
+Content-Length: 30
 
 {
-  "identifier" : "D",
-  "name" : "Default"
+  "errorCode" : "******00"
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>or with a <code>404-Not Found</code> if no <code>Account</code> exists:</p>
+<p>If the <code>Location</code> with the given persistent key does not exist, the server responds with</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 163
+Content-Length: 123
 
 {
-  "message" : "Account [UNKNOWN] not found",
-  "messageKey" : "COMMON.ACCOUNT_NOT_FOUND",
-  "obj" : [ "UNKNOWN" ],
-  "httpStatus" : "404",
-  "class" : "String"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_find_the_default_account">Find the default Account</h3>
-<div class="paragraph">
-<p>At least one <code>Account</code> must exist in the system and must be defined as the default <code>Account</code>. This <code>Account</code> is used when no other account information is available. To get the default <code>Account</code>
-from the Common Service a <code>GET</code> request must be send to the server:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts?default=true HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The server sends back the Account entity if it exists</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 46
-
-{
-  "identifier" : "D",
-  "name" : "Default"
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Otherwise a 404-Not Found if not exist:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 115
-
-{
-  "message" : "No default Account exists",
-  "messageKey" : "COMMON.ACCOUNT_NO_DEFAULT",
+  "message" : "No Location with persistent key [NOTEXISTS] found",
+  "messageKey" : "not.found",
   "httpStatus" : "404"
 }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>ErrorCodeVO</code> contains a ternary error bitmap that decodes all state information. It is expected as 8-digit String with allowed symbols
+<code>*|0|1</code>. Each digit is assigned to one of the state attribute of the <code>Location</code> or <code>LocationGroup</code>:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Digit Position (RtL)</th>
+<th class="tableblock halign-left valign-top">Assigned attribute</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>0</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location.incomingActive</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>1</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location.outgoingActive</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>2</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location.groupStateIn</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>3</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location.groupStateOut</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The following table shows all currently accepted decodings of the <code>ErrorCodeVO.errorCode</code> String that is sent with the request body:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">ErrorCode String</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>********</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Content is ignored</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******00</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release Location for Inbound and Outbound operations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******01</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Inbound operation to the Location</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******10</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Outbound operation from the Location</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******11</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Inbound and Outbound operation for the Location</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In this example a <code>Location</code> identified with the given persistent key is locked for Inbound operations with the following request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /v1/location/113646454019?op=change-state HTTP/1.1
+Content-Type: application/json
+Host: localhost:8080
+Content-Length: 30
+
+{
+  "errorCode" : "*******1"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the server could lock the <code>Location</code> successfully the response looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Beside locking the <code>Location</code> for Inbound- and Outbound processing it is also possible to change the PLC state of the <code>Location</code> through
+this API. Therefor the <code>ErrorCodeVO</code> data structure contains a property <code>plcState</code> that can be set to a numeric integer value. Usually a
+PLC state of <code>0</code> means the <code>Location</code> is not blocked and available for any operation. A PLC may set the state to a value greater than 0 to
+signal an error occurred on the <code>Location</code>.</p>
+</div>
+<div class="paragraph">
+<p>Set the <code>plcState</code> to <code>31</code> (In terms of <a href="https://interface21-io.gitbook.io/osip">OSIP</a> this means <code>Location unexpected occupied</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /v1/location/113646454019?op=change-state HTTP/1.1
+Content-Type: application/json
+Host: localhost:8080
+Content-Length: 49
+
+{
+  "errorCode" : "********",
+  "plcState" : 31
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the server could set the state successfully the response is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
 </div>
 </div>
 </div>
@@ -619,7 +931,7 @@ Content-Length: 115
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-04-28 20:57:24 UTC
+Last updated 2020-04-30 09:20:43 UTC
 </div>
 </div>
 </body>
