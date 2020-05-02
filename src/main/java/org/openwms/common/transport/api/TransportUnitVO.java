@@ -35,15 +35,15 @@ import java.util.Objects;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class TransportUnitVO extends AbstractBase implements Serializable {
 
-    @NotEmpty
+    @NotEmpty(message = "{owms.common.common.tu.barcode}")
     @JsonProperty("barcode")
     private String barcode;
-    @NotNull(groups = ValidationGroups.TransportUnit.Create.class)
+    @NotNull(message = "{owms.common.common.tu.actualLocation}", groups = ValidationGroups.TransportUnit.Create.class)
     @JsonProperty("actualLocation")
     private LocationVO actualLocation;
     @JsonProperty("target")
     private String target;
-    @NotEmpty(groups = {ValidationGroups.TransportUnit.Create.class, ValidationGroups.TransportUnit.WithTuT.class})
+    @NotEmpty(message = "{owms.common.common.tu.transportUnitTypeName}", groups = {ValidationGroups.TransportUnit.Create.class, ValidationGroups.TransportUnit.WithTuT.class})
     @JsonProperty("transportUnitTypeName")
     private String transportUnitType;
     @JsonProperty("length")
