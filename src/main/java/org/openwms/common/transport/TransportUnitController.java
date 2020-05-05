@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport;
 
+import org.ameba.http.MeasuredRestController;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.Index;
 import org.openwms.common.SimpleLink;
@@ -35,7 +36,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
@@ -56,7 +56,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  * @author Heiko Scherrer
  */
 @Profile("!INMEM")
-@RestController
+@MeasuredRestController
 public class TransportUnitController extends AbstractWebController {
 
     private final TransportUnitService service;
@@ -121,9 +121,9 @@ public class TransportUnitController extends AbstractWebController {
         return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();
     }
 
-    @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk", "actualLocation", "tut"})
+    @PostMapping(value = API_TRANSPORT_UNITS, params = {"barcode", "actualLocation", "tut"})
     public ResponseEntity<Void> createTU(
-            @RequestParam("bk") String transportUnitBK,
+            @RequestParam("barcode") String transportUnitBK,
             @RequestParam("actualLocation") String actualLocation,
             @RequestParam("tut") String tut,
             @RequestParam(value = "strict", required = false) Boolean strict,

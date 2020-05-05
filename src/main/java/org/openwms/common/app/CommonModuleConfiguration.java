@@ -20,7 +20,9 @@ import org.ameba.IDGenerator;
 import org.ameba.JdkIDGenerator;
 import org.ameba.annotation.EnableAspects;
 import org.ameba.app.BaseConfiguration;
+import org.ameba.app.SpringProfiles;
 import org.ameba.http.EnableMultiTenancy;
+import org.ameba.http.PermitAllCorsConfigurationSource;
 import org.ameba.http.RequestIDFilter;
 import org.ameba.i18n.AbstractTranslator;
 import org.ameba.i18n.Translator;
@@ -37,13 +39,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.core.Ordered;
 import org.springframework.data.envers.repository.support.EnversRevisionRepositoryFactoryBean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.filter.CorsFilter;
 
+import javax.servlet.Filter;
 import java.util.Properties;
 
 /**
@@ -86,6 +91,12 @@ public class CommonModuleConfiguration {
         nrrbm.setDefaultEncoding("UTF-8");
         nrrbm.setCommonMessages(new Properties());
         return nrrbm;
+    }
+
+    @Profile(SpringProfiles.DEVELOPMENT_PROFILE)
+    public @Bean
+    Filter corsFiler() {
+        return new CorsFilter(new PermitAllCorsConfigurationSource());
     }
 
     public @Bean

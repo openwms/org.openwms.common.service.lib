@@ -28,7 +28,7 @@
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="LOGFILE"/>
     </logger>
-    <logger name="MEASURED" level="OFF">
+    <logger name="MEASURED" level="INFO">
         <appender-ref ref="TSL"/>
     </logger>
     <logger name="CORE_INTEGRATION_MESSAGING" level="DEBUG"/>
