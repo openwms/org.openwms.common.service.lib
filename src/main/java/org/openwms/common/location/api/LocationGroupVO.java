@@ -30,7 +30,7 @@ import java.util.Objects;
  *
  * @author Heiko Scherrer
  */
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PUBLIC_ONLY)
 public class LocationGroupVO extends RepresentationModel implements TargetVO, Serializable {
 

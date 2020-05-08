@@ -31,7 +31,7 @@ import java.util.StringJoiner;
  *
  * @author Heiko Scherrer
  */
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PUBLIC_ONLY)
 public class LocationVO extends RepresentationModel<LocationVO> implements TargetVO, Serializable {
 

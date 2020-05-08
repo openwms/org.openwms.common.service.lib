@@ -26,7 +26,7 @@ import java.util.Objects;
  *
  * @author Heiko Scherrer
  */
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorCodeVO implements Serializable {
 
     public static final String ALL_NOT_SET = "********";

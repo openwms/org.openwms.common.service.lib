@@ -28,7 +28,7 @@ import java.util.Objects;
  *
  * @author Heiko Scherrer
  */
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AccountVO extends RepresentationModel<AccountVO> implements Serializable {
 
     /** Unique identifier. */

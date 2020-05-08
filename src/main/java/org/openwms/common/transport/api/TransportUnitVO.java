@@ -32,7 +32,7 @@ import java.util.Objects;
  *
  * @author Heiko Scherrer
  */
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TransportUnitVO extends AbstractBase implements Serializable {
 
     @NotEmpty(message = "{owms.common.common.tu.barcode}")
