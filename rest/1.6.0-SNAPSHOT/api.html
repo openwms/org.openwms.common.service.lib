@@ -1,0 +1,3540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.8">
+<meta name="author" content="(1.6.0-SNAPSHOT-417)">
+<title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
+/* Uncomment @import statement below to use as custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
+audio,canvas,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+script{display:none!important}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+a{background:transparent}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:none}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite::before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+*:not(pre)>code.nobreak{word-wrap:normal}
+*:not(pre)>code.nowrap{white-space:nowrap}
+pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background-color:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:100%;background-color:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock pre:not(.highlight),.listingblock pre[class="highlight"],.listingblock pre[class^="highlight "],.listingblock pre.CodeRay,.listingblock pre.prettyprint{background:#f7f7f8}
+.sidebarblock .literalblock pre,.sidebarblock .listingblock pre:not(.highlight),.sidebarblock .listingblock pre[class="highlight"],.sidebarblock .listingblock pre[class^="highlight "],.sidebarblock .listingblock pre.CodeRay,.sidebarblock .listingblock pre.prettyprint{background:#f2f1f1}
+.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:1em}}
+.literalblock pre.nowrap,.literalblock pre.nowrap pre,.listingblock pre.nowrap,.listingblock pre.nowrap pre{white-space:pre;word-wrap:normal}
+.literalblock.output pre{color:#f7f7f8;background-color:rgba(0,0,0,.9)}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:#999}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:#999}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+table.pyhltable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.pyhltable td{vertical-align:top;padding-top:0;padding-bottom:0;line-height:1.45}
+table.pyhltable td.code{padding-left:.75em;padding-right:0}
+pre.pygments .lineno,table.pyhltable td:not(.code){color:#999;padding-left:0;padding-right:.5em;border-right:1px solid #dddddf}
+pre.pygments .lineno{display:inline-block;margin-right:.25em}
+table.pyhltable .linenodiv{background:none!important;padding-right:0!important}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin:0 0 1.25em;padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
+table.tableblock{max-width:100%;border-collapse:separate}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
+table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
+table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
+table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px}
+table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0}
+table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
+table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
+table.frame-all{border-width:1px}
+table.frame-sides{border-width:0 1px}
+table.frame-topbot,table.frame-ends{border-width:1px 0}
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd){background:#f8f8f7}
+table.stripes-none tr,table.stripes-odd tr:nth-of-type(even){background:none}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+td>div.verse{white-space:pre}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
+ul.inline{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background-color:#00fafa}
+.black{color:#000}
+.black-background{background-color:#000}
+.blue{color:#0000bf}
+.blue-background{background-color:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background-color:#fa00fa}
+.gray{color:#606060}
+.gray-background{background-color:#7d7d7d}
+.green{color:#006000}
+.green-background{background-color:#007d00}
+.lime{color:#00bf00}
+.lime-background{background-color:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background-color:#7d0000}
+.navy{color:#000060}
+.navy-background{background-color:#00007d}
+.olive{color:#606000}
+.olive-background{background-color:#7d7d00}
+.purple{color:#600060}
+.purple-background{background-color:#7d007d}
+.red{color:#bf0000}
+.red-background{background-color:#fa0000}
+.silver{color:#909090}
+.silver-background{background-color:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background-color:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background-color:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background-color:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background-color:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background-color:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media print,amzn-kf8{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="book">
+<div id="header">
+<h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
+<div class="details">
+<span id="author" class="author">(1.6.0-SNAPSHOT-417)</span><br>
+<span id="revdate">Heiko Scherrer; Markus Schneider;</span>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel0">
+<li><a href="#overview">Overview</a></li>
+<li><a href="#section-representation">Representation Formats</a>
+<ul class="sectlevel1">
+<li><a href="#_dates_in_json">Dates in JSON</a></li>
+<li><a href="#_embedded_entities">Embedded Entities</a></li>
+<li><a href="#_error_responses">Error Responses</a>
+<ul class="sectlevel2">
+<li><a href="#_server_declined_errors">Server Declined Errors</a></li>
+<li><a href="#_api_declined_errors">API Declined Errors</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#section-sitemap">Interaction Map</a></li>
+<li><a href="#resources-prg">Resources</a>
+<ul class="sectlevel1">
+<li><a href="#resources-index">Index</a></li>
+<li><a href="#_account">Account</a>
+<ul class="sectlevel2">
+<li><a href="#_account_index">Account Index</a></li>
+<li><a href="#_find_all_accounts">Find all Accounts</a></li>
+<li><a href="#_find_an_account">Find an Account</a></li>
+<li><a href="#_find_the_default_account">Find the default Account</a></li>
+</ul>
+</li>
+<li><a href="#_location">Location</a>
+<ul class="sectlevel2">
+<li><a href="#_location_index">Location Index</a></li>
+<li><a href="#_find_location_by_coordinate">Find Location by Coordinate</a></li>
+<li><a href="#_find_location_by_coordinate_with_wildcards">Find Location by Coordinate with Wildcards</a></li>
+<li><a href="#_find_location_by_plc_code">Find Location by PLC code</a></li>
+<li><a href="#_find_locations_of_a_locationgroup">Find Locations of a LocationGroup</a></li>
+<li><a href="#_change_a_locations_state">Change a Location&#8217;s State</a></li>
+</ul>
+</li>
+<li><a href="#_locationgroup">LocationGroup</a>
+<ul class="sectlevel2">
+<li><a href="#_locationgroup_index">LocationGroup Index</a></li>
+<li><a href="#_find_all_locationgroups">Find all LocationGroups</a></li>
+<li><a href="#_find_locationgroup_by_name">Find LocationGroup by Name</a></li>
+<li><a href="#_find_multiple_locationgroups_by_name">Find multiple LocationGroups by Name</a></li>
+<li><a href="#_change_a_locationgroups_state">Change a LocationGroup&#8217;s State</a></li>
+</ul>
+</li>
+<li><a href="#_target">Target</a>
+<ul class="sectlevel2">
+<li><a href="#_inboundoutbound_locking">Inbound/Outbound Locking</a>
+<ul class="sectlevel3">
+<li><a href="#_lock_inbound_putaway_infeed">Lock Inbound (Putaway, Infeed)</a></li>
+<li><a href="#_lock_outbound_dispatching_allocation_outfeed">Lock Outbound (Dispatching, Allocation, Outfeed)</a></li>
+<li><a href="#_lock_inbound_outbound">Lock Inbound &amp; Outbound</a></li>
+<li><a href="#_release_lock">Release Lock</a></li>
+<li><a href="#_response_success">Response: Success</a></li>
+</ul>
+</li>
+<li><a href="#_locking_operational_processing">Locking Operational Processing</a>
+<ul class="sectlevel3">
+<li><a href="#_lock_for_inbound_operations">Lock for inbound Operations</a></li>
+<li><a href="#_lock_for_outbound_operations">Lock for outbound Operations</a></li>
+<li><a href="#_lock_inbound_outbound_operations">Lock inbound &amp; outbound Operations</a></li>
+<li><a href="#_release_lock_2">Release Lock</a></li>
+<li><a href="#_response_success_2">Response: Success</a></li>
+</ul>
+</li>
+<li><a href="#_locking_unlocking_a_target_for_allocation_and_processing">Locking / Unlocking a Target for Allocation and Processing</a>
+<ul class="sectlevel3">
+<li><a href="#_response_success_3">Response: Success</a></li>
+<li><a href="#_response_target_does_not_exist">Response: Target does not exist</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_transportunittype">TransportUnitType</a>
+<ul class="sectlevel2">
+<li><a href="#_transportunittype_index">TransportUnitType Index</a></li>
+<li><a href="#_find_all_transportunittypes">Find all TransportUnitTypes</a></li>
+<li><a href="#_find_a_transportunittype_by_name">Find a TransportUnitType by Name</a></li>
+</ul>
+</li>
+<li><a href="#_transportunit">TransportUnit</a>
+<ul class="sectlevel2">
+<li><a href="#_transportunit_index">TransportUnit Index</a></li>
+<li><a href="#_create_a_transportunit">Create a TransportUnit</a></li>
+<li><a href="#_move_a_transportunit">Move a TransportUnit</a></li>
+<li><a href="#_modify_a_transportunit">Modify a TransportUnit</a></li>
+<li><a href="#_find_by_barcode">Find by Barcode</a></li>
+<li><a href="#_find_by_multiple_barcodes">Find by multiple Barcodes</a></li>
+<li><a href="#_find_transportunits_on_a_location">Find TransportUnits on a Location</a></li>
+<li><a href="#_add_an_error_to_a_transportunit">Add an Error to a TransportUnit</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Copyright © 2005-2020</p>
+</div>
+<div class="paragraph">
+<p>Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any fee for such copies
+and further provided that each copy contains this Copyright Notice, whether distributed in print or electronically.</p>
+</div>
+</div>
+</div>
+<h1 id="overview" class="sect0"><a class="anchor" href="#overview"></a><a class="link" href="#overview">Overview</a></h1>
+<div class="openblock partintro">
+<div class="content">
+This guide describes the RESTful API of the OpenWMS.org COMMON Base Service module and its usage. Some general terms and definitions
+are explained and declared in the first part of the document whereas in the second part the usage of the API is shown in
+a more use-case-driven approach.
+</div>
+</div>
+<h1 id="section-representation" class="sect0"><a class="anchor" href="#section-representation"></a><a class="link" href="#section-representation">Representation Formats</a></h1>
+<div class="openblock partintro">
+<div class="content">
+Basically JSON is used as representation format by default if not otherwise requested or mentioned below. XML format is supported for the
+index pages as well, but must be requested explicitly. Furthermore a vendor specific JSON format is used to represent resource
+representations. Therefore it is absolutely required that the <code>Accept</code> header denotes the demanded type. Find the type in the examples
+below.
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dates_in_json"><a class="anchor" href="#_dates_in_json"></a><a class="link" href="#_dates_in_json">Dates in JSON</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Date or datetime fields are not treated specially in JSON. Within the scope of this API a date or datetime field is always expected and
+rendered as JSON String in ISO8601 format with timezone information and milliseconds: <code>yyyy-MM-dd&#8217;T&#8217;HH:mm:ss.SSSZ</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_embedded_entities"><a class="anchor" href="#_embedded_entities"></a><a class="link" href="#_embedded_entities">Embedded Entities</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For the sake of convenience some response entities may included embedded entities or even parts of it. A reference to the actual entity is
+provided as HAL link as well.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_error_responses"><a class="anchor" href="#_error_responses"></a><a class="link" href="#_error_responses">Error Responses</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Beside the actual representation of resources, the server may result an error response in JSON format that contains basic information about
+the error occurred. This information is additional to the standard HTTP status code and may help clients to identify the error cause in
+order to re-phrase and send the request again.</p>
+</div>
+<div class="paragraph">
+<p>Currently there are two types of errors with their own response formats.</p>
+</div>
+<div class="sect2">
+<h3 id="_server_declined_errors"><a class="anchor" href="#_server_declined_errors"></a><a class="link" href="#_server_declined_errors">Server Declined Errors</a></h3>
+<div class="paragraph">
+<p>This kind of errors are sent by the server runtime environment even before the request had a chance to be processed.</p>
+</div>
+<div class="paragraph">
+<p>An example response looks like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>{
+    "timestamp": 1512400854941,
+    "status": 500,
+    "error": "Internal Server Error",
+    "exception": "org.ameba.oauth2.InvalidTokenException",
+    "message": "JWT expired at 2017-12-04T15:04:43Z. Current time: 2017-12-04T15:20:54Z, ...",
+    "path": "/v1/transport-units?bk=00000000000000004711"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The JSON structure contains the following fields.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">timestamp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When the error occurred on server side</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The http status of the error</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">error</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A short error text</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">exception</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Internal class name of the Java exception type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A more descriptive error text describing the error in detail</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The part of the URI for the REST resource that was queried</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_api_declined_errors"><a class="anchor" href="#_api_declined_errors"></a><a class="link" href="#_api_declined_errors">API Declined Errors</a></h3>
+<div class="paragraph">
+<p>Those errors are thrown within the REST API validation and processing logic. For example, if a client request does not match the expected
+format or has produced an error on server side, the API will decline the request and return a response with status client-side error (4xx).</p>
+</div>
+<div class="paragraph">
+<p>The structure of the response is aligned to the RFC7808. An example response looks like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>{
+    "message": "LocationGroup with name [NOT_EXISTS] not found",
+    "messageKey": "COMMON.LOCATION_GROUP_NOT_FOUND",
+    "obj" : [ "NOT_EXISTS" ],
+    "httpStatus" : "404",
+    "class" : "String"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The JSON structure contains the following fields.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A short error text</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messageKey</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An unique identifier across the API that can be used to identify and translate the error message on the client side</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">obj</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An array of possible passed arguments to the message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">httpStatus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The http status of the error</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">class</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The arguments type</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Following message keys are currently used:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Message Key</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not.found</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The requested resource has not been found</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The resource does not exist anymore or has never existed. The resource identifier must be verified</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">COMMON.BARCODE_NOT_FOUND</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The TransportUnit does not exist</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Verify the identifying attribute passed to the API</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">COMMON.LOCATION_NOT_FOUND</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The requested Location does not exist</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Verify the identifying attribute passed to the API</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">COMMON.LOCATION_GROUP_NOT_FOUND</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The requested LocationGroup does not exist</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Verify the identifying attribute passed to the API</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">COMMON.TRANSPORT_UNIT_TYPE_NOT_FOUND</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The requested TransportUnitType does not exist</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Verify the identifying attribute passed to the API</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<h1 id="section-sitemap" class="sect0"><a class="anchor" href="#section-sitemap"></a><a class="link" href="#section-sitemap">Interaction Map</a></h1>
+<div class="openblock partintro">
+<div class="content">
+<div class="paragraph">
+<p>This chapter describes the actions, respectively the flow of actions, an API consumer can perform to achieve the use cases. The COMMON
+Service API deals essentially with <code>Locations</code>, <code>LocationGroups</code> and <code>TransportUnits</code> therefore those entities are centric elements in the
+interaction model and can be referenced from the main index page.</p>
+</div>
+<div class="paragraph">
+<p>Like human readable websites provide a sitemap, a machine readable API can be visualized with an interaction map. A fully automated RESTful
+maturity-level-3 API offers index resources beside typical business resources. The API entry point is the top-level index resource that is
+used to navigate to all possible entities with their operations.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/common-service-index.svg" alt="common service index">
+</div>
+</div>
+<div class="paragraph">
+<p>This top-level, or root, index page offers further links to primary resources, like <code>Locations</code>, <code>LocationGroups</code> and <code>TransportUnits</code>.</p>
+</div>
+</div>
+</div>
+<h1 id="resources-prg" class="sect0"><a class="anchor" href="#resources-prg"></a><a class="link" href="#resources-prg">Resources</a></h1>
+<div class="openblock partintro">
+<div class="content">
+<div class="paragraph">
+<p>A description of all used API resources.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ClassDiagram.svg" alt="ClassDiagram">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="resources-index"><a class="anchor" href="#resources-index"></a><a class="link" href="#resources-index">Index</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The initial HTTP request to retrieve information about all available resources looks like the following. The Index page is a public
+available resource and does not need any authentication.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Index resource is returned in the response body with the response status of 200-OK. This main Index lists all primary resource entities
+to follow next.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 515
+
+{
+  "_links" : {
+    "account-index" : {
+      "href" : "http://localhost:8080/v1/accounts/index"
+    },
+    "location-index" : {
+      "href" : "http://localhost:8080/v1/locations/index"
+    },
+    "location-group-index" : {
+      "href" : "http://localhost:8080/v1/location-groups/index"
+    },
+    "transport-unit-type-index" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types/index"
+    },
+    "transport-unit-index" : {
+      "href" : "http://localhost:8080/v1/transport-units/index"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A client application must only know about the agreed link names and follow the corresponding <code>href</code> link to navigate further.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_account"><a class="anchor" href="#_account"></a><a class="link" href="#_account">Account</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>An <code>Account</code> reflects to a customers cost center. A project may know about several cost centers - <code>Accounts</code>. The <code>Account</code> information is
+usually defined at project setup and does not change at runtime. So it is not foreseen that <code>Account</code> instances are created or deleted
+through the API.</p>
+</div>
+<div class="sect2">
+<h3 id="_account_index"><a class="anchor" href="#_account_index"></a><a class="link" href="#_account_index">Account Index</a></h3>
+<div class="paragraph">
+<p>The index with all possible operations can be retrieved with an `GET request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/accounts/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response lists all the operations with a name and the corresponding href link:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 409
+
+{
+  "_links" : {
+    "accounts-findall" : {
+      "href" : "http://localhost:8080/v1/accounts"
+    },
+    "accounts-finddefault" : {
+      "href" : "http://localhost:8080/v1/accounts"
+    },
+    "accounts-findbyidentifier" : {
+      "href" : "http://localhost:8080/v1/accounts?identifier=identifier"
+    },
+    "accounts-findbyname" : {
+      "href" : "http://localhost:8080/v1/accounts?name=name"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_all_accounts"><a class="anchor" href="#_find_all_accounts"></a><a class="link" href="#_find_all_accounts">Find all Accounts</a></h3>
+<div class="paragraph">
+<p>To retrieve a list of all existing <code>Accounts</code> a client must send a <code>GET</code> request to the server:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/accounts HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response contains all existing <code>Accounts</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 141
+
+[ {
+  "links" : [ ],
+  "identifier" : "D",
+  "name" : "Default"
+}, {
+  "links" : [ ],
+  "identifier" : "A1",
+  "name" : "Cost Center FIN"
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_an_account"><a class="anchor" href="#_find_an_account"></a><a class="link" href="#_find_an_account">Find an Account</a></h3>
+<div class="paragraph">
+<p>The <code>name</code> and the <code>identifier</code> of the <code>Account</code> are unique and mandatory attributes. So an <code>Account</code> can be searched for both fields.</p>
+</div>
+<div class="paragraph">
+<p>Find an <code>Account</code> by name:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/accounts?name=Default HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or find an <code>Account</code> by identifier:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/accounts?identifier=D HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with the Account entity if it exists:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 46
+
+{
+  "identifier" : "D",
+  "name" : "Default"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or with a <code>404-Not Found</code> if no <code>Account</code> exists:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 163
+
+{
+  "message" : "Account [UNKNOWN] not found",
+  "messageKey" : "COMMON.ACCOUNT_NOT_FOUND",
+  "obj" : [ "UNKNOWN" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_the_default_account"><a class="anchor" href="#_find_the_default_account"></a><a class="link" href="#_find_the_default_account">Find the default Account</a></h3>
+<div class="paragraph">
+<p>At least one <code>Account</code> must exist in the system and must be defined as the default <code>Account</code>. This <code>Account</code> is used when no other account information is available. To get the default <code>Account</code>
+from the Common Service a <code>GET</code> request must be send to the server:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/accounts?default=true HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server sends back the Account entity if it exists</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 46
+
+{
+  "identifier" : "D",
+  "name" : "Default"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Otherwise a 404-Not Found if not exist:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 115
+
+{
+  "message" : "No default Account exists",
+  "messageKey" : "COMMON.ACCOUNT_NO_DEFAULT",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_location"><a class="anchor" href="#_location"></a><a class="link" href="#_location">Location</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <code>Location</code> represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a location on
+the conveyor. Even error locations can be represented with the <code>Location</code>. Multiple <code>Locations</code> with same characteristics are grouped to a
+<code>LocationGroup</code>.</p>
+</div>
+<div class="paragraph">
+<p>A <code>Location</code> is identified by the 5-tuple coordinate, the LocationID, as well as a persistent key (the pKey). The PLC Code is an additional
+identifier of a <code>Location</code> that might be null in project setups. It is the identifying name a PLC unit uses in automatic warehouses - not
+used in manual warehouses.</p>
+</div>
+<div class="paragraph">
+<p>A <code>Location</code> always belongs to a <code>LocationGroup</code> where the name of that group is stored in the <code>locationGroupName</code> property.</p>
+</div>
+<div class="paragraph">
+<p>A <code>Location</code> can be a <code>Target</code> to send <code>TransportUnits</code> to, i.e. the target of an automatic <code>TransportOrder</code> or a manual <code>Movement</code>.</p>
+</div>
+<div class="paragraph">
+<p>Multiple state properties with different meaning exist for a <code>Location</code>. The <code>plcState</code> is exclusively managed by the PLC in automatic
+warehouses. Any error signaled by the PLC are stored on this field with a value greater than 0. Two other state fields <code>incomingActive</code> and
+<code>outgoindActive</code> are used to control the material flow control of this <code>Location</code>. If <code>incomingActive</code> is set to <code>false</code>, the particular
+<code>Location</code> is not considered in Inbound activities, like Putaway. Whereas the <code>outgoindActive</code> can be set to <code>false</code> to lock Outbound
+operations off this <code>Location</code>.</p>
+</div>
+<div class="paragraph">
+<p>The API allows to search for <code>Locations</code> and to mutate the <code>Locations</code> state.</p>
+</div>
+<div class="sect2">
+<h3 id="_location_index"><a class="anchor" href="#_location_index"></a><a class="link" href="#_location_index">Location Index</a></h3>
+<div class="paragraph">
+<p>The Location Index with all possible operations can be retrieved with the following GET request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response lists all the operations with a name and the corresponding href link:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 504
+
+{
+  "_links" : {
+    "location-findbycoordinate" : {
+      "href" : "http://localhost:8080/v1/locations?locationPK=AREA/AISLE/X/Y/Z"
+    },
+    "location-findbyplccode" : {
+      "href" : "http://localhost:8080/v1/locations?plcCode=PLC_CODE"
+    },
+    "location-forlocationgroup" : {
+      "href" : "http://localhost:8080/v1/locations?locationGroupNames=LG1&amp;locationGroupNames=LG2"
+    },
+    "location-changestate" : {
+      "href" : "http://localhost:8080/v1/location/pKey?op=change-state"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_location_by_coordinate"><a class="anchor" href="#_find_location_by_coordinate"></a><a class="link" href="#_find_location_by_coordinate">Find Location by Coordinate</a></h3>
+<div class="paragraph">
+<p>Send a HTTP GET request with the 5-tuple coordinate as query parameter to find a <code>Location</code> identified by this coordinate.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationPK=EXT_%2F0000%2F0000%2F0000%2F0000 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> exists the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 242
+
+{
+  "links" : [ ],
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "accountId" : "D",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0030",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> with the requested coordinate does not exist, the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 134
+
+{
+  "message" : "No Location with locationPk [EXT_/9999/9999/9999/9999] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the passed coordinate is not well formatted and rejected by the server the response looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 111
+
+{
+  "message" : "Invalid location [INVALID_COORDINATE]",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_location_by_coordinate_with_wildcards"><a class="anchor" href="#_find_location_by_coordinate_with_wildcards"></a><a class="link" href="#_find_location_by_coordinate_with_wildcards">Find Location by Coordinate with Wildcards</a></h3>
+<div class="paragraph">
+<p>The API to search for <code>Locations</code> also accepts typical SQL wildcards in each part of the 5-tuple coordinate. Let&#8217;s assume one searches for
+all Lift <code>Locations</code> in the Flat Good area, this could look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?area=FGIN&amp;aisle=00__&amp;x=LIFT&amp;y=0000&amp;z=%25 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this case the Flat Good area has only 2 Lift positions and the server returns both:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 506
+
+[ {
+  "links" : [ ],
+  "pKey" : "798136030917",
+  "locationId" : "FGIN/0001/LIFT/0000/0000",
+  "accountId" : "D",
+  "locationGroupName" : "FGAISLE1LIFT",
+  "plcCode" : "PLC_0012",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "links" : [ ],
+  "pKey" : "852306856430",
+  "locationId" : "FGIN/0002/LIFT/0000/0000",
+  "accountId" : "D",
+  "locationGroupName" : "FGAISLE2LIFT",
+  "plcCode" : "PLC_0015",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+} ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the search query did not find any <code>Locations</code> the server responds with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_location_by_plc_code"><a class="anchor" href="#_find_location_by_plc_code"></a><a class="link" href="#_find_location_by_plc_code">Find Location by PLC code</a></h3>
+<div class="paragraph">
+<p>Send a HTTP GET request with the PLC code as query parameter to find a <code>Location</code> identified by this PLC code.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?plcCode=PLC_0030 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> exists the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 242
+
+{
+  "links" : [ ],
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "accountId" : "D",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0030",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no <code>Location</code> with the requested PLC code exists, the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 118
+
+{
+  "message" : "No Location with PLC Code [NOT EXISTS] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_locations_of_a_locationgroup"><a class="anchor" href="#_find_locations_of_a_locationgroup"></a><a class="link" href="#_find_locations_of_a_locationgroup">Find Locations of a LocationGroup</a></h3>
+<div class="paragraph">
+<p>Send a HTTP GET request with the name of a <code>LocationGroup</code> as query parameter to find all <code>Locations</code> that belong to this group.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationGroupNames=ZILE HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with the list of all <code>Locations</code> - the name of the <code>LocationGroup</code> is not validated.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 490
+
+[ {
+  "links" : [ ],
+  "pKey" : "171919359409",
+  "locationId" : "INIT/0000/0000/0000/0000",
+  "accountId" : "D",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0029",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "links" : [ ],
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "accountId" : "D",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0030",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+} ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server accepts multiple <code>LocationGroup</code> names as request parameter to get a combined list of <code>Locations</code> that belong to group with name
+<code>ZILE</code> and <code>FGRECEIVING</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationGroupNames=ZILE&amp;locationGroupNames=FGRECEIVING HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Wildcards in the <code>LocationGroup</code> name are supported if only one <code>LocationGroup</code> name is provided:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationGroupNames=IP%25 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response is a list of <code>Locations</code> that belong to a <code>LocationGroup</code> where the name starts with <code>IP</code> (matching the groups <code>IPOINT</code>,
+<code>IPOINT1</code> and <code>IPOINT2</code> in this example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 496
+
+[ {
+  "links" : [ ],
+  "pKey" : "439649733836",
+  "locationId" : "FGIN/IPNT/0001/0000/0000",
+  "accountId" : "D",
+  "locationGroupName" : "IPOINT1",
+  "plcCode" : "PLC_0031",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "links" : [ ],
+  "pKey" : "227916500906",
+  "locationId" : "FGIN/IPNT/0002/0000/0000",
+  "accountId" : "D",
+  "locationGroupName" : "IPOINT2",
+  "plcCode" : "PLC_0032",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_change_a_locations_state"><a class="anchor" href="#_change_a_locations_state"></a><a class="link" href="#_change_a_locations_state">Change a Location&#8217;s State</a></h3>
+<div class="paragraph">
+<p>Send a HTTP PATCH request with the persistent identifying key of an existing <code>Location</code> along the new state decoded as <code>ErrorCodeVO</code> request
+parameter.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/location/NOTEXISTS?op=change-state HTTP/1.1
+Content-Type: application/json
+Host: localhost:8080
+Content-Length: 30
+
+{
+  "errorCode" : "******00"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> with the given persistent key does not exist, the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 123
+
+{
+  "message" : "No Location with persistent key [NOTEXISTS] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>ErrorCodeVO</code> contains a ternary error bitmap that decodes all state information. It is expected as 8-digit String with allowed symbols
+<code>*|0|1</code>. Each digit is assigned to one of the state attribute of the <code>Location</code> or <code>LocationGroup</code>:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Digit Position (RtL)</th>
+<th class="tableblock halign-left valign-top">Assigned attribute</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>0</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location.incomingActive</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>1</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location.outgoingActive</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>2</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location.groupStateIn</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>3</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location.groupStateOut</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The following table shows all currently accepted decodings of the <code>ErrorCodeVO.errorCode</code> String that is sent with the request body:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">ErrorCode String</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>********</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Content is ignored</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******00</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release Location for Inbound and Outbound operations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******01</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Inbound operation to the Location</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******10</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Outbound operation from the Location</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******11</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Inbound and Outbound operation for the Location</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In this example a <code>Location</code> identified with the given persistent key is locked for Inbound operations with the following request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/location/113646454019?op=change-state HTTP/1.1
+Content-Type: application/json
+Host: localhost:8080
+Content-Length: 30
+
+{
+  "errorCode" : "*******1"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the server could lock the <code>Location</code> successfully the response looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Beside locking the <code>Location</code> for Inbound- and Outbound processing it is also possible to change the PLC state of the <code>Location</code> through
+this API. Therefor the <code>ErrorCodeVO</code> data structure contains a property <code>plcState</code> that can be set to a numeric integer value. Usually a
+PLC state of <code>0</code> means the <code>Location</code> is not blocked and available for any operation. A PLC may set the state to a value greater than 0 to
+signal an error occurred on the <code>Location</code>.</p>
+</div>
+<div class="paragraph">
+<p>Set the <code>plcState</code> to <code>31</code> (In terms of <a href="https://interface21-io.gitbook.io/osip">OSIP</a> this means <code>Location unexpected occupied</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/location/113646454019?op=change-state HTTP/1.1
+Content-Type: application/json
+Host: localhost:8080
+Content-Length: 49
+
+{
+  "errorCode" : "********",
+  "plcState" : 31
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the server could set the state successfully the response is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_locationgroup"><a class="anchor" href="#_locationgroup"></a><a class="link" href="#_locationgroup">LocationGroup</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <code>LocationGroup</code> is used to group <code>Locations</code> with same characteristics or to define a warehouse area that can be seen as one cohesive
+block controlled by one single subsystem.</p>
+</div>
+<div class="sect2">
+<h3 id="_locationgroup_index"><a class="anchor" href="#_locationgroup_index"></a><a class="link" href="#_locationgroup_index">LocationGroup Index</a></h3>
+<div class="paragraph">
+<p>The index with all possible operations can be retrieved with the following GET request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/location-groups/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response lists all the operations with a name and the corresponding href link:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 643
+
+{
+  "_links" : {
+    "location-group-findall" : {
+      "href" : "http://localhost:8080/v1/location-groups"
+    },
+    "location-group-findbyname" : {
+      "href" : "http://localhost:8080/v1/location-groups?name=FOO"
+    },
+    "location-group-findbynames" : {
+      "href" : "http://localhost:8080/v1/location-groups?names=FOO&amp;names=BAR"
+    },
+    "location-group-changestate1" : {
+      "href" : "http://localhost:8080/v1/location-groups?name=FOO&amp;op=change-state"
+    },
+    "location-group-changestate2" : {
+      "href" : "http://localhost:8080/v1/location-group/UUID?op=change-state&amp;statein=AVAILABLE&amp;stateout=NOT_AVAILABLE"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_all_locationgroups"><a class="anchor" href="#_find_all_locationgroups"></a><a class="link" href="#_find_all_locationgroups">Find all LocationGroups</a></h3>
+<div class="paragraph">
+<p>To retrieve a list of all existing <code>LocationGroups</code> a client must send a GET request to the server:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/location-groups HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no <code>LocationGroups</code> exist the returned array is empty otherwise the response looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 13733
+
+[ {
+  "links" : [ ],
+  "pKey" : "412130127821",
+  "name" : "ZILE",
+  "accountId" : "D",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
+  } ],
+  "pKey" : "623275915496",
+  "name" : "Flatgood_AREA",
+  "accountId" : "D",
+  "parentName" : "ZILE",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=Flatgood_AREA"
+  } ],
+  "pKey" : "709819670512",
+  "name" : "FGAUTOMATIC",
+  "accountId" : "D",
+  "parentName" : "Flatgood_AREA",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ],
+  "pKey" : "400335177633",
+  "name" : "FGRECEIVING",
+  "accountId" : "D",
+  "parentName" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ],
+  "pKey" : "811754978035",
+  "name" : "FGCONV",
+  "accountId" : "D",
+  "parentName" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ],
+  "pKey" : "212290962584",
+  "name" : "FGSTOCK",
+  "accountId" : "D",
+  "parentName" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSTOCK"
+  } ],
+  "pKey" : "53242834266",
+  "name" : "FGAISLE1",
+  "accountId" : "D",
+  "parentName" : "FGSTOCK",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
+  } ],
+  "pKey" : "688238147532",
+  "name" : "FGAISLE1LIFT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
+  } ],
+  "pKey" : "154549927614",
+  "name" : "FGAISLE1LEFT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
+  } ],
+  "pKey" : "108758840458",
+  "name" : "FGAISLE1RIGHT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSTOCK"
+  } ],
+  "pKey" : "101671979671",
+  "name" : "FGAISLE2",
+  "accountId" : "D",
+  "parentName" : "FGSTOCK",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
+  } ],
+  "pKey" : "730288310794",
+  "name" : "FGAISLE2LIFT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
+  } ],
+  "pKey" : "379640903941",
+  "name" : "FGAISLE2LEFT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
+  } ],
+  "pKey" : "209483120518",
+  "name" : "FGAISLE2RIGHT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ],
+  "pKey" : "585607846471",
+  "name" : "FGSHIPPING",
+  "accountId" : "D",
+  "parentName" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING"
+  } ],
+  "pKey" : "881973001220",
+  "name" : "FGSHIPPING1",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
+  } ],
+  "pKey" : "18642707784",
+  "name" : "FGWORKPLACE1",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
+  } ],
+  "pKey" : "925145263549",
+  "name" : "FGWORKPLACE2",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
+  } ],
+  "pKey" : "346661868774",
+  "name" : "FGWORKPLACE3",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING"
+  } ],
+  "pKey" : "753422186594",
+  "name" : "FGSHIPPING2",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+  } ],
+  "pKey" : "258953718288",
+  "name" : "FGWORKPLACE4",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+  } ],
+  "pKey" : "424924693864",
+  "name" : "FGWORKPLACE5",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+  } ],
+  "pKey" : "909419439040",
+  "name" : "FGWORKPLACE6",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+  } ],
+  "pKey" : "687300567810",
+  "name" : "FGWORKPLACE7",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+  } ],
+  "pKey" : "860334844801",
+  "name" : "FGWORKPLACE8",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+  } ],
+  "pKey" : "224868263942",
+  "name" : "FGWORKPLACE9",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=Flatgood_AREA"
+  } ],
+  "pKey" : "264924505336",
+  "name" : "FGMANUAL",
+  "accountId" : "D",
+  "parentName" : "Flatgood_AREA",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=Flatgood_AREA"
+  } ],
+  "pKey" : "281343921750",
+  "name" : "FGCANBAN",
+  "accountId" : "D",
+  "parentName" : "Flatgood_AREA",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
+  } ],
+  "pKey" : "166982377557",
+  "name" : "IPOINT",
+  "accountId" : "D",
+  "parentName" : "ZILE",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=IPOINT"
+  } ],
+  "pKey" : "782120388022",
+  "name" : "IPOINT1",
+  "accountId" : "D",
+  "parentName" : "IPOINT",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=IPOINT"
+  } ],
+  "pKey" : "24417670340",
+  "name" : "IPOINT2",
+  "accountId" : "D",
+  "parentName" : "IPOINT",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
+  } ],
+  "pKey" : "878177817968",
+  "name" : "PALLET_AREA",
+  "accountId" : "D",
+  "parentName" : "ZILE",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PALLET_AREA"
+  } ],
+  "pKey" : "306784420810",
+  "name" : "PPICKING",
+  "accountId" : "D",
+  "parentName" : "PALLET_AREA",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PALLET_AREA"
+  } ],
+  "pKey" : "43608343999",
+  "name" : "PHIGHBAY",
+  "accountId" : "D",
+  "parentName" : "PALLET_AREA",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PHIGHBAY"
+  } ],
+  "pKey" : "500576747031",
+  "name" : "PAISLE1",
+  "accountId" : "D",
+  "parentName" : "PHIGHBAY",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE1"
+  } ],
+  "pKey" : "483875811636",
+  "name" : "PAISLE1LIFT",
+  "accountId" : "D",
+  "parentName" : "PAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE1"
+  } ],
+  "pKey" : "443011357014",
+  "name" : "PAISLE1LEFT",
+  "accountId" : "D",
+  "parentName" : "PAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE1"
+  } ],
+  "pKey" : "332530824417",
+  "name" : "PAISLE1RIGHT",
+  "accountId" : "D",
+  "parentName" : "PAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PHIGHBAY"
+  } ],
+  "pKey" : "999057994469",
+  "name" : "PAISLE2",
+  "accountId" : "D",
+  "parentName" : "PHIGHBAY",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE2"
+  } ],
+  "pKey" : "995126472754",
+  "name" : "PAISLE2LIFT",
+  "accountId" : "D",
+  "parentName" : "PAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE2"
+  } ],
+  "pKey" : "48562833846",
+  "name" : "PAISLE2LEFT",
+  "accountId" : "D",
+  "parentName" : "PAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE2"
+  } ],
+  "pKey" : "673781181265",
+  "name" : "PAISLE2RIGHT",
+  "accountId" : "D",
+  "parentName" : "PAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+} ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each <code>LocationGroup</code> has a link to its parent <code>LocationGroup</code> except the root <code>LocationGroup</code> that has no parent. Notice the returned
+<code>Content-Type</code> is <code>application/hal+json</code> that enables support for hypermedia links.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_locationgroup_by_name"><a class="anchor" href="#_find_locationgroup_by_name"></a><a class="link" href="#_find_locationgroup_by_name">Find LocationGroup by Name</a></h3>
+<div class="paragraph">
+<p>Send a HTTP GET request with the unique name of the <code>LocationGroup</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/location-groups?name=FGRECEIVING HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Request parameters:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The unique name of the LocationGroup</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If the <code>LocationGroup</code> exists the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 333
+
+{
+  "_links" : {
+    "parent" : {
+      "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+    }
+  },
+  "pKey" : "400335177633",
+  "name" : "FGRECEIVING",
+  "accountId" : "D",
+  "parentName" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>LocationGroup</code> with the given name does not exist, the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 125
+
+{
+  "message" : "LocationGroup with name [NOT_EXISTS] does not exist",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_multiple_locationgroups_by_name"><a class="anchor" href="#_find_multiple_locationgroups_by_name"></a><a class="link" href="#_find_multiple_locationgroups_by_name">Find multiple LocationGroups by Name</a></h3>
+<div class="paragraph">
+<p>Send a HTTP GET request with a list of unique <code>LocationGroup</code> names.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/location-groups?names=FGRECEIVING&amp;names=IPOINT HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Request parameters:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>names</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of unique names to identiy the LocationGroups</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The server sends back a list of all <code>LocationGroups</code> or an empty list if no <code>LocationGroups</code> exist.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 653
+
+[ {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ],
+  "pKey" : "400335177633",
+  "name" : "FGRECEIVING",
+  "accountId" : "D",
+  "parentName" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
+  } ],
+  "pKey" : "166982377557",
+  "name" : "IPOINT",
+  "accountId" : "D",
+  "parentName" : "ZILE",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_change_a_locationgroups_state"><a class="anchor" href="#_change_a_locationgroups_state"></a><a class="link" href="#_change_a_locationgroups_state">Change a LocationGroup&#8217;s State</a></h3>
+<div class="paragraph">
+<p>A <code>LocationGroup</code> has an inbound and an outbound state, sometimes also referred as infeed or outfeed state. Both states can be set to
+<code>AVAILABLE</code> or <code>NOT_AVAILABLE</code> independent from each other. Is a <code>LocationGroup</code> not available for infeed, then no transports towards this
+<code>LocationGroup</code> are created, similar is true for the outbound state.</p>
+</div>
+<div class="paragraph">
+<p>To change the state of a <code>LocationGroup</code> a <code>PATCH</code> request on the identified resource is accepted:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/location-group/400335177633 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Request path variables:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /v1/location-group/{pKey}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The persistent key of the LocationGroup</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Request parameters:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>statein</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The infeed state to set</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>stateout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The outfeed state to set</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>op</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The operation mode must be set to 'change-state'</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If the state change operation could be processed successfully, the server responds with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the resource can&#8217;t be identified the server response looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 192
+
+{
+  "message" : "LocationGroup with name [NOT_EXISTS] not found",
+  "messageKey" : "COMMON.LOCATION_GROUP_NOT_FOUND",
+  "obj" : [ "NOT_EXISTS" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Instead of passing both state values for inbound and outbound directly as query parameters it is also possible to encode the state into a
+8-digit bitmap field and pass it to the request. This is very handy when the subsystem (aka. PLC) sends an error bitmap to the server that
+can then directly passed to the API.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/location-groups?name=IPOINT&amp;op=change-state HTTP/1.1
+Content-Type: application/json
+Host: localhost:8080
+Content-Length: 30
+
+{
+  "errorCode" : "******11"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Request parameters:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The unique name of the LocationGroup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>op</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The operation mode must be set to 'change-state'</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The server response is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_target"><a class="anchor" href="#_target"></a><a class="link" href="#_target">Target</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <code>Target</code> is a <code>Location</code> or a group of <code>Locations</code> (<code>LocationGroup</code>) where a <code>TransportUnit</code> may be sent to.</p>
+</div>
+<div class="paragraph">
+<p>A <code>Target</code> can be locked for <strong>inbound</strong>/<strong>outbound</strong>, for <strong>operation</strong> or permanently. When the <code>Target</code> is locked for inbound, no new
+<code>TransportUnit</code> movements (<code>TransportOrders</code> in automatic warehouses) are created to this <code>Target</code> (like a Putaway lock).
+In contrast, no movements can be created away from this <code>Target</code> if it is locked for outbound (like Allocation). Locking inbound/outbound
+has no impact on the operation mode of the <code>Target</code>. So the <code>Target</code> may <em>still process</em> existing orders, even if it is locked for
+inbound/outbound.</p>
+</div>
+<div class="paragraph">
+<p>The operation mode of a <code>Target</code> is controlled separately. If the <code>Targets</code> is in PERMANENT operation mode it stops all operations and does
+no longer process any commands or telegrams.</p>
+</div>
+<div class="sect2">
+<h3 id="_inboundoutbound_locking"><a class="anchor" href="#_inboundoutbound_locking"></a><a class="link" href="#_inboundoutbound_locking">Inbound/Outbound Locking</a></h3>
+<div class="paragraph">
+<p>Locking a <code>Target</code> for Inbound/Outbound operation is controlled with a HTTP POST request against the URI <code>/v1/targets/ALLOCATION_LOCK</code> with
+a set of query parameters.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">HTTP Verb</th>
+<th class="tableblock halign-left valign-top">Query Param <code>type</code></th>
+<th class="tableblock halign-left valign-top">Query Param <code>mode</code></th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for Inbound allocation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OUT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for Outbound allocation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN_AND_OUT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for Inbound and Outbound allocation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NONE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release the <code>Target</code> for all kind of allocation</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect3">
+<h4 id="_lock_inbound_putaway_infeed"><a class="anchor" href="#_lock_inbound_putaway_infeed"></a><a class="link" href="#_lock_inbound_putaway_infeed">Lock Inbound (Putaway, Infeed)</a></h4>
+<div class="paragraph">
+<p>To lock a <code>Target</code> to be not considered in inbound, like Putaway, the server requires a HTTP POST request with the lock type
+<code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=ALLOCATION_LOCK&amp;mode=IN</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lock_outbound_dispatching_allocation_outfeed"><a class="anchor" href="#_lock_outbound_dispatching_allocation_outfeed"></a><a class="link" href="#_lock_outbound_dispatching_allocation_outfeed">Lock Outbound (Dispatching, Allocation, Outfeed)</a></h4>
+<div class="paragraph">
+<p>To lock a <code>Target</code> for outbound, like Allocation and Outfeed, the server requires a HTTP POST request with the lock type
+<code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=ALLOCATION_LOCK&amp;mode=OUT</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lock_inbound_outbound"><a class="anchor" href="#_lock_inbound_outbound"></a><a class="link" href="#_lock_inbound_outbound">Lock Inbound &amp; Outbound</a></h4>
+<div class="paragraph">
+<p>To lock a <code>Target</code> for inbound and outbound, like Putaway and Allocation, the server requires a HTTP POST request with the
+lock type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=ALLOCATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_release_lock"><a class="anchor" href="#_release_lock"></a><a class="link" href="#_release_lock">Release Lock</a></h4>
+<div class="paragraph">
+<p>To release all locks on a <code>Target</code> and allow any inbound and outbound operation, the server requires a HTTP POST request with the lock
+type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=ALLOCATION_LOCK&amp;mode=NONE</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_success"><a class="anchor" href="#_response_success"></a><a class="link" href="#_response_success">Response: Success</a></h4>
+<div class="paragraph">
+<p>In any of the previous cases the server responds with the following success message.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_locking_operational_processing"><a class="anchor" href="#_locking_operational_processing"></a><a class="link" href="#_locking_operational_processing">Locking Operational Processing</a></h3>
+<div class="paragraph">
+<p>A <code>Target</code> could also be locked for operation only but not for further Allocation. This means, the <code>Target</code> is active and looks available
+in warehouse counting and order allocation but is currently out-of-order and not ready to execute any (physical) operation. This is useful
+for planned short term locks, where a <code>Target</code> is taken out of operation but should still be considered by the system.</p>
+</div>
+<div class="paragraph">
+<p>Like the infeed/outfeed locking an <strong>operational lock</strong> can be set to different modes.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">HTTP Verb</th>
+<th class="tableblock halign-left valign-top">Query Param <code>type</code></th>
+<th class="tableblock halign-left valign-top">Query Param <code>mode</code></th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for all inbound operations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OUT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for all outbound operations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN_AND_OUT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for all inbound and outbound operations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NONE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release the <code>Target</code> for all kind of operations</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect3">
+<h4 id="_lock_for_inbound_operations"><a class="anchor" href="#_lock_for_inbound_operations"></a><a class="link" href="#_lock_for_inbound_operations">Lock for inbound Operations</a></h4>
+<div class="paragraph">
+<p>To lock a <code>Target</code> for inbound operations only, the server requires a HTTP POST request with the lock type
+<code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+reallocation=true&amp;type=OPERATION_LOCK&amp;mode=IN</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lock_for_outbound_operations"><a class="anchor" href="#_lock_for_outbound_operations"></a><a class="link" href="#_lock_for_outbound_operations">Lock for outbound Operations</a></h4>
+<div class="paragraph">
+<p>To lock a <code>Target</code> for outbound operations only, the server requires a HTTP POST request with the lock type
+<code>type=OPERATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=OPERATION_LOCK&amp;mode=OUT</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lock_inbound_outbound_operations"><a class="anchor" href="#_lock_inbound_outbound_operations"></a><a class="link" href="#_lock_inbound_outbound_operations">Lock inbound &amp; outbound Operations</a></h4>
+<div class="paragraph">
+<p>To lock a <code>Target</code> for inbound and outbound operations, the server requires a HTTP POST request with the
+lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=OPERATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_release_lock_2"><a class="anchor" href="#_release_lock_2"></a><a class="link" href="#_release_lock_2">Release Lock</a></h4>
+<div class="paragraph">
+<p>To release all operational locks on a <code>Target</code> and allow any inbound and outbound operation, the server requires a HTTP POST request with
+the lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=OPERATION_LOCK&amp;mode=NONE</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_success_2"><a class="anchor" href="#_response_success_2"></a><a class="link" href="#_response_success_2">Response: Success</a></h4>
+<div class="paragraph">
+<p>In any of the previous cases the server responds with the following success message.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_locking_unlocking_a_target_for_allocation_and_processing"><a class="anchor" href="#_locking_unlocking_a_target_for_allocation_and_processing"></a><a class="link" href="#_locking_unlocking_a_target_for_allocation_and_processing">Locking / Unlocking a Target for Allocation and Processing</a></h3>
+<div class="paragraph">
+<p>If a <code>Target</code> locked for operation it does not process and requests anymore. In case of a physical <code>Target</code>, like a Crane, no new movements
+are accepted and the Crane will stop working. This depends on the implemented Crane strategy. The Crane could stop immediately or after it
+finishes the current operation.</p>
+</div>
+<div class="paragraph">
+<p>To permanently lock or unlock a <code>Target</code> for allocation <em>and</em> processing send a HTTP POST request with the name of the <code>Target</code> to the
+server. Locking  the <code>Target</code> allows an optional flag to signal a re-allocation of already assigned movements and orders.</p>
+</div>
+<div class="paragraph">
+<p>In this example the <code>Target</code> is a <code>LocationGroup</code> with the name <code>IPOINT</code> that gets locked. The server is requested to re-allocate existing
+orders.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+reallocation=true&amp;type=PERMANENT_LOCK&amp;mode=lock</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To unlock the same <code>Target</code> with name <code>IPOINT</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+type=PERMANENT_LOCK&amp;mode=unlock</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_success_3"><a class="anchor" href="#_response_success_3"></a><a class="link" href="#_response_success_3">Response: Success</a></h4>
+<div class="paragraph">
+<p>If the server has successfully locked or unlocked the <code>Target</code> the response is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_target_does_not_exist"><a class="anchor" href="#_response_target_does_not_exist"></a><a class="link" href="#_response_target_does_not_exist">Response: Target does not exist</a></h4>
+<div class="paragraph">
+<p>If the given <code>Target</code> (FOO) does not exist the server responds with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 194
+
+{
+  "message" : "The Target with name [FOO] is neither a Location nor a LocationGroup. Other types of Targets are currently not supported",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transportunittype"><a class="anchor" href="#_transportunittype"></a><a class="link" href="#_transportunittype">TransportUnitType</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <code>TransportUnitType</code> is a type of a certain <code>TransportUnit</code>. Typically to store some static attributes of <code>TransportUnits</code>, such as the
+length, the height, or the weight of <code>TransportUnits</code>. It is possible to group and characterize <code>TransportUnits</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_transportunittype_index"><a class="anchor" href="#_transportunittype_index"></a><a class="link" href="#_transportunittype_index">TransportUnitType Index</a></h3>
+<div class="paragraph">
+<p>The index with all possible operations can be retrieved with the following GET request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-unit-types/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response lists all the operations with a name and the corresponding href link:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 265
+
+{
+  "_links" : {
+    "transport-unit-types-findtransportunittype" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+    },
+    "transport-unit-types-findall" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_all_transportunittypes"><a class="anchor" href="#_find_all_transportunittypes"></a><a class="link" href="#_find_all_transportunittypes">Find all TransportUnitTypes</a></h3>
+<div class="paragraph">
+<p>To retrieve a list of all existing <code>TransportUnitTypes</code> a client must send a GET request to the server:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-unit-types HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response contains all existing <code>TransportUnitTypes</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 232
+
+[ {
+  "type" : "PALLET",
+  "description" : "Euro pallet",
+  "height" : "102",
+  "width" : "80",
+  "length" : "120"
+}, {
+  "type" : "BIN",
+  "description" : "Plastic bins",
+  "height" : "102",
+  "width" : "80",
+  "length" : "120"
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_a_transportunittype_by_name"><a class="anchor" href="#_find_a_transportunittype_by_name"></a><a class="link" href="#_find_a_transportunittype_by_name">Find a TransportUnitType by Name</a></h3>
+<div class="paragraph">
+<p>Each <code>TransportUnitType</code> has an unique name by that it can be identified. Query the resource with a <code>type</code> parameter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-unit-types?type=PALLET HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>TransportUnitType</code> exists the response looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 114
+
+{
+  "type" : "PALLET",
+  "description" : "Euro pallet",
+  "height" : "102",
+  "width" : "80",
+  "length" : "120"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no <code>TransportUnitType</code> with the given name exist the server sends a 404-NOT FOUND:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 122
+
+{
+  "message" : "No TransportUniType with type [NOT_EXISTS] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transportunit"><a class="anchor" href="#_transportunit"></a><a class="link" href="#_transportunit">TransportUnit</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A TransportUnit is an item like a box, a toad, a bin or a pallet that is moved within a warehouse and can carry goods. Used as container to
+transport items like <code>LoadUnits</code>. It is moved between <code>Locations</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_transportunit_index"><a class="anchor" href="#_transportunit_index"></a><a class="link" href="#_transportunit_index">TransportUnit Index</a></h3>
+<div class="paragraph">
+<p>The index with all possible operations can be retrieved with the following GET request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-units/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response lists all the operations with a name and the corresponding href link:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 449
+
+{
+  "_links" : {
+    "transport-unit-findbybarcode" : {
+      "href" : "http://localhost:8080/v1/transport-units?bk=00000000000000004711"
+    },
+    "transport-unit-findbybarcodes" : {
+      "href" : "http://localhost:8080/v1/transport-units?bks=00000000000000004711&amp;bks=00000000000000004712"
+    },
+    "transport-unit-findonlocation" : {
+      "href" : "http://localhost:8080/v1/transport-units?actualLocation=EXT_/0000/0000/0000/0000"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_a_transportunit"><a class="anchor" href="#_create_a_transportunit"></a><a class="link" href="#_create_a_transportunit">Create a TransportUnit</a></h3>
+<div class="paragraph">
+<p>Currently the API offers to variants to create a <code>TransportUnit</code>. Both require a HTTP POST request sent to the same context path but with
+different request parameters.</p>
+</div>
+<div class="paragraph">
+<p>The simplest way to create a <code>TransportUnit</code> is to just pass the mandatory fields of a <code>TransportUnit</code> to the API:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/transport-units HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+bk=00000000000000004710&amp;actualLocation=EXT_%2F0000%2F0000%2F0000%2F0000&amp;tut=PALLET&amp;strict=false</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>actualLocation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The Location where to book on the TransportUnit initially</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tut</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the TransportUnitType assigned to the TransportUnit</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>strict</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If true, the service fails if the TransportUnit already exist, if false it does not fail and returns the existing one</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The server stores a <code>TransportUnit</code> instance with the given values and default values for other fields of the <code>TransportUnit</code>. The response
+contains a link to the newly created resource.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
+Location: http://localhost:8080/v1/transport-units/dad356b4-c925-4691-bbf3-1d361df6de0a/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In a second approach the client may pass the structure of the <code>TransportUnit</code> to create as request body to the API:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/transport-units?bk=00000000000000004710&amp;strict=false HTTP/1.1
+Content-Type: application/json
+Host: localhost:8080
+Content-Length: 172
+
+{
+  "links" : [ ],
+  "barcode" : "4710",
+  "actualLocation" : {
+    "links" : [ ],
+    "locationId" : "EXT_/0000/0000/0000/0000"
+  },
+  "transportUnitTypeName" : "PALLET"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>strict</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If true, the service fails if the TransportUnit already exist, if false it does not fail and returns the existing one</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Like before the server responds with a link to the newly created resource as far as the operation succeeds.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
+Location: http://localhost:8080/v1/transport-units/22384bfe-8c79-4c2e-a5a6-be6d8ce57d6e/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice the <code>strict</code> attribute. When the client passes <code>true</code> as value for <code>strict</code> the server ensures there is no <code>TransportUnit</code> with the
+given business key. When the attribute is omitted or set to <code>false</code> no such validation happens and the reference to an already existing
+<code>TransportUnit</code> or the newly created is returned. If the API call fails because a <code>TransportUnit</code> with the given <code>Barcode</code> exists, the
+response looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 409 Conflict
+Content-Type: application/hal+json
+Content-Length: 138
+
+{
+  "message" : "TransportUnit with id [00000000000000004711] already exists",
+  "messageKey" : "already.exists",
+  "httpStatus" : "409"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the request is invalid or contains invalid fields the server responds with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_move_a_transportunit"><a class="anchor" href="#_move_a_transportunit"></a><a class="link" href="#_move_a_transportunit">Move a TransportUnit</a></h3>
+<div class="paragraph">
+<p>To move a <code>TransportUnit</code> from it&#8217;s current Location to a new Location, simply call the API with the identifying Barcode and the new
+Location where the <code>TransportUnit</code> shall be booked on.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/transport-units HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>newLocation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The target Location where to move the TransportUnit to</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The server returns the updated <code>TransportUnit</code> instance.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 493
+
+{
+  "barcode" : "00000000000000004711",
+  "actualLocation" : {
+    "pKey" : "896384899357",
+    "locationId" : "FGIN/0001/LEFT/0000/0000",
+    "accountId" : "D",
+    "locationGroupName" : "FGAISLE1LEFT",
+    "plcCode" : "PLC_0013",
+    "incomingActive" : true,
+    "outgoingActive" : true,
+    "plcState" : 0
+  },
+  "transportUnitTypeName" : "PALLET",
+  "length" : 120,
+  "width" : 80,
+  "height" : 102,
+  "actualPlcCode" : "PLC_0013",
+  "actualLocationDate" : "2020-05-11T10:17:59.027+0000"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_modify_a_transportunit"><a class="anchor" href="#_modify_a_transportunit"></a><a class="link" href="#_modify_a_transportunit">Modify a TransportUnit</a></h3>
+<div class="paragraph">
+<p>Already existing <code>TransportUnits</code> can be modified by some degree. Not every attribute is allowed to change but most of the non-identifying
+ones can be changed. For example it is not foreseen to change the Barcode of an existing <code>TransportUnit</code>, nor the internal persistent key.
+The date when the <code>TransportUnit</code> has been recently moved is only changed together with the <code>actualLocation</code>.</p>
+</div>
+<div class="paragraph">
+<p>Send a HTTP PUT request to the server together with the <code>TransportUnit</code> as part of the request body.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /v1/transport-units?bk=00000000000000004711 HTTP/1.1
+Content-Type: application/json
+Host: localhost:8080
+Content-Length: 150
+
+{
+  "links" : [ ],
+  "barcode" : "00000000000000004711",
+  "actualLocation" : {
+    "links" : [ ],
+    "locationId" : "FGIN/0001/LEFT/0000/0000"
+  }
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If the server saved the changes, the response contains the updated representation of the <code>TransportUnit</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 493
+
+{
+  "barcode" : "00000000000000004711",
+  "actualLocation" : {
+    "pKey" : "896384899357",
+    "locationId" : "FGIN/0001/LEFT/0000/0000",
+    "accountId" : "D",
+    "locationGroupName" : "FGAISLE1LEFT",
+    "plcCode" : "PLC_0013",
+    "incomingActive" : true,
+    "outgoingActive" : true,
+    "plcState" : 0
+  },
+  "transportUnitTypeName" : "PALLET",
+  "length" : 120,
+  "width" : 80,
+  "height" : 102,
+  "actualPlcCode" : "PLC_0013",
+  "actualLocationDate" : "2020-05-11T10:17:58.409+0000"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In case no <code>TransportUnit</code> with the Barcode exists the server returns an error:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 133
+
+{
+  "message" : "TransportUnit with Barcode [00000000000000004710] not found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_by_barcode"><a class="anchor" href="#_find_by_barcode"></a><a class="link" href="#_find_by_barcode">Find by Barcode</a></h3>
+<div class="paragraph">
+<p>Find a <code>TransportUnit</code> by its unique <code>Barcode</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-units?bk=00000000000000004711 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If the <code>TransportUnit</code> has been found the server returns a JSON representation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.transport-unit-v1+json
+Content-Length: 759
+
+{
+  "links" : [ {
+    "rel" : "transport-unit-type",
+    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+  }, {
+    "rel" : "actual-location",
+    "href" : "http://localhost:8080/v1/locations?locationPK=EXT_/0000/0000/0000/0000"
+  } ],
+  "barcode" : "00000000000000004711",
+  "actualLocation" : {
+    "links" : [ ],
+    "pKey" : "113646454019",
+    "locationId" : "EXT_/0000/0000/0000/0000",
+    "accountId" : "D",
+    "locationGroupName" : "ZILE",
+    "plcCode" : "PLC_0030",
+    "incomingActive" : true,
+    "outgoingActive" : true,
+    "plcState" : 0
+  },
+  "transportUnitTypeName" : "PALLET",
+  "length" : 120,
+  "width" : 80,
+  "height" : 102,
+  "actualPlcCode" : "PLC_0030",
+  "actualLocationDate" : "2020-05-11T10:17:58.779+0000"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In case a <code>TransportUnit</code> with the requested <code>Barcode</code> == <code>9999</code> does not exist the response looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 229
+
+{
+  "message" : "TransportUnit with Barcode [00000000000000000999] not found",
+  "messageKey" : "COMMON.BARCODE_NOT_FOUND",
+  "obj" : [ {
+    "value" : "00000000000000000999"
+  } ],
+  "httpStatus" : "404",
+  "class" : "Barcode"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Also the short form of a <code>Barcode</code> can be passed to the API and the server implementation adjusts the given <code>Barcode</code> to the configured
+style, like it is left or right aligned and padded.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.transport-unit-v1+json
+Content-Length: 759
+
+{
+  "links" : [ {
+    "rel" : "transport-unit-type",
+    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+  }, {
+    "rel" : "actual-location",
+    "href" : "http://localhost:8080/v1/locations?locationPK=EXT_/0000/0000/0000/0000"
+  } ],
+  "barcode" : "00000000000000004711",
+  "actualLocation" : {
+    "links" : [ ],
+    "pKey" : "113646454019",
+    "locationId" : "EXT_/0000/0000/0000/0000",
+    "accountId" : "D",
+    "locationGroupName" : "ZILE",
+    "plcCode" : "PLC_0030",
+    "incomingActive" : true,
+    "outgoingActive" : true,
+    "plcState" : 0
+  },
+  "transportUnitTypeName" : "PALLET",
+  "length" : 120,
+  "width" : 80,
+  "height" : 102,
+  "actualPlcCode" : "PLC_0030",
+  "actualLocationDate" : "2020-05-11T10:17:58.509+0000"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_by_multiple_barcodes"><a class="anchor" href="#_find_by_multiple_barcodes"></a><a class="link" href="#_find_by_multiple_barcodes">Find by multiple Barcodes</a></h3>
+<div class="paragraph">
+<p>Also multiple <code>Barcodes</code> can be passed to the API in order to search for multiple <code>TransportUnits</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-units?bks=00000000000000004711&amp;bks=00000000000000004712&amp;bks=00000000000000004713 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bks</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A set of identifying Barcodes of the TransportUnit to search for</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>This returns an array with the <code>TransportUnits</code> found:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.transport-unit-v1+json
+Content-Length: 1527
+
+[ {
+  "links" : [ {
+    "rel" : "transport-unit-type",
+    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+  }, {
+    "rel" : "actual-location",
+    "href" : "http://localhost:8080/v1/locations?locationPK=EXT_/0000/0000/0000/0000"
+  } ],
+  "barcode" : "00000000000000004711",
+  "actualLocation" : {
+    "links" : [ ],
+    "pKey" : "113646454019",
+    "locationId" : "EXT_/0000/0000/0000/0000",
+    "accountId" : "D",
+    "locationGroupName" : "ZILE",
+    "plcCode" : "PLC_0030",
+    "incomingActive" : true,
+    "outgoingActive" : true,
+    "plcState" : 0
+  },
+  "transportUnitTypeName" : "PALLET",
+  "length" : 120,
+  "width" : 80,
+  "height" : 102,
+  "actualPlcCode" : "PLC_0030",
+  "actualLocationDate" : "2020-05-11T10:17:57.845+0000"
+}, {
+  "links" : [ {
+    "rel" : "transport-unit-type",
+    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+  }, {
+    "rel" : "actual-location",
+    "href" : "http://localhost:8080/v1/locations?locationPK=FGIN/IPNT/0001/0000/0000"
+  } ],
+  "barcode" : "00000000000000004712",
+  "actualLocation" : {
+    "links" : [ ],
+    "pKey" : "439649733836",
+    "locationId" : "FGIN/IPNT/0001/0000/0000",
+    "accountId" : "D",
+    "locationGroupName" : "IPOINT1",
+    "plcCode" : "PLC_0031",
+    "incomingActive" : true,
+    "outgoingActive" : true,
+    "plcState" : 0
+  },
+  "transportUnitTypeName" : "PALLET",
+  "length" : 120,
+  "width" : 80,
+  "height" : 102,
+  "actualPlcCode" : "PLC_0031",
+  "actualLocationDate" : "2020-05-11T10:17:57.845+0000"
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_transportunits_on_a_location"><a class="anchor" href="#_find_transportunits_on_a_location"></a><a class="link" href="#_find_transportunits_on_a_location">Find TransportUnits on a Location</a></h3>
+<div class="paragraph">
+<p>Search and return all <code>TransportUnits</code> that are currently booked on a given <code>Location</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-units?actualLocation=FGIN%2FIPNT%2F0001%2F0000%2F0000 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>actualLocation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The Location to find all TransportUnits booked on</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The <code>TransportUnit</code> with <code>Barcode</code> == <code>00000000000000004712</code> is returned:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.transport-unit-v1+json
+Content-Length: 766
+
+[ {
+  "links" : [ {
+    "rel" : "transport-unit-type",
+    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+  }, {
+    "rel" : "actual-location",
+    "href" : "http://localhost:8080/v1/locations?locationPK=FGIN/IPNT/0001/0000/0000"
+  } ],
+  "barcode" : "00000000000000004712",
+  "actualLocation" : {
+    "links" : [ ],
+    "pKey" : "439649733836",
+    "locationId" : "FGIN/IPNT/0001/0000/0000",
+    "accountId" : "D",
+    "locationGroupName" : "IPOINT1",
+    "plcCode" : "PLC_0031",
+    "incomingActive" : true,
+    "outgoingActive" : true,
+    "plcState" : 0
+  },
+  "transportUnitTypeName" : "PALLET",
+  "length" : 120,
+  "width" : 80,
+  "height" : 102,
+  "actualPlcCode" : "PLC_0031",
+  "actualLocationDate" : "2020-05-11T10:17:59.076+0000"
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_add_an_error_to_a_transportunit"><a class="anchor" href="#_add_an_error_to_a_transportunit"></a><a class="link" href="#_add_an_error_to_a_transportunit">Add an Error to a TransportUnit</a></h3>
+<div class="paragraph">
+<p>During the handling of <code>TransportUnits</code>, errors or failure situations may occur that make it necessary to store some kind of error message
+for further analysis. Therefore each <code>TransportUnit</code> has a history of error messages attached that can be populated with new messages. A
+client simple calls this API to store a new error message for an existing <code>TransportUnit</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/transport-unit/error HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+bk=00000000000000004711&amp;errorCode=bla</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>errorCode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The error text</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The server acknowledges the request and stores the error message asynchronously.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2020-05-11 10:16:25 UTC
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+</body>
+</html>
