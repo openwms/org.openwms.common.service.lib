@@ -78,7 +78,6 @@ class TransportUnitCommandListenerIT {
     @BeforeAll
     public static void enableWithRabbitOnly() {
         System.setProperty("spring.profiles.active", SpringProfiles.ASYNCHRONOUS_PROFILE);
-        //assumeTrue(System.getProperty("spring.profiles.active", "default").contains(SpringProfiles.ASYNCHRONOUS_PROFILE));
     }
 
     @Test void test_REMOVE_command() {
