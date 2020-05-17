@@ -1,9 +1,6 @@
 language: java
 
-dist: trusty
-
-git:
-  depth: false
+dist: xenial
 
 jdk:
   - openjdk11
@@ -15,6 +12,9 @@ cache:
   directories:
     - .autoconf
     - $TRAVIS_HOME/.m2
+
+jobs:
+  fast_finish: true
 
 services:
   - docker
