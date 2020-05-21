@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransportUnitTypeServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.transport.impl</a> &gt; <span class="el_source">TransportUnitTypeServiceImpl.java</span></div><h1>TransportUnitTypeServiceImpl.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">/*</span>
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.transport.impl;
+
+import org.ameba.annotation.Measured;
+import org.ameba.annotation.TxService;
+import org.ameba.exception.NotFoundException;
+import org.ameba.exception.ServiceLayerException;
+import org.openwms.common.location.LocationType;
+import org.openwms.common.transport.Rule;
+import org.openwms.common.transport.TransportUnitType;
+import org.openwms.common.transport.TransportUnitTypeService;
+import org.openwms.common.transport.TypePlacingRule;
+import org.openwms.common.transport.events.TransportUnitTypeEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static java.lang.String.format;
+import static org.openwms.common.transport.events.TransportUnitTypeEvent.TransportUnitTypeEventType.CHANGED;
+import static org.openwms.common.transport.events.TransportUnitTypeEvent.TransportUnitTypeEventType.CREATED;
+import static org.openwms.common.transport.events.TransportUnitTypeEvent.TransportUnitTypeEventType.DELETED;
+
+/**
+ * A TransportUnitTypeServiceImpl is a Spring managed bean that deals with TransportUnitTypes.
+ *
+ * @author Heiko Scherrer
+ */
+@TxService
+class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
+
+<span class="fc" id="L52">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitTypeServiceImpl.class);</span>
+    private final TransportUnitTypeRepository transportUnitTypeRepository;
+    private final ApplicationEventPublisher publisher;
+
+<span class="fc" id="L56">    TransportUnitTypeServiceImpl(</span>
+            TransportUnitTypeRepository transportUnitTypeRepository,
+            ApplicationEventPublisher publisher) {
+<span class="fc" id="L59">        this.transportUnitTypeRepository = transportUnitTypeRepository;</span>
+<span class="fc" id="L60">        this.publisher = publisher;</span>
+<span class="fc" id="L61">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    @Transactional(readOnly = true)
+<span class="fc" id="L69">    public Optional&lt;TransportUnitType&gt; findByType(String type) {</span>
+        return transportUnitTypeRepository.findByType(type);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    @Transactional(readOnly = true)
+<span class="fc" id="L79">    public List&lt;TransportUnitType&gt; findAll() {</span>
+        return transportUnitTypeRepository.findAll();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public TransportUnitType create(@NotNull TransportUnitType transportUnitType) {
+<span class="fc" id="L89">        TransportUnitType created = transportUnitTypeRepository.save(transportUnitType);</span>
+<span class="fc" id="L90">        publisher.publishEvent(TransportUnitTypeEvent.newBuilder()</span>
+<span class="fc" id="L91">                .tut(created)</span>
+<span class="fc" id="L92">                .type(CREATED)</span>
+<span class="fc" id="L93">                .build());</span>
+<span class="fc" id="L94">        return created;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public void deleteType(TransportUnitType... transportUnitTypes) {
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        for (TransportUnitType transportUnitType : transportUnitTypes) {</span>
+<span class="fc" id="L104">            transportUnitTypeRepository.findByType(transportUnitType.getType()).ifPresent(tut -&gt; {</span>
+<span class="fc" id="L105">                transportUnitTypeRepository.delete(tut);</span>
+<span class="fc" id="L106">                publisher.publishEvent(TransportUnitTypeEvent.newBuilder()</span>
+<span class="fc" id="L107">                        .tut(tut)</span>
+<span class="fc" id="L108">                        .type(DELETED)</span>
+<span class="fc" id="L109">                        .build());</span>
+<span class="fc" id="L110">            });</span>
+        }
+<span class="fc" id="L112">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public TransportUnitType save(TransportUnitType transportUnitType) {
+<span class="fc" id="L120">        TransportUnitType tut = transportUnitTypeRepository.save(transportUnitType);</span>
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
+<span class="fc" id="L122">            LOGGER.debug(&quot;Save a TransportUnitType with a list of TypePlacingRules [{}]&quot;, tut.getTypePlacingRules().size());</span>
+        }
+<span class="fc" id="L124">        publisher.publishEvent(TransportUnitTypeEvent.newBuilder()</span>
+<span class="fc" id="L125">                .tut(tut)</span>
+<span class="fc" id="L126">                .type(CHANGED)</span>
+<span class="fc" id="L127">                .build());</span>
+<span class="fc" id="L128">        return tut;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public TransportUnitType updateRules(@NotEmpty String type, List&lt;LocationType&gt; newAssigned, List&lt;LocationType&gt; newNotAssigned) {
+<span class="pc" id="L137">        TransportUnitType tut = transportUnitTypeRepository.findByType(type).orElseThrow(() -&gt; new NotFoundException(format(&quot;TransportUnitType with type [%s] does not exist&quot;, type)));</span>
+<span class="fc bfc" id="L138" title="All 4 branches covered.">        if (newAssigned != null &amp;&amp; !newAssigned.isEmpty()) {</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">            for (LocationType locationType : newAssigned) {</span>
+<span class="fc" id="L140">                if (tut.getTypePlacingRules()</span>
+<span class="fc" id="L141">                        .stream()</span>
+<span class="fc" id="L142">                        .map(TypePlacingRule::getAllowedLocationType)</span>
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">                        .noneMatch(lt -&gt; lt.equals(locationType))</span>
+                ) {
+<span class="fc bfc" id="L145" title="All 2 branches covered.">                    if (locationType.isNew()) {</span>
+<span class="fc" id="L146">                        throw new ServiceLayerException(format(&quot;LocationType [%s] does not exist and must be persisted before adding it as a rule&quot;, locationType.getType()));</span>
+                    }
+<span class="fc" id="L148">                    TypePlacingRule newRule = new TypePlacingRule(tut, locationType);</span>
+<span class="fc" id="L149">                    tut.addTypePlacingRule(newRule);</span>
+                }
+            }
+        }
+<span class="fc bfc" id="L153" title="All 4 branches covered.">        if (newNotAssigned != null &amp;&amp; !newNotAssigned.isEmpty()) {</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">            for (LocationType locationType : newNotAssigned) {</span>
+<span class="fc" id="L155">                tut.removeTypePlacingRules(locationType);</span>
+            }
+        }
+<span class="fc" id="L158">        tut = transportUnitTypeRepository.save(tut);</span>
+<span class="fc" id="L159">        publisher.publishEvent(TransportUnitTypeEvent.newBuilder()</span>
+<span class="fc" id="L160">                .tut(tut)</span>
+<span class="fc" id="L161">                .type(CHANGED)</span>
+<span class="fc" id="L162">                .build());</span>
+<span class="fc" id="L163">        return tut;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public List&lt;Rule&gt; loadRules(@NotEmpty String transportUnitType) {
+<span class="fc" id="L172">        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -&gt; new NotFoundException(format(&quot;TransportUnitType with type [%s] does not exist&quot;, transportUnitType)));</span>
+<span class="fc" id="L173">        List&lt;Rule&gt; rules = new ArrayList&lt;&gt;(type.getTypePlacingRules());</span>
+<span class="fc" id="L174">        rules.addAll(type.getTypeStackingRules());</span>
+<span class="fc" id="L175">        return rules;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

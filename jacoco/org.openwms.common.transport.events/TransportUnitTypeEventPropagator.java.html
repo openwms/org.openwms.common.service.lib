@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransportUnitTypeEventPropagator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.transport.events</a> &gt; <span class="el_source">TransportUnitTypeEventPropagator.java</span></div><h1>TransportUnitTypeEventPropagator.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.transport.events;
+
+import org.ameba.mapping.BeanMapper;
+import org.openwms.common.transport.api.messages.TransportUnitTypeMO;
+import org.openwms.core.SpringProfiles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
+
+/**
+ * A TransportUnitTypeEventPropagator is a Spring managed component to publish {@link TransportUnitTypeEvent}s over AQMP. This component is
+ * only active with the {@value SpringProfiles#ASYNCHRONOUS_PROFILE} profile.
+ *
+ * @author Heiko Scherrer
+ */
+@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
+@Component
+class TransportUnitTypeEventPropagator {
+
+<span class="fc" id="L39">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitTypeEventPropagator.class);</span>
+    private final AmqpTemplate amqpTemplate;
+    private final String exchangeName;
+    private final BeanMapper mapper;
+
+<span class="fc" id="L44">    TransportUnitTypeEventPropagator(</span>
+            AmqpTemplate amqpTemplate,
+            @Value(&quot;${owms.events.common.tut.exchange-name}&quot;) String exchangeName,
+            BeanMapper mapper) {
+<span class="fc" id="L48">        this.amqpTemplate = amqpTemplate;</span>
+<span class="fc" id="L49">        this.exchangeName = exchangeName;</span>
+<span class="fc" id="L50">        this.mapper = mapper;</span>
+<span class="fc" id="L51">    }</span>
+
+    @TransactionalEventListener(fallbackExecution = true)
+    public void onEvent(TransportUnitTypeEvent event) {
+<span class="nc bnc" id="L55" title="All 4 branches missed.">        switch (event.getType()) {</span>
+            case CREATED:
+<span class="nc" id="L57">                amqpTemplate.convertAndSend(exchangeName, &quot;tut.event.created&quot;, mapper.map(event.getSource(), TransportUnitTypeMO.class));</span>
+<span class="nc" id="L58">                break;</span>
+            case CHANGED:
+<span class="nc" id="L60">                amqpTemplate.convertAndSend(exchangeName, &quot;tut.event.changed&quot;, mapper.map(event.getSource(), TransportUnitTypeMO.class));</span>
+<span class="nc" id="L61">                break;</span>
+            case DELETED:
+<span class="nc" id="L63">                amqpTemplate.convertAndSend(exchangeName, &quot;tut.event.deleted&quot;, mapper.map(event.getSource(), TransportUnitTypeMO.class));</span>
+<span class="nc" id="L64">                break;</span>
+            default:
+<span class="nc" id="L66">                LOGGER.warn(&quot;Eventtype [{}] not supported&quot;, event.getType());</span>
+        }
+<span class="nc" id="L68">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

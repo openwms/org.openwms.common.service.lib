@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransportUnitVO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.transport.api</a> &gt; <span class="el_source">TransportUnitVO.java</span></div><h1>TransportUnitVO.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.transport.api;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.ameba.http.AbstractBase;
+import org.openwms.common.location.api.LocationVO;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Objects;
+
+/**
+ * A TransportUnitVO.
+ *
+ * @author Heiko Scherrer
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class TransportUnitVO extends AbstractBase implements Serializable {
+
+    @NotEmpty(message = &quot;{owms.common.common.tu.barcode}&quot;)
+    @JsonProperty(&quot;barcode&quot;)
+    private String barcode;
+    @NotNull(message = &quot;{owms.common.common.tu.actualLocation}&quot;, groups = ValidationGroups.TransportUnit.Create.class)
+    @JsonProperty(&quot;actualLocation&quot;)
+    private LocationVO actualLocation;
+    @JsonProperty(&quot;target&quot;)
+    private String target;
+    @NotEmpty(message = &quot;{owms.common.common.tu.transportUnitTypeName}&quot;, groups = {ValidationGroups.TransportUnit.Create.class, ValidationGroups.TransportUnit.WithTuT.class})
+    @JsonProperty(&quot;transportUnitTypeName&quot;)
+    private String transportUnitType;
+    @JsonProperty(&quot;length&quot;)
+    private Integer length;
+    @JsonProperty(&quot;width&quot;)
+    private Integer width;
+    @JsonProperty(&quot;height&quot;)
+    private Integer height;
+    @JsonProperty(&quot;actualPlcCode&quot;)
+    private String actualPlcCode;
+    @JsonProperty(&quot;actualLocationDate&quot;)
+    private Date actualLocationDate;
+
+    /*~-------------------- constructors --------------------*/
+    @JsonCreator
+<span class="fc" id="L62">    protected TransportUnitVO() {</span>
+<span class="fc" id="L63">    }</span>
+
+<span class="fc" id="L65">    public TransportUnitVO(String barcode) {</span>
+<span class="fc" id="L66">        this.barcode = barcode;</span>
+<span class="fc" id="L67">    }</span>
+
+<span class="fc" id="L69">    public TransportUnitVO(String barcode, String transportUnitType, LocationVO actualLocation) {</span>
+<span class="fc" id="L70">        this.barcode = barcode;</span>
+<span class="fc" id="L71">        this.transportUnitType = transportUnitType;</span>
+<span class="fc" id="L72">        this.actualLocation = actualLocation;</span>
+<span class="fc" id="L73">    }</span>
+
+<span class="nc" id="L75">    private TransportUnitVO(Builder builder) {</span>
+<span class="nc" id="L76">        barcode = builder.barcode;</span>
+<span class="nc" id="L77">        actualLocation = builder.actualLocation;</span>
+<span class="nc" id="L78">        target = builder.target;</span>
+<span class="nc" id="L79">        transportUnitType = builder.transportUnitType;</span>
+<span class="nc" id="L80">        length = builder.length;</span>
+<span class="nc" id="L81">        width = builder.width;</span>
+<span class="nc" id="L82">        height = builder.height;</span>
+<span class="nc" id="L83">        actualPlcCode = builder.actualPlcCode;</span>
+<span class="nc" id="L84">        actualLocationDate = builder.actualLocationDate;</span>
+<span class="nc" id="L85">    }</span>
+
+    public static Builder newBuilder() {
+<span class="nc" id="L88">        return new Builder();</span>
+    }
+
+    public static Builder builder() {
+<span class="nc" id="L92">        return new Builder();</span>
+    }
+
+    /*~-------------------- accessors --------------------*/
+    public String getBarcode() {
+<span class="fc" id="L97">        return barcode;</span>
+    }
+
+    public LocationVO getActualLocation() {
+<span class="fc" id="L101">        return actualLocation;</span>
+    }
+
+    public void setActualLocation(LocationVO actualLocation) {
+<span class="fc" id="L105">        this.actualLocation = actualLocation;</span>
+<span class="fc" id="L106">    }</span>
+
+    public String getTarget() {
+<span class="fc" id="L109">        return target;</span>
+    }
+
+    public void setTarget(String target) {
+<span class="nc" id="L113">        this.target = target;</span>
+<span class="nc" id="L114">    }</span>
+
+    public String getTransportUnitType() {
+<span class="fc" id="L117">        return transportUnitType;</span>
+    }
+
+    public void setTransportUnitType(String transportUnitType) {
+<span class="fc" id="L121">        this.transportUnitType = transportUnitType;</span>
+<span class="fc" id="L122">    }</span>
+
+    public Integer getLength() {
+<span class="fc" id="L125">        return length;</span>
+    }
+
+    public void setLength(Integer length) {
+<span class="nc" id="L129">        this.length = length;</span>
+<span class="nc" id="L130">    }</span>
+
+    public Integer getWidth() {
+<span class="fc" id="L133">        return width;</span>
+    }
+
+    public void setWidth(Integer width) {
+<span class="nc" id="L137">        this.width = width;</span>
+<span class="nc" id="L138">    }</span>
+
+    public Integer getHeight() {
+<span class="fc" id="L141">        return height;</span>
+    }
+
+    public void setHeight(Integer height) {
+<span class="nc" id="L145">        this.height = height;</span>
+<span class="nc" id="L146">    }</span>
+
+    public String getActualPlcCode() {
+<span class="fc" id="L149">        return actualPlcCode;</span>
+    }
+
+    public void setActualPlcCode(String actualPlcCode) {
+<span class="nc" id="L153">        this.actualPlcCode = actualPlcCode;</span>
+<span class="nc" id="L154">    }</span>
+
+    public Date getActualLocationDate() {
+<span class="fc" id="L157">        return actualLocationDate;</span>
+    }
+
+    public void setActualLocationDate(Date actualLocationDate) {
+<span class="nc" id="L161">        this.actualLocationDate = actualLocationDate;</span>
+<span class="nc" id="L162">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L166" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">        if (!(o instanceof TransportUnitVO)) return false;</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
+<span class="nc" id="L169">        TransportUnitVO that = (TransportUnitVO) o;</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">        return Objects.equals(barcode, that.barcode) &amp;&amp;</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">                Objects.equals(actualLocation, that.actualLocation) &amp;&amp;</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">                Objects.equals(target, that.target) &amp;&amp;</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">                Objects.equals(transportUnitType, that.transportUnitType) &amp;&amp;</span>
+<span class="nc bnc" id="L174" title="All 2 branches missed.">                Objects.equals(length, that.length) &amp;&amp;</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">                Objects.equals(width, that.width) &amp;&amp;</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">                Objects.equals(height, that.height) &amp;&amp;</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">                Objects.equals(actualPlcCode, that.actualPlcCode) &amp;&amp;</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">                Objects.equals(actualLocationDate, that.actualLocationDate);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L183">        return Objects.hash(super.hashCode(), barcode, actualLocation, target, transportUnitType, length, width, height, actualPlcCode, actualLocationDate);</span>
+    }
+
+    /*~-------------------- Builder --------------------*/
+    public static final class Builder {
+        private @NotEmpty String barcode;
+        private LocationVO actualLocation;
+        private String target;
+        private @NotEmpty(groups = ValidationGroups.TransportUnit.WithTuT.class) String transportUnitType;
+        private Integer length;
+        private Integer width;
+        private Integer height;
+        private String actualPlcCode;
+        private Date actualLocationDate;
+
+        private Builder() {
+        }
+
+        public Builder barcode(@NotEmpty String val) {
+<span class="nc" id="L202">            barcode = val;</span>
+<span class="nc" id="L203">            return this;</span>
+        }
+
+        public Builder actualLocation(LocationVO val) {
+<span class="nc" id="L207">            actualLocation = val;</span>
+<span class="nc" id="L208">            return this;</span>
+        }
+
+        public Builder target(String val) {
+<span class="nc" id="L212">            target = val;</span>
+<span class="nc" id="L213">            return this;</span>
+        }
+
+        public Builder transportUnitType(@NotEmpty(groups = ValidationGroups.TransportUnit.WithTuT.class) String val) {
+<span class="nc" id="L217">            transportUnitType = val;</span>
+<span class="nc" id="L218">            return this;</span>
+        }
+
+        public Builder length(Integer val) {
+<span class="nc" id="L222">            length = val;</span>
+<span class="nc" id="L223">            return this;</span>
+        }
+
+        public Builder width(Integer val) {
+<span class="nc" id="L227">            width = val;</span>
+<span class="nc" id="L228">            return this;</span>
+        }
+
+        public Builder height(Integer val) {
+<span class="nc" id="L232">            height = val;</span>
+<span class="nc" id="L233">            return this;</span>
+        }
+
+        public Builder actualPlcCode(String val) {
+<span class="nc" id="L237">            actualPlcCode = val;</span>
+<span class="nc" id="L238">            return this;</span>
+        }
+
+        public Builder actualLocationDate(Date val) {
+<span class="nc" id="L242">            actualLocationDate = val;</span>
+<span class="nc" id="L243">            return this;</span>
+        }
+
+        public TransportUnitVO build() {
+<span class="nc" id="L247">            return new TransportUnitVO(this);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
