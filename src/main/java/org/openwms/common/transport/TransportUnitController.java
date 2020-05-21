@@ -121,9 +121,9 @@ public class TransportUnitController extends AbstractWebController {
         return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();
     }
 
-    @PostMapping(value = API_TRANSPORT_UNITS, params = {"barcode", "actualLocation", "tut"})
+    @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk", "actualLocation", "tut"})
     public ResponseEntity<Void> createTU(
-            @RequestParam("barcode") String transportUnitBK,
+            @RequestParam("bk") String transportUnitBK,
             @RequestParam("actualLocation") String actualLocation,
             @RequestParam("tut") String tut,
             @RequestParam(value = "strict", required = false) Boolean strict,
