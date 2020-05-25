@@ -56,6 +56,8 @@ public class TransportUnitVO extends AbstractBase implements Serializable {
     private String actualPlcCode;
     @JsonProperty("actualLocationDate")
     private Date actualLocationDate;
+    @JsonProperty("createDate")
+    private Date createDate;
 
     /*~-------------------- constructors --------------------*/
     @JsonCreator
@@ -82,6 +84,7 @@ public class TransportUnitVO extends AbstractBase implements Serializable {
         height = builder.height;
         actualPlcCode = builder.actualPlcCode;
         actualLocationDate = builder.actualLocationDate;
+        createDate = builder.createDate;
     }
 
     public static Builder newBuilder() {
@@ -161,6 +164,10 @@ public class TransportUnitVO extends AbstractBase implements Serializable {
         this.actualLocationDate = actualLocationDate;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -175,12 +182,13 @@ public class TransportUnitVO extends AbstractBase implements Serializable {
                 Objects.equals(width, that.width) &&
                 Objects.equals(height, that.height) &&
                 Objects.equals(actualPlcCode, that.actualPlcCode) &&
-                Objects.equals(actualLocationDate, that.actualLocationDate);
+                Objects.equals(actualLocationDate, that.actualLocationDate) &&
+                Objects.equals(createDate, that.createDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), barcode, actualLocation, target, transportUnitType, length, width, height, actualPlcCode, actualLocationDate);
+        return Objects.hash(super.hashCode(), barcode, actualLocation, target, transportUnitType, length, width, height, actualPlcCode, actualLocationDate, createDate);
     }
 
     /*~-------------------- Builder --------------------*/
@@ -194,6 +202,7 @@ public class TransportUnitVO extends AbstractBase implements Serializable {
         private Integer height;
         private String actualPlcCode;
         private Date actualLocationDate;
+        private Date createDate;
 
         private Builder() {
         }
@@ -240,6 +249,11 @@ public class TransportUnitVO extends AbstractBase implements Serializable {
 
         public Builder actualLocationDate(Date val) {
             actualLocationDate = val;
+            return this;
+        }
+
+        public Builder createDate(Date val) {
+            createDate = val;
             return this;
         }
 

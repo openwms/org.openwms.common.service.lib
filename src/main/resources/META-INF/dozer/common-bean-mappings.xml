@@ -78,6 +78,10 @@
 			<a is-accessible="true">actualLocationDate</a>
 			<b is-accessible="true">actualLocationDate</b>
 		</field>
+		<field type="one-way">
+			<a is-accessible="true">createDt</a>
+			<b is-accessible="true">createDate</b>
+		</field>
     </mapping>
 
     <mapping>
