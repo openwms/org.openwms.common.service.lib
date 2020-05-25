@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<meta name="author" content="(1.6.0-SNAPSHOT-425)">
+<meta name="author" content="(1.6.0-SNAPSHOT-426)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -436,7 +436,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.6.0-SNAPSHOT-425)</span><br>
+<span id="author" class="author">(1.6.0-SNAPSHOT-426)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -2949,7 +2949,7 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/1287c7d6-e03e-4dff-9050-e35823ea3cc8/</code></pre>
+Location: http://localhost:8080/v1/transport-units/34a293c9-7afb-42fb-bf3f-6c008a09cc38/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3001,7 +3001,7 @@ Content-Length: 172
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/68843889-e4d1-4fd0-9605-c5b55fb251fb/</code></pre>
+Location: http://localhost:8080/v1/transport-units/dd8736ed-b24f-4e31-af03-f431cfb11f7e/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3073,7 +3073,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 493
+Content-Length: 542
 
 {
   "barcode" : "00000000000000004711",
@@ -3092,7 +3092,8 @@ Content-Length: 493
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0013",
-  "actualLocationDate" : "2020-05-21T07:22:04.561+0000"
+  "actualLocationDate" : "2020-05-25T22:01:36.004+0000",
+  "createDate" : "2020-05-25T22:01:35.965+0000"
 }</code></pre>
 </div>
 </div>
@@ -3149,7 +3150,7 @@ Content-Length: 150
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 493
+Content-Length: 542
 
 {
   "barcode" : "00000000000000004711",
@@ -3168,7 +3169,8 @@ Content-Length: 493
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0013",
-  "actualLocationDate" : "2020-05-21T07:21:59.810+0000"
+  "actualLocationDate" : "2020-05-25T22:01:31.802+0000",
+  "createDate" : "2020-05-25T22:01:31.488+0000"
 }</code></pre>
 </div>
 </div>
@@ -3225,7 +3227,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 759
+Content-Length: 808
 
 {
   "links" : [ {
@@ -3252,7 +3254,8 @@ Content-Length: 759
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-05-21T07:22:03.874+0000"
+  "actualLocationDate" : "2020-05-25T22:01:35.717+0000",
+  "createDate" : "2020-05-25T22:01:35.717+0000"
 }</code></pre>
 </div>
 </div>
@@ -3284,7 +3287,7 @@ style, like it is left or right aligned and padded.</p>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 759
+Content-Length: 808
 
 {
   "links" : [ {
@@ -3311,7 +3314,8 @@ Content-Length: 759
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-05-21T07:22:01.575+0000"
+  "actualLocationDate" : "2020-05-25T22:01:33.502+0000",
+  "createDate" : "2020-05-25T22:01:33.502+0000"
 }</code></pre>
 </div>
 </div>
@@ -3352,7 +3356,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1527
+Content-Length: 1625
 
 [ {
   "links" : [ {
@@ -3379,7 +3383,8 @@ Content-Length: 1527
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-05-21T07:21:57.447+0000"
+  "actualLocationDate" : "2020-05-25T22:01:29.384+0000",
+  "createDate" : "2020-05-25T22:01:29.384+0000"
 }, {
   "links" : [ {
     "rel" : "transport-unit-type",
@@ -3405,7 +3410,8 @@ Content-Length: 1527
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2020-05-21T07:21:57.447+0000"
+  "actualLocationDate" : "2020-05-25T22:01:29.384+0000",
+  "createDate" : "2020-05-25T22:01:29.384+0000"
 } ]</code></pre>
 </div>
 </div>
@@ -3446,7 +3452,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 766
+Content-Length: 815
 
 [ {
   "links" : [ {
@@ -3473,7 +3479,8 @@ Content-Length: 766
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2020-05-21T07:22:06.130+0000"
+  "actualLocationDate" : "2020-05-25T22:01:37.600+0000",
+  "createDate" : "2020-05-25T22:01:37.600+0000"
 } ]</code></pre>
 </div>
 </div>
@@ -3530,7 +3537,7 @@ bk=00000000000000004711&amp;errorCode=bla</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-05-21 07:20:02 UTC
+Last updated 2020-05-25 21:59:27 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">

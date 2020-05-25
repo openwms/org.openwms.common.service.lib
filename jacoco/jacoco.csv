@@ -25,9 +25,9 @@ OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitServ
 OpenWMS.org COMMON: Services,org.openwms.common.jpa,AuditableRevisionEntity,0,7,0,0,0,3,0,2,0,2
 OpenWMS.org COMMON: Services,org.openwms.common.jpa,AuditableEntityListener,2,16,1,1,0,5,1,2,0,2
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api,TransportUnitTypeVO,106,18,16,0,22,7,16,6,8,6
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api,TransportUnitVO.Builder,50,0,0,0,19,0,10,0,10,0
+OpenWMS.org COMMON: Services,org.openwms.common.transport.api,TransportUnitVO.Builder,55,0,0,0,21,0,11,0,11,0
 OpenWMS.org COMMON: Services,org.openwms.common.transport.api,UnitErrorVO,64,0,10,0,13,0,12,0,7,0
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api,TransportUnitVO,203,56,24,0,39,23,23,14,11,14
+OpenWMS.org COMMON: Services,org.openwms.common.transport.api,TransportUnitVO,218,59,26,0,41,24,24,15,11,15
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationConverter,40,79,13,13,2,7,14,4,1,4
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationTypeServiceImpl,0,51,0,0,0,13,0,7,0,7
 OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure7,0,17,0,0,0,1,0,2,0,2
