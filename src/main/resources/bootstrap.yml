@@ -16,8 +16,8 @@ spring:
     location: classpath:application.yml
   security:
     user:
-      password: sa
       name: user
+      password: sa
   jpa:
     show-sql: false
     open-in-view: false
@@ -88,9 +88,6 @@ management:
         request:
           autotime:
             enabled: true
-    export:
-      prometheus:
-        enabled: true
   info:
     git:
       mode: full
