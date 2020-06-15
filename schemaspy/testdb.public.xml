@@ -257,7 +257,7 @@
          <index name="com_transport_unit_type_pkey" unique="true">
             <column ascending="true" name="c_pk"/>
          </index>
-         <index name="uk_le7ijtchbrtoiji6tjgl0oujk" unique="true">
+         <index name="uc_tut_type" unique="true">
             <column ascending="true" name="c_type"/>
          </index>
       </table>
