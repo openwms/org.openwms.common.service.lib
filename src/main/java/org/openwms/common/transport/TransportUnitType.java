@@ -25,6 +25,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -43,18 +44,18 @@ import java.util.stream.Collectors;
  * @see TransportUnit
  */
 @Entity
-@Table(name = "COM_TRANSPORT_UNIT_TYPE")
+@Table(name = "COM_TRANSPORT_UNIT_TYPE", uniqueConstraints = @UniqueConstraint(name = "UC_TUT_TYPE", columnNames = "C_TYPE"))
 public class TransportUnitType extends ApplicationEntity implements Serializable {
 
     /** Unique natural key. */
-    @Column(name = "C_TYPE", unique = true, nullable = false)
+    @Column(name = "C_TYPE", nullable = false)
     @OrderBy
     private String type;
 
     /** Description for this type. */
     @Column(name = "C_DESCRIPTION")
     private String description = DEF_TYPE_DESCRIPTION;
-    /** Default description of the {@code TransportUnitType}. Default value}. */
+    /** Default description of the {@code TransportUnitType}. Default {@value}. */
     public static final String DEF_TYPE_DESCRIPTION = "--";
 
     /** Length of the {@code TransportUnitType}. */
@@ -65,13 +66,13 @@ public class TransportUnitType extends ApplicationEntity implements Serializable
 
     /** Width of the {@code TransportUnitType}. */
     @Column(name = "C_WIDTH")
-    private int width = 0;
+    private int width = DEF_WIDTH;
     /** Default value of {@link #width}. */
     public static final int DEF_WIDTH = 0;
 
     /** Height of the {@code TransportUnitType}. */
     @Column(name = "C_HEIGHT")
-    private int height = 0;
+    private int height = DEF_HEIGHT;
     /** Default value of {@link #height}. */
     public static final int DEF_HEIGHT = 0;
 
