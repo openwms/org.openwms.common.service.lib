@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>14</version>
+        <version>15</version>
         <relativePath />
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
@@ -48,16 +48,6 @@
         </developer>
     </developers>
 
-    <contributors>
-        <contributor>
-            <name>Markus Schneider</name>
-            <email>markusschneider0207@gmail.com</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </contributor>
-    </contributors>
-
     <ciManagement>
         <system>travis</system>
         <url>https://travis-ci.com/openwms/${project.artifactId}</url>
@@ -76,7 +66,7 @@
         <core.version>1.8.0-SNAPSHOT</core.version>
         <core.units.version>0.4.0-SNAPSHOT</core.units.version>
         <indriya.version>2.0</indriya.version>
-        <spring-cloud-dependencies.version>Hoxton.RELEASE</spring-cloud-dependencies.version>
+        <spring-cloud-dependencies.version>2020.0.0-M2</spring-cloud-dependencies.version>
         <start-class>org.openwms.common.CommonStarter</start-class>
         <surefireArgs>-Dspring.profiles.active=TEST,INMEM</surefireArgs>
     </properties>
@@ -257,6 +247,23 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
             <optional>true</optional>
+            <exclusions>
+                <exclusion>
+                    <!-- Internal MAJOR clash -->
+                    <groupId>com.netflix.servo</groupId>
+                    <artifactId>servo-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <!-- Bites with Spring Data Envers -->
+                    <groupId>joda-time</groupId>
+                    <artifactId>joda-time</artifactId>
+                </exclusion>
+                <exclusion>
+                    <!-- Internal MAJOR clash -->
+                    <groupId>com.fasterxml.woodstox</groupId>
+                    <artifactId>woodstox-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -310,6 +317,21 @@
             <artifactId>micrometer-registry-prometheus</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
+        </dependency>
+
+
+        <!-- Fix Exclusions -->
+        <dependency>
+            <!-- com.netflix.eureka:eureka-client has an internal clash -->
+            <groupId>com.netflix.servo</groupId>
+            <artifactId>servo-core</artifactId>
+            <version>0.12.21</version>
+        </dependency>
+        <dependency>
+            <!-- com.netflix.eureka:eureka-client has an internal clash -->
+            <groupId>com.fasterxml.woodstox</groupId>
+            <artifactId>woodstox-core</artifactId>
+            <version>6.2.0</version>
         </dependency>
 
         <!-- 3rd party dependencies -->
@@ -456,6 +478,14 @@
             <releases>
                 <enabled>true</enabled>
             </releases>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/libs-milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
 </project>
