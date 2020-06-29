@@ -19,8 +19,11 @@ import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonDataTest;
 import org.openwms.common.location.impl.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
@@ -33,6 +36,8 @@ class LocationIT {
 
     @Autowired
     private LocationRepository repository;
+    @Autowired
+    private TestEntityManager em;
 
     /**
      * Creating two groups with same id must fail.
@@ -42,5 +47,17 @@ class LocationIT {
         assertThatThrownBy(
                 () -> repository.saveAndFlush(loc2))
                 .isInstanceOf(DataIntegrityViolationException.class);
+    }
+
+    @Test void persistWithLabels() {
+        Location l = new Location(LocationPK.newBuilder().area("UNKW").aisle("0000").x("0000").y("0000").z("0000").build());
+        l.setLabels(asList("L1", "L2"));
+        l = repository.saveAndFlush(l);
+
+        // Clear and load by query to get a new instance
+        em.getEntityManager().clear();
+        Location location = em.getEntityManager().createQuery("select l from Location l where l.pk = :pk", Location.class)
+                .setParameter("pk", l.getPk()).getSingleResult();
+        assertThat(l.getLabels()).isEqualTo(location.getLabels());
     }
 }
