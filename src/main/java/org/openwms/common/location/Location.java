@@ -22,6 +22,7 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -39,6 +40,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -85,6 +87,13 @@ public class Location extends Target implements Serializable {
     /** Description of the Location. */
     @Column(name = "C_DESCRIPTION")
     private String description;
+
+    /** A {@code Location} can be assigned to a particular labels. */
+    @Column(name="C_LABELS", length = DEF_LABELS_LENGTH)
+    @Convert(converter = StringListConverter.class)
+    private List<String> labels;
+    /** Default length of {@code #labels}. */
+    public static final int DEF_LABELS_LENGTH = 1024;
 
     /** Maximum number of {@code TransportUnit}s allowed on this Location. */
     @Column(name = "C_NO_MAX_TRANSPORT_UNITS")
@@ -286,6 +295,24 @@ public class Location extends Target implements Serializable {
      */
     public String getDescription() {
         return this.description;
+    }
+
+    /**
+     * Returns the list of Strings set as labels for the Location.
+     *
+     * @return A list of Strings or an empty list
+     */
+    public List<String> getLabels() {
+        return labels;
+    }
+
+    /**
+     * Set a list of labels to the Location.
+     *
+     * @param labels A comma-separated list of labels
+     */
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
     }
 
     /**
