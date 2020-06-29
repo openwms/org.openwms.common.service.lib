@@ -66,6 +66,7 @@
         <core.version>1.8.0-SNAPSHOT</core.version>
         <core.units.version>0.4.0-SNAPSHOT</core.units.version>
         <indriya.version>2.0</indriya.version>
+        <guava.version>19.0</guava.version>
         <spring-cloud-dependencies.version>2020.0.0-M2</spring-cloud-dependencies.version>
         <start-class>org.openwms.common.CommonStarter</start-class>
         <surefireArgs>-Dspring.profiles.active=TEST,INMEM</surefireArgs>
@@ -106,6 +107,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>client-build</id>
                         <phase>package</phase>
                         <goals>
                             <goal>jar</goal>
@@ -117,23 +119,26 @@
                             </includes>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>full-build</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>all</classifier>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <executable>true</executable>
-                </configuration>
                 <executions>
-                    <execution>
-                        <goals>
-                            <goal>build-info</goal>
-                        </goals>
-                    </execution>
                     <execution>
                         <id>repackage</id>
                         <goals>
+                            <goal>build-info</goal>
                             <goal>repackage</goal>
                         </goals>
                         <configuration>
@@ -141,6 +146,12 @@
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <layers>
+                        <enabled>true</enabled>
+                        <configuration>${project.basedir}/src/layers.xml</configuration>
+                    </layers>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -156,6 +167,11 @@
                 <groupId>org.openwms</groupId>
                 <artifactId>org.openwms.core.units</artifactId>
                 <version>${core.units.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.sf.dozer</groupId>
