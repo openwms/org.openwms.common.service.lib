@@ -67,7 +67,7 @@
         <core.units.version>0.4.0-SNAPSHOT</core.units.version>
         <indriya.version>2.0</indriya.version>
         <guava.version>19.0</guava.version>
-        <spring-cloud-dependencies.version>2020.0.0-M2</spring-cloud-dependencies.version>
+        <spring-cloud-dependencies.version>2020.0.0-M1</spring-cloud-dependencies.version>
         <start-class>org.openwms.common.CommonStarter</start-class>
         <surefireArgs>-Dspring.profiles.active=TEST,INMEM</surefireArgs>
     </properties>
@@ -496,8 +496,8 @@
             </releases>
         </repository>
         <repository>
-            <id>spring-milestone</id>
-            <name>Spring Milestone Repository</name>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
             <url>https://repo.spring.io/milestone</url>
             <snapshots>
                 <enabled>false</enabled>
