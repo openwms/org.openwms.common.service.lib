@@ -37,7 +37,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @CommonDataTest
 @DataJpaTest(
         showSql = false,
-        includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = LocationTypeService.class)
+        includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = LocationTypeService.class),
+        properties = {
+            "spring.cloud.config.enabled=false",
+            "spring.cloud.config.discovery.enabled=false",
+            "spring.cloud.discovery.enabled=false",
+            "spring.jpa.show-sql=false",
+            "spring.main.banner-mode=OFF",
+            "spring.jackson.serialization.INDENT_OUTPUT=true"
+        }
 )
 class LocationTypeServiceImplIT {
 

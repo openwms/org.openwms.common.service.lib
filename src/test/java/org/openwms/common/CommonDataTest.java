@@ -47,7 +47,14 @@ import java.lang.annotation.Target;
 @SqlGroup({
         @Sql(scripts = "classpath:test.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 })
-@DataJpaTest(showSql = false)
+@DataJpaTest(showSql = false, properties = {
+        "spring.cloud.config.enabled=false",
+        "spring.cloud.config.discovery.enabled=false",
+        "spring.cloud.discovery.enabled=false",
+        "spring.jpa.show-sql=false",
+        "spring.main.banner-mode=OFF",
+        "spring.jackson.serialization.INDENT_OUTPUT=true"
+})
 @EntityScan(basePackageClasses = CommonConstants.class)
 @EnableAspects(propagateRootCause = true)
 @EnableConfigurationProperties
