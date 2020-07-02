@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>15</version>
+        <version>16</version>
         <relativePath />
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
@@ -342,12 +342,14 @@
             <groupId>com.netflix.servo</groupId>
             <artifactId>servo-core</artifactId>
             <version>0.12.21</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <!-- com.netflix.eureka:eureka-client has an internal clash -->
             <groupId>com.fasterxml.woodstox</groupId>
             <artifactId>woodstox-core</artifactId>
             <version>6.2.0</version>
+            <optional>true</optional>
         </dependency>
 
         <!-- 3rd party dependencies -->
