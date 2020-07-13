@@ -27,6 +27,6 @@ import org.springframework.hateoas.Link;
 public class SimpleLink extends Link {
 
     public SimpleLink(Link link) {
-        of(link.getHref(), link.getRel());
+        super(link.getHref(), link.getRel());
     }
 }

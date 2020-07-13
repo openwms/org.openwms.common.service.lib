@@ -69,7 +69,7 @@
         <guava.version>29.0-jre</guava.version>
         <spring-cloud-dependencies.version>Hoxton.RELEASE</spring-cloud-dependencies.version>
         <start-class>org.openwms.common.CommonStarter</start-class>
-        <surefireArgs>-Dspring.profiles.active=TEST,INMEM</surefireArgs>
+        <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
     </properties>
 
     <reporting>
