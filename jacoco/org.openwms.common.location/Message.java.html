@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Message.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.location</a> &gt; <span class="el_source">Message.java</span></div><h1>Message.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.location;
+
+import org.ameba.integration.jpa.BaseEntity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Objects;
+
+/**
+ * A Message can be used to store useful information about errors or events.
+ *
+ * @author Heiko Scherrer
+ */
+@Entity
+@Table(name = &quot;COR_MESSAGE&quot;)
+public class Message extends BaseEntity implements Serializable {
+
+    /** String used to separate messageNo and messageText in toString. */
+    public static final String SEPARATOR = &quot; :: &quot;;
+    /** Message number. */
+    @Column(name = &quot;C_MESSAGE_NO&quot;)
+    private int messageNo;
+
+    /** Message description text. */
+    @Column(name = &quot;C_MESSAGE_TEXT&quot;)
+    private String messageText;
+
+    /*~ ----------------------------- constructors ------------------- */
+
+    /**
+     * Dear JPA...
+     */
+<span class="fc" id="L50">    protected Message() {</span>
+<span class="fc" id="L51">    }</span>
+
+    /**
+     * Create a new {@code Message} with message number and message text.
+     *
+     * @param messageNo The message number
+     * @param messageText The message text
+     */
+<span class="fc" id="L59">    public Message(int messageNo, String messageText) {</span>
+<span class="fc" id="L60">        this.messageNo = messageNo;</span>
+<span class="fc" id="L61">        this.messageText = messageText;</span>
+<span class="fc" id="L62">    }</span>
+
+<span class="fc" id="L64">    private Message(Builder builder) {</span>
+<span class="fc" id="L65">        messageNo = builder.messageNo;</span>
+<span class="fc" id="L66">        messageText = builder.messageText;</span>
+<span class="fc" id="L67">    }</span>
+
+    /**
+     * Create a new builder instance to create messages from.
+     *
+     * @return The builder
+     */
+    public static Builder newBuilder() {
+<span class="fc" id="L75">        return new Builder();</span>
+    }
+
+    /*~ ----------------------------- methods ------------------- */
+
+    /**
+     * Return the message number.
+     *
+     * @return The message number
+     */
+    public int getMessageNo() {
+<span class="fc" id="L86">        return messageNo;</span>
+    }
+
+    /**
+     * Return the message text.
+     *
+     * @return The message text
+     */
+    public String getMessageText() {
+<span class="fc" id="L95">        return messageText;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L104" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L105">        Message message = (Message) o;</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        return messageNo == message.messageNo &amp;&amp;</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">                Objects.equals(messageText, message.messageText);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+<span class="fc" id="L115">        return Objects.hash(messageNo, messageText);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L123">        return messageNo + SEPARATOR + messageText;</span>
+    }
+
+
+    /**
+     * {@code Message} builder static inner class.
+     */
+    public static final class Builder {
+
+        private int messageNo;
+        private String messageText;
+
+        private Builder() {
+        }
+
+        /**
+         * Sets the {@code messageNo} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param val the {@code messageNo} to set
+         * @return a reference to this Builder
+         */
+        public Builder messageNo(int val) {
+<span class="fc" id="L145">            messageNo = val;</span>
+<span class="fc" id="L146">            return this;</span>
+        }
+
+        /**
+         * Sets the {@code messageText} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param val the {@code messageText} to set
+         * @return a reference to this Builder
+         */
+        public Builder messageText(String val) {
+<span class="fc" id="L156">            messageText = val;</span>
+<span class="fc" id="L157">            return this;</span>
+        }
+
+        /**
+         * Returns a {@code Message} built from the parameters previously set.
+         *
+         * @return a {@code Message} built with parameters of this {@code Message.Builder}
+         */
+        public Message build() {
+<span class="fc" id="L166">            return new Message(this);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
