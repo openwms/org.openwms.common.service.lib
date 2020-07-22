@@ -1,115 +1,115 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-OpenWMS.org COMMON: Services,org.openwms.common.account.api,AccountVO,59,17,12,0,7,7,8,5,2,5
-OpenWMS.org COMMON: Services,org.openwms.common.location.api.events,LocationEvent,6,26,0,0,1,8,1,4,1,4
-OpenWMS.org COMMON: Services,org.openwms.common.location.api.events,LocationGroupEvent.LocationGroupEventType,0,54,0,0,0,2,0,1,0,1
-OpenWMS.org COMMON: Services,org.openwms.common.location.api.events,TargetEvent,71,25,10,0,14,7,12,2,7,2
-OpenWMS.org COMMON: Services,org.openwms.common.location.api.events,LocationGroupEvent,0,32,0,0,0,9,0,5,0,5
-OpenWMS.org COMMON: Services,org.openwms.common.location.api.events,LocationEvent.LocationEventType,0,54,0,0,0,2,0,1,0,1
-OpenWMS.org COMMON: Services,org.openwms.common.location.api.events,TargetEvent.Builder,5,31,1,1,1,11,1,6,0,6
-OpenWMS.org COMMON: Services,org.openwms.common.location.api,ErrorCodeVO,47,93,10,0,6,27,7,9,2,9
-OpenWMS.org COMMON: Services,org.openwms.common.location.api,LockType,0,34,0,0,0,7,0,1,0,1
-OpenWMS.org COMMON: Services,org.openwms.common.location.api,LocationGroupState,0,24,0,0,0,5,0,1,0,1
-OpenWMS.org COMMON: Services,org.openwms.common.location.api,LockMode,0,44,0,0,0,9,0,1,0,1
-OpenWMS.org COMMON: Services,org.openwms.common.location.api,LocationVO,248,41,28,0,29,17,26,12,12,12
-OpenWMS.org COMMON: Services,org.openwms.common.location.api,LocationGroupVO,185,33,33,3,34,10,31,9,14,8
-OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl.AjcClosure1,0,17,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl.AjcClosure3,0,13,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitServiceImpl,174,507,21,13,18,98,25,24,10,22
-OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl,12,271,2,18,0,54,3,20,1,12
-OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitTypeConverter,37,80,13,13,2,7,14,4,1,4
-OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitServiceImpl.AjcClosure9,0,17,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitServiceImpl.AjcClosure5,0,17,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitServiceImpl.AjcClosure7,0,17,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitServiceImpl.AjcClosure1,0,18,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.transport.impl,TransportUnitServiceImpl.AjcClosure3,0,17,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.jpa,AuditableRevisionEntity,0,7,0,0,0,3,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.jpa,AuditableEntityListener,2,16,1,1,0,5,1,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api,TransportUnitTypeVO,106,18,16,0,22,7,16,6,8,6
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api,TransportUnitVO.Builder,55,0,0,0,21,0,11,0,11,0
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api,UnitErrorVO,64,0,10,0,13,0,12,0,7,0
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api,TransportUnitVO,218,59,26,0,41,24,24,15,11,15
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationConverter,40,79,13,13,2,7,14,4,1,4
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationTypeServiceImpl,0,51,0,0,0,13,0,7,0,7
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure7,0,17,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure9,0,17,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationPKConverter,0,15,0,2,0,4,0,4,0,3
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupStateConverter,14,16,5,3,4,4,4,3,1,2
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupEventPropagator,141,38,9,1,22,11,9,3,1,3
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationGroupServiceImpl,24,121,4,2,0,27,4,8,1,8
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure1,0,17,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure3,0,17,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure5,0,17,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationTypeServiceImpl.AjcClosure1,0,13,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.location.impl,LocationServiceImpl,0,232,4,10,0,32,4,12,0,9
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api.messages,TransportUnitTypeMO.Builder,45,0,0,0,17,0,9,0,9,0
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api.messages,TransportUnitTypeMO,47,51,0,0,15,21,4,15,4,15
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api.messages,TransportUnitMO,111,109,0,0,1,40,1,21,1,21
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api.messages,TransportUnitMO.Builder,35,15,0,0,14,5,7,3,7,3
-OpenWMS.org COMMON: Services,org.openwms.common.location,LocationPK.Builder,0,33,0,0,0,12,0,7,0,7
-OpenWMS.org COMMON: Services,org.openwms.common.location,StringListConverter,14,30,1,7,1,9,1,6,0,3
-OpenWMS.org COMMON: Services,org.openwms.common.location,Message,2,91,2,8,0,20,2,12,0,9
-OpenWMS.org COMMON: Services,org.openwms.common.location,LocationGroup,75,473,32,56,15,97,34,55,7,38
-OpenWMS.org COMMON: Services,org.openwms.common.location,LocationController,0,207,0,4,0,31,0,11,0,9
-OpenWMS.org COMMON: Services,org.openwms.common.location,LocationPK,11,208,10,12,4,40,10,16,0,15
-OpenWMS.org COMMON: Services,org.openwms.common.location,Message.Builder,0,15,0,0,0,5,0,3,0,3
-OpenWMS.org COMMON: Services,org.openwms.common.location,LocationType,4,98,3,3,0,29,3,14,0,14
-OpenWMS.org COMMON: Services,org.openwms.common.location,Target,0,3,0,0,0,1,0,1,0,1
-OpenWMS.org COMMON: Services,org.openwms.common.location,Subsystem,32,0,0,0,14,0,7,0,7,0
-OpenWMS.org COMMON: Services,org.openwms.common.location,Location,21,267,4,12,5,65,9,40,5,36
-OpenWMS.org COMMON: Services,org.openwms.common.location,LocationGroupController,2,253,3,5,0,40,3,11,0,10
-OpenWMS.org COMMON: Services,org.openwms.common.location,TargetController,186,242,17,16,40,63,22,17,7,10
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,MessageCommand,32,40,0,0,15,12,7,6,7,6
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,TUCommand.Builder,0,16,0,0,0,6,0,3,0,3
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,TUCommand,47,22,0,0,7,7,3,4,3,4
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,TUCommand.Type,0,74,0,0,0,15,0,1,0,1
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,MessageCommand.Type,0,14,0,0,0,3,0,1,0,1
-OpenWMS.org COMMON: Services,org.openwms.common.transport.api.commands,MessageCommand.Builder,5,26,0,0,2,10,1,5,1,5
-OpenWMS.org COMMON: Services,org.openwms.common.location.spi,DefaultGroupStateInTransformer,2,21,1,3,1,4,1,3,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.location.spi,DefaultLocationStateOutTransformer,2,22,1,3,0,5,1,3,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.location.spi,DefaultLocationStateInTransformer,2,22,1,3,0,5,1,3,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.location.spi,DefaultGroupStateOutTransformer,2,21,1,3,1,4,1,3,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.account.impl,AccountConverter,47,80,13,13,4,7,15,4,2,4
-OpenWMS.org COMMON: Services,org.openwms.common.account.impl,AccountServiceImpl,0,88,0,0,0,8,0,6,0,6
-OpenWMS.org COMMON: Services,org.openwms.common.account.impl,AccountServiceImpl.AjcClosure3,0,17,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.account.impl,AccountServiceImpl.AjcClosure1,0,13,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.account.impl,AccountServiceImpl.AjcClosure7,0,13,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.account.impl,AccountServiceImpl.AjcClosure5,0,17,0,0,0,1,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.account,AccountController,19,152,0,0,0,26,1,8,1,8
-OpenWMS.org COMMON: Services,org.openwms.common.account,Account,76,12,12,0,15,4,13,3,7,3
-OpenWMS.org COMMON: Services,org.openwms.common.transport.commands,MessageCommandHandlerImpl,5,42,2,2,1,15,2,3,0,3
-OpenWMS.org COMMON: Services,org.openwms.common.transport.commands,TransportUnitCommandListener,27,9,4,0,7,4,3,1,1,1
-OpenWMS.org COMMON: Services,org.openwms.common.transport.commands,TransportUnitCommandPropagator,25,51,5,4,9,16,5,3,0,3
-OpenWMS.org COMMON: Services,org.openwms.common.transport.commands,TransportUnitCommandHandler,187,19,16,0,37,7,11,2,1,2
-OpenWMS.org COMMON: Services,org.openwms.common.transport.events,TransportUnitEventPropagator,93,12,6,0,13,5,6,1,1,1
-OpenWMS.org COMMON: Services,org.openwms.common.transport.events,TransportUnitTypeEvent.Builder,0,15,0,0,0,5,0,3,0,3
-OpenWMS.org COMMON: Services,org.openwms.common.transport.events,TransportUnitEvent.Builder,5,27,1,3,1,8,1,5,0,4
-OpenWMS.org COMMON: Services,org.openwms.common.transport.events,TransportUnitEvent,13,23,0,0,4,7,2,4,2,4
-OpenWMS.org COMMON: Services,org.openwms.common.transport.events,TransportUnitTypeEvent.TransportUnitTypeEventType,0,34,0,0,0,2,0,1,0,1
-OpenWMS.org COMMON: Services,org.openwms.common.transport.events,TransportUnitTypeEvent,13,16,0,0,4,5,2,3,2,3
-OpenWMS.org COMMON: Services,org.openwms.common.transport.events,TransportUnitEvent.TransportUnitEventType,0,54,0,0,0,2,0,1,0,1
-OpenWMS.org COMMON: Services,org.openwms.common.transport.events,TransportUnitTypeEventPropagator,51,16,4,0,9,6,4,2,1,2
-OpenWMS.org COMMON: Services,org.openwms.common,CommonStarter,5,3,0,0,2,1,1,1,1,1
-OpenWMS.org COMMON: Services,org.openwms.common,StateChangeException,0,4,0,0,0,2,0,1,0,1
-OpenWMS.org COMMON: Services,org.openwms.common,IndexController,0,70,0,0,0,8,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common,SimpleLink,0,7,0,0,0,2,0,1,0,1
-OpenWMS.org COMMON: Services,org.openwms.common,Index,0,7,0,0,0,3,0,1,0,1
-OpenWMS.org COMMON: Services,org.openwms.common.location.api.messages,LocationMO,20,25,0,0,10,9,5,8,5,8
-OpenWMS.org COMMON: Services,org.openwms.common.location.api.messages,LocationGroupMO,48,25,8,0,14,9,11,8,7,8
-OpenWMS.org COMMON: Services,org.openwms.common.app,CommonSecurityConfiguration,0,14,0,0,0,6,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.app,CommonOptAsyncConfiguration,0,75,0,0,0,20,0,8,0,8
-OpenWMS.org COMMON: Services,org.openwms.common.app,CommonModuleConfiguration,7,68,0,0,1,13,1,8,1,8
-OpenWMS.org COMMON: Services,org.openwms.common.app,CommonModuleConfiguration.new AbstractTranslator() {...},0,10,0,0,0,2,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.app,CommonStandaloneConfiguration,3,0,0,0,1,0,1,0,1,0
-OpenWMS.org COMMON: Services,org.openwms.common.app,CommonAsyncConfiguration,0,10,0,0,0,2,0,2,0,2
-OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitType.Builder,0,66,0,0,0,26,0,13,0,13
-OpenWMS.org COMMON: Services,org.openwms.common.transport,Barcode.BARCODE_ALIGN,0,24,0,0,0,5,0,1,0,1
-OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitTypeController,0,79,0,0,0,13,0,5,0,5
-OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitType,4,326,3,3,0,79,3,35,0,35
-OpenWMS.org COMMON: Services,org.openwms.common.transport,Barcode,4,110,3,9,0,38,3,20,0,17
-OpenWMS.org COMMON: Services,org.openwms.common.transport,TypePlacingRule,4,114,4,8,0,23,4,11,0,9
-OpenWMS.org COMMON: Services,org.openwms.common.transport,UnitError.Builder,5,15,0,0,2,5,1,3,1,3
-OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitController,3,274,2,6,0,47,2,14,0,12
-OpenWMS.org COMMON: Services,org.openwms.common.transport,TypeStackingRule,4,102,3,9,0,20,3,11,0,8
-OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnit,29,506,25,43,6,78,29,45,4,36
-OpenWMS.org COMMON: Services,org.openwms.common.transport,UnitError,6,86,4,6,0,19,4,10,0,9
-OpenWMS.org COMMON: Services,org.openwms.common.transport,TransportUnitState,0,34,0,0,0,7,0,1,0,1
+OpenWMS.org COMMON: Base Services,org.openwms.common.account.api,AccountVO,59,17,12,0,7,7,8,5,2,5
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.api.events,LocationEvent,6,26,0,0,1,8,1,4,1,4
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.api.events,LocationGroupEvent.LocationGroupEventType,0,54,0,0,0,2,0,1,0,1
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.api.events,TargetEvent,71,25,10,0,14,7,12,2,7,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.api.events,LocationGroupEvent,0,32,0,0,0,9,0,5,0,5
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.api.events,LocationEvent.LocationEventType,0,54,0,0,0,2,0,1,0,1
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.api.events,TargetEvent.Builder,5,31,1,1,1,11,1,6,0,6
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.api,ErrorCodeVO,47,93,10,0,6,27,7,9,2,9
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.api,LockType,0,34,0,0,0,7,0,1,0,1
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.api,LocationGroupState,0,24,0,0,0,5,0,1,0,1
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.api,LockMode,0,44,0,0,0,9,0,1,0,1
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.api,LocationVO,248,41,28,0,29,17,26,12,12,12
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.api,LocationGroupVO,185,33,33,3,34,10,31,9,14,8
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl.AjcClosure1,0,17,0,0,0,1,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl.AjcClosure3,0,13,0,0,0,1,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.impl,TransportUnitServiceImpl,174,507,21,13,18,98,25,24,10,22
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl,12,271,2,18,0,54,3,20,1,12
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.impl,TransportUnitTypeConverter,37,80,13,13,2,7,14,4,1,4
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.impl,TransportUnitServiceImpl.AjcClosure9,0,17,0,0,0,1,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.impl,TransportUnitServiceImpl.AjcClosure5,0,17,0,0,0,1,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.impl,TransportUnitServiceImpl.AjcClosure7,0,17,0,0,0,1,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.impl,TransportUnitServiceImpl.AjcClosure1,0,18,0,0,0,1,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.impl,TransportUnitServiceImpl.AjcClosure3,0,17,0,0,0,1,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.jpa,AuditableRevisionEntity,0,7,0,0,0,3,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.jpa,AuditableEntityListener,2,16,1,1,0,5,1,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.api,TransportUnitTypeVO,106,18,16,0,22,7,16,6,8,6
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.api,TransportUnitVO.Builder,55,0,0,0,21,0,11,0,11,0
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.api,UnitErrorVO,64,0,10,0,13,0,12,0,7,0
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.api,TransportUnitVO,218,59,26,0,41,24,24,15,11,15
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.impl,LocationConverter,40,79,13,13,2,7,14,4,1,4
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.impl,LocationTypeServiceImpl,0,51,0,0,0,13,0,7,0,7
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure7,0,17,0,0,0,1,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure9,0,17,0,0,0,1,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.impl,LocationPKConverter,0,15,0,2,0,4,0,4,0,3
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.impl,LocationGroupStateConverter,14,16,5,3,4,4,4,3,1,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.impl,LocationGroupEventPropagator,141,38,9,1,22,11,9,3,1,3
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.impl,LocationGroupServiceImpl,24,121,4,2,0,27,4,8,1,8
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure1,0,17,0,0,0,1,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure3,0,17,0,0,0,1,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.impl,LocationServiceImpl.AjcClosure5,0,17,0,0,0,1,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.impl,LocationTypeServiceImpl.AjcClosure1,0,13,0,0,0,1,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.impl,LocationServiceImpl,0,232,4,10,0,32,4,12,0,9
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.api.messages,TransportUnitTypeMO.Builder,45,0,0,0,17,0,9,0,9,0
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.api.messages,TransportUnitTypeMO,47,51,0,0,15,21,4,15,4,15
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.api.messages,TransportUnitMO,111,109,0,0,1,40,1,21,1,21
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.api.messages,TransportUnitMO.Builder,35,15,0,0,14,5,7,3,7,3
+OpenWMS.org COMMON: Base Services,org.openwms.common.location,LocationPK.Builder,0,33,0,0,0,12,0,7,0,7
+OpenWMS.org COMMON: Base Services,org.openwms.common.location,StringListConverter,14,30,1,7,1,9,1,6,0,3
+OpenWMS.org COMMON: Base Services,org.openwms.common.location,Message,2,91,2,8,0,20,2,12,0,9
+OpenWMS.org COMMON: Base Services,org.openwms.common.location,LocationGroup,75,473,32,56,15,97,34,55,7,38
+OpenWMS.org COMMON: Base Services,org.openwms.common.location,LocationController,0,207,0,4,0,31,0,11,0,9
+OpenWMS.org COMMON: Base Services,org.openwms.common.location,LocationPK,11,208,10,12,4,40,10,16,0,15
+OpenWMS.org COMMON: Base Services,org.openwms.common.location,Message.Builder,0,15,0,0,0,5,0,3,0,3
+OpenWMS.org COMMON: Base Services,org.openwms.common.location,LocationType,4,98,3,3,0,29,3,14,0,14
+OpenWMS.org COMMON: Base Services,org.openwms.common.location,Target,0,3,0,0,0,1,0,1,0,1
+OpenWMS.org COMMON: Base Services,org.openwms.common.location,Subsystem,32,0,0,0,14,0,7,0,7,0
+OpenWMS.org COMMON: Base Services,org.openwms.common.location,Location,21,267,4,12,5,65,9,40,5,36
+OpenWMS.org COMMON: Base Services,org.openwms.common.location,LocationGroupController,2,253,3,5,0,40,3,11,0,10
+OpenWMS.org COMMON: Base Services,org.openwms.common.location,TargetController,186,242,17,16,40,63,22,17,7,10
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.api.commands,MessageCommand,32,40,0,0,15,12,7,6,7,6
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.api.commands,TUCommand.Builder,0,16,0,0,0,6,0,3,0,3
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.api.commands,TUCommand,47,22,0,0,7,7,3,4,3,4
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.api.commands,TUCommand.Type,0,74,0,0,0,15,0,1,0,1
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.api.commands,MessageCommand.Type,0,14,0,0,0,3,0,1,0,1
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.api.commands,MessageCommand.Builder,5,26,0,0,2,10,1,5,1,5
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.spi,DefaultGroupStateInTransformer,2,21,1,3,1,4,1,3,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.spi,DefaultLocationStateOutTransformer,2,22,1,3,0,5,1,3,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.spi,DefaultLocationStateInTransformer,2,22,1,3,0,5,1,3,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.spi,DefaultGroupStateOutTransformer,2,21,1,3,1,4,1,3,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.account.impl,AccountConverter,47,80,13,13,4,7,15,4,2,4
+OpenWMS.org COMMON: Base Services,org.openwms.common.account.impl,AccountServiceImpl,0,88,0,0,0,8,0,6,0,6
+OpenWMS.org COMMON: Base Services,org.openwms.common.account.impl,AccountServiceImpl.AjcClosure3,0,17,0,0,0,1,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.account.impl,AccountServiceImpl.AjcClosure1,0,13,0,0,0,1,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.account.impl,AccountServiceImpl.AjcClosure7,0,13,0,0,0,1,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.account.impl,AccountServiceImpl.AjcClosure5,0,17,0,0,0,1,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.account,AccountController,19,152,0,0,0,26,1,8,1,8
+OpenWMS.org COMMON: Base Services,org.openwms.common.account,Account,76,12,12,0,15,4,13,3,7,3
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.commands,MessageCommandHandlerImpl,5,42,2,2,1,15,2,3,0,3
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.commands,TransportUnitCommandListener,27,9,4,0,7,4,3,1,1,1
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.commands,TransportUnitCommandPropagator,25,51,5,4,9,16,5,3,0,3
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.commands,TransportUnitCommandHandler,187,19,16,0,37,7,11,2,1,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.events,TransportUnitEventPropagator,93,12,6,0,13,5,6,1,1,1
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.events,TransportUnitTypeEvent.Builder,0,15,0,0,0,5,0,3,0,3
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.events,TransportUnitEvent.Builder,5,27,1,3,1,8,1,5,0,4
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.events,TransportUnitEvent,13,23,0,0,4,7,2,4,2,4
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.events,TransportUnitTypeEvent.TransportUnitTypeEventType,0,34,0,0,0,2,0,1,0,1
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.events,TransportUnitTypeEvent,13,16,0,0,4,5,2,3,2,3
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.events,TransportUnitEvent.TransportUnitEventType,0,54,0,0,0,2,0,1,0,1
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport.events,TransportUnitTypeEventPropagator,51,16,4,0,9,6,4,2,1,2
+OpenWMS.org COMMON: Base Services,org.openwms.common,CommonStarter,5,3,0,0,2,1,1,1,1,1
+OpenWMS.org COMMON: Base Services,org.openwms.common,StateChangeException,0,4,0,0,0,2,0,1,0,1
+OpenWMS.org COMMON: Base Services,org.openwms.common,IndexController,0,70,0,0,0,8,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common,SimpleLink,0,7,0,0,0,2,0,1,0,1
+OpenWMS.org COMMON: Base Services,org.openwms.common,Index,0,7,0,0,0,3,0,1,0,1
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.api.messages,LocationMO,20,25,0,0,10,9,5,8,5,8
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.api.messages,LocationGroupMO,48,25,8,0,14,9,11,8,7,8
+OpenWMS.org COMMON: Base Services,org.openwms.common.app,CommonSecurityConfiguration,0,14,0,0,0,6,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.app,CommonOptAsyncConfiguration,0,75,0,0,0,20,0,8,0,8
+OpenWMS.org COMMON: Base Services,org.openwms.common.app,CommonModuleConfiguration,7,68,0,0,1,13,1,8,1,8
+OpenWMS.org COMMON: Base Services,org.openwms.common.app,CommonModuleConfiguration.new AbstractTranslator() {...},0,10,0,0,0,2,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.app,CommonStandaloneConfiguration,3,0,0,0,1,0,1,0,1,0
+OpenWMS.org COMMON: Base Services,org.openwms.common.app,CommonAsyncConfiguration,0,10,0,0,0,2,0,2,0,2
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport,TransportUnitType.Builder,0,66,0,0,0,26,0,13,0,13
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport,Barcode.BARCODE_ALIGN,0,24,0,0,0,5,0,1,0,1
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport,TransportUnitTypeController,0,79,0,0,0,13,0,5,0,5
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport,TransportUnitType,4,326,3,3,0,79,3,35,0,35
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport,Barcode,4,110,3,9,0,38,3,20,0,17
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport,TypePlacingRule,4,114,4,8,0,23,4,11,0,9
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport,UnitError.Builder,5,15,0,0,2,5,1,3,1,3
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport,TransportUnitController,3,274,2,6,0,47,2,14,0,12
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport,TypeStackingRule,4,102,3,9,0,20,3,11,0,8
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport,TransportUnit,29,506,25,43,6,78,29,45,4,36
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport,UnitError,6,86,4,6,0,19,4,10,0,9
+OpenWMS.org COMMON: Base Services,org.openwms.common.transport,TransportUnitState,0,34,0,0,0,7,0,1,0,1
