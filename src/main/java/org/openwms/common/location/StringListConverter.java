@@ -25,13 +25,16 @@ import java.util.List;
 import static java.lang.String.format;
 
 /**
- * A StringListConverter.
+ * A StringListConverter is a JPA {@link AttributeConverter} that is able to convert a String into a List of Strings and vice-versa.
  *
  * @author Heiko Scherrer
  */
 @Converter
 public class StringListConverter implements AttributeConverter<List<String>, String> {
 
+    /** Default length of a {@code StringList}. */
+    public static final int STRING_LIST_LENGTH = 1024;
+    /** Default separator sign of a {@code StringList}. */
     public static final String SEPARATOR = ",";
 
     @Override
@@ -40,7 +43,7 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
             return null;
         }
         String join = String.join(SEPARATOR, attribute);
-        if (join.length() > Location.DEF_LABELS_LENGTH) {
+        if (join.length() > STRING_LIST_LENGTH) {
             throw new PersistenceException(format("Length of column is exceeded, actual length is [%s]", join.length()));
         }
         return join;

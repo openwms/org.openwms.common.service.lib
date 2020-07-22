@@ -20,7 +20,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
- * A AuditableEntityListener.
+ * An AuditableEntityListener is a Hibernate Envers extension that resolves the current User from Spring Security Context and passes it as
+ * user information down to the {@link AuditableRevisionEntity}, that is mapped to the Envers Revision table.
  *
  * @author Heiko Scherrer
  */

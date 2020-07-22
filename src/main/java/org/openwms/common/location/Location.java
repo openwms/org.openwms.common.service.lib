@@ -44,6 +44,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import static org.openwms.common.location.StringListConverter.STRING_LIST_LENGTH;
+
 /**
  * A Location, represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a conveyor
  * location. Even error locations can be represented with the Location. Multiple Locations with same characteristics are grouped to a
@@ -89,11 +91,9 @@ public class Location extends Target implements Serializable {
     private String description;
 
     /** A {@code Location} can be assigned to a particular labels. */
-    @Column(name="C_LABELS", length = DEF_LABELS_LENGTH)
+    @Column(name="C_LABELS", length = STRING_LIST_LENGTH)
     @Convert(converter = StringListConverter.class)
     private List<String> labels;
-    /** Default length of {@code #labels}. */
-    public static final int DEF_LABELS_LENGTH = 1024;
 
     /** Maximum number of {@code TransportUnit}s allowed on this Location. */
     @Column(name = "C_NO_MAX_TRANSPORT_UNITS")

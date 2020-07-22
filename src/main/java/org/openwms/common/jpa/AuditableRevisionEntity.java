@@ -27,7 +27,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
- * A AuditableRevisionEntity.
+ * A AuditableRevisionEntity is mapped onto Hibernate Envers Revision table and extended about the current user.
  *
  * @author Heiko Scherrer
  */

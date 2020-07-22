@@ -9,7 +9,7 @@
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
     <version>1.6.0-SNAPSHOT</version>
-    <name>OpenWMS.org COMMON: Services</name>
+    <name>OpenWMS.org COMMON: Base Services</name>
     <url>https://openwms.github.io/${project.artifactId}/index.html</url>
 
     <issueManagement>
@@ -64,7 +64,7 @@
     <properties>
         <ameba-lib.version>2.4-SNAPSHOT</ameba-lib.version>
         <core.version>1.8.0-SNAPSHOT</core.version>
-        <core.units.version>0.4.0-SNAPSHOT</core.units.version>
+        <core.units.version>0.3.0</core.units.version>
         <indriya.version>2.0</indriya.version>
         <guava.version>29.0-jre</guava.version>
         <spring-cloud-dependencies.version>Hoxton.RELEASE</spring-cloud-dependencies.version>
