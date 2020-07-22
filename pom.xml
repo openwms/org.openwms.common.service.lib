@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>16</version>
+        <version>17</version>
         <relativePath />
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
@@ -62,13 +62,12 @@
     </ciManagement>
 
     <properties>
-        <ameba-lib.version>2.4-SNAPSHOT</ameba-lib.version>
-        <core.version>1.8.0-SNAPSHOT</core.version>
+        <ameba-lib.version>2.4</ameba-lib.version>
+        <core.version>1.8.0</core.version>
         <core.units.version>0.3.0</core.units.version>
         <indriya.version>2.0</indriya.version>
         <guava.version>29.0-jre</guava.version>
         <spring-cloud-dependencies.version>Hoxton.RELEASE</spring-cloud-dependencies.version>
-        <start-class>org.openwms.common.CommonStarter</start-class>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
     </properties>
 
@@ -340,7 +339,6 @@
             <optional>true</optional>
         </dependency>
 
-
         <!-- Fix Exclusions -->
         <dependency>
             <!-- com.netflix.eureka:eureka-client has an internal clash -->
@@ -465,16 +463,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <profiles>
-        <profile>
-        <id>schemagen</id>
-            <properties>
-                <surefireArgs>-Dspring.profiles.active=ASYNCHRONOUS,TEST,TESTPG</surefireArgs>
-                <schemagen.outputDirectory>${project.build.directory}/site/${project.version}</schemagen.outputDirectory>
-            </properties>
-        </profile>
-    </profiles>
 
     <repositories>
         <repository>
