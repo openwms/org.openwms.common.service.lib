@@ -92,7 +92,6 @@ OpenWMS.org COMMON: Base Services,org.openwms.common,CommonStarter,5,3,0,0,2,1,1
 OpenWMS.org COMMON: Base Services,org.openwms.common,StateChangeException,0,4,0,0,0,2,0,1,0,1
 OpenWMS.org COMMON: Base Services,org.openwms.common,IndexController,0,70,0,0,0,8,0,2,0,2
 OpenWMS.org COMMON: Base Services,org.openwms.common,SimpleLink,0,7,0,0,0,2,0,1,0,1
-OpenWMS.org COMMON: Base Services,org.openwms.common,Index,0,7,0,0,0,3,0,1,0,1
 OpenWMS.org COMMON: Base Services,org.openwms.common.location.api.messages,LocationMO,20,25,0,0,10,9,5,8,5,8
 OpenWMS.org COMMON: Base Services,org.openwms.common.location.api.messages,LocationGroupMO,48,25,8,0,14,9,11,8,7,8
 OpenWMS.org COMMON: Base Services,org.openwms.common.app,CommonSecurityConfiguration,0,14,0,0,0,6,0,2,0,2

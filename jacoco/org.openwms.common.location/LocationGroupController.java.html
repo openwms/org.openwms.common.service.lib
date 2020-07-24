@@ -18,7 +18,7 @@ package org.openwms.common.location;
 import org.ameba.exception.NotFoundException;
 import org.ameba.http.MeasuredRestController;
 import org.ameba.mapping.BeanMapper;
-import org.openwms.common.Index;
+import org.openwms.core.http.Index;
 import org.openwms.common.SimpleLink;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
