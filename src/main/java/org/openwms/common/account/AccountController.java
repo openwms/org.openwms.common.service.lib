@@ -20,7 +20,7 @@ import org.ameba.http.MeasuredRestController;
 import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.CommonMessageCodes;
-import org.openwms.common.Index;
+import org.openwms.core.http.Index;
 import org.openwms.common.account.api.AccountVO;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.http.ResponseEntity;

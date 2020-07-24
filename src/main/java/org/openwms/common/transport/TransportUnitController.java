@@ -17,7 +17,6 @@ package org.openwms.common.transport;
 
 import org.ameba.http.MeasuredRestController;
 import org.ameba.mapping.BeanMapper;
-import org.openwms.common.Index;
 import org.openwms.common.SimpleLink;
 import org.openwms.common.location.LocationController;
 import org.openwms.common.transport.api.TransportUnitVO;
@@ -25,6 +24,7 @@ import org.openwms.common.transport.api.ValidationGroups;
 import org.openwms.common.transport.api.commands.MessageCommand;
 import org.openwms.common.transport.commands.MessageCommandHandler;
 import org.openwms.core.http.AbstractWebController;
+import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -17,7 +17,7 @@ package org.openwms.common.transport;
 
 import org.ameba.exception.NotFoundException;
 import org.ameba.mapping.BeanMapper;
-import org.openwms.common.Index;
+import org.openwms.core.http.Index;
 import org.openwms.common.transport.api.TransportUnitTypeVO;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.annotation.Profile;
