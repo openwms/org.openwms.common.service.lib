@@ -20,6 +20,7 @@ import org.openwms.common.location.LocationController;
 import org.openwms.common.location.LocationGroupController;
 import org.openwms.common.transport.TransportUnitController;
 import org.openwms.common.transport.TransportUnitTypeController;
+import org.openwms.core.http.Index;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +33,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  *
  * @author Heiko Scherrer
  */
-@RestController
+@RestController("commonIndexController")
 class IndexController {
 
     @GetMapping("/index")
