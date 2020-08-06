@@ -39,6 +39,8 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="c_pk" COLSPAN="2" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD><TD PORT="c_pk.type" ALIGN="LEFT">int8[19]</TD></TR>
       <TR><TD PORT="c_rev" COLSPAN="2" BGCOLOR="#bed1b8" ALIGN="LEFT">c_rev</TD><TD PORT="c_rev.type" ALIGN="LEFT">int8[19]</TD></TR>
       <TR><TD PORT="c_rev_type" COLSPAN="2" ALIGN="LEFT">c_rev_type</TD><TD PORT="c_rev_type.type" ALIGN="LEFT">int2[5]</TD></TR>
+      <TR><TD PORT="c_created" COLSPAN="2" ALIGN="LEFT">c_created</TD><TD PORT="c_created.type" ALIGN="LEFT">timestamp[29,6]</TD></TR>
+      <TR><TD PORT="c_updated" COLSPAN="2" ALIGN="LEFT">c_updated</TD><TD PORT="c_updated.type" ALIGN="LEFT">timestamp[29,6]</TD></TR>
       <TR><TD PORT="c_pid" COLSPAN="2" ALIGN="LEFT">c_pid</TD><TD PORT="c_pid.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_actual_location_date" COLSPAN="2" ALIGN="LEFT">c_actual_location_date</TD><TD PORT="c_actual_location_date.type" ALIGN="LEFT">timestamp[29,6]</TD></TR>
       <TR><TD PORT="c_barcode" COLSPAN="2" ALIGN="LEFT">c_barcode</TD><TD PORT="c_barcode.type" ALIGN="LEFT">varchar[20]</TD></TR>
@@ -47,7 +49,7 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="c_inventory_user" COLSPAN="2" ALIGN="LEFT">c_inventory_user</TD><TD PORT="c_inventory_user.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_state" COLSPAN="2" ALIGN="LEFT">c_state</TD><TD PORT="c_state.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_weight" COLSPAN="2" ALIGN="LEFT">c_weight</TD><TD PORT="c_weight.type" ALIGN="LEFT">numeric[19,2]</TD></TR>
-      <TR><TD PORT="unit_type" COLSPAN="2" ALIGN="LEFT">unit_type</TD><TD PORT="unit_type.type" ALIGN="LEFT">int4[10]</TD></TR>
+      <TR><TD PORT="c_weight_uom" COLSPAN="2" ALIGN="LEFT">c_weight_uom</TD><TD PORT="c_weight_uom.type" ALIGN="LEFT">int4[10]</TD></TR>
       <TR><TD PORT="c_actual_location" COLSPAN="2" ALIGN="LEFT">c_actual_location</TD><TD PORT="c_actual_location.type" ALIGN="LEFT">int8[19]</TD></TR>
       <TR><TD PORT="c_parent" COLSPAN="2" ALIGN="LEFT">c_parent</TD><TD PORT="c_parent.type" ALIGN="LEFT">int8[19]</TD></TR>
       <TR><TD PORT="c_target_location" COLSPAN="2" ALIGN="LEFT">c_target_location</TD><TD PORT="c_target_location.type" ALIGN="LEFT">int8[19]</TD></TR>

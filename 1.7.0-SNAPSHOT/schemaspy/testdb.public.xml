@@ -187,7 +187,7 @@
          <column autoUpdated="false" digits="0" id="9" name="c_inventory_user" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="10" name="c_state" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="2" id="11" name="c_weight" nullable="true" remarks="" size="19" type="numeric"/>
-         <column autoUpdated="false" digits="0" id="12" name="unit_type" nullable="true" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" digits="0" id="12" name="c_weight_uom" nullable="true" remarks="" size="10" type="int4"/>
          <column autoUpdated="false" digits="0" id="13" name="c_actual_location" nullable="false" remarks="" size="19" type="int8">
             <parent column="c_pk" foreignKey="fkdl2ge07mt6bp7ijaot1omtqrs" implied="false" onDeleteCascade="false" table="com_location"/>
          </column>
@@ -214,19 +214,21 @@
             <parent column="c_pk" foreignKey="fk7hgjsbhte1esjljdnkmxpkk78" implied="false" onDeleteCascade="false" table="com_srv_revision"/>
          </column>
          <column autoUpdated="false" digits="0" id="2" name="c_rev_type" nullable="true" remarks="" size="5" type="int2"/>
-         <column autoUpdated="false" digits="0" id="3" name="c_pid" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="6" id="4" name="c_actual_location_date" nullable="true" remarks="" size="29" type="timestamp"/>
-         <column autoUpdated="false" digits="0" id="5" name="c_barcode" nullable="true" remarks="" size="20" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="6" name="c_empty" nullable="true" remarks="" size="1" type="bool"/>
-         <column autoUpdated="false" digits="6" id="7" name="c_inventory_date" nullable="true" remarks="" size="29" type="timestamp"/>
-         <column autoUpdated="false" digits="0" id="8" name="c_inventory_user" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="9" name="c_state" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="2" id="10" name="c_weight" nullable="true" remarks="" size="19" type="numeric"/>
-         <column autoUpdated="false" digits="0" id="11" name="unit_type" nullable="true" remarks="" size="10" type="int4"/>
-         <column autoUpdated="false" digits="0" id="12" name="c_actual_location" nullable="true" remarks="" size="19" type="int8"/>
-         <column autoUpdated="false" digits="0" id="13" name="c_parent" nullable="true" remarks="" size="19" type="int8"/>
-         <column autoUpdated="false" digits="0" id="14" name="c_target_location" nullable="true" remarks="" size="19" type="int8"/>
-         <column autoUpdated="false" digits="0" id="15" name="c_transport_unit_type" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="6" id="3" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="6" id="4" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="5" name="c_pid" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="6" id="6" name="c_actual_location_date" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="7" name="c_barcode" nullable="true" remarks="" size="20" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="8" name="c_empty" nullable="true" remarks="" size="1" type="bool"/>
+         <column autoUpdated="false" digits="6" id="9" name="c_inventory_date" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="10" name="c_inventory_user" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="11" name="c_state" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="2" id="12" name="c_weight" nullable="true" remarks="" size="19" type="numeric"/>
+         <column autoUpdated="false" digits="0" id="13" name="c_weight_uom" nullable="true" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" digits="0" id="14" name="c_actual_location" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="15" name="c_parent" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="16" name="c_target_location" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="17" name="c_transport_unit_type" nullable="true" remarks="" size="19" type="int8"/>
          <primaryKey column="c_pk" sequenceNumberInPK="1"/>
          <primaryKey column="c_rev" sequenceNumberInPK="2"/>
          <index name="com_transport_unit_log_pkey" unique="true">

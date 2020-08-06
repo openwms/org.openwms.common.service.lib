@@ -125,7 +125,7 @@ digraph "twoDegreesRelationshipsDiagram" {
       <TR><TD PORT="c_inventory_user" COLSPAN="2" ALIGN="LEFT">c_inventory_user</TD><TD PORT="c_inventory_user.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_state" COLSPAN="2" ALIGN="LEFT">c_state</TD><TD PORT="c_state.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_weight" COLSPAN="2" ALIGN="LEFT">c_weight</TD><TD PORT="c_weight.type" ALIGN="LEFT">numeric[19,2]</TD></TR>
-      <TR><TD PORT="unit_type" COLSPAN="2" ALIGN="LEFT">unit_type</TD><TD PORT="unit_type.type" ALIGN="LEFT">int4[10]</TD></TR>
+      <TR><TD PORT="c_weight_uom" COLSPAN="2" ALIGN="LEFT">c_weight_uom</TD><TD PORT="c_weight_uom.type" ALIGN="LEFT">int4[10]</TD></TR>
       <TR><TD PORT="c_actual_location" COLSPAN="2" ALIGN="LEFT">c_actual_location</TD><TD PORT="c_actual_location.type" ALIGN="LEFT">int8[19]</TD></TR>
       <TR><TD PORT="c_parent" COLSPAN="2" ALIGN="LEFT">c_parent</TD><TD PORT="c_parent.type" ALIGN="LEFT">int8[19]</TD></TR>
       <TR><TD PORT="c_target_location" COLSPAN="2" ALIGN="LEFT">c_target_location</TD><TD PORT="c_target_location.type" ALIGN="LEFT">int8[19]</TD></TR>

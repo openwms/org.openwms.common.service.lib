@@ -34,7 +34,7 @@ public class LocationPKConverter extends DozerConverter&lt;String, LocationPK&gt
      */
     @Override
     public LocationPK convertTo(String source, LocationPK destination) {
-<span class="fc" id="L37">        return LocationPK.fromString(source);</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        return source == null ? null : LocationPK.fromString(source);</span>
     }
 
     /**
