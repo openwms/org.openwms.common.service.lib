@@ -33,7 +33,7 @@ After the binary is built it can be started on the JVM from command line. By def
 this service.
 
 ```
-$ java -jar target/openwms-common-service.jar
+$ java -jar target/openwms-common-service-exec.jar
 ```
 
 In a distributed Cloud environment the service configuration is fetched from the central [OpenWMS.org Configuration Service](https://github.com/spring-labs/org.openwms.configuration).

@@ -120,7 +120,7 @@ public class LocationGroupVO extends RepresentationModel implements TargetVO, Se
 
     /*~ ------------------ accessors ----------------------*/
     public String getOperationMode() {
-        return operationMode;
+        return operationMode == null ? "" : operationMode;
     }
 
     public void setOperationMode(String operationMode) {

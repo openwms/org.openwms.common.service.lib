@@ -73,6 +73,7 @@ eureka:
       password: ${spring.security.user.password}
       protocol: ${owms.srv.protocol}
       zone: ${owms.eureka.zone}
+    prefer-ip-address: true
 
 management:
   endpoints:
@@ -204,6 +205,13 @@ spring:
       enabled: false
   main:
     banner-mode: "off"
+  zipkin:
+    enabled: false
+    discovery-client-enabled: false
+    sender:
+      type: rabbit
+  jpa:
+    show-sql: false
 
 ---
 spring:

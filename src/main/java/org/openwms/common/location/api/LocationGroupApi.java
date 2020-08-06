@@ -26,6 +26,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Optional;
 
+import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION_GROUP;
+import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION_GROUPS;
+
 /**
  * A LocationGroupApi.
  *
@@ -33,13 +36,14 @@ import java.util.Optional;
  */
 @FeignClient(name = "common-service", qualifier = "locationGroupApi", decode404 = true)
 public interface LocationGroupApi {
+
     /**
      * Find a {@code LocationGroup} with the given {@code name}.
      *
      * @param name The name of the LocationGroup
      * @return The instance or may result in a 404-Not Found
      */
-    @GetMapping(value = LocationApiConstants.API_LOCATION_GROUPS, params = {"name"})
+    @GetMapping(value = API_LOCATION_GROUPS, params = {"name"})
     @Cacheable("locationGroups")
     Optional<LocationGroupVO> findByName(
             @RequestParam("name") String name
@@ -51,7 +55,7 @@ public interface LocationGroupApi {
      * @param names Names of all LocationGroups
      * @return A list of instances or an empty list but never {@literal null}
      */
-    @GetMapping(value = LocationApiConstants.API_LOCATION_GROUPS, params = {"names"})
+    @GetMapping(value = API_LOCATION_GROUPS, params = {"names"})
     @Cacheable("locationGroups")
     List<LocationGroupVO> findByNames(
             @RequestParam("names") List<String> names
@@ -62,7 +66,7 @@ public interface LocationGroupApi {
      *
      * @return Never {@literal null}
      */
-    @GetMapping(LocationApiConstants.API_LOCATION_GROUPS)
+    @GetMapping(API_LOCATION_GROUPS)
     List<LocationGroupVO> findAll();
 
     /**
@@ -71,7 +75,7 @@ public interface LocationGroupApi {
      * @param name The name of the LocationGroup
      * @param errorCode The decoded state
      */
-    @PatchMapping(value = LocationApiConstants.API_LOCATION_GROUPS, params = {"name", "op=change-state"})
+    @PatchMapping(value = API_LOCATION_GROUPS, params = {"name", "op=change-state"})
     void changeGroupState(
             @RequestParam(name = "name") String name,
             @RequestParam(name = "op") String op,
@@ -85,7 +89,7 @@ public interface LocationGroupApi {
      * @param stateIn The inbound state to set
      * @param stateOut The outbound state to set
      */
-    @PatchMapping(value = LocationApiConstants.API_LOCATION_GROUP + "/{pKey}", params = "op=change-state")
+    @PatchMapping(value = API_LOCATION_GROUP + "/{pKey}", params = "op=change-state")
     void changeGroupState(
             @PathVariable("pKey") String pKey,
             @RequestParam(name = "op") String op,

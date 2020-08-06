@@ -35,7 +35,10 @@ public class TransportUnitMO implements Serializable {
     @NotEmpty(groups = {ValidationGroups.TransportUnit.Request.class, ValidationGroups.TransportUnit.Remove.class})
     private String pKey;
     /** The business key of the TransportUnit. */
-    @NotEmpty(groups = {ValidationGroups.TransportUnit.ChangeTarget.class, ValidationGroups.TransportUnit.Create.class})
+    @NotEmpty(groups = {
+            ValidationGroups.TransportUnit.ChangeTarget.class,
+            ValidationGroups.TransportUnit.Create.class
+    })
     private String barcode;
     /** The actualLocationDate of the TransportUnit. */
     private Date actualLocationDate;
@@ -55,6 +58,9 @@ public class TransportUnitMO implements Serializable {
     /** The business key of the parent TransportUnit. */
     private String parent;
 
+    /**
+     * Required Default constructor.
+     */
     protected TransportUnitMO() { }
 
     private TransportUnitMO(Builder builder) {

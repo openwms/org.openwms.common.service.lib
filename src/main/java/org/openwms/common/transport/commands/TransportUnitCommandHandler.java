@@ -56,7 +56,7 @@ class TransportUnitCommandHandler {
         this.validator = validator;
     }
 
-    public void     handle(TUCommand command) {
+    public void handle(TUCommand command) {
         switch(command.getType()) {
             case CHANGE_ACTUAL_LOCATION:
                 if (LOGGER.isDebugEnabled()) {

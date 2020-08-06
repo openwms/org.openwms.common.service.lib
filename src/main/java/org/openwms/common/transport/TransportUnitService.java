@@ -39,8 +39,8 @@ public interface TransportUnitService {
      * @param transportUnitType The type of the TransportUnit
      * @param actualLocation The Location where the TransportUnit is placed on
      * @param strict Whether the implementation shall throw an exception when a
-     *               TransportUnit already exists ({@literal true}) or not
-     *               ({@literal false}
+     * TransportUnit already exists ({@literal true}) or not
+     * ({@literal false}
      * @return The newly created instance
      */
     TransportUnit create(Barcode barcode, TransportUnitType transportUnitType,
@@ -55,8 +55,8 @@ public interface TransportUnitService {
      * @param transportUnitType The type of the TransportUnit, must not be {@literal null}
      * @param actualLocation The Location where the TransportUnit is placed on, must not be {@literal null}
      * @param strict Whether the implementation shall throw an exception when a
-     *               TransportUnit already exists ({@literal true}) or not
-     *               ({@literal false}
+     * TransportUnit already exists ({@literal true}) or not
+     * ({@literal false}
      * @return The newly created instance
      * @throws org.ameba.exception.ServiceLayerException when invalid parameters
      */
@@ -95,7 +95,7 @@ public interface TransportUnitService {
      *
      * @param barcode The business identifier of the TransportUnit
      * @param targetLocationId The LocationPK or {@literal null} to reset the current
-     *                         target
+     * target
      */
     TransportUnit changeTarget(Barcode barcode, String targetLocationId);
 

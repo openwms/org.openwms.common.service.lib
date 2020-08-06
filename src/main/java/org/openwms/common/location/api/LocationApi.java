@@ -27,6 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Optional;
 
+import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION;
+import static org.openwms.common.location.api.LocationApiConstants.API_LOCATIONS;
+
 /**
  * A LocationApi deals with {@code Location}s.
  *
@@ -42,7 +45,7 @@ public interface LocationApi {
      * @return Never {@literal null}
      * @throws IllegalArgumentException in case the given locationPK is not valid
      */
-    @GetMapping(value = LocationApiConstants.API_LOCATIONS, params = {"locationPK"})
+    @GetMapping(value = API_LOCATIONS, params = {"locationPK"})
     @Cacheable("locations")
     Optional<LocationVO> findLocationByCoordinate(
             @RequestParam("locationPK") String locationPK
@@ -54,7 +57,7 @@ public interface LocationApi {
      * @param plcCode The PLC code
      * @return Never {@literal null}
      */
-    @GetMapping(value = LocationApiConstants.API_LOCATIONS, params = {"plcCode"})
+    @GetMapping(value = API_LOCATIONS, params = {"plcCode"})
     @Cacheable("locations")
     Optional<LocationVO> findLocationByPlcCode(
             @RequestParam("plcCode") String plcCode
@@ -66,7 +69,7 @@ public interface LocationApi {
      * @param locationGroupNames A list of LocationGroup names
      * @return All Location instances or an empty list
      */
-    @GetMapping(value = LocationApiConstants.API_LOCATIONS, params = {"locationGroupNames"})
+    @GetMapping(value = API_LOCATIONS, params = {"locationGroupNames"})
     @Cacheable("locations")
     List<LocationVO> findLocationsForLocationGroups(
             @RequestParam("locationGroupNames") List<String> locationGroupNames
@@ -78,7 +81,7 @@ public interface LocationApi {
      * @param pKey The persistent key of the Location
      * @param errorCode The decoded state
      */
-    @PatchMapping(value = LocationApiConstants.API_LOCATION + "/{pKey}", params = "op=change-state")
+    @PatchMapping(value = API_LOCATION + "/{pKey}", params = "op=change-state")
     @CacheEvict(cacheNames = "locations", allEntries = true)
     void changeState(
             @PathVariable(name = "pKey") String pKey,
@@ -96,7 +99,7 @@ public interface LocationApi {
      * @param z The Z to search for or
      * @return All Location instances or an empty list
      */
-    @GetMapping(value = LocationApiConstants.API_LOCATIONS, params = {"area", "aisle", "x", "y", "z"})
+    @GetMapping(value = API_LOCATIONS, params = {"area", "aisle", "x", "y", "z"})
     @Cacheable("locations")
     List<LocationVO> findLocations(
             @RequestParam(value = "area", required = false) String area,

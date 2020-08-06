@@ -23,12 +23,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
+import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPORT_UNIT_TYPES;
+
 /**
  * A TransportUnitTypeApi is the public REST API to manage {@code TransportUnitTypes}. It is implemented by a {@code Feign} client stub that
  * has caching enabled.
  *
  * @author Heiko Scherrer
- * @see org.springframework.cloud.openfeign.FeignClient
  */
 @FeignClient(name = "common-service", qualifier = "transportUnitTypeApi")
 public interface TransportUnitTypeApi {
@@ -39,7 +40,7 @@ public interface TransportUnitTypeApi {
      * @param type The unique identifier
      * @return The instance or the implementation may return a 404-Not Found
      */
-    @GetMapping(value = TransportApiConstants.API_TRANSPORT_UNIT_TYPES, params = {"type"})
+    @GetMapping(value = API_TRANSPORT_UNIT_TYPES, params = {"type"})
     @ResponseBody
     @Cacheable("transportUnitTypes")
     TransportUnitTypeVO findTransportUnitType(
@@ -51,7 +52,7 @@ public interface TransportUnitTypeApi {
      *
      * @return All instances or an empty list, never {@literal null}
      */
-    @GetMapping(TransportApiConstants.API_TRANSPORT_UNIT_TYPES)
+    @GetMapping(API_TRANSPORT_UNIT_TYPES)
     @ResponseBody
     @Cacheable("transportUnitTypes")
     List<TransportUnitTypeVO> findTransportUnitTypes();

@@ -24,6 +24,8 @@ import org.openwms.common.location.LocationService;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.events.LocationEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +43,7 @@ import static java.lang.String.format;
 @TxService
 class LocationServiceImpl implements LocationService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(LocationServiceImpl.class);
     private final LocationRepository repository;
     private final ErrorCodeTransformers.LocationStateIn stateInTransformer;
     private final ErrorCodeTransformers.LocationStateOut stateOutTransformer;
@@ -60,8 +63,8 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-    public Optional<Location> findByLocationId(LocationPK locationPK) {
-        return repository.findByLocationId(locationPK);
+    public Optional<Location> findByLocationId(LocationPK locationId) {
+        return repository.findByLocationId(locationId);
     }
 
     /**
@@ -80,11 +83,11 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-    public Optional<Location> findByLocationId(String locationPK) {
-        if (!LocationPK.isValid(locationPK)) {
-            throw new IllegalArgumentException(format("The given locationPK [%s] is not of valid format", locationPK));
+    public Optional<Location> findByLocationId(String locationId) {
+        if (!LocationPK.isValid(locationId)) {
+            throw new IllegalArgumentException(format("The given locationPK [%s] is not of valid format", locationId));
         }
-        return repository.findByLocationId(LocationPK.fromString(locationPK));
+        return repository.findByLocationId(LocationPK.fromString(locationId));
     }
 
     /**
@@ -112,6 +115,7 @@ class LocationServiceImpl implements LocationService {
         boolean changed = false;
         if (Optional.ofNullable(errorCode.getPlcState()).isPresent() && errorCode.getPlcState() != location.getPlcState()) {
             location.setPlcState(errorCode.getPlcState());
+            LOGGER.info("PLC state of location [{}] has been updated to [{}]", location.getLocationId(), errorCode.getPlcState());
             changed = true;
         }
         Optional<Boolean> infeedAvailable = stateInTransformer.available(errorCode.getErrorCode());
@@ -119,6 +123,7 @@ class LocationServiceImpl implements LocationService {
                 //location.getLocationGroup().isInfeedAllowed() &&
                 !infeedAvailable.get().equals(location.isInfeedActive())) {
             location.setInfeed(infeedAvailable.get());
+            LOGGER.info("Incoming active of location [{}] has been updated to [{}]", location.getLocationId(), infeedAvailable.get());
             changed = true;
         }
         Optional<Boolean> outfeedAvailable = stateOutTransformer.available(errorCode.getErrorCode());
@@ -126,10 +131,10 @@ class LocationServiceImpl implements LocationService {
                 //location.getLocationGroup().isOutfeedAllowed() &&
                 !outfeedAvailable.get().equals(location.isOutfeedActive())) {
             location.setOutfeed(outfeedAvailable.get());
+            LOGGER.info("Outgoing active of location [{}] has been updated to [{}]", location.getLocationId(), outfeedAvailable.get());
             changed = true;
         }
         if (changed) {
-
             // don't send twice only if one has changed
             ctx.publishEvent(LocationEvent.of(location, LocationEvent.LocationEventType.STATE_CHANGE));
         }

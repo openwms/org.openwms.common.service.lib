@@ -202,7 +202,9 @@ class TransportUnitServiceImpl implements TransportUnitService {
         publisher.publishEvent(
                 TransportUnitEvent.newBuilder()
                         .tu(saved)
-                        .type(TransportUnitEvent.TransportUnitEventType.MOVED).actualLocation(transportUnit.getActualLocation()).build()
+                        .type(TransportUnitEvent.TransportUnitEventType.MOVED)
+                        .actualLocation(transportUnit.getActualLocation())
+                        .build()
         );
         return saved;
     }

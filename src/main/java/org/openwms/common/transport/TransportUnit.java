@@ -16,6 +16,7 @@
 package org.openwms.common.transport;
 
 import org.ameba.integration.jpa.ApplicationEntity;
+import org.ameba.integration.jpa.BaseEntity;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
@@ -65,6 +66,7 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 @Configurable
 @Audited(targetAuditMode = NOT_AUDITED)
 @AuditOverride(forClass = ApplicationEntity.class)
+@AuditOverride(forClass = BaseEntity.class)
 @Entity
 @Table(name = "COM_TRANSPORT_UNIT", uniqueConstraints = @UniqueConstraint(columnNames = {"C_BARCODE"}))
 public class TransportUnit extends ApplicationEntity implements Serializable {
@@ -87,7 +89,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     /** Weight of the {@code TransportUnit}. */
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "unit", column = @Column(name = "C_WEIGHT_UOM", length = CoreTypeDefinitions.QUANTITY_LENGTH)),
+            @AttributeOverride(name = "unitType", column = @Column(name = "C_WEIGHT_UOM", length = CoreTypeDefinitions.QUANTITY_LENGTH)),
             @AttributeOverride(name = "magnitude", column = @Column(name = "C_WEIGHT"))
     })
     private Weight weight = Weight.ZERO;

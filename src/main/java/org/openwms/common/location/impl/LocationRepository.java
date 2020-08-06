@@ -26,7 +26,7 @@ import java.util.Optional;
 
 /**
  * A LocationRepository adds particular functionality regarding {@link Location} entity classes.
- * 
+ *
  * @author Heiko Scherrer
  */
 public interface LocationRepository extends JpaRepository<Location, Long> {
@@ -49,6 +49,6 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
             "and l.locationId.x like :#{#locationPK.x} " +
             "and l.locationId.y like :#{#locationPK.y} " +
             "and l.locationId.z like :#{#locationPK.z} ")
-    List<Location> findByLocationIdContaining(@Param("locationPK")LocationPK locationPK);
+    List<Location> findByLocationIdContaining(@Param("locationPK") LocationPK locationPK);
 //SONAR:ON
 }
