@@ -185,6 +185,10 @@ public class Location extends Target implements Serializable {
     @JoinColumn(name = "C_LOCATION_TYPE", foreignKey = @ForeignKey(name = "FK_LOC_LT"))
     private LocationType locationType;
 
+    /** Some group this Location belongs to. */
+    @Column(name = "C_GROUP")
+    private String group;
+
     /** The {@link LocationGroup} this Location belongs to. */
     @ManyToOne
     @JoinColumn(name = "C_LOCATION_GROUP", foreignKey = @ForeignKey(name = "FK_LOC_LG"))
@@ -394,6 +398,15 @@ public class Location extends Target implements Serializable {
      */
     public LocationType getLocationType() {
         return this.locationType;
+    }
+
+    /**
+     * Returns the group the Location belongs to.
+     *
+     * @return The group as String
+     */
+    public String getGroup() {
+        return group;
     }
 
     /**
