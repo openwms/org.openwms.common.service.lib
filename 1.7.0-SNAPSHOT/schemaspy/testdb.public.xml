@@ -39,27 +39,28 @@
          <column autoUpdated="false" digits="0" id="7" name="c_counting_active" nullable="true" remarks="" size="1" type="bool"/>
          <column autoUpdated="false" digits="0" id="8" name="c_description" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="9" name="c_erp_code" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="10" name="c_incoming_active" nullable="true" remarks="" size="1" type="bool"/>
-         <column autoUpdated="false" digits="0" id="11" name="c_labels" nullable="true" remarks="" size="1024" type="varchar"/>
-         <column autoUpdated="false" digits="6" id="12" name="c_last_movement" nullable="true" remarks="" size="29" type="timestamp"/>
-         <column autoUpdated="false" digits="0" id="13" name="c_lg_counting_active" nullable="true" remarks="" size="1" type="bool"/>
-         <column autoUpdated="false" digits="0" id="14" name="c_aisle" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="15" name="c_area" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="16" name="c_x" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="17" name="c_y" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="18" name="c_z" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="2" id="19" name="c_maximum_weight" nullable="true" remarks="" size="19" type="numeric"/>
-         <column autoUpdated="false" digits="0" id="20" name="c_no_max_transport_units" nullable="true" remarks="" size="10" type="int4"/>
-         <column autoUpdated="false" digits="0" id="21" name="c_outgoing_active" nullable="true" remarks="" size="1" type="bool"/>
-         <column autoUpdated="false" digits="0" id="22" name="c_plc_code" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="23" name="c_plc_state" nullable="true" remarks="" size="10" type="int4"/>
-         <column autoUpdated="false" digits="0" id="24" name="c_account" nullable="true" remarks="" size="255" type="varchar">
+         <column autoUpdated="false" digits="0" id="10" name="c_group" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="11" name="c_incoming_active" nullable="true" remarks="" size="1" type="bool"/>
+         <column autoUpdated="false" digits="0" id="12" name="c_labels" nullable="true" remarks="" size="1024" type="varchar"/>
+         <column autoUpdated="false" digits="6" id="13" name="c_last_movement" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="14" name="c_lg_counting_active" nullable="true" remarks="" size="1" type="bool"/>
+         <column autoUpdated="false" digits="0" id="15" name="c_aisle" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="16" name="c_area" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="17" name="c_x" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="18" name="c_y" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="19" name="c_z" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="2" id="20" name="c_maximum_weight" nullable="true" remarks="" size="19" type="numeric"/>
+         <column autoUpdated="false" digits="0" id="21" name="c_no_max_transport_units" nullable="true" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" digits="0" id="22" name="c_outgoing_active" nullable="true" remarks="" size="1" type="bool"/>
+         <column autoUpdated="false" digits="0" id="23" name="c_plc_code" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="24" name="c_plc_state" nullable="true" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" digits="0" id="25" name="c_account" nullable="true" remarks="" size="255" type="varchar">
             <parent column="c_identifier" foreignKey="fk_loc_acc" implied="false" onDeleteCascade="false" table="com_account"/>
          </column>
-         <column autoUpdated="false" digits="0" id="25" name="c_location_group" nullable="true" remarks="" size="19" type="int8">
+         <column autoUpdated="false" digits="0" id="26" name="c_location_group" nullable="true" remarks="" size="19" type="int8">
             <parent column="c_pk" foreignKey="fk_loc_lg" implied="false" onDeleteCascade="false" table="com_location_group"/>
          </column>
-         <column autoUpdated="false" digits="0" id="26" name="c_location_type" nullable="true" remarks="" size="19" type="int8">
+         <column autoUpdated="false" digits="0" id="27" name="c_location_type" nullable="true" remarks="" size="19" type="int8">
             <parent column="c_pk" foreignKey="fk_loc_lt" implied="false" onDeleteCascade="false" table="com_location_type"/>
          </column>
          <primaryKey column="c_pk" sequenceNumberInPK="1"/>

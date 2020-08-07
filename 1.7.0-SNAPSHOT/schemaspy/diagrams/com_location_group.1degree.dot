@@ -56,6 +56,7 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="c_counting_active" COLSPAN="3" ALIGN="LEFT">c_counting_active</TD></TR>
       <TR><TD PORT="c_description" COLSPAN="3" ALIGN="LEFT">c_description</TD></TR>
       <TR><TD PORT="c_erp_code" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_erp_code</TD></TR>
+      <TR><TD PORT="c_group" COLSPAN="3" ALIGN="LEFT">c_group</TD></TR>
       <TR><TD PORT="c_incoming_active" COLSPAN="3" ALIGN="LEFT">c_incoming_active</TD></TR>
       <TR><TD PORT="c_labels" COLSPAN="3" ALIGN="LEFT">c_labels</TD></TR>
       <TR><TD PORT="c_last_movement" COLSPAN="3" ALIGN="LEFT">c_last_movement</TD></TR>

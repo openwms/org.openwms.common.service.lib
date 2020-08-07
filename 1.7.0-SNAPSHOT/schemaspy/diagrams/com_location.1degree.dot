@@ -57,6 +57,7 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="c_counting_active" COLSPAN="2" ALIGN="LEFT">c_counting_active</TD><TD PORT="c_counting_active.type" ALIGN="LEFT">bool[1]</TD></TR>
       <TR><TD PORT="c_description" COLSPAN="2" ALIGN="LEFT">c_description</TD><TD PORT="c_description.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_erp_code" COLSPAN="2" BGCOLOR="#f4f7da" ALIGN="LEFT">c_erp_code</TD><TD PORT="c_erp_code.type" ALIGN="LEFT">varchar[255]</TD></TR>
+      <TR><TD PORT="c_group" COLSPAN="2" ALIGN="LEFT">c_group</TD><TD PORT="c_group.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_incoming_active" COLSPAN="2" ALIGN="LEFT">c_incoming_active</TD><TD PORT="c_incoming_active.type" ALIGN="LEFT">bool[1]</TD></TR>
       <TR><TD PORT="c_labels" COLSPAN="2" ALIGN="LEFT">c_labels</TD><TD PORT="c_labels.type" ALIGN="LEFT">varchar[1024]</TD></TR>
       <TR><TD PORT="c_last_movement" COLSPAN="2" ALIGN="LEFT">c_last_movement</TD><TD PORT="c_last_movement.type" ALIGN="LEFT">timestamp[29,6]</TD></TR>
