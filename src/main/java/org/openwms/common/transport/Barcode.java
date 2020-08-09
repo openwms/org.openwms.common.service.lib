@@ -19,8 +19,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.ServiceLoader;
 
 
 /**
@@ -36,6 +39,8 @@ public class Barcode implements Serializable {
 
     /** Length of a Barcode field. */
     public static final int BARCODE_LENGTH = 20;
+    @Transient
+    private transient final BarcodeFormatProvider bfp = ServiceLoader.load(BarcodeFormatProvider.class).iterator().next();
 
     /**
      * A BARCODE_ALIGN defines whether the {@code Barcode} is applied {@code LEFT} or
@@ -76,7 +81,7 @@ public class Barcode implements Serializable {
     }
 
     private Barcode(String value) {
-        adjustBarcode(value);
+        setBarcode(value);
     }
 
     /**
@@ -91,6 +96,15 @@ public class Barcode implements Serializable {
     /*~ ----------------------------- methods ------------------- */
 
     /**
+     * Set the Barcode.
+     *
+     * @param val The Barcode as String
+     */
+    final void setBarcode(String val) {
+        this.value = adjustBarcode(val);
+    }
+
+    /**
      * Force the Barcode to be aligned to the determined rules regarding padding, alignment.
      *
      * @param val The old Barcode as String
@@ -100,13 +114,18 @@ public class Barcode implements Serializable {
         if (val == null) {
             throw new IllegalArgumentException("Cannot create a barcode without value");
         }
+        Optional<String> formatted = bfp.format(val);
+        if (formatted.isPresent()) {
+            return formatted.get();
+        }
+        String res;
         if (isPadded()) {
-            this.value = (alignment == BARCODE_ALIGN.RIGHT) ? StringUtils.leftPad(val, length, padder) : StringUtils
+            res = (alignment == BARCODE_ALIGN.RIGHT) ? StringUtils.leftPad(val, length, padder) : StringUtils
                     .rightPad(val, length, padder);
         } else {
-            this.value = val;
+            res = val;
         }
-        return this.value;
+        return res;
     }
 
     /**
@@ -114,7 +133,7 @@ public class Barcode implements Serializable {
      *
      * @return The alignment
      */
-    public static BARCODE_ALIGN getAlignment() {
+    static BARCODE_ALIGN getAlignment() {
         return alignment;
     }
 
@@ -123,7 +142,7 @@ public class Barcode implements Serializable {
      *
      * @param align The alignment to set
      */
-    public static void setAlignment(BARCODE_ALIGN align) {
+    static void setAlignment(BARCODE_ALIGN align) {
         alignment = align;
     }
 
@@ -132,7 +151,7 @@ public class Barcode implements Serializable {
      *
      * @return {@literal true} if {@code Barcode} is padded, otherwise {@literal false}.
      */
-    public static boolean isPadded() {
+    static boolean isPadded() {
         return padded;
     }
 
@@ -150,7 +169,7 @@ public class Barcode implements Serializable {
      *
      * @return The padding character.
      */
-    public static char getPadder() {
+    static char getPadder() {
         return padder;
     }
 
