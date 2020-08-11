@@ -538,7 +538,7 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/f21aded4-c984-4eb5-aced-a38973d82100/</code></pre>
+Location: http://localhost:8080/v1/transport-units/edd5f1cf-99fc-48b1-a398-aa9181909bc9/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -590,7 +590,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/71f95f8a-5247-48c5-9fef-ca67657c200d/</code></pre>
+Location: http://localhost:8080/v1/transport-units/7caba73b-139d-43c3-8af3-76384fe1dd7c/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -603,12 +603,14 @@ response looks like:</p>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 409 Conflict
 Content-Type: application/hal+json
-Content-Length: 138
+Content-Length: 204
 
 {
-  "message" : "TransportUnit with id [00000000000000004711] already exists",
-  "messageKey" : "already.exists",
-  "httpStatus" : "409"
+  "message" : "TransportUnit with Barcode [00000000000000004711] already exits",
+  "messageKey" : "COMMON.TU_EXISTS",
+  "obj" : [ "00000000000000004711" ],
+  "httpStatus" : "409",
+  "class" : "String"
 }</code></pre>
 </div>
 </div>
@@ -681,8 +683,8 @@ Content-Length: 542
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0013",
-  "actualLocationDate" : "2020-08-09T21:59:46.350+0000",
-  "createDate" : "2020-08-09T21:59:46.196+0000"
+  "actualLocationDate" : "2020-08-11T09:12:53.947+0000",
+  "createDate" : "2020-08-11T09:12:53.909+0000"
 }</code></pre>
 </div>
 </div>
@@ -758,8 +760,8 @@ Content-Length: 542
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0013",
-  "actualLocationDate" : "2020-08-09T21:59:41.627+0000",
-  "createDate" : "2020-08-09T21:59:41.239+0000"
+  "actualLocationDate" : "2020-08-11T09:12:49.668+0000",
+  "createDate" : "2020-08-11T09:12:49.373+0000"
 }</code></pre>
 </div>
 </div>
@@ -843,8 +845,8 @@ Content-Length: 808
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-08-09T21:59:45.599+0000",
-  "createDate" : "2020-08-09T21:59:45.599+0000"
+  "actualLocationDate" : "2020-08-11T09:12:53.546+0000",
+  "createDate" : "2020-08-11T09:12:53.546+0000"
 }</code></pre>
 </div>
 </div>
@@ -903,8 +905,8 @@ Content-Length: 808
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-08-09T21:59:43.340+0000",
-  "createDate" : "2020-08-09T21:59:43.340+0000"
+  "actualLocationDate" : "2020-08-11T09:12:51.256+0000",
+  "createDate" : "2020-08-11T09:12:51.256+0000"
 }</code></pre>
 </div>
 </div>
@@ -972,8 +974,8 @@ Content-Length: 1625
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-08-09T21:59:39.264+0000",
-  "createDate" : "2020-08-09T21:59:39.264+0000"
+  "actualLocationDate" : "2020-08-11T09:12:47.342+0000",
+  "createDate" : "2020-08-11T09:12:47.342+0000"
 }, {
   "links" : [ {
     "rel" : "transport-unit-type",
@@ -999,8 +1001,8 @@ Content-Length: 1625
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2020-08-09T21:59:39.264+0000",
-  "createDate" : "2020-08-09T21:59:39.264+0000"
+  "actualLocationDate" : "2020-08-11T09:12:47.342+0000",
+  "createDate" : "2020-08-11T09:12:47.342+0000"
 } ]</code></pre>
 </div>
 </div>
@@ -1068,8 +1070,8 @@ Content-Length: 815
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2020-08-09T21:59:47.913+0000",
-  "createDate" : "2020-08-09T21:59:47.913+0000"
+  "actualLocationDate" : "2020-08-11T09:12:55.522+0000",
+  "createDate" : "2020-08-11T09:12:55.522+0000"
 } ]</code></pre>
 </div>
 </div>
@@ -1126,7 +1128,7 @@ bk=00000000000000004711&amp;errorCode=bla</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-09 21:57:37 UTC
+Last updated 2020-08-11 09:10:47 UTC
 </div>
 </div>
 </body>

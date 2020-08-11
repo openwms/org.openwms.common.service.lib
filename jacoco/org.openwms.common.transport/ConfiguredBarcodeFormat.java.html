@@ -27,7 +27,7 @@ import java.util.Optional;
 @Component
 <span class="fc" id="L28">public class ConfiguredBarcodeFormat implements BarcodeFormatProvider {</span>
 
-<span class="fc" id="L30">    private String pattern = System.getProperty(&quot;owms.common.barcode-format&quot;, &quot;%s&quot;);</span>
+<span class="fc" id="L30">    private final String pattern = System.getProperty(&quot;owms.common.barcode-format&quot;, &quot;%s&quot;);</span>
 
     @Override
     public Optional&lt;String&gt; format(String barcode) {
