@@ -15,7 +15,10 @@
  */
 package org.openwms.common.transport;
 
+import org.ameba.exception.NotFoundException;
+import org.ameba.exception.ResourceExistsException;
 import org.ameba.http.MeasuredRestController;
+import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.SimpleLink;
 import org.openwms.common.location.LocationController;
@@ -61,11 +64,13 @@ public class TransportUnitController extends AbstractWebController {
 
     private final TransportUnitService service;
     private final BeanMapper mapper;
+    private final Translator translator;
     private final MessageCommandHandler messageCommandHandler;
 
-    TransportUnitController(TransportUnitService service, BeanMapper mapper, MessageCommandHandler messageCommandHandler) {
+    TransportUnitController(TransportUnitService service, BeanMapper mapper, Translator translator, MessageCommandHandler messageCommandHandler) {
         this.service = service;
         this.mapper = mapper;
+        this.translator = translator;
         this.messageCommandHandler = messageCommandHandler;
     }
 
@@ -115,7 +120,12 @@ public class TransportUnitController extends AbstractWebController {
     ) {
         if (Boolean.TRUE.equals(strict)) {
             // check if already exists ...
-            service.findByBarcode(Barcode.of(transportUnitBK));
+            try {
+                service.findByBarcode(Barcode.of(transportUnitBK));
+                throw new ResourceExistsException(translator.translate("COMMON.TU_EXISTS", transportUnitBK), "COMMON.TU_EXISTS", transportUnitBK);
+            } catch (NotFoundException nfe) {
+                // thats fine we just cast the exception thrown by the service
+            }
         }
         TransportUnit created = service.create(Barcode.of(transportUnitBK), tu.getTransportUnitType(), tu.getActualLocation().getLocationId(), strict);
         return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();
@@ -131,7 +141,12 @@ public class TransportUnitController extends AbstractWebController {
     ) {
         if (Boolean.TRUE.equals(strict)) {
             // check if already exists ...
-            service.findByBarcode(Barcode.of(transportUnitBK));
+            try {
+                service.findByBarcode(Barcode.of(transportUnitBK));
+                throw new ResourceExistsException(translator.translate("COMMON.TU_EXISTS", transportUnitBK), "COMMON.TU_EXISTS", transportUnitBK);
+            } catch (NotFoundException nfe) {
+                // thats fine we just cast the exception thrown by the service
+            }
         }
         TransportUnit created = service.create(Barcode.of(transportUnitBK), tut, actualLocation, strict);
         return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();

@@ -40,7 +40,7 @@ public class Barcode implements Serializable {
     /** Length of a Barcode field. */
     public static final int BARCODE_LENGTH = 20;
     @Transient
-    private transient final BarcodeFormatProvider bfp = ServiceLoader.load(BarcodeFormatProvider.class).iterator().next();
+    private static transient final BarcodeFormatProvider bfp = ServiceLoader.load(BarcodeFormatProvider.class).iterator().next();
 
     /**
      * A BARCODE_ALIGN defines whether the {@code Barcode} is applied {@code LEFT} or
