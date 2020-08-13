@@ -13,22 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.transport;
-
-import java.util.Optional;
+package org.openwms.common.transport.barcode;
 
 /**
- * A BarcodeFormatProvider.
+ * A BarcodeGenerator.
  *
  * @author Heiko Scherrer
  */
-public interface BarcodeFormatProvider {
+public interface BarcodeGenerator {
 
-    /**
-     * Format the given {@code barcode}.
-     *
-     * @param barcode The Barcode to format
-     * @return An Optional with the formatted barcode as a value if the formatting could be performed or an empty Optional if not
-     */
-    Optional<String> format(String barcode);
+    String generate();
 }
