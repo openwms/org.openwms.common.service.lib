@@ -14,6 +14,7 @@ org.openwms.common.transport
 org.openwms.common.transport.api
 org.openwms.common.transport.api.commands
 org.openwms.common.transport.api.messages
+org.openwms.common.transport.barcode
 org.openwms.common.transport.commands
 org.openwms.common.transport.events
 org.openwms.common.transport.impl
