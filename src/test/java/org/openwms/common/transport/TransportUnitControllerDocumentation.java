@@ -58,6 +58,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @CommonApplicationTest
 class TransportUnitControllerDocumentation {
 
+    {
+        System.setProperty("org.openwms.common.transport.BarcodeFormatProvider", "org.openwms.common.transport.ConfiguredBarcodeFormat");
+        System.setProperty("owms.common.barcode-format", "%1$20s");
+    }
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper om;
@@ -82,6 +86,21 @@ class TransportUnitControllerDocumentation {
                 .andExpect(jsonPath("$._links.length()", is(3)))
                 .andDo(document("tu-index", preprocessResponse(prettyPrint())))
         ;
+    }
+
+    @Test void shall_create_with_barcode_generation() throws Exception {
+        mockMvc.perform(post(API_TRANSPORT_UNITS)
+                .param("actualLocation", TestData.LOCATION_ID_EXT)
+                .param("tut", TestData.TUT_TYPE_PALLET))
+                .andExpect(status().isCreated())
+                .andExpect(header().exists(HttpHeaders.LOCATION))
+                .andDo(document("tu-create-generate"));
+
+        mockMvc.perform(post(API_TRANSPORT_UNITS)
+                .param("actualLocation", TestData.LOCATION_ID_EXT)
+                .param("tut", TestData.TUT_TYPE_PALLET))
+                .andExpect(status().isCreated())
+                .andExpect(header().exists(HttpHeaders.LOCATION));
     }
 
     @Test void shall_createSimple() throws Exception {

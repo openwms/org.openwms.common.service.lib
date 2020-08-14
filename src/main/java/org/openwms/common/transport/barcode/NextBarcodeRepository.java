@@ -13,25 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.transport;
+package org.openwms.common.transport.barcode;
 
-import org.springframework.stereotype.Component;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 
+import javax.persistence.LockModeType;
 import java.util.Optional;
 
 /**
- * A NopFormatProvider.
+ * A NextBarcodeRepository.
  *
  * @author Heiko Scherrer
  */
-@Component
-public class NopFormatProvider implements BarcodeFormatProvider {
+interface NextBarcodeRepository extends JpaRepository<NextBarcode, Long> {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Optional<String> format(String barcode) {
-        return Optional.empty();
-    }
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    Optional<NextBarcode> findByName(String name);
 }

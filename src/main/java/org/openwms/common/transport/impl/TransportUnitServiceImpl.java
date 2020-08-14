@@ -33,6 +33,7 @@ import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.api.ValidationGroups;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
+import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.openwms.common.transport.events.TransportUnitEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Validator;
 import javax.validation.constraints.NotEmpty;
@@ -61,6 +63,7 @@ import static org.openwms.common.transport.api.commands.TUCommand.Type.REMOVING;
  *
  * @author Heiko Scherrer
  */
+@Validated
 @TxService
 class TransportUnitServiceImpl implements TransportUnitService {
 
@@ -70,6 +73,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     private static final String NO_TRANSPORT_UNIT_TYPE = "The transportUnitType must be given in order to create a TransportUnit";
 
     private final TransportUnitRepository repository;
+    private final BarcodeGenerator barcodeGenerator;
     private final LocationService locationService;
     private final TransportUnitTypeRepository transportUnitTypeRepository;
     private final Translator translator;
@@ -80,11 +84,13 @@ class TransportUnitServiceImpl implements TransportUnitService {
     TransportUnitServiceImpl(Translator translator,
             TransportUnitTypeRepository transportUnitTypeRepository,
             LocationService locationService, TransportUnitRepository repository,
-            BeanMapper mapper, Validator validator, ApplicationEventPublisher publisher) {
+            BarcodeGenerator barcodeGenerator, BeanMapper mapper, Validator validator,
+            ApplicationEventPublisher publisher) {
         this.translator = translator;
         this.transportUnitTypeRepository = transportUnitTypeRepository;
         this.locationService = locationService;
         this.repository = repository;
+        this.barcodeGenerator = barcodeGenerator;
         this.mapper = mapper;
         this.validator = validator;
         this.publisher = publisher;
@@ -124,6 +130,22 @@ class TransportUnitServiceImpl implements TransportUnitService {
                 barcode,
                 transportUnitType,
                 strict,
+                () -> locationService.findByLocationId(actualLocation)
+                        .orElseThrow(() -> new NotFoundException(format("No Location with actual location [%s] found", actualLocation)))
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public TransportUnit createNew(@NotEmpty String transportUnitType, @NotEmpty String actualLocation) {
+        String nextBarcode = barcodeGenerator.generate();
+        return createInternal(
+                Barcode.of(nextBarcode),
+                transportUnitType,
+                false,
                 () -> locationService.findByLocationId(actualLocation)
                         .orElseThrow(() -> new NotFoundException(format("No Location with actual location [%s] found", actualLocation)))
         );
@@ -302,7 +324,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-    public TransportUnit findByPKey(String pKey) {
+    public TransportUnit findByPKey(@NotEmpty String pKey) {
         return repository.findByPKey(pKey).orElseThrow(() -> new NotFoundException(format("No TransportUnit with pKey [%s] found", pKey)));
     }
 

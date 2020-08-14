@@ -16,6 +16,9 @@
 package org.openwms.common.transport;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -34,13 +37,15 @@ import java.util.ServiceLoader;
  * @author Heiko Scherrer
  * @GlossaryTerm
  */
+@Configurable(autowire = Autowire.BY_TYPE, preConstruction = true)
 @Embeddable
 public class Barcode implements Serializable {
 
     /** Length of a Barcode field. */
     public static final int BARCODE_LENGTH = 20;
+    @Autowired
     @Transient
-    private static transient final BarcodeFormatProvider bfp = ServiceLoader.load(BarcodeFormatProvider.class).iterator().next();
+    private BarcodeFormatProvider bfp;
 
     /**
      * A BARCODE_ALIGN defines whether the {@code Barcode} is applied {@code LEFT} or
@@ -62,7 +67,7 @@ public class Barcode implements Serializable {
      * Defines a character used for padding.<br> If the actually length of the {@code Barcode} is less than the maximum defined {@code
      * length} the rest will be filled with {@code padder} characters.
      */
-    private static char padder = '0';
+    public static char PADDER = '0';
 
     /** Defines the maximum length of characters. */
     private static int length = Barcode.BARCODE_LENGTH;
@@ -114,14 +119,18 @@ public class Barcode implements Serializable {
         if (val == null) {
             throw new IllegalArgumentException("Cannot create a barcode without value");
         }
+        if (bfp == null) {
+            // load the default one
+            bfp = ServiceLoader.load(BarcodeFormatProvider.class).iterator().next();
+        }
         Optional<String> formatted = bfp.format(val);
         if (formatted.isPresent()) {
             return formatted.get();
         }
         String res;
         if (isPadded()) {
-            res = (alignment == BARCODE_ALIGN.RIGHT) ? StringUtils.leftPad(val, length, padder) : StringUtils
-                    .rightPad(val, length, padder);
+            res = (alignment == BARCODE_ALIGN.RIGHT) ? StringUtils.leftPad(val, length, PADDER) : StringUtils
+                    .rightPad(val, length, PADDER);
         } else {
             res = val;
         }
@@ -170,7 +179,7 @@ public class Barcode implements Serializable {
      * @return The padding character.
      */
     static char getPadder() {
-        return padder;
+        return PADDER;
     }
 
     /**
@@ -179,7 +188,7 @@ public class Barcode implements Serializable {
      * @param p The padding character to use
      */
     static void setPadder(char p) {
-        padder = p;
+        PADDER = p;
         padded = true;
     }
 

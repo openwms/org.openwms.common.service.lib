@@ -131,15 +131,20 @@ public class TransportUnitController extends AbstractWebController {
         return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();
     }
 
-    @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk", "actualLocation", "tut"})
+    @PostMapping(value = API_TRANSPORT_UNITS, params = {"actualLocation", "tut"})
     public ResponseEntity<Void> createTU(
-            @RequestParam("bk") String transportUnitBK,
+            @RequestParam(value = "bk", required = false) String transportUnitBK,
             @RequestParam("actualLocation") String actualLocation,
             @RequestParam("tut") String tut,
             @RequestParam(value = "strict", required = false) Boolean strict,
             HttpServletRequest req
     ) {
         if (Boolean.TRUE.equals(strict)) {
+
+            if (transportUnitBK == null || transportUnitBK.isEmpty()) {
+                throw new IllegalArgumentException(translator.translate("COMMON.BARCODE_MISSING"));
+            }
+
             // check if already exists ...
             try {
                 service.findByBarcode(Barcode.of(transportUnitBK));
@@ -148,7 +153,12 @@ public class TransportUnitController extends AbstractWebController {
                 // thats fine we just cast the exception thrown by the service
             }
         }
-        TransportUnit created = service.create(Barcode.of(transportUnitBK), tut, actualLocation, strict);
+        TransportUnit created;
+        if (transportUnitBK == null) {
+            created = service.createNew(tut, actualLocation);
+        } else {
+            created = service.create(Barcode.of(transportUnitBK), tut, actualLocation, strict);
+        }
         return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();
     }
 

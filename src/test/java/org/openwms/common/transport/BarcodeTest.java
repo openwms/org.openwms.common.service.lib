@@ -17,8 +17,6 @@ package org.openwms.common.transport;
 
 import org.junit.jupiter.api.Test;
 import org.openwms.common.transport.Barcode.BARCODE_ALIGN;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 
@@ -33,7 +31,10 @@ import static org.springframework.test.util.AssertionErrors.assertTrue;
  */
 class BarcodeTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(BarcodeTest.class);
+    {
+        System.setProperty("org.openwms.common.transport.BarcodeFormatProvider", "org.openwms.common.transport.ConfiguredBarcodeFormat");
+        System.setProperty("owms.common.barcode-format", "%1$20s");
+    }
 
     @Test void testCreation() {
         assertThrows(IllegalArgumentException.class, () -> Barcode.of(null));

@@ -15,7 +15,7 @@
  */
 package org.openwms.common.transport;
 
-import org.springframework.stereotype.Component;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Optional;
 
@@ -24,16 +24,34 @@ import java.util.Optional;
  *
  * @author Heiko Scherrer
  */
-@Component
 public class ConfiguredBarcodeFormat implements BarcodeFormatProvider {
 
-    private final String pattern = System.getProperty("owms.common.barcode-format", "%s");
+    private final String pattern = System.getProperty("owms.common.barcode.pattern", "");
+    private final String padder = System.getProperty("owms.common.barcode.padder", "");
+    private final String length = System.getProperty("owms.common.barcode.length", String.valueOf(Barcode.BARCODE_LENGTH));
+    private final String alignment = System.getProperty("owms.common.barcode.alignment", Barcode.BARCODE_ALIGN.RIGHT.name());
+    private final String prefix = System.getProperty("owms.common.barcode.prefix", "");
+    private final String suffix = System.getProperty("owms.common.barcode.suffix", "");
 
     @Override
     public Optional<String> format(String barcode) {
-        if ("".equals(pattern) || barcode == null || barcode.isEmpty()) {
+        if (barcode == null || barcode.isEmpty()) {
            return Optional.empty();
         }
+        if ("".equals(pattern)) {
+
+            // check for property based configuration
+            if ("".equals(padder)) {
+                return Optional.empty();
+            } else {
+
+                return Optional.of(Barcode.BARCODE_ALIGN.RIGHT.name().equals(alignment)
+                        ? StringUtils.leftPad(barcode, Integer.parseInt(length), padder)
+                        : StringUtils.rightPad(barcode, Integer.parseInt(length), padder)
+                );
+            }
+        }
+        // use pattern
         return Optional.of(String.format(pattern, barcode));
     }
 }
