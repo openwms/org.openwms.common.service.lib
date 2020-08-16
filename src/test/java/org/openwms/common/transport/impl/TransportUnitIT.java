@@ -71,7 +71,7 @@ class TransportUnitIT {
     }
 
     @AfterEach void onTeardown() {
-        System.setProperty("org.openwms.common.transport.BarcodeFormatProvider", "org.openwms.common.transport.ConfiguredBarcodeFormat");
+        System.setProperty("org.openwms.common.transport.BarcodeFormatProvider", "");
         System.setProperty("owms.common.barcode.pattern", "");
         System.setProperty("owms.common.barcode.padder", "");
     }

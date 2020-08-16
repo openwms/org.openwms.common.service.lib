@@ -18,7 +18,6 @@ jobs:
 
 services:
   - docker
-  - rabbitmq
   - postgresql
 
 before_install:
@@ -32,6 +31,9 @@ before_script:
   - psql -c "CREATE USER \"KARL\" WITH PASSWORD 'KARL';" -U postgres
 
 addons:
+  apt:
+    packages:
+      - rabbitmq-server
   sonarcloud:
     organization: "openwms-github"
   postgresql: '9.6'

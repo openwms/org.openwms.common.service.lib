@@ -16,7 +16,9 @@
 package org.openwms.common.transport.commands;
 
 import org.ameba.exception.NotFoundException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestData;
@@ -55,11 +57,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @Rollback
 class TransportUnitCommandListenerIT {
 
-    {
-        System.setProperty("org.openwms.common.transport.BarcodeFormatProvider", "org.openwms.common.transport.ConfiguredBarcodeFormat");
-        System.setProperty("owms.common.barcode.pattern", "%s");
-        System.setProperty("owms.common.barcode.padder", "0");
-    }
     @Configuration
     public static class TestConfig {
         public TUCommand lastCommand;
@@ -83,6 +80,20 @@ class TransportUnitCommandListenerIT {
     @BeforeAll
     public static void enableWithRabbitOnly() {
         System.setProperty("spring.profiles.active", SpringProfiles.ASYNCHRONOUS_PROFILE);
+    }
+
+    @BeforeEach
+    void onSetup() {
+        System.setProperty("org.openwms.common.transport.BarcodeFormatProvider", "org.openwms.common.transport.ConfiguredBarcodeFormat");
+        System.setProperty("owms.common.barcode.pattern", "%s");
+        System.setProperty("owms.common.barcode.padder", "0");
+    }
+
+    @AfterEach
+    void onTeardown() {
+        System.setProperty("org.openwms.common.transport.BarcodeFormatProvider", "");
+        System.setProperty("owms.common.barcode.pattern", "");
+        System.setProperty("owms.common.barcode.padder", "");
     }
 
     @Test void test_REMOVE_command() {
