@@ -19,9 +19,7 @@ import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
-import org.ameba.annotation.TxService;
 import org.slf4j.Logger;
-import org.springframework.stereotype.Service;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.fields;
@@ -53,19 +51,6 @@ class EnsureArchitectureIT {
                     .onlyDependOnClassesThat()
                     .resideInAnyPackage("..location.api..", "org.openwms.core..", "java..", "javax..", "org.springframework..", "com..")
                     .because("The API package is separated and the only package accessible by the client")
-            ;
-
-    @ArchTest
-    public static final ArchRule verify_services =
-            classes().that()
-                    .areAnnotatedWith(TxService.class)
-                    .or()
-                    .areAnnotatedWith(Service.class)
-                    .should()
-                    .bePackagePrivate()
-                    .andShould()
-                    .resideInAnyPackage("..impl..", "..commands..", "..events..")
-                    .because("By convention Transactional Services should only reside in internal packages")
             ;
 
     @ArchTest

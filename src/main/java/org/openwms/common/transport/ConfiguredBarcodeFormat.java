@@ -16,6 +16,7 @@
 package org.openwms.common.transport;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
@@ -24,6 +25,7 @@ import java.util.Optional;
  *
  * @author Heiko Scherrer
  */
+@Component
 public class ConfiguredBarcodeFormat implements BarcodeFormatProvider {
 
     private final String pattern = System.getProperty("owms.common.barcode.pattern", "");

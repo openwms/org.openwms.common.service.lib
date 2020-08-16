@@ -24,6 +24,7 @@ import org.openwms.common.TestData;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.transport.Barcode;
+import org.openwms.common.transport.BarcodeFormatProvider;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.TransportUnitType;
@@ -45,12 +46,20 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @CommonApplicationTest
 class TransportUnitServiceImplIT {
 
+    {
+        System.setProperty("org.openwms.common.transport.BarcodeFormatProvider", "org.openwms.common.transport.ConfiguredBarcodeFormat");
+        System.setProperty("owms.common.barcode.pattern", "%s");
+        System.setProperty("owms.common.barcode.padder", "0");
+    }
+    @Autowired
+    private BarcodeFormatProvider bfp;
     @Autowired
     private EntityManager em;
     @Autowired
     private TransportUnitService testee;
 
         @Test void create_primitive() {
+            bfp.format("initialize");
             TransportUnit transportUnit = testee.create(Barcode.of("0815"), TestData.TUT_TYPE_PALLET, TestData.LOCATION_ID_EXT, false);
             assertThat(transportUnit).isNotNull();
         }
@@ -133,7 +142,7 @@ class TransportUnitServiceImplIT {
         @Test void findByBarcode_null() {
             assertThatThrownBy(
                     () -> testee.findByBarcode(null))
-                    .isInstanceOf(NotFoundException.class).hasMessageContaining("null");
+                    .isInstanceOf(ServiceLayerException.class).hasMessageContaining("null");
         }
 
         @Test void findByBarcode_404() {
@@ -166,7 +175,7 @@ class TransportUnitServiceImplIT {
         @Test void findByPKey_null() {
             assertThatThrownBy(
                     () -> testee.findByPKey(null))
-                    .isInstanceOf(NotFoundException.class).hasMessageContaining("null");
+                    .isInstanceOf(ServiceLayerException.class).hasMessageContaining("empty");
         }
 
         @Test void findByPKey_404() {

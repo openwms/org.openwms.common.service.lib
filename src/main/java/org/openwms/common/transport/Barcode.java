@@ -117,7 +117,7 @@ public class Barcode implements Serializable {
      */
     public final String adjustBarcode(String val) {
         if (val == null) {
-            throw new IllegalArgumentException("Cannot create a barcode without value");
+            throw new IllegalArgumentException("Cannot create a barcode without a value");
         }
         if (bfp == null) {
             // load the default one

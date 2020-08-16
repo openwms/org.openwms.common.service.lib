@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * A ConfiguredBarcodeFormatTest.
@@ -31,10 +30,11 @@ class ConfiguredBarcodeFormatTest {
 
     @Test
     void test() {
-        System.setProperty("owms.common.barcode-format", "0000%s1111");
+        System.setProperty("owms.common.barcode.pattern", "0000%s1111");
         ConfiguredBarcodeFormat cbf = new ConfiguredBarcodeFormat();
         Optional<String> format = cbf.format(" 4711 ");
         assertThat(format.get()).isEqualTo("0000 4711 1111");
+        System.setProperty("owms.common.barcode.pattern", "");
     }
 
 }

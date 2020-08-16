@@ -15,6 +15,8 @@
  */
 package org.openwms.common.transport;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.transport.Barcode.BARCODE_ALIGN;
 
@@ -31,9 +33,17 @@ import static org.springframework.test.util.AssertionErrors.assertTrue;
  */
 class BarcodeTest {
 
-    {
+    @BeforeEach
+    void onSetup() {
         System.setProperty("org.openwms.common.transport.BarcodeFormatProvider", "org.openwms.common.transport.ConfiguredBarcodeFormat");
-        System.setProperty("owms.common.barcode-format", "%1$20s");
+        System.setProperty("owms.common.barcode.padder", "0");
+        System.setProperty("owms.common.barcode.length", "20");
+    }
+
+    @AfterEach
+    void onTeardown() {
+        System.setProperty("owms.common.barcode.padder", "");
+        System.setProperty("owms.common.barcode.length", "");
     }
 
     @Test void testCreation() {
@@ -44,7 +54,6 @@ class BarcodeTest {
 
     @Test void testBarcode() {
         Barcode test = Barcode.of("TEST");
-        assertThat(Barcode.isPadded()).isTrue();
         assertThat(test.getValue()).isEqualTo("0000000000000000TEST");
         assertThat(Barcode.getAlignment()).isEqualTo(BARCODE_ALIGN.RIGHT);
 
@@ -60,19 +69,21 @@ class BarcodeTest {
         assertTrue("Barcode length must be expanded to 20 characters.", (20 == Barcode.getLength()));
         assertThat(bc3.getValue()).isEqualTo("000000000000000RIGHT");
         assertThat(bc3.toString()).isEqualTo("000000000000000RIGHT");
+    }
 
-        Barcode.setAlignment(BARCODE_ALIGN.LEFT);
+    @Test void testBarcodeLEFT() {
+        System.setProperty("owms.common.barcode.alignment", "LEFT");
         Barcode bc2 = Barcode.of("LEFT");
         assertThat(bc2.getValue()).isEqualTo("LEFT0000000000000000");
+        System.setProperty("owms.common.barcode.alignment", "RIGHT");
+    }
 
+    @Test void testBarcodeLength() {
+        System.setProperty("owms.common.barcode.length", "11");
         Barcode.setLength(2);
         Barcode bc4 = Barcode.of("A123456789");
-        assertThat(bc4.getValue()).isEqualTo("A123456789");
-
-        // Reset static fields !!
-        Barcode.setAlignment(BARCODE_ALIGN.RIGHT);
-        Barcode.setLength(20);
-        Barcode.setPadded(false);
+        assertThat(bc4.getValue()).isEqualTo("0A123456789");
+        System.setProperty("owms.common.barcode.length", String.valueOf(Barcode.BARCODE_LENGTH));
     }
 
     @Test void testEquality() {
@@ -91,6 +102,5 @@ class BarcodeTest {
         assertThat(set).hasSize(2);
         set.add(bc11);
         assertThat(set).hasSize(2);
-
     }
 }

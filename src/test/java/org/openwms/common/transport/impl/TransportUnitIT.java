@@ -15,13 +15,16 @@
  */
 package org.openwms.common.transport.impl;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openwms.common.CommonApplicationTest;
+import org.openwms.common.CommonDataTest;
 import org.openwms.common.TestData;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.transport.Barcode;
+import org.openwms.common.transport.BarcodeFormatProvider;
+import org.openwms.common.transport.ConfiguredBarcodeFormat;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.UnitError;
@@ -29,6 +32,8 @@ import org.openwms.core.units.api.Weight;
 import org.openwms.core.units.api.WeightUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DataAccessException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,9 +44,16 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
-@CommonApplicationTest
+@CommonDataTest
 class TransportUnitIT {
 
+    @Configuration
+    public static class TestConfig {
+        @Bean
+        public BarcodeFormatProvider provider(){
+            return new ConfiguredBarcodeFormat();
+        }
+    }
     @Autowired
     private TestEntityManager entityManager;
     @Autowired
@@ -50,9 +62,18 @@ class TransportUnitIT {
     private Location knownLocation;
     private TransportUnitType knownType;
 
-    @BeforeEach void onBefore() {
+    @BeforeEach void onSetup() {
+        System.setProperty("org.openwms.common.transport.BarcodeFormatProvider", "org.openwms.common.transport.ConfiguredBarcodeFormat");
+        System.setProperty("owms.common.barcode.pattern", "%s");
+        System.setProperty("owms.common.barcode.padder", "0");
         knownLocation = entityManager.find(Location.class, TestData.LOCATION_PK_EXT);
         knownType = entityManager.find(TransportUnitType.class, TestData.TUT_PK_PALLET);
+    }
+
+    @AfterEach void onTeardown() {
+        System.setProperty("org.openwms.common.transport.BarcodeFormatProvider", "org.openwms.common.transport.ConfiguredBarcodeFormat");
+        System.setProperty("owms.common.barcode.pattern", "");
+        System.setProperty("owms.common.barcode.padder", "");
     }
 
     @Test void shall_create_and_persist() {

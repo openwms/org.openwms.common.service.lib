@@ -15,8 +15,6 @@
  */
 package org.openwms.common.transport;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Optional;
 
 /**
@@ -24,7 +22,6 @@ import java.util.Optional;
  *
  * @author Heiko Scherrer
  */
-@Component
 public class NopFormatProvider implements BarcodeFormatProvider {
 
     /**
