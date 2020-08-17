@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
+import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.core.units.api.Weight;
 
 import java.util.Date;

@@ -15,12 +15,20 @@
  */
 package org.openwms.common.transport.barcode;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * A BarcodeGenerator.
  *
  * @author Heiko Scherrer
  */
-public interface BarcodeGenerator {
+public interface BarcodeGenerator extends BarcodeFormatter {
 
-    String generate();
+    /**
+     * Generate a new {@link Barcode}.
+     *
+     * Depends on the underlying implementation whether a new {@link Barcode} is created everytime the method is called or not.
+     * @return A new Barcode instance, never {@literal null}
+     */
+    @NotNull Barcode generate();
 }

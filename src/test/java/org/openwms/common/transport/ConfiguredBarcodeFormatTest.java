@@ -16,8 +16,7 @@
 package org.openwms.common.transport;
 
 import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
+import org.openwms.common.transport.barcode.ConfiguredBarcodeFormatter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,9 +30,9 @@ class ConfiguredBarcodeFormatTest {
     @Test
     void test() {
         System.setProperty("owms.common.barcode.pattern", "0000%s1111");
-        ConfiguredBarcodeFormat cbf = new ConfiguredBarcodeFormat();
-        Optional<String> format = cbf.format(" 4711 ");
-        assertThat(format.get()).isEqualTo("0000 4711 1111");
+        ConfiguredBarcodeFormatter cbf = new ConfiguredBarcodeFormatter();
+        String format = cbf.format(" 4711 ");
+        assertThat(format).isEqualTo("0000 4711 1111");
         System.setProperty("owms.common.barcode.pattern", "");
     }
 

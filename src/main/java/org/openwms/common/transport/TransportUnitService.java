@@ -16,6 +16,7 @@
 package org.openwms.common.transport;
 
 import org.openwms.common.location.LocationPK;
+import org.openwms.common.transport.barcode.Barcode;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

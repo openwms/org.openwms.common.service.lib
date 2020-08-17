@@ -18,15 +18,17 @@ package org.openwms.common.transport.commands;
 import org.ameba.annotation.TxService;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.location.LocationPK;
-import org.openwms.common.transport.Barcode;
+import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.api.ValidationGroups;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
+import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Validator;
 
@@ -40,20 +42,23 @@ import static org.openwms.common.transport.api.commands.TUCommand.Type.UPDATE_CA
  * @author Heiko Scherrer
  * @see TUCommand
  */
+@Validated
 @TxService
 class TransportUnitCommandHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandHandler.class);
-    private final TransportUnitService service;
-    private final ApplicationContext ctx;
     private final BeanMapper mapper;
     private final Validator validator;
+    private final BarcodeGenerator generator;
+    private final TransportUnitService service;
+    private final ApplicationContext ctx;
 
-    TransportUnitCommandHandler(TransportUnitService service, ApplicationContext ctx, BeanMapper mapper, Validator validator) {
-        this.service = service;
-        this.ctx = ctx;
+    TransportUnitCommandHandler(BeanMapper mapper, Validator validator, BarcodeGenerator generator, TransportUnitService service, ApplicationContext ctx) {
         this.mapper = mapper;
         this.validator = validator;
+        this.generator = generator;
+        this.service = service;
+        this.ctx = ctx;
     }
 
     public void handle(TUCommand command) {
@@ -62,14 +67,14 @@ class TransportUnitCommandHandler {
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Got command to MOVE TransportUnit with id [{}] to [{}]", command.getTransportUnit().getBarcode(), command.getTransportUnit().getActualLocation());
                 }
-                service.moveTransportUnit(Barcode.of(command.getTransportUnit().getBarcode()), LocationPK.fromString(command.getTransportUnit().getActualLocation()));
+                service.moveTransportUnit(generator.convert(command.getTransportUnit().getBarcode()), LocationPK.fromString(command.getTransportUnit().getActualLocation()));
                 break;
             case CHANGE_TARGET:
                 validate(validator, command, ValidationGroups.TransportUnit.ChangeTarget.class);
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Got command to CHANGE the target of the TransportUnit with id [{}] to [{}]", command.getTransportUnit().getBarcode(), command.getTransportUnit().getTargetLocation());
                 }
-                service.changeTarget(Barcode.of(command.getTransportUnit().getBarcode()), command.getTransportUnit().getTargetLocation());
+                service.changeTarget(generator.convert(command.getTransportUnit().getBarcode()), command.getTransportUnit().getTargetLocation());
                 break;
             case REMOVE:
                 validate(validator, command, ValidationGroups.TransportUnit.Remove.class);
@@ -95,7 +100,7 @@ class TransportUnitCommandHandler {
                 }
                 validate(validator, command, ValidationGroups.TransportUnit.Create.class);
                 tu = service.create(
-                        Barcode.of(command.getTransportUnit().getBarcode()),
+                        generator.convert(command.getTransportUnit().getBarcode()),
                         command.getTransportUnit().getTransportUnitType().getType(),
                         command.getTransportUnit().getActualLocation(),
                         false

@@ -13,22 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.transport;
-
-import java.util.Optional;
+package org.openwms.common.transport.barcode;
 
 /**
  * A NopFormatProvider.
  *
  * @author Heiko Scherrer
  */
-public class NopFormatProvider implements BarcodeFormatProvider {
+public class NopBarcodeFormatter implements BarcodeFormatter {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Optional<String> format(String barcode) {
-        return Optional.empty();
+    public String format(String barcode) {
+        return barcode;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Barcode convert(String barcode) {
+        return Barcode.of(barcode);
     }
 }

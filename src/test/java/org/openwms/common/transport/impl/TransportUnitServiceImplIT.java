@@ -25,10 +25,10 @@ import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestData;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
-import org.openwms.common.transport.Barcode;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.TransportUnitType;
+import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
@@ -45,12 +45,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * @author Heiko Scherrer
  */
 @CommonApplicationTest
-class TransportUnitServiceImplIT {
+public class TransportUnitServiceImplIT {
 
     @Autowired
     private EntityManager em;
     @Autowired
     private TransportUnitService testee;
+    @Autowired
+    private BarcodeGenerator generator;
 
     @BeforeEach
     void onSetup() {
@@ -68,7 +70,7 @@ class TransportUnitServiceImplIT {
 
     @Test
     void create_primitive() {
-        TransportUnit transportUnit = testee.create(Barcode.of("0815"), TestData.TUT_TYPE_PALLET, TestData.LOCATION_ID_EXT, false);
+        TransportUnit transportUnit = testee.create(generator.convert("0815"), TestData.TUT_TYPE_PALLET, TestData.LOCATION_ID_EXT, false);
         assertThat(transportUnit).isNotNull();
     }
 
@@ -78,32 +80,32 @@ class TransportUnitServiceImplIT {
                 () -> testee.create(null, TestData.TUT_TYPE_PALLET, TestData.LOCATION_ID_EXT, false))
                 .isInstanceOf(ServiceLayerException.class).hasMessageContaining("barcode");
         assertThatThrownBy(
-                () -> testee.create(Barcode.of("0815"), null, TestData.LOCATION_ID_EXT, false))
+                () -> testee.create(generator.convert("0815"), null, TestData.LOCATION_ID_EXT, false))
                 .isInstanceOf(ServiceLayerException.class).hasMessageContaining("transportUnitType");
         assertThatThrownBy(
-                () -> testee.create(Barcode.of("0815"), TestData.TUT_TYPE_PALLET, null, false))
+                () -> testee.create(generator.convert("0815"), TestData.TUT_TYPE_PALLET, null, false))
                 .isInstanceOf(ServiceLayerException.class).hasMessageContaining("actualLocation");
     }
 
     @Test
     void create_primitive_with_strict() {
         assertThatThrownBy(
-                () -> testee.create(Barcode.of(TestData.TU_1_ID), TestData.TUT_TYPE_PALLET, TestData.LOCATION_ID_EXT, true))
+                () -> testee.create(generator.convert(TestData.TU_1_ID), TestData.TUT_TYPE_PALLET, TestData.LOCATION_ID_EXT, true))
                 .isInstanceOf(ResourceExistsException.class).hasMessageContaining("already exists");
     }
 
     @Test
     void create_primitive_without_strict() {
-        TransportUnit transportUnit = testee.create(Barcode.of(TestData.TU_1_ID), TestData.TUT_TYPE_PALLET, TestData.LOCATION_ID_EXT, null);
+        TransportUnit transportUnit = testee.create(generator.convert(TestData.TU_1_ID), TestData.TUT_TYPE_PALLET, TestData.LOCATION_ID_EXT, null);
         assertThat(transportUnit).isNotNull();
         assertThat(transportUnit.isNew()).isFalse();
-        assertThat(transportUnit.getBarcode()).isEqualTo(Barcode.of(TestData.TU_1_ID));
+        assertThat(transportUnit.getBarcode()).isEqualTo(generator.convert(TestData.TU_1_ID));
     }
 
     @Test
     void create() {
         TransportUnitType transportUnitType = em.find(TransportUnitType.class, TestData.TUT_PK_PALLET);
-        TransportUnit transportUnit = testee.create(Barcode.of("0815"), transportUnitType, LocationPK.fromString(TestData.LOCATION_ID_EXT), false);
+        TransportUnit transportUnit = testee.create(generator.convert("0815"), transportUnitType, LocationPK.fromString(TestData.LOCATION_ID_EXT), false);
         assertThat(transportUnit).isNotNull();
     }
 
@@ -114,10 +116,10 @@ class TransportUnitServiceImplIT {
                 () -> testee.create(null, transportUnitType, LocationPK.fromString(TestData.LOCATION_ID_EXT), false))
                 .isInstanceOf(ServiceLayerException.class).hasMessageContaining("barcode");
         assertThatThrownBy(
-                () -> testee.create(Barcode.of("0815"), null, LocationPK.fromString(TestData.LOCATION_ID_EXT), false))
+                () -> testee.create(generator.convert("0815"), null, LocationPK.fromString(TestData.LOCATION_ID_EXT), false))
                 .isInstanceOf(ServiceLayerException.class).hasMessageContaining("transportUnitType");
         assertThatThrownBy(
-                () -> testee.create(Barcode.of("0815"), transportUnitType, null, false))
+                () -> testee.create(generator.convert("0815"), transportUnitType, null, false))
                 .isInstanceOf(ServiceLayerException.class).hasMessageContaining("actualLocation");
     }
 
@@ -125,35 +127,33 @@ class TransportUnitServiceImplIT {
     void create_with_strict() {
         TransportUnitType transportUnitType = em.find(TransportUnitType.class, TestData.TUT_PK_PALLET);
         assertThatThrownBy(
-                () -> testee.create(Barcode.of(TestData.TU_1_ID), transportUnitType, LocationPK.fromString(TestData.LOCATION_ID_EXT), true))
+                () -> testee.create(generator.convert(TestData.TU_1_ID), transportUnitType, LocationPK.fromString(TestData.LOCATION_ID_EXT), true))
                 .isInstanceOf(ResourceExistsException.class).hasMessageContaining("already exists");
     }
 
     @Test
     void create_without_strict() {
         TransportUnitType transportUnitType = em.find(TransportUnitType.class, TestData.TUT_PK_PALLET);
-        TransportUnit transportUnit = testee.create(Barcode.of(TestData.TU_1_ID), transportUnitType, LocationPK.fromString(TestData.LOCATION_ID_EXT), null);
+        TransportUnit transportUnit = testee.create(generator.convert(TestData.TU_1_ID), transportUnitType, LocationPK.fromString(TestData.LOCATION_ID_EXT), null);
         assertThat(transportUnit).isNotNull();
         assertThat(transportUnit.isNew()).isFalse();
-        assertThat(transportUnit.getBarcode()).isEqualTo(Barcode.of(TestData.TU_1_ID));
+        assertThat(transportUnit.getBarcode()).isEqualTo(generator.convert(TestData.TU_1_ID));
     }
 
     @Test
-    void shall_delete_multiple() throws Exception {
+    void shall_delete_multiple() {
         TransportUnitType transportUnitType = em.find(TransportUnitType.class, TestData.TUT_PK_PALLET);
         testee.deleteTransportUnits(
                 List.of(
-                        new TransportUnit(Barcode.of(TestData.TU_1_ID), transportUnitType, Location.create(LocationPK.fromString(TestData.LOCATION_ID_EXT)))
+                        new TransportUnit(generator.convert(TestData.TU_1_ID), transportUnitType, Location.create(LocationPK.fromString(TestData.LOCATION_ID_EXT)))
                 )
         );
-//            Thread.sleep(1000);
-//            assertThat(em.find(TransportUnit.class, TestData.TU_1_PK)).isNull();
     }
 
     @Test
     void findByBarcode() {
-        TransportUnit tu = testee.findByBarcode(Barcode.of(TestData.TU_1_ID));
-        assertThat(tu).isNotNull().hasFieldOrPropertyWithValue("barcode", Barcode.of(TestData.TU_1_ID));
+        TransportUnit tu = testee.findByBarcode(generator.convert(TestData.TU_1_ID));
+        assertThat(tu).isNotNull().hasFieldOrPropertyWithValue("barcode", generator.convert(TestData.TU_1_ID));
     }
 
     @Test
@@ -166,15 +166,15 @@ class TransportUnitServiceImplIT {
     @Test
     void findByBarcode_404() {
         assertThatThrownBy(
-                () -> testee.findByBarcode(Barcode.of("NOTEXISTS")))
+                () -> testee.findByBarcode(generator.convert("NOTEXISTS")))
                 .isInstanceOf(NotFoundException.class).hasMessageContaining("not found");
     }
 
     @Test
     void findByBarcodes() {
-        List<TransportUnit> tu = testee.findByBarcodes(Collections.singletonList(Barcode.of(TestData.TU_1_ID)));
+        List<TransportUnit> tu = testee.findByBarcodes(Collections.singletonList(generator.convert(TestData.TU_1_ID)));
         assertThat(tu).isNotNull();
-        assertThat(tu.get(0)).hasFieldOrPropertyWithValue("barcode", Barcode.of(TestData.TU_1_ID));
+        assertThat(tu.get(0)).hasFieldOrPropertyWithValue("barcode", generator.convert(TestData.TU_1_ID));
     }
 
     @Test
@@ -185,14 +185,14 @@ class TransportUnitServiceImplIT {
 
     @Test
     void findByBarcodes_404() {
-        List<TransportUnit> tu = testee.findByBarcodes(asList(Barcode.of("NOTEXISTS")));
+        List<TransportUnit> tu = testee.findByBarcodes(asList(generator.convert("NOTEXISTS")));
         assertThat(tu).isEmpty();
     }
 
     @Test
     void findByPKey() {
         TransportUnit tu = testee.findByPKey(TestData.TU_1_PKEY);
-        assertThat(tu).isNotNull().hasFieldOrPropertyWithValue("barcode", Barcode.of(TestData.TU_1_ID));
+        assertThat(tu).isNotNull().hasFieldOrPropertyWithValue("barcode", generator.convert(TestData.TU_1_ID));
     }
 
     @Test

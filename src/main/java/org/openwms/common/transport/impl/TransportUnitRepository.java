@@ -16,7 +16,7 @@
 package org.openwms.common.transport.impl;
 
 import org.openwms.common.location.Location;
-import org.openwms.common.transport.Barcode;
+import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.common.transport.TransportUnit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -22,13 +22,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestData;
-import org.openwms.common.transport.Barcode;
+import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.api.commands.MessageCommand;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.common.transport.api.messages.TransportUnitTypeMO;
+import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.openwms.core.SpringProfiles;
 import org.springframework.amqp.rabbit.junit.RabbitAvailable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +77,9 @@ class TransportUnitCommandListenerIT {
     private TransportUnitService service;
     @Autowired
     private TestConfig config;
-
+    @Autowired
+    private BarcodeGenerator generator;
+    
     @BeforeAll
     public static void enableWithRabbitOnly() {
         System.setProperty("spring.profiles.active", SpringProfiles.ASYNCHRONOUS_PROFILE);
@@ -152,7 +155,7 @@ class TransportUnitCommandListenerIT {
                 )
                 .build()
         );
-        TransportUnit tu = service.findByBarcode(Barcode.of("0815"));
+        TransportUnit tu = service.findByBarcode(generator.convert("0815"));
         assertThat(tu.getActualLocation().getLocationId().toString()).isEqualTo(TestData.LOCATION_ID_FGIN0001LEFT);
         assertThat(tu.getTransportUnitType().getType()).isEqualTo(TestData.TUT_TYPE_PALLET);
     }
@@ -165,7 +168,7 @@ class TransportUnitCommandListenerIT {
                         .withMessageText("TEXT")
                         .withMessageOccurred(new Date()).build()
         );
-        TransportUnit tu = service.findByBarcode(Barcode.of(TestData.TU_1_ID));
+        TransportUnit tu = service.findByBarcode(generator.convert(TestData.TU_1_ID));
         assertThat(tu.getErrors()).hasSize(1);
         assertThat(tu.getErrors().get(0).getErrorNo()).isEqualTo("999");
         assertThat(tu.getErrors().get(0).getErrorText()).isEqualTo("TEXT");

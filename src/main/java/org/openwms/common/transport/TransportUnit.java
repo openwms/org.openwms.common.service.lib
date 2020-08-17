@@ -21,6 +21,7 @@ import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import org.openwms.common.location.Location;
+import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.core.units.api.Weight;
 import org.openwms.core.values.CoreTypeDefinitions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -156,11 +158,11 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @param actualLocation The current {@code Location} of this {@code TransportUnit} - must not be {@literal null}
      * @throws IllegalArgumentException when one of the params is {@literal null}
      */
-    public TransportUnit(Barcode barcode, TransportUnitType tut, Location actualLocation) {
+    public TransportUnit(@NotNull Barcode barcode, @NotNull TransportUnitType tut, @NotNull Location actualLocation) {
         Assert.notNull(barcode, "Barcode must not be null");
         Assert.notNull(tut, "TransportUnitType must not be null");
         Assert.notNull(actualLocation, "ActualLocation must not be null");
-        this.barcode = Barcode.of(barcode.adjustBarcode(barcode.getValue()));
+        this.barcode = barcode;
         setTransportUnitType(tut);
         setActualLocation(actualLocation);
     }

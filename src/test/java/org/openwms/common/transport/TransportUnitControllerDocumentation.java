@@ -25,6 +25,8 @@ import org.openwms.common.TestData;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.transport.api.TransportUnitVO;
+import org.openwms.common.transport.barcode.Barcode;
+import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -64,6 +66,8 @@ class TransportUnitControllerDocumentation {
     private ObjectMapper om;
     @Autowired
     private TransportUnitService service;
+    @Autowired
+    private BarcodeGenerator generator;
 
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation, WebApplicationContext context) {
@@ -190,7 +194,7 @@ class TransportUnitControllerDocumentation {
                                 parameterWithName("bk").description("The identifying Barcode of the TransportUnit")
                         )
                 ));
-        TransportUnit tu = service.findByBarcode(Barcode.of("00000000000000004711"));
+        TransportUnit tu = service.findByBarcode(generator.convert("00000000000000004711"));
         assertThat(tu.getActualLocation().getLocationId()).isEqualTo(LocationPK.fromString(TestData.LOCATION_ID_FGIN0001LEFT));
     }
 

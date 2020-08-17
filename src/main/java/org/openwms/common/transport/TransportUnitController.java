@@ -25,6 +25,7 @@ import org.openwms.common.location.LocationController;
 import org.openwms.common.transport.api.TransportUnitVO;
 import org.openwms.common.transport.api.ValidationGroups;
 import org.openwms.common.transport.api.commands.MessageCommand;
+import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.openwms.common.transport.commands.MessageCommandHandler;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
@@ -62,21 +63,25 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @MeasuredRestController
 public class TransportUnitController extends AbstractWebController {
 
-    private final TransportUnitService service;
     private final BeanMapper mapper;
     private final Translator translator;
+    private final BarcodeGenerator barcodeGenerator;
+    private final TransportUnitService service;
     private final MessageCommandHandler messageCommandHandler;
 
-    TransportUnitController(TransportUnitService service, BeanMapper mapper, Translator translator, MessageCommandHandler messageCommandHandler) {
-        this.service = service;
+    TransportUnitController(BeanMapper mapper, Translator translator, BarcodeGenerator barcodeGenerator, TransportUnitService service, MessageCommandHandler messageCommandHandler) {
         this.mapper = mapper;
         this.translator = translator;
+        this.barcodeGenerator = barcodeGenerator;
+        this.service = service;
         this.messageCommandHandler = messageCommandHandler;
     }
 
     @GetMapping(value = API_TRANSPORT_UNITS, params = {"bk"}, produces = "application/vnd.openwms.transport-unit-v1+json")
-    public ResponseEntity<TransportUnitVO> findTransportUnit(@RequestParam("bk") String transportUnitBK) {
-        TransportUnit transportUnit = service.findByBarcode(Barcode.of(transportUnitBK));
+    public ResponseEntity<TransportUnitVO> findTransportUnit(
+            @RequestParam("bk") String transportUnitBK
+    ) {
+        TransportUnit transportUnit = service.findByBarcode(barcodeGenerator.convert(transportUnitBK));
         TransportUnitVO result = mapper.map(transportUnit, TransportUnitVO.class);
         addLinks(result);
         return ResponseEntity.ok(result);
@@ -94,13 +99,17 @@ public class TransportUnitController extends AbstractWebController {
     }
 
     @GetMapping(value = API_TRANSPORT_UNITS, params = {"bks"}, produces = "application/vnd.openwms.transport-unit-v1+json")
-    public ResponseEntity<List<TransportUnitVO>> findTransportUnits(@RequestParam("bks") List<String> barcodes) {
-        List<TransportUnit> tus = service.findByBarcodes(barcodes.stream().map(Barcode::of).collect(Collectors.toList()));
+    public ResponseEntity<List<TransportUnitVO>> findTransportUnits(
+            @RequestParam("bks") List<String> barcodes
+    ) {
+        List<TransportUnit> tus = service.findByBarcodes(barcodes.stream().map(barcodeGenerator::convert).collect(Collectors.toList()));
         return ResponseEntity.ok(augmentResults(tus));
     }
 
     @GetMapping(value = API_TRANSPORT_UNITS, params = {"actualLocation"}, produces = "application/vnd.openwms.transport-unit-v1+json")
-    public ResponseEntity<List<TransportUnitVO>> findTransportUnitsOn(@RequestParam("actualLocation") String actualLocation) {
+    public ResponseEntity<List<TransportUnitVO>> findTransportUnitsOn(
+            @RequestParam("actualLocation") String actualLocation
+    ) {
         List<TransportUnit> tus = service.findOnLocation(actualLocation);
         return tus == null ? ResponseEntity.ok(Collections.emptyList()) : ResponseEntity.ok(augmentResults(tus));
     }
@@ -121,13 +130,13 @@ public class TransportUnitController extends AbstractWebController {
         if (Boolean.TRUE.equals(strict)) {
             // check if already exists ...
             try {
-                service.findByBarcode(Barcode.of(transportUnitBK));
+                service.findByBarcode(barcodeGenerator.convert(transportUnitBK));
                 throw new ResourceExistsException(translator.translate("COMMON.TU_EXISTS", transportUnitBK), "COMMON.TU_EXISTS", transportUnitBK);
             } catch (NotFoundException nfe) {
                 // thats fine we just cast the exception thrown by the service
             }
         }
-        TransportUnit created = service.create(Barcode.of(transportUnitBK), tu.getTransportUnitType(), tu.getActualLocation().getLocationId(), strict);
+        TransportUnit created = service.create(barcodeGenerator.convert(transportUnitBK), tu.getTransportUnitType(), tu.getActualLocation().getLocationId(), strict);
         return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();
     }
 
@@ -147,7 +156,7 @@ public class TransportUnitController extends AbstractWebController {
 
             // check if already exists ...
             try {
-                service.findByBarcode(Barcode.of(transportUnitBK));
+                service.findByBarcode(barcodeGenerator.convert(transportUnitBK));
                 throw new ResourceExistsException(translator.translate("COMMON.TU_EXISTS", transportUnitBK), "COMMON.TU_EXISTS", transportUnitBK);
             } catch (NotFoundException nfe) {
                 // thats fine we just cast the exception thrown by the service
@@ -157,7 +166,7 @@ public class TransportUnitController extends AbstractWebController {
         if (transportUnitBK == null) {
             created = service.createNew(tut, actualLocation);
         } else {
-            created = service.create(Barcode.of(transportUnitBK), tut, actualLocation, strict);
+            created = service.create(barcodeGenerator.convert(transportUnitBK), tut, actualLocation, strict);
         }
         return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();
     }
@@ -168,7 +177,7 @@ public class TransportUnitController extends AbstractWebController {
             @RequestBody TransportUnitVO tu
     ) {
         return ResponseEntity.ok(
-                mapper.map(service.update(Barcode.of(transportUnitBK), mapper.map(tu, TransportUnit.class)), TransportUnitVO.class)
+                mapper.map(service.update(barcodeGenerator.convert(transportUnitBK), mapper.map(tu, TransportUnit.class)), TransportUnitVO.class)
         );
     }
 
@@ -177,7 +186,7 @@ public class TransportUnitController extends AbstractWebController {
             @RequestParam("bk") String transportUnitBK,
             @RequestParam("newLocation") String newLocation
     ) {
-        TransportUnit tu = service.moveTransportUnit(Barcode.of(transportUnitBK), fromString(newLocation));
+        TransportUnit tu = service.moveTransportUnit(barcodeGenerator.convert(transportUnitBK), fromString(newLocation));
         return ResponseEntity.ok(
                 mapper.map(tu, TransportUnitVO.class)
         );

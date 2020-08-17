@@ -13,20 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.transport;
+package org.openwms.common.transport.barcode;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowire;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.ServiceLoader;
 
 
 /**
@@ -43,9 +38,6 @@ public class Barcode implements Serializable {
 
     /** Length of a Barcode field. */
     public static final int BARCODE_LENGTH = 20;
-    @Autowired
-    @Transient
-    private BarcodeFormatProvider bfp;
 
     /**
      * A BARCODE_ALIGN defines whether the {@code Barcode} is applied {@code LEFT} or
@@ -59,10 +51,6 @@ public class Barcode implements Serializable {
         /** Barcode is right aligned. */
         RIGHT
     }
-
-    /** Define whether to use character padding or not. */
-    private static boolean padded = true;
-
     /**
      * Defines a character used for padding.<br> If the actually length of the {@code Barcode} is less than the maximum defined {@code
      * length} the rest will be filled with {@code padder} characters.
@@ -86,7 +74,7 @@ public class Barcode implements Serializable {
     }
 
     private Barcode(String value) {
-        setBarcode(value);
+        this.value = value;
     }
 
     /**
@@ -99,99 +87,6 @@ public class Barcode implements Serializable {
         return new Barcode(value);
     }
     /*~ ----------------------------- methods ------------------- */
-
-    /**
-     * Set the Barcode.
-     *
-     * @param val The Barcode as String
-     */
-    final void setBarcode(String val) {
-        this.value = adjustBarcode(val);
-    }
-
-    /**
-     * Force the Barcode to be aligned to the determined rules regarding padding, alignment.
-     *
-     * @param val The old Barcode as String
-     * @return The new aligned Barcode
-     */
-    public final String adjustBarcode(String val) {
-        if (val == null) {
-            throw new IllegalArgumentException("Cannot create a barcode without a value");
-        }
-        if (bfp == null) {
-            // load the default one
-            bfp = ServiceLoader.load(BarcodeFormatProvider.class).iterator().next();
-        }
-        Optional<String> formatted = bfp.format(val);
-        if (formatted.isPresent()) {
-            return formatted.get();
-        }
-        String res;
-        if (isPadded()) {
-            res = (alignment == BARCODE_ALIGN.RIGHT) ? StringUtils.leftPad(val, length, PADDER) : StringUtils
-                    .rightPad(val, length, PADDER);
-        } else {
-            res = val;
-        }
-        return res;
-    }
-
-    /**
-     * Returns the alignment.
-     *
-     * @return The alignment
-     */
-    static BARCODE_ALIGN getAlignment() {
-        return alignment;
-    }
-
-    /**
-     * Set the alignment.
-     *
-     * @param align The alignment to set
-     */
-    static void setAlignment(BARCODE_ALIGN align) {
-        alignment = align;
-    }
-
-    /**
-     * Check if {@code Barcode} is padded.
-     *
-     * @return {@literal true} if {@code Barcode} is padded, otherwise {@literal false}.
-     */
-    static boolean isPadded() {
-        return padded;
-    }
-
-    /**
-     * Set padded.
-     *
-     * @param p {@literal true} if {@code Barcode} should be padded, otherwise {@literal false}.
-     */
-    static void setPadded(boolean p) {
-        padded = p;
-    }
-
-    /**
-     * Return the padding character.
-     *
-     * @return The padding character.
-     */
-    static char getPadder() {
-        return PADDER;
-    }
-
-    /**
-     * Set the padding character.
-     *
-     * @param p The padding character to use
-     */
-    static void setPadder(char p) {
-        PADDER = p;
-        padded = true;
-    }
-
     /**
      * Return the {@code Barcode} value.
      *
@@ -209,16 +104,6 @@ public class Barcode implements Serializable {
     public static int getLength() {
         return length;
     }
-
-    /**
-     * Set the length.
-     *
-     * @param l The length to set
-     */
-    static void setLength(int l) {
-        length = l;
-    }
-
     /**
      * Return the value of the {@code Barcode} as String.
      *

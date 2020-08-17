@@ -26,7 +26,7 @@ import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
-import org.openwms.common.transport.Barcode;
+import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.TransportUnitType;
@@ -141,9 +141,9 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public TransportUnit createNew(@NotEmpty String transportUnitType, @NotEmpty String actualLocation) {
-        String nextBarcode = barcodeGenerator.generate();
+        Barcode nextBarcode = barcodeGenerator.generate();
         return createInternal(
-                Barcode.of(nextBarcode),
+                nextBarcode,
                 transportUnitType,
                 false,
                 () -> locationService.findByLocationId(actualLocation)
