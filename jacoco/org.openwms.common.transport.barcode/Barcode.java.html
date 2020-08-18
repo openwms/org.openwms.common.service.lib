@@ -57,12 +57,6 @@ public class Barcode implements Serializable {
      */
 <span class="fc" id="L58">    public static char PADDER = '0';</span>
 
-    /** Defines the maximum length of characters. */
-<span class="fc" id="L61">    private static int length = Barcode.BARCODE_LENGTH;</span>
-
-    /** The alignment of the {@code Barcode}. Could be something of {@link BARCODE_ALIGN}. */
-<span class="fc" id="L64">    private static BARCODE_ALIGN alignment = BARCODE_ALIGN.RIGHT;</span>
-
     /** 'Identifier' of the {@code Barcode}. &lt;p&gt; &lt;i&gt;Note:&lt;/i&gt;It is not guaranteed that this field must be unique. &lt;/p&gt; */
     @Column(name = &quot;C_BARCODE&quot;)
     private String value;
@@ -70,12 +64,12 @@ public class Barcode implements Serializable {
     /*~ ----------------------------- constructors ------------------- */
 
     /** Dear JPA... */
-<span class="pc bpc" id="L73" title="12 of 18 branches missed.">    protected Barcode() {</span>
-<span class="pc bpc" id="L74" title="3 of 4 branches missed.">    }</span>
+<span class="pc bpc" id="L67" title="12 of 18 branches missed.">    protected Barcode() {</span>
+<span class="pc bpc" id="L68" title="3 of 4 branches missed.">    }</span>
 
-<span class="pc bpc" id="L76" title="12 of 18 branches missed.">    private Barcode(String value) {</span>
-<span class="fc" id="L77">        this.value = value;</span>
-<span class="pc bpc" id="L78" title="3 of 4 branches missed.">    }</span>
+<span class="pc bpc" id="L70" title="12 of 18 branches missed.">    private Barcode(String value) {</span>
+<span class="fc" id="L71">        this.value = value;</span>
+<span class="pc bpc" id="L72" title="3 of 4 branches missed.">    }</span>
 
     /**
      * Simple factory method to replace default constructor in application logic (still needed for framework stuff).
@@ -84,7 +78,7 @@ public class Barcode implements Serializable {
      * @return Formatted Barcode instance
      */
     public static Barcode of(String value) {
-<span class="fc" id="L87">        return new Barcode(value);</span>
+<span class="fc" id="L81">        return new Barcode(value);</span>
     }
     /*~ ----------------------------- methods ------------------- */
     /**
@@ -93,17 +87,9 @@ public class Barcode implements Serializable {
      * @return The value of the {@code Barcode}
      */
     public String getValue() {
-<span class="fc" id="L96">        return value;</span>
+<span class="fc" id="L90">        return value;</span>
     }
 
-    /**
-     * Return the length.
-     *
-     * @return The length
-     */
-    public static int getLength() {
-<span class="nc" id="L105">        return length;</span>
-    }
     /**
      * Return the value of the {@code Barcode} as String.
      *
@@ -112,7 +98,7 @@ public class Barcode implements Serializable {
      */
     @Override
     public String toString() {
-<span class="fc" id="L115">        return value;</span>
+<span class="fc" id="L101">        return value;</span>
     }
 
     /**
@@ -120,10 +106,10 @@ public class Barcode implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-<span class="pc bpc" id="L123" title="1 of 2 branches missed.">        if (this == o) return true;</span>
-<span class="pc bpc" id="L124" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="fc" id="L125">        Barcode barcode = (Barcode) o;</span>
-<span class="fc" id="L126">        return value.equals(barcode.value);</span>
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L110" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L111">        Barcode barcode = (Barcode) o;</span>
+<span class="fc" id="L112">        return value.equals(barcode.value);</span>
     }
 
     /**
@@ -131,7 +117,7 @@ public class Barcode implements Serializable {
      */
     @Override
     public int hashCode() {
-<span class="fc" id="L134">        return Objects.hash(value);</span>
+<span class="fc" id="L120">        return Objects.hash(value);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
