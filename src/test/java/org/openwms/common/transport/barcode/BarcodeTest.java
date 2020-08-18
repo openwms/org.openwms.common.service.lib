@@ -22,11 +22,10 @@ import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * A BarcodeTest.
- * 
+ *
  * @author Heiko Scherrer
  */
 class BarcodeTest {
@@ -45,13 +44,7 @@ class BarcodeTest {
     }
 
     @Test
-    void testCreation() {
-        assertThrows(IllegalArgumentException.class, () -> Barcode.of(null));
-        new Barcode();
-        Barcode.of("TEST");
-    }
-
-    @Test void testEquality() {
+    void testEquality() {
         Barcode bc1 = Barcode.of("1");
         Barcode bc11 = Barcode.of("1");
         Barcode bc2 = Barcode.of("2");

@@ -25,20 +25,22 @@ import org.openwms.common.location.LocationPK;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.UnitError;
+import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.common.transport.barcode.BarcodeFormatter;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.openwms.common.transport.barcode.ConfiguredBarcodeFormatter;
-import org.openwms.common.transport.barcode.NumericBarcodeGenerator;
 import org.openwms.core.units.api.Weight;
 import org.openwms.core.units.api.WeightUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DataAccessException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.when;
 
 /**
  * A TransportUnitIT.
@@ -54,16 +56,12 @@ class TransportUnitIT {
         public BarcodeFormatter provider(){
             return new ConfiguredBarcodeFormatter();
         }
-        @Bean
-        public BarcodeGenerator generator() {
-            return new NumericBarcodeGenerator();
-        }
     }
     @Autowired
     private TestEntityManager entityManager;
     @Autowired
     private TransportUnitRepository repository;
-    @Autowired
+    @MockBean
     private BarcodeGenerator generator;
 
     private Location knownLocation;
@@ -84,6 +82,7 @@ class TransportUnitIT {
     }
 
     @Test void shall_create_and_persist() {
+        when(generator.convert("NEVER_PERSISTED")).thenReturn(Barcode.of("NEVER_PERSISTED"));
         TransportUnit transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, knownLocation);
         transportUnit = repository.save(transportUnit);
         assertThat(transportUnit.isNew()).isFalse();
@@ -92,6 +91,7 @@ class TransportUnitIT {
     }
 
     @Test void shall_fail_with_transient_TUT() {
+        when(generator.convert("NEVER_PERSISTED")).thenReturn(Barcode.of("NEVER_PERSISTED"));
         TransportUnit transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), TransportUnitType.of("UNKNOWN_TUT"), knownLocation);
         assertThatThrownBy(
                 () -> repository.save(transportUnit))
@@ -101,6 +101,7 @@ class TransportUnitIT {
 
 
     @Test void shall_fail_with_transient_actualLocation() {
+        when(generator.convert("NEVER_PERSISTED")).thenReturn(Barcode.of("NEVER_PERSISTED"));
         TransportUnit transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, Location.create(new LocationPK("UNKN", "UNKN", "UNKN", "UNKN", "UNKN")));
         assertThatThrownBy(
                 () -> repository.save(transportUnit))
@@ -109,6 +110,7 @@ class TransportUnitIT {
     }
 
     @Test void shall_fail_with_transient_targetLocation() {
+        when(generator.convert("NEVER_PERSISTED")).thenReturn(Barcode.of("NEVER_PERSISTED"));
         TransportUnit transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, knownLocation);
         transportUnit.setTargetLocation(Location.create(new LocationPK("UNKN", "UNKN", "UNKN", "UNKN", "UNKN")));
         assertThatThrownBy(
@@ -118,6 +120,7 @@ class TransportUnitIT {
     }
 
     @Test void shall_create_with_valid_targetLocation() {
+        when(generator.convert("NEVER_PERSISTED")).thenReturn(Barcode.of("NEVER_PERSISTED"));
         TransportUnit transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, knownLocation);
         transportUnit.setTargetLocation(knownLocation);
 
@@ -127,6 +130,7 @@ class TransportUnitIT {
 
 
     @Test void shall_add_an_error_to_a_new_TU() {
+        when(generator.convert("NEVER_PERSISTED")).thenReturn(Barcode.of("NEVER_PERSISTED"));
         TransportUnit tu = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, knownLocation);
         UnitError saved = tu.addError(
                 UnitError.newBuilder()
@@ -139,6 +143,7 @@ class TransportUnitIT {
     }
 
     @Test void shall_add_an_error_to_a_managed_TU() {
+        when(generator.convert("NEVER_PERSISTED")).thenReturn(Barcode.of("NEVER_PERSISTED"));
         TransportUnit tu = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, knownLocation);
         tu = entityManager.persistAndFlush(tu);
         UnitError saved = tu.addError(
@@ -151,7 +156,9 @@ class TransportUnitIT {
     }
 
     @Test void shall_cascade_operations_to_children() {
+        when(generator.convert("PARENT")).thenReturn(Barcode.of("PARENT"));
         TransportUnit parent = new TransportUnit(generator.convert("PARENT"), knownType, knownLocation);
+        when(generator.convert("CHILD")).thenReturn(Barcode.of("CHILD"));
         TransportUnit child = new TransportUnit(generator.convert("CHILD"), knownType, knownLocation);
 
         parent.addChild(child);
