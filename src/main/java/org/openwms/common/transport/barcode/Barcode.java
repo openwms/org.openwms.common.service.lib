@@ -57,12 +57,6 @@ public class Barcode implements Serializable {
      */
     public static char PADDER = '0';
 
-    /** Defines the maximum length of characters. */
-    private static int length = Barcode.BARCODE_LENGTH;
-
-    /** The alignment of the {@code Barcode}. Could be something of {@link BARCODE_ALIGN}. */
-    private static BARCODE_ALIGN alignment = BARCODE_ALIGN.RIGHT;
-
     /** 'Identifier' of the {@code Barcode}. <p> <i>Note:</i>It is not guaranteed that this field must be unique. </p> */
     @Column(name = "C_BARCODE")
     private String value;
@@ -96,14 +90,6 @@ public class Barcode implements Serializable {
         return value;
     }
 
-    /**
-     * Return the length.
-     *
-     * @return The length
-     */
-    public static int getLength() {
-        return length;
-    }
     /**
      * Return the value of the {@code Barcode} as String.
      *
