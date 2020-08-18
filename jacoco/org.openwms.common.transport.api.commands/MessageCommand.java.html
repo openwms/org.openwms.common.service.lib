@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MessageCommand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.transport.api.commands</a> &gt; <span class="el_source">MessageCommand.java</span></div><h1>MessageCommand.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.transport.api.commands;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.beans.ConstructorProperties;
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * A MessageCommand is used to attach Messages.
+ *
+ * @author Heiko Scherrer
+ */
+public class MessageCommand implements Command&lt;MessageCommand.Type&gt;, Serializable {
+
+<span class="fc" id="L31">    public enum Type {</span>
+<span class="fc" id="L32">        /** Add a message to a TransportUnit. */</span>
+<span class="fc" id="L33">        ADD_TO_TU</span>
+    }
+
+    @NotNull
+    private Type type;
+    private String transportUnitId;
+
+    @NotEmpty
+    private String messageText;
+    private String messageNumber;
+    private Date messageOccurred;
+
+    /*~-------------------- constructors --------------------*/
+    @ConstructorProperties({&quot;type&quot;, &quot;messageText&quot;})
+<span class="nc" id="L47">    protected MessageCommand(Type type, String messageText) {</span>
+<span class="nc" id="L48">        this.type = type;</span>
+<span class="nc" id="L49">        this.messageText = messageText;</span>
+<span class="nc" id="L50">    }</span>
+
+<span class="fc" id="L52">    private MessageCommand(Builder builder) {</span>
+<span class="fc" id="L53">        type = builder.type;</span>
+<span class="fc" id="L54">        transportUnitId = builder.transportUnitId;</span>
+<span class="fc" id="L55">        messageText = builder.messageText;</span>
+<span class="fc" id="L56">        messageNumber = builder.messageNumber;</span>
+<span class="fc" id="L57">        messageOccurred = builder.messageOccurred;</span>
+<span class="fc" id="L58">    }</span>
+
+    /*~-------------------- methods --------------------*/
+    public static Builder newBuilder(Type type) {
+<span class="fc" id="L62">        return new Builder(type);</span>
+    }
+
+    /*~-------------------- accessors --------------------*/
+    public Type getType() {
+<span class="fc" id="L67">        return type;</span>
+    }
+
+    public void setType(Type type) {
+<span class="nc" id="L71">        this.type = type;</span>
+<span class="nc" id="L72">    }</span>
+
+    public String getTransportUnitId() {
+<span class="fc" id="L75">        return transportUnitId;</span>
+    }
+
+    public void setTransportUnitId(String transportUnitId) {
+<span class="nc" id="L79">        this.transportUnitId = transportUnitId;</span>
+<span class="nc" id="L80">    }</span>
+
+    public String getMessageText() {
+<span class="fc" id="L83">        return messageText;</span>
+    }
+
+    public void setMessageText(String messageText) {
+<span class="nc" id="L87">        this.messageText = messageText;</span>
+<span class="nc" id="L88">    }</span>
+
+    public String getMessageNumber() {
+<span class="fc" id="L91">        return messageNumber;</span>
+    }
+
+    public void setMessageNumber(String messageNumber) {
+<span class="nc" id="L95">        this.messageNumber = messageNumber;</span>
+<span class="nc" id="L96">    }</span>
+
+    public Date getMessageOccurred() {
+<span class="nc" id="L99">        return messageOccurred;</span>
+    }
+
+    public void setMessageOccurred(Date messageOccurred) {
+<span class="nc" id="L103">        this.messageOccurred = messageOccurred;</span>
+<span class="nc" id="L104">    }</span>
+
+    public static final class Builder {
+        private Type type;
+        private String transportUnitId;
+        private String messageText;
+        private String messageNumber;
+        private Date messageOccurred;
+
+<span class="fc" id="L113">        private Builder(Type type) {</span>
+<span class="fc" id="L114">            this.type = type;</span>
+<span class="fc" id="L115">        }</span>
+
+        public Builder withTransportUnitId(String val) {
+<span class="fc" id="L118">            transportUnitId = val;</span>
+<span class="fc" id="L119">            return this;</span>
+        }
+
+        public Builder withMessageText(@NotEmpty String val) {
+<span class="fc" id="L123">            messageText = val;</span>
+<span class="fc" id="L124">            return this;</span>
+        }
+
+        public Builder withMessageNumber(String val) {
+<span class="fc" id="L128">            messageNumber = val;</span>
+<span class="fc" id="L129">            return this;</span>
+        }
+
+        public Builder withMessageOccurred(Date val) {
+<span class="fc" id="L133">            messageOccurred = val;</span>
+<span class="fc" id="L134">            return this;</span>
+        }
+
+        public MessageCommand build() {
+<span class="fc" id="L138">            return new MessageCommand(this);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
