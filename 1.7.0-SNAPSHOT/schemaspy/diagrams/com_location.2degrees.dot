@@ -58,6 +58,7 @@ digraph "twoDegreesRelationshipsDiagram" {
       <TR><TD PORT="c_ol" COLSPAN="2" ALIGN="LEFT">c_ol</TD><TD PORT="c_ol.type" ALIGN="LEFT">int8[19]</TD></TR>
       <TR><TD PORT="c_pid" COLSPAN="2" ALIGN="LEFT">c_pid</TD><TD PORT="c_pid.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_check_state" COLSPAN="2" ALIGN="LEFT">c_check_state</TD><TD PORT="c_check_state.type" ALIGN="LEFT">varchar[255]</TD></TR>
+      <TR><TD PORT="c_classification" COLSPAN="2" ALIGN="LEFT">c_classification</TD><TD PORT="c_classification.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_considered_in_allocation" COLSPAN="2" ALIGN="LEFT">c_considered_in_allocation</TD><TD PORT="c_considered_in_allocation.type" ALIGN="LEFT">bool[1]</TD></TR>
       <TR><TD PORT="c_counting_active" COLSPAN="2" ALIGN="LEFT">c_counting_active</TD><TD PORT="c_counting_active.type" ALIGN="LEFT">bool[1]</TD></TR>
       <TR><TD PORT="c_description" COLSPAN="2" ALIGN="LEFT">c_description</TD><TD PORT="c_description.type" ALIGN="LEFT">varchar[255]</TD></TR>

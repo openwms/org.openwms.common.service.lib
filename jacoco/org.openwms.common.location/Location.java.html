@@ -189,6 +189,10 @@ public class Location extends Target implements Serializable {
     @Column(name = &quot;C_GROUP&quot;)
     private String group;
 
+    /** The Location may be classified, like hazardeous. */
+    @Column(name = &quot;C_CLASSIFICATION&quot;)
+    private String classification;
+
     /** The {@link LocationGroup} this Location belongs to. */
     @ManyToOne
     @JoinColumn(name = &quot;C_LOCATION_GROUP&quot;, foreignKey = @ForeignKey(name = &quot;FK_LOC_LG&quot;))
@@ -197,7 +201,7 @@ public class Location extends Target implements Serializable {
     /** Stored {@link Message}s on this Location. */
     @OneToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = &quot;COM_LOCATION_MESSAGE&quot;, joinColumns = @JoinColumn(name = &quot;C_LOCATION_ID&quot;), inverseJoinColumns = @JoinColumn(name = &quot;C_MESSAGE_ID&quot;))
-<span class="fc" id="L200">    private Set&lt;Message&gt; messages = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L204">    private Set&lt;Message&gt; messages = new HashSet&lt;&gt;();</span>
 
     /*~ ----------------------------- constructors ------------------- */
 
@@ -206,14 +210,14 @@ public class Location extends Target implements Serializable {
      *
      * @param locationId The unique natural key of the Location
      */
-<span class="fc" id="L209">    protected Location(LocationPK locationId) {</span>
-<span class="fc" id="L210">        Assert.notNull(locationId, &quot;Creation of Location with locationId null&quot;);</span>
-<span class="fc" id="L211">        this.locationId = locationId;</span>
-<span class="fc" id="L212">    }</span>
+<span class="fc" id="L213">    protected Location(LocationPK locationId) {</span>
+<span class="fc" id="L214">        Assert.notNull(locationId, &quot;Creation of Location with locationId null&quot;);</span>
+<span class="fc" id="L215">        this.locationId = locationId;</span>
+<span class="fc" id="L216">    }</span>
 
     /** Dear JPA... */
-<span class="fc" id="L215">    protected Location() {</span>
-<span class="fc" id="L216">    }</span>
+<span class="fc" id="L219">    protected Location() {</span>
+<span class="fc" id="L220">    }</span>
 
     /**
      * Create a new Location with the business key.
@@ -222,8 +226,8 @@ public class Location extends Target implements Serializable {
      * @return The Location
      */
     public static Location create(LocationPK locationId) {
-<span class="fc" id="L225">        Assert.notNull(locationId, &quot;Creation of Location with locationId null&quot;);</span>
-<span class="fc" id="L226">        return new Location(locationId);</span>
+<span class="fc" id="L229">        Assert.notNull(locationId, &quot;Creation of Location with locationId null&quot;);</span>
+<span class="fc" id="L230">        return new Location(locationId);</span>
     }
     /*~ ----------------------------- methods ------------------- */
 
@@ -233,7 +237,7 @@ public class Location extends Target implements Serializable {
      * @return The Account
      */
     public Account getAccount() {
-<span class="nc" id="L236">        return account;</span>
+<span class="nc" id="L240">        return account;</span>
     }
 
     /**
@@ -242,7 +246,7 @@ public class Location extends Target implements Serializable {
      * @return The ERP code
      */
     public String getErpCode() {
-<span class="nc" id="L245">        return erpCode;</span>
+<span class="nc" id="L249">        return erpCode;</span>
     }
 
     /**
@@ -251,7 +255,7 @@ public class Location extends Target implements Serializable {
      * @return The PLC code
      */
     public String getPlcCode() {
-<span class="fc" id="L254">        return plcCode;</span>
+<span class="fc" id="L258">        return plcCode;</span>
     }
 
     /**
@@ -261,8 +265,8 @@ public class Location extends Target implements Serializable {
      * @return {@literal true} if the {@link Message} is new in the collection of messages, otherwise {@literal false}
      */
     public boolean addMessage(Message message) {
-<span class="fc" id="L264">        Assert.notNull(message, &quot;null passed to addMessage, this: &quot; + this);</span>
-<span class="fc" id="L265">        return this.messages.add(message);</span>
+<span class="fc" id="L268">        Assert.notNull(message, &quot;null passed to addMessage, this: &quot; + this);</span>
+<span class="fc" id="L269">        return this.messages.add(message);</span>
     }
 
     /**
@@ -271,7 +275,7 @@ public class Location extends Target implements Serializable {
      * @return The checkState
      */
     public String getCheckState() {
-<span class="fc" id="L274">        return this.checkState;</span>
+<span class="fc" id="L278">        return this.checkState;</span>
     }
 
     /**
@@ -280,7 +284,7 @@ public class Location extends Target implements Serializable {
      * @return {@literal true} when considered in allocation, otherwise {@literal false}
      */
     public boolean isConsideredInAllocation() {
-<span class="fc" id="L283">        return this.consideredInAllocation;</span>
+<span class="fc" id="L287">        return this.consideredInAllocation;</span>
     }
 
     /**
@@ -289,7 +293,7 @@ public class Location extends Target implements Serializable {
      * @return {@literal true} when counting is active, otherwise {@literal false}
      */
     public boolean isCountingActive() {
-<span class="fc" id="L292">        return this.countingActive;</span>
+<span class="fc" id="L296">        return this.countingActive;</span>
     }
 
     /**
@@ -298,7 +302,7 @@ public class Location extends Target implements Serializable {
      * @return The description text
      */
     public String getDescription() {
-<span class="nc" id="L301">        return this.description;</span>
+<span class="nc" id="L305">        return this.description;</span>
     }
 
     /**
@@ -307,7 +311,7 @@ public class Location extends Target implements Serializable {
      * @return A list of Strings or an empty list
      */
     public List&lt;String&gt; getLabels() {
-<span class="fc" id="L310">        return labels;</span>
+<span class="fc" id="L314">        return labels;</span>
     }
 
     /**
@@ -316,8 +320,8 @@ public class Location extends Target implements Serializable {
      * @param labels A comma-separated list of labels
      */
     public void setLabels(List&lt;String&gt; labels) {
-<span class="fc" id="L319">        this.labels = labels;</span>
-<span class="fc" id="L320">    }</span>
+<span class="fc" id="L323">        this.labels = labels;</span>
+<span class="fc" id="L324">    }</span>
 
     /**
      * Determine whether incoming mode is activated and {@code TransportUnit}s can be put on this Location.
@@ -325,7 +329,7 @@ public class Location extends Target implements Serializable {
      * @return {@literal true} when incoming mode is activated, otherwise {@literal false}
      */
     public boolean isInfeedActive() {
-<span class="fc" id="L328">        return this.incomingActive;</span>
+<span class="fc" id="L332">        return this.incomingActive;</span>
     }
 
     /**
@@ -334,8 +338,8 @@ public class Location extends Target implements Serializable {
      * @param infeedActive {@literal true} means Infeed movements are possible, {@literal false} means Infeed movements are blocked
      */
     public void setInfeed(boolean infeedActive) {
-<span class="fc" id="L337">        this.incomingActive = infeedActive;</span>
-<span class="fc" id="L338">    }</span>
+<span class="fc" id="L341">        this.incomingActive = infeedActive;</span>
+<span class="fc" id="L342">    }</span>
 
     /**
      * Check whether infeed is blocked and moving {@code TransportUnit}s to here is forbidden.
@@ -343,7 +347,7 @@ public class Location extends Target implements Serializable {
      * @return {@literal true} is blocked, otherwise {@literal false}
      */
     public boolean isInfeedBlocked() {
-<span class="fc bfc" id="L346" title="All 2 branches covered.">        return !this.incomingActive;</span>
+<span class="fc bfc" id="L350" title="All 2 branches covered.">        return !this.incomingActive;</span>
     }
 
     /**
@@ -352,7 +356,7 @@ public class Location extends Target implements Serializable {
      * @return Timestamp of the last update
      */
     public Date getLastMovement() {
-<span class="fc" id="L355">        return this.lastMovement;</span>
+<span class="fc" id="L359">        return this.lastMovement;</span>
     }
 
     /**
@@ -361,8 +365,8 @@ public class Location extends Target implements Serializable {
      * @param lastMovement The date of change.
      */
     public void setLastMovement(Date lastMovement) {
-<span class="fc" id="L364">        this.lastMovement = lastMovement;</span>
-<span class="fc" id="L365">    }</span>
+<span class="fc" id="L368">        this.lastMovement = lastMovement;</span>
+<span class="fc" id="L369">    }</span>
 
     /**
      * Return the {@link LocationGroup} where the Location belongs to.
@@ -370,7 +374,7 @@ public class Location extends Target implements Serializable {
      * @return The {@link LocationGroup} of the Location
      */
     public LocationGroup getLocationGroup() {
-<span class="fc" id="L373">        return this.locationGroup;</span>
+<span class="fc" id="L377">        return this.locationGroup;</span>
     }
 
     /**
@@ -379,7 +383,7 @@ public class Location extends Target implements Serializable {
      * @return {@literal true} if calculation is activated, otherwise {@literal false}
      */
     public boolean isLocationGroupCountingActive() {
-<span class="fc" id="L382">        return this.locationGroupCountingActive;</span>
+<span class="fc" id="L386">        return this.locationGroupCountingActive;</span>
     }
 
     /**
@@ -388,7 +392,7 @@ public class Location extends Target implements Serializable {
      * @return The locationId
      */
     public LocationPK getLocationId() {
-<span class="fc" id="L391">        return this.locationId;</span>
+<span class="fc" id="L395">        return this.locationId;</span>
     }
 
     /**
@@ -397,7 +401,7 @@ public class Location extends Target implements Serializable {
      * @return The type
      */
     public LocationType getLocationType() {
-<span class="nc" id="L400">        return this.locationType;</span>
+<span class="nc" id="L404">        return this.locationType;</span>
     }
 
     /**
@@ -406,8 +410,26 @@ public class Location extends Target implements Serializable {
      * @return The group as String
      */
     public String getGroup() {
-<span class="nc" id="L409">        return group;</span>
+<span class="nc" id="L413">        return group;</span>
     }
+
+    /**
+     * Returns the classification of the Location.
+     *
+     * @return As a String
+     */
+    public String getClassification() {
+<span class="fc" id="L422">        return classification;</span>
+    }
+
+    /**
+     * Set the classification.
+     *
+     * @param classification As an arbitrary String
+     */
+    public void setClassification(String classification) {
+<span class="nc" id="L431">        this.classification = classification;</span>
+<span class="nc" id="L432">    }</span>
 
     /**
      * Return the maximum allowed weight on the Location.
@@ -415,7 +437,7 @@ public class Location extends Target implements Serializable {
      * @return The maximum allowed weight
      */
     public BigDecimal getMaximumWeight() {
-<span class="nc" id="L418">        return this.maximumWeight;</span>
+<span class="nc" id="L440">        return this.maximumWeight;</span>
     }
 
     /**
@@ -424,7 +446,7 @@ public class Location extends Target implements Serializable {
      * @return An unmodifiable Set
      */
     public Set&lt;Message&gt; getMessages() {
-<span class="fc" id="L427">        return Collections.unmodifiableSet(messages);</span>
+<span class="fc" id="L449">        return Collections.unmodifiableSet(messages);</span>
     }
 
     /**
@@ -433,7 +455,7 @@ public class Location extends Target implements Serializable {
      * @return The maximum number of {@code TransportUnit}s
      */
     public int getNoMaxTransportUnits() {
-<span class="fc" id="L436">        return noMaxTransportUnits;</span>
+<span class="fc" id="L458">        return noMaxTransportUnits;</span>
     }
 
     /**
@@ -442,7 +464,7 @@ public class Location extends Target implements Serializable {
      * @return {@literal true} when outgoing mode is activated, otherwise {@literal false}
      */
     public boolean isOutfeedActive() {
-<span class="fc" id="L445">        return this.outgoingActive;</span>
+<span class="fc" id="L467">        return this.outgoingActive;</span>
     }
 
     /**
@@ -451,7 +473,7 @@ public class Location extends Target implements Serializable {
      * @return {@literal true} is blocked, otherwise {@literal false}
      */
     public boolean isOutfeedBlocked() {
-<span class="fc bfc" id="L454" title="All 2 branches covered.">        return !this.outgoingActive;</span>
+<span class="fc bfc" id="L476" title="All 2 branches covered.">        return !this.outgoingActive;</span>
     }
 
     /**
@@ -460,8 +482,8 @@ public class Location extends Target implements Serializable {
      * @param outfeedActive {@literal true} means Outfeed movements are possible, {@literal false} means Outfeed movements are blocked
      */
     public void setOutfeed(boolean outfeedActive) {
-<span class="fc" id="L463">        this.outgoingActive = outfeedActive;</span>
-<span class="fc" id="L464">    }</span>
+<span class="fc" id="L485">        this.outgoingActive = outfeedActive;</span>
+<span class="fc" id="L486">    }</span>
 
 
     /**
@@ -470,7 +492,7 @@ public class Location extends Target implements Serializable {
      * @return the plc state
      */
     public int getPlcState() {
-<span class="fc" id="L473">        return plcState;</span>
+<span class="fc" id="L495">        return plcState;</span>
     }
 
     /**
@@ -479,8 +501,8 @@ public class Location extends Target implements Serializable {
      * @param plcState the plc state
      */
     public void setPlcState(int plcState) {
-<span class="fc" id="L482">        this.plcState = plcState;</span>
-<span class="fc" id="L483">    }</span>
+<span class="fc" id="L504">        this.plcState = plcState;</span>
+<span class="fc" id="L505">    }</span>
 
     /**
      * Remove one or more {@link Message}s from this Location.
@@ -490,8 +512,8 @@ public class Location extends Target implements Serializable {
      * @throws IllegalArgumentException when messages is {@literal null}
      */
     public boolean removeMessages(Message... msgs) {
-<span class="fc" id="L493">        Assert.notNull(msgs, () -&gt; &quot;null passed to removeMessages, this: &quot; + this);</span>
-<span class="fc" id="L494">        return this.messages.removeAll(Arrays.asList(msgs));</span>
+<span class="fc" id="L515">        Assert.notNull(msgs, () -&gt; &quot;null passed to removeMessages, this: &quot; + this);</span>
+<span class="fc" id="L516">        return this.messages.removeAll(Arrays.asList(msgs));</span>
     }
 
     /**
@@ -501,13 +523,13 @@ public class Location extends Target implements Serializable {
      * @param locationGroup The {@link LocationGroup} to be assigned
      */
     void setLocationGroup(LocationGroup locationGroup) {
-<span class="fc" id="L504">        Assert.notNull(locationGroup, () -&gt; &quot;Not allowed to call location#setLocationGroup with null argument, this: &quot; + this);</span>
-<span class="fc bfc" id="L505" title="All 2 branches covered.">        if (this.locationGroup != null) {</span>
-<span class="fc" id="L506">            this.locationGroup.removeLocation(this);</span>
+<span class="fc" id="L526">        Assert.notNull(locationGroup, () -&gt; &quot;Not allowed to call location#setLocationGroup with null argument, this: &quot; + this);</span>
+<span class="fc bfc" id="L527" title="All 2 branches covered.">        if (this.locationGroup != null) {</span>
+<span class="fc" id="L528">            this.locationGroup.removeLocation(this);</span>
         }
-<span class="fc" id="L508">        this.setLocationGroupCountingActive(locationGroup.isLocationGroupCountingActive());</span>
-<span class="fc" id="L509">        this.locationGroup = locationGroup;</span>
-<span class="fc" id="L510">    }</span>
+<span class="fc" id="L530">        this.setLocationGroupCountingActive(locationGroup.isLocationGroupCountingActive());</span>
+<span class="fc" id="L531">        this.locationGroup = locationGroup;</span>
+<span class="fc" id="L532">    }</span>
 
     /**
      * Define whether or not the Location shall be considered in counting {@code TransportUnit}s of the parent {@link LocationGroup}.
@@ -515,8 +537,8 @@ public class Location extends Target implements Serializable {
      * @param locationGroupCountingActive {@literal true} if considered, otherwise {@literal false}
      */
     public void setLocationGroupCountingActive(boolean locationGroupCountingActive) {
-<span class="fc" id="L518">        this.locationGroupCountingActive = locationGroupCountingActive;</span>
-<span class="fc" id="L519">    }</span>
+<span class="fc" id="L540">        this.locationGroupCountingActive = locationGroupCountingActive;</span>
+<span class="fc" id="L541">    }</span>
 
     /**
      * Checks whether this {@code Location} belongs to a {@code LocationGroup}.
@@ -524,7 +546,7 @@ public class Location extends Target implements Serializable {
      * @return {@literal true} if it belongs to a {@code LocationGroup}, otherwise {@literal false}
      */
     public boolean belongsToLocationGroup() {
-<span class="fc bfc" id="L527" title="All 2 branches covered.">        return locationGroup != null;</span>
+<span class="fc bfc" id="L549" title="All 2 branches covered.">        return locationGroup != null;</span>
     }
 
     /**
@@ -533,15 +555,15 @@ public class Location extends Target implements Serializable {
      * @return {@literal true} if it does not belong to a {@code LocationGroup}, otherwise {@literal false}
      */
     public boolean belongsNotToLocationGroup() {
-<span class="pc bpc" id="L536" title="1 of 2 branches missed.">        return !belongsToLocationGroup();</span>
+<span class="pc bpc" id="L558" title="1 of 2 branches missed.">        return !belongsToLocationGroup();</span>
     }
 
     /**
      * Set the locationGroup to {@literal null}.
      */
     void unsetLocationGroup() {
-<span class="fc" id="L543">        this.locationGroup = null;</span>
-<span class="fc" id="L544">    }</span>
+<span class="fc" id="L565">        this.locationGroup = null;</span>
+<span class="fc" id="L566">    }</span>
 
     /**
      * {@inheritDoc}
@@ -550,10 +572,10 @@ public class Location extends Target implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-<span class="pc bpc" id="L553" title="1 of 2 branches missed.">        if (this == o) return true;</span>
-<span class="pc bpc" id="L554" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="fc" id="L555">        Location location = (Location) o;</span>
-<span class="fc" id="L556">        return Objects.equals(locationId, location.locationId);</span>
+<span class="pc bpc" id="L575" title="1 of 2 branches missed.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L576" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L577">        Location location = (Location) o;</span>
+<span class="fc" id="L578">        return Objects.equals(locationId, location.locationId);</span>
     }
 
     /**
@@ -563,7 +585,7 @@ public class Location extends Target implements Serializable {
      */
     @Override
     public int hashCode() {
-<span class="fc" id="L566">        return Objects.hash(locationId);</span>
+<span class="fc" id="L588">        return Objects.hash(locationId);</span>
     }
 
     /**
@@ -574,7 +596,7 @@ public class Location extends Target implements Serializable {
      */
     @Override
     public String toString() {
-<span class="fc" id="L577">        return locationId.toString();</span>
+<span class="fc" id="L599">        return locationId.toString();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
