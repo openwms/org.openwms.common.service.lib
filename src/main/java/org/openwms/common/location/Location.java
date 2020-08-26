@@ -189,6 +189,10 @@ public class Location extends Target implements Serializable {
     @Column(name = "C_GROUP")
     private String group;
 
+    /** The Location may be classified, like hazardeous. */
+    @Column(name = "C_CLASSIFICATION")
+    private String classification;
+
     /** The {@link LocationGroup} this Location belongs to. */
     @ManyToOne
     @JoinColumn(name = "C_LOCATION_GROUP", foreignKey = @ForeignKey(name = "FK_LOC_LG"))
@@ -407,6 +411,24 @@ public class Location extends Target implements Serializable {
      */
     public String getGroup() {
         return group;
+    }
+
+    /**
+     * Returns the classification of the Location.
+     *
+     * @return As a String
+     */
+    public String getClassification() {
+        return classification;
+    }
+
+    /**
+     * Set the classification.
+     *
+     * @param classification As an arbitrary String
+     */
+    public void setClassification(String classification) {
+        this.classification = classification;
     }
 
     /**
