@@ -513,7 +513,7 @@ a set of query parameters.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=ALLOCATION_LOCK&amp;mode=IN HTTP/1.1
 Host: localhost:8080
 Content-Type: application/x-www-form-urlencoded
 
@@ -529,7 +529,7 @@ type=ALLOCATION_LOCK&amp;mode=IN</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=ALLOCATION_LOCK&amp;mode=OUT HTTP/1.1
 Host: localhost:8080
 Content-Type: application/x-www-form-urlencoded
 
@@ -545,7 +545,7 @@ lock type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN_AND_OU
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=ALLOCATION_LOCK&amp;mode=IN_AND_OUT HTTP/1.1
 Host: localhost:8080
 Content-Type: application/x-www-form-urlencoded
 
@@ -561,7 +561,7 @@ type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=NONE</strong><
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=ALLOCATION_LOCK&amp;mode=NONE HTTP/1.1
 Host: localhost:8080
 Content-Type: application/x-www-form-urlencoded
 
@@ -641,7 +641,7 @@ for planned short term locks, where a <code>Target</code> is taken out of operat
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?reallocation=true&amp;type=OPERATION_LOCK&amp;mode=IN HTTP/1.1
 Host: localhost:8080
 Content-Type: application/x-www-form-urlencoded
 
@@ -657,7 +657,7 @@ reallocation=true&amp;type=OPERATION_LOCK&amp;mode=IN</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=OPERATION_LOCK&amp;mode=OUT HTTP/1.1
 Host: localhost:8080
 Content-Type: application/x-www-form-urlencoded
 
@@ -673,7 +673,7 @@ lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=OPERATION_LOCK&amp;mode=IN_AND_OUT HTTP/1.1
 Host: localhost:8080
 Content-Type: application/x-www-form-urlencoded
 
@@ -689,7 +689,7 @@ the lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=NONE</
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=OPERATION_LOCK&amp;mode=NONE HTTP/1.1
 Host: localhost:8080
 Content-Type: application/x-www-form-urlencoded
 
@@ -726,7 +726,7 @@ orders.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?reallocation=true&amp;type=PERMANENT_LOCK&amp;mode=lock HTTP/1.1
 Host: localhost:8080
 Content-Type: application/x-www-form-urlencoded
 
@@ -738,7 +738,7 @@ reallocation=true&amp;type=PERMANENT_LOCK&amp;mode=lock</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=PERMANENT_LOCK&amp;mode=unlock HTTP/1.1
 Host: localhost:8080
 Content-Type: application/x-www-form-urlencoded
 
@@ -781,7 +781,7 @@ Content-Length: 194
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-26 21:52:13 UTC
+Last updated 2020-09-09 10:03:59 UTC
 </div>
 </div>
 </body>

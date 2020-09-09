@@ -494,7 +494,7 @@ different request parameters.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/transport-units HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/transport-units?bk=00000000000000004710&amp;actualLocation=EXT_/0000/0000/0000/0000&amp;tut=PALLET&amp;strict=false HTTP/1.1
 Host: localhost:8080
 Content-Type: application/x-www-form-urlencoded
 
@@ -538,7 +538,7 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/a9e929e0-bfba-47ee-8d71-b456b2f1b6e5/</code></pre>
+Location: http://localhost:8080/v1/transport-units/669300d3-3ff0-41da-bd57-2333ecb78333/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -590,7 +590,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/9831756c-cf71-47ce-b8a1-41bdd670f224/</code></pre>
+Location: http://localhost:8080/v1/transport-units/e69181d7-ae8a-4e96-8950-40ff65a28754/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -631,7 +631,7 @@ Location where the <code>TransportUnit</code> shall be booked on.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /v1/transport-units HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /v1/transport-units?bk=00000000000000004711&amp;newLocation=FGIN/0001/LEFT/0000/0000 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -683,8 +683,8 @@ Content-Length: 542
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0013",
-  "actualLocationDate" : "2020-08-26T21:54:00.027+0000",
-  "createDate" : "2020-08-26T21:53:59.977+0000"
+  "actualLocationDate" : "2020-09-09T10:05:37.574+0000",
+  "createDate" : "2020-09-09T10:05:37.537+0000"
 }</code></pre>
 </div>
 </div>
@@ -760,8 +760,8 @@ Content-Length: 542
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0013",
-  "actualLocationDate" : "2020-08-26T21:53:59.540+0000",
-  "createDate" : "2020-08-26T21:53:59.455+0000"
+  "actualLocationDate" : "2020-09-09T10:05:37.111+0000",
+  "createDate" : "2020-09-09T10:05:36.994+0000"
 }</code></pre>
 </div>
 </div>
@@ -845,8 +845,8 @@ Content-Length: 808
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-08-26T21:53:59.766+0000",
-  "createDate" : "2020-08-26T21:53:59.766+0000"
+  "actualLocationDate" : "2020-09-09T10:05:37.371+0000",
+  "createDate" : "2020-09-09T10:05:37.371+0000"
 }</code></pre>
 </div>
 </div>
@@ -905,8 +905,8 @@ Content-Length: 808
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-08-26T21:53:59.593+0000",
-  "createDate" : "2020-08-26T21:53:59.593+0000"
+  "actualLocationDate" : "2020-09-09T10:05:37.189+0000",
+  "createDate" : "2020-09-09T10:05:37.189+0000"
 }</code></pre>
 </div>
 </div>
@@ -974,8 +974,8 @@ Content-Length: 1625
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-08-26T21:53:58.946+0000",
-  "createDate" : "2020-08-26T21:53:58.946+0000"
+  "actualLocationDate" : "2020-09-09T10:05:36.487+0000",
+  "createDate" : "2020-09-09T10:05:36.487+0000"
 }, {
   "links" : [ {
     "rel" : "transport-unit-type",
@@ -1001,8 +1001,8 @@ Content-Length: 1625
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2020-08-26T21:53:58.946+0000",
-  "createDate" : "2020-08-26T21:53:58.946+0000"
+  "actualLocationDate" : "2020-09-09T10:05:36.487+0000",
+  "createDate" : "2020-09-09T10:05:36.487+0000"
 } ]</code></pre>
 </div>
 </div>
@@ -1014,7 +1014,7 @@ Content-Length: 1625
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/transport-units?actualLocation=FGIN%2FIPNT%2F0001%2F0000%2F0000 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/transport-units?actualLocation=FGIN/IPNT/0001/0000/0000 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1070,8 +1070,8 @@ Content-Length: 815
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2020-08-26T21:54:00.086+0000",
-  "createDate" : "2020-08-26T21:54:00.086+0000"
+  "actualLocationDate" : "2020-09-09T10:05:37.622+0000",
+  "createDate" : "2020-09-09T10:05:37.622+0000"
 } ]</code></pre>
 </div>
 </div>
@@ -1085,7 +1085,7 @@ client simple calls this API to store a new error message for an existing <code>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/transport-unit/error HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/transport-unit/error?bk=00000000000000004711&amp;errorCode=bla HTTP/1.1
 Host: localhost:8080
 Content-Type: application/x-www-form-urlencoded
 
@@ -1128,7 +1128,7 @@ bk=00000000000000004711&amp;errorCode=bla</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-26 21:52:13 UTC
+Last updated 2020-09-09 10:03:59 UTC
 </div>
 </div>
 </body>
