@@ -31,7 +31,7 @@ include::1-sitemap.adoc[]
 
 A description of all used API resources.
 
-image::ClassDiagram.svg[]
+image::images/ClassDiagram.svg[]
 
 include::2-index.adoc[]
 

@@ -9,6 +9,6 @@ Like human readable websites provide a sitemap, a machine readable API can be vi
 maturity-level-3 API offers index resources beside typical business resources. The API entry point is the top-level index resource that is
 used to navigate to all possible entities with their operations.
 
-image::common-service-index.svg[]
+image::images/common-service-index.svg[]
 
 This top-level, or root, index page offers further links to primary resources, like `Locations`, `LocationGroups` and `TransportUnits`.
