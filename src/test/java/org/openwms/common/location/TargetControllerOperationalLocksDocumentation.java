@@ -56,9 +56,9 @@ class TargetControllerOperationalLocksDocumentation {
     @Test
     void shall_olock_LocationGroup_IN() throws Exception {
         mockMvc.perform(post(API_TARGETS + "/IPOINT")
-                .param("reallocation", "true")
-                .param("type", "OPERATION_LOCK")
-                .param("mode", "IN"))
+                .queryParam("reallocation", "true")
+                .queryParam("type", "OPERATION_LOCK")
+                .queryParam("mode", "IN"))
                 .andExpect(status().isOk())
                 .andDo(document("all-olock-in-lg-IPOINT"));
         LocationGroup ipoint = locationGroupService.findByName("IPOINT").orElseThrow(NotFoundException::new);
@@ -74,8 +74,8 @@ class TargetControllerOperationalLocksDocumentation {
     @Test
     void shall_olock_LocationGroup_OUT() throws Exception {
         mockMvc.perform(post(API_TARGETS + "/IPOINT")
-                .param("type", "OPERATION_LOCK")
-                .param("mode", "OUT"))
+                .queryParam("type", "OPERATION_LOCK")
+                .queryParam("mode", "OUT"))
                 .andExpect(status().isOk())
                 .andDo(document("all-olock-out-lg-IPOINT"));
         LocationGroup ipoint = locationGroupService.findByName("IPOINT").orElseThrow(NotFoundException::new);
@@ -91,8 +91,8 @@ class TargetControllerOperationalLocksDocumentation {
     @Test
     void shall_olock_LocationGroup_INOUT() throws Exception {
         mockMvc.perform(post(API_TARGETS + "/IPOINT")
-                .param("type", "OPERATION_LOCK")
-                .param("mode", "IN_AND_OUT"))
+                .queryParam("type", "OPERATION_LOCK")
+                .queryParam("mode", "IN_AND_OUT"))
                 .andExpect(status().isOk())
                 .andDo(document("all-olock-inout-lg-IPOINT"));
         LocationGroup ipoint = locationGroupService.findByName("IPOINT").orElseThrow(NotFoundException::new);
@@ -104,8 +104,8 @@ class TargetControllerOperationalLocksDocumentation {
     @Test
     void shall_olock_LocationGroup_NONE() throws Exception {
         mockMvc.perform(post(API_TARGETS + "/IPOINT")
-                .param("type", "OPERATION_LOCK")
-                .param("mode", "NONE"))
+                .queryParam("type", "OPERATION_LOCK")
+                .queryParam("mode", "NONE"))
                 .andExpect(status().isOk())
                 .andDo(document("all-olock-none-lg-IPOINT"));
         LocationGroup ipoint = locationGroupService.findByName("IPOINT").orElseThrow(NotFoundException::new);

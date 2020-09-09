@@ -79,21 +79,21 @@ class AccountControllerDocumentation {
 
     @Test void shall_findByIdentifier() throws Exception {
         mockMvc.perform(get(API_ACCOUNTS)
-                .param("identifier", "D"))
+                .queryParam("identifier", "D"))
                 .andExpect(status().isOk())
                 .andDo(document("acc-find-byIdentifier", preprocessResponse(prettyPrint())));
     }
 
     @Test void shall_findByName() throws Exception {
         mockMvc.perform(get(API_ACCOUNTS)
-                .param("name", "Default"))
+                .queryParam("name", "Default"))
                 .andExpect(status().isOk())
                 .andDo(document("acc-find-byName", preprocessResponse(prettyPrint())));
     }
 
     @Test void shall_findByName_404() throws Exception {
         mockMvc.perform(get(API_ACCOUNTS)
-                .param("name", "UNKNOWN"))
+                .queryParam("name", "UNKNOWN"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("messageKey", is(CommonMessageCodes.ACCOUNT_NOT_FOUND)))
                 .andDo(document("acc-find-byName404", preprocessResponse(prettyPrint())));
@@ -101,7 +101,7 @@ class AccountControllerDocumentation {
 
     @Test void shall_findDefault() throws Exception {
         mockMvc.perform(get(API_ACCOUNTS)
-                .param("default", "true"))
+                .queryParam("default", "true"))
                 .andExpect(status().isOk())
                 .andDo(document("acc-find-default", preprocessResponse(prettyPrint())));
     }
@@ -110,7 +110,7 @@ class AccountControllerDocumentation {
     @Test void shall_findDefault_404() throws Exception {
         em.createNativeQuery("update com_account set c_default=false where c_pk=1000").executeUpdate();
         mockMvc.perform(get(API_ACCOUNTS)
-                .param("default", "true"))
+                .queryParam("default", "true"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("messageKey", is(CommonMessageCodes.ACCOUNT_NO_DEFAULT)))
                 .andDo(document("acc-find-default404", preprocessResponse(prettyPrint())));

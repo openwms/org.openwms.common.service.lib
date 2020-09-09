@@ -101,7 +101,7 @@ class LocationGroupControllerDocumentation {
         @Test
         void shall_findby_name() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATION_GROUPS)
-                    .param("name", TestData.LOCATION_GROUP_NAME_LG2))
+                    .queryParam("name", TestData.LOCATION_GROUP_NAME_LG2))
                     .andExpect(jsonPath("pKey").exists())
                     .andExpect(jsonPath("name", is(TestData.LOCATION_GROUP_NAME_LG2)))
                     .andExpect(jsonPath("parentName").exists())
@@ -124,7 +124,7 @@ class LocationGroupControllerDocumentation {
         @Test
         void shall_findby_name_404() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATION_GROUPS)
-                    .param("name", "NOT_EXISTS"))
+                    .queryParam("name", "NOT_EXISTS"))
                     .andExpect(status().isNotFound())
                     .andExpect(jsonPath("messageKey", is(Messages.NOT_FOUND)))
                     .andDo(document("lg-find-name-404"));
@@ -133,8 +133,8 @@ class LocationGroupControllerDocumentation {
         @Test
         void shall_findby_names() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATION_GROUPS)
-                    .param("names", TestData.LOCATION_GROUP_NAME_LG2)
-                    .param("names", TestData.LOCATION_GROUP_NAME_LG3))
+                    .queryParam("names", TestData.LOCATION_GROUP_NAME_LG2)
+                    .queryParam("names", TestData.LOCATION_GROUP_NAME_LG3))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$").isArray())
                     .andExpect(jsonPath("$.length()", is(2)))
@@ -176,8 +176,8 @@ class LocationGroupControllerDocumentation {
      */
         @Test void shall_changeState_pkey_404() throws Exception {
             mockMvc.perform(patch(LocationApiConstants.API_LOCATION_GROUPS)
-                    .param("name", "NOT_EXISTS")
-                    .param("op","change-state")
+                    .queryParam("name", "NOT_EXISTS")
+                    .queryParam("op","change-state")
                     .content(mapper.writeValueAsString(ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT))
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isNotFound())
@@ -187,8 +187,8 @@ class LocationGroupControllerDocumentation {
 
         @Test void shall_change_state() throws Exception {
             mockMvc.perform(patch(LocationApiConstants.API_LOCATION_GROUPS)
-                    .param("name", TestData.LOCATION_GROUP_NAME_LG3)
-                    .param("op","change-state")
+                    .queryParam("name", TestData.LOCATION_GROUP_NAME_LG3)
+                    .queryParam("op","change-state")
                     .content(mapper.writeValueAsString(ErrorCodeVO.LOCK_STATE_IN_AND_OUT))
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
@@ -210,9 +210,9 @@ class LocationGroupControllerDocumentation {
             LocationGroup lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
             mockMvc.perform(
                     patch(API_LOCATION_GROUP + "/{pKey}", lg.getPersistentKey())
-                    .param("statein", LocationGroupState.NOT_AVAILABLE.toString())
-                    .param("stateout", LocationGroupState.NOT_AVAILABLE.toString())
-                    .param("op","change-state"))
+                    .queryParam("statein", LocationGroupState.NOT_AVAILABLE.toString())
+                    .queryParam("stateout", LocationGroupState.NOT_AVAILABLE.toString())
+                    .queryParam("op","change-state"))
                     .andExpect(status().isOk())
                     .andDo(
                             documentationResultHandler.document(

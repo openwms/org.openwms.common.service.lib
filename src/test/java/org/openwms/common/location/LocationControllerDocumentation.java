@@ -89,7 +89,7 @@ class LocationControllerDocumentation {
      */
         @Test void shall_findby_plccode() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
-                    .param("plcCode", TestData.LOCATION_PLC_CODE_EXT))
+                    .queryParam("plcCode", TestData.LOCATION_PLC_CODE_EXT))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("pKey").exists())
                     .andExpect(jsonPath("locationId", is(TestData.LOCATION_ID_EXT)))
@@ -103,7 +103,7 @@ class LocationControllerDocumentation {
 
         @Test void shall_findby_plccode_404() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
-                    .param("plcCode", "NOT EXISTS"))
+                    .queryParam("plcCode", "NOT EXISTS"))
                     .andExpect(status().isNotFound())
                     .andDo(document("loc-find-plc-404"));
         }
@@ -120,7 +120,7 @@ class LocationControllerDocumentation {
          */
         @Test void shall_findby_locationPk() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
-                    .param("locationPK", TestData.LOCATION_ID_EXT))
+                    .queryParam("locationPK", TestData.LOCATION_ID_EXT))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("pKey").exists())
                     .andExpect(jsonPath("locationId", is(TestData.LOCATION_ID_EXT)))
@@ -135,7 +135,7 @@ class LocationControllerDocumentation {
 
         @Test void shall_findby_locationPk_404() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
-                    .param("locationPK", "EXT_/9999/9999/9999/9999"))
+                    .queryParam("locationPK", "EXT_/9999/9999/9999/9999"))
                     .andExpect(status().isNotFound())
                     .andExpect(jsonPath("messageKey", is(Messages.NOT_FOUND)))
                     .andDo(document("loc-find-coordinate-404"));
@@ -143,18 +143,18 @@ class LocationControllerDocumentation {
 
         @Test void shall_findby_locationPk_400() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
-                    .param("locationPK", "INVALID_COORDINATE"))
+                    .queryParam("locationPK", "INVALID_COORDINATE"))
                     .andExpect(status().isNotFound())
                     .andDo(document("loc-find-coordinate-400"));
         }
 
         @Test void shall_findby_locationPk_wildcard() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
-                    .param("area", "FGIN")
-                    .param("aisle", "00__")
-                    .param("x", "LIFT")
-                    .param("y", "0000")
-                    .param("z", "%"))
+                    .queryParam("area", "FGIN")
+                    .queryParam("aisle", "00__")
+                    .queryParam("x", "LIFT")
+                    .queryParam("y", "0000")
+                    .queryParam("z", "%"))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.length()", is(2)))
                     .andDo(document("loc-find-coordinate-wildcard"));
@@ -162,11 +162,11 @@ class LocationControllerDocumentation {
 
         @Test void shall_findby_locationPk_wildcard_404() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
-                    .param("area", "UNKN")
-                    .param("aisle", "%")
-                    .param("x", "%")
-                    .param("y", "%")
-                    .param("z", "%"))
+                    .queryParam("area", "UNKN")
+                    .queryParam("aisle", "%")
+                    .queryParam("x", "%")
+                    .queryParam("y", "%")
+                    .queryParam("z", "%"))
                     .andExpect(status().isNotFound())
                     .andDo(document("loc-find-coordinate-wildcard-404"));
         }
@@ -185,29 +185,29 @@ class LocationControllerDocumentation {
     class LGTests {
         @Test void shall_findby_lgname() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
-                    .param("locationGroupNames", TestData.LOCATION_GROUP_NAME_LG1))
+                    .queryParam("locationGroupNames", TestData.LOCATION_GROUP_NAME_LG1))
                     .andExpect(status().isOk())
                     .andDo(document("loc-find-in-lg"));
         }
 
         @Test void shall_findby_lgnames() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
-                    .param("locationGroupNames", TestData.LOCATION_GROUP_NAME_LG1)
-                    .param("locationGroupNames", TestData.LOCATION_GROUP_NAME_LG2))
+                    .queryParam("locationGroupNames", TestData.LOCATION_GROUP_NAME_LG1)
+                    .queryParam("locationGroupNames", TestData.LOCATION_GROUP_NAME_LG2))
                     .andExpect(status().isOk())
                     .andDo(document("loc-find-in-lg-multiple"));
         }
 
         @Test void shall_findby_lgname_404() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
-                    .param("locationGroupNames", "NOT EXISTS"))
+                    .queryParam("locationGroupNames", "NOT EXISTS"))
                     .andExpect(status().isOk())
                     .andDo(document("loc-find-in-lg-404"));
         }
 
         @Test void shall_findby_lgname_wc() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
-                    .param("locationGroupNames", "IP%"))
+                    .queryParam("locationGroupNames", "IP%"))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$").isArray())
                     //.andExpect(jsonPath("$.length", is(2)))
@@ -225,7 +225,7 @@ class LocationControllerDocumentation {
             mockMvc.perform(patch(LocationApiConstants.API_LOCATION + "/NOTEXISTS")
                     .content(mapper.writeValueAsString(ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT))
                     .contentType(MediaType.APPLICATION_JSON)
-                    .param("op","change-state"))
+                    .queryParam("op","change-state"))
                     .andExpect(status().isNotFound())
                     .andExpect(jsonPath("messageKey", is(Messages.NOT_FOUND)))
                     .andDo(document("loc-state-404"));
@@ -236,7 +236,7 @@ class LocationControllerDocumentation {
             mockMvc.perform(patch(LocationApiConstants.API_LOCATION + "/" + location.getPersistentKey())
                     .content(mapper.writeValueAsString(ErrorCodeVO.LOCK_STATE_IN))
                     .contentType(MediaType.APPLICATION_JSON)
-                    .param("op","change-state"))
+                    .queryParam("op","change-state"))
                     .andExpect(status().isOk())
                     .andDo(document("loc-state-in"));
             location = service.findByLocationId(TestData.LOCATION_ID_EXT).get();
@@ -248,7 +248,7 @@ class LocationControllerDocumentation {
             mockMvc.perform(patch(LocationApiConstants.API_LOCATION + "/" + location.getPersistentKey())
                     .content(mapper.writeValueAsString(new ErrorCodeVO(31)))
                     .contentType(MediaType.APPLICATION_JSON)
-                    .param("op","change-state"))
+                    .queryParam("op","change-state"))
                     .andExpect(status().isOk())
                     .andDo(document("loc-plcstate"));
             location = service.findByLocationId(TestData.LOCATION_ID_EXT).get();
@@ -260,7 +260,7 @@ class LocationControllerDocumentation {
             mockMvc.perform(patch(LocationApiConstants.API_LOCATION + "/" + location.getPersistentKey())
                     .content(mapper.writeValueAsString(new ErrorCodeVO("******11",31)))
                     .contentType(MediaType.APPLICATION_JSON)
-                    .param("op","change-state"))
+                    .queryParam("op","change-state"))
                     .andExpect(status().isOk());
             location = service.findByLocationId(TestData.LOCATION_ID_EXT).get();
             assertThat(location.getPlcState()).isEqualTo(31);

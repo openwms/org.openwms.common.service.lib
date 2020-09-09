@@ -78,7 +78,7 @@ class TransportUnitTypeControllerDocumentation {
 
     @Test void shall_findby_name() throws Exception {
         mockMvc.perform(get(API_TRANSPORT_UNIT_TYPES)
-                .param("type", TestData.TUT_TYPE_PALLET))
+                .queryParam("type", TestData.TUT_TYPE_PALLET))
                 .andExpect(jsonPath("$.type", is("PALLET")))
                 .andExpect(jsonPath("$.description", is("Euro pallet")))
                 .andExpect(jsonPath("$.height", is("102")))
@@ -90,7 +90,7 @@ class TransportUnitTypeControllerDocumentation {
 
     @Test void shall_findby_name_404() throws Exception {
         mockMvc.perform(get(API_TRANSPORT_UNIT_TYPES)
-                .param("type", "NOT_EXISTS"))
+                .queryParam("type", "NOT_EXISTS"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("messageKey", is(Messages.NOT_FOUND)))
                 .andDo(document("tut-find-type-404"));
