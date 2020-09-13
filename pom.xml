@@ -67,7 +67,7 @@
         <core.units.version>0.3.0</core.units.version>
         <indriya.version>2.0</indriya.version>
         <guava.version>29.0-jre</guava.version>
-        <spring-cloud-dependencies.version>Hoxton.RELEASE</spring-cloud-dependencies.version>
+        <spring-cloud-dependencies.version>Hoxton.SR8</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
     </properties>
 
@@ -314,7 +314,6 @@
             <artifactId>spring-retry</artifactId>
             <optional>true</optional>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>

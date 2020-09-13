@@ -19,7 +19,6 @@ spring:
       name: user
       password: sa
   jpa:
-    show-sql: false
     open-in-view: false
     properties:
       org:
@@ -32,6 +31,7 @@ spring:
             default_schema: public
             audit_strategy_validity_end_rev_field_name: C_REV_END
             audit_strategy_validity_revend_timestamp_field_name: C_REVEND_TSTMP
+    show-sql: false
   jackson:
     date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
   main:
@@ -63,7 +63,7 @@ eureka:
   client:
     instance-info-replication-interval-seconds: 10 # default is 30
     service-url:
-      defaultZone: ${owms.eureka.zone}  # Must be camelCase
+      defaultZone: ${owms.eureka.zone} # Must be camelCase
   instance:
     hostname: ${owms.srv.hostname}
     secure-port-enabled: false
@@ -73,6 +73,7 @@ eureka:
       password: ${spring.security.user.password}
       protocol: ${owms.srv.protocol}
       zone: ${owms.eureka.zone}
+      config-protocol: http # The protocol used to access the config server
     prefer-ip-address: true
 
 management:
@@ -89,9 +90,13 @@ management:
         request:
           autotime:
             enabled: true
+    export:
+      prometheus:
+        enabled: true
   info:
     git:
       mode: full
+
 logging:
   file:
     name: BOOT-COMMON-Service.log
@@ -220,9 +225,11 @@ spring:
     database: postgresql
     generate-ddl: true
     properties:
-      hibernate.dialect: org.hibernate.dialect.PostgreSQL9Dialect
-      hibernate.temp.use_jdbc_metadata_defaults: false
-      hibernate.default_schema: public
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+        temp:
+          use_jdbc_metadata_defaults: false
+        default_schema: public
     hibernate:
       ddl-auto: update
   datasource:
