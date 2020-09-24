@@ -264,24 +264,19 @@
             <optional>true</optional>
             <exclusions>
                 <exclusion>
-                    <!-- Internal MAJOR clash -->
-                    <groupId>com.netflix.servo</groupId>
-                    <artifactId>servo-core</artifactId>
-                </exclusion>
-                <exclusion>
                     <!-- Bites with Spring Data Envers -->
                     <groupId>joda-time</groupId>
                     <artifactId>joda-time</artifactId>
                 </exclusion>
                 <exclusion>
-                    <!-- Internal MAJOR clash -->
-                    <groupId>com.fasterxml.woodstox</groupId>
-                    <artifactId>woodstox-core</artifactId>
-                </exclusion>
-                <exclusion>
                     <!-- Bites with Guava -->
                     <groupId>com.google.code.findbugs</groupId>
                     <artifactId>jsr305</artifactId>
+                </exclusion>
+                <exclusion>
+                    <!-- Has a conflict internally -->
+                    <groupId>commons-configuration</groupId>
+                    <artifactId>commons-configuration</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -340,18 +335,9 @@
 
         <!-- Fix Exclusions -->
         <dependency>
-            <!-- com.netflix.eureka:eureka-client has an internal clash -->
-            <groupId>com.netflix.servo</groupId>
-            <artifactId>servo-core</artifactId>
-            <version>0.12.21</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <!-- com.netflix.eureka:eureka-client has an internal clash -->
-            <groupId>com.fasterxml.woodstox</groupId>
-            <artifactId>woodstox-core</artifactId>
-            <version>6.2.0</version>
-            <optional>true</optional>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.10</version>
         </dependency>
 
         <!-- 3rd party dependencies -->
