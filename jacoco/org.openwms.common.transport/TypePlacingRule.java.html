@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TypePlacingRule.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.transport</a> &gt; <span class="el_source">TypePlacingRule.java</span></div><h1>TypePlacingRule.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.transport;
+
+import org.ameba.integration.jpa.BaseEntity;
+import org.openwms.common.location.LocationType;
+import org.springframework.util.Assert;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import java.io.Serializable;
+import java.util.Objects;
+
+/**
+ * A TypePlacingRule is a {@code Rule} that defines which types of {@code TransportUnit}s ({@code TransportUnitType}s) can be put on which
+ * type of {@code Location} ({@code LocationType}). &lt;p&gt; A privilegeLevel is defined to order a list of allowed {@code LocationType}s. &lt;/p&gt;
+ *
+ * @author Heiko Scherrer
+ * @GlossaryTerm
+ * @see TransportUnitType
+ */
+@Entity
+@Table(name = &quot;COM_TYPE_PLACING_RULE&quot;, uniqueConstraints = @UniqueConstraint(columnNames = {&quot;C_TUT_ID&quot;,
+        &quot;C_PRIVILEGE_LEVEL&quot;, &quot;C_ALLOWED_LOCATION_TYPE&quot;}))
+public class TypePlacingRule extends BaseEntity implements Serializable, Rule {
+
+    /** To separate fields in toString method. */
+    static final String SEPARATOR = &quot;::&quot;;
+    /** Parent {@link TransportUnitType} (not-null). */
+    @ManyToOne
+    @JoinColumn(name = &quot;C_TUT_ID&quot;, nullable = false)
+    private TransportUnitType transportUnitType;
+
+    /**
+     * The privilegeLevel defines a priority to describe which {@link TransportUnitType} can be placed on which {@link LocationType}. &lt;p&gt; A
+     * value of 0 means the lowest priority. Increasing the privilegeLevel implies a higher priority and means the {@link TransportUnitType}
+     * can be placed to the {@link LocationType} with the highest privilegeLevel. &lt;/p&gt; &lt;p&gt; To forbid a {@link TransportUnitType} on a
+     * certain {@link LocationType} the privilegeLevel must be set to -1. &lt;/p&gt; (not-null)
+     */
+    @Column(name = &quot;C_PRIVILEGE_LEVEL&quot;, nullable = false)
+<span class="fc" id="L58">    private int privilegeLevel = DEF_PRIVILEGE_LEVEL;</span>
+    /** Default value of {@link #privilegeLevel}. */
+    static final int DEF_PRIVILEGE_LEVEL = 0;
+
+    /** An allowed {@link LocationType} on which the owning {@link TransportUnitType} may be placed (not-null). */
+    @ManyToOne
+    @JoinColumn(name = &quot;C_ALLOWED_LOCATION_TYPE&quot;, nullable = false)
+    private LocationType allowedLocationType;
+
+    /*~ ----------------------------- constructors ------------------- */
+
+    /** Dear JPA... */
+<span class="fc" id="L70">    protected TypePlacingRule() {</span>
+<span class="fc" id="L71">    }</span>
+
+    /**
+     * Create a new {@code TypePlacingRule} with privilegeLevel and allowedLocationType.
+     *
+     * @param transportUnitType The {@link TransportUnitType} for this rule, may not be {@literal null}
+     * @param allowedLocationType The allowed {@link LocationType}, may not be {@literal null}
+     * @param privilegeLevel The privilege level
+     */
+<span class="fc" id="L80">    public TypePlacingRule(TransportUnitType transportUnitType, LocationType allowedLocationType, int privilegeLevel) {</span>
+<span class="fc" id="L81">        Assert.notNull(transportUnitType, &quot;When constructing a TypePlacingRule the TransportUnitType may not be null&quot;);</span>
+<span class="fc" id="L82">        Assert.notNull(allowedLocationType, &quot;When constructing a TypePlacingRule the LocationType may not be null&quot;);</span>
+<span class="fc" id="L83">        this.transportUnitType = transportUnitType;</span>
+<span class="fc" id="L84">        this.allowedLocationType = allowedLocationType;</span>
+<span class="fc" id="L85">        this.privilegeLevel = privilegeLevel;</span>
+<span class="fc" id="L86">    }</span>
+
+    /**
+     * Create a new {@code TypePlacingRule} with allowedLocationType.
+     *
+     * @param transportUnitType The {@link TransportUnitType} for this rule
+     * @param allowedLocationType The allowed {@link LocationType}
+     */
+    public TypePlacingRule(TransportUnitType transportUnitType, LocationType allowedLocationType) {
+<span class="fc" id="L95">        this(transportUnitType, allowedLocationType, DEF_PRIVILEGE_LEVEL);</span>
+<span class="fc" id="L96">    }</span>
+
+    /*~ ----------------------------- methods ------------------- */
+
+    /**
+     * Get the transportUnitType.
+     *
+     * @return The transportUnitType.
+     */
+    public TransportUnitType getTransportUnitType() {
+<span class="fc" id="L106">        return transportUnitType;</span>
+    }
+
+    /**
+     * Get the privilegeLevel.
+     *
+     * @return The privilegeLevel.
+     */
+    public int getPrivilegeLevel() {
+<span class="fc" id="L115">        return privilegeLevel;</span>
+    }
+
+    /**
+     * Get the allowedLocationType.
+     *
+     * @return The allowedLocationType.
+     */
+    public LocationType getAllowedLocationType() {
+<span class="fc" id="L124">        return allowedLocationType;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L133" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L134">        TypePlacingRule that = (TypePlacingRule) o;</span>
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">        return privilegeLevel == that.privilegeLevel &amp;&amp;</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">                Objects.equals(transportUnitType, that.transportUnitType) &amp;&amp;</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">                Objects.equals(allowedLocationType, that.allowedLocationType);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+<span class="fc" id="L145">        return Objects.hash(transportUnitType, privilegeLevel, allowedLocationType);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L153">        return privilegeLevel + SEPARATOR + transportUnitType + SEPARATOR + allowedLocationType;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
