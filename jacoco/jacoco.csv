@@ -61,7 +61,7 @@ OpenWMS.org COMMON: Base Services,org.openwms.common.location,Message.Builder,0,
 OpenWMS.org COMMON: Base Services,org.openwms.common.location,LocationType,4,98,3,3,0,29,3,14,0,14
 OpenWMS.org COMMON: Base Services,org.openwms.common.location,Target,0,3,0,0,0,1,0,1,0,1
 OpenWMS.org COMMON: Base Services,org.openwms.common.location,Subsystem,32,0,0,0,14,0,7,0,7,0
-OpenWMS.org COMMON: Base Services,org.openwms.common.location,Location,28,270,4,12,8,66,11,41,7,37
+OpenWMS.org COMMON: Base Services,org.openwms.common.location,Location,28,279,4,12,8,68,11,42,7,38
 OpenWMS.org COMMON: Base Services,org.openwms.common.location,LocationGroupController,2,253,3,5,0,40,3,11,0,10
 OpenWMS.org COMMON: Base Services,org.openwms.common.location,TargetController,186,242,17,16,40,63,22,17,7,10
 OpenWMS.org COMMON: Base Services,org.openwms.common.transport.api.commands,MessageCommand,32,40,0,0,15,12,7,6,7,6

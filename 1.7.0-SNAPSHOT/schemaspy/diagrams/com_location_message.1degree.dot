@@ -35,6 +35,7 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="c_considered_in_allocation" COLSPAN="3" ALIGN="LEFT">c_considered_in_allocation</TD></TR>
       <TR><TD PORT="c_counting_active" COLSPAN="3" ALIGN="LEFT">c_counting_active</TD></TR>
       <TR><TD PORT="c_description" COLSPAN="3" ALIGN="LEFT">c_description</TD></TR>
+      <TR><TD PORT="c_direct_booking_allowed" COLSPAN="3" ALIGN="LEFT">c_direct_booking_allowed</TD></TR>
       <TR><TD PORT="c_erp_code" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_erp_code</TD></TR>
       <TR><TD PORT="c_group" COLSPAN="3" ALIGN="LEFT">c_group</TD></TR>
       <TR><TD PORT="c_incoming_active" COLSPAN="3" ALIGN="LEFT">c_incoming_active</TD></TR>

@@ -82,7 +82,7 @@
 </tr>
 </thead>
 <tbody valign='top'>
-<tr class='even'>
+<tr class='odd'>
  <td class='primaryKey' title='Primary Key'>c_pk</td>
  <td class='detail'>int8</td>
  <td class='detail' align='right'>19</td>
@@ -93,7 +93,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>c_created</td>
  <td class='detail'>timestamp</td>
  <td class='detail' align='right'>29,6</td>
@@ -104,7 +104,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>c_updated</td>
  <td class='detail'>timestamp</td>
  <td class='detail' align='right'>29,6</td>
@@ -115,7 +115,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>c_ol</td>
  <td class='detail'>int8</td>
  <td class='detail' align='right'>19</td>
@@ -126,7 +126,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>c_pid</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -137,7 +137,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>c_default</td>
  <td class='detail'>bool</td>
  <td class='detail' align='right'>1</td>
@@ -148,7 +148,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='indexedColumn' title='Indexed'>c_identifier</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -157,13 +157,13 @@
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="com_location.c_account refs com_account.c_identifier via fk_loc_acc"><a href='com_location.html'>com_location</a><span class='relatedKey'>.c_account</span>
     </td>
     <td class='constraint detail'>fk_loc_acc<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="com_location_group.c_account refs com_account.c_identifier via fk_lg_acc"><a href='com_location_group.html'>com_location_group</a><span class='relatedKey'>.c_account</span>
     </td>
     <td class='constraint detail'>fk_lg_acc<span title='Restrict delete:
@@ -174,7 +174,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='indexedColumn' title='Indexed'>c_name</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -186,7 +186,7 @@
  <td class='comment detail'></td>
 </tr>
 </table>
-<p title='8 columns'>Table contained 2 rows at Thu Sep 24 14:58 UTC 2020<p/>
+<p title='8 columns'>Table contained 2 rows at Sun Oct 11 19:42 UTC 2020<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -224,16 +224,16 @@
 <br><form action='get'><b>Close relationships</b><span class='degrees' id='degrees' title='Detail diminishes with increased separation from com_account'>
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="com_location.html" title="com_location" alt="" coords="563,5,788,760">
-<area shape="rect" id="node2" href="com_account.html" title="com_account" alt="" coords="5,675,265,931">
-<area shape="rect" id="node3" href="com_location_group.html" title="com_location_group" alt="" coords="309,675,519,1189">
+<area shape="rect" id="node1" href="com_location.html" title="com_location" alt="" coords="563,5,788,784">
+<area shape="rect" id="node2" href="com_account.html" title="com_account" alt="" coords="5,699,265,955">
+<area shape="rect" id="node3" href="com_location_group.html" title="com_location_group" alt="" coords="309,699,519,1213">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/com_account.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="com_location.html" title="com_location" alt="" coords="563,105,788,860">
-<area shape="rect" id="node2" href="com_account.html" title="com_account" alt="" coords="5,753,265,1009">
-<area shape="rect" id="node3" href="com_location_group.html" title="com_location_group" alt="" coords="309,753,519,1268">
-<area shape="rect" id="node4" href="com_location_type.html" title="com_location_type" alt="" coords="331,1285,497,1368">
+<area shape="rect" id="node1" href="com_location.html" title="com_location" alt="" coords="563,105,788,884">
+<area shape="rect" id="node2" href="com_account.html" title="com_account" alt="" coords="5,777,265,1033">
+<area shape="rect" id="node3" href="com_location_group.html" title="com_location_group" alt="" coords="309,777,519,1292">
+<area shape="rect" id="node4" href="com_location_type.html" title="com_location_type" alt="" coords="331,1309,497,1392">
 <area shape="rect" id="node5" href="com_location_message.html" title="com_location_message" alt="" coords="832,5,1033,88">
 <area shape="rect" id="node6" href="com_transport_unit.html" title="com_transport_unit" alt="" coords="846,105,1019,188">
 </map>
