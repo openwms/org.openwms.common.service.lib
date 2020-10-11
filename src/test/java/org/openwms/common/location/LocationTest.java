@@ -72,6 +72,7 @@ class LocationTest {
             assertThat(l.isInfeedBlocked()).isNotEqualTo(Location.DEF_INCOMING_ACTIVE);
             assertThat(l.isOutfeedActive()).isEqualTo(Location.DEF_OUTGOING_ACTIVE);
             assertThat(l.isOutfeedBlocked()).isNotEqualTo(Location.DEF_OUTGOING_ACTIVE);
+            assertThat(l.isDirectBookingAllowed()).isEqualTo(true);
             assertThat(l.getPlcState()).isEqualTo(Location.DEF_PLC_STATE);
             assertThat(l.isConsideredInAllocation()).isEqualTo(Location.DEF_CONSIDERED_IN_ALLOCATION);
         }

@@ -105,6 +105,10 @@ public class Location extends Target implements Serializable {
     @Column(name = "C_MAXIMUM_WEIGHT")
     private BigDecimal maximumWeight;
 
+    /** Whether or not moving Products without {@code TransportUnit} to this Location is allowed. */
+    @Column(name = "C_DIRECT_BOOKING_ALLOWED")
+    private boolean directBookingAllowed = true;
+
     /**
      * Date of last change. When a {@code TransportUnit} is moving to or away from this Location, {@code lastMovement} will be updated. This
      * is useful to get the history of {@code TransportUnit}s as well as for inventory calculation.
@@ -438,6 +442,15 @@ public class Location extends Target implements Serializable {
      */
     public BigDecimal getMaximumWeight() {
         return this.maximumWeight;
+    }
+
+    /**
+     * Whether or not moving Products without {@code TransportUnit} to this Location is allowed.
+     *
+     * @return {@literal true} if allowed, otherwise {@literal false}
+     */
+    public boolean isDirectBookingAllowed() {
+        return directBookingAllowed;
     }
 
     /**

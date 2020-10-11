@@ -167,7 +167,6 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
         setActualLocation(actualLocation);
     }
     /*~ ----------------------------- methods ------------------- */
-
     /**
      * Get the actual {@link Location} of the {@code TransportUnit}.
      *
