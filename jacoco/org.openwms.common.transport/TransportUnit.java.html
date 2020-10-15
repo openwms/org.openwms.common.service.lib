@@ -132,7 +132,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
 
     /** A set of all child {@code TransportUnit}s, ordered by id. */
     @OneToMany(mappedBy = &quot;parent&quot;, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @OrderBy(&quot;id DESC&quot;)
+    @OrderBy(&quot;actualLocationDate DESC&quot;)
 <span class="fc" id="L136">    private Set&lt;TransportUnit&gt; children = new HashSet&lt;&gt;();</span>
 
     /** A List of errors occurred on the {@code TransportUnit}. */

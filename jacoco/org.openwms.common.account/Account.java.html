@@ -48,34 +48,33 @@ import java.util.Objects;
     @NotEmpty
     @Column(name = &quot;C_NAME&quot;, nullable = false)
     private String name;
-
     /** Flag to set the Account as default. */
     @Column(name = &quot;C_DEFAULT&quot;, nullable = false)
-<span class="fc" id="L54">    private boolean defaultAccount = false;</span>
+<span class="fc" id="L53">    private boolean defaultAccount = false;</span>
 
     public String getIdentifier() {
-<span class="fc" id="L57">        return identifier;</span>
+<span class="fc" id="L56">        return identifier;</span>
     }
 
     public void setIdentifier(String identifier) {
-<span class="nc" id="L61">        this.identifier = identifier;</span>
-<span class="nc" id="L62">    }</span>
+<span class="nc" id="L60">        this.identifier = identifier;</span>
+<span class="nc" id="L61">    }</span>
 
     public String getName() {
-<span class="fc" id="L65">        return name;</span>
+<span class="fc" id="L64">        return name;</span>
     }
 
     public void setName(String name) {
-<span class="nc" id="L69">        this.name = name;</span>
-<span class="nc" id="L70">    }</span>
+<span class="nc" id="L68">        this.name = name;</span>
+<span class="nc" id="L69">    }</span>
 
     public boolean isDefaultAccount() {
-<span class="nc" id="L73">        return defaultAccount;</span>
+<span class="nc" id="L72">        return defaultAccount;</span>
     }
 
     public void setDefaultAccount(boolean defaultAccount) {
-<span class="nc" id="L77">        this.defaultAccount = defaultAccount;</span>
-<span class="nc" id="L78">    }</span>
+<span class="nc" id="L76">        this.defaultAccount = defaultAccount;</span>
+<span class="nc" id="L77">    }</span>
 
     /**
      * The {@code identifier}.
@@ -84,7 +83,7 @@ import java.util.Objects;
      */
     @Override
     public String toString() {
-<span class="nc" id="L87">        return identifier;</span>
+<span class="nc" id="L86">        return identifier;</span>
     }
 
     /**
@@ -94,12 +93,12 @@ import java.util.Objects;
      */
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L98" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L99">        Account account = (Account) o;</span>
-<span class="nc bnc" id="L100" title="All 2 branches missed.">        return defaultAccount == account.defaultAccount &amp;&amp;</span>
-<span class="nc bnc" id="L101" title="All 2 branches missed.">                Objects.equals(identifier, account.identifier) &amp;&amp;</span>
-<span class="nc bnc" id="L102" title="All 2 branches missed.">                Objects.equals(name, account.name);</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L97" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L98">        Account account = (Account) o;</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        return defaultAccount == account.defaultAccount &amp;&amp;</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">                Objects.equals(identifier, account.identifier) &amp;&amp;</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">                Objects.equals(name, account.name);</span>
     }
 
     /**
@@ -109,7 +108,7 @@ import java.util.Objects;
      */
     @Override
     public int hashCode() {
-<span class="nc" id="L112">        return Objects.hash(identifier, name, defaultAccount);</span>
+<span class="nc" id="L111">        return Objects.hash(identifier, name, defaultAccount);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
