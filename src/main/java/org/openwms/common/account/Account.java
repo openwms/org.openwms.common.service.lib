@@ -48,7 +48,6 @@ public class Account extends ApplicationEntity implements Serializable {
     @NotEmpty
     @Column(name = "C_NAME", nullable = false)
     private String name;
-
     /** Flag to set the Account as default. */
     @Column(name = "C_DEFAULT", nullable = false)
     private boolean defaultAccount = false;

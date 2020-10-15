@@ -156,4 +156,12 @@ public interface TransportUnitService {
      * @throws org.ameba.exception.NotFoundException may throw if not found
      */
     TransportUnit findByPKey(@NotEmpty String pKey);
+
+    /**
+     * Add an error to a {@link TransportUnit}.
+     *
+     * @param barcode The business identifier of the TransportUnit
+     * @param errorCode The errorCode bitmap
+     */
+    void addError(String barcode, UnitError errorCode);
 }

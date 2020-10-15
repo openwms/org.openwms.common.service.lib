@@ -24,9 +24,7 @@ import org.openwms.common.SimpleLink;
 import org.openwms.common.location.LocationController;
 import org.openwms.common.transport.api.TransportUnitVO;
 import org.openwms.common.transport.api.ValidationGroups;
-import org.openwms.common.transport.api.commands.MessageCommand;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
-import org.openwms.common.transport.commands.MessageCommandHandler;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;
@@ -43,7 +41,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -68,14 +65,12 @@ public class TransportUnitController extends AbstractWebController {
     private final Translator translator;
     private final BarcodeGenerator barcodeGenerator;
     private final TransportUnitService service;
-    private final MessageCommandHandler messageCommandHandler;
 
-    TransportUnitController(BeanMapper mapper, Translator translator, BarcodeGenerator barcodeGenerator, TransportUnitService service, MessageCommandHandler messageCommandHandler) {
+    TransportUnitController(BeanMapper mapper, Translator translator, BarcodeGenerator barcodeGenerator, TransportUnitService service) {
         this.mapper = mapper;
         this.translator = translator;
         this.barcodeGenerator = barcodeGenerator;
         this.service = service;
-        this.messageCommandHandler = messageCommandHandler;
     }
 
     @GetMapping(value = API_TRANSPORT_UNITS + "/{pKey}", produces = "application/vnd.openwms.transport-unit-v1+json")
@@ -225,12 +220,10 @@ public class TransportUnitController extends AbstractWebController {
             @RequestParam("bk") String transportUnitBK,
             @RequestParam(value = "errorCode") String errorCode
     ) {
-        MessageCommand messageCommand = MessageCommand.newBuilder(MessageCommand.Type.ADD_TO_TU)
-                .withTransportUnitId(transportUnitBK)
-                .withMessageNumber(errorCode)
-                .withMessageOccurred(new Date())
-                .build();
-        messageCommandHandler.handle(messageCommand);
+        service.addError(transportUnitBK, UnitError.newBuilder()
+                .errorNo(errorCode)
+                .build()
+        );
         return ResponseEntity.ok().build();
     }
 

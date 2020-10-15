@@ -26,13 +26,14 @@ import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
-import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.TransportUnitType;
+import org.openwms.common.transport.UnitError;
 import org.openwms.common.transport.api.ValidationGroups;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
+import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.openwms.common.transport.events.TransportUnitEvent;
 import org.slf4j.Logger;
@@ -326,6 +327,16 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Transactional(readOnly = true)
     public TransportUnit findByPKey(@NotEmpty String pKey) {
         return repository.findByPKey(pKey).orElseThrow(() -> new NotFoundException(format("No TransportUnit with pKey [%s] found", pKey)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public void addError(String barcode, UnitError unitError) {
+        TransportUnit tu = this.findByBarcode(barcodeGenerator.convert(barcode));
+        tu.addError(unitError);
     }
 
     /**

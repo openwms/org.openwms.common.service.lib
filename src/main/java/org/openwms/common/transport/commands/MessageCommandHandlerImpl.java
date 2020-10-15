@@ -16,11 +16,9 @@
 package org.openwms.common.transport.commands;
 
 import org.ameba.annotation.TxService;
-import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.UnitError;
 import org.openwms.common.transport.api.commands.MessageCommand;
-import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,11 +32,9 @@ import org.slf4j.LoggerFactory;
 class MessageCommandHandlerImpl implements MessageCommandHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageCommandHandlerImpl.class);
-    private final BarcodeGenerator generator;
     private final TransportUnitService service;
 
-    MessageCommandHandlerImpl(BarcodeGenerator generator, TransportUnitService service) {
-        this.generator = generator;
+    MessageCommandHandlerImpl(TransportUnitService service) {
         this.service = service;
     }
 
@@ -51,13 +47,10 @@ class MessageCommandHandlerImpl implements MessageCommandHandler {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Got command to ADD a Message to the TransportUnit with id [{}]", command.getTransportUnitId());
             }
-            TransportUnit tu = service.findByBarcode(generator.convert((command.getTransportUnitId())));
-            tu.addError(
-                    UnitError.newBuilder()
-                            .errorText(command.getMessageText())
-                            .errorNo(command.getMessageNumber())
-                            .build()
-            );
+            service.addError(command.getTransportUnitId(), UnitError.newBuilder()
+                    .errorText(command.getMessageText())
+                    .errorNo(command.getMessageNumber())
+                    .build());
         } else {
             LOGGER.debug("MessageCommand [{}] not supported", command.getType());
         }
