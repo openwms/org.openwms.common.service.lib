@@ -52,6 +52,8 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
     private Boolean outgoingActive;
     @JsonProperty("plcState")
     private Integer plcState;
+    @JsonProperty("stockZone")
+    private String stockZone;
 
     /*~-------------------- constructors --------------------*/
     protected LocationVO() {
@@ -149,6 +151,14 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
         this.plcState = plcState;
     }
 
+    public String getStockZone() {
+        return stockZone;
+    }
+
+    public void setStockZone(String stockZone) {
+        this.stockZone = stockZone;
+    }
+
     /*~-------------------- overrides --------------------*/
     /**
      * {@inheritDoc}
@@ -184,7 +194,8 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
                 Objects.equals(plcCode, that.plcCode) &&
                 Objects.equals(incomingActive, that.incomingActive) &&
                 Objects.equals(outgoingActive, that.outgoingActive) &&
-                Objects.equals(plcState, that.plcState);
+                Objects.equals(plcState, that.plcState) &&
+                Objects.equals(stockZone, that.stockZone) ;
     }
 
     /**
@@ -194,6 +205,6 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), pKey, locationId, accountId, locationGroupName, plcCode, incomingActive, outgoingActive, plcState);
+        return Objects.hash(super.hashCode(), pKey, locationId, accountId, locationGroupName, plcCode, incomingActive, outgoingActive, plcState, stockZone);
     }
 }

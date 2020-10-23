@@ -90,6 +90,10 @@ public class Location extends Target implements Serializable {
     @Column(name = "C_DESCRIPTION")
     private String description;
 
+    /** May be assigned to a particular zone in stock. */
+    @Column(name = "C_STOCK_ZONE")
+    private String stockZone;
+
     /** A {@code Location} can be assigned to a particular labels. */
     @Column(name="C_LABELS", length = STRING_LIST_LENGTH)
     @Convert(converter = StringListConverter.class)
@@ -307,6 +311,15 @@ public class Location extends Target implements Serializable {
      */
     public String getDescription() {
         return this.description;
+    }
+
+    /**
+     * Returns the stockZone.
+     *
+     * @return As string
+     */
+    public String getStockZone() {
+        return stockZone;
     }
 
     /**
