@@ -5,7 +5,7 @@
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
         <version>17</version>
-        <relativePath />
+        <relativePath/>
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
     <version>1.7.0-SNAPSHOT</version>
@@ -66,7 +66,7 @@
         <core.version>1.9.0-SNAPSHOT</core.version>
         <core.units.version>0.3.0</core.units.version>
         <indriya.version>2.0</indriya.version>
-        <guava.version>29.0-jre</guava.version>
+        <guava.version>30.0-android</guava.version>
         <spring-cloud-dependencies.version>Hoxton.SR8</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
     </properties>
