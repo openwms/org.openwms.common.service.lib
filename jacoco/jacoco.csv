@@ -10,7 +10,7 @@ OpenWMS.org COMMON: Base Services,org.openwms.common.location.api,ErrorCodeVO,47
 OpenWMS.org COMMON: Base Services,org.openwms.common.location.api,LockType,0,34,0,0,0,7,0,1,0,1
 OpenWMS.org COMMON: Base Services,org.openwms.common.location.api,LocationGroupState,0,24,0,0,0,5,0,1,0,1
 OpenWMS.org COMMON: Base Services,org.openwms.common.location.api,LockMode,0,44,0,0,0,9,0,1,0,1
-OpenWMS.org COMMON: Base Services,org.openwms.common.location.api,LocationVO,248,41,28,0,29,17,26,12,12,12
+OpenWMS.org COMMON: Base Services,org.openwms.common.location.api,LocationVO,263,44,30,0,32,18,28,13,13,13
 OpenWMS.org COMMON: Base Services,org.openwms.common.location.api,LocationGroupVO,185,38,33,5,34,10,31,10,14,8
 OpenWMS.org COMMON: Base Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl.AjcClosure1,0,17,0,0,0,1,0,2,0,2
 OpenWMS.org COMMON: Base Services,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl.AjcClosure3,0,13,0,0,0,1,0,2,0,2
@@ -61,7 +61,7 @@ OpenWMS.org COMMON: Base Services,org.openwms.common.location,Message.Builder,0,
 OpenWMS.org COMMON: Base Services,org.openwms.common.location,LocationType,4,98,3,3,0,29,3,14,0,14
 OpenWMS.org COMMON: Base Services,org.openwms.common.location,Target,0,3,0,0,0,1,0,1,0,1
 OpenWMS.org COMMON: Base Services,org.openwms.common.location,Subsystem,32,0,0,0,14,0,7,0,7,0
-OpenWMS.org COMMON: Base Services,org.openwms.common.location,Location,28,279,4,12,8,68,11,42,7,38
+OpenWMS.org COMMON: Base Services,org.openwms.common.location,Location,31,279,4,12,9,68,12,42,8,38
 OpenWMS.org COMMON: Base Services,org.openwms.common.location,LocationGroupController,2,253,3,5,0,40,3,11,0,10
 OpenWMS.org COMMON: Base Services,org.openwms.common.location,TargetController,186,242,17,16,40,63,22,17,7,10
 OpenWMS.org COMMON: Base Services,org.openwms.common.transport.api.commands,MessageCommand,32,40,0,0,15,12,7,6,7,6

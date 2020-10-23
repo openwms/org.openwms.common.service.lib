@@ -70,6 +70,7 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="c_outgoing_active" COLSPAN="3" ALIGN="LEFT">c_outgoing_active</TD></TR>
       <TR><TD PORT="c_plc_code" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_plc_code</TD></TR>
       <TR><TD PORT="c_plc_state" COLSPAN="3" ALIGN="LEFT">c_plc_state</TD></TR>
+      <TR><TD PORT="c_stock_zone" COLSPAN="3" ALIGN="LEFT">c_stock_zone</TD></TR>
       <TR><TD PORT="c_account" COLSPAN="3" ALIGN="LEFT">c_account</TD></TR>
       <TR><TD PORT="c_location_group" COLSPAN="3" ALIGN="LEFT">c_location_group</TD></TR>
       <TR><TD PORT="c_location_type" COLSPAN="3" ALIGN="LEFT">c_location_type</TD></TR>
