@@ -181,6 +181,10 @@
 			<a is-accessible="true">plcState</a>
 			<b is-accessible="true">plcState</b>
 		</field>
+		<field>
+			<a is-accessible="true">stockZone</a>
+			<b is-accessible="true">stockZone</b>
+		</field>
 	</mapping>
 
 	<mapping>
