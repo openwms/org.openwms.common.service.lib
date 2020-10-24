@@ -48,7 +48,7 @@ public class UnitError extends ApplicationEntity implements Serializable {
     private String errorText;
 
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = &quot;C_TU_ID&quot;, foreignKey = @ForeignKey(name = &quot;FK_TU_PK&quot;))
+    @JoinColumn(name = &quot;C_TU_ID&quot;, foreignKey = @ForeignKey(name = &quot;FK_TU_ERROR_PK&quot;))
     private TransportUnit tu;
 
     /*~ ----------------------------- constructors ------------------- */
