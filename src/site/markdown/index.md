@@ -1,8 +1,6 @@
 # Purpose
-
-This service provides essential functionality to deal with `Locations`, `LocationGroups`
-and `TransportUnits`. An example often referred to is a service to move a `TransportUnit`
-from a `Location` A to a `Location` B. 
+This service provides essential functionality to deal with `Locations`, `LocationGroups` and `TransportUnits`. An often referred example is
+the ability to move a `TransportUnit` from a `Location` A to a `Location` B. 
 
 [![Build status](https://travis-ci.com/openwms/org.openwms.common.service.svg?branch=master)](https://travis-ci.com/openwms/org.openwms.common.service)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
@@ -10,9 +8,8 @@ from a `Location` A to a `Location` B.
 [![Join the chat at https://gitter.im/openwms/org.openwms](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/openwms/org.openwms?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # Build
-
-Build a runnable fat jar with execution of all unit and in-memory database integrations, but without a [RabbitMQ](https://www.rabbitmq.com)
-server required to run: 
+Build a runnable fat jar with the execution of all unit and in-memory database integration tests, but without a required [RabbitMQ](https://www.rabbitmq.com)
+server to run: 
 
 ```
 $ ./mvnw package
@@ -24,30 +21,31 @@ To also build and run with [RabbitMQ](https://www.rabbitmq.com) support call:
 $ ./mvnw package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
 ```
 
-But notice that this requires a [RabbitMQ](https://www.rabbitmq.com) server running locally with default settings.
+This requires a [RabbitMQ](https://www.rabbitmq.com) server running locally with default settings.
 
 # Run
 
 ## Run On Command Line
-After the binary is built it can be started on the JVM from command line. By default no other infrastructure services are required to run
-this service.
+After the binary has been built it can be started from command line. By default no other infrastructure services are required to run this
+service.
 
 ```
 $ java -jar target/openwms-common-service-exec.jar
 ```
 
-In a distributed Cloud environment the service configuration is fetched from the central [OpenWMS.org Configuration Service](https://github.com/spring-labs/org.openwms.configuration).
-This behavior can be enabled by activating the Spring Profile `CLOUD`. Additionally it makes sense to enable asynchronous communication that
-requires a running [RabbitMQ](https://www.rabbitmq.com) instance - just add another profile `ASYNCHRONOUS`. If the latter is not applied all
-asynchronous AMQP endpoints are disabled and the service does not send any events nor does it receive application events from remote
-services.
+In a distributed environment the service configuration is fetched from the central [OpenWMS.org Configuration Service](https://github.com/spring-labs/org.openwms.configuration).
+This behavior can be enabled by activating the Spring Profile `DISTRIBUTED`. Additionally it makes sense to enable asynchronous
+communication that requires a running [RabbitMQ](https://www.rabbitmq.com) instance - just add another profile `ASYNCHRONOUS`. If the latter
+is not applied all asynchronous AMQP endpoints are disabled and the service does not send any events nor does it receive application events
+from remote services. The AMQP protocol with the [RabbitMQ](https://www.rabbitmq.com) is currently the only supported message broker. But
+switching to others, like [HiveMQ (MQTT)](https://www.hivemq.com) or [Apacha Kafka](https://kafka.apache.org/), is not rocket science.
 
 ```
-$ java -jar target/openwms-common-service.jar --spring.profiles.active=CLOUD,ASYNCHRONOUS
+$ java -jar target/openwms-common-service-exec.jar --spring.profiles.active=DISTRIBUTED,ASYNCHRONOUS
 ```
 
-Now the configuration service is tried to be discovered at service startup. The service fails to start if no instance of the configuration
-service is available after a configured amount of retries.
+With these profiles applied the OpenWMS.org Configuration Service is tried to be discovered at service startup. The service fails to start
+if no instance of the configuration service is available after a configured amount of retries.
 
 ## Run as Docker Container
 Instead of building the software from the sources and run it as Java program on the JVM it can also be fetched as a Docker image from 
