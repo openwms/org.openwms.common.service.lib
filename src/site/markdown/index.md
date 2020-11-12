@@ -7,6 +7,8 @@ the ability to move a `TransportUnit` from a `Location` A to a `Location` B.
 [![Quality](https://sonarcloud.io/api/project_badges/measure?project=org.openwms:org.openwms.common.service&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.openwms:org.openwms.common.service)
 [![Join the chat at https://gitter.im/openwms/org.openwms](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/openwms/org.openwms?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+![ClassDiagram][1]
+
 # Build
 Build a runnable fat jar with the execution of all unit and in-memory database integration tests, but without a required [RabbitMQ](https://www.rabbitmq.com)
 server to run: 
@@ -72,3 +74,5 @@ automated build pipeline as well.
 $ ./mvnw package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
 $ ./mvnw site scm-publish:publish-scm
 ```
+
+[1]: images/class-overview.png

@@ -2,6 +2,8 @@
 This service provides essential functionality to deal with `Locations`, `LocationGroups` and `TransportUnits`. An often referred example is
 the ability to move a `TransportUnit` from a `Location` A to a `Location` B. 
 
+![ClassDiagram][1]
+
 # Resources
 
 [![Build status](https://travis-ci.com/openwms/org.openwms.common.service.svg?branch=master)](https://travis-ci.com/openwms/org.openwms.common.service)
@@ -68,3 +70,5 @@ Instead of building the software from the sources and run it as Java program on 
 ```
 $ docker run openwms/org.openwms.common.service:latest
 ```
+
+[1]: src/site/resources/images/class-overview.png
