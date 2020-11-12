@@ -23,6 +23,7 @@ import org.openwms.common.location.api.messages.LocationMO;
 import org.openwms.core.SpringProfiles;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -40,6 +41,7 @@ import static org.ameba.system.ValidationUtil.validate;
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Component
+@RefreshScope
 class LocationGroupEventPropagator {
 
     private final AmqpTemplate amqpTemplate;
