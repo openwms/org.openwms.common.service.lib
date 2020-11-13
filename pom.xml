@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>17</version>
+        <version>18</version>
         <relativePath />
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
@@ -62,12 +62,12 @@
     </ciManagement>
 
     <properties>
-        <ameba-lib.version>2.5-SNAPSHOT</ameba-lib.version>
         <core.version>1.9.0-SNAPSHOT</core.version>
         <core.units.version>0.3.0</core.units.version>
         <indriya.version>2.0</indriya.version>
-        <guava.version>29.0-jre</guava.version>
-        <spring-cloud-dependencies.version>Hoxton.SR8</spring-cloud-dependencies.version>
+        <guava.version>30.0-android</guava.version>
+        <servo-core.version>0.12.21</servo-core.version>
+        <spring-cloud-dependencies.version>2020.0.0-SNAPSHOT</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
     </properties>
 
@@ -173,6 +173,11 @@
                 <version>${guava.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.netflix.servo</groupId>
+                <artifactId>servo-core</artifactId>
+                <version>${servo-core.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>net.sf.dozer</groupId>
                 <artifactId>dozer</artifactId>
                 <version>${dozer.version}</version>
@@ -256,6 +261,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -273,14 +279,9 @@
                     <artifactId>joda-time</artifactId>
                 </exclusion>
                 <exclusion>
-                    <!-- Bites with Guava -->
-                    <groupId>com.google.code.findbugs</groupId>
-                    <artifactId>jsr305</artifactId>
-                </exclusion>
-                <exclusion>
-                    <!-- Has a conflict internally -->
-                    <groupId>commons-configuration</groupId>
-                    <artifactId>commons-configuration</artifactId>
+                    <!-- Internal MAJOR clash -->
+                    <groupId>com.netflix.servo</groupId>
+                    <artifactId>servo-core</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -339,9 +340,8 @@
 
         <!-- Fix Exclusions -->
         <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
-            <version>1.10</version>
+            <groupId>com.netflix.servo</groupId>
+            <artifactId>servo-core</artifactId>
         </dependency>
 
         <!-- 3rd party dependencies -->
@@ -482,6 +482,14 @@
             </releases>
         </repository>
         <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>spring-milestones</id>
             <name>Spring Milestones</name>
             <url>https://repo.spring.io/milestone</url>
@@ -490,4 +498,14 @@
             </snapshots>
         </repository>
     </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
