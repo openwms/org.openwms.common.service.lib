@@ -10,4 +10,4 @@ COPY --from=builder application/dependencies/ ./
 COPY --from=builder application/spring-boot-loader/ ./
 COPY --from=builder application/snapshot-dependencies/ ./
 COPY --from=builder application/application/ ./
-ENTRYPOINT ["java", "-Xshareclasses -Xquickstart -noverify $JAVA_OPTS", "org.springframework.boot.loader.JarLauncher"]
+ENTRYPOINT ["java", "-Xss512k -noverify $JAVA_OPTS", "org.springframework.boot.loader.JarLauncher"]
