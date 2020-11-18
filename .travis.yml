@@ -45,7 +45,7 @@ script:
 
 after_success:
   - ./scripts/docker_build
-  - ./docToolchain-master/bin/doctoolchain doc publishToConfluence
+  - ./docToolchain-master/bin/doctoolchain doc exportGithubIssues publishToConfluence
 
 deploy:
   provider: script
