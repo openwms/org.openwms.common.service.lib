@@ -29,19 +29,13 @@ To also build and run with [RabbitMQ](https://www.rabbitmq.com) support call:
 $ ./mvnw package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
 ```
 
-Run in standalone mode:
-```
-$ java -jar target/openwms-common-service-exec.jar 
-```
-
-This requires a [RabbitMQ](https://www.rabbitmq.com) server running locally with default settings.
-
 # Run
 
 ## Run On Command Line
 After the binary has been built it can be started from command line. By default no other infrastructure services are required to run this
 service.
 
+Run in standalone mode:
 ```
 $ java -jar target/openwms-common-service-exec.jar
 ```
@@ -61,6 +55,7 @@ switching to others, like [HiveMQ (MQTT)](https://www.hivemq.com) or [Apacha Kaf
 ```
 $ java -jar target/openwms-common-service-exec.jar --spring.profiles.active=DISTRIBUTED,ASYNCHRONOUS
 ```
+This requires a [RabbitMQ](https://www.rabbitmq.com) server running locally with default settings.
 
 With these profiles applied the OpenWMS.org Configuration Service is tried to be discovered at service startup. The service fails to start
 if no instance of the configuration service is available after a configured amount of retries.
