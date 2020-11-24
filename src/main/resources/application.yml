@@ -4,7 +4,6 @@ spring:
   cloud:
     config:
       discovery:
-        enabled: false
         service-id: openwms-config
       enabled: false
       fail-fast: true # true means retry
@@ -12,8 +11,6 @@ spring:
         max-attempts: 120
     discovery:
       enabled: false
-  config:
-    location: classpath:application.yml
   security:
     user:
       name: user
@@ -40,14 +37,6 @@ spring:
     sender:
       type: web
 
-feign:
-  httpclient:
-    connection-timeout: 30000
-    connection-timer-repeat: 30000
-ribbon:
-  connectTimeout: 30000
-  ReadTimeout: 30000
-
 owms:
   eureka:
     url: http://user:sa@localhost:8761
@@ -58,25 +47,6 @@ owms:
 
 server:
   port: ${PORT:8120}
-
-eureka:
-  client:
-    healthcheck:
-      enabled: true
-    instance-info-replication-interval-seconds: 10 # default is 30
-    service-url:
-      defaultZone: ${owms.eureka.zone} # Must be camelCase
-  instance:
-    hostname: ${owms.srv.hostname}
-    secure-port-enabled: false
-    non-secure-port-enabled: true
-    metadata-map:
-      username: ${spring.security.user.name}
-      password: ${spring.security.user.password}
-      protocol: ${owms.srv.protocol}
-      zone: ${owms.eureka.zone}
-      config-protocol: http # The protocol used to access the config server
-    prefer-ip-address: true
 
 management:
   endpoints:
@@ -109,14 +79,6 @@ spring:
   config:
     activate:
       on-profile: ASYNCHRONOUS
-  cloud:
-    config:
-      discovery:
-        enabled: true
-      enabled: true
-      fail-fast: true # true means retry
-    discovery:
-      enabled: true
 
 management:
   health:
@@ -124,6 +86,10 @@ management:
       enabled: true
 
 owms:
+  common:
+    dead-letter:
+      exchange-name: dle.common
+      queue-name: common-dle-queue
   commands:
     common:
       tu:
@@ -146,8 +112,8 @@ spring:
       on-profile: CLOUD
   cloud:
     config:
-      discovery:
-        enabled: true
+#      discovery:
+#        enabled: true
       enabled: true
       fail-fast: true # true means retry
     discovery:
@@ -159,6 +125,8 @@ spring:
     activate:
       on-profile: DEMO
   jpa:
+    hibernate:
+      ddl-auto: create # Must be create in order to load test data
     properties:
       hibernate:
         hbm2ddl:
@@ -181,14 +149,42 @@ spring:
   config:
     activate:
       on-profile: DISTRIBUTED
+    import: configserver:http://localhost:8099
   cloud:
     config:
       discovery:
         enabled: true
       enabled: true
-      fail-fast: true # true means retry
+      fail-fast: true
     discovery:
       enabled: true
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    instance-info-replication-interval-seconds: 10 # default is 30
+    service-url:
+      defaultZone: ${owms.eureka.zone} # Must be camelCase
+  instance:
+    hostname: ${owms.srv.hostname}
+    secure-port-enabled: false
+    non-secure-port-enabled: true
+    metadata-map:
+      username: ${spring.security.user.name}
+      password: ${spring.security.user.password}
+      protocol: ${owms.srv.protocol}
+      zone: ${owms.eureka.zone}
+      config-protocol: http # The protocol used to access the config server
+    prefer-ip-address: true
+
+feign:
+  httpclient:
+    connection-timeout: 30000
+    connection-timer-repeat: 30000
+ribbon:
+  connectTimeout: 30000
+  ReadTimeout: 30000
 
 ---
 spring:
@@ -197,11 +193,6 @@ spring:
       on-profile: HEROKU
   main:
     banner-mode: "OFF"
-  cloud:
-    config:
-      discovery:
-        enabled: true
-      enabled: true
 
 owms:
   srv:
@@ -210,6 +201,7 @@ owms:
 
 eureka:
   instance:
+    hostname: ${owms.srv.hostname}
     secure-port-enabled: true
     non-secure-port-enabled: false
     statusPageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/info
@@ -236,8 +228,6 @@ spring:
       on-profile: TEST
   cloud:
     config:
-      discovery:
-        enabled: false
       enabled: false
       fail-fast: false
     discovery:
