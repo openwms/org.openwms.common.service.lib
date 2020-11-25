@@ -35,6 +35,6 @@ class UnitErrorTest {
         assertThat(ue2).isNotEqualTo(ue1);
         assertThat(ue1).isNotEqualTo(ue3);
         assertThat(ue3).isNotEqualTo(ue1);
-        assertThat(ue1.toString()).isEqualTo(ue1.getErrorNo()+UnitError.SEPARATOR+ue1.getErrorText());
+        assertThat(ue1.toString()).hasToString(ue1.getErrorNo()+UnitError.SEPARATOR+ue1.getErrorText());
     }
 }

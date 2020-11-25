@@ -49,8 +49,7 @@ class MessageTest {
         assertThat(m1).isEqualTo(m2);
         assertThat(m2).isEqualTo(m1);
 
-        assertThat(m1).isNotEqualTo(m3);
-        assertThat(m1).isNotEqualTo(m4);
+        assertThat(m1).isNotEqualTo(m3).isNotEqualTo(m4);
 
         assertThat(m3).isNotEqualTo(m4);
         assertThat(m4).isNotEqualTo(m3);
@@ -58,6 +57,6 @@ class MessageTest {
 
     @Test void testProperOutcomeOfToString() {
         Message m1 = Message.newBuilder().messageNo(4711).messageText("Test message").build();
-        assertThat(m1.toString()).isEqualTo("4711" + Message.SEPARATOR + "Test message");
+        assertThat(m1.toString()).hasToString("4711" + Message.SEPARATOR + "Test message");
     }
 }

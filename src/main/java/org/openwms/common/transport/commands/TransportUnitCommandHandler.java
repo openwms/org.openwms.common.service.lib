@@ -18,7 +18,6 @@ package org.openwms.common.transport.commands;
 import org.ameba.annotation.TxService;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.location.LocationPK;
-import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.api.ValidationGroups;

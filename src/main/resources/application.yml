@@ -152,8 +152,8 @@ spring:
     import: configserver:http://localhost:8099
   cloud:
     config:
-      discovery:
-        enabled: true
+#      discovery:
+#        enabled: true
       enabled: true
       fail-fast: true
     discovery:

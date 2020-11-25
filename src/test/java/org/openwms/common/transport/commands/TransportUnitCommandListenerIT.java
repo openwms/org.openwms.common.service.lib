@@ -22,7 +22,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestData;
-import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.api.commands.MessageCommand;
@@ -64,7 +63,7 @@ class TransportUnitCommandListenerIT {
         @Bean
         ApplicationListener<?> testListener() {
             return event -> {
-                if (event instanceof PayloadApplicationEvent) {
+                if (event instanceof PayloadApplicationEvent && ((PayloadApplicationEvent<?>) event).getPayload() instanceof TUCommand) {
                     lastCommand = ((PayloadApplicationEvent<TUCommand>) event).getPayload();
                 }
             };

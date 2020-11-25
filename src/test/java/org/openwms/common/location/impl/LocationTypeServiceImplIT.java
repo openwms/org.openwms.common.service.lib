@@ -69,6 +69,6 @@ class LocationTypeServiceImplIT {
         LocationType fg = new LocationType("FG");
         fg.setDescription("");
         fg = testee.save(fg);
-        assertThat(fg.getDescription()).isEqualTo("");
+        assertThat(fg.getDescription()).isEmpty();
     }
 }
