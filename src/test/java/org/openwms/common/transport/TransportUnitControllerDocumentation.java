@@ -89,10 +89,11 @@ class TransportUnitControllerDocumentation {
                         get(API_TRANSPORT_UNITS + "/index")
                 )
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$._links.transport-unit-findbypkey").exists())
                 .andExpect(jsonPath("$._links.transport-unit-findbybarcode").exists())
                 .andExpect(jsonPath("$._links.transport-unit-findbybarcodes").exists())
                 .andExpect(jsonPath("$._links.transport-unit-findonlocation").exists())
-                .andExpect(jsonPath("$._links.length()", is(3)))
+                .andExpect(jsonPath("$._links.length()", is(4)))
                 .andDo(document("tu-index", preprocessResponse(prettyPrint())))
         ;
     }
@@ -238,6 +239,13 @@ class TransportUnitControllerDocumentation {
                                 parameterWithName("errorCode").description("The error text")
                         )
                 ));
+    }
+
+    @Test void shall_findByPKey() throws Exception {
+        mockMvc.perform(get(API_TRANSPORT_UNITS + "/" + TestData.TU_1_PKEY))
+                .andExpect(status().isOk())
+                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, "application/vnd.openwms.transport-unit-v1+json"))
+                .andDo(document("tu-find-by-pkey"));
     }
 
     @Test void shall_findByBarcode() throws Exception {
