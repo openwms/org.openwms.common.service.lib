@@ -3,8 +3,9 @@
 
 === Business Context
 
-The Common Service is a central service used by many other services of the Transport Management (TMS) domain and the Warehouse Management (WMS)
-domain. Itself does not depend or use other OpenWMS.org services, hence it can be seen as one of the essential base services of each system.
+The Common Service is a central service used by many other services of the Transport Management (TMS) domain and the Warehouse Management
+(WMS) domain. It does not depend or use other OpenWMS.org services, hence it can be seen as one of the essential base services of each
+system.
 
 image:03-business_context-EN.png["Business Context"]
 
