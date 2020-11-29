@@ -1,4 +1,4 @@
-## Configurtion
+## Configuration
 OpenWMS.org defines additional configuration parameters beside the standard Spring Framework ones. All custom parameters are children of the
 `owms` property namespace.
 
