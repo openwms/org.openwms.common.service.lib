@@ -8,6 +8,10 @@ spring:
   profiles: ASYNCHRONOUS
 
 owms:
+  common:
+    dead-letter:
+      exchange-name: dle.common
+      queue-name: common-dle-queue
   commands:
     common:
       tu:

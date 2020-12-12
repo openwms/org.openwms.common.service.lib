@@ -11,10 +11,9 @@
 
     <logger name="com.netflix.discovery" level="OFF"/>
     <logger name="org.dozer" level="ERROR"/>
-    <logger name="org.hibernate" level="OFF" />
     <logger name="org.hibernate.SQL" level="OFF"/>
     <logger name="org.hibernate.type" level="OFF"/>
-    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.springframework" level="INFO"/>
     <logger name="org.openwms" level="DEBUG"/>
 
     <logger name="PRESENTATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
@@ -30,6 +29,7 @@
         <appender-ref ref="LOGFILE"/>
     </logger>
     <logger name="MEASURED" level="INFO">
+        <appender-ref ref="STDOUT"/>
         <appender-ref ref="TSL"/>
     </logger>
     <logger name="CORE_INTEGRATION_MESSAGING" level="DEBUG"/>

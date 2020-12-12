@@ -234,6 +234,7 @@ public class TransportUnitController extends AbstractWebController {
     public ResponseEntity<Index> index() {
         return ResponseEntity.ok(
                 new Index(
+                        linkTo(methodOn(TransportUnitController.class).findTransportUnitByPKey("1", Collections.emptyMap())).withRel("transport-unit-findbypkey"),
                         linkTo(methodOn(TransportUnitController.class).findTransportUnit("00000000000000004711", Collections.emptyMap())).withRel("transport-unit-findbybarcode"),
                         linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList("00000000000000004711", "00000000000000004712"), Collections.emptyMap())).withRel("transport-unit-findbybarcodes"),
                         linkTo(methodOn(TransportUnitController.class).findTransportUnitsOn("EXT_/0000/0000/0000/0000", Collections.emptyMap())).withRel("transport-unit-findonlocation")

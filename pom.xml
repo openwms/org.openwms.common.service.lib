@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>17</version>
+        <version>19</version>
         <relativePath />
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
@@ -62,12 +62,14 @@
     </ciManagement>
 
     <properties>
-        <ameba-lib.version>2.5-SNAPSHOT</ameba-lib.version>
+        <commons-configuration.version>1.10</commons-configuration.version>
         <core.version>1.9.0-SNAPSHOT</core.version>
         <core.units.version>0.3.0</core.units.version>
+        <guava.version>30.0-jre</guava.version>
+        <HdrHistogram.version>2.1.12</HdrHistogram.version>
         <indriya.version>2.0</indriya.version>
-        <guava.version>29.0-jre</guava.version>
-        <spring-cloud-dependencies.version>Hoxton.SR8</spring-cloud-dependencies.version>
+        <joda-time.version>2.10.8</joda-time.version>
+        <spring-cloud-dependencies.version>Hoxton.SR9</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
     </properties>
 
@@ -158,9 +160,27 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <!-- com.netflix.eureka:eureka has an internal clash -->
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+                <version>${commons-configuration.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.openwms</groupId>
                 <artifactId>org.openwms.core.util</artifactId>
                 <version>${core.version}</version>
+            </dependency>
+            <dependency>
+                <!-- com.netflix.eureka:eureka has an internal clash -->
+                <groupId>org.hdrhistogram</groupId>
+                <artifactId>HdrHistogram</artifactId>
+                <version>${HdrHistogram.version}</version>
+            </dependency>
+            <dependency>
+                <!-- Mismatch between Eureka Client and Envers -->
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openwms</groupId>
@@ -171,18 +191,6 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.sf.dozer</groupId>
-                <artifactId>dozer</artifactId>
-                <version>${dozer.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <!-- bites with netflix-ribbon -->
-                        <groupId>commons-collections</groupId>
-                        <artifactId>commons-collections</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>tech.units</groupId>
@@ -255,6 +263,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
             <optional>true</optional>
         </dependency>
@@ -262,35 +275,11 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
             <optional>true</optional>
-            <exclusions>
-                <exclusion>
-                    <!-- Bites with Spring Data Envers -->
-                    <groupId>joda-time</groupId>
-                    <artifactId>joda-time</artifactId>
-                </exclusion>
-                <exclusion>
-                    <!-- Bites with Guava -->
-                    <groupId>com.google.code.findbugs</groupId>
-                    <artifactId>jsr305</artifactId>
-                </exclusion>
-                <exclusion>
-                    <!-- Has a conflict internally -->
-                    <groupId>commons-configuration</groupId>
-                    <artifactId>commons-configuration</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <optional>true</optional>
-            <exclusions>
-                <exclusion>
-                    <!-- Newer version pulled by actuator -->
-                    <groupId>org.hdrhistogram</groupId>
-                    <artifactId>HdrHistogram</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -300,7 +289,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-zipkin</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <!-- both for retry -->
@@ -331,13 +319,6 @@
             <artifactId>micrometer-registry-prometheus</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
-        </dependency>
-
-        <!-- Fix Exclusions -->
-        <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
-            <version>1.10</version>
         </dependency>
 
         <!-- 3rd party dependencies -->
@@ -478,6 +459,14 @@
             </releases>
         </repository>
         <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>spring-milestones</id>
             <name>Spring Milestones</name>
             <url>https://repo.spring.io/milestone</url>
@@ -486,4 +475,14 @@
             </snapshots>
         </repository>
     </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 </project>

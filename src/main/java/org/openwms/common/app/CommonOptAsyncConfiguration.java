@@ -18,7 +18,9 @@ package org.openwms.common.app;
 import org.openwms.core.SpringProfiles;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -75,8 +77,12 @@ class CommonOptAsyncConfiguration {
 
     /*~ ------------ Commands ------------- */
     @Bean
-    Queue commandsQueue(@Value("${owms.commands.common.tu.queue-name}") String queueName) {
-        return new Queue(queueName, true);
+    Queue commandsQueue(@Value("${owms.commands.common.tu.queue-name}") String queueName,
+            @Value("${owms.common.dead-letter.exchange-name}") String exchangeName) {
+        return QueueBuilder.durable(queueName)
+                .withArgument("x-dead-letter-exchange", exchangeName)
+                .withArgument("x-dead-letter-routing-key", "poison-message")
+                .build();
     }
 
     @Bean
@@ -95,4 +101,20 @@ class CommonOptAsyncConfiguration {
                 .to(commonTuCommandsExchange)
                 .with(routingKey);
     }
+
+    @Bean
+    DirectExchange dlExchange(@Value("${owms.common.dead-letter.exchange-name}") String exchangeName) {
+        return new DirectExchange(exchangeName);
+    }
+
+    @Bean
+    Queue dlQueue(@Value("${owms.common.dead-letter.queue-name}") String queueName) {
+        return QueueBuilder.durable(queueName).build();
+    }
+
+    @Bean
+    Binding DLBinding(DirectExchange dlExchange, Queue dlQueue) {
+        return BindingBuilder.bind(dlQueue).to(dlExchange).with("poison-message");
+    }
+
 }
