@@ -113,9 +113,8 @@ import org.springframework.retry.support.RetryTemplate;
     }
 
     @Bean
-    Binding DLBinding(DirectExchange dlExchange, Queue dlQueue) {
+    Binding dlBinding(DirectExchange dlExchange, Queue dlQueue) {
 <span class="fc" id="L117">        return BindingBuilder.bind(dlQueue).to(dlExchange).with(&quot;poison-message&quot;);</span>
     }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
