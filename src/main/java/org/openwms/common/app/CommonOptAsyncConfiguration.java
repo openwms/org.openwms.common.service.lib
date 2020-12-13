@@ -113,8 +113,7 @@ class CommonOptAsyncConfiguration {
     }
 
     @Bean
-    Binding DLBinding(DirectExchange dlExchange, Queue dlQueue) {
+    Binding dlBinding(DirectExchange dlExchange, Queue dlQueue) {
         return BindingBuilder.bind(dlQueue).to(dlExchange).with("poison-message");
     }
-
 }
