@@ -32,7 +32,7 @@ import java.util.Objects;
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PUBLIC_ONLY)
-public class LocationGroupVO extends RepresentationModel implements TargetVO, Serializable {
+public class LocationGroupVO extends RepresentationModel&lt;LocationGroupVO&gt; implements TargetVO, Serializable {
 
     @JsonProperty(&quot;pKey&quot;)
     private String pKey;

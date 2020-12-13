@@ -465,10 +465,13 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 449
+Content-Length: 552
 
 {
   "_links" : {
+    "transport-unit-findbypkey" : {
+      "href" : "http://localhost:8080/v1/transport-units/1"
+    },
     "transport-unit-findbybarcode" : {
       "href" : "http://localhost:8080/v1/transport-units?bk=00000000000000004711"
     },
@@ -538,7 +541,7 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/911fcf37-3ae7-46ca-b7c9-9671384ba832/</code></pre>
+Location: http://localhost:8080/v1/transport-units/a249befc-a785-46ff-8549-315048dcf4c3/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -590,7 +593,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/a3fd6d9d-f857-4c0c-8340-69e38eb69b54/</code></pre>
+Location: http://localhost:8080/v1/transport-units/9ac16f13-b7f3-4748-a09a-88384554216a/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -683,8 +686,8 @@ Content-Length: 542
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0013",
-  "actualLocationDate" : "2020-11-29T11:26:12.345+0000",
-  "createDate" : "2020-11-29T11:26:12.295+0000"
+  "actualLocationDate" : "2020-12-13T09:21:06.201+0000",
+  "createDate" : "2020-12-13T09:21:06.162+0000"
 }</code></pre>
 </div>
 </div>
@@ -760,8 +763,8 @@ Content-Length: 542
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0013",
-  "actualLocationDate" : "2020-11-29T11:26:11.753+0000",
-  "createDate" : "2020-11-29T11:26:11.608+0000"
+  "actualLocationDate" : "2020-12-13T09:21:05.722+0000",
+  "createDate" : "2020-12-13T09:21:05.618+0000"
 }</code></pre>
 </div>
 </div>
@@ -845,8 +848,8 @@ Content-Length: 808
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-11-29T11:26:12.077+0000",
-  "createDate" : "2020-11-29T11:26:12.077+0000"
+  "actualLocationDate" : "2020-12-13T09:21:05.992+0000",
+  "createDate" : "2020-12-13T09:21:05.992+0000"
 }</code></pre>
 </div>
 </div>
@@ -905,8 +908,8 @@ Content-Length: 808
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-11-29T11:26:11.857+0000",
-  "createDate" : "2020-11-29T11:26:11.857+0000"
+  "actualLocationDate" : "2020-12-13T09:21:05.800+0000",
+  "createDate" : "2020-12-13T09:21:05.800+0000"
 }</code></pre>
 </div>
 </div>
@@ -974,8 +977,8 @@ Content-Length: 1625
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2020-11-29T11:26:11.008+0000",
-  "createDate" : "2020-11-29T11:26:11.008+0000"
+  "actualLocationDate" : "2020-12-13T09:21:05.000+0000",
+  "createDate" : "2020-12-13T09:21:05.000+0000"
 }, {
   "links" : [ {
     "rel" : "transport-unit-type",
@@ -1001,8 +1004,8 @@ Content-Length: 1625
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2020-11-29T11:26:11.008+0000",
-  "createDate" : "2020-11-29T11:26:11.008+0000"
+  "actualLocationDate" : "2020-12-13T09:21:05.000+0000",
+  "createDate" : "2020-12-13T09:21:05.000+0000"
 } ]</code></pre>
 </div>
 </div>
@@ -1070,8 +1073,8 @@ Content-Length: 815
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2020-11-29T11:26:12.405+0000",
-  "createDate" : "2020-11-29T11:26:12.405+0000"
+  "actualLocationDate" : "2020-12-13T09:21:06.305+0000",
+  "createDate" : "2020-12-13T09:21:06.305+0000"
 } ]</code></pre>
 </div>
 </div>
@@ -1128,7 +1131,7 @@ bk=00000000000000004711&amp;errorCode=bla</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-11-29 11:24:18 UTC
+Last updated 2020-12-13 09:17:53 UTC
 </div>
 </div>
 </body>

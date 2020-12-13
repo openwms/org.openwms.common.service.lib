@@ -23,6 +23,7 @@ import org.openwms.common.location.api.messages.LocationMO;
 import org.openwms.core.SpringProfiles;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -40,6 +41,7 @@ import static org.ameba.system.ValidationUtil.validate;
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Component
+@RefreshScope
 class LocationGroupEventPropagator {
 
     private final AmqpTemplate amqpTemplate;
@@ -47,62 +49,62 @@ class LocationGroupEventPropagator {
     private final String exchangeName;
     private final BeanMapper mapper;
 
-<span class="fc" id="L50">    LocationGroupEventPropagator(AmqpTemplate amqpTemplate, Validator validator, @Value(&quot;${owms.events.common.lg.exchange-name}&quot;) String exchangeName, BeanMapper mapper) {</span>
-<span class="fc" id="L51">        this.amqpTemplate = amqpTemplate;</span>
-<span class="fc" id="L52">        this.validator = validator;</span>
-<span class="fc" id="L53">        this.exchangeName = exchangeName;</span>
-<span class="fc" id="L54">        this.mapper = mapper;</span>
-<span class="fc" id="L55">    }</span>
+<span class="fc" id="L52">    LocationGroupEventPropagator(AmqpTemplate amqpTemplate, Validator validator, @Value(&quot;${owms.events.common.lg.exchange-name}&quot;) String exchangeName, BeanMapper mapper) {</span>
+<span class="fc" id="L53">        this.amqpTemplate = amqpTemplate;</span>
+<span class="fc" id="L54">        this.validator = validator;</span>
+<span class="fc" id="L55">        this.exchangeName = exchangeName;</span>
+<span class="fc" id="L56">        this.mapper = mapper;</span>
+<span class="fc" id="L57">    }</span>
 
     @PostConstruct
     void onStartup() {
         try {
-<span class="fc" id="L60">            amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.boot&quot;, LocationGroupEvent.boot());</span>
-<span class="pc" id="L61">        } catch (Exception e) {</span>
+<span class="fc" id="L62">            amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.boot&quot;, LocationGroupEvent.boot());</span>
+<span class="pc" id="L63">        } catch (Exception e) {</span>
             // Its fine if the event broker is not available on startup
         }
-<span class="fc" id="L64">    }</span>
+<span class="fc" id="L66">    }</span>
 
     @TransactionalEventListener(fallbackExecution = true)
     public void onEvent(LocationGroupEvent event) {
-<span class="pc bpc" id="L68" title="4 of 5 branches missed.">        switch (event.getType()) {</span>
+<span class="pc bpc" id="L70" title="4 of 5 branches missed.">        switch (event.getType()) {</span>
             case CREATED:
-<span class="nc" id="L70">                amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.created&quot;, mapper.map(event.getSource(), LocationGroupMO.class));</span>
-<span class="nc" id="L71">                break;</span>
+<span class="nc" id="L72">                amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.created&quot;, mapper.map(event.getSource(), LocationGroupMO.class));</span>
+<span class="nc" id="L73">                break;</span>
             case CHANGED:
-<span class="nc" id="L73">                amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.changed&quot;, mapper.map(event.getSource(), LocationGroupMO.class));</span>
-<span class="nc" id="L74">                break;</span>
+<span class="nc" id="L75">                amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.changed&quot;, mapper.map(event.getSource(), LocationGroupMO.class));</span>
+<span class="nc" id="L76">                break;</span>
             case DELETED:
-<span class="nc" id="L76">                amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.deleted&quot;, mapper.map(event.getSource(), LocationGroupMO.class));</span>
-<span class="nc" id="L77">                break;</span>
+<span class="nc" id="L78">                amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.deleted&quot;, mapper.map(event.getSource(), LocationGroupMO.class));</span>
+<span class="nc" id="L79">                break;</span>
             case STATE_CHANGE:
-<span class="fc" id="L79">                LocationGroupMO msg = mapper.map(event.getSource(), LocationGroupMO.class);</span>
-<span class="fc" id="L80">                validate(validator, msg);</span>
-<span class="fc" id="L81">                amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.state-changed&quot;, msg);</span>
-<span class="fc" id="L82">                break;</span>
+<span class="fc" id="L81">                LocationGroupMO msg = mapper.map(event.getSource(), LocationGroupMO.class);</span>
+<span class="fc" id="L82">                validate(validator, msg);</span>
+<span class="fc" id="L83">                amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.state-changed&quot;, msg);</span>
+<span class="fc" id="L84">                break;</span>
             default:
-<span class="nc" id="L84">                throw new UnsupportedOperationException(format(&quot;Eventtype [%s] currently not supported&quot;, event.getType()));</span>
+<span class="nc" id="L86">                throw new UnsupportedOperationException(format(&quot;Eventtype [%s] currently not supported&quot;, event.getType()));</span>
         }
-<span class="fc" id="L86">    }</span>
+<span class="fc" id="L88">    }</span>
 
     @TransactionalEventListener(fallbackExecution = true)
     public void onLocationEvent(LocationEvent event) {
-<span class="pc bpc" id="L90" title="4 of 5 branches missed.">        switch (event.getType()) {</span>
+<span class="pc bpc" id="L92" title="4 of 5 branches missed.">        switch (event.getType()) {</span>
             case CREATED:
-<span class="nc" id="L92">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.created&quot;, mapper.map(event.getSource(), LocationMO.class));</span>
-<span class="nc" id="L93">                break;</span>
+<span class="nc" id="L94">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.created&quot;, mapper.map(event.getSource(), LocationMO.class));</span>
+<span class="nc" id="L95">                break;</span>
             case CHANGED:
-<span class="nc" id="L95">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.changed&quot;, mapper.map(event.getSource(), LocationMO.class));</span>
-<span class="nc" id="L96">                break;</span>
+<span class="nc" id="L97">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.changed&quot;, mapper.map(event.getSource(), LocationMO.class));</span>
+<span class="nc" id="L98">                break;</span>
             case DELETED:
-<span class="nc" id="L98">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.deleted&quot;, mapper.map(event.getSource(), LocationMO.class));</span>
-<span class="nc" id="L99">                break;</span>
+<span class="nc" id="L100">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.deleted&quot;, mapper.map(event.getSource(), LocationMO.class));</span>
+<span class="nc" id="L101">                break;</span>
             case STATE_CHANGE:
-<span class="fc" id="L101">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.state-changed&quot;, mapper.map(event.getSource(), LocationMO.class));</span>
-<span class="fc" id="L102">                break;</span>
+<span class="fc" id="L103">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.state-changed&quot;, mapper.map(event.getSource(), LocationMO.class));</span>
+<span class="fc" id="L104">                break;</span>
             default:
-<span class="nc" id="L104">                throw new UnsupportedOperationException(format(&quot;Eventtype [%s] currently not supported&quot;, event.getType()));</span>
+<span class="nc" id="L106">                throw new UnsupportedOperationException(format(&quot;Eventtype [%s] currently not supported&quot;, event.getType()));</span>
         }
-<span class="fc" id="L106">    }</span>
+<span class="fc" id="L108">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

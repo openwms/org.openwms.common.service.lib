@@ -57,7 +57,7 @@ class TransportUnitCommandListener {
 <span class="fc" id="L57">                messageCommandHandler.handle((MessageCommand) command);</span>
             }
 <span class="pc" id="L59">        } catch (Exception e) {</span>
-<span class="nc" id="L60">            LOGGER.error(&quot;Processing command rejected [{}]&quot;, command.toString());</span>
+<span class="nc" id="L60">            LOGGER.error(&quot;Processing command rejected [{}]&quot;, command);</span>
 <span class="nc" id="L61">            throw new AmqpRejectAndDontRequeueException(e.getMessage(), e);</span>
         }
 <span class="fc" id="L63">    }</span>

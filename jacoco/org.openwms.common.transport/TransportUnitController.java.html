@@ -77,10 +77,10 @@ public class TransportUnitController extends AbstractWebController {
     public ResponseEntity&lt;TransportUnitVO&gt; findTransportUnitByPKey(
             @PathVariable(&quot;pKey&quot;) String pKey,  @RequestHeader Map&lt;String, String&gt; headers
     ) {
-<span class="nc" id="L80">        TransportUnit transportUnit = service.findByPKey(pKey);</span>
-<span class="nc" id="L81">        TransportUnitVO result = mapper.map(transportUnit, TransportUnitVO.class);</span>
-<span class="nc" id="L82">        addLinks(result, headers);</span>
-<span class="nc" id="L83">        return ResponseEntity.ok(result);</span>
+<span class="fc" id="L80">        TransportUnit transportUnit = service.findByPKey(pKey);</span>
+<span class="fc" id="L81">        TransportUnitVO result = mapper.map(transportUnit, TransportUnitVO.class);</span>
+<span class="fc" id="L82">        addLinks(result, headers);</span>
+<span class="fc" id="L83">        return ResponseEntity.ok(result);</span>
     }
 
     @GetMapping(value = API_TRANSPORT_UNITS, params = {&quot;bk&quot;}, produces = &quot;application/vnd.openwms.transport-unit-v1+json&quot;)
@@ -234,9 +234,10 @@ public class TransportUnitController extends AbstractWebController {
     public ResponseEntity&lt;Index&gt; index() {
 <span class="fc" id="L235">        return ResponseEntity.ok(</span>
 <span class="fc" id="L236">                new Index(</span>
-<span class="fc" id="L237">                        linkTo(methodOn(TransportUnitController.class).findTransportUnit(&quot;00000000000000004711&quot;, Collections.emptyMap())).withRel(&quot;transport-unit-findbybarcode&quot;),</span>
-<span class="fc" id="L238">                        linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList(&quot;00000000000000004711&quot;, &quot;00000000000000004712&quot;), Collections.emptyMap())).withRel(&quot;transport-unit-findbybarcodes&quot;),</span>
-<span class="fc" id="L239">                        linkTo(methodOn(TransportUnitController.class).findTransportUnitsOn(&quot;EXT_/0000/0000/0000/0000&quot;, Collections.emptyMap())).withRel(&quot;transport-unit-findonlocation&quot;)</span>
+<span class="fc" id="L237">                        linkTo(methodOn(TransportUnitController.class).findTransportUnitByPKey(&quot;1&quot;, Collections.emptyMap())).withRel(&quot;transport-unit-findbypkey&quot;),</span>
+<span class="fc" id="L238">                        linkTo(methodOn(TransportUnitController.class).findTransportUnit(&quot;00000000000000004711&quot;, Collections.emptyMap())).withRel(&quot;transport-unit-findbybarcode&quot;),</span>
+<span class="fc" id="L239">                        linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList(&quot;00000000000000004711&quot;, &quot;00000000000000004712&quot;), Collections.emptyMap())).withRel(&quot;transport-unit-findbybarcodes&quot;),</span>
+<span class="fc" id="L240">                        linkTo(methodOn(TransportUnitController.class).findTransportUnitsOn(&quot;EXT_/0000/0000/0000/0000&quot;, Collections.emptyMap())).withRel(&quot;transport-unit-findonlocation&quot;)</span>
                 )
         );
     }

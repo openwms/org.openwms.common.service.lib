@@ -18,7 +18,6 @@ package org.openwms.common.transport.commands;
 import org.ameba.annotation.TxService;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.location.LocationPK;
-import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.api.ValidationGroups;
@@ -46,73 +45,73 @@ import static org.openwms.common.transport.api.commands.TUCommand.Type.UPDATE_CA
 @TxService
 class TransportUnitCommandHandler {
 
-<span class="fc" id="L49">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandHandler.class);</span>
+<span class="fc" id="L48">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandHandler.class);</span>
     private final BeanMapper mapper;
     private final Validator validator;
     private final BarcodeGenerator generator;
     private final TransportUnitService service;
     private final ApplicationContext ctx;
 
-<span class="fc" id="L56">    TransportUnitCommandHandler(BeanMapper mapper, Validator validator, BarcodeGenerator generator, TransportUnitService service, ApplicationContext ctx) {</span>
-<span class="fc" id="L57">        this.mapper = mapper;</span>
-<span class="fc" id="L58">        this.validator = validator;</span>
-<span class="fc" id="L59">        this.generator = generator;</span>
-<span class="fc" id="L60">        this.service = service;</span>
-<span class="fc" id="L61">        this.ctx = ctx;</span>
-<span class="fc" id="L62">    }</span>
+<span class="fc" id="L55">    TransportUnitCommandHandler(BeanMapper mapper, Validator validator, BarcodeGenerator generator, TransportUnitService service, ApplicationContext ctx) {</span>
+<span class="fc" id="L56">        this.mapper = mapper;</span>
+<span class="fc" id="L57">        this.validator = validator;</span>
+<span class="fc" id="L58">        this.generator = generator;</span>
+<span class="fc" id="L59">        this.service = service;</span>
+<span class="fc" id="L60">        this.ctx = ctx;</span>
+<span class="fc" id="L61">    }</span>
 
     public void handle(TUCommand command) {
-<span class="pc bpc" id="L65" title="1 of 6 branches missed.">        switch(command.getType()) {</span>
+<span class="pc bpc" id="L64" title="1 of 6 branches missed.">        switch(command.getType()) {</span>
             case CHANGE_ACTUAL_LOCATION:
-<span class="pc bpc" id="L67" title="1 of 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
-<span class="fc" id="L68">                    LOGGER.debug(&quot;Got command to MOVE TransportUnit with id [{}] to [{}]&quot;, command.getTransportUnit().getBarcode(), command.getTransportUnit().getActualLocation());</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
+<span class="fc" id="L67">                    LOGGER.debug(&quot;Got command to MOVE TransportUnit with id [{}] to [{}]&quot;, command.getTransportUnit().getBarcode(), command.getTransportUnit().getActualLocation());</span>
                 }
-<span class="fc" id="L70">                service.moveTransportUnit(generator.convert(command.getTransportUnit().getBarcode()), LocationPK.fromString(command.getTransportUnit().getActualLocation()));</span>
-<span class="fc" id="L71">                break;</span>
+<span class="fc" id="L69">                service.moveTransportUnit(generator.convert(command.getTransportUnit().getBarcode()), LocationPK.fromString(command.getTransportUnit().getActualLocation()));</span>
+<span class="fc" id="L70">                break;</span>
             case CHANGE_TARGET:
-<span class="fc" id="L73">                validate(validator, command, ValidationGroups.TransportUnit.ChangeTarget.class);</span>
-<span class="pc bpc" id="L74" title="1 of 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
-<span class="fc" id="L75">                    LOGGER.debug(&quot;Got command to CHANGE the target of the TransportUnit with id [{}] to [{}]&quot;, command.getTransportUnit().getBarcode(), command.getTransportUnit().getTargetLocation());</span>
+<span class="fc" id="L72">                validate(validator, command, ValidationGroups.TransportUnit.ChangeTarget.class);</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
+<span class="fc" id="L74">                    LOGGER.debug(&quot;Got command to CHANGE the target of the TransportUnit with id [{}] to [{}]&quot;, command.getTransportUnit().getBarcode(), command.getTransportUnit().getTargetLocation());</span>
                 }
-<span class="fc" id="L77">                service.changeTarget(generator.convert(command.getTransportUnit().getBarcode()), command.getTransportUnit().getTargetLocation());</span>
-<span class="fc" id="L78">                break;</span>
+<span class="fc" id="L76">                service.changeTarget(generator.convert(command.getTransportUnit().getBarcode()), command.getTransportUnit().getTargetLocation());</span>
+<span class="fc" id="L77">                break;</span>
             case REMOVE:
-<span class="fc" id="L80">                validate(validator, command, ValidationGroups.TransportUnit.Remove.class);</span>
-<span class="pc bpc" id="L81" title="1 of 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
-<span class="fc" id="L82">                    LOGGER.debug(&quot;Got command to REMOVE TransportUnit with pKey [{}]&quot;, command.getTransportUnit().getpKey());</span>
+<span class="fc" id="L79">                validate(validator, command, ValidationGroups.TransportUnit.Remove.class);</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
+<span class="fc" id="L81">                    LOGGER.debug(&quot;Got command to REMOVE TransportUnit with pKey [{}]&quot;, command.getTransportUnit().getpKey());</span>
                 }
-<span class="fc" id="L84">                ctx.publishEvent(command);</span>
-<span class="fc" id="L85">                break;</span>
+<span class="fc" id="L83">                ctx.publishEvent(command);</span>
+<span class="fc" id="L84">                break;</span>
             case REQUEST:
-<span class="pc bpc" id="L87" title="1 of 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
-<span class="fc" id="L88">                    LOGGER.debug(&quot;Got a request command for a TransportUnit&quot;);</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
+<span class="fc" id="L87">                    LOGGER.debug(&quot;Got a request command for a TransportUnit&quot;);</span>
                 }
-<span class="fc" id="L90">                validate(validator, command, ValidationGroups.TransportUnit.Request.class);</span>
-<span class="fc" id="L91">                TransportUnit tu = service.findByPKey(command.getTransportUnit().getpKey());</span>
-<span class="fc" id="L92">                TransportUnitMO mo = mapper.map(tu, TransportUnitMO.class);</span>
-<span class="fc" id="L93">                ctx.publishEvent(</span>
-<span class="fc" id="L94">                        TUCommand.newBuilder(UPDATE_CACHE).withTransportUnit(mo).build()</span>
+<span class="fc" id="L89">                validate(validator, command, ValidationGroups.TransportUnit.Request.class);</span>
+<span class="fc" id="L90">                TransportUnit tu = service.findByPKey(command.getTransportUnit().getpKey());</span>
+<span class="fc" id="L91">                TransportUnitMO mo = mapper.map(tu, TransportUnitMO.class);</span>
+<span class="fc" id="L92">                ctx.publishEvent(</span>
+<span class="fc" id="L93">                        TUCommand.newBuilder(UPDATE_CACHE).withTransportUnit(mo).build()</span>
                 );
-<span class="fc" id="L96">                break;</span>
+<span class="fc" id="L95">                break;</span>
             case CREATE:
-<span class="pc bpc" id="L98" title="1 of 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
-<span class="fc" id="L99">                    LOGGER.debug(&quot;Got a command to create a TransportUnit&quot;);</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
+<span class="fc" id="L98">                    LOGGER.debug(&quot;Got a command to create a TransportUnit&quot;);</span>
                 }
-<span class="fc" id="L101">                validate(validator, command, ValidationGroups.TransportUnit.Create.class);</span>
-<span class="fc" id="L102">                tu = service.create(</span>
-<span class="fc" id="L103">                        generator.convert(command.getTransportUnit().getBarcode()),</span>
-<span class="fc" id="L104">                        command.getTransportUnit().getTransportUnitType().getType(),</span>
-<span class="fc" id="L105">                        command.getTransportUnit().getActualLocation(),</span>
-<span class="fc" id="L106">                        false</span>
+<span class="fc" id="L100">                validate(validator, command, ValidationGroups.TransportUnit.Create.class);</span>
+<span class="fc" id="L101">                tu = service.create(</span>
+<span class="fc" id="L102">                        generator.convert(command.getTransportUnit().getBarcode()),</span>
+<span class="fc" id="L103">                        command.getTransportUnit().getTransportUnitType().getType(),</span>
+<span class="fc" id="L104">                        command.getTransportUnit().getActualLocation(),</span>
+<span class="fc" id="L105">                        false</span>
                 );
-<span class="fc" id="L108">                mo = mapper.map(tu, TransportUnitMO.class);</span>
-<span class="fc" id="L109">                ctx.publishEvent(</span>
-<span class="fc" id="L110">                        TUCommand.newBuilder(UPDATE_CACHE).withTransportUnit(mo).build()</span>
+<span class="fc" id="L107">                mo = mapper.map(tu, TransportUnitMO.class);</span>
+<span class="fc" id="L108">                ctx.publishEvent(</span>
+<span class="fc" id="L109">                        TUCommand.newBuilder(UPDATE_CACHE).withTransportUnit(mo).build()</span>
                 );
-<span class="fc" id="L112">                break;</span>
+<span class="fc" id="L111">                break;</span>
             default:
-<span class="nc" id="L114">                LOGGER.error(&quot;TUCommand [{}] not supported&quot;, command.getType());</span>
+<span class="nc" id="L113">                LOGGER.error(&quot;TUCommand [{}] not supported&quot;, command.getType());</span>
         }
-<span class="fc" id="L116">    }</span>
+<span class="fc" id="L115">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
