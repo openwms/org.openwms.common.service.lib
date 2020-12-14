@@ -15,8 +15,10 @@
  */
 package org.openwms.common;
 
+import org.ameba.app.BaseConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 
 /**
  * A CommonStarter.
@@ -26,6 +28,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(scanBasePackages = {
         "org.openwms.common"
 })
+@Import(BaseConfiguration.class)
 public class CommonStarter {
 
     /**

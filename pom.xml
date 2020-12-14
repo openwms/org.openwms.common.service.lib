@@ -171,16 +171,16 @@
                 <version>${core.version}</version>
             </dependency>
             <dependency>
-                <!-- com.netflix.eureka:eureka has an internal clash -->
-                <groupId>org.hdrhistogram</groupId>
-                <artifactId>HdrHistogram</artifactId>
-                <version>${HdrHistogram.version}</version>
-            </dependency>
-            <dependency>
                 <!-- Mismatch between Eureka Client and Envers -->
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
                 <version>${joda-time.version}</version>
+            </dependency>
+            <dependency>
+                <!-- com.netflix.eureka:eureka has an internal clash -->
+                <groupId>org.hdrhistogram</groupId>
+                <artifactId>HdrHistogram</artifactId>
+                <version>${HdrHistogram.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openwms</groupId>
