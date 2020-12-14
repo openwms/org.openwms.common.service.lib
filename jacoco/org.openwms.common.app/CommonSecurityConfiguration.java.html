@@ -36,7 +36,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
     protected void configure(HttpSecurity http) throws Exception {
 <span class="fc" id="L37">        http</span>
 <span class="fc" id="L38">            .authorizeRequests().anyRequest().permitAll()</span>
-            ;
-<span class="fc" id="L40">    }</span>
+<span class="fc" id="L39">                .and()</span>
+<span class="fc" id="L40">                .csrf().disable();</span>
+<span class="fc" id="L41">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

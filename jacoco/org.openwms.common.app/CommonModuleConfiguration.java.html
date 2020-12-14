@@ -73,11 +73,11 @@ import java.util.Properties;
     @Primary
     @Bean
     public Validator messageSourceAwareValidator(@Autowired(required = false) MessageSource messageSource) {
-<span class="fc" id="L76">        LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();</span>
-<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if (messageSource != null) {</span>
-<span class="fc" id="L78">            bean.setValidationMessageSource(messageSource);</span>
+<span class="nc" id="L76">        LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (messageSource != null) {</span>
+<span class="nc" id="L78">            bean.setValidationMessageSource(messageSource);</span>
         }
-<span class="fc" id="L80">        return bean;</span>
+<span class="nc" id="L80">        return bean;</span>
     }
 
     @Bean

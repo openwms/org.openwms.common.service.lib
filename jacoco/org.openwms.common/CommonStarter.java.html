@@ -15,8 +15,10 @@
  */
 package org.openwms.common;
 
+import org.ameba.app.BaseConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 
 /**
  * A CommonStarter.
@@ -26,7 +28,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(scanBasePackages = {
         &quot;org.openwms.common&quot;
 })
-<span class="fc" id="L29">public class CommonStarter {</span>
+@Import(BaseConfiguration.class)
+<span class="fc" id="L32">public class CommonStarter {</span>
 
     /**
      * Boot up!
@@ -34,7 +37,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
      * @param args Some args
      */
     public static void main(String[] args) {
-<span class="nc" id="L37">        SpringApplication.run(CommonStarter.class, args);</span>
-<span class="nc" id="L38">    }</span>
+<span class="nc" id="L40">        SpringApplication.run(CommonStarter.class, args);</span>
+<span class="nc" id="L41">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
