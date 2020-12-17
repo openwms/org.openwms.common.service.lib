@@ -28,6 +28,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -42,6 +43,7 @@ import org.springframework.retry.support.RetryTemplate;
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Configuration
+@RefreshScope
 @EnableRabbit
 class CommonOptAsyncConfiguration {
 
@@ -65,17 +67,20 @@ class CommonOptAsyncConfiguration {
     }
 
     /*~ ------------ Events ------------- */
+    @RefreshScope
     @Bean
     TopicExchange commonTuExchange(@Value("${owms.events.common.tu.exchange-name}") String exchangeName) {
         return new TopicExchange(exchangeName, true, false);
     }
 
+    @RefreshScope
     @Bean
     TopicExchange commonTuTExchange(@Value("${owms.events.common.tut.exchange-name}") String exchangeName) {
         return new TopicExchange(exchangeName, true, false);
     }
 
     /*~ ------------ Commands ------------- */
+    @RefreshScope
     @Bean
     Queue commandsQueue(@Value("${owms.commands.common.tu.queue-name}") String queueName,
             @Value("${owms.common.dead-letter.exchange-name}") String exchangeName) {
@@ -85,11 +90,13 @@ class CommonOptAsyncConfiguration {
                 .build();
     }
 
+    @RefreshScope
     @Bean
     TopicExchange commonTuCommandsExchange(@Value("${owms.commands.common.tu.exchange-name}") String exchangeName) {
         return new TopicExchange(exchangeName, true, false);
     }
 
+    @RefreshScope
     @Bean
     Binding commandsBinding(
             TopicExchange commonTuCommandsExchange,
@@ -102,11 +109,13 @@ class CommonOptAsyncConfiguration {
                 .with(routingKey);
     }
 
+    @RefreshScope
     @Bean
     DirectExchange dlExchange(@Value("${owms.common.dead-letter.exchange-name}") String exchangeName) {
         return new DirectExchange(exchangeName);
     }
 
+    @RefreshScope
     @Bean
     Queue dlQueue(@Value("${owms.common.dead-letter.queue-name}") String queueName) {
         return QueueBuilder.durable(queueName).build();

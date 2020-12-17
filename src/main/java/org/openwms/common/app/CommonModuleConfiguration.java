@@ -34,6 +34,7 @@ import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCusto
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -59,6 +60,7 @@ import java.util.Properties;
  * @author Heiko Scherrer
  */
 @Configuration
+@RefreshScope
 @EnableAspects(propagateRootCause = true)
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableConfigurationProperties
@@ -80,6 +82,7 @@ public class CommonModuleConfiguration {
         return bean;
     }
 
+    @RefreshScope
     @Bean
     MeterRegistryCustomizer<MeterRegistry> metricsCommonTags(@Value("${spring.application.name}") String applicationName) {
         return registry -> registry.config().commonTags("application", applicationName);

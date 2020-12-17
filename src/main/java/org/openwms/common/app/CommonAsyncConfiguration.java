@@ -19,6 +19,7 @@ import org.openwms.core.SpringProfiles;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -31,9 +32,11 @@ import org.springframework.context.annotation.Profile;
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Configuration
+@RefreshScope
 @EnableRabbit
 class CommonAsyncConfiguration {
 
+    @RefreshScope
     @Bean
     TopicExchange lgExchange(@Value("${owms.events.common.lg.exchange-name}") String exchangeName) {
         return new TopicExchange(exchangeName, true, false);
