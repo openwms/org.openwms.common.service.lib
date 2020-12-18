@@ -34,6 +34,7 @@ import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCusto
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -59,6 +60,7 @@ import java.util.Properties;
  * @author Heiko Scherrer
  */
 @Configuration
+@RefreshScope
 @EnableAspects(propagateRootCause = true)
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableConfigurationProperties
@@ -68,64 +70,65 @@ import java.util.Properties;
 @EntityScan(basePackages = &quot;org.openwms&quot;)
 @EnableMultiTenancy(enabled = false)
 @EnableTransactionManagement
-<span class="fc" id="L71">public class CommonModuleConfiguration {</span>
+<span class="fc" id="L73">public class CommonModuleConfiguration {</span>
 
     @Primary
     @Bean
     public Validator messageSourceAwareValidator(@Autowired(required = false) MessageSource messageSource) {
-<span class="nc" id="L76">        LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();</span>
-<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (messageSource != null) {</span>
-<span class="nc" id="L78">            bean.setValidationMessageSource(messageSource);</span>
+<span class="nc" id="L78">        LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        if (messageSource != null) {</span>
+<span class="nc" id="L80">            bean.setValidationMessageSource(messageSource);</span>
         }
-<span class="nc" id="L80">        return bean;</span>
+<span class="nc" id="L82">        return bean;</span>
     }
 
+    @RefreshScope
     @Bean
     MeterRegistryCustomizer&lt;MeterRegistry&gt; metricsCommonTags(@Value(&quot;${spring.application.name}&quot;) String applicationName) {
-<span class="fc" id="L85">        return registry -&gt; registry.config().commonTags(&quot;application&quot;, applicationName);</span>
+<span class="fc" id="L88">        return registry -&gt; registry.config().commonTags(&quot;application&quot;, applicationName);</span>
     }
 
     public @Bean
     Translator translator() {
-<span class="fc" id="L90">        return new AbstractTranslator() {</span>
+<span class="fc" id="L93">        return new AbstractTranslator() {</span>
             @Override
             protected MessageSource getMessageSource() {
-<span class="fc" id="L93">                return messageSource();</span>
+<span class="fc" id="L96">                return messageSource();</span>
             }
         };
     }
 
     public @Bean
     MessageSource messageSource() {
-<span class="fc" id="L100">        NestedReloadableResourceBundleMessageSource nrrbm = new NestedReloadableResourceBundleMessageSource();</span>
-<span class="fc" id="L101">        nrrbm.setBasename(&quot;classpath:i18n&quot;);</span>
-<span class="fc" id="L102">        nrrbm.setDefaultEncoding(&quot;UTF-8&quot;);</span>
-<span class="fc" id="L103">        nrrbm.setCommonMessages(new Properties());</span>
-<span class="fc" id="L104">        return nrrbm;</span>
+<span class="fc" id="L103">        NestedReloadableResourceBundleMessageSource nrrbm = new NestedReloadableResourceBundleMessageSource();</span>
+<span class="fc" id="L104">        nrrbm.setBasename(&quot;classpath:i18n&quot;);</span>
+<span class="fc" id="L105">        nrrbm.setDefaultEncoding(&quot;UTF-8&quot;);</span>
+<span class="fc" id="L106">        nrrbm.setCommonMessages(new Properties());</span>
+<span class="fc" id="L107">        return nrrbm;</span>
     }
 
     @Profile(SpringProfiles.DEVELOPMENT_PROFILE)
     public @Bean
     Filter corsFiler() {
-<span class="nc" id="L110">        return new CorsFilter(new PermitAllCorsConfigurationSource());</span>
+<span class="nc" id="L113">        return new CorsFilter(new PermitAllCorsConfigurationSource());</span>
     }
 
     public @Bean
     BeanMapper beanMapper() {
-<span class="fc" id="L115">        return new DozerMapperImpl(&quot;META-INF/dozer/common-bean-mappings.xml&quot;);</span>
+<span class="fc" id="L118">        return new DozerMapperImpl(&quot;META-INF/dozer/common-bean-mappings.xml&quot;);</span>
     }
 
     /*~ ------------- Request ID handling ----------- */
     public @Bean
     IDGenerator&lt;String&gt; uuidGenerator() {
-<span class="fc" id="L121">        return new JdkIDGenerator();</span>
+<span class="fc" id="L124">        return new JdkIDGenerator();</span>
     }
 
     public @Bean
     FilterRegistrationBean requestIDFilter(IDGenerator&lt;String&gt; uuidGenerator) {
-<span class="fc" id="L126">        FilterRegistrationBean frb = new FilterRegistrationBean(new RequestIDFilter(uuidGenerator));</span>
-<span class="fc" id="L127">        frb.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);</span>
-<span class="fc" id="L128">        return frb;</span>
+<span class="fc" id="L129">        FilterRegistrationBean frb = new FilterRegistrationBean(new RequestIDFilter(uuidGenerator));</span>
+<span class="fc" id="L130">        frb.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);</span>
+<span class="fc" id="L131">        return frb;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

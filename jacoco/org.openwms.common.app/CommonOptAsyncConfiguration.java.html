@@ -28,6 +28,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -42,79 +43,87 @@ import org.springframework.retry.support.RetryTemplate;
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Configuration
+@RefreshScope
 @EnableRabbit
-<span class="fc" id="L46">class CommonOptAsyncConfiguration {</span>
+<span class="fc" id="L48">class CommonOptAsyncConfiguration {</span>
 
     @Bean
     MessageConverter jsonConverter() {
-<span class="fc" id="L50">        return new Jackson2JsonMessageConverter();</span>
+<span class="fc" id="L52">        return new Jackson2JsonMessageConverter();</span>
     }
 
     @Bean
     RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
-<span class="fc" id="L55">        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);</span>
-<span class="fc" id="L56">        ExponentialBackOffPolicy backOffPolicy = new ExponentialBackOffPolicy();</span>
-<span class="fc" id="L57">        backOffPolicy.setMultiplier(2);</span>
-<span class="fc" id="L58">        backOffPolicy.setMaxInterval(15000);</span>
-<span class="fc" id="L59">        backOffPolicy.setInitialInterval(500);</span>
-<span class="fc" id="L60">        RetryTemplate retryTemplate = new RetryTemplate();</span>
-<span class="fc" id="L61">        retryTemplate.setBackOffPolicy(backOffPolicy);</span>
-<span class="fc" id="L62">        rabbitTemplate.setRetryTemplate(retryTemplate);</span>
-<span class="fc" id="L63">        rabbitTemplate.setMessageConverter(jsonConverter());</span>
-<span class="fc" id="L64">        return rabbitTemplate;</span>
+<span class="nc" id="L57">        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);</span>
+<span class="nc" id="L58">        ExponentialBackOffPolicy backOffPolicy = new ExponentialBackOffPolicy();</span>
+<span class="nc" id="L59">        backOffPolicy.setMultiplier(2);</span>
+<span class="nc" id="L60">        backOffPolicy.setMaxInterval(15000);</span>
+<span class="nc" id="L61">        backOffPolicy.setInitialInterval(500);</span>
+<span class="nc" id="L62">        RetryTemplate retryTemplate = new RetryTemplate();</span>
+<span class="nc" id="L63">        retryTemplate.setBackOffPolicy(backOffPolicy);</span>
+<span class="nc" id="L64">        rabbitTemplate.setRetryTemplate(retryTemplate);</span>
+<span class="nc" id="L65">        rabbitTemplate.setMessageConverter(jsonConverter());</span>
+<span class="nc" id="L66">        return rabbitTemplate;</span>
     }
 
     /*~ ------------ Events ------------- */
+    @RefreshScope
     @Bean
     TopicExchange commonTuExchange(@Value(&quot;${owms.events.common.tu.exchange-name}&quot;) String exchangeName) {
-<span class="fc" id="L70">        return new TopicExchange(exchangeName, true, false);</span>
+<span class="fc" id="L73">        return new TopicExchange(exchangeName, true, false);</span>
     }
 
+    @RefreshScope
     @Bean
     TopicExchange commonTuTExchange(@Value(&quot;${owms.events.common.tut.exchange-name}&quot;) String exchangeName) {
-<span class="fc" id="L75">        return new TopicExchange(exchangeName, true, false);</span>
+<span class="fc" id="L79">        return new TopicExchange(exchangeName, true, false);</span>
     }
 
     /*~ ------------ Commands ------------- */
+    @RefreshScope
     @Bean
     Queue commandsQueue(@Value(&quot;${owms.commands.common.tu.queue-name}&quot;) String queueName,
             @Value(&quot;${owms.common.dead-letter.exchange-name}&quot;) String exchangeName) {
-<span class="fc" id="L82">        return QueueBuilder.durable(queueName)</span>
-<span class="fc" id="L83">                .withArgument(&quot;x-dead-letter-exchange&quot;, exchangeName)</span>
-<span class="fc" id="L84">                .withArgument(&quot;x-dead-letter-routing-key&quot;, &quot;poison-message&quot;)</span>
-<span class="fc" id="L85">                .build();</span>
+<span class="fc" id="L87">        return QueueBuilder.durable(queueName)</span>
+<span class="fc" id="L88">                .withArgument(&quot;x-dead-letter-exchange&quot;, exchangeName)</span>
+<span class="fc" id="L89">                .withArgument(&quot;x-dead-letter-routing-key&quot;, &quot;poison-message&quot;)</span>
+<span class="fc" id="L90">                .build();</span>
     }
 
+    @RefreshScope
     @Bean
     TopicExchange commonTuCommandsExchange(@Value(&quot;${owms.commands.common.tu.exchange-name}&quot;) String exchangeName) {
-<span class="fc" id="L90">        return new TopicExchange(exchangeName, true, false);</span>
+<span class="fc" id="L96">        return new TopicExchange(exchangeName, true, false);</span>
     }
 
+    @RefreshScope
     @Bean
     Binding commandsBinding(
             TopicExchange commonTuCommandsExchange,
             Queue commandsQueue,
             @Value(&quot;${owms.commands.common.tu.routing-key}&quot;) String routingKey
     ) {
-<span class="fc" id="L99">        return BindingBuilder</span>
-<span class="fc" id="L100">                .bind(commandsQueue)</span>
-<span class="fc" id="L101">                .to(commonTuCommandsExchange)</span>
-<span class="fc" id="L102">                .with(routingKey);</span>
+<span class="fc" id="L106">        return BindingBuilder</span>
+<span class="fc" id="L107">                .bind(commandsQueue)</span>
+<span class="fc" id="L108">                .to(commonTuCommandsExchange)</span>
+<span class="fc" id="L109">                .with(routingKey);</span>
     }
 
+    @RefreshScope
     @Bean
     DirectExchange dlExchange(@Value(&quot;${owms.common.dead-letter.exchange-name}&quot;) String exchangeName) {
-<span class="fc" id="L107">        return new DirectExchange(exchangeName);</span>
+<span class="fc" id="L115">        return new DirectExchange(exchangeName);</span>
     }
 
+    @RefreshScope
     @Bean
     Queue dlQueue(@Value(&quot;${owms.common.dead-letter.queue-name}&quot;) String queueName) {
-<span class="fc" id="L112">        return QueueBuilder.durable(queueName).build();</span>
+<span class="fc" id="L121">        return QueueBuilder.durable(queueName).build();</span>
     }
 
     @Bean
     Binding dlBinding(DirectExchange dlExchange, Queue dlQueue) {
-<span class="fc" id="L117">        return BindingBuilder.bind(dlQueue).to(dlExchange).with(&quot;poison-message&quot;);</span>
+<span class="fc" id="L126">        return BindingBuilder.bind(dlQueue).to(dlExchange).with(&quot;poison-message&quot;);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

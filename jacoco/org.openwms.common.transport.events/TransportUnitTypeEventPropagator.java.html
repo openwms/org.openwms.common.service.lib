@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -33,38 +34,39 @@ import org.springframework.transaction.event.TransactionalEventListener;
  * @author Heiko Scherrer
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
+@RefreshScope
 @Component
 class TransportUnitTypeEventPropagator {
 
-<span class="fc" id="L39">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitTypeEventPropagator.class);</span>
+<span class="fc" id="L41">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitTypeEventPropagator.class);</span>
     private final AmqpTemplate amqpTemplate;
     private final String exchangeName;
     private final BeanMapper mapper;
 
-<span class="fc" id="L44">    TransportUnitTypeEventPropagator(</span>
+<span class="fc" id="L46">    TransportUnitTypeEventPropagator(</span>
             AmqpTemplate amqpTemplate,
             @Value(&quot;${owms.events.common.tut.exchange-name}&quot;) String exchangeName,
             BeanMapper mapper) {
-<span class="fc" id="L48">        this.amqpTemplate = amqpTemplate;</span>
-<span class="fc" id="L49">        this.exchangeName = exchangeName;</span>
-<span class="fc" id="L50">        this.mapper = mapper;</span>
-<span class="fc" id="L51">    }</span>
+<span class="fc" id="L50">        this.amqpTemplate = amqpTemplate;</span>
+<span class="fc" id="L51">        this.exchangeName = exchangeName;</span>
+<span class="fc" id="L52">        this.mapper = mapper;</span>
+<span class="fc" id="L53">    }</span>
 
     @TransactionalEventListener(fallbackExecution = true)
     public void onEvent(TransportUnitTypeEvent event) {
-<span class="pc bpc" id="L55" title="2 of 4 branches missed.">        switch (event.getType()) {</span>
+<span class="pc bpc" id="L57" title="2 of 4 branches missed.">        switch (event.getType()) {</span>
             case CREATED:
-<span class="fc" id="L57">                amqpTemplate.convertAndSend(exchangeName, &quot;tut.event.created&quot;, mapper.map(event.getSource(), TransportUnitTypeMO.class));</span>
-<span class="fc" id="L58">                break;</span>
+<span class="fc" id="L59">                amqpTemplate.convertAndSend(exchangeName, &quot;tut.event.created&quot;, mapper.map(event.getSource(), TransportUnitTypeMO.class));</span>
+<span class="fc" id="L60">                break;</span>
             case CHANGED:
-<span class="fc" id="L60">                amqpTemplate.convertAndSend(exchangeName, &quot;tut.event.changed&quot;, mapper.map(event.getSource(), TransportUnitTypeMO.class));</span>
-<span class="fc" id="L61">                break;</span>
+<span class="fc" id="L62">                amqpTemplate.convertAndSend(exchangeName, &quot;tut.event.changed&quot;, mapper.map(event.getSource(), TransportUnitTypeMO.class));</span>
+<span class="fc" id="L63">                break;</span>
             case DELETED:
-<span class="nc" id="L63">                amqpTemplate.convertAndSend(exchangeName, &quot;tut.event.deleted&quot;, mapper.map(event.getSource(), TransportUnitTypeMO.class));</span>
-<span class="nc" id="L64">                break;</span>
+<span class="nc" id="L65">                amqpTemplate.convertAndSend(exchangeName, &quot;tut.event.deleted&quot;, mapper.map(event.getSource(), TransportUnitTypeMO.class));</span>
+<span class="nc" id="L66">                break;</span>
             default:
-<span class="nc" id="L66">                LOGGER.warn(&quot;Eventtype [{}] not supported&quot;, event.getType());</span>
+<span class="nc" id="L68">                LOGGER.warn(&quot;Eventtype [{}] not supported&quot;, event.getType());</span>
         }
-<span class="fc" id="L68">    }</span>
+<span class="fc" id="L70">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

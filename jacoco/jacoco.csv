@@ -101,7 +101,7 @@ OpenWMS.org COMMON: Base Services,org.openwms.common,SimpleLink,0,7,0,0,0,2,0,1,
 OpenWMS.org COMMON: Base Services,org.openwms.common.location.api.messages,LocationMO,20,25,0,0,10,9,5,8,5,8
 OpenWMS.org COMMON: Base Services,org.openwms.common.location.api.messages,LocationGroupMO,48,25,8,0,14,9,11,8,7,8
 OpenWMS.org COMMON: Base Services,org.openwms.common.app,CommonSecurityConfiguration,0,14,0,0,0,6,0,2,0,2
-OpenWMS.org COMMON: Base Services,org.openwms.common.app,CommonOptAsyncConfiguration,0,95,0,0,0,26,0,11,0,11
+OpenWMS.org COMMON: Base Services,org.openwms.common.app,CommonOptAsyncConfiguration,34,61,0,0,10,16,1,10,1,10
 OpenWMS.org COMMON: Base Services,org.openwms.common.app,CommonModuleConfiguration,18,68,2,0,5,13,3,8,2,8
 OpenWMS.org COMMON: Base Services,org.openwms.common.app,CommonModuleConfiguration.new AbstractTranslator() {...},0,10,0,0,0,2,0,2,0,2
 OpenWMS.org COMMON: Base Services,org.openwms.common.app,CommonStandaloneConfiguration,0,3,0,0,0,1,0,1,0,1

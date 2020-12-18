@@ -40,8 +40,8 @@ import static org.ameba.system.ValidationUtil.validate;
  * @author Heiko Scherrer
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
-@Component
 @RefreshScope
+@Component
 class LocationGroupEventPropagator {
 
     private final AmqpTemplate amqpTemplate;
