@@ -113,6 +113,10 @@ spring:
       fail-fast: true # true means retry
     discovery:
       enabled: true
+    bus:
+      enabled: true
+      refresh:
+        enabled: true
 
 management:
   health:
