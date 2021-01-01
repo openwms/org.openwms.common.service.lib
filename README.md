@@ -1,3 +1,12 @@
+# Purpose of the fork
+Use this fork to investigate the usability and readiness for manual storage and picking systems.
+Add a simple warehouse generation for a pallet storage with a super simple vue.js user interface using the REST services.
+
+To generate the pallet storage with all required entities, run it as mentioned below, then call:
+```
+http://localhost:8120/warehouse/generatePalletStorage
+```
+
 # Purpose
 The OpenWMS.org Common Service provides essential functionality to deal with `Locations`, `LocationGroups` and `TransportUnits`. An example
 often referred to is the ability to move a `TransportUnit` from a `Location` A to a `Location` B. Beside this also other secondary resources
