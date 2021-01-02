@@ -150,4 +150,14 @@ class LocationServiceImpl implements LocationService {
         List<Location> result = repository.findByLocationIdContaining(locationPK);
         return result == null ? Collections.emptyList() : result;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public Location save(Location location) {
+        repository.save(location);
+        return location;
+    }
 }
