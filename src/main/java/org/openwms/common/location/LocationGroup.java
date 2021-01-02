@@ -154,6 +154,14 @@ public class LocationGroup extends Target implements Serializable {
     }
 
     /**
+     * Set the account.
+     * @param account account
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /**
      * Check whether infeed is allowed for the {@code LocationGroup}.
      *
      * @return {@literal true} if allowed, otherwise {@literal false}.

@@ -249,6 +249,14 @@ public class Location extends Target implements Serializable {
     }
 
     /**
+     * Set account.
+     * @param account The Account.
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /**
      * Get the ERP Code of the Location.
      *
      * @return The ERP code
@@ -264,6 +272,14 @@ public class Location extends Target implements Serializable {
      */
     public String getPlcCode() {
         return plcCode;
+    }
+
+    /**
+     * PLC code is used for communication with PLC SPS equipment control.
+     * @param plcCode The PLC code
+     */
+    public void setPlcCode(String plcCode) {
+        this.plcCode = plcCode;
     }
 
     /**
@@ -311,6 +327,14 @@ public class Location extends Target implements Serializable {
      */
     public String getDescription() {
         return this.description;
+    }
+
+    /**
+     * Describe the location.
+     * @param description The desc text.
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -419,6 +443,14 @@ public class Location extends Target implements Serializable {
      */
     public LocationType getLocationType() {
         return this.locationType;
+    }
+
+    /**
+     * Location type used to identify the type of load units to be stored.
+     * @param locationType The location type.
+     */
+    public void setLocationType(LocationType locationType) {
+        this.locationType = locationType;
     }
 
     /**
