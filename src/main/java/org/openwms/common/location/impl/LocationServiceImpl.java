@@ -156,8 +156,5 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
-    public Location save(Location location) {
-        repository.save(location);
-        return location;
-    }
+    public Location save(Location location) { return repository.save(location); }
 }

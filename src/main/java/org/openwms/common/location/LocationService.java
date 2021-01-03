@@ -81,8 +81,9 @@ public interface LocationService {
 
     /**
      * Persist a new entity or merge if just exists.
-     * @param location new or updated location.
-     * @return location entity.
+     *
+     * @param location new or changed location.
+     * @return updated location.
      */
     Location save(Location location);
 }
