@@ -28,7 +28,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +43,7 @@ import static java.lang.String.format;
  *
  * @author Heiko Scherrer
  */
+@Validated
 @TxService
 class LocationServiceImpl implements LocationService {
 
@@ -63,7 +67,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-    public Optional<Location> findByLocationId(LocationPK locationId) {
+    public Optional<Location> findByLocationId(@NotNull LocationPK locationId) {
         return repository.findByLocationId(locationId);
     }
 
@@ -83,7 +87,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-    public Optional<Location> findByLocationId(String locationId) {
+    public Optional<Location> findByLocationId(@NotEmpty String locationId) {
         if (!LocationPK.isValid(locationId)) {
             throw new IllegalArgumentException(format("The given locationPK [%s] is not of valid format", locationId));
         }
@@ -146,7 +150,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-    public List<Location> findLocations(LocationPK locationPK) {
+    public List<Location> findLocations(@NotNull LocationPK locationPK) {
         List<Location> result = repository.findByLocationIdContaining(locationPK);
         return result == null ? Collections.emptyList() : result;
     }
@@ -156,5 +160,11 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
-    public Location save(Location location) { return repository.save(location); }
+    public Location save(@NotNull Location location) {
+        if (location.isNew()) {
+            throw new NotFoundException("Expected to save an already existing instance but got a transient one");
+
+        }
+        return repository.save(location);
+    }
 }

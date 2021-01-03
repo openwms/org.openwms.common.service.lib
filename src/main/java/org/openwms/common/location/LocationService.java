@@ -17,6 +17,8 @@ package org.openwms.common.location;
 
 import org.openwms.common.location.api.ErrorCodeVO;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +35,7 @@ public interface LocationService {
      * @param locationId The business key of the Location to search for
      * @return The Location instance
      */
-    Optional<Location> findByLocationId(LocationPK locationId);
+    Optional<Location> findByLocationId(@NotNull LocationPK locationId);
 
     /**
      * Find and return a {@code Location}.
@@ -41,7 +43,7 @@ public interface LocationService {
      * @param locationId The business key as String of the Location to search for
      * @return The Location instance
      */
-    Optional<Location> findByLocationId(String locationId);
+    Optional<Location> findByLocationId(@NotEmpty String locationId);
 
     /**
      * Find and return all {@code Location}s that match the {@code locationIds} whereas the attributes of the {@code LocationPK} may include
@@ -50,7 +52,7 @@ public interface LocationService {
      * @param locationIds The business keys of the Locations to search for
      * @return The Location instances or an empty list, never {@literal null}
      */
-    List<Location> findLocations(LocationPK locationIds);
+    List<Location> findLocations(@NotNull LocationPK locationIds);
 
     /**
      * Find and return a {@code Location}.
@@ -80,10 +82,10 @@ public interface LocationService {
     );
 
     /**
-     * Persist a new entity or merge if just exists.
+     * Modify and update an existing {@code location}.
      *
-     * @param location new or changed location.
-     * @return updated location.
+     * @param location Modified instance
+     * @return Saved instance
      */
-    Location save(Location location);
+    Location save(@NotNull Location location);
 }
