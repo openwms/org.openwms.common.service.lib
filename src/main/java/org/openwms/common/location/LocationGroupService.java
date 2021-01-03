@@ -77,4 +77,12 @@ public interface LocationGroupService {
      * @return Always an list instance, never {@literal null}
      */
     List<LocationGroup> findByNames(List<String> locationGroupNames);
+
+    /**
+     * Persist a new entity or merge if exists.
+     *
+     * @param locationGroup new or changed entity.
+     * @return updated entity.
+     */
+    LocationGroup save(LocationGroup locationGroup);
 }

@@ -78,4 +78,12 @@ public interface LocationService {
             String pKey,
             ErrorCodeVO errorCode
     );
+
+    /**
+     * Persist a new entity or merge if just exists.
+     *
+     * @param location new or changed location.
+     * @return updated location.
+     */
+    Location save(Location location);
 }
