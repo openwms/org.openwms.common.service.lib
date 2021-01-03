@@ -34,6 +34,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -88,6 +89,7 @@ public class Location extends Target implements Serializable {
 
     /** Description of the Location. */
     @Column(name = "C_DESCRIPTION")
+    @Size(max = 255)
     private String description;
 
     /** May be assigned to a particular zone in stock. */
@@ -96,6 +98,7 @@ public class Location extends Target implements Serializable {
 
     /** A {@code Location} can be assigned to a particular labels. */
     @Column(name="C_LABELS", length = STRING_LIST_LENGTH)
+    @Size(max = STRING_LIST_LENGTH)
     @Convert(converter = StringListConverter.class)
     private List<String> labels;
 
@@ -199,6 +202,7 @@ public class Location extends Target implements Serializable {
 
     /** The Location may be classified, like hazardeous. */
     @Column(name = "C_CLASSIFICATION")
+    @Size(max = 255)
     private String classification;
 
     /** The {@link LocationGroup} this Location belongs to. */
@@ -311,6 +315,15 @@ public class Location extends Target implements Serializable {
      */
     public String getDescription() {
         return this.description;
+    }
+
+    /**
+     * Set the description text of the Location.
+     *
+     * @param description The description text
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
