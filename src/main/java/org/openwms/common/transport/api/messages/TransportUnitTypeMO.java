@@ -28,7 +28,10 @@ import java.math.BigDecimal;
  */
 public class TransportUnitTypeMO implements Serializable {
 
-    @NotNull(groups = ValidationGroups.TransportUnit.Create.class)
+    @NotNull(groups = {
+            ValidationGroups.TransportUnit.Create.class,
+            ValidationGroups.TransportUnit.Modified.class
+    })
     private String type;
     private int length;
     private int width;

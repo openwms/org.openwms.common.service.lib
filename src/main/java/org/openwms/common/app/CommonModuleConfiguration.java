@@ -28,7 +28,6 @@ import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.ameba.mapping.DozerMapperImpl;
 import org.ameba.system.NestedReloadableResourceBundleMessageSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -39,7 +38,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.core.Ordered;
@@ -47,11 +45,9 @@ import org.springframework.data.envers.repository.support.EnversRevisionReposito
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.filter.CorsFilter;
 
 import javax.servlet.Filter;
-import javax.validation.Validator;
 import java.util.Properties;
 
 /**
@@ -71,16 +67,6 @@ import java.util.Properties;
 @EnableMultiTenancy(enabled = false)
 @EnableTransactionManagement
 public class CommonModuleConfiguration {
-
-    @Primary
-    @Bean
-    public Validator messageSourceAwareValidator(@Autowired(required = false) MessageSource messageSource) {
-        LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
-        if (messageSource != null) {
-            bean.setValidationMessageSource(messageSource);
-        }
-        return bean;
-    }
 
     @RefreshScope
     @Bean

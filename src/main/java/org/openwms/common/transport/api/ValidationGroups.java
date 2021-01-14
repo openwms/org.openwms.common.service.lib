@@ -29,5 +29,6 @@ public interface ValidationGroups {
         interface Request{}
         interface Remove{}
         interface Create{}
+        interface Modified{}
     }
 }

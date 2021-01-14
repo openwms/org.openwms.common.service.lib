@@ -10,6 +10,7 @@
     <artifactId>org.openwms.common.service</artifactId>
     <version>1.7.0-SNAPSHOT</version>
     <name>OpenWMS.org COMMON: Base Services</name>
+    <description>Essential services on common resources like Locations, LocationGroups and TransportUnits</description>
     <url>https://openwms.github.io/${project.artifactId}/index.html</url>
 
     <issueManagement>
@@ -64,7 +65,7 @@
     <properties>
         <commons-configuration.version>1.10</commons-configuration.version>
         <core.version>1.9.0-SNAPSHOT</core.version>
-        <core.units.version>0.3.0</core.units.version>
+		<core.units.version>0.4.0-SNAPSHOT</core.units.version>
         <guava.version>30.0-jre</guava.version>
         <HdrHistogram.version>2.1.12</HdrHistogram.version>
         <indriya.version>2.0</indriya.version>
@@ -149,8 +150,8 @@
                 </executions>
                 <configuration>
                     <layers>
-                        <enabled>true</enabled>
                         <configuration>${project.basedir}/src/layers.xml</configuration>
+                        <enabled>true</enabled>
                     </layers>
                 </configuration>
             </plugin>
@@ -160,15 +161,25 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <!-- com.netflix.eureka:eureka has an internal clash -->
-                <groupId>commons-configuration</groupId>
-                <artifactId>commons-configuration</artifactId>
-                <version>${commons-configuration.version}</version>
+                <groupId>org.openwms</groupId>
+                <artifactId>org.openwms.core.units</artifactId>
+                <version>${core.units.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openwms</groupId>
                 <artifactId>org.openwms.core.util</artifactId>
                 <version>${core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <!-- com.netflix.eureka:eureka has an internal clash -->
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+                <version>${commons-configuration.version}</version>
             </dependency>
             <dependency>
                 <!-- Mismatch between Eureka Client and Envers -->
@@ -181,16 +192,6 @@
                 <groupId>org.hdrhistogram</groupId>
                 <artifactId>HdrHistogram</artifactId>
                 <version>${HdrHistogram.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openwms</groupId>
-                <artifactId>org.openwms.core.units</artifactId>
-                <version>${core.units.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
             </dependency>
             <dependency>
                 <groupId>tech.units</groupId>
