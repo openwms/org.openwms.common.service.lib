@@ -25,9 +25,7 @@ import org.springframework.context.annotation.Import;
  *
  * @author Heiko Scherrer
  */
-@SpringBootApplication(scanBasePackages = {
-        "org.openwms.common"
-})
+@SpringBootApplication(scanBasePackages = {"org.openwms.common", "org.openwms.projects"})
 @Import(BaseConfiguration.class)
 public class CommonStarter {
 

@@ -114,7 +114,7 @@ public class Location extends Target implements Serializable {
 
     /** Whether or not moving Products without {@code TransportUnit} to this Location is allowed. */
     @Column(name = "C_DIRECT_BOOKING_ALLOWED")
-    private boolean directBookingAllowed = true;
+    private Boolean directBookingAllowed = true;
 
     /**
      * Date of last change. When a {@code TransportUnit} is moving to or away from this Location, {@code lastMovement} will be updated. This
