@@ -29,6 +29,7 @@ import java.util.Optional;
 
 import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION;
 import static org.openwms.common.location.api.LocationApiConstants.API_LOCATIONS;
+import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION_TYPES;
 
 /**
  * A LocationApi deals with {@code Location}s.
@@ -37,6 +38,15 @@ import static org.openwms.common.location.api.LocationApiConstants.API_LOCATIONS
  */
 @FeignClient(name = "common-service", qualifier = "locationApi", decode404 = true)
 public interface LocationApi {
+
+    /**
+     * Find and return all {@code LocationTypes}.
+     *
+     * @return Never {@literal null}
+     */
+    @GetMapping(API_LOCATION_TYPES)
+    @Cacheable("locations")
+    List<LocationTypeVO> findAll();
 
     /**
      * Find and return a {@code Location} representation by the given {@code locationPK}.

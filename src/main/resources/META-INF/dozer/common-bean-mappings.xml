@@ -166,6 +166,10 @@
 			<b is-accessible="true">accountId</b>
 		</field>
 		<field type="one-way">
+			<a is-accessible="true">locationType.type</a>
+			<b is-accessible="true">type</b>
+		</field>
+		<field type="one-way">
 			<a is-accessible="true">locationGroup.name</a>
 			<b is-accessible="true">locationGroupName</b>
 		</field>
@@ -276,6 +280,31 @@
 		<field>
 			<a is-accessible="true">errorText</a>
 			<b is-accessible="true">errorText</b>
+		</field>
+	</mapping>
+
+	<mapping>
+		<class-a>org.openwms.common.location.LocationType</class-a>
+		<class-b>org.openwms.common.location.api.LocationTypeVO</class-b>
+		<field>
+			<a is-accessible="true">pKey</a>
+			<b is-accessible="true">pKey</b>
+		</field>
+		<field>
+			<a is-accessible="true">description</a>
+			<b is-accessible="true">description</b>
+		</field>
+		<field>
+			<a is-accessible="true">length</a>
+			<b is-accessible="true">length</b>
+		</field>
+		<field>
+			<a is-accessible="true">width</a>
+			<b is-accessible="true">width</b>
+		</field>
+		<field>
+			<a is-accessible="true">height</a>
+			<b is-accessible="true">height</b>
 		</field>
 	</mapping>
 </mappings>

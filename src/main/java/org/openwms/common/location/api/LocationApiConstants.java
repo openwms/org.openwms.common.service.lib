@@ -24,6 +24,10 @@ public final class LocationApiConstants {
 
     /** API version. */
     public static final String API_VERSION = "v1";
+    /** API root to hit LocationTypes (plural). */
+    public static final String API_LOCATION_TYPES = "/" + API_VERSION + "/location-types";
+    /** API root to hit a LocationType. */
+    public static final String API_LOCATION_TYPE = "/" + API_VERSION + "/location-type";
     /** API root to hit Locations (plural). */
     public static final String API_LOCATIONS = "/" + API_VERSION + "/locations";
     /** API root to hit a Location. */

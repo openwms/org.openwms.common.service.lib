@@ -40,6 +40,8 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
     @JsonProperty("locationId")
     @NotEmpty
     private String locationId;
+    @JsonProperty("type")
+    private String type;
     @JsonProperty("accountId")
     private String accountId;
     @JsonProperty("locationGroupName")
@@ -119,6 +121,14 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
         this.locationId = locationId;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getPlcCode() {
         return plcCode;
     }
@@ -127,7 +137,7 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
         this.plcCode = plcCode;
     }
 
-    public Boolean isIncomingActive() {
+    public Boolean getIncomingActive() {
         return incomingActive;
     }
 
@@ -135,7 +145,7 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
         this.incomingActive = incomingActive;
     }
 
-    public Boolean isOutgoingActive() {
+    public Boolean getOutgoingActive() {
         return outgoingActive;
     }
 
