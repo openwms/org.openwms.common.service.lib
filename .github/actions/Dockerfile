@@ -18,8 +18,8 @@ CMD ./mvnw site scm-publish:publish-scm \
       -DDB_PASSWORD=KARL \
       -Denforcer.skip=true \
       -Dscmuser=${PUSHKEY} \
-      -Dscmpublish.pubScmUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.wms.inventory.git \
-      -DdeveloperConnectionUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.wms.inventory.git \
+      -Dscmpublish.pubScmUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.common.service.git \
+      -DdeveloperConnectionUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.common.service.git \
       -Dci.buildNumber=${GITHUB_RUN_NUMBER} \
       -Pschemagen -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 
