@@ -26,7 +26,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A LocationGroupVO is the view object of a Location.
+ * A LocationGroupVO represents a {@code LocationGroup}.
  *
  * @author Heiko Scherrer
  */

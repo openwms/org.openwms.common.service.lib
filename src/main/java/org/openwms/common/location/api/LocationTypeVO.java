@@ -24,7 +24,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A LocationTypeVO.
+ * A LocationTypeVO represents a {@code LocationType}.
  *
  * @author Heiko Scherrer
  */
