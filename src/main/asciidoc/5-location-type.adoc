@@ -1,0 +1,14 @@
+== LocationType
+A `LocationType` represents the type of a `Location`. Each `Location` must belong to one and only one specific `LocationType`. This type
+definition basically defined physical dimensions of the kind of `Location`. Usually `LocationTypes` are creared statically when a project
+is set up. Types may be changed, but not deleted at runtime, because every `Location` is assigned to one `LocationType`.
+
+=== Find all existing LocationTypes
+If a client wants to get a list of all existing `LocationTypes`, a simple `GET` request to the plural resource is required. Notice that no
+paging nor sorting is implemented in the API, because the expected retrieved data is less than hundred entries,
+
+include::{generated}/loctype-findall/http-request.adoc[]
+
+The server responds with the existing `LocationTypes` or an empty list:
+
+include::{generated}/loctype-findall/http-response.adoc[]

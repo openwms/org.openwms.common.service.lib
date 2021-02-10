@@ -39,10 +39,12 @@ include::3-account.adoc[]
 
 include::4-location.adoc[]
 
-include::5-location-group.adoc[]
+include::5-location-type.adoc[]
 
-include::6-target.adoc[]
+include::6-location-group.adoc[]
 
-include::7-transport-unit-type.adoc[]
+include::7-target.adoc[]
 
 include::8-transport-unit.adoc[]
+
+include::9-transport-unit-type.adoc[]
