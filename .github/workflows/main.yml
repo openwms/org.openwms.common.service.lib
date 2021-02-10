@@ -1,5 +1,9 @@
 on: [push]
 
+env:
+  MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+  PUSHKEY: ${{ secrets.PUSHKEY }}
+
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
@@ -28,6 +32,9 @@ jobs:
       - name: Hello world action step
         uses: ./.github/actions # Uses an action in the root directory
         id: hello
+        env:
+          ARGPUSHKEY: $PUSHKEY
+          ARGGITHUB_RUN_NUMBER: $GITHUB_RUN_NUMBER
         with:
           who-to-greet: 'Mona the Octocat'
       # Use the output from the `hello` step

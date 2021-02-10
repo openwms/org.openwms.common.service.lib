@@ -1,8 +1,25 @@
 # Container image that runs your code
-FROM alpine:3.10
+FROM openwms/builder-image:latest
+ARG ARGPUSHKEY
+ARG ARGGITHUB_RUN_NUMBER
+ENV PUSHKEY=$ARGPUSHKEY
+ENV GITHUB_RUN_NUMBER=$ARGGITHUB_RUN_NUMBER
 
-# Copies your code file from your action repository to the filesystem path `/` of the container
-COPY entrypoint.sh /entrypoint.sh
+COPY . /
 
-# Code file to execute when the docker container starts up (`entrypoint.sh`)
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ./mvnw site scm-publish:publish-scm \
+      -DM2_REPO_DIR=/root/.m2/repository \
+      -Dspring.datasource.url=jdbc:postgresql://postgres/testdb \
+      -Dspring.datasource.username=postgres \
+      -Dspring.datasource.password=postgres \
+      -Dspring.rabbitmq.host=rabbitmq \
+      -DDB_HOST=postgres \
+      -DDB_USERNAME=postgres \
+      -DDB_PASSWORD=postgres \
+      -Denforcer.skip=true \
+      -Dscmuser=${PUSHKEY} \
+      -Dscmpublish.pubScmUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.wms.inventory.git \
+      -DdeveloperConnectionUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.wms.inventory.git \
+      -Dci.buildNumber=${GITHUB_RUN_NUMBER} \
+      -Pschemagen -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+
