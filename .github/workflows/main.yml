@@ -7,7 +7,7 @@ jobs:
     name: A job to say hello
     services:
       postgres:
-        image: postgres
+        image: openwms/postgres-image:latest
         env:
           POSTGRES_PASSWORD: postgres
         # Set health checks to wait until postgres has started
