@@ -20,7 +20,9 @@ import org.ameba.annotation.TxService;
 import org.openwms.common.location.LocationType;
 import org.openwms.common.location.LocationTypeService;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -29,6 +31,7 @@ import java.util.List;
  *
  * @author Heiko Scherrer
  */
+@Validated
 @TxService
 class LocationTypeServiceImpl implements LocationTypeService {
 
@@ -55,14 +58,11 @@ class LocationTypeServiceImpl implements LocationTypeService {
      */
     @Override
     @Measured
-    public void delete(List<LocationType> locationTypes) {
+    public void delete(@NotNull List<LocationType> locationTypes) {
         locationTypes.forEach(
                 locationType -> repository
                         .findByType(locationType.getType())
-                        .ifPresent(
-                                t -> repository.deleteById(t.getPk())
-                        )
-        );
+                        .ifPresent(t -> repository.deleteById(t.getPk())));
     }
 
     /**
@@ -70,7 +70,7 @@ class LocationTypeServiceImpl implements LocationTypeService {
      */
     @Override
     @Measured
-    public LocationType save(LocationType locationType) {
+    public LocationType save(@NotNull LocationType locationType) {
         return repository.save(locationType);
     }
 }

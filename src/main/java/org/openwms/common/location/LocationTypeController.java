@@ -55,9 +55,9 @@ public class LocationTypeController extends AbstractWebController {
     @GetMapping(API_LOCATION_TYPES + "/index")
     public ResponseEntity<Index> index() {
         return ResponseEntity.ok(
-                new Index(
-                        linkTo(methodOn(LocationTypeController.class).findAll()).withRel("locationType-findall")
-                )
+            new Index(
+                linkTo(methodOn(LocationTypeController.class).findAll()).withRel("locationType-findall")
+            )
         );
     }
 }

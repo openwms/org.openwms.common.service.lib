@@ -15,6 +15,7 @@
  */
 package org.openwms.common.location;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ public interface LocationTypeService {
      *
      * @param locationTypes A list of all instances to be deleted.
      */
-    void delete(List<LocationType> locationTypes);
+    void delete(@NotNull List<LocationType> locationTypes);
 
     /**
      * Save a LocationType.
@@ -44,5 +45,5 @@ public interface LocationTypeService {
      * @param locationType The type to save
      * @return The saved type
      */
-    LocationType save(LocationType locationType);
+    LocationType save(@NotNull LocationType locationType);
 }
