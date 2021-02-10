@@ -10,12 +10,12 @@ COPY . /
 CMD ./mvnw site scm-publish:publish-scm \
       -DM2_REPO_DIR=/root/.m2/repository \
       -Dspring.datasource.url=jdbc:postgresql://postgres/testdb \
-      -Dspring.datasource.username=postgres \
-      -Dspring.datasource.password=postgres \
+      -Dspring.datasource.username=KARL \
+      -Dspring.datasource.password=KARL \
       -Dspring.rabbitmq.host=rabbitmq \
       -DDB_HOST=postgres \
-      -DDB_USERNAME=postgres \
-      -DDB_PASSWORD=postgres \
+      -DDB_USERNAME=KARL \
+      -DDB_PASSWORD=KARL \
       -Denforcer.skip=true \
       -Dscmuser=${PUSHKEY} \
       -Dscmpublish.pubScmUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.wms.inventory.git \

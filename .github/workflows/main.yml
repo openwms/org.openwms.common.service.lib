@@ -25,12 +25,15 @@ jobs:
       # you must check out the repository
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
       - name: Hello world action step
         uses: ./.github/actions # Uses an action in the root directory
         id: hello
-        with:
-          PUSHKEY: 'PUSHKEY'
-          GITHUB_RUN_NUMBER: $GITHUB_RUN_NUMBER
       # Use the output from the `hello` step
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
