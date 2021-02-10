@@ -1,16 +1,20 @@
 # action.yml
 name: 'Hello World'
+author: 'Heiko Scherrer'
 description: 'Greet someone and record the time'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  PUSHKEY:
+    description: 'Github pushkey'
     required: true
-    default: 'World'
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  GITHUB_RUN_NUMBER:
+    description: 'Current CI Build Number'
+    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.who-to-greet }}
+    - ${{ inputs.PUSHKEY }}
+    - ${{ inputs.GITHUB_RUN_NUMBER }}
+branding:
+  icon: 'award'
+  color: 'green'
