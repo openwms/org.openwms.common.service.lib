@@ -37,7 +37,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Build
         run: >
-          ./mvnw mvn clean package
+          ./mvnw clean package
           -DsurefireArgs=-Dspring.profiles.active=TEST
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
           -U -B $MAVEN_OPTS
