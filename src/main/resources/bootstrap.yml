@@ -235,7 +235,7 @@ spring:
           use_jdbc_metadata_defaults: false
         default_schema: public
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql:testdb
