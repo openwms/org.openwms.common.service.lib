@@ -37,8 +37,14 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Build
         run: >
+          ./mvnw mvn clean package
+          -DsurefireArgs=-Dspring.profiles.active=TEST
+          -Dci.buildNumber=$GITHUB_RUN_NUMBER
+          -U -B $MAVEN_OPTS
+      - name: Site
+        run: >
           ./mvnw site scm-publish:publish-scm
-          -DM2_REPO_DIR=/root/.m2/repository
+          -DM2_REPO_DIR=~/.m2/repository
           -DDB_HOST=postgres
           -DDB_USERNAME=KARL
           -DDB_PASSWORD=KARL
@@ -46,7 +52,7 @@ jobs:
           -Dscmpublish.pubScmUrl=scm:git:https://$PUSHKEY@github.com/openwms/org.openwms.common.service.git
           -DdeveloperConnectionUrl=scm:git:https://$PUSHKEY@github.com/openwms/org.openwms.common.service.git
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
-          -Pschemagen -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+          -Pschemagen -B $MAVEN_OPTS
 
       #      - name: Hello world action step
 #        uses: ./.github/actions # Uses an action in the root directory
