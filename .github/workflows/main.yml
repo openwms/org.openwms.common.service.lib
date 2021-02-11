@@ -44,7 +44,7 @@ jobs:
       - name: Site
         run: >
           ./mvnw site scm-publish:publish-scm
-          -DM2_REPO_DIR=~/.m2/repository
+          -DM2_REPO_DIR=/root/.m2/repository
           -DDB_HOST=postgres
           -DDB_USERNAME=KARL
           -DDB_PASSWORD=KARL

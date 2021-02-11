@@ -18,13 +18,13 @@
     <logger name="org.openwms" level="DEBUG" additivity="false" />
     <logger name="org.springframework" level="ERROR"/>
 
-    <logger name="PRESENTATION_LAYER_EXCEPTION" level="ERROR">
+    <logger name="PRESENTATION_LAYER_EXCEPTION" level="OFF" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="SERVICE_LAYER_EXCEPTION" level="ERROR">
+    <logger name="SERVICE_LAYER_EXCEPTION" level="OFF" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="INTEGRATION_LAYER_EXCEPTION" level="OFF">
+    <logger name="INTEGRATION_LAYER_EXCEPTION" level="OFF" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="CORE_INTEGRATION_MESSAGING" level="OFF">
