@@ -7,8 +7,7 @@ env:
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
-    container: node:10.18-jessie
-    name: A job to say hello
+    name: Build & Test Microservice
     services:
       postgres:
         image: openwms/postgres-image:latest
