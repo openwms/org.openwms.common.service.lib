@@ -22,10 +22,6 @@ jobs:
         ports:
           - 5432:5432
     steps:
-      - name: Prepare Git
-        run: |
-          git config --global user.email "ci@example.com"
-          git config --global user.name "CI Server"
       - name: Checkout
         uses: actions/checkout@v2
       - name: Set up JDK 11
@@ -45,7 +41,10 @@ jobs:
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
           -U -B $MAVEN_OPTS
       - name: Install tools
-        run: sudo apt-get install graphviz
+        run: |
+          sudo apt-get install graphviz
+          git config --global user.email "ci@example.com"
+          git config --global user.name "CI Server"
       - name: Site
         run: >
           ./mvnw site scm-publish:publish-scm
