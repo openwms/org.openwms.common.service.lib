@@ -48,6 +48,7 @@ jobs:
         run: >
           ./mvnw site scm-publish:publish-scm
           -DM2_REPO_DIR=/home/runner/.m2/repository
+          -Dspring.datasource.url=jdbc://postgres:5432/testdb
           -DDB_HOST=localhost
           -DDB_USERNAME=KARL
           -DDB_PASSWORD=KARL
