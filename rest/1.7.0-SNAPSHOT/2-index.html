@@ -447,42 +447,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>The initial HTTP request to retrieve information about all available resources looks like the following. The Index page is a public
 available resource and does not need any authentication.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /index HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-index.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/get-index/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>The Index resource is returned in the response body with the response status of 200-OK. This main Index lists all primary resource entities
 to follow next.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 515
-
-{
-  "_links" : {
-    "account-index" : {
-      "href" : "http://localhost:8080/v1/accounts/index"
-    },
-    "location-index" : {
-      "href" : "http://localhost:8080/v1/locations/index"
-    },
-    "location-group-index" : {
-      "href" : "http://localhost:8080/v1/location-groups/index"
-    },
-    "transport-unit-type-index" : {
-      "href" : "http://localhost:8080/v1/transport-unit-types/index"
-    },
-    "transport-unit-index" : {
-      "href" : "http://localhost:8080/v1/transport-units/index"
-    }
-  }
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-index.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/get-index/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>A client application must only know about the agreed link names and follow the corresponding <code>href</code> link to navigate further.</p>
@@ -492,7 +465,7 @@ Content-Length: 515
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-12-18 21:36:28 UTC
+Last updated 2021-02-13 22:52:40 UTC
 </div>
 </div>
 </body>
