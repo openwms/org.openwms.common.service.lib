@@ -44,6 +44,10 @@ jobs:
           -DsurefireArgs=-Dspring.profiles.active=TEST
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
           -U -B $MAVEN_OPTS
+      - name: Prepare Git
+        run: >
+          - git config --global user.email "ci@example.com"
+          - git config --global user.name "CI Server"
       - name: Site
         run: >
           ./mvnw site scm-publish:publish-scm
