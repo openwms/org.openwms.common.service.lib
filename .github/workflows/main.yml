@@ -23,7 +23,7 @@ jobs:
           - 5432:5432
     steps:
       - name: Prepare Git
-        run: >
+        run: |
           git config --global user.email "ci@example.com"
           git config --global user.name "CI Server"
       - name: Checkout
