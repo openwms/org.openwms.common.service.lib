@@ -22,10 +22,10 @@ jobs:
         ports:
           - 5432:5432
     steps:
-      # To use this repository's private action,
-      # you must check out the repository
-      - name: Install tools
-        run: sudo apt-get install graphviz
+      - name: Prepare Git
+        run: >
+          git config --global user.email "ci@example.com"
+          git config --global user.name "CI Server"
       - name: Checkout
         uses: actions/checkout@v2
       - name: Set up JDK 11
@@ -44,9 +44,8 @@ jobs:
           -DsurefireArgs=-Dspring.profiles.active=TEST
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
           -U -B $MAVEN_OPTS
-      - name: Prepare Git
-        run: >
-          git config --global user.email "ci@example.com" user.name "CI Server"
+      - name: Install tools
+        run: sudo apt-get install graphviz
       - name: Site
         run: >
           ./mvnw site scm-publish:publish-scm
