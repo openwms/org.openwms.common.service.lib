@@ -14,6 +14,9 @@ jobs:
         env:
           RABBITMQ_DEFAULT_USER: guest
           RABBITMQ_DEFAULT_PASS: guest
+        ports:
+          - 5672:5672
+          - 15672:15672
       postgres:
         image: openwms/postgres-image:latest
         env:
