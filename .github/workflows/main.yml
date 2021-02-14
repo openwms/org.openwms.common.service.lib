@@ -12,8 +12,8 @@ jobs:
       rabbitmq:
         image: rabbitmq:3.8
         env:
-          - RABBITMQ_DEFAULT_USER=guest
-          - RABBITMQ_DEFAULT_PASS=guest
+          RABBITMQ_DEFAULT_USER=guest
+          RABBITMQ_DEFAULT_PASS=guest
       postgres:
         image: openwms/postgres-image:latest
         env:
