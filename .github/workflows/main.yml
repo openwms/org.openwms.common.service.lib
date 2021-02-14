@@ -43,6 +43,7 @@ jobs:
         run: >
           ./mvnw clean verify
           -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
+          -Dspring.rabbitmq.host=rabbitmq
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
           -U -B $MAVEN_OPTS
       - name: Install tools
@@ -57,6 +58,7 @@ jobs:
           -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST,TESTPG
           -Dargs=-Dspring.profiles.active=ASYNCHRONOUS,TEST,TESTPG
           -Dspring.datasource.url=jdbc:postgresql://localhost:5432/testdb
+          -Dspring.rabbitmq.host=rabbitmq
           -DDB_HOST=localhost
           -DDB_USERNAME=KARL
           -DDB_PASSWORD=KARL
