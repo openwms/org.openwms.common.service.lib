@@ -9,6 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     name: Build & Test Microservice
     services:
+      rabbitmq:
+        image: rabbitmq:3.8
+        env:
+          - RABBITMQ_DEFAULT_USER=guest
+          - RABBITMQ_DEFAULT_PASS=guest
       postgres:
         image: openwms/postgres-image:latest
         env:
@@ -37,7 +42,7 @@ jobs:
       - name: Build
         run: >
           ./mvnw clean verify
-          -DsurefireArgs=-Dspring.profiles.active=TEST
+          -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
           -U -B $MAVEN_OPTS
       - name: Install tools
