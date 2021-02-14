@@ -452,14 +452,32 @@ length, the height, or the weight of <code>TransportUnits</code>. It is possible
 <div class="paragraph">
 <p>The index with all possible operations can be retrieved with the following GET request:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 9-transport-unit-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tut-index/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/transport-unit-types/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The response lists all the operations with a name and the corresponding href link:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 9-transport-unit-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tut-index/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 265
+
+{
+  "_links" : {
+    "transport-unit-types-findtransportunittype" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+    },
+    "transport-unit-types-findall" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types"
+    }
+  }
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -467,14 +485,35 @@ length, the height, or the weight of <code>TransportUnits</code>. It is possible
 <div class="paragraph">
 <p>To retrieve a list of all existing <code>TransportUnitTypes</code> a client must send a GET request to the server:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 9-transport-unit-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tut-find-all/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/transport-unit-types HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The response contains all existing <code>TransportUnitTypes</code>:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 9-transport-unit-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tut-find-all/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 232
+
+[ {
+  "type" : "PALLET",
+  "description" : "Euro pallet",
+  "height" : "102",
+  "width" : "80",
+  "length" : "120"
+}, {
+  "type" : "BIN",
+  "description" : "Plastic bins",
+  "height" : "102",
+  "width" : "80",
+  "length" : "120"
+} ]</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -482,20 +521,45 @@ length, the height, or the weight of <code>TransportUnits</code>. It is possible
 <div class="paragraph">
 <p>Each <code>TransportUnitType</code> has an unique name by that it can be identified. Query the resource with a <code>type</code> parameter:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 9-transport-unit-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tut-find-type/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/transport-unit-types?type=PALLET HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>TransportUnitType</code> exists the response looks like:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 9-transport-unit-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tut-find-type/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 114
+
+{
+  "type" : "PALLET",
+  "description" : "Euro pallet",
+  "height" : "102",
+  "width" : "80",
+  "length" : "120"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If no <code>TransportUnitType</code> with the given name exist the server sends a 404-NOT FOUND:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 9-transport-unit-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tut-find-type-404/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 122
+
+{
+  "message" : "No TransportUniType with type [NOT_EXISTS] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -503,7 +567,7 @@ length, the height, or the weight of <code>TransportUnits</code>. It is possible
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-13 22:52:40 UTC
+Last updated 2021-02-14 10:35:27 UTC
 </div>
 </div>
 </body>

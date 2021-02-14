@@ -453,14 +453,38 @@ through the API.</p>
 <div class="paragraph">
 <p>The index with all possible operations can be retrieved with an `GET request:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-index/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The response lists all the operations with a name and the corresponding href link:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-index/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 409
+
+{
+  "_links" : {
+    "accounts-findall" : {
+      "href" : "http://localhost:8080/v1/accounts"
+    },
+    "accounts-finddefault" : {
+      "href" : "http://localhost:8080/v1/accounts"
+    },
+    "accounts-findbyidentifier" : {
+      "href" : "http://localhost:8080/v1/accounts?identifier=identifier"
+    },
+    "accounts-findbyname" : {
+      "href" : "http://localhost:8080/v1/accounts?name=name"
+    }
+  }
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -468,14 +492,31 @@ through the API.</p>
 <div class="paragraph">
 <p>To retrieve a list of all existing <code>Accounts</code> a client must send a <code>GET</code> request to the server:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-all/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The response contains all existing <code>Accounts</code>:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-all/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 141
+
+[ {
+  "links" : [ ],
+  "identifier" : "D",
+  "name" : "Default"
+}, {
+  "links" : [ ],
+  "identifier" : "A1",
+  "name" : "Cost Center FIN"
+} ]</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -484,20 +525,55 @@ through the API.</p>
 <p>The <code>name</code> and the <code>identifier</code> of the <code>Account</code> are unique and mandatory attributes. So an <code>Account</code> can be searched for both fields.</p>
 </div>
 <div class="paragraph">
-<p>Find an <code>Account</code> by name:
-Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-byName/http-request.adoc[]</p>
+<p>Find an <code>Account</code> by name:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts?name=Default HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>or find an <code>Account</code> by identifier:
-Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-byIdentifier/http-request.adoc[]</p>
+<p>or find an <code>Account</code> by identifier:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts?identifier=D HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>The server responds with the Account entity if it exists:
-Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-byName/http-response.adoc[]</p>
+<p>The server responds with the Account entity if it exists:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 46
+
+{
+  "identifier" : "D",
+  "name" : "Default"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>or with a <code>404-Not Found</code> if no <code>Account</code> exists:
-Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-byName404/http-response.adoc[]</p>
+<p>or with a <code>404-Not Found</code> if no <code>Account</code> exists:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 163
+
+{
+  "message" : "Account [UNKNOWN] not found",
+  "messageKey" : "COMMON.ACCOUNT_NOT_FOUND",
+  "obj" : [ "UNKNOWN" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -506,16 +582,42 @@ Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.
 <p>At least one <code>Account</code> must exist in the system and must be defined as the default <code>Account</code>. This <code>Account</code> is used when no other account information is available. To get the default <code>Account</code>
 from the Common Service a <code>GET</code> request must be send to the server:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-default/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts?default=true HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>The server sends back the Account entity if it exists
-Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-default/http-response.adoc[]</p>
+<p>The server sends back the Account entity if it exists</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 46
+
+{
+  "identifier" : "D",
+  "name" : "Default"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Otherwise a 404-Not Found if not exist:
-Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-default404/http-response.adoc[]</p>
+<p>Otherwise a 404-Not Found if not exist:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 115
+
+{
+  "message" : "No default Account exists",
+  "messageKey" : "COMMON.ACCOUNT_NO_DEFAULT",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -523,7 +625,7 @@ Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-13 22:52:40 UTC
+Last updated 2021-02-14 10:35:27 UTC
 </div>
 </div>
 </body>
