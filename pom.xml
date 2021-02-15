@@ -127,7 +127,6 @@
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
-                        <argLine>${argLine} -Dspring.profiles.active=TEST</argLine>
                         <includes>
                             <include>**/*IT.java</include>
                             <include>**/*Documentation.java</include>
