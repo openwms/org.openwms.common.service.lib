@@ -46,7 +46,7 @@ jobs:
         run: >
           ./mvnw clean verify
           -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
-          -Dspring.rabbitmq.host=rabbitmq
+          -Dspring.rabbitmq.host=localhost
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
           -U -B $MAVEN_OPTS
       - name: Install tools
