@@ -127,10 +127,12 @@
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
+                        <argLine>${argLine}</argLine>
                         <includes>
                             <include>**/*IT.java</include>
                             <include>**/*Documentation.java</include>
                         </includes>
+                        <classesDirectory>${project.build.outputDirectory}</classesDirectory>
                     </configuration>
                     <executions>
                         <execution>
@@ -146,6 +148,20 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                    <configuration>
+                        <!-- Never set a forkCount to 0 bc. of Jacoco -->
+                        <excludes>
+                            <exclude>**/Abstract*.java</exclude>
+                            <exclude>**/*Tests.java</exclude>
+                        </excludes>
+                        <includes>
+                            <include>**/*Test.java</include>
+                        </includes>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
