@@ -72,13 +72,13 @@ jobs:
           -Pschemagen -B $MAVEN_OPTS
       - name: Sonar
         run: >
-          ./mvnw verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar -Pcoverage
+          ./mvnw verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar
           -Dsonar.login=$SONAR_TOKEN
-          -Dspring.rabbitmq.host=rabbitmq
+          -Dspring.rabbitmq.host=localhost
           -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
           -DSONAR_TOKEN=$SONAR_TOKEN
-          -B $MAVEN_OPTS
+          -Pcoverage -B $MAVEN_OPTS
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Build Image
