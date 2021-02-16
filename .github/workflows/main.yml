@@ -70,3 +70,42 @@ jobs:
           -DdeveloperConnectionUrl=scm:git:https://$PUSHKEY@github.com/openwms/org.openwms.common.service.git
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
           -Pschemagen -B $MAVEN_OPTS
+      - name: Sonar
+        run: >
+          ./mvnw verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar -Pcoverage
+          -Dsonar.login=$SONAR_TOKEN
+          -Dspring.rabbitmq.host=rabbitmq
+          -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
+          -Dci.buildNumber=$GITHUB_RUN_NUMBER
+          -DSONAR_TOKEN=$SONAR_TOKEN
+          -B $MAVEN_OPTS
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Build Image
+        run: ./scripts/docker_build
+      - name: Upload Image
+        run: ./scripts/docker_push
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: jars
+          path: |
+            target/openwms-common-service*.jar
+      - name: Archive rest docs
+        uses: actions/upload-artifact@v2
+        with:
+          name: site
+          path: target/site/**/*
+      - name: Archive API docs
+        uses: actions/upload-artifact@v2
+        with:
+          name: javadocs
+          path: target/apidocs/**/*
+      - name: Archive reports docs
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage-report
+          path: target/surefire-reports/**/*
