@@ -64,6 +64,13 @@
     </ciManagement>
 
     <properties>
+        <argLine><![CDATA[-Dcatalina.base=${project.build.directory}
+        --illegal-access=permit
+        -Dorg.springframework.restdocs.outputDir=./target/generated-snippets
+        -Ddocumentation.dir=./target
+        -Dorg.jboss.logging.provider=slf4j
+        -Dfile.encoding=${project.build.sourceEncoding} ${surefireArgs} ${surefire.jacoco.args} ${failsafe.jacoco.args}]]>
+        </argLine>
         <commons-configuration.version>1.10</commons-configuration.version>
         <core.version>1.9.0-SNAPSHOT</core.version>
 		<core.units.version>0.4.0-SNAPSHOT</core.units.version>
@@ -74,7 +81,7 @@
         <spring-cloud-dependencies.version>Hoxton.SR9</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
         <surefire.jacoco.args></surefire.jacoco.args>
-        <surefire.jacoco.args></surefire.jacoco.args>
+        <failsafe.jacoco.args></failsafe.jacoco.args>
     </properties>
 
     <reporting>
