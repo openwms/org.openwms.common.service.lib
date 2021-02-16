@@ -3,6 +3,7 @@ on: [push]
 env:
   MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
   PUSHKEY: ${{ secrets.PUSHKEY }}
+  GITHUB_TOKEN: ${{ secrets.PUSHKEY }}
 
 jobs:
   hello_world_job:
