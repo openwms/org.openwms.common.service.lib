@@ -136,7 +136,7 @@
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
-                        <argLine>${argLine} ${failsafe.jacoco.args}</argLine>
+                        <argLine>${argLine}</argLine>
                         <includes>
                             <include>**/*IT.java</include>
                             <include>**/*Documentation.java</include>
@@ -162,7 +162,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
-                        <argLine>${argLine} ${surefire.jacoco.args}</argLine>
+                        <argLine>${argLine}</argLine>
                         <!-- Never set a forkCount to 0 bc. of Jacoco -->
                         <excludes>
                             <exclude>**/Abstract*.java</exclude>
