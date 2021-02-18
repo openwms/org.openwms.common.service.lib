@@ -95,18 +95,8 @@ jobs:
           name: jars
           path: |
             target/openwms-common-service*.jar
-      - name: Archive rest docs
+      - name: Archive documentation
         uses: actions/upload-artifact@v2
         with:
           name: site
           path: target/site/**/*
-      - name: Archive API docs
-        uses: actions/upload-artifact@v2
-        with:
-          name: javadocs
-          path: target/apidocs/**/*
-      - name: Archive reports docs
-        uses: actions/upload-artifact@v2
-        with:
-          name: code-coverage-report
-          path: target/surefire-reports/**/*
