@@ -175,6 +175,10 @@
         </pluginManagement>
         <plugins>
             <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
                 <groupId>io.starter</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
             </plugin>
