@@ -69,7 +69,7 @@
         -Dorg.springframework.restdocs.outputDir=./target/generated-snippets
         -Ddocumentation.dir=./target
         -Dorg.jboss.logging.provider=slf4j
-        -Dfile.encoding=${project.build.sourceEncoding} ${surefireArgs} ${surefire.jacoco.args} ${failsafe.jacoco.args}]]>
+        -Dfile.encoding=${project.build.sourceEncoding} ${surefireArgs} ]]>
         </argLine>
         <commons-configuration.version>1.10</commons-configuration.version>
         <core.version>1.9.0-SNAPSHOT</core.version>
@@ -80,8 +80,6 @@
         <joda-time.version>2.10.8</joda-time.version>
         <spring-cloud-dependencies.version>Hoxton.SR9</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
-        <surefire.jacoco.args></surefire.jacoco.args>
-        <failsafe.jacoco.args></failsafe.jacoco.args>
     </properties>
 
     <reporting>
@@ -136,7 +134,7 @@
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
-                        <argLine>${argLine}</argLine>
+                        <argLine>${argLine} ${failsafe.jacoco.args}</argLine>
                         <includes>
                             <include>**/*IT.java</include>
                             <include>**/*Documentation.java</include>
@@ -162,7 +160,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
-                        <argLine>${argLine}</argLine>
+                        <argLine>${argLine} ${surefire.jacoco.args}</argLine>
                         <!-- Never set a forkCount to 0 bc. of Jacoco -->
                         <excludes>
                             <exclude>**/Abstract*.java</exclude>
@@ -523,6 +521,7 @@
                 <sonar.organization>openwms-github</sonar.organization>
                 <sonar.projectKey>org.openwms:org.openwms.common.service</sonar.projectKey>
                 <sonar.sources>src/main/java/</sonar.sources>
+                <sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/jacoco-merged-test-coverage-report/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
                 <sonar.java.binaries>target/classes</sonar.java.binaries>
                 <sonar.java.source>${java.version}</sonar.java.source>
                 <enforcer.skip>true</enforcer.skip>
