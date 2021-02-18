@@ -114,7 +114,7 @@
                             <id>generate-docs</id>
                             <phase>post-integration-test</phase>
                             <goals>
-                                <goal>generate-docs</goal>
+                                <goal>process-asciidoc</goal>
                             </goals>
                         </execution>
                         <execution>
