@@ -454,14 +454,39 @@ is set up. Types may be changed, but not deleted at runtime, because every <code
 <p>If a client wants to get a list of all existing <code>LocationTypes</code>, a simple <code>GET</code> request to the plural resource is required. Notice that no
 paging nor sorting is implemented in the API, because the expected retrieved data is less than hundred entries,</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 5-location-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loctype-findall/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-types HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The server responds with the existing <code>LocationTypes</code> or an empty list:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 5-location-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loctype-findall/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 317
+
+[ {
+  "links" : [ ],
+  "pKey" : "326981811784",
+  "type" : "FG",
+  "description" : "Flat Good Location",
+  "length" : 30,
+  "width" : 50,
+  "height" : 20
+}, {
+  "links" : [ ],
+  "pKey" : "404376159041",
+  "type" : "PG",
+  "description" : "Pallet Good Location",
+  "length" : 120,
+  "width" : 120,
+  "height" : 250
+} ]</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -469,7 +494,7 @@ paging nor sorting is implemented in the API, because the expected retrieved dat
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-18 23:22:53 UTC
+Last updated 2021-02-18 23:34:48 UTC
 </div>
 </div>
 </body>

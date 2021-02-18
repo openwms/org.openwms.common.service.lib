@@ -474,14 +474,38 @@ operations off this <code>Location</code>.</p>
 <div class="paragraph">
 <p>The Location Index with all possible operations can be retrieved with the following GET request:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-index/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The response lists all the operations with a name and the corresponding href link:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-index/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 504
+
+{
+  "_links" : {
+    "location-findbycoordinate" : {
+      "href" : "http://localhost:8080/v1/locations?locationPK=AREA/AISLE/X/Y/Z"
+    },
+    "location-findbyplccode" : {
+      "href" : "http://localhost:8080/v1/locations?plcCode=PLC_CODE"
+    },
+    "location-forlocationgroup" : {
+      "href" : "http://localhost:8080/v1/locations?locationGroupNames=LG1&amp;locationGroupNames=LG2"
+    },
+    "location-changestate" : {
+      "href" : "http://localhost:8080/v1/location/pKey?op=change-state"
+    }
+  }
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -489,26 +513,66 @@ operations off this <code>Location</code>.</p>
 <div class="paragraph">
 <p>Send a HTTP GET request with the 5-tuple coordinate as query parameter to find a <code>Location</code> identified by this coordinate.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-coordinate/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?locationPK=EXT_/0000/0000/0000/0000 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>Location</code> exists the server responds with</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-coordinate/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 259
+
+{
+  "links" : [ ],
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "type" : "FG",
+  "accountId" : "D",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0030",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>Location</code> with the requested coordinate does not exist, the server responds with</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-coordinate-404/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 134
+
+{
+  "message" : "No Location with locationPk [EXT_/9999/9999/9999/9999] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the passed coordinate is not well formatted and rejected by the server the response looks like</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-coordinate-400/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 111
+
+{
+  "message" : "Invalid location [INVALID_COORDINATE]",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -517,20 +581,53 @@ operations off this <code>Location</code>.</p>
 <p>The API to search for <code>Locations</code> also accepts typical SQL wildcards in each part of the 5-tuple coordinate. Let&#8217;s assume one searches for
 all Lift <code>Locations</code> in the Flat Good area, this could look like this:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-coordinate-wildcard/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?area=FGIN&amp;aisle=00__&amp;x=LIFT&amp;y=0000&amp;z=%25 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>In this case the Flat Good area has only 2 Lift positions and the server returns both:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-coordinate-wildcard/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 540
+
+[ {
+  "links" : [ ],
+  "pKey" : "798136030917",
+  "locationId" : "FGIN/0001/LIFT/0000/0000",
+  "type" : "FG",
+  "accountId" : "D",
+  "locationGroupName" : "FGAISLE1LIFT",
+  "plcCode" : "PLC_0012",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "links" : [ ],
+  "pKey" : "852306856430",
+  "locationId" : "FGIN/0002/LIFT/0000/0000",
+  "type" : "FG",
+  "accountId" : "D",
+  "locationGroupName" : "FGAISLE2LIFT",
+  "plcCode" : "PLC_0015",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+} ]</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the search query did not find any <code>Locations</code> the server responds with:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-coordinate-wildcard-404/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -538,20 +635,50 @@ all Lift <code>Locations</code> in the Flat Good area, this could look like this
 <div class="paragraph">
 <p>Send a HTTP GET request with the PLC code as query parameter to find a <code>Location</code> identified by this PLC code.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-plc/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?plcCode=PLC_0030 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>Location</code> exists the server responds with</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-plc/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 259
+
+{
+  "links" : [ ],
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "type" : "FG",
+  "accountId" : "D",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0030",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If no <code>Location</code> with the requested PLC code exists, the server responds with</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-plc-404/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 118
+
+{
+  "message" : "No Location with PLC Code [NOT EXISTS] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -559,34 +686,99 @@ all Lift <code>Locations</code> in the Flat Good area, this could look like this
 <div class="paragraph">
 <p>Send a HTTP GET request with the name of a <code>LocationGroup</code> as query parameter to find all <code>Locations</code> that belong to this group.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-in-lg/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?locationGroupNames=ZILE HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The server responds with the list of all <code>Locations</code> - the name of the <code>LocationGroup</code> is not validated.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-in-lg/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 524
+
+[ {
+  "links" : [ ],
+  "pKey" : "171919359409",
+  "locationId" : "INIT/0000/0000/0000/0000",
+  "type" : "FG",
+  "accountId" : "D",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0029",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "links" : [ ],
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "type" : "FG",
+  "accountId" : "D",
+  "locationGroupName" : "ZILE",
+  "plcCode" : "PLC_0030",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+} ]</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The server accepts multiple <code>LocationGroup</code> names as request parameter to get a combined list of <code>Locations</code> that belong to group with name
 <code>ZILE</code> and <code>FGRECEIVING</code>:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-in-lg-multiple/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?locationGroupNames=ZILE&amp;locationGroupNames=FGRECEIVING HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Wildcards in the <code>LocationGroup</code> name are supported if only one <code>LocationGroup</code> name is provided:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-in-lg-wc/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/locations?locationGroupNames=IP%25 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The response is a list of <code>Locations</code> that belong to a <code>LocationGroup</code> where the name starts with <code>IP</code> (matching the groups <code>IPOINT</code>,
 <code>IPOINT1</code> and <code>IPOINT2</code> in this example:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-in-lg-wc/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 530
+
+[ {
+  "links" : [ ],
+  "pKey" : "439649733836",
+  "locationId" : "FGIN/IPNT/0001/0000/0000",
+  "type" : "FG",
+  "accountId" : "D",
+  "locationGroupName" : "IPOINT1",
+  "plcCode" : "PLC_0031",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}, {
+  "links" : [ ],
+  "pKey" : "227916500906",
+  "locationId" : "FGIN/IPNT/0002/0000/0000",
+  "type" : "FG",
+  "accountId" : "D",
+  "locationGroupName" : "IPOINT2",
+  "plcCode" : "PLC_0032",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+} ]</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -595,14 +787,33 @@ all Lift <code>Locations</code> in the Flat Good area, this could look like this
 <p>Send a HTTP PATCH request with the persistent identifying key of an existing <code>Location</code> along the new state decoded as <code>ErrorCodeVO</code> request
 parameter.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-state-404/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /v1/location/NOTEXISTS?op=change-state HTTP/1.1
+Content-Type: application/json
+Content-Length: 30
+Host: localhost:8080
+
+{
+  "errorCode" : "******00"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>Location</code> with the given persistent key does not exist, the server responds with</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-state-404/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 123
+
+{
+  "message" : "No Location with persistent key [NOTEXISTS] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The <code>ErrorCodeVO</code> contains a ternary error bitmap that decodes all state information. It is expected as 8-digit String with allowed symbols
@@ -678,14 +889,25 @@ parameter.</p>
 <div class="paragraph">
 <p>In this example a <code>Location</code> identified with the given persistent key is locked for Inbound operations with the following request:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-state-in/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /v1/location/113646454019?op=change-state HTTP/1.1
+Content-Type: application/json
+Content-Length: 30
+Host: localhost:8080
+
+{
+  "errorCode" : "*******1"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the server could lock the <code>Location</code> successfully the response looks like:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-state-in/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Beside locking the <code>Location</code> for Inbound- and Outbound processing it is also possible to change the PLC state of the <code>Location</code> through
@@ -696,14 +918,26 @@ signal an error occurred on the <code>Location</code>.</p>
 <div class="paragraph">
 <p>Set the <code>plcState</code> to <code>31</code> (In terms of <a href="https://interface21-io.gitbook.io/osip">OSIP</a> this means <code>Location unexpected occupied</code>):</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-plcstate/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /v1/location/113646454019?op=change-state HTTP/1.1
+Content-Type: application/json
+Content-Length: 49
+Host: localhost:8080
+
+{
+  "errorCode" : "********",
+  "plcState" : 31
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the server could set the state successfully the response is:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-plcstate/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -711,7 +945,7 @@ signal an error occurred on the <code>Location</code>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-18 23:22:53 UTC
+Last updated 2021-02-18 23:34:48 UTC
 </div>
 </div>
 </body>
