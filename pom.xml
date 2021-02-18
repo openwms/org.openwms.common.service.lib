@@ -134,7 +134,7 @@
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
-                        <argLine>${argLine} ${failsafe.jacoco.args}</argLine>
+                        <argLine>${argLine}</argLine>
                         <includes>
                             <include>**/*IT.java</include>
                             <include>**/*Documentation.java</include>
@@ -160,7 +160,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
-                        <argLine>${argLine} ${surefire.jacoco.args}</argLine>
+                        <argLine>${argLine}</argLine>
                         <!-- Never set a forkCount to 0 bc. of Jacoco -->
                         <excludes>
                             <exclude>**/Abstract*.java</exclude>
@@ -529,6 +529,48 @@
             </properties>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-surefire-plugin.version}</version>
+                        <configuration>
+                            <argLine>${argLine} ${failsafe.jacoco.args}</argLine>
+                            <includes>
+                                <include>**/*IT.java</include>
+                                <include>**/*Documentation.java</include>
+                            </includes>
+                            <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>integration-test</id>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>verify</id>
+                                <goals>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${maven-surefire-plugin.version}</version>
+                        <configuration>
+                            <argLine>${argLine} ${surefire.jacoco.args}</argLine>
+                            <!-- Never set a forkCount to 0 bc. of Jacoco -->
+                            <excludes>
+                                <exclude>**/Abstract*.java</exclude>
+                                <exclude>**/*Tests.java</exclude>
+                            </excludes>
+                            <includes>
+                                <include>**/*Test.java</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
