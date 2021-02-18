@@ -111,6 +111,13 @@
                     <artifactId>asciidoctor-maven-plugin</artifactId>
                     <executions>
                         <execution>
+                            <id>generate-docs</id>
+                            <phase>post-integration-test</phase>
+                            <goals>
+                                <goal>generate-docs</goal>
+                            </goals>
+                        </execution>
+                        <execution>
                             <id>generate-docs-site</id>
                             <phase>site</phase>
                             <goals>
