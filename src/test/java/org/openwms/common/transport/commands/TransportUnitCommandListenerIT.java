@@ -22,6 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestData;
+import org.openwms.common.location.LocationPK;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.api.commands.MessageCommand;
@@ -110,7 +111,7 @@ class TransportUnitCommandListenerIT {
     }
 
     @Test void test_CHANGE_ACTUAL_LOCATION_command() {
-        assertThat(service.findByPKey(TestData.TU_1_PKEY).getActualLocation().getLocationId()).isNotEqualTo(TestData.LOCATION_ID_FGIN0001LEFT);
+        assertThat(service.findByPKey(TestData.TU_1_PKEY).getActualLocation().getLocationId()).isNotEqualTo(LocationPK.fromString(TestData.LOCATION_ID_FGIN0001LEFT));
         listener.onCommand(TUCommand.newBuilder(TUCommand.Type.CHANGE_ACTUAL_LOCATION)
                 .withTransportUnit(
                         TransportUnitMO.newBuilder()
@@ -125,7 +126,7 @@ class TransportUnitCommandListenerIT {
     }
 
     @Test void test_CHANGE_TARGET_command() {
-        assertThat(service.findByPKey(TestData.TU_1_PKEY).getActualLocation().getLocationId()).isNotEqualTo(TestData.LOCATION_ID_FGIN0001LEFT);
+        assertThat(service.findByPKey(TestData.TU_1_PKEY).getActualLocation().getLocationId()).isNotEqualTo(LocationPK.fromString(TestData.LOCATION_ID_FGIN0001LEFT));
         assertThat(service.findByPKey(TestData.TU_1_PKEY).getTargetLocation()).isNull();
         listener.onCommand(TUCommand.newBuilder(TUCommand.Type.CHANGE_TARGET)
                 .withTransportUnit(
