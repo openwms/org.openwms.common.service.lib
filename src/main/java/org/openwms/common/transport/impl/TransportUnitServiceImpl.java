@@ -292,6 +292,10 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Measured
     @Transactional(readOnly = true)
     public TransportUnit findByBarcode(@NotNull Barcode barcode) {
+        return findBy(barcode);
+    }
+
+    private TransportUnit findBy(Barcode barcode) {
         return repository.findByBarcode(barcode)
                 .orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.BARCODE_NOT_FOUND, new Serializable[]{barcode}, barcode));
     }
@@ -335,7 +339,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public void addError(String barcode, UnitError unitError) {
-        TransportUnit tu = this.findByBarcode(barcodeGenerator.convert(barcode));
+        TransportUnit tu = this.findBy(barcodeGenerator.convert(barcode));
         tu.addError(unitError);
     }
 
