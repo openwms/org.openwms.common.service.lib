@@ -111,8 +111,8 @@ public class CommonModuleConfiguration {
     }
 
     public @Bean
-    FilterRegistrationBean requestIDFilter(IDGenerator<String> uuidGenerator) {
-        FilterRegistrationBean frb = new FilterRegistrationBean(new RequestIDFilter(uuidGenerator));
+    FilterRegistrationBean<RequestIDFilter> requestIDFilter(IDGenerator<String> uuidGenerator) {
+        var frb = new FilterRegistrationBean<>(new RequestIDFilter(uuidGenerator));
         frb.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
         return frb;
     }

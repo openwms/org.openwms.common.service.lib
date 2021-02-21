@@ -56,7 +56,7 @@ class LocationGroupTest {
             LocationGroup lg = new LocationGroup("Error zone");
             assertThat(lg.getName()).isEqualTo("Error zone");
             assertThat(lg.isLocationGroupCountingActive()).isTrue();
-            assertThat(lg.getNoLocations()).isEqualTo(0);
+            assertThat(lg.getNoLocations()).isZero();
 
             assertThat(lg.getGroupStateIn()).isEqualTo(LocationGroupState.AVAILABLE);
             assertThat(lg.isInfeedAllowed()).isTrue();
@@ -68,9 +68,9 @@ class LocationGroupTest {
 
             assertThat(lg.getOperationMode()).isEqualTo(LocationGroupMode.INFEED_AND_OUTFEED);
 
-            assertThat(lg.getMaxFillLevel()).isEqualTo(0);
-            assertThat(lg.getLocationGroups()).hasSize(0);
-            assertThat(lg.getLocations()).hasSize(0);
+            assertThat(lg.getMaxFillLevel()).isZero();
+            assertThat(lg.getLocationGroups()).isEmpty();
+            assertThat(lg.getLocations()).isEmpty();
         }
     }
 
@@ -183,7 +183,7 @@ class LocationGroupTest {
         // test...
         lg.removeLocation(loc);
         assertThat(loc.belongsNotToLocationGroup()).isTrue();
-        assertThat(lg.getLocations()).hasSize(0);
+        assertThat(lg.getLocations()).isEmpty();
         assertThat(lg.hasLocations()).isFalse();
     }
 

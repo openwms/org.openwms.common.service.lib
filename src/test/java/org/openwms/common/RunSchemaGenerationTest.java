@@ -17,6 +17,8 @@ package org.openwms.common;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
  * A RunSchemaGenerationTest is an empty test class to bootstrap the test ApplicationContext and run the database schema generation. It is
  * a Unit test and is executed with the surefire plugin.
@@ -27,5 +29,7 @@ import org.junit.jupiter.api.Test;
 class RunSchemaGenerationTest {
 
     @Test
-    void runSchemaGeneration() {}
+    void runSchemaGeneration() {
+        assertTrue(this.getClass().equals(RunSchemaGenerationTest.class));
+    }
 }

@@ -72,7 +72,7 @@ class LocationTest {
             assertThat(l.isInfeedBlocked()).isNotEqualTo(Location.DEF_INCOMING_ACTIVE);
             assertThat(l.isOutfeedActive()).isEqualTo(Location.DEF_OUTGOING_ACTIVE);
             assertThat(l.isOutfeedBlocked()).isNotEqualTo(Location.DEF_OUTGOING_ACTIVE);
-            assertThat(l.isDirectBookingAllowed()).isEqualTo(true);
+            assertThat(l.isDirectBookingAllowed()).isTrue();
             assertThat(l.getPlcState()).isEqualTo(Location.DEF_PLC_STATE);
             assertThat(l.isConsideredInAllocation()).isEqualTo(Location.DEF_CONSIDERED_IN_ALLOCATION);
         }
@@ -97,7 +97,7 @@ class LocationTest {
             assertThat(l.getMessages()).contains(m);
 
             l.removeMessages(m);
-            assertThat(l.getMessages()).hasSize(0);
+            assertThat(l.getMessages()).isEmpty();
         }
 
         @Test void shall_fail_when_remove_message_null() {

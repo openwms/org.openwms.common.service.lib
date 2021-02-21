@@ -19,7 +19,6 @@ import org.openwms.common.account.Account;
 import org.springframework.util.Assert;
 
 import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -65,13 +64,11 @@ public class Location extends Target implements Serializable {
 
     /** Unique natural key. */
     @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "area", column = @Column(name = "C_AREA")),
-            @AttributeOverride(name = "aisle", column = @Column(name = "C_AISLE")),
-            @AttributeOverride(name = "x", column = @Column(name = "C_X")),
-            @AttributeOverride(name = "y", column = @Column(name = "C_Y")),
-            @AttributeOverride(name = "z", column = @Column(name = "C_Z"))
-    })
+    @AttributeOverride(name = "area", column = @Column(name = "C_AREA"))
+    @AttributeOverride(name = "aisle", column = @Column(name = "C_AISLE"))
+    @AttributeOverride(name = "x", column = @Column(name = "C_X"))
+    @AttributeOverride(name = "y", column = @Column(name = "C_Y"))
+    @AttributeOverride(name = "z", column = @Column(name = "C_Z"))
     private LocationPK locationId;
 
     /** The Location might be assigned to an {@link Account}. */

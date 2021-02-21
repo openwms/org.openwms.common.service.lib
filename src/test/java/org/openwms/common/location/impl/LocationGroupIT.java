@@ -55,8 +55,9 @@ class LocationGroupIT {
      * Creating two groups with same id must fail.
      */
     @Test void testNameConstraint() {
+        LocationGroup entity = new LocationGroup(KNOWN_LG);
         assertThatThrownBy(
-                () -> repository.saveAndFlush(new LocationGroup(KNOWN_LG)))
+                () -> repository.saveAndFlush(entity))
                 .isInstanceOf(DataIntegrityViolationException.class);
     }
 }

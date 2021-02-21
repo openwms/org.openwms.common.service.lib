@@ -74,8 +74,7 @@ class LocationTypeTest {
         LocationType workplace = new LocationType("workplace");
 
         assertThat(workplace).isNotEqualTo(conveyor);
-        assertThat(conveyor).isEqualTo(conveyor);
-        assertThat(conveyor).isEqualTo(conveyor2);
+        assertThat(conveyor).isEqualTo(conveyor).isEqualTo(conveyor2);
         assertThat(conveyor2).isEqualTo(conveyor);
 
         HashSet<LocationType> set = new HashSet<>();
@@ -90,6 +89,6 @@ class LocationTypeTest {
     @Test
     void testProperReturnOfToString() {
         LocationType conveyor = new LocationType("conveyor");
-        assertThat(conveyor.toString()).isEqualTo("conveyor");
+        assertThat(conveyor.toString()).hasToString("conveyor");
     }
 }

@@ -69,16 +69,16 @@ class LocationIT {
         Location l = new Location(LocationPK.newBuilder().area("UNKW").aisle("0000").x("0000").y("0000").z("0000").build());
         l.setDescription(" ".repeat(256));
         ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> repository.saveAndFlush(l));
-        assertThat(ex.getMessage().contains("propertyPath=description")).isTrue();
+        assertThat(ex.getMessage()).contains("propertyPath=description");
 
         l.setDescription("");
         l.setClassification(" ".repeat(256));
         ex = assertThrows(ConstraintViolationException.class, () -> repository.saveAndFlush(l));
-        assertThat(ex.getMessage().contains("propertyPath=classification")).isTrue();
+        assertThat(ex.getMessage()).contains("propertyPath=classification");
 
         l.setClassification("");
         l.setLabels(asList(new String[STRING_LIST_LENGTH+1]));
         ex = assertThrows(ConstraintViolationException.class, () -> repository.saveAndFlush(l));
-        assertThat(ex.getMessage().contains("propertyPath=labels")).isTrue();
+        assertThat(ex.getMessage()).contains("propertyPath=labels");
     }
 }

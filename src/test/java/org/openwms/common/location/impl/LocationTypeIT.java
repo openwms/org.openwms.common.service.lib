@@ -37,8 +37,9 @@ class LocationTypeIT {
     @Test
     void testUniqueConstraint() {
         repository.saveAndFlush(new LocationType("conveyor"));
+        LocationType conveyor = new LocationType("conveyor");
         assertThatThrownBy(
-                () -> repository.saveAndFlush(new LocationType("conveyor")))
+                () -> repository.saveAndFlush(conveyor))
                 .isInstanceOf(DataIntegrityViolationException.class);
     }
 }

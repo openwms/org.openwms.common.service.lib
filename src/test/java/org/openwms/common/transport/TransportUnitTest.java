@@ -40,20 +40,26 @@ class TransportUnitTest {
     class CreationalTests {
 
         @Test void shall_fail_with_null_Barcode() {
+            TransportUnitType tut = new TransportUnitType("KNOWN");
+            Location actualLocation = Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000"));
             assertThatThrownBy(
-                    () -> new TransportUnit(null, new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000"))))
+                    () -> new TransportUnit(null, tut, actualLocation))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test void shall_fail_with_null_TUT() {
+            Location actualLocation = Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000"));
+            Barcode barcode = Barcode.of("4711");
             assertThatThrownBy(
-                    () -> new TransportUnit(Barcode.of("4711"), null, Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000"))))
+                    () -> new TransportUnit(barcode, null, actualLocation))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test void shall_fail_with_null_Location() {
+            Barcode barcode = Barcode.of("4711");
+            TransportUnitType tut = new TransportUnitType("KNOWN");
             assertThatThrownBy(
-                    () -> new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), null))
+                    () -> new TransportUnit(barcode, tut, null))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -69,12 +75,12 @@ class TransportUnitTest {
             assertThat(tu.getTargetLocation()).isNull();
             assertThat(tu.getWeight()).isEqualTo(Weight.ZERO);
             assertThat(tu.getState()).isEqualTo(TransportUnitState.AVAILABLE);
-            assertThat(tu.getChildren()).hasSize(0);
-            assertThat(tu.getNoTransportUnits()).isEqualTo(0);
+            assertThat(tu.getChildren()).isEmpty();
+            assertThat(tu.getNoTransportUnits()).isZero();
             assertThat(tu.getInventoryDate()).isNull();
             assertThat(tu.getInventoryUser()).isNull();
             assertThat(tu.getEmpty()).isNull();
-            assertThat(tu.getErrors()).hasSize(0);
+            assertThat(tu.getErrors()).isEmpty();
         }
 
         @Test void testEqualityLight() {
@@ -129,7 +135,7 @@ class TransportUnitTest {
 
         @Test void shall_add_an_error() {
             TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
-            tu.addError(UnitError.newBuilder().build());
+            assertThat(tu.addError(UnitError.newBuilder().build())).isNotNull();
         }
 
         @Test void shall_fail_with_remove_null_as_child() {
@@ -178,7 +184,7 @@ class TransportUnitTest {
             assertThat(child1.getParent()).isEqualTo(parent);
 
             parent.removeChild(child1);
-            assertThat(parent.getChildren()).hasSize(0);
+            assertThat(parent.getChildren()).isEmpty();
             assertThat(child1.getParent()).isNull();
         }
 
@@ -221,7 +227,7 @@ class TransportUnitTest {
             // change parent!
             parent1.addChild(child2);
             assertThat(parent1.getChildren()).hasSize(2);
-            assertThat(parent2.getChildren()).hasSize(0);
+            assertThat(parent2.getChildren()).isEmpty();
             assertThat(child2.getParent()).isEqualTo(parent1);
         }
     }

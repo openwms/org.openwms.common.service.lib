@@ -36,24 +36,26 @@ class TypePlacingRuleTest {
         assertThat(rule1.getPrivilegeLevel()).isEqualTo(TypePlacingRule.DEF_PRIVILEGE_LEVEL);
         assertThat(rule1.getTransportUnitType()).isEqualTo(TransportUnitType.newBuilder("PG").build());
         assertThat(rule1.getAllowedLocationType()).isEqualTo(new LocationType("Pallet Conveyor"));
-        assertThat(rule1.toString()).isEqualTo(0+TypePlacingRule.SEPARATOR+"PG"+TypePlacingRule.SEPARATOR+"Pallet Conveyor");
+        assertThat(rule1.toString()).hasToString(0+TypePlacingRule.SEPARATOR+"PG"+TypePlacingRule.SEPARATOR+"Pallet Conveyor");
     }
 
     @Test void testAssertedCreation() {
+        LocationType locationType = new LocationType("Pallet Conveyor");
+        TransportUnitType tut = TransportUnitType.newBuilder("PG").build();
         assertThatThrownBy(
-                () -> new TypePlacingRule(null, new LocationType("Pallet Conveyor")))
+                () -> new TypePlacingRule(null, locationType))
                 .isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(
-                () -> new TypePlacingRule(TransportUnitType.newBuilder("PG").build(), null))
+                () -> new TypePlacingRule(tut, null))
                 .isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(
-                () -> new TypePlacingRule(null, new LocationType("Pallet Conveyor"), 1))
+                () -> new TypePlacingRule(null, locationType, 1))
                 .isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(
-                () -> new TypePlacingRule(TransportUnitType.newBuilder("PG").build(), null, 1))
+                () -> new TypePlacingRule(tut, null, 1))
                 .isInstanceOf(IllegalArgumentException.class);
     }
-
+k
     @Test void testEquality() {
         TypePlacingRule rule1 = new TypePlacingRule(TransportUnitType.newBuilder("PG").build(), new LocationType("Pallet Conveyor"));
         TypePlacingRule rule11 = new TypePlacingRule(TransportUnitType.newBuilder("PG").build(), new LocationType("Pallet Conveyor"), TypePlacingRule.DEF_PRIVILEGE_LEVEL);
