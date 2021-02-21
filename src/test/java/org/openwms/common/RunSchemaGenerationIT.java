@@ -18,11 +18,11 @@ package org.openwms.common;
 import org.junit.jupiter.api.Test;
 
 /**
- * A RunSchemaGenerationTest.
+ * A RunSchemaGenerationIT.
  *
  * @author Heiko Scherrer
  */
-class RunSchemaGenerationTest {
+class RunSchemaGenerationIT {
 
     @Test
     void runSchemaGeneration() {}
