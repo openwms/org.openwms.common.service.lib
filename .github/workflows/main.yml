@@ -104,8 +104,8 @@ jobs:
           name: jars
           path: |
             target/openwms-common-service*.jar
-      - name: Archive documentation
-        uses: actions/upload-artifact@v2
-        with:
-          name: site
-          path: target/site/**/*
+#      - name: Archive documentation
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: site
+#          path: target/site/**/*
