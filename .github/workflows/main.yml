@@ -57,7 +57,7 @@ jobs:
           git config --global user.name "CI Server"
       - name: Site
         run: >
-          ./mvnw verify site scm-publish:publish-scm
+          ./mvnw site maven-failsafe-plugin:integration-test scm-publish:publish-scm
           -DM2_REPO_DIR=/home/runner/.m2/repository
           -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST,TESTPG
           -Dargs=-Dspring.profiles.active=ASYNCHRONOUS,TEST,TESTPG
