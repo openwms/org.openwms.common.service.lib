@@ -86,6 +86,19 @@
     <reporting>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
+                <configuration>
+                    <argLine>${argLine}</argLine>
+                    <includes>
+                        <include>**/*IT.java</include>
+                        <include>**/*Documentation.java</include>
+                    </includes>
+                    <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <reportSets>
                     <reportSet>
