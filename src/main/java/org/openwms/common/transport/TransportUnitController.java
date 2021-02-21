@@ -128,7 +128,7 @@ public class TransportUnitController extends AbstractWebController {
 
     private List<TransportUnitVO> augmentResults(List<TransportUnit> tus) {
         List<TransportUnitVO> result = mapper.map(tus, TransportUnitVO.class);
-        result.forEach(tu -> addLinks(tu));
+        result.forEach(this::addLinks);
         return result;
     }
 

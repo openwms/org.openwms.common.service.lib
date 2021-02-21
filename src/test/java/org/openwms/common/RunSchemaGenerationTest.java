@@ -17,7 +17,7 @@ package org.openwms.common;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * A RunSchemaGenerationTest is an empty test class to bootstrap the test ApplicationContext and run the database schema generation. It is
@@ -30,6 +30,6 @@ class RunSchemaGenerationTest {
 
     @Test
     void runSchemaGeneration() {
-        assertTrue(this.getClass().equals(RunSchemaGenerationTest.class));
+        assertEquals(this.getClass(), (RunSchemaGenerationTest.class));
     }
 }

@@ -50,10 +50,10 @@ class TransportUnitTypeServiceImplIT {
 
     @Test
     void findByType() {
-        assertThat(service.findByType("PALLET").isPresent()).isTrue();
-        assertThat(service.findByType("UNKNOWN").isPresent()).isFalse();
-        assertThat(service.findByType(null).isPresent()).isFalse();
-        assertThat(service.findByType("").isPresent()).isFalse();
+        assertThat(service.findByType("PALLET")).isPresent();
+        assertThat(service.findByType("UNKNOWN")).isNotPresent();
+        assertThat(service.findByType(null)).isNotPresent();
+        assertThat(service.findByType("")).isNotPresent();
     }
 
     @Test
@@ -91,7 +91,8 @@ class TransportUnitTypeServiceImplIT {
         // Testing with transient entities...
         List<LocationType> news = new ArrayList<>(1);
         news.add(new LocationType("PG"));
-        assertThatThrownBy(() -> service.updateRules("BIN", news, Collections.emptyList()))
+        List<LocationType> emptyList = Collections.emptyList();
+        assertThatThrownBy(() -> service.updateRules("BIN", news, emptyList))
                 .isInstanceOf(ServiceLayerException.class)
                 .hasMessageContaining("must be persisted before");
         news.clear();

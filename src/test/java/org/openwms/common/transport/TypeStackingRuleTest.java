@@ -33,15 +33,16 @@ class TypeStackingRuleTest {
     void testCreation() {
         new TypeStackingRule(); // For JPA
         TypeStackingRule rule = new TypeStackingRule(1, TransportUnitType.newBuilder("PG").build(), TransportUnitType.newBuilder("FG").build());
+        TransportUnitType tut = TransportUnitType.newBuilder("PG").build();
         assertThat(rule.getNoTransportUnits()).isEqualTo(1);
         assertThat(rule.getBaseTransportUnitType()).isEqualTo(TransportUnitType.newBuilder("PG").build());
         assertThat(rule.getAllowedTransportUnitType()).isEqualTo(TransportUnitType.newBuilder("FG").build());
-        assertThat(rule.toString()).isEqualTo(1+TypeStackingRule.SEPARATOR+"PG"+TypeStackingRule.SEPARATOR+"FG");
+        assertThat(rule.toString()).hasToString(1+TypeStackingRule.SEPARATOR+"PG"+TypeStackingRule.SEPARATOR+"FG");
         assertThatThrownBy(
-                () -> new TypeStackingRule(1, null, TransportUnitType.newBuilder("PG").build()))
+                () -> new TypeStackingRule(1, null, tut))
                 .isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(
-                () -> new TypeStackingRule(1, TransportUnitType.newBuilder("PG").build(), null))
+                () -> new TypeStackingRule(1, tut, null))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -52,12 +53,10 @@ class TypeStackingRuleTest {
         TypeStackingRule rule3 = new TypeStackingRule(2, TransportUnitType.newBuilder("FG").build(), TransportUnitType.newBuilder("FG").build());
         TypeStackingRule rule4 = new TypeStackingRule(2, TransportUnitType.newBuilder("FG").build(), TransportUnitType.newBuilder("PG").build());
 
-        assertThat(rule1).isEqualTo(rule11);
+        assertThat(rule1).isEqualTo(rule11).isNotEqualTo(rule2);
         assertThat(rule11).isEqualTo(rule1);
-        assertThat(rule1).isNotEqualTo(rule2);
         assertThat(rule2).isNotEqualTo(rule3);
-        assertThat(rule3).isNotEqualTo(rule2);
-        assertThat(rule3).isNotEqualTo(rule4);
+        assertThat(rule3).isNotEqualTo(rule2).isNotEqualTo(rule4);
         assertThat(rule4).isNotEqualTo(rule3);
 
         HashSet<TypeStackingRule> set = new HashSet<>();

@@ -38,6 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author Heiko Scherrer
  */
+@SuppressWarnings("squid:S3577")
 @CommonApplicationTest
 class TargetControllerOperationalLocksDocumentation {
 

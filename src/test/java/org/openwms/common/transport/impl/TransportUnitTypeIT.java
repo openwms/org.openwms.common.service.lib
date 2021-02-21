@@ -44,8 +44,9 @@ class TransportUnitTypeIT {
 
     @Test void testUniqueConstraint() {
         repository.saveAndFlush(new TransportUnitType("TUT1"));
+        TransportUnitType tut1 = new TransportUnitType("TUT1");
         assertThatThrownBy(
-                () -> repository.saveAndFlush(new TransportUnitType("TUT1")))
+                () -> repository.saveAndFlush(tut1))
                 .isInstanceOf(DataIntegrityViolationException.class);
     }
 

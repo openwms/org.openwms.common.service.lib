@@ -122,7 +122,7 @@ class TransportUnitCommandListenerIT {
                 )
                 .build()
         );
-        assertThat(service.findByPKey(TestData.TU_1_PKEY).getActualLocation().getLocationId().toString()).isEqualTo(TestData.LOCATION_ID_FGIN0001LEFT);
+        assertThat(service.findByPKey(TestData.TU_1_PKEY).getActualLocation().getLocationId().toString()).hasToString(TestData.LOCATION_ID_FGIN0001LEFT);
     }
 
     @Test void test_CHANGE_TARGET_command() {
@@ -137,7 +137,7 @@ class TransportUnitCommandListenerIT {
                 )
                 .build()
         );
-        assertThat(service.findByPKey(TestData.TU_1_PKEY).getTargetLocation().getLocationId().toString()).isEqualTo(TestData.LOCATION_ID_FGIN0001LEFT);
+        assertThat(service.findByPKey(TestData.TU_1_PKEY).getTargetLocation().getLocationId().toString()).hasToString(TestData.LOCATION_ID_FGIN0001LEFT);
     }
 
     @Test void test_CREATE_command() {
@@ -156,7 +156,7 @@ class TransportUnitCommandListenerIT {
                 .build()
         );
         TransportUnit tu = service.findByBarcode(generator.convert("0815"));
-        assertThat(tu.getActualLocation().getLocationId().toString()).isEqualTo(TestData.LOCATION_ID_FGIN0001LEFT);
+        assertThat(tu.getActualLocation().getLocationId().toString()).hasToString(TestData.LOCATION_ID_FGIN0001LEFT);
         assertThat(tu.getTransportUnitType().getType()).isEqualTo(TestData.TUT_TYPE_PALLET);
     }
 

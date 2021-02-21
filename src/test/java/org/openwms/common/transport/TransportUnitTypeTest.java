@@ -77,9 +77,9 @@ class TransportUnitTypeTest {
         assertThat(tut.getLength()).isEqualTo(TransportUnitType.DEF_LENGTH);
         assertThat(tut.getHeight()).isEqualTo(TransportUnitType.DEF_HEIGHT);
         assertThat(tut.getWidth()).isEqualTo(TransportUnitType.DEF_WIDTH);
-        assertThat(tut.getTransportUnits()).hasSize(0);
-        assertThat(tut.getTypePlacingRules()).hasSize(0);
-        assertThat(tut.getTypeStackingRules()).hasSize(0);
+        assertThat(tut.getTransportUnits()).isEmpty();
+        assertThat(tut.getTypePlacingRules()).isEmpty();
+        assertThat(tut.getTypeStackingRules()).isEmpty();
         assertThat(tut.getPayload()).isNull();
         assertThat(tut.getCompatibility()).isNull();
         assertThat(tut.getWeightTare()).isNull();
@@ -95,6 +95,6 @@ class TransportUnitTypeTest {
         assertThat(tut.getTypePlacingRules()).hasSize(1).contains(typePlacingRule);
 
         tut.removeTypePlacingRule(typePlacingRule);
-        assertThat(tut.getTypePlacingRules()).hasSize(0);
+        assertThat(tut.getTypePlacingRules()).isEmpty();
     }
 }
