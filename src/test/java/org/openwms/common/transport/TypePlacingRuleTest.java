@@ -55,7 +55,7 @@ class TypePlacingRuleTest {
                 () -> new TypePlacingRule(tut, null, 1))
                 .isInstanceOf(IllegalArgumentException.class);
     }
-k
+
     @Test void testEquality() {
         TypePlacingRule rule1 = new TypePlacingRule(TransportUnitType.newBuilder("PG").build(), new LocationType("Pallet Conveyor"));
         TypePlacingRule rule11 = new TypePlacingRule(TransportUnitType.newBuilder("PG").build(), new LocationType("Pallet Conveyor"), TypePlacingRule.DEF_PRIVILEGE_LEVEL);
