@@ -95,6 +95,9 @@ jobs:
         run: |
           ./scripts/toolsetup
           ./docToolchain-master/bin/doctoolchain doc exportGithubIssues publishToConfluence
+        env:
+          ATLASSIAN_USER: ${{ secrets.ATLASSIAN_USER }}
+          ATLASSIAN_PASSWORD: ${{ secrets.ATLASSIAN_PASSWORD }}
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
