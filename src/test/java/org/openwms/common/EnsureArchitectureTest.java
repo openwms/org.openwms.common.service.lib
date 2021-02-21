@@ -27,12 +27,12 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices;
 
 /**
- * A EnsureArchitectureIT.
+ * A EnsureArchitectureTest.
  *
  * @author Heiko Scherrer
  */
 @AnalyzeClasses(packages = "org.openwms.common", importOptions = {ImportOption.DoNotIncludeTests.class})
-class EnsureArchitectureIT {
+class EnsureArchitectureTest {
 
     @ArchTest
     public static final ArchRule verify_logger_definition =
