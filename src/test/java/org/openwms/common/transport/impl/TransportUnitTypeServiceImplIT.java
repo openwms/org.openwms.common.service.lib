@@ -36,12 +36,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * A TransportUnitTypeServiceImplTest.
+ * A TransportUnitTypeServiceImplIT.
  *
  * @author Heiko Scherrer
  */
 @CommonApplicationTest
-class TransportUnitTypeServiceImplTest {
+class TransportUnitTypeServiceImplIT {
 
     @Autowired
     private TransportUnitTypeServiceImpl service;
