@@ -542,6 +542,31 @@
             <build>
                 <plugins>
                     <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <argLine>${argLine} ${failsafe.jacoco.args}</argLine>
+                            <includes>
+                                <include>**/*IT.java</include>
+                                <include>**/*Documentation.java</include>
+                            </includes>
+                            <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>integration-test</id>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>verify</id>
+                                <goals>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <argLine>${argLine} ${surefire.jacoco.args}</argLine>
