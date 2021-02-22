@@ -1,7 +1,7 @@
-name: 'master_build'
+name: 'branch_build'
 on:
   push:
-    branches: [ master ]
+    branches-ignore: [ master ]
 
 env:
   MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
@@ -38,16 +38,3 @@ jobs:
           -Dspring.rabbitmq.host=localhost
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
           -U -B $MAVEN_OPTS
-      - name: Build Image
-        run: ./scripts/docker_build
-      - name: Upload Image
-        run: ./scripts/docker_push
-        env:
-          DOCKER_USER: ${{ secrets.DOCKER_USER }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: jars
-          path: |
-            target/openwms-common-service*.jar
