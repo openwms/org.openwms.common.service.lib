@@ -1,4 +1,4 @@
-name: 'master_build'
+name: 'master_docs'
 on:
   workflow_run:
     workflows: ["master_build"]
