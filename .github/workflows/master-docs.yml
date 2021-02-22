@@ -1,6 +1,7 @@
+name: 'master_build'
 on:
   workflow_run:
-    workflows: ["Build & Test Microservice"]
+    workflows: ["master_build"]
     branches: [ master ]
     types:
       - completed
