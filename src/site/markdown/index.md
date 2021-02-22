@@ -2,7 +2,7 @@
 This service provides essential functionality to deal with `Locations`, `LocationGroups` and `TransportUnits`. An often referred example is
 the ability to move a `TransportUnit` from a `Location` A to a `Location` B. 
 
-[![Build status](https://github.com/openwms/org.openwms.common.service/actions/workflows/main.yml/badge.svg)](https://github.com/openwms/org.openwms.common.service/actions/workflows/main.yml)
+[![Build status](https://github.com/openwms/org.openwms.common.service/actions/workflows/master-build.yml/badge.svg)](https://github.com/openwms/org.openwms.common.service/actions/workflows/master-build.yml)
 [![Quality](https://sonarcloud.io/api/project_badges/measure?project=org.openwms:org.openwms.common.service&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.openwms:org.openwms.common.service)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Maven central](https://img.shields.io/maven-central/v/org.openwms/org.openwms.common.service)](https://search.maven.org/search?q=a:org.openwms.common.service)
