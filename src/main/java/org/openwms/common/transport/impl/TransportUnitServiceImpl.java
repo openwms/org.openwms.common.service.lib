@@ -213,6 +213,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("squid:s5145")
     @Override
     @Measured
     public TransportUnit moveTransportUnit(@NotNull Barcode barcode, @NotNull LocationPK targetLocationPK) {
