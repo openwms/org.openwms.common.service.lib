@@ -86,9 +86,9 @@ class LocationGroupControllerDocumentation {
                         get(LocationApiConstants.API_LOCATION_GROUPS + "/index")
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._links.location-group-findall").exists())
-                .andExpect(jsonPath("$._links.location-group-findbyname").exists())
-                .andExpect(jsonPath("$._links.location-group-findbynames").exists())
+                .andExpect(jsonPath("$._links.location-groups-findall").exists())
+                .andExpect(jsonPath("$._links.location-groups-findbyname").exists())
+                .andExpect(jsonPath("$._links.location-groups-findbynames").exists())
                 .andExpect(jsonPath("$._links.length()", is(5)))
                 .andDo(document("lg-index", preprocessResponse(prettyPrint())))
         ;
