@@ -465,23 +465,23 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 643
+Content-Length: 648
 
 {
   "_links" : {
-    "location-group-findall" : {
+    "location-groups-findall" : {
       "href" : "http://localhost:8080/v1/location-groups"
     },
-    "location-group-findbyname" : {
+    "location-groups-findbyname" : {
       "href" : "http://localhost:8080/v1/location-groups?name=FOO"
     },
-    "location-group-findbynames" : {
+    "location-groups-findbynames" : {
       "href" : "http://localhost:8080/v1/location-groups?names=FOO&amp;names=BAR"
     },
-    "location-group-changestate1" : {
+    "location-groups-changestate1" : {
       "href" : "http://localhost:8080/v1/location-groups?name=FOO&amp;op=change-state"
     },
-    "location-group-changestate2" : {
+    "location-groups-changestate2" : {
       "href" : "http://localhost:8080/v1/location-group/UUID?op=change-state&amp;statein=AVAILABLE&amp;stateout=NOT_AVAILABLE"
     }
   }
@@ -1309,7 +1309,7 @@ Host: localhost:8080
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-03-04 21:52:08 UTC
+Last updated 2021-03-05 23:16:29 UTC
 </div>
 </div>
 </body>
