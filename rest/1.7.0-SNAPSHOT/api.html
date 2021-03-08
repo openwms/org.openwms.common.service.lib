@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.7.0-SNAPSHOT-18)">
+<meta name="author" content="(1.7.0-SNAPSHOT-19)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.7.0-SNAPSHOT-18)</span><br>
+<span id="author" class="author">(1.7.0-SNAPSHOT-19)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -1663,218 +1663,6 @@ Content-Type: application/json
 Content-Length: 13733
 
 [ {
-  "links" : [ ],
-  "pKey" : "412130127821",
-  "name" : "ZILE",
-  "accountId" : "D",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
-  } ],
-  "pKey" : "623275915496",
-  "name" : "Flatgood_AREA",
-  "accountId" : "D",
-  "parentName" : "ZILE",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=Flatgood_AREA"
-  } ],
-  "pKey" : "709819670512",
-  "name" : "FGAUTOMATIC",
-  "accountId" : "D",
-  "parentName" : "Flatgood_AREA",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
-  } ],
-  "pKey" : "400335177633",
-  "name" : "FGRECEIVING",
-  "accountId" : "D",
-  "parentName" : "FGAUTOMATIC",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
-  } ],
-  "pKey" : "811754978035",
-  "name" : "FGCONV",
-  "accountId" : "D",
-  "parentName" : "FGAUTOMATIC",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
-  } ],
-  "pKey" : "212290962584",
-  "name" : "FGSTOCK",
-  "accountId" : "D",
-  "parentName" : "FGAUTOMATIC",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSTOCK"
-  } ],
-  "pKey" : "53242834266",
-  "name" : "FGAISLE1",
-  "accountId" : "D",
-  "parentName" : "FGSTOCK",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
-  } ],
-  "pKey" : "688238147532",
-  "name" : "FGAISLE1LIFT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
-  } ],
-  "pKey" : "154549927614",
-  "name" : "FGAISLE1LEFT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
-  } ],
-  "pKey" : "108758840458",
-  "name" : "FGAISLE1RIGHT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSTOCK"
-  } ],
-  "pKey" : "101671979671",
-  "name" : "FGAISLE2",
-  "accountId" : "D",
-  "parentName" : "FGSTOCK",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
-  } ],
-  "pKey" : "730288310794",
-  "name" : "FGAISLE2LIFT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
-  } ],
-  "pKey" : "379640903941",
-  "name" : "FGAISLE2LEFT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
-  } ],
-  "pKey" : "209483120518",
-  "name" : "FGAISLE2RIGHT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
-  } ],
-  "pKey" : "585607846471",
-  "name" : "FGSHIPPING",
-  "accountId" : "D",
-  "parentName" : "FGAUTOMATIC",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING"
-  } ],
-  "pKey" : "881973001220",
-  "name" : "FGSHIPPING1",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
-  } ],
-  "pKey" : "18642707784",
-  "name" : "FGWORKPLACE1",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
-  } ],
-  "pKey" : "925145263549",
-  "name" : "FGWORKPLACE2",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
   "links" : [ {
     "rel" : "parent",
     "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
@@ -2159,6 +1947,218 @@ Content-Length: 13733
   "name" : "PAISLE2RIGHT",
   "accountId" : "D",
   "parentName" : "PAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ ],
+  "pKey" : "412130127821",
+  "name" : "ZILE",
+  "accountId" : "D",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
+  } ],
+  "pKey" : "623275915496",
+  "name" : "Flatgood_AREA",
+  "accountId" : "D",
+  "parentName" : "ZILE",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=Flatgood_AREA"
+  } ],
+  "pKey" : "709819670512",
+  "name" : "FGAUTOMATIC",
+  "accountId" : "D",
+  "parentName" : "Flatgood_AREA",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ],
+  "pKey" : "400335177633",
+  "name" : "FGRECEIVING",
+  "accountId" : "D",
+  "parentName" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ],
+  "pKey" : "811754978035",
+  "name" : "FGCONV",
+  "accountId" : "D",
+  "parentName" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ],
+  "pKey" : "212290962584",
+  "name" : "FGSTOCK",
+  "accountId" : "D",
+  "parentName" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSTOCK"
+  } ],
+  "pKey" : "53242834266",
+  "name" : "FGAISLE1",
+  "accountId" : "D",
+  "parentName" : "FGSTOCK",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
+  } ],
+  "pKey" : "688238147532",
+  "name" : "FGAISLE1LIFT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
+  } ],
+  "pKey" : "154549927614",
+  "name" : "FGAISLE1LEFT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
+  } ],
+  "pKey" : "108758840458",
+  "name" : "FGAISLE1RIGHT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSTOCK"
+  } ],
+  "pKey" : "101671979671",
+  "name" : "FGAISLE2",
+  "accountId" : "D",
+  "parentName" : "FGSTOCK",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
+  } ],
+  "pKey" : "730288310794",
+  "name" : "FGAISLE2LIFT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
+  } ],
+  "pKey" : "379640903941",
+  "name" : "FGAISLE2LEFT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
+  } ],
+  "pKey" : "209483120518",
+  "name" : "FGAISLE2RIGHT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ],
+  "pKey" : "585607846471",
+  "name" : "FGSHIPPING",
+  "accountId" : "D",
+  "parentName" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING"
+  } ],
+  "pKey" : "881973001220",
+  "name" : "FGSHIPPING1",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
+  } ],
+  "pKey" : "18642707784",
+  "name" : "FGWORKPLACE1",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
+  } ],
+  "pKey" : "925145263549",
+  "name" : "FGWORKPLACE2",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING1",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE"
@@ -2898,7 +2898,7 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/f8bececa-ec24-4c48-ab39-5f37bad2e926/</code></pre>
+Location: http://localhost:8080/v1/transport-units/923b56e9-a813-481e-b4e9-f9e5c269c830/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2950,7 +2950,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/dba5928a-8b7c-40e0-90f2-cb096da58872/</code></pre>
+Location: http://localhost:8080/v1/transport-units/3e3c34a1-79c0-45a6-9b7f-1e04fb04dde6/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3044,8 +3044,8 @@ Content-Length: 561
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0013",
-  "actualLocationDate" : "2021-03-08T22:38:30.978+0000",
-  "createDate" : "2021-03-08T22:38:30.922+0000"
+  "actualLocationDate" : "2021-03-08T22:59:46.298+0000",
+  "createDate" : "2021-03-08T22:59:46.223+0000"
 }</code></pre>
 </div>
 </div>
@@ -3122,8 +3122,8 @@ Content-Length: 561
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0013",
-  "actualLocationDate" : "2021-03-08T22:38:30.435+0000",
-  "createDate" : "2021-03-08T22:38:30.310+0000"
+  "actualLocationDate" : "2021-03-08T22:59:45.743+0000",
+  "createDate" : "2021-03-08T22:59:45.619+0000"
 }</code></pre>
 </div>
 </div>
@@ -3208,8 +3208,8 @@ Content-Length: 827
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2021-03-08T22:38:30.731+0000",
-  "createDate" : "2021-03-08T22:38:30.731+0000"
+  "actualLocationDate" : "2021-03-08T22:59:45.999+0000",
+  "createDate" : "2021-03-08T22:59:45.999+0000"
 }</code></pre>
 </div>
 </div>
@@ -3269,8 +3269,8 @@ Content-Length: 827
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2021-03-08T22:38:30.496+0000",
-  "createDate" : "2021-03-08T22:38:30.496+0000"
+  "actualLocationDate" : "2021-03-08T22:59:45.777+0000",
+  "createDate" : "2021-03-08T22:59:45.777+0000"
 }</code></pre>
 </div>
 </div>
@@ -3339,8 +3339,8 @@ Content-Length: 1663
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2021-03-08T22:38:29.905+0000",
-  "createDate" : "2021-03-08T22:38:29.905+0000"
+  "actualLocationDate" : "2021-03-08T22:59:45.205+0000",
+  "createDate" : "2021-03-08T22:59:45.205+0000"
 }, {
   "links" : [ {
     "rel" : "transport-unit-type",
@@ -3367,8 +3367,8 @@ Content-Length: 1663
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2021-03-08T22:38:29.905+0000",
-  "createDate" : "2021-03-08T22:38:29.905+0000"
+  "actualLocationDate" : "2021-03-08T22:59:45.205+0000",
+  "createDate" : "2021-03-08T22:59:45.205+0000"
 } ]</code></pre>
 </div>
 </div>
@@ -3437,8 +3437,8 @@ Content-Length: 834
   "width" : 80,
   "height" : 102,
   "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2021-03-08T22:38:31.061+0000",
-  "createDate" : "2021-03-08T22:38:31.061+0000"
+  "actualLocationDate" : "2021-03-08T22:59:46.400+0000",
+  "createDate" : "2021-03-08T22:59:46.400+0000"
 } ]</code></pre>
 </div>
 </div>
@@ -3619,7 +3619,7 @@ Content-Length: 122
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-03-08 22:33:19 UTC
+Last updated 2021-03-08 22:54:46 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
