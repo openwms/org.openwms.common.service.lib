@@ -67,7 +67,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-    public Optional<Location> findByLocationId(@NotNull LocationPK locationId) {
+    public Optional<Location> findByLocationPk(@NotNull LocationPK locationId) {
         return repository.findByLocationId(locationId);
     }
 

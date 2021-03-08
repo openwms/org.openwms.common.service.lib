@@ -82,6 +82,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     private final Validator validator;
     private final ApplicationEventPublisher publisher;
 
+    @SuppressWarnings("squid:S107")
     TransportUnitServiceImpl(Translator translator,
             TransportUnitTypeRepository transportUnitTypeRepository,
             LocationService locationService, TransportUnitRepository repository,
@@ -112,7 +113,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
                 barcode,
                 transportUnitType.getType(),
                 strict,
-                () -> locationService.findByLocationId(actualLocation)
+                () -> locationService.findByLocationPk(actualLocation)
                         .orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", actualLocation)))
         );
     }
@@ -199,7 +200,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
         tu.setTransportUnitType(existing.getTransportUnitType());
         TransportUnit updated = mapper.mapFromTo(tu, existing);
         if (tu.getActualLocation() !=  null && tu.getActualLocation().isNew()) {
-            updated.setActualLocation(this.locationService.findByLocationId(tu.getActualLocation().getLocationId()).orElseThrow(() -> new NotFoundException(format("Location [%s] not found", tu.getActualLocation()))));
+            updated.setActualLocation(this.locationService.findByLocationPk(tu.getActualLocation().getLocationId()).orElseThrow(() -> new NotFoundException(format("Location [%s] not found", tu.getActualLocation()))));
         }
         TransportUnit saved = repository.save(updated);
         publisher.publishEvent(TransportUnitEvent.newBuilder()
@@ -218,7 +219,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Measured
     public TransportUnit moveTransportUnit(@NotNull Barcode barcode, @NotNull LocationPK targetLocationPK) {
         TransportUnit transportUnit = repository.findByBarcode(barcode).orElseThrow(() -> new NotFoundException(format("TransportUnit with Barcode [%s] not found", barcode)));
-        transportUnit.setActualLocation(locationService.findByLocationId(targetLocationPK).orElseThrow(() -> new NotFoundException(format("No Location with LocationPk [%s] found", targetLocationPK))));
+        transportUnit.setActualLocation(locationService.findByLocationPk(targetLocationPK).orElseThrow(() -> new NotFoundException(format("No Location with LocationPk [%s] found", targetLocationPK))));
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Moving TransportUnit with barcode [{}] to Location [{}]", barcode, targetLocationPK);
         }
@@ -363,6 +364,5 @@ class TransportUnitServiceImpl implements TransportUnitService {
                 .type(TransportUnitEvent.TransportUnitEventType.CHANGED).build()
         );
         return saved;
-
     }
 }

@@ -16,7 +16,6 @@
 package org.openwms.common.location.impl;
 
 import org.ameba.exception.NotFoundException;
-import org.ameba.exception.ServiceLayerException;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestBase;
@@ -30,6 +29,7 @@ import javax.persistence.EntityManager;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertThrows;
 
 /**
@@ -46,12 +46,17 @@ class LocationServiceImplIT extends TestBase {
     private EntityManager em;
 
     @Test void test_finder_with_null() {
-        ServiceLayerException ex = assertThrows(ServiceLayerException.class, () -> testee.findByLocationId(""));
-        assertThat(ex.getMessage()).contains("findByLocationId.locationId");
+        assertThatThrownBy(
+                () -> testee.findByLocationPk(null)).hasMessageContaining("findByLocationPk.locationId");
+    }
+
+    @Test void test_finder_with_empty() {
+        assertThatThrownBy(
+                () -> testee.findByLocationId("")).hasMessageContaining("findByLocationId.locationId");
     }
 
     @Test void shall_find_existing_by_ID() {
-        Optional<Location> byLocationId = testee.findByLocationId(LocationPK.fromString(TestData.LOCATION_ID_EXT));
+        Optional<Location> byLocationId = testee.findByLocationPk(LocationPK.fromString(TestData.LOCATION_ID_EXT));
 
         assertThat(byLocationId).isNotEmpty();
         assertThat(byLocationId.get().getLocationId()).isEqualTo(LocationPK.fromString(TestData.LOCATION_ID_EXT));

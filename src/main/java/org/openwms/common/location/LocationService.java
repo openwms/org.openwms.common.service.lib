@@ -35,7 +35,7 @@ public interface LocationService {
      * @param locationId The business key of the Location to search for
      * @return The Location instance
      */
-    Optional<Location> findByLocationId(@NotNull LocationPK locationId);
+    Optional<Location> findByLocationPk(@NotNull LocationPK locationId);
 
     /**
      * Find and return a {@code Location}.
