@@ -163,10 +163,17 @@ class TransportUnitServiceImplIT {
     void shall_change_target() {
         TransportUnit transportUnit = testee.changeTarget(Barcode.of(TestData.TU_2_ID), TestData.LOCATION_ID_FGIN0001LEFT);
         assertThat(transportUnit.getTargetLocation().getLocationId()).isEqualTo(LocationPK.fromString(TestData.LOCATION_ID_FGIN0001LEFT));
+    }
 
+    @Test
+    void shall_change_target_invalid_Location() {
         assertThatThrownBy
                 (() -> testee.changeTarget(Barcode.of(TestData.TU_2_ID), "UNKW/UNKW/UNKW/UNKW/UNKW"))
                 .isInstanceOf(NotFoundException.class).hasMessageContaining("Location with locationId");
+    }
+
+    @Test
+    void shall_change_target_invalid_Barcode() {
         assertThatThrownBy
                 (() -> testee.changeTarget(Barcode.of("UNKNOWN"), TestData.LOCATION_ID_FGIN0001LEFT))
                 .isInstanceOf(NotFoundException.class).hasMessageContaining("No TransportUnit with barcode");
