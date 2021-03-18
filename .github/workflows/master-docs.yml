@@ -90,8 +90,5 @@ jobs:
         env:
           ATLASSIAN_USER: ${{ secrets.ATLASSIAN_USER }}
           ATLASSIAN_PASSWORD: ${{ secrets.ATLASSIAN_PASSWORD }}
-#      - name: Archive documentation
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: site
-#          path: target/site/**/*
+          GITHUB_USER: ${{ secrets.GH_USER }}
+          GITHUB_PASSWORD: ${{ secrets.GH_PASSWORD }}
