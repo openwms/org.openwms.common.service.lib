@@ -17,7 +17,7 @@ package org.openwms.common.location.impl;
 
 import org.ameba.exception.NotFoundException;
 import org.ameba.i18n.Translator;
-import org.dozer.DozerConverter;
+import com.github.dozermapper.core.DozerConverter;
 import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;

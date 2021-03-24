@@ -376,8 +376,8 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>net.sf.dozer</groupId>
-            <artifactId>dozer</artifactId>
+            <groupId>com.github.dozermapper</groupId>
+            <artifactId>dozer-core</artifactId>
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>

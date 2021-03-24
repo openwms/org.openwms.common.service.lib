@@ -17,7 +17,7 @@ package org.openwms.common.transport.impl;
 
 import org.ameba.exception.NotFoundException;
 import org.ameba.i18n.Translator;
-import org.dozer.DozerConverter;
+import com.github.dozermapper.core.DozerConverter;
 import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.transport.TransportUnitType;
 import org.springframework.beans.factory.annotation.Autowired;

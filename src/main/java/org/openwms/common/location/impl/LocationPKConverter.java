@@ -15,7 +15,7 @@
  */
 package org.openwms.common.location.impl;
 
-import org.dozer.DozerConverter;
+import com.github.dozermapper.core.DozerConverter;
 import org.openwms.common.location.LocationPK;
 
 /**
