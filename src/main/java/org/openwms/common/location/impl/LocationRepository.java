@@ -43,6 +43,8 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
 
     Optional<Location> findByPlcCode(String plcCode);
 
+    Optional<Location> findByErpCode(String erpCode);
+
     @Query("select l from Location l " +
             "where l.locationId.area like :#{#locationPK.area} " +
             "and l.locationId.aisle like :#{#locationPK.aisle} " +

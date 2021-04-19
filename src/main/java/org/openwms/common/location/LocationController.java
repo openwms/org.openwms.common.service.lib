@@ -67,6 +67,12 @@ public class LocationController extends AbstractWebController {
         return ResponseEntity.ok(Optional.ofNullable(mapper.map(location, LocationVO.class)));
     }
 
+    @GetMapping(value = API_LOCATIONS, params = {"erpCode"})
+    public ResponseEntity<Optional<LocationVO>> findLocationByErpCode(@RequestParam("erpCode") String erpCode) {
+        Location location = locationService.findByErpCode(erpCode).orElseThrow(() -> new NotFoundException(format("No Location with ERP Code [%s] found", erpCode)));
+        return ResponseEntity.ok(Optional.ofNullable(mapper.map(location, LocationVO.class)));
+    }
+
     @GetMapping(value = API_LOCATIONS, params = {"plcCode"})
     public ResponseEntity<Optional<LocationVO>> findLocationByPlcCode(@RequestParam("plcCode") String plcCode) {
         Location location = locationService.findByPlcCode(plcCode).orElseThrow(() -> new NotFoundException(format("No Location with PLC Code [%s] found", plcCode)));

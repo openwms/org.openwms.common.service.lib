@@ -88,6 +88,21 @@ class LocationControllerDocumentation {
     class PLCCodeTests {
 
      */
+        @Test void shall_findby_erpcode() throws Exception {
+            mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
+                    .queryParam("erpCode", TestData.LOCATION_ERP_CODE_EXT))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("pKey").exists())
+                    .andExpect(jsonPath("locationId", is(TestData.LOCATION_ID_EXT)))
+                    .andExpect(jsonPath("locationGroupName").exists())
+                    .andExpect(jsonPath("plcCode", is(TestData.LOCATION_PLC_CODE_EXT)))
+                    .andExpect(jsonPath("erpCode", is(TestData.LOCATION_ERP_CODE_EXT)))
+                    .andExpect(jsonPath("incomingActive", is(true)))
+                    .andExpect(jsonPath("outgoingActive", is(true)))
+                    .andExpect(jsonPath("plcState", is(0)))
+                    .andDo(document("loc-find-plc"));
+        }
+
         @Test void shall_findby_plccode() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
                     .queryParam("plcCode", TestData.LOCATION_PLC_CODE_EXT))
@@ -96,6 +111,7 @@ class LocationControllerDocumentation {
                     .andExpect(jsonPath("locationId", is(TestData.LOCATION_ID_EXT)))
                     .andExpect(jsonPath("locationGroupName").exists())
                     .andExpect(jsonPath("plcCode", is(TestData.LOCATION_PLC_CODE_EXT)))
+                    .andExpect(jsonPath("erpCode", is(TestData.LOCATION_ERP_CODE_EXT)))
                     .andExpect(jsonPath("incomingActive", is(true)))
                     .andExpect(jsonPath("outgoingActive", is(true)))
                     .andExpect(jsonPath("plcState", is(0)))

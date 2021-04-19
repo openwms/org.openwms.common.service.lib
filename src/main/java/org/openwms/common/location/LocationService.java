@@ -57,7 +57,15 @@ public interface LocationService {
     /**
      * Find and return a {@code Location}.
      *
-     * @param plcCode The PLC Code to search for the Location
+     * @param erpCode The ERP Code to search for a Location
+     * @return The Location instance
+     */
+    Optional<Location> findByErpCode(String erpCode);
+
+    /**
+     * Find and return a {@code Location}.
+     *
+     * @param plcCode The PLC Code to search for a Location
      * @return The Location instance
      */
     Optional<Location> findByPlcCode(String plcCode);

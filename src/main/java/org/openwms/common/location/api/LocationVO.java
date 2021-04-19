@@ -46,6 +46,8 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
     private String accountId;
     @JsonProperty("locationGroupName")
     private String locationGroupName;
+    @JsonProperty("erpCode")
+    private String erpCode;
     @JsonProperty("plcCode")
     private String plcCode;
     @JsonProperty("incomingActive")
@@ -129,6 +131,14 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
         this.type = type;
     }
 
+    public String getErpCode() {
+        return erpCode;
+    }
+
+    public void setErpCode(String erpCode) {
+        this.erpCode = erpCode;
+    }
+
     public String getPlcCode() {
         return plcCode;
     }
@@ -183,7 +193,7 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
      */
     @Override
     public String toString() {
-        return new StringJoiner(", ", LocationVO.class.getSimpleName() + "[", "]").add("pKey='" + pKey + "'").add("locationId='" + locationId + "'").add("locationGroupName='" + locationGroupName + "'").add("plcCode='" + plcCode + "'").add("incomingActive=" + incomingActive).add("outgoingActive=" + outgoingActive).toString();
+        return new StringJoiner(", ", LocationVO.class.getSimpleName() + "[", "]").add("pKey='" + pKey + "'").add("locationId='" + locationId + "'").add("locationGroupName='" + locationGroupName + "'").add("plcCode='" + plcCode + "'").add("erpCode='" + erpCode + "'").add("incomingActive=" + incomingActive).add("outgoingActive=" + outgoingActive).toString();
     }
 
     /**
@@ -201,6 +211,7 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
                 Objects.equals(locationId, that.locationId) &&
                 Objects.equals(accountId, that.accountId) &&
                 Objects.equals(locationGroupName, that.locationGroupName) &&
+                Objects.equals(erpCode, that.erpCode) &&
                 Objects.equals(plcCode, that.plcCode) &&
                 Objects.equals(incomingActive, that.incomingActive) &&
                 Objects.equals(outgoingActive, that.outgoingActive) &&
@@ -215,6 +226,6 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), pKey, locationId, accountId, locationGroupName, plcCode, incomingActive, outgoingActive, plcState, stockZone);
+        return Objects.hash(super.hashCode(), pKey, locationId, accountId, locationGroupName, erpCode, plcCode, incomingActive, outgoingActive, plcState, stockZone);
     }
 }

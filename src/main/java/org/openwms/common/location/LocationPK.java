@@ -114,11 +114,23 @@ public class LocationPK implements Serializable {
         z = builder.z;
     }
 
+    /**
+     * Create a {@link LocationPK} from the given String.
+     *
+     * @param s The String, not {@literal null}
+     * @return An instance
+     */
     public static LocationPK fromString(String s) {
-        Assert.hasText(s, "Location String must be provided");
+        Assert.hasText(s, "Location String must not be null");
         return new LocationPK(s.split("/"));
     }
 
+    /**
+     * Checks whether the given {@code locationPK} String is in valid format.
+     *
+     * @param locationPk The String to verify
+     * @return {@literal true} if valid
+     */
     public static boolean isValid(String locationPk) {
         return locationPk != null && locationPk.split("/").length == NUMBER_OF_KEYS;
     }

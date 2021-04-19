@@ -160,6 +160,16 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
+    @Transactional(readOnly = true)
+    public Optional<Location> findByErpCode(String erpCode) {
+        return repository.findByErpCode(erpCode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
     public Location save(@NotNull Location location) {
         if (location.isNew()) {
             throw new NotFoundException("Expected to save an already existing instance but got a transient one");
