@@ -99,7 +99,7 @@ class TransportUnitCommandHandler {
                 }
                 validate(validator, command, ValidationGroups.TransportUnit.Create.class);
                 tu = service.create(
-                        generator.convert(command.getTransportUnit().getBarcode()),
+                        command.getTransportUnit().getBarcode(),
                         command.getTransportUnit().getTransportUnitType().getType(),
                         command.getTransportUnit().getActualLocation(),
                         false

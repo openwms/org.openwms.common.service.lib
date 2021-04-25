@@ -87,7 +87,7 @@ public class TransportUnitController extends AbstractWebController {
     public ResponseEntity<TransportUnitVO> findTransportUnit(
             @RequestParam("bk") String transportUnitBK
     ) {
-        TransportUnit transportUnit = service.findByBarcode(barcodeGenerator.convert(transportUnitBK));
+        TransportUnit transportUnit = service.findByBarcode(transportUnitBK);
         TransportUnitVO result = mapper.map(transportUnit, TransportUnitVO.class);
         addLinks(result);
         return ResponseEntity.ok(result);
@@ -145,13 +145,13 @@ public class TransportUnitController extends AbstractWebController {
         if (Boolean.TRUE.equals(strict)) {
             // check if already exists ...
             try {
-                service.findByBarcode(barcodeGenerator.convert(transportUnitBK));
+                service.findByBarcode(transportUnitBK);
                 throw new ResourceExistsException(translator.translate(TRANSPORT_UNIT_EXISTS, transportUnitBK), TRANSPORT_UNIT_EXISTS, transportUnitBK);
             } catch (NotFoundException nfe) {
                 // thats fine we just cast the exception thrown by the service
             }
         }
-        TransportUnit created = service.create(barcodeGenerator.convert(transportUnitBK), tu.getTransportUnitType(), tu.getActualLocation().getLocationId(), strict);
+        TransportUnit created = service.create(transportUnitBK, tu.getTransportUnitType(), tu.getActualLocation().getLocationId(), strict);
         return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();
     }
 
@@ -171,7 +171,7 @@ public class TransportUnitController extends AbstractWebController {
 
             // check if already exists ...
             try {
-                service.findByBarcode(barcodeGenerator.convert(transportUnitBK));
+                service.findByBarcode(transportUnitBK);
                 throw new ResourceExistsException(translator.translate(TRANSPORT_UNIT_EXISTS, transportUnitBK), TRANSPORT_UNIT_EXISTS, transportUnitBK);
             } catch (NotFoundException nfe) {
                 // that's fine we just cast the exception thrown by the service
@@ -179,7 +179,7 @@ public class TransportUnitController extends AbstractWebController {
         }
         TransportUnit created = transportUnitBK == null
                 ? service.createNew(tut, actualLocation)
-                : service.create(barcodeGenerator.convert(transportUnitBK), tut, actualLocation, strict);
+                : service.create(transportUnitBK, tut, actualLocation, strict);
         return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();
     }
 

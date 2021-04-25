@@ -19,8 +19,6 @@ import org.ameba.annotation.Measured;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.NotEmpty;
-
 /**
  * A ConfiguredBarcodeFormat.
  *
@@ -70,14 +68,5 @@ public class ConfiguredBarcodeFormatter implements BarcodeFormatter {
             result.append(suffix);
         }
         return result.toString();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Measured
-    public Barcode convert(@NotEmpty String barcode) {
-        return Barcode.of(barcode);
     }
 }

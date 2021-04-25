@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport.barcode;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -22,13 +23,23 @@ import javax.validation.constraints.NotNull;
  *
  * @author Heiko Scherrer
  */
-public interface BarcodeGenerator extends BarcodeFormatter {
+public interface BarcodeGenerator {
 
     /**
      * Generate a new {@link Barcode}.
      *
      * Depends on the underlying implementation whether a new {@link Barcode} is created everytime the method is called or not.
+     * @param transportUnitType The known type of the TransportUnitType
+     * @param actualLocation The known actual Location
      * @return A new Barcode instance, never {@literal null}
      */
-    @NotNull Barcode generate();
+    @NotNull Barcode generate(String transportUnitType, String actualLocation);
+
+    /**
+     * Convert the given {@code barcode}.
+     *
+     * @param barcode The Barcode to convert
+     * @return An Optional with the formatted barcode as a value if the formatting could be performed or an empty Optional if not
+     */
+    Barcode convert(@NotEmpty String barcode);
 }

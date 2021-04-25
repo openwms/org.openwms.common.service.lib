@@ -35,7 +35,7 @@ public interface TransportUnitService {
      * Create a new {@link TransportUnit} with the type {@link TransportUnitType} placed on an initial {@code Location}. The new
      * {@link TransportUnit} has the given {@link Barcode} as identifier.
      *
-     * @param barcode The business identifier of the TransportUnit
+     * @param transportUnitBK The business identifier of the TransportUnit
      * @param transportUnitType The type of the TransportUnit
      * @param actualLocation The Location where the TransportUnit is placed on
      * @param strict Whether the implementation shall throw an exception when a TransportUnit already exists ({@literal true}) or not
@@ -43,7 +43,7 @@ public interface TransportUnitService {
      * @return The newly created instance
      */
     TransportUnit create(
-            @NotNull Barcode barcode,
+            @NotNull String transportUnitBK,
             @NotNull TransportUnitType transportUnitType,
             @NotNull LocationPK actualLocation,
             Boolean strict
@@ -53,7 +53,7 @@ public interface TransportUnitService {
      * Create a new {@link TransportUnit} with the {@link TransportUnitType} placed on the given {@code actualLocation}. The new
      * {@link TransportUnit} has the given {@link Barcode} as identifier.
      *
-     * @param barcode The business identifier of the TransportUnit, must not be {@literal null}
+     * @param transportUnitBK The business identifier of the TransportUnit, must not be {@literal null}
      * @param transportUnitType The type of the TransportUnit, must not be {@literal null}
      * @param actualLocation The Location where the TransportUnit is placed on, must not be {@literal null}
      * @param strict Whether the implementation shall throw an exception when a TransportUnit already exists ({@literal true}) or not
@@ -62,7 +62,7 @@ public interface TransportUnitService {
      * @throws org.ameba.exception.ServiceLayerException when invalid parameters
      */
     TransportUnit create(
-            @NotNull Barcode barcode,
+            @NotNull String transportUnitBK,
             @NotEmpty String transportUnitType,
             @NotEmpty String actualLocation,
             Boolean strict
@@ -124,13 +124,13 @@ public interface TransportUnitService {
     void deleteTransportUnits(List<TransportUnit> transportUnits);
 
     /**
-     * Find and return a {@link TransportUnit} with a particular {@link Barcode}.
+     * Find and return a {@link TransportUnit} by it's {@code transportUnitBK}.
      *
-     * @param barcode The business identifier of the TransportUnit
+     * @param transportUnitBK The business identifier of the TransportUnit
      * @return The TransportUnit
      * @throws org.ameba.exception.NotFoundException may throw if not found
      */
-    TransportUnit findByBarcode(@NotNull Barcode barcode);
+    TransportUnit findByBarcode(@NotEmpty String transportUnitBK);
 
     /**
      * Find and return all {@link TransportUnit}s identified by their particular {@link Barcode}.
@@ -160,8 +160,8 @@ public interface TransportUnitService {
     /**
      * Add an error to a {@link TransportUnit}.
      *
-     * @param barcode The business identifier of the TransportUnit
+     * @param transportUnitBK The business identifier of the TransportUnit
      * @param errorCode The errorCode bitmap
      */
-    void addError(String barcode, UnitError errorCode);
+    void addError(String transportUnitBK, UnitError errorCode);
 }

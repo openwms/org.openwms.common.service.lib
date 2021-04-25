@@ -21,6 +21,8 @@ import org.ameba.annotation.TxService;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
+import static org.openwms.common.CommonConstants.DEFAULT_ACCOUNT_NAME;
+
 /**
  * A NumericBarcodeGenerator.
  *
@@ -29,21 +31,12 @@ import java.util.Optional;
 @TxService
 public class NumericBarcodeGenerator implements BarcodeGenerator {
 
-    private final NextBarcodeRepository repository;
-    private final BarcodeFormatter formatter;
+    protected final NextBarcodeRepository repository;
+    protected final BarcodeFormatter formatter;
 
     public NumericBarcodeGenerator(NextBarcodeRepository repository, BarcodeFormatter formatter) {
         this.repository = repository;
         this.formatter = formatter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Measured
-    public String format(String barcode) {
-        return formatter.format(barcode);
     }
 
     /**
@@ -60,11 +53,11 @@ public class NumericBarcodeGenerator implements BarcodeGenerator {
      */
     @Override
     @Measured
-    public @NotNull Barcode generate() {
-        Optional<NextBarcode> aDefault = repository.findByName("DEFAULT");
+    public @NotNull Barcode generate(String transportUnitType, String actualLocation) {
+        Optional<NextBarcode> aDefault = repository.findByName(DEFAULT_ACCOUNT_NAME);
         if (aDefault.isEmpty()) {
             NextBarcode nb = new NextBarcode();
-            nb.setName("DEFAULT");
+            nb.setName(DEFAULT_ACCOUNT_NAME);
             nb.setCurrentBarcode("1");
             repository.save(nb);
             return Barcode.of(formatter.format("1"));

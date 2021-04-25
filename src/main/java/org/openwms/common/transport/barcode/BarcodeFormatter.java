@@ -15,8 +15,6 @@
  */
 package org.openwms.common.transport.barcode;
 
-import javax.validation.constraints.NotEmpty;
-
 /**
  * A BarcodeFormatter.
  *
@@ -31,12 +29,4 @@ public interface BarcodeFormatter {
      * @return The formatted barcode or {@literal null} if {@code barcode} is {@literal null}
      */
     String format(String barcode);
-
-    /**
-     * Convert the given {@code barcode}.
-     *
-     * @param barcode The Barcode to convert
-     * @return An Optional with the formatted barcode as a value if the formatting could be performed or an empty Optional if not
-     */
-    Barcode convert(@NotEmpty String barcode);
 }

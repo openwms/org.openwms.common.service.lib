@@ -44,7 +44,7 @@ public class Account extends ApplicationEntity implements Serializable {
     @NotEmpty
     @Column(name = "C_IDENTIFIER", nullable = false, updatable = false)
     private String identifier;
-    /** Name. */
+    /** Name of the Account. */
     @NotEmpty
     @Column(name = "C_NAME", nullable = false)
     private String name;

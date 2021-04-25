@@ -29,12 +29,4 @@ public class NopBarcodeFormatter implements BarcodeFormatter {
     public String format(String barcode) {
         return barcode;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Barcode convert(String barcode) {
-        return Barcode.of(barcode);
-    }
 }

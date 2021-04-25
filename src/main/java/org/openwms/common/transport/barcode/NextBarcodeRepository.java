@@ -26,7 +26,7 @@ import java.util.Optional;
  *
  * @author Heiko Scherrer
  */
-interface NextBarcodeRepository extends JpaRepository<NextBarcode, Long> {
+public interface NextBarcodeRepository extends JpaRepository<NextBarcode, Long> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<NextBarcode> findByName(String name);

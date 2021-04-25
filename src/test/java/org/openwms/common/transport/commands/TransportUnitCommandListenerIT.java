@@ -155,7 +155,7 @@ class TransportUnitCommandListenerIT {
                 )
                 .build()
         );
-        TransportUnit tu = service.findByBarcode(generator.convert("0815"));
+        TransportUnit tu = service.findByBarcode("0815");
         assertThat(tu.getActualLocation().getLocationId().toString()).hasToString(TestData.LOCATION_ID_FGIN0001LEFT);
         assertThat(tu.getTransportUnitType().getType()).isEqualTo(TestData.TUT_TYPE_PALLET);
     }
@@ -168,7 +168,7 @@ class TransportUnitCommandListenerIT {
                         .withMessageText("TEXT")
                         .withMessageOccurred(new Date()).build()
         );
-        TransportUnit tu = service.findByBarcode(generator.convert(TestData.TU_1_ID));
+        TransportUnit tu = service.findByBarcode(TestData.TU_1_ID);
         assertThat(tu.getErrors()).hasSize(1);
         assertThat(tu.getErrors().get(0).getErrorNo()).isEqualTo("999");
         assertThat(tu.getErrors().get(0).getErrorText()).isEqualTo("TEXT");

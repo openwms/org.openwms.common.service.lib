@@ -22,6 +22,8 @@ package org.openwms.common;
  */
 public final class CommonConstants {
 
+    public static final String DEFAULT_ACCOUNT_NAME = "DEFAULT";
+
     private CommonConstants() {
     }
 }

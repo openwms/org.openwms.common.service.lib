@@ -31,14 +31,16 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "COM_BARCODE", uniqueConstraints = @UniqueConstraint(columnNames = {"C_NAME"}))
-class NextBarcode extends BaseEntity implements Serializable {
+public class NextBarcode extends BaseEntity implements Serializable {
 
+    /** Name of the Account. */
     @Column(name = "C_NAME")
     private String name;
+    /** Last given Barcode. */
     @Column(name = "C_CURRENT", length = 40)
     private String currentBarcode;
 
-    NextBarcode() {}
+    public NextBarcode() {}
 
     public String getName() {
         return name;

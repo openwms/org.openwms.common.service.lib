@@ -194,7 +194,7 @@ class TransportUnitControllerDocumentation {
                                 parameterWithName("bk").description("The identifying Barcode of the TransportUnit")
                         )
                 ));
-        TransportUnit tu = service.findByBarcode(generator.convert("00000000000000004711"));
+        TransportUnit tu = service.findByBarcode("00000000000000004711");
         assertThat(tu.getActualLocation().getLocationId()).isEqualTo(LocationPK.fromString(TestData.LOCATION_ID_FGIN0001LEFT));
     }
 

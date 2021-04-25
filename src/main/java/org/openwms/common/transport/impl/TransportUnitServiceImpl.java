@@ -104,13 +104,13 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public TransportUnit create(
-            @NotNull Barcode barcode, @NotNull TransportUnitType transportUnitType,
+            @NotNull String transportUnitBK, @NotNull TransportUnitType transportUnitType,
             @NotNull LocationPK actualLocation, Boolean strict) {
-        Assert.notNull(barcode, NO_BARCODE);
+        Assert.notNull(transportUnitBK, NO_BARCODE);
         Assert.notNull(transportUnitType, NO_TRANSPORT_UNIT_TYPE);
         Assert.notNull(actualLocation, NO_LOCATION_SET);
         return createInternal(
-                barcode,
+                barcodeGenerator.convert(transportUnitBK),
                 transportUnitType.getType(),
                 strict,
                 () -> locationService.findByLocationPk(actualLocation)
@@ -124,12 +124,12 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public TransportUnit create(
-            @NotNull Barcode barcode, @NotEmpty String transportUnitType,
+            @NotNull String transportUnitBK, @NotEmpty String transportUnitType,
             @NotEmpty String actualLocation, Boolean strict) {
         Assert.notNull(actualLocation, NO_LOCATION_SET);
 
         return createInternal(
-                barcode,
+                barcodeGenerator.convert(transportUnitBK),
                 transportUnitType,
                 strict,
                 () -> locationService.findByLocationId(actualLocation)
@@ -143,7 +143,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public TransportUnit createNew(@NotEmpty String transportUnitType, @NotEmpty String actualLocation) {
-        Barcode nextBarcode = barcodeGenerator.generate();
+        Barcode nextBarcode = barcodeGenerator.generate(transportUnitType, actualLocation);
         return createInternal(
                 nextBarcode,
                 transportUnitType,
@@ -293,8 +293,8 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-    public TransportUnit findByBarcode(@NotNull Barcode barcode) {
-        return findBy(barcode);
+    public TransportUnit findByBarcode(@NotEmpty String transportUnitBK) {
+        return findBy(barcodeGenerator.convert(transportUnitBK));
     }
 
     private TransportUnit findBy(Barcode barcode) {
@@ -340,8 +340,8 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public void addError(String barcode, UnitError unitError) {
-        TransportUnit tu = this.findBy(barcodeGenerator.convert(barcode));
+    public void addError(String transportUnitBK, UnitError unitError) {
+        TransportUnit tu = this.findBy(barcodeGenerator.convert(transportUnitBK));
         tu.addError(unitError);
     }
 
