@@ -79,7 +79,7 @@ class TransportUnitServiceImplIT {
     void create_primitive_with_null() {
         assertThatThrownBy(
                 () -> testee.create(null, TestData.TUT_TYPE_PALLET, TestData.LOCATION_ID_EXT, false))
-                .isInstanceOf(ServiceLayerException.class).hasMessageContaining("barcode");
+                .isInstanceOf(ServiceLayerException.class).hasMessageContaining("transportUnitBK");
         assertThatThrownBy(
                 () -> testee.create("0815", null, TestData.LOCATION_ID_EXT, false))
                 .isInstanceOf(ServiceLayerException.class).hasMessageContaining("transportUnitType");
@@ -119,7 +119,7 @@ class TransportUnitServiceImplIT {
         LocationPK location = LocationPK.fromString(TestData.LOCATION_ID_EXT);
         assertThatThrownBy(
                 () -> testee.create(null, transportUnitType, location, false))
-                .isInstanceOf(ServiceLayerException.class).hasMessageContaining("barcode");
+                .isInstanceOf(ServiceLayerException.class).hasMessageContaining("transportUnitBK");
         assertThatThrownBy(
                 () -> testee.create("0815", null, location, false))
                 .isInstanceOf(ServiceLayerException.class).hasMessageContaining("transportUnitType");
@@ -186,7 +186,7 @@ class TransportUnitServiceImplIT {
     void findByBarcode_null() {
         assertThatThrownBy(
                 () -> testee.findByBarcode(null))
-                .isInstanceOf(ServiceLayerException.class).hasMessageContaining("null");
+                .isInstanceOf(ServiceLayerException.class).hasMessageContaining("transportUnitBK: must not be empty");
     }
 
     @Test
