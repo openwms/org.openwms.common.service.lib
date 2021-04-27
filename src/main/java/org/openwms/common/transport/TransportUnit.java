@@ -36,6 +36,7 @@ import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -69,7 +70,7 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 @AuditOverride(forClass = ApplicationEntity.class)
 @AuditOverride(forClass = BaseEntity.class)
 @Entity
-@Table(name = "COM_TRANSPORT_UNIT", uniqueConstraints = @UniqueConstraint(columnNames = {"C_BARCODE"}))
+@Table(name = "COM_TRANSPORT_UNIT", uniqueConstraints = @UniqueConstraint(name = "COM_TRANSPORT_UNIT_BARCODE", columnNames = {"C_BARCODE"}))
 public class TransportUnit extends ApplicationEntity implements Serializable {
 
     /** Unique natural key. */
@@ -100,22 +101,22 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
 
     /** The current {@link Location} of the {@code TransportUnit}. */
     @ManyToOne
-    @JoinColumn(name = "C_ACTUAL_LOCATION", nullable = false)
+    @JoinColumn(name = "C_ACTUAL_LOCATION", nullable = false, foreignKey = @ForeignKey(name = "COM_TU_FK_LOC_ACTUAL"))
     private Location actualLocation;
 
     /** The target {@link Location} of the {@code TransportUnit}. This property will be set when a {@code TransportOrder} is started. */
     @ManyToOne
-    @JoinColumn(name = "C_TARGET_LOCATION")
+    @JoinColumn(name = "C_TARGET_LOCATION", foreignKey = @ForeignKey(name = "COM_TU_FK_LOC_TARGET"))
     private Location targetLocation;
 
     /** The {@link TransportUnitType} of the {@code TransportUnit}. */
     @ManyToOne
-    @JoinColumn(name = "C_TRANSPORT_UNIT_TYPE", nullable = false)
+    @JoinColumn(name = "C_TRANSPORT_UNIT_TYPE", nullable = false, foreignKey = @ForeignKey(name = "COM_TU_FK_TUT"))
     private TransportUnitType transportUnitType;
 
     /** Owning {@code TransportUnit}. */
     @ManyToOne
-    @JoinColumn(name = "C_PARENT")
+    @JoinColumn(name = "C_PARENT", foreignKey = @ForeignKey(name = "COM_TU_FK_TU_PARENT"))
     private TransportUnit parent;
 
     /** The {@code User} who performed the last inventory action on the {@code TransportUnit}. */

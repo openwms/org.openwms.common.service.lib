@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+                 version="2.2">
+
+    <!-- Transport Package -->
+    <entity class="org.openwms.common.transport.TransportUnit" name="TransportUnit" access="FIELD">
+        <sequence-generator name="generator" sequence-name="com_transport_unit_seq" allocation-size="1" />
+    </entity>
+    <entity class="org.openwms.common.transport.TransportUnitType" name="TransportUnitType" access="FIELD">
+        <sequence-generator name="generator" sequence-name="com_transport_unit_type_seq" allocation-size="1" />
+    </entity>
+    <entity class="org.openwms.common.transport.TypePlacingRule" name="TypePlacingRule" access="FIELD">
+        <sequence-generator name="generator" sequence-name="com_type_placing_rule_seq" allocation-size="1" />
+    </entity>
+    <entity class="org.openwms.common.transport.TypeStackingRule" name="TypeStackingRule" access="FIELD">
+        <sequence-generator name="generator" sequence-name="com_type_stacking_rule_seq" allocation-size="1" />
+    </entity>
+
+    <!-- Location Package -->
+    <entity class="org.openwms.common.location.Location" name="Location" access="FIELD">
+        <sequence-generator name="generator" sequence-name="com_location_seq" allocation-size="1" />
+    </entity>
+    <entity class="org.openwms.common.location.LocationType" name="LocationTyoe" access="FIELD">
+        <sequence-generator name="generator" sequence-name="com_location_type_seq" allocation-size="1" />
+    </entity>
+    <entity class="org.openwms.common.location.Message" name="Message" access="FIELD">
+        <sequence-generator name="generator" sequence-name="cor_message_seq" allocation-size="1" />
+    </entity>
+    <entity class="org.openwms.common.location.LocationGroup" name="LocationGroup" access="FIELD">
+        <sequence-generator name="generator" sequence-name="com_location_group_seq" allocation-size="1" />
+    </entity>
+</entity-mappings>
