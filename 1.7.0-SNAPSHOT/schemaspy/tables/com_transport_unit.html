@@ -92,9 +92,9 @@
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
    <tr class='relative even' valign='top'>
-    <td class='relatedTable detail' title="com_transport_unit.c_parent refs com_transport_unit.c_pk via fkqbl1ehxt7xqdil5ueu158dbt6"><a href='com_transport_unit.html'>com_transport_unit</a><span class='relatedKey'>.c_parent</span>
+    <td class='relatedTable detail' title="com_transport_unit.c_parent refs com_transport_unit.c_pk via com_tu_fk_tu_parent"><a href='com_transport_unit.html'>com_transport_unit</a><span class='relatedKey'>.c_parent</span>
     </td>
-    <td class='constraint detail'>fkqbl1ehxt7xqdil5ueu158dbt6<span title='Restrict delete:
+    <td class='constraint detail'>com_tu_fk_tu_parent<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
    <tr class='relative even' valign='top'>
@@ -251,9 +251,9 @@
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
    <tr class='relative odd' valign='top'>
-    <td class='relatedTable detail' title="com_transport_unit.c_actual_location refs com_location.c_pk via fkdl2ge07mt6bp7ijaot1omtqrs"><a href='com_location.html'>com_location</a><span class='relatedKey'>.c_pk</span>
+    <td class='relatedTable detail' title="com_transport_unit.c_actual_location refs com_location.c_pk via com_tu_fk_loc_actual"><a href='com_location.html'>com_location</a><span class='relatedKey'>.c_pk</span>
     </td>
-    <td class='constraint detail'>fkdl2ge07mt6bp7ijaot1omtqrs<span title='Restrict delete:
+    <td class='constraint detail'>com_tu_fk_loc_actual<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
   </table>
@@ -271,9 +271,9 @@
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
    <tr class='relative even' valign='top'>
-    <td class='relatedTable detail' title="com_transport_unit.c_parent refs com_transport_unit.c_pk via fkqbl1ehxt7xqdil5ueu158dbt6"><a href='com_transport_unit.html'>com_transport_unit</a><span class='relatedKey'>.c_pk</span>
+    <td class='relatedTable detail' title="com_transport_unit.c_parent refs com_transport_unit.c_pk via com_tu_fk_tu_parent"><a href='com_transport_unit.html'>com_transport_unit</a><span class='relatedKey'>.c_pk</span>
     </td>
-    <td class='constraint detail'>fkqbl1ehxt7xqdil5ueu158dbt6<span title='Restrict delete:
+    <td class='constraint detail'>com_tu_fk_tu_parent<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
   </table>
@@ -291,9 +291,9 @@
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
    <tr class='relative odd' valign='top'>
-    <td class='relatedTable detail' title="com_transport_unit.c_target_location refs com_location.c_pk via fkqjpw6i7sq7aq2yrkkcybab8jy"><a href='com_location.html'>com_location</a><span class='relatedKey'>.c_pk</span>
+    <td class='relatedTable detail' title="com_transport_unit.c_target_location refs com_location.c_pk via com_tu_fk_loc_target"><a href='com_location.html'>com_location</a><span class='relatedKey'>.c_pk</span>
     </td>
-    <td class='constraint detail'>fkqjpw6i7sq7aq2yrkkcybab8jy<span title='Restrict delete:
+    <td class='constraint detail'>com_tu_fk_loc_target<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
   </table>
@@ -311,9 +311,9 @@
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
    <tr class='relative even' valign='top'>
-    <td class='relatedTable detail' title="com_transport_unit.c_transport_unit_type refs com_transport_unit_type.c_pk via fkt63fgfc9ycwpboaqn076xclb1"><a href='com_transport_unit_type.html'>com_transport_unit_type</a><span class='relatedKey'>.c_pk</span>
+    <td class='relatedTable detail' title="com_transport_unit.c_transport_unit_type refs com_transport_unit_type.c_pk via com_tu_fk_tut"><a href='com_transport_unit_type.html'>com_transport_unit_type</a><span class='relatedKey'>.c_pk</span>
     </td>
-    <td class='constraint detail'>fkt63fgfc9ycwpboaqn076xclb1<span title='Restrict delete:
+    <td class='constraint detail'>com_tu_fk_tut<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
   </table>
@@ -321,7 +321,7 @@
  <td class='comment detail'></td>
 </tr>
 </table>
-<p title='17 columns'>Table contained 2 rows at Sun Apr 25 22:36 UTC 2021<p/>
+<p title='17 columns'>Table contained 2 rows at Tue Apr 27 22:18 UTC 2021<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -345,7 +345,7 @@
   <td class='indexedColumn'>c_barcode</td>
   <td class='detail'>Must be unique</td>
   <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
-  <td class='constraint' style='text-align:left;'>ukkhy15ek03pwg663i3k834hej2</td>
+  <td class='constraint' style='text-align:left;'>com_transport_unit_barcode</td>
  </tr>
 </table>
 </div>

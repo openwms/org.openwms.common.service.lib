@@ -53,6 +53,34 @@
 </thead>
 <tbody>
   <tr class='even'>
+  <td class='detail'>com_tu_fk_loc_actual</td>
+  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_actual_location</td>
+  <td class='detail'><a href='tables/com_location.html'>com_location</a>.c_pk</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='odd'>
+  <td class='detail'>com_tu_fk_loc_target</td>
+  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_target_location</td>
+  <td class='detail'><a href='tables/com_location.html'>com_location</a>.c_pk</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='even'>
+  <td class='detail'>com_tu_fk_tu_parent</td>
+  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_parent</td>
+  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_pk</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='odd'>
+  <td class='detail'>com_tu_fk_tut</td>
+  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_transport_unit_type</td>
+  <td class='detail'><a href='tables/com_transport_unit_type.html'>com_transport_unit_type</a>.c_pk</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='even'>
   <td class='detail'>fk6pn2579hr73ige890tnrtlids</td>
   <td class='detail'><a href='tables/com_type_stacking_rule.html'>com_type_stacking_rule</a>.c_transport_unit_type</td>
   <td class='detail'><a href='tables/com_transport_unit_type.html'>com_transport_unit_type</a>.c_pk</td>
@@ -144,44 +172,16 @@
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='odd'>
-  <td class='detail'>fkdl2ge07mt6bp7ijaot1omtqrs</td>
-  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_actual_location</td>
-  <td class='detail'><a href='tables/com_location.html'>com_location</a>.c_pk</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='even'>
   <td class='detail'>fkexme0g9srxcxt8m3jv2101k1d</td>
   <td class='detail'><a href='tables/com_type_placing_rule.html'>com_type_placing_rule</a>.c_tut_id</td>
   <td class='detail'><a href='tables/com_transport_unit_type.html'>com_transport_unit_type</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
-  <tr class='odd'>
+  <tr class='even'>
   <td class='detail'>fkpa9ruvoy3id2cjat3hjkt6i7d</td>
   <td class='detail'><a href='tables/com_location_message.html'>com_location_message</a>.c_message_id</td>
   <td class='detail'><a href='tables/cor_message.html'>cor_message</a>.c_pk</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='even'>
-  <td class='detail'>fkqbl1ehxt7xqdil5ueu158dbt6</td>
-  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_parent</td>
-  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_pk</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='odd'>
-  <td class='detail'>fkqjpw6i7sq7aq2yrkkcybab8jy</td>
-  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_target_location</td>
-  <td class='detail'><a href='tables/com_location.html'>com_location</a>.c_pk</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='even'>
-  <td class='detail'>fkt63fgfc9ycwpboaqn076xclb1</td>
-  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_transport_unit_type</td>
-  <td class='detail'><a href='tables/com_transport_unit_type.html'>com_transport_unit_type</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
