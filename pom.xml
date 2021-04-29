@@ -15,7 +15,7 @@
     <url>https://openwms.github.io/${project.artifactId}/index.html</url>
 
     <issueManagement>
-        <system>github</system>
+        <system>GitHub</system>
         <url>https://github.com/openwms/${project.artifactId}/issues</url>
     </issueManagement>
 
@@ -51,8 +51,8 @@
     </developers>
 
     <ciManagement>
-        <system>travis</system>
-        <url>https://travis-ci.com/openwms/${project.artifactId}</url>
+        <system>GitHub</system>
+        <url>https://github.com/openwms/${project.artifactId}/actions</url>
         <notifiers>
             <notifier>
                 <type>mail</type>
