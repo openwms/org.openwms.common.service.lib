@@ -22,23 +22,31 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * A TransportUnitType is a Message Object representing a {@code TransportUnitType}.
+ * A TransportUnitType is a Message Object that represents a {@code TransportUnitType}.
  *
  * @author Heiko Scherrer
  */
 public class TransportUnitTypeMO implements Serializable {
 
+    /** The unique type. */
     @NotNull(groups = {
             ValidationGroups.TransportUnit.Create.class,
             ValidationGroups.TransportUnit.Modified.class
     })
     private String type;
+    /** The defined length. */
     private int length;
+    /** The defined width. */
     private int width;
+    /** The defined height. */
     private int height;
+    /** The defined tare weight. */
     private BigDecimal weightTare;
+    /** The defined maximum weight. */
     private BigDecimal weightMax;
+    /** The defined effective weight. */
     private BigDecimal payload;
+    /** Some arbitrary compatibility information. */
     private String compatibility;
 
     /**

@@ -224,6 +224,10 @@
 		<class-a>org.openwms.common.location.Location</class-a>
 		<class-b>org.openwms.common.location.api.messages.LocationMO</class-b>
 		<field>
+			<a is-accessible="true">pKey</a>
+			<b is-accessible="true">pKey</b>
+		</field>
+		<field>
 			<a is-accessible="true">locationId</a>
 			<b is-accessible="true">id</b>
 		</field>

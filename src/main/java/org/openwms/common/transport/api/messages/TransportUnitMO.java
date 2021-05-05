@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.StringJoiner;
 
 /**
- * A TransportUnitMO is a Message Object representing a {@code TransportUnit}.
+ * A TransportUnitMO is a Message Object (MO) that represents a {@code TransportUnit}.
  *
  * @author Heiko Scherrer
  */
@@ -54,7 +54,9 @@ public class TransportUnitMO implements Serializable {
     /** The plcCode of the TransportUnit. */
     private String plcCode;
     /** The targetLocation of the TransportUnit. */
-    @NotEmpty(groups = ValidationGroups.TransportUnit.ChangeTarget.class)
+    @NotEmpty(groups = {
+            ValidationGroups.TransportUnit.ChangeTarget.class
+    })
     private String targetLocation;
     /** The transportUnitType of the TransportUnit. */
     @Valid

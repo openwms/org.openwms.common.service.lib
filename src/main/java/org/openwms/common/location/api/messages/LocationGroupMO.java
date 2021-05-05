@@ -20,18 +20,27 @@ import org.openwms.common.location.api.LocationGroupMode;
 import java.io.Serializable;
 
 /**
- * A LocationGroupMO.
+ * A LocationGroupMO is a Message Object (MO) uses as DTO between services that represents a {@code LocationGroup}.
  *
  * @author Heiko Scherrer
  */
 public class LocationGroupMO implements Serializable {
 
+    private static final long serialVersionUID = -1321439795390598796L;
+
+    /** The business key of the LocationGroup. */
     private String name;
+    /** The accountId the Location belongs to. */
     private String accountId;
+    /** The business key of the parent LocationGroup .*/
     private String parent;
+    /** The current operation mode the LocationGroup is set to. */
     private String operationMode;
+    /** If the LocationGroup is available for inbound operations. */
     private boolean incomingActive;
+    /** If the LocationGroup is available for outbound operations. */
     private boolean outgoingActive;
+
     /*~ ------------------ methods ----------------------*/
     public boolean inInfeedMode() {
         return LocationGroupMode.INFEED.equals(this.operationMode) ||

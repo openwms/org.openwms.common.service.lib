@@ -18,18 +18,36 @@ package org.openwms.common.location.api.messages;
 import java.io.Serializable;
 
 /**
- * A LocationMO.
+ * A LocationMO is a Message Object (MO) uses as DTO between services that represents a {@code Location}.
  *
  * @author Heiko Scherrer
  */
 public class LocationMO implements Serializable {
 
+    private static final long serialVersionUID = 5322330486887781251L;
+
+    /** The persistent key of the Location. */
+    private String pKey;
+    /** The business key of the Location. */
     private String id;
+    /** The accountId the Location belongs to. */
     private String accountId;
+    /** The business key of the parent Location .*/
     private String parent;
+    /** If the Location is available for inbound operations. */
     private boolean incomingActive;
+    /** If the Location is available for outbound operations. */
     private boolean outgoingActive;
+    /** The PLC state - '0' means not locked for any operation. */
     private int plcState;
+
+    public String getpKey() {
+        return pKey;
+    }
+
+    public void setpKey(String pKey) {
+        this.pKey = pKey;
+    }
 
     public String getId() {
         return id;

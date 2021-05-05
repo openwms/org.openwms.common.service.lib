@@ -89,9 +89,7 @@ class TransportUnitCommandHandler {
                 validate(validator, command, ValidationGroups.TransportUnit.Request.class);
                 TransportUnit tu = service.findByPKey(command.getTransportUnit().getpKey());
                 TransportUnitMO mo = mapper.map(tu, TransportUnitMO.class);
-                ctx.publishEvent(
-                        TUCommand.newBuilder(UPDATE_CACHE).withTransportUnit(mo).build()
-                );
+                ctx.publishEvent(TUCommand.newBuilder(UPDATE_CACHE).withTransportUnit(mo).build());
                 break;
             case CREATE:
                 if (LOGGER.isDebugEnabled()) {

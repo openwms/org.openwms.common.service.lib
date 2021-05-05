@@ -96,7 +96,7 @@ management:
         enabled: true
   info:
     git:
-      mode: full
+      mode: simple
 
 logging:
   file:
