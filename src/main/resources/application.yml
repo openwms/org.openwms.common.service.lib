@@ -11,7 +11,7 @@ owms:
   common:
     dead-letter:
       exchange-name: dle.common
-      queue-name: common-dle-queue
+      queue-name: common-dl-queue
   commands:
     common:
       tu:
