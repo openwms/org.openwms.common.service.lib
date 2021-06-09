@@ -152,16 +152,6 @@ spring:
 
 ---
 spring:
-  profiles: DEV
-  data:
-    jpa:
-      repositories:
-        bootstrap-mode: lazy
-  main:
-    lazy-initialization: true
-
----
-spring:
   profiles: DISTRIBUTED
   cloud:
     config:

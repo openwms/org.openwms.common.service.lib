@@ -27,6 +27,7 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
@@ -99,8 +100,8 @@ class CommonOptAsyncConfiguration {
     @RefreshScope
     @Bean
     Binding commandsBinding(
-            TopicExchange commonTuCommandsExchange,
-            Queue commandsQueue,
+            @Qualifier("commonTuCommandsExchange") TopicExchange commonTuCommandsExchange,
+            @Qualifier("commandsQueue") Queue commandsQueue,
             @Value("${owms.commands.common.tu.routing-key}") String routingKey
     ) {
         return BindingBuilder
