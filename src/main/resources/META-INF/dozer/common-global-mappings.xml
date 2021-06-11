@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozermapper.github.io/schema/bean-mapping"
+		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		  xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping https://dozermapper.github.io/schema/bean-mapping.xsd">
+
+	<configuration>
+		<stop-on-errors>true</stop-on-errors>
+		<date-format>MM/dd/yyyy HH:mm</date-format>
+		<wildcard>true</wildcard>
+		<custom-converters>
+			<converter type="org.ameba.mapping.LocalDateTimeConverter">
+				<class-a>java.time.LocalDateTime</class-a>
+				<class-b>java.time.LocalDateTime</class-b>
+			</converter>
+			<converter type="org.ameba.mapping.ZonedDateTimeConverter">
+				<class-a>java.time.ZonedDateTime</class-a>
+				<class-b>java.time.ZonedDateTime</class-b>
+			</converter>
+			<converter type="org.openwms.common.location.impl.LocationConverter">
+				<class-a>java.lang.String</class-a>
+				<class-b>org.openwms.common.location.Location</class-b>
+			</converter>
+			<converter type="org.openwms.common.location.impl.LocationGroupStateConverter">
+				<class-a>java.lang.Boolean</class-a>
+				<class-b>org.openwms.common.location.api.LocationGroupState</class-b>
+			</converter>
+			<converter type="org.openwms.common.location.impl.LocationPKConverter">
+				<class-a>java.lang.String</class-a>
+				<class-b>org.openwms.common.location.LocationPK</class-b>
+			</converter>
+			<converter type="org.openwms.common.transport.impl.TransportUnitTypeConverter">
+				<class-a>java.lang.String</class-a>
+				<class-b>org.openwms.common.transport.TransportUnitType</class-b>
+			</converter>
+			<converter type="org.openwms.common.account.impl.AccountConverter">
+				<class-a>java.lang.String</class-a>
+				<class-b>org.openwms.common.account.Account</class-b>
+			</converter>
+        </custom-converters>
+	</configuration>
+
+</mappings>

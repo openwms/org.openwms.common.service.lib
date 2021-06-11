@@ -28,6 +28,7 @@ import org.openwms.core.http.AbstractWebController;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,6 +69,7 @@ public class LocationGroupController extends AbstractWebController {
         this.groupStateOut = groupStateOut;
     }
 
+    @Transactional(readOnly = true)
     @GetMapping(value = API_LOCATION_GROUPS, params = {"name"})
     public LocationGroupVO findByName(
             @RequestParam("name") String name
@@ -81,6 +83,7 @@ public class LocationGroupController extends AbstractWebController {
         return result;
     }
 
+    @Transactional(readOnly = true)
     @GetMapping(value = API_LOCATION_GROUPS, params = {"names"})
     public List<LocationGroupVO> findByNames(
             @RequestParam("names") List<String> names
@@ -95,6 +98,7 @@ public class LocationGroupController extends AbstractWebController {
         return vos;
     }
 
+    @Transactional(readOnly = true)
     @GetMapping(API_LOCATION_GROUPS)
     public List<LocationGroupVO> findAll() {
         List<LocationGroup> all = locationGroupService.findAll();

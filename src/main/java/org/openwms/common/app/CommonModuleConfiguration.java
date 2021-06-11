@@ -101,7 +101,10 @@ public class CommonModuleConfiguration {
 
     public @Bean
     BeanMapper beanMapper() {
-        return new DozerMapperImpl("META-INF/dozer/common-bean-mappings.xml");
+        return new DozerMapperImpl(
+                "META-INF/dozer/common-global-mappings.xml",
+                "META-INF/dozer/common-bean-mappings.xml"
+        );
     }
 
     /*~ ------------- Request ID handling ----------- */

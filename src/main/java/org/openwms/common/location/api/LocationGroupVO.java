@@ -23,7 +23,10 @@ import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * A LocationGroupVO represents a {@code LocationGroup}.
@@ -49,9 +52,15 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
     private LocationGroupState groupStateIn;
     @JsonProperty("groupStateOut")
     private LocationGroupState groupStateOut;
+    @JsonProperty("childLocationGroups")
+    private List<LocationGroupVO> children;
 
     /*~ ------------------ constructors ----------------------*/
     protected LocationGroupVO() {
+    }
+
+    public LocationGroupVO(String name) {
+        this.name = name;
     }
 
     public LocationGroupVO(String name, LocationGroupState groupStateIn, LocationGroupState groupStateOut) {
@@ -61,6 +70,13 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
     }
 
     /*~ ------------------ methods ----------------------*/
+
+    public Stream<LocationGroupVO> streamLocationGroups() {
+        return Stream.concat(
+                Stream.of(this),
+                children == null ? Stream.empty() : children.stream().flatMap(LocationGroupVO::streamLocationGroups));
+    }
+
     /**
      * Check whether the LocationGroup has a parent.
      *
@@ -157,6 +173,25 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
 
     public void setParent(String parent) {
         this.parent = parent;
+    }
+
+    public List<LocationGroupVO> getChildren() {
+        return children;
+    }
+
+    public LocationGroupVO addChild(LocationGroupVO child) {
+        if (child == null) {
+            throw new IllegalArgumentException("Child to add must not be null");
+        }
+        if (children == null) {
+            children = new ArrayList<>();
+        }
+        children.add(child);
+        return this;
+    }
+
+    public void setChildren(List<LocationGroupVO> children) {
+        this.children = children;
     }
 
     /*~ ------------------ overrides ----------------------*/
