@@ -164,4 +164,15 @@ public interface TransportUnitService {
      * @param errorCode The errorCode bitmap
      */
     void addError(String transportUnitBK, UnitError errorCode);
+
+    List<TransportUnit> findAll();
+
+    /**
+     * Change the state of a {@link TransportUnit}.
+     *
+     * @param transportUnitBK The business identifier of the TransportUnit
+     * @param state The desired state
+     * @throws org.openwms.common.StateChangeException if change is not allowed
+     */
+    void setState(String transportUnitBK, TransportUnitState state);
 }

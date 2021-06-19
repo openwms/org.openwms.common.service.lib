@@ -28,6 +28,7 @@ import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
+import org.openwms.common.transport.TransportUnitState;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.UnitError;
 import org.openwms.common.transport.api.ValidationGroups;
@@ -40,6 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -350,6 +352,16 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
+    @Transactional(readOnly = true)
+    public List<TransportUnit> findAll() {
+        return repository.findAll(PageRequest.of(10, 200)).getContent();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
     public TransportUnit changeTarget(@NotNull Barcode barcode, @NotEmpty String targetLocation) {
         TransportUnit transportUnit = repository.findByBarcode(barcode)
                 .orElseThrow(() -> new NotFoundException(format("No TransportUnit with barcode [%s] found", barcode)));
@@ -364,5 +376,18 @@ class TransportUnitServiceImpl implements TransportUnitService {
                 .type(TransportUnitEvent.TransportUnitEventType.CHANGED).build()
         );
         return saved;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public void setState(String transportUnitBK, TransportUnitState state) {
+        TransportUnit transportUnit = repository.findByBarcode(barcodeGenerator.convert(transportUnitBK))
+                .orElseThrow(() -> new NotFoundException(format("No TransportUnit with barcode [%s] found", transportUnitBK)));
+        LOGGER.debug("Setting TransportUnit [{}] to state [{}]", transportUnitBK, state);
+        transportUnit.setState(state);
+        repository.save(transportUnit);
     }
 }

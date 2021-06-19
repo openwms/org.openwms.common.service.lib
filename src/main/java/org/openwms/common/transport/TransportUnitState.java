@@ -20,16 +20,17 @@ package org.openwms.common.transport;
  * 
  * @GlossaryTerm
  * @author <a href="mailto:russelltina@users.sourceforge.net">Tina Russell</a>
+ * @author Heiko Scherrer
  * @see TransportUnit
  */
 public enum TransportUnitState {
 
-    /** The {@code TransportUnit} is available. */
+    /** The {@code TransportUnit} is available for operations. */
     AVAILABLE,
 
-    /** The {@code TransportUnit} is okay. */
-    OK,
+    /** The {@code TransportUnit} is planned for QC processing. */
+    QUALITY_CHECK,
 
-    /** The {@code TransportUnit} is not okay. */
-    NOT_OK
+    /** The {@code TransportUnit} is blocked for operations without any particular reason. */
+    BLOCKED
 }

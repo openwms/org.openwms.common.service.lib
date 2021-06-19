@@ -140,4 +140,28 @@ public interface TransportUnitApi {
             @RequestParam("bk") String transportUnitBK,
             @RequestParam(value = "errorCode") String errorCode
     );
+
+    /**
+     * Set the state of a {@code TransportUnit} to BLOCKED.
+     *
+     * @param transportUnitBK The unique (physical) identifier
+     */
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNIT + "/block", params = {"bk"})
+    void blockTransportUnit(@RequestParam("bk") String transportUnitBK);
+
+    /**
+     * Set the state of a {@code TransportUnit} to AVAILABLE.
+     *
+     * @param transportUnitBK The unique (physical) identifier
+     */
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNIT + "/available", params = {"bk"})
+    void unblockTransportUnit(@RequestParam("bk") String transportUnitBK);
+
+    /**
+     * Set the state of a {@code TransportUnit} to QUALITY_CHECK.
+     *
+     * @param transportUnitBK The unique (physical) identifier
+     */
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNIT + "/quality-check", params = {"bk"})
+    void qcTransportUnit(@RequestParam("bk") String transportUnitBK);
 }
