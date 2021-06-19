@@ -37,13 +37,22 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
     /** Default separator sign of a {@code StringList}. */
     public static final String SEPARATOR = ",";
 
+    /**
+     * Return the maximum possible list length, default is {@value}.
+     *
+     * @return The maximum list length
+     */
+    protected int getListLength() {
+        return STRING_LIST_LENGTH;
+    }
+
     @Override
     public String convertToDatabaseColumn(List<String> attribute) {
         if (attribute == null) {
             return null;
         }
         String join = String.join(SEPARATOR, attribute);
-        if (join.length() > STRING_LIST_LENGTH) {
+        if (join.length() > getListLength()) {
             throw new PersistenceException(format("Length of column is exceeded, actual length is [%s]", join.length()));
         }
         return join;

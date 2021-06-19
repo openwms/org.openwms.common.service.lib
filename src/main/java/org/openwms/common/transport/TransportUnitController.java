@@ -21,13 +21,18 @@ import org.ameba.http.MeasuredRestController;
 import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.SimpleLink;
+import org.openwms.common.StateChangeException;
 import org.openwms.common.location.LocationController;
+import org.openwms.common.transport.api.TransportApiConstants;
 import org.openwms.common.transport.api.TransportUnitVO;
 import org.openwms.common.transport.api.ValidationGroups;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -91,6 +96,13 @@ public class TransportUnitController extends AbstractWebController {
         TransportUnitVO result = mapper.map(transportUnit, TransportUnitVO.class);
         addLinks(result);
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping(value = API_TRANSPORT_UNITS, produces = "application/vnd.openwms.transport-unit-v1+json")
+    public ResponseEntity<Page<TransportUnitVO>> findAll() {
+        List<TransportUnit> transportUnits = service.findAll();
+        List<TransportUnitVO> result = mapper.map(transportUnits, TransportUnitVO.class);
+        return ResponseEntity.ok(new PageImpl<>(result));
     }
 
     private void addLinks(TransportUnitVO result) {
@@ -239,4 +251,50 @@ public class TransportUnitController extends AbstractWebController {
                 )
         );
     }
+
+    /**
+     * Set the state of a {@code TransportUnit} to BLOCKED.
+     *
+     * @param transportUnitBK The unique (physical) identifier
+     */
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNIT + "/block", params = {"bk"})
+    public ResponseEntity<Void> blockTransportUnit(@RequestParam("bk") String transportUnitBK) {
+        try {
+            service.setState(transportUnitBK, TransportUnitState.BLOCKED);
+            return ResponseEntity.ok().build();
+        } catch (StateChangeException e) {
+            return ResponseEntity.status(HttpStatus.LOCKED).build();
+        }
+    }
+
+    /**
+     * Set the state of a {@code TransportUnit} to AVAILABLE.
+     *
+     * @param transportUnitBK The unique (physical) identifier
+     */
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNIT + "/available", params = {"bk"})
+    public ResponseEntity<Void> unblockTransportUnit(@RequestParam("bk") String transportUnitBK) {
+        try {
+            service.setState(transportUnitBK, TransportUnitState.BLOCKED);
+            return ResponseEntity.ok().build();
+        } catch (StateChangeException e) {
+            return ResponseEntity.status(HttpStatus.LOCKED).build();
+        }
+    }
+
+    /**
+     * Set the state of a {@code TransportUnit} to QUALITY_CHECK.
+     *
+     * @param transportUnitBK The unique (physical) identifier
+     */
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNIT + "/quality-check", params = {"bk"})
+    public ResponseEntity<Void> qcTransportUnit(@RequestParam("bk") String transportUnitBK) {
+        try {
+            service.setState(transportUnitBK, TransportUnitState.BLOCKED);
+            return ResponseEntity.ok().build();
+        } catch (StateChangeException e) {
+            return ResponseEntity.status(HttpStatus.LOCKED).build();
+        }
+    }
+
 }
