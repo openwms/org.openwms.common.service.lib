@@ -123,7 +123,12 @@ class CommonOptAsyncConfiguration {
     }
 
     @Bean
-    Binding dlBinding(DirectExchange dlExchange, Queue dlQueue) {
-        return BindingBuilder.bind(dlQueue).to(dlExchange).with("poison-message");
+    Binding dlBinding(
+            @Value("${owms.common.dead-letter.exchange-name}") String exchangeName,
+            @Value("${owms.common.dead-letter.queue-name}") String queueName) {
+        return BindingBuilder
+                .bind(dlQueue(queueName))
+                .to(dlExchange(exchangeName))
+                .with("poison-message");
     }
 }
