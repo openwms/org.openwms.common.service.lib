@@ -74,6 +74,18 @@ public interface LocationApi {
     );
 
     /**
+     * Find and return a {@code Location} representation by the given {@code erpCode}.
+     *
+     * @param erpCode The ERP code
+     * @return Never {@literal null}
+     */
+    @GetMapping(value = API_LOCATIONS, params = {"erpCode"})
+    @Cacheable("locations")
+    Optional<LocationVO> findLocationByErpCode(
+            @RequestParam("erpCode") String erpCode
+    );
+
+    /**
      * Find and return all {@code Location}s that belong to one or more {@code LocationGroup}s identified by their {@code locationGroupNames}.
      *
      * @param locationGroupNames A list of LocationGroup names
