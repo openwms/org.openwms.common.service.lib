@@ -168,7 +168,7 @@ public class TransportUnitController extends AbstractWebController {
     }
 
     @PostMapping(value = API_TRANSPORT_UNITS, params = {"actualLocation", "tut"})
-    public ResponseEntity<Void> createTU(
+    public ResponseEntity<TransportUnitVO> createTU(
             @RequestParam(value = "bk", required = false) String transportUnitBK,
             @RequestParam("actualLocation") String actualLocation,
             @RequestParam("tut") String tut,
@@ -192,7 +192,10 @@ public class TransportUnitController extends AbstractWebController {
         TransportUnit created = transportUnitBK == null
                 ? service.createNew(tut, actualLocation)
                 : service.create(transportUnitBK, tut, actualLocation, strict);
-        return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();
+        return ResponseEntity
+                .created(getLocationURIForCreatedResource(req, created.getPersistentKey()))
+                .body(mapper.map(created, TransportUnitVO.class))
+                ;
     }
 
     /*

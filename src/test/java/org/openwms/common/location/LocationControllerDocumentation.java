@@ -74,10 +74,12 @@ class LocationControllerDocumentation {
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$._links.location-findbycoordinate").exists())
+                .andExpect(jsonPath("$._links.location-findbyerpcode").exists())
                 .andExpect(jsonPath("$._links.location-findbyplccode").exists())
                 .andExpect(jsonPath("$._links.location-forlocationgroup").exists())
                 .andExpect(jsonPath("$._links.location-changestate").exists())
-                .andExpect(jsonPath("$._links.length()", is(4)))
+                .andExpect(jsonPath("$._links.location-fortuple").exists())
+                .andExpect(jsonPath("$._links.length()", is(6)))
                 .andDo(document("loc-index", preprocessResponse(prettyPrint())))
         ;
     }

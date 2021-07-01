@@ -41,6 +41,9 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
     @NotNull(message = "{owms.common.common.tu.actualLocation}", groups = ValidationGroups.TransportUnit.Create.class)
     @JsonProperty("actualLocation")
     private LocationVO actualLocation;
+    /** The state of the TransportUnit. */
+    @JsonProperty("state")
+    private String state;
     @JsonProperty("target")
     private String target;
     @NotEmpty(message = "{owms.common.common.tu.transportUnitTypeName}", groups = {ValidationGroups.TransportUnit.Create.class, ValidationGroups.TransportUnit.WithTuT.class})
@@ -106,6 +109,14 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
 
     public void setActualLocation(LocationVO actualLocation) {
         this.actualLocation = actualLocation;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getTarget() {

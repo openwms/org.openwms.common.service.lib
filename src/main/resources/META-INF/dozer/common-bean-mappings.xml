@@ -42,6 +42,10 @@
 			<a is-accessible="true">actualLocationDate</a>
 			<b is-accessible="true">actualLocationDate</b>
 		</field>
+		<field>
+			<a is-accessible="true">state</a>
+			<b is-accessible="true">state</b>
+		</field>
 		<field type="one-way">
 			<a is-accessible="true">createDt</a>
 			<b is-accessible="true">createDate</b>
