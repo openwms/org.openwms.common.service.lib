@@ -35,6 +35,9 @@ import java.util.Objects;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Serializable {
 
+    /** The persistent key. */
+    @JsonProperty("pKey")
+    private String pKey;
     @NotEmpty(message = "{owms.common.common.tu.barcode}")
     @JsonProperty("barcode")
     private String barcode;
@@ -99,6 +102,14 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
     }
 
     /*~-------------------- accessors --------------------*/
+    public String getpKey() {
+        return pKey;
+    }
+
+    public void setpKey(String pKey) {
+        this.pKey = pKey;
+    }
+
     public String getBarcode() {
         return barcode;
     }

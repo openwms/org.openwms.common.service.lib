@@ -7,9 +7,13 @@
 		<class-a>org.openwms.common.transport.TransportUnit</class-a>
 		<class-b>org.openwms.common.transport.api.TransportUnitVO</class-b>
         <field>
-            <a is-accessible="true">barcode.value</a>
-            <b is-accessible="true">barcode</b>
+            <a is-accessible="true">pKey</a>
+            <b is-accessible="true">pKey</b>
         </field>
+		<field>
+			<a is-accessible="true">barcode.value</a>
+			<b is-accessible="true">barcode</b>
+		</field>
 		<field>
 			<a is-accessible="true">actualLocation</a>
 			<b is-accessible="true">actualLocation</b>
@@ -19,7 +23,7 @@
 			<b is-accessible="true">target</b>
 		</field>
 		<field>
-			<a is-accessible="true">transportUnitType</a>
+			<a is-accessible="true">transportUnitType.type</a>
 			<b is-accessible="true">transportUnitType</b>
 		</field>
 		<field type="one-way">
