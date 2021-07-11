@@ -3,7 +3,20 @@
 		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		  xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping https://dozermapper.github.io/schema/bean-mapping.xsd">
 
-    <mapping>
+	<mapping>
+		<class-a>org.openwms.core.units.api.Weight</class-a>
+		<class-b>org.openwms.core.units.api.Weight</class-b>
+		<field>
+			<a is-accessible="true">unitType</a>
+			<b is-accessible="true">unitType</b>
+		</field>
+		<field>
+			<a is-accessible="true">magnitude</a>
+			<b is-accessible="true">magnitude</b>
+		</field>
+	</mapping>
+
+	<mapping>
 		<class-a>org.openwms.common.transport.TransportUnit</class-a>
 		<class-b>org.openwms.common.transport.api.TransportUnitVO</class-b>
         <field>
@@ -20,7 +33,7 @@
 		</field>
 		<field>
 			<a is-accessible="true">targetLocation</a>
-			<b is-accessible="true">target</b>
+			<b is-accessible="true">targetLocation</b>
 		</field>
 		<field>
 			<a is-accessible="true">transportUnitType.type</a>
@@ -39,8 +52,8 @@
 			<b is-accessible="true">height</b>
 		</field>
 		<field>
-			<a is-accessible="true">actualLocation.plcCode</a>
-			<b is-accessible="true">actualPlcCode</b>
+			<a is-accessible="true">weight</a>
+			<b is-accessible="true">weight</b>
 		</field>
 		<field>
 			<a is-accessible="true">actualLocationDate</a>

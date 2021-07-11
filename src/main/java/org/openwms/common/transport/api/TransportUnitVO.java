@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.ameba.http.AbstractBase;
 import org.openwms.common.location.api.LocationVO;
+import org.openwms.core.units.api.Weight;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -44,11 +45,11 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
     @NotNull(message = "{owms.common.common.tu.actualLocation}", groups = ValidationGroups.TransportUnit.Create.class)
     @JsonProperty("actualLocation")
     private LocationVO actualLocation;
+    @JsonProperty("toLocation")
+    private LocationVO targetLocation;
     /** The state of the TransportUnit. */
     @JsonProperty("state")
     private String state;
-    @JsonProperty("target")
-    private String target;
     @NotEmpty(message = "{owms.common.common.tu.transportUnitTypeName}", groups = {ValidationGroups.TransportUnit.Create.class, ValidationGroups.TransportUnit.WithTuT.class})
     @JsonProperty("transportUnitTypeName")
     private String transportUnitType;
@@ -58,8 +59,8 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
     private Integer width;
     @JsonProperty("height")
     private Integer height;
-    @JsonProperty("actualPlcCode")
-    private String actualPlcCode;
+    @JsonProperty("weight")
+    private Weight weight;
     @JsonProperty("actualLocationDate")
     private Date actualLocationDate;
     @JsonProperty("createDate")
@@ -83,12 +84,10 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
     private TransportUnitVO(Builder builder) {
         barcode = builder.barcode;
         actualLocation = builder.actualLocation;
-        target = builder.target;
         transportUnitType = builder.transportUnitType;
         length = builder.length;
         width = builder.width;
         height = builder.height;
-        actualPlcCode = builder.actualPlcCode;
         actualLocationDate = builder.actualLocationDate;
         createDate = builder.createDate;
     }
@@ -122,20 +121,16 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
         this.actualLocation = actualLocation;
     }
 
+    public LocationVO getTargetLocation() {
+        return targetLocation;
+    }
+
     public String getState() {
         return state;
     }
 
     public void setState(String state) {
         this.state = state;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
     }
 
     public String getTransportUnitType() {
@@ -170,12 +165,12 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
         this.height = height;
     }
 
-    public String getActualPlcCode() {
-        return actualPlcCode;
+    public Weight getWeight() {
+        return weight;
     }
 
-    public void setActualPlcCode(String actualPlcCode) {
-        this.actualPlcCode = actualPlcCode;
+    public void setWeight(Weight weight) {
+        this.weight = weight;
     }
 
     public Date getActualLocationDate() {
@@ -198,19 +193,17 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
         TransportUnitVO that = (TransportUnitVO) o;
         return Objects.equals(barcode, that.barcode) &&
                 Objects.equals(actualLocation, that.actualLocation) &&
-                Objects.equals(target, that.target) &&
                 Objects.equals(transportUnitType, that.transportUnitType) &&
                 Objects.equals(length, that.length) &&
                 Objects.equals(width, that.width) &&
                 Objects.equals(height, that.height) &&
-                Objects.equals(actualPlcCode, that.actualPlcCode) &&
                 Objects.equals(actualLocationDate, that.actualLocationDate) &&
                 Objects.equals(createDate, that.createDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), barcode, actualLocation, target, transportUnitType, length, width, height, actualPlcCode, actualLocationDate, createDate);
+        return Objects.hash(super.hashCode(), barcode, actualLocation, transportUnitType, length, width, height, actualLocationDate, createDate);
     }
 
     /*~-------------------- Builder --------------------*/
@@ -222,7 +215,6 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
         private Integer length;
         private Integer width;
         private Integer height;
-        private String actualPlcCode;
         private Date actualLocationDate;
         private Date createDate;
 
@@ -261,11 +253,6 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
 
         public Builder height(Integer val) {
             height = val;
-            return this;
-        }
-
-        public Builder actualPlcCode(String val) {
-            actualPlcCode = val;
             return this;
         }
 
