@@ -487,12 +487,15 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 504
+Content-Length: 734
 
 {
   "_links" : {
     "location-findbycoordinate" : {
       "href" : "http://localhost:8080/v1/locations?locationPK=AREA/AISLE/X/Y/Z"
+    },
+    "location-findbyerpcode" : {
+      "href" : "http://localhost:8080/v1/locations?erpCode=ERP_CODE"
     },
     "location-findbyplccode" : {
       "href" : "http://localhost:8080/v1/locations?plcCode=PLC_CODE"
@@ -502,6 +505,9 @@ Content-Length: 504
     },
     "location-changestate" : {
       "href" : "http://localhost:8080/v1/location/pKey?op=change-state"
+    },
+    "location-fortuple" : {
+      "href" : "http://localhost:8080/v1/locations?area=area&amp;aisle=aisle&amp;x=x&amp;y=y&amp;z=z"
     }
   }
 }</code></pre>
@@ -953,7 +959,7 @@ Host: localhost:8080
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-06-24 20:28:57 UTC
+Last updated 2021-07-12 18:24:11 UTC
 </div>
 </div>
 </body>

@@ -541,7 +541,38 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/1a74e380-69d6-497e-9139-41c11692ca3b/</code></pre>
+Location: http://localhost:8080/v1/transport-units/a43a678e-f850-452a-82eb-45e4c7bd4126/
+Content-Type: application/hal+json
+Content-Length: 768
+
+{
+  "pKey" : "a43a678e-f850-452a-82eb-45e4c7bd4126",
+  "barcode" : "00000000000000004710",
+  "actualLocation" : {
+    "pKey" : "113646454019",
+    "locationId" : "EXT_/0000/0000/0000/0000",
+    "type" : "FG",
+    "accountId" : "D",
+    "locationGroupName" : "ZILE",
+    "erpCode" : "ERP_0030",
+    "plcCode" : "PLC_0030",
+    "incomingActive" : true,
+    "outgoingActive" : true,
+    "plcState" : 0
+  },
+  "state" : "AVAILABLE",
+  "transportUnitTypeName" : "PALLET",
+  "length" : 120,
+  "width" : 80,
+  "height" : 102,
+  "weight" : {
+    "@class" : "org.openwms.core.units.api.Weight",
+    "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
+    "magnitude" : 0
+  },
+  "actualLocationDate" : "2021-07-12T18:29:58Z",
+  "createDate" : "2021-07-12T18:29:58Z"
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -593,7 +624,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/4d33b77c-23b2-4fef-8a1b-78ff492a73dc/</code></pre>
+Location: http://localhost:8080/v1/transport-units/3763f93a-a94c-42ff-81d6-d2da4181535c/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -667,9 +698,10 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 573
+Content-Length: 582
 
 {
+  "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
     "pKey" : "896384899357",
@@ -683,13 +715,13 @@ Content-Length: 573
     "outgoingActive" : true,
     "plcState" : 0
   },
+  "state" : "AVAILABLE",
   "transportUnitTypeName" : "PALLET",
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualPlcCode" : "PLC_0013",
-  "actualLocationDate" : "2021-06-24T20:34:58Z",
-  "createDate" : "2021-06-24T20:34:58Z"
+  "actualLocationDate" : "2021-07-12T18:29:58Z",
+  "createDate" : "2021-07-12T18:29:58Z"
 }</code></pre>
 </div>
 </div>
@@ -746,9 +778,10 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 573
+Content-Length: 557
 
 {
+  "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
     "pKey" : "896384899357",
@@ -766,9 +799,8 @@ Content-Length: 573
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualPlcCode" : "PLC_0013",
-  "actualLocationDate" : "2021-06-24T20:34:57Z",
-  "createDate" : "2021-06-24T20:34:57Z"
+  "actualLocationDate" : "2021-07-12T18:29:58Z",
+  "createDate" : "2021-07-12T18:29:58Z"
 }</code></pre>
 </div>
 </div>
@@ -825,7 +857,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 839
+Content-Length: 848
 
 {
   "links" : [ {
@@ -835,6 +867,7 @@ Content-Length: 839
     "rel" : "actual-location",
     "href" : "http://localhost:8080/v1/locations?locationPK=EXT_/0000/0000/0000/0000"
   } ],
+  "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
     "links" : [ ],
@@ -849,13 +882,13 @@ Content-Length: 839
     "outgoingActive" : true,
     "plcState" : 0
   },
+  "state" : "AVAILABLE",
   "transportUnitTypeName" : "PALLET",
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2021-06-24T20:34:58Z",
-  "createDate" : "2021-06-24T20:34:58Z"
+  "actualLocationDate" : "2021-07-12T18:29:58Z",
+  "createDate" : "2021-07-12T18:29:58Z"
 }</code></pre>
 </div>
 </div>
@@ -887,7 +920,7 @@ style, like it is left or right aligned and padded.</p>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 839
+Content-Length: 848
 
 {
   "links" : [ {
@@ -897,6 +930,7 @@ Content-Length: 839
     "rel" : "actual-location",
     "href" : "http://localhost:8080/v1/locations?locationPK=EXT_/0000/0000/0000/0000"
   } ],
+  "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
     "links" : [ ],
@@ -911,13 +945,13 @@ Content-Length: 839
     "outgoingActive" : true,
     "plcState" : 0
   },
+  "state" : "AVAILABLE",
   "transportUnitTypeName" : "PALLET",
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2021-06-24T20:34:58Z",
-  "createDate" : "2021-06-24T20:34:58Z"
+  "actualLocationDate" : "2021-07-12T18:29:58Z",
+  "createDate" : "2021-07-12T18:29:58Z"
 }</code></pre>
 </div>
 </div>
@@ -958,7 +992,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1687
+Content-Length: 1705
 
 [ {
   "links" : [ {
@@ -968,6 +1002,7 @@ Content-Length: 1687
     "rel" : "actual-location",
     "href" : "http://localhost:8080/v1/locations?locationPK=EXT_/0000/0000/0000/0000"
   } ],
+  "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
     "links" : [ ],
@@ -982,13 +1017,13 @@ Content-Length: 1687
     "outgoingActive" : true,
     "plcState" : 0
   },
+  "state" : "AVAILABLE",
   "transportUnitTypeName" : "PALLET",
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualPlcCode" : "PLC_0030",
-  "actualLocationDate" : "2021-06-24T20:34:57Z",
-  "createDate" : "2021-06-24T20:34:57Z"
+  "actualLocationDate" : "2021-07-12T18:29:57Z",
+  "createDate" : "2021-07-12T18:29:57Z"
 }, {
   "links" : [ {
     "rel" : "transport-unit-type",
@@ -997,6 +1032,7 @@ Content-Length: 1687
     "rel" : "actual-location",
     "href" : "http://localhost:8080/v1/locations?locationPK=FGIN/IPNT/0001/0000/0000"
   } ],
+  "pKey" : "2",
   "barcode" : "00000000000000004712",
   "actualLocation" : {
     "links" : [ ],
@@ -1011,13 +1047,13 @@ Content-Length: 1687
     "outgoingActive" : true,
     "plcState" : 0
   },
+  "state" : "AVAILABLE",
   "transportUnitTypeName" : "PALLET",
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2021-06-24T20:34:57Z",
-  "createDate" : "2021-06-24T20:34:57Z"
+  "actualLocationDate" : "2021-07-12T18:29:57Z",
+  "createDate" : "2021-07-12T18:29:57Z"
 } ]</code></pre>
 </div>
 </div>
@@ -1058,7 +1094,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 846
+Content-Length: 855
 
 [ {
   "links" : [ {
@@ -1068,6 +1104,7 @@ Content-Length: 846
     "rel" : "actual-location",
     "href" : "http://localhost:8080/v1/locations?locationPK=FGIN/IPNT/0001/0000/0000"
   } ],
+  "pKey" : "2",
   "barcode" : "00000000000000004712",
   "actualLocation" : {
     "links" : [ ],
@@ -1082,13 +1119,13 @@ Content-Length: 846
     "outgoingActive" : true,
     "plcState" : 0
   },
+  "state" : "AVAILABLE",
   "transportUnitTypeName" : "PALLET",
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualPlcCode" : "PLC_0031",
-  "actualLocationDate" : "2021-06-24T20:34:58Z",
-  "createDate" : "2021-06-24T20:34:58Z"
+  "actualLocationDate" : "2021-07-12T18:29:58Z",
+  "createDate" : "2021-07-12T18:29:58Z"
 } ]</code></pre>
 </div>
 </div>
@@ -1145,7 +1182,7 @@ bk=00000000000000004711&amp;errorCode=bla</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-06-24 20:28:57 UTC
+Last updated 2021-07-12 18:24:11 UTC
 </div>
 </div>
 </body>
