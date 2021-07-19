@@ -175,16 +175,19 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     }
 
     /**
-     * Put the {@code TransportUnit} on a {@link Location}.
+     * Place the {@code TransportUnit} and all its children to a {@link Location}.
      *
-     * @param actualLocation The new {@link Location} of the {@code TransportUnit}
+     * @param actualLocation The new {@link Location} of the {@code TransportUnit} and all its children
      * @throws IllegalArgumentException when {@code actualLocation} is {@literal null}
      */
     public void setActualLocation(Location actualLocation) {
-        Assert.notNull(actualLocation, () -> "ActualLocation must not be null, this: " + this);
+        Assert.notNull(actualLocation, "ActualLocation must not be null, this: " + this);
         this.actualLocation = actualLocation;
         this.actualLocationDate = new Date();
         this.actualLocation.setLastMovement(this.actualLocationDate);
+        if (this.getChildren() != null) {
+            this.getChildren().forEach(child -> child.setActualLocation(actualLocation));
+        }
     }
 
     /**
