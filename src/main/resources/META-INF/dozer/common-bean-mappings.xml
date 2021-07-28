@@ -28,6 +28,10 @@
 			<b is-accessible="true">barcode</b>
 		</field>
 		<field>
+			<a is-accessible="true">groupId</a>
+			<b is-accessible="true">groupId</b>
+		</field>
+		<field>
 			<a is-accessible="true">actualLocation</a>
 			<b is-accessible="true">actualLocation</b>
 		</field>

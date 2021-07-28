@@ -39,9 +39,13 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
     /** The persistent key. */
     @JsonProperty("pKey")
     private String pKey;
+    /** Unique natural key. */
     @NotEmpty(message = "{owms.common.common.tu.barcode}")
     @JsonProperty("barcode")
     private String barcode;
+    /** A {@code TransportUnit} may belong to a group of {@code TransportUnits}. */
+    @JsonProperty("groupId")
+    private String groupId;
     @NotNull(message = "{owms.common.common.tu.actualLocation}", groups = ValidationGroups.TransportUnit.Create.class)
     @JsonProperty("actualLocation")
     private LocationVO actualLocation;
@@ -111,6 +115,14 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
 
     public String getBarcode() {
         return barcode;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public LocationVO getActualLocation() {
@@ -192,6 +204,7 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
         if (!super.equals(o)) return false;
         TransportUnitVO that = (TransportUnitVO) o;
         return Objects.equals(barcode, that.barcode) &&
+                Objects.equals(groupId, that.groupId) &&
                 Objects.equals(actualLocation, that.actualLocation) &&
                 Objects.equals(transportUnitType, that.transportUnitType) &&
                 Objects.equals(length, that.length) &&
@@ -203,7 +216,7 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), barcode, actualLocation, transportUnitType, length, width, height, actualLocationDate, createDate);
+        return Objects.hash(super.hashCode(), barcode, groupId, actualLocation, transportUnitType, length, width, height, actualLocationDate, createDate);
     }
 
     /*~-------------------- Builder --------------------*/

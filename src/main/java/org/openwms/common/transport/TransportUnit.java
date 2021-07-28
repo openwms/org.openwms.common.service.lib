@@ -83,6 +83,10 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     @Column(name = "C_EMPTY")
     private Boolean empty;
 
+    /** A {@code TransportUnit} may belong to a group of {@code TransportUnits}. */
+    @Column(name = "C_GROUP_ID")
+    private String groupId;
+
     /** Date when the {@code TransportUnit} has been moved to the current {@link Location}. */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "C_ACTUAL_LOCATION_DATE")
@@ -227,6 +231,24 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      */
     public void setEmpty(Boolean empty) {
         this.empty = empty;
+    }
+
+    /**
+     * Get the groupId.
+     *
+     * @return The groupId
+     */
+    public String getGroupId() {
+        return groupId;
+    }
+
+    /**
+     * Set the groupId.
+     *
+     * @param groupId The groupId
+     */
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     /**
