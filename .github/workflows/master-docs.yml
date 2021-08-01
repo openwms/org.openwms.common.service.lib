@@ -66,8 +66,8 @@ jobs:
           -DDB_USERNAME=KARL
           -DDB_PASSWORD=KARL
           -Dscmuser=$PUSHKEY
-          -Dscmpublish.pubScmUrl=scm:git:https://$PUSHKEY@github.com/openwms/org.openwms.common.service.git
-          -DdeveloperConnectionUrl=scm:git:https://$PUSHKEY@github.com/openwms/org.openwms.common.service.git
+          -Dscmpublish.pubScmUrl=scm:git:https://openwms:$PUSHKEY@github.com/openwms/org.openwms.common.service.git
+          -DdeveloperConnectionUrl=scm:git:https://openwms:$PUSHKEY@github.com/openwms/org.openwms.common.service.git
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
           -Pschemagen -B $MAVEN_OPTS
         env:
