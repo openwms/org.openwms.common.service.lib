@@ -52,7 +52,7 @@ public class ConfiguredBarcodeFormatter implements BarcodeFormatter {
 
             // check for property based configuration
             if ("".equals(padder)) {
-                LOGGER.debug("Not pattern, no padder - nothing to format. Barcode [{}]", barcode);
+                LOGGER.debug("No pattern, no padder - nothing to format. Barcode [{}]", barcode);
                 return barcode;
             } else {
 
@@ -64,7 +64,7 @@ public class ConfiguredBarcodeFormatter implements BarcodeFormatter {
                 if (!"".equals(suffix)) {
                     result.append(suffix);
                 }
-                LOGGER.debug("Not pattern, formatted Barcode [{}]", result.toString());
+                LOGGER.debug("No pattern, formatted Barcode [{}]", result.toString());
                 return result.toString();
             }
         }

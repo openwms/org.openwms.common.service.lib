@@ -16,7 +16,8 @@
 package org.openwms.common.transport;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
@@ -68,19 +69,21 @@ class TransportUnitControllerDocumentation {
     @Autowired
     private BarcodeGenerator generator;
 
-    @BeforeEach
-    void setUp(RestDocumentationContextProvider restDocumentation, WebApplicationContext context) {
+    @BeforeClass void onBeforeClass() {
         System.setProperty("org.openwms.common.transport.BarcodeFormatProvider", "org.openwms.common.transport.ConfiguredBarcodeFormat");
         System.setProperty("owms.common.barcode.pattern", "%1$20s");
         System.setProperty("owms.common.barcode.padder", "0");
-        mockMvc = MockMvcBuilders.webAppContextSetup(context)
-                .apply(documentationConfiguration(restDocumentation)).build();
     }
 
-    @AfterEach
-    void onTeardown() {
-        System.setProperty("owms.common.barcode.pattern", "");
-        System.setProperty("owms.common.barcode.padder", "");
+    @AfterClass void onAfterClass() {
+        System.clearProperty("owms.common.barcode.pattern");
+        System.clearProperty("owms.common.barcode.padder");
+    }
+
+    @BeforeEach
+    void setUp(RestDocumentationContextProvider restDocumentation, WebApplicationContext context) {
+        mockMvc = MockMvcBuilders.webAppContextSetup(context)
+                .apply(documentationConfiguration(restDocumentation)).build();
     }
 
     @Test void shall_return_index() throws Exception {
