@@ -17,6 +17,8 @@ package org.openwms.common.transport.barcode;
 
 import org.ameba.annotation.Measured;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConfiguredBarcodeFormatter implements BarcodeFormatter {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfiguredBarcodeFormatter.class);
     private final String pattern = System.getProperty("owms.common.barcode.pattern", "");
     private final String padder = System.getProperty("owms.common.barcode.padder", String.valueOf(Barcode.PADDER));
     private final String length = System.getProperty("owms.common.barcode.length", String.valueOf(Barcode.BARCODE_LENGTH));
@@ -41,13 +44,15 @@ public class ConfiguredBarcodeFormatter implements BarcodeFormatter {
     @Measured
     public String format(String barcode) {
         if (barcode == null || barcode.isEmpty()) {
-           return barcode;
+            LOGGER.debug("Barcode to format is null");
+            return barcode;
         }
         StringBuilder result = "".equals(prefix) ? new StringBuilder() : new StringBuilder(prefix);
         if ("".equals(pattern)) {
 
             // check for property based configuration
             if ("".equals(padder)) {
+                LOGGER.debug("Not pattern, no padder - nothing to format. Barcode [{}]", barcode);
                 return barcode;
             } else {
 
@@ -59,6 +64,7 @@ public class ConfiguredBarcodeFormatter implements BarcodeFormatter {
                 if (!"".equals(suffix)) {
                     result.append(suffix);
                 }
+                LOGGER.debug("Not pattern, formatted Barcode [{}]", result.toString());
                 return result.toString();
             }
         }
@@ -67,6 +73,7 @@ public class ConfiguredBarcodeFormatter implements BarcodeFormatter {
         if (!"".equals(suffix)) {
             result.append(suffix);
         }
+        LOGGER.debug("Format incoming Barcode [{}] into [{}]", barcode, result.toString());
         return result.toString();
     }
 }
