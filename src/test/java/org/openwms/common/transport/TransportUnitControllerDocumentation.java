@@ -258,6 +258,9 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_findByBarcode() throws Exception {
+        System.setProperty("org.openwms.common.transport.BarcodeFormatProvider", "org.openwms.common.transport.ConfiguredBarcodeFormat");
+        System.setProperty("owms.common.barcode.pattern", "");
+        System.setProperty("owms.common.barcode.padder", "0");
         mockMvc.perform(get(API_TRANSPORT_UNITS)
                 .queryParam("bk", "00000000000000004711"))
                 .andExpect(status().isOk())
