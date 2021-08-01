@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -59,6 +60,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Heiko Scherrer
  */
 @CommonApplicationTest
+@TestPropertySource(properties = {
+        "owms.common.barcode.padder = 0",
+        "owms.common.barcode.pattern = %1$20s",
+        "org.openwms.common.transport.BarcodeFormatProvider=org.openwms.common.transport.ConfiguredBarcodeFormat"
+})
 class TransportUnitControllerDocumentation {
 
     private MockMvc mockMvc;
@@ -71,7 +77,7 @@ class TransportUnitControllerDocumentation {
 
     @BeforeClass void onBeforeClass() {
         System.setProperty("org.openwms.common.transport.BarcodeFormatProvider", "org.openwms.common.transport.ConfiguredBarcodeFormat");
-        System.setProperty("owms.common.barcode.pattern", "%1$20s");
+        System.setProperty("owms.common.barcode.pattern", "");
         System.setProperty("owms.common.barcode.padder", "0");
     }
 
