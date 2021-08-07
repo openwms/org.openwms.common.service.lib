@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.7.0-SNAPSHOT-49)">
+<meta name="author" content="(1.7.0-SNAPSHOT-59)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.7.0-SNAPSHOT-49)</span><br>
+<span id="author" class="author">(1.7.0-SNAPSHOT-59)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -816,42 +816,15 @@ used to navigate to all possible entities with their operations.</p>
 <p>The initial HTTP request to retrieve information about all available resources looks like the following. The Index page is a public
 available resource and does not need any authentication.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /index HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-index.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/get-index/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>The Index resource is returned in the response body with the response status of 200-OK. This main Index lists all primary resource entities
 to follow next.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 515
-
-{
-  "_links" : {
-    "account-index" : {
-      "href" : "http://localhost:8080/v1/accounts/index"
-    },
-    "location-index" : {
-      "href" : "http://localhost:8080/v1/locations/index"
-    },
-    "location-group-index" : {
-      "href" : "http://localhost:8080/v1/location-groups/index"
-    },
-    "transport-unit-type-index" : {
-      "href" : "http://localhost:8080/v1/transport-unit-types/index"
-    },
-    "transport-unit-index" : {
-      "href" : "http://localhost:8080/v1/transport-units/index"
-    }
-  }
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-index.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/get-index/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>A client application must only know about the agreed link names and follow the corresponding <code>href</code> link to navigate further.</p>
@@ -871,38 +844,14 @@ through the API.</p>
 <div class="paragraph">
 <p>The index with all possible operations can be retrieved with an `GET request:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/accounts/index HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-index/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>The response lists all the operations with a name and the corresponding href link:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 409
-
-{
-  "_links" : {
-    "accounts-findall" : {
-      "href" : "http://localhost:8080/v1/accounts"
-    },
-    "accounts-finddefault" : {
-      "href" : "http://localhost:8080/v1/accounts"
-    },
-    "accounts-findbyidentifier" : {
-      "href" : "http://localhost:8080/v1/accounts?identifier=identifier"
-    },
-    "accounts-findbyname" : {
-      "href" : "http://localhost:8080/v1/accounts?name=name"
-    }
-  }
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-index/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -910,31 +859,14 @@ Content-Length: 409
 <div class="paragraph">
 <p>To retrieve a list of all existing <code>Accounts</code> a client must send a <code>GET</code> request to the server:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/accounts HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-all/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>The response contains all existing <code>Accounts</code>:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 141
-
-[ {
-  "links" : [ ],
-  "identifier" : "D",
-  "name" : "Default"
-}, {
-  "links" : [ ],
-  "identifier" : "A1",
-  "name" : "Cost Center FIN"
-} ]</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-all/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -943,55 +875,20 @@ Content-Length: 141
 <p>The <code>name</code> and the <code>identifier</code> of the <code>Account</code> are unique and mandatory attributes. So an <code>Account</code> can be searched for both fields.</p>
 </div>
 <div class="paragraph">
-<p>Find an <code>Account</code> by name:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/accounts?name=Default HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<p>Find an <code>Account</code> by name:
+Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-byName/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
-<p>or find an <code>Account</code> by identifier:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/accounts?identifier=D HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<p>or find an <code>Account</code> by identifier:
+Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-byIdentifier/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
-<p>The server responds with the Account entity if it exists:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 46
-
-{
-  "identifier" : "D",
-  "name" : "Default"
-}</code></pre>
-</div>
+<p>The server responds with the Account entity if it exists:
+Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-byName/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
-<p>or with a <code>404-Not Found</code> if no <code>Account</code> exists:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 163
-
-{
-  "message" : "Account [UNKNOWN] not found",
-  "messageKey" : "COMMON.ACCOUNT_NOT_FOUND",
-  "obj" : [ "UNKNOWN" ],
-  "httpStatus" : "404",
-  "class" : "String"
-}</code></pre>
-</div>
+<p>or with a <code>404-Not Found</code> if no <code>Account</code> exists:
+Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-byName404/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -1000,42 +897,16 @@ Content-Length: 163
 <p>At least one <code>Account</code> must exist in the system and must be defined as the default <code>Account</code>. This <code>Account</code> is used when no other account information is available. To get the default <code>Account</code>
 from the Common Service a <code>GET</code> request must be send to the server:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/accounts?default=true HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-default/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
-<p>The server sends back the Account entity if it exists</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 46
-
-{
-  "identifier" : "D",
-  "name" : "Default"
-}</code></pre>
-</div>
+<p>The server sends back the Account entity if it exists
+Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-default/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
-<p>Otherwise a 404-Not Found if not exist:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 115
-
-{
-  "message" : "No default Account exists",
-  "messageKey" : "COMMON.ACCOUNT_NO_DEFAULT",
-  "httpStatus" : "404"
-}</code></pre>
-</div>
+<p>Otherwise a 404-Not Found if not exist:
+Unresolved directive in 3-account.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/acc-find-default404/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -1074,44 +945,14 @@ operations off this <code>Location</code>.</p>
 <div class="paragraph">
 <p>The Location Index with all possible operations can be retrieved with the following GET request:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/locations/index HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-index/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>The response lists all the operations with a name and the corresponding href link:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 734
-
-{
-  "_links" : {
-    "location-findbycoordinate" : {
-      "href" : "http://localhost:8080/v1/locations?locationPK=AREA/AISLE/X/Y/Z"
-    },
-    "location-findbyerpcode" : {
-      "href" : "http://localhost:8080/v1/locations?erpCode=ERP_CODE"
-    },
-    "location-findbyplccode" : {
-      "href" : "http://localhost:8080/v1/locations?plcCode=PLC_CODE"
-    },
-    "location-forlocationgroup" : {
-      "href" : "http://localhost:8080/v1/locations?locationGroupNames=LG1&amp;locationGroupNames=LG2"
-    },
-    "location-changestate" : {
-      "href" : "http://localhost:8080/v1/location/pKey?op=change-state"
-    },
-    "location-fortuple" : {
-      "href" : "http://localhost:8080/v1/locations?area=area&amp;aisle=aisle&amp;x=x&amp;y=y&amp;z=z"
-    }
-  }
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-index/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -1119,67 +960,26 @@ Content-Length: 734
 <div class="paragraph">
 <p>Send a HTTP GET request with the 5-tuple coordinate as query parameter to find a <code>Location</code> identified by this coordinate.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/locations?locationPK=EXT_/0000/0000/0000/0000 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-coordinate/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the <code>Location</code> exists the server responds with</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 285
-
-{
-  "links" : [ ],
-  "pKey" : "113646454019",
-  "locationId" : "EXT_/0000/0000/0000/0000",
-  "type" : "FG",
-  "accountId" : "D",
-  "locationGroupName" : "ZILE",
-  "erpCode" : "ERP_0030",
-  "plcCode" : "PLC_0030",
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-coordinate/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the <code>Location</code> with the requested coordinate does not exist, the server responds with</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 134
-
-{
-  "message" : "No Location with locationPk [EXT_/9999/9999/9999/9999] found",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-coordinate-404/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the passed coordinate is not well formatted and rejected by the server the response looks like</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 111
-
-{
-  "message" : "Invalid location [INVALID_COORDINATE]",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-coordinate-400/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -1188,55 +988,20 @@ Content-Length: 111
 <p>The API to search for <code>Locations</code> also accepts typical SQL wildcards in each part of the 5-tuple coordinate. Let&#8217;s assume one searches for
 all Lift <code>Locations</code> in the Flat Good area, this could look like this:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/locations?area=FGIN&amp;aisle=00__&amp;x=LIFT&amp;y=0000&amp;z=%25 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-coordinate-wildcard/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>In this case the Flat Good area has only 2 Lift positions and the server returns both:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 592
-
-[ {
-  "links" : [ ],
-  "pKey" : "798136030917",
-  "locationId" : "FGIN/0001/LIFT/0000/0000",
-  "type" : "FG",
-  "accountId" : "D",
-  "locationGroupName" : "FGAISLE1LIFT",
-  "erpCode" : "ERP_0012",
-  "plcCode" : "PLC_0012",
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0
-}, {
-  "links" : [ ],
-  "pKey" : "852306856430",
-  "locationId" : "FGIN/0002/LIFT/0000/0000",
-  "type" : "FG",
-  "accountId" : "D",
-  "locationGroupName" : "FGAISLE2LIFT",
-  "erpCode" : "ERP_0015",
-  "plcCode" : "PLC_0015",
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0
-} ]</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-coordinate-wildcard/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the search query did not find any <code>Locations</code> the server responds with:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-coordinate-wildcard-404/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -1244,51 +1009,20 @@ Content-Length: 592
 <div class="paragraph">
 <p>Send a HTTP GET request with the PLC code as query parameter to find a <code>Location</code> identified by this PLC code.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/locations?plcCode=PLC_0030 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-plc/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the <code>Location</code> exists the server responds with</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 285
-
-{
-  "links" : [ ],
-  "pKey" : "113646454019",
-  "locationId" : "EXT_/0000/0000/0000/0000",
-  "type" : "FG",
-  "accountId" : "D",
-  "locationGroupName" : "ZILE",
-  "erpCode" : "ERP_0030",
-  "plcCode" : "PLC_0030",
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-plc/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If no <code>Location</code> with the requested PLC code exists, the server responds with</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 118
-
-{
-  "message" : "No Location with PLC Code [NOT EXISTS] found",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-plc-404/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -1296,103 +1030,34 @@ Content-Length: 118
 <div class="paragraph">
 <p>Send a HTTP GET request with the name of a <code>LocationGroup</code> as query parameter to find all <code>Locations</code> that belong to this group.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/locations?locationGroupNames=ZILE HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-in-lg/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>The server responds with the list of all <code>Locations</code> - the name of the <code>LocationGroup</code> is not validated.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 576
-
-[ {
-  "links" : [ ],
-  "pKey" : "171919359409",
-  "locationId" : "INIT/0000/0000/0000/0000",
-  "type" : "FG",
-  "accountId" : "D",
-  "locationGroupName" : "ZILE",
-  "erpCode" : "ERP_0029",
-  "plcCode" : "PLC_0029",
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0
-}, {
-  "links" : [ ],
-  "pKey" : "113646454019",
-  "locationId" : "EXT_/0000/0000/0000/0000",
-  "type" : "FG",
-  "accountId" : "D",
-  "locationGroupName" : "ZILE",
-  "erpCode" : "ERP_0030",
-  "plcCode" : "PLC_0030",
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0
-} ]</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-in-lg/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>The server accepts multiple <code>LocationGroup</code> names as request parameter to get a combined list of <code>Locations</code> that belong to group with name
 <code>ZILE</code> and <code>FGRECEIVING</code>:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/locations?locationGroupNames=ZILE&amp;locationGroupNames=FGRECEIVING HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-in-lg-multiple/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>Wildcards in the <code>LocationGroup</code> name are supported if only one <code>LocationGroup</code> name is provided:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/locations?locationGroupNames=IP%25 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-in-lg-wc/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>The response is a list of <code>Locations</code> that belong to a <code>LocationGroup</code> where the name starts with <code>IP</code> (matching the groups <code>IPOINT</code>,
 <code>IPOINT1</code> and <code>IPOINT2</code> in this example:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 582
-
-[ {
-  "links" : [ ],
-  "pKey" : "439649733836",
-  "locationId" : "FGIN/IPNT/0001/0000/0000",
-  "type" : "FG",
-  "accountId" : "D",
-  "locationGroupName" : "IPOINT1",
-  "erpCode" : "ERP_0031",
-  "plcCode" : "PLC_0031",
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0
-}, {
-  "links" : [ ],
-  "pKey" : "227916500906",
-  "locationId" : "FGIN/IPNT/0002/0000/0000",
-  "type" : "FG",
-  "accountId" : "D",
-  "locationGroupName" : "IPOINT2",
-  "erpCode" : "ERP_0032",
-  "plcCode" : "PLC_0032",
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0
-} ]</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-find-in-lg-wc/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -1401,33 +1066,14 @@ Content-Length: 582
 <p>Send a HTTP PATCH request with the persistent identifying key of an existing <code>Location</code> along the new state decoded as <code>ErrorCodeVO</code> request
 parameter.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /v1/location/NOTEXISTS?op=change-state HTTP/1.1
-Content-Type: application/json
-Content-Length: 30
-Host: localhost:8080
-
-{
-  "errorCode" : "******00"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-state-404/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the <code>Location</code> with the given persistent key does not exist, the server responds with</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 123
-
-{
-  "message" : "No Location with persistent key [NOTEXISTS] found",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-state-404/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>The <code>ErrorCodeVO</code> contains a ternary error bitmap that decodes all state information. It is expected as 8-digit String with allowed symbols
@@ -1503,25 +1149,14 @@ Content-Length: 123
 <div class="paragraph">
 <p>In this example a <code>Location</code> identified with the given persistent key is locked for Inbound operations with the following request:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /v1/location/113646454019?op=change-state HTTP/1.1
-Content-Type: application/json
-Content-Length: 30
-Host: localhost:8080
-
-{
-  "errorCode" : "*******1"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-state-in/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the server could lock the <code>Location</code> successfully the response looks like:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-state-in/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>Beside locking the <code>Location</code> for Inbound- and Outbound processing it is also possible to change the PLC state of the <code>Location</code> through
@@ -1532,26 +1167,14 @@ signal an error occurred on the <code>Location</code>.</p>
 <div class="paragraph">
 <p>Set the <code>plcState</code> to <code>31</code> (In terms of <a href="https://interface21-io.gitbook.io/osip">OSIP</a> this means <code>Location unexpected occupied</code>):</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /v1/location/113646454019?op=change-state HTTP/1.1
-Content-Type: application/json
-Content-Length: 49
-Host: localhost:8080
-
-{
-  "errorCode" : "********",
-  "plcState" : 31
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-plcstate/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the server could set the state successfully the response is:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 4-location.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loc-plcstate/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -1570,39 +1193,14 @@ is set up. Types may be changed, but not deleted at runtime, because every <code
 <p>If a client wants to get a list of all existing <code>LocationTypes</code>, a simple <code>GET</code> request to the plural resource is required. Notice that no
 paging nor sorting is implemented in the API, because the expected retrieved data is less than hundred entries,</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/location-types HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 5-location-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loctype-findall/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>The server responds with the existing <code>LocationTypes</code> or an empty list:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 317
-
-[ {
-  "links" : [ ],
-  "pKey" : "326981811784",
-  "type" : "FG",
-  "description" : "Flat Good Location",
-  "length" : 30,
-  "width" : 50,
-  "height" : 20
-}, {
-  "links" : [ ],
-  "pKey" : "404376159041",
-  "type" : "PG",
-  "description" : "Pallet Good Location",
-  "length" : 120,
-  "width" : 120,
-  "height" : 250
-} ]</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 5-location-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/loctype-findall/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -1619,41 +1217,14 @@ block controlled by one single subsystem.</p>
 <div class="paragraph">
 <p>The index with all possible operations can be retrieved with the following GET request:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/location-groups/index HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg-index/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>The response lists all the operations with a name and the corresponding href link:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 648
-
-{
-  "_links" : {
-    "location-groups-findall" : {
-      "href" : "http://localhost:8080/v1/location-groups"
-    },
-    "location-groups-findbyname" : {
-      "href" : "http://localhost:8080/v1/location-groups?name=FOO"
-    },
-    "location-groups-findbynames" : {
-      "href" : "http://localhost:8080/v1/location-groups?names=FOO&amp;names=BAR"
-    },
-    "location-groups-changestate1" : {
-      "href" : "http://localhost:8080/v1/location-groups?name=FOO&amp;op=change-state"
-    },
-    "location-groups-changestate2" : {
-      "href" : "http://localhost:8080/v1/location-group/UUID?op=change-state&amp;statein=AVAILABLE&amp;stateout=NOT_AVAILABLE"
-    }
-  }
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg-index/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -1661,1922 +1232,14 @@ Content-Length: 648
 <div class="paragraph">
 <p>To retrieve a list of all existing <code>LocationGroups</code> a client must send a GET request to the server:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/location-groups HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg-find-all/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If no <code>LocationGroups</code> exist the returned array is empty otherwise the response looks like:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 57061
-
-[ {
-  "links" : [ ],
-  "pKey" : "412130127821",
-  "name" : "ZILE",
-  "accountId" : "D",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE",
-  "childLocationGroups" : [ {
-    "links" : [ ],
-    "pKey" : "623275915496",
-    "name" : "Flatgood_AREA",
-    "accountId" : "D",
-    "parentName" : "ZILE",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE",
-    "childLocationGroups" : [ {
-      "links" : [ ],
-      "pKey" : "264924505336",
-      "name" : "FGMANUAL",
-      "accountId" : "D",
-      "parentName" : "Flatgood_AREA",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "281343921750",
-      "name" : "FGCANBAN",
-      "accountId" : "D",
-      "parentName" : "Flatgood_AREA",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "709819670512",
-      "name" : "FGAUTOMATIC",
-      "accountId" : "D",
-      "parentName" : "Flatgood_AREA",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE",
-      "childLocationGroups" : [ {
-        "links" : [ ],
-        "pKey" : "400335177633",
-        "name" : "FGRECEIVING",
-        "accountId" : "D",
-        "parentName" : "FGAUTOMATIC",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      }, {
-        "links" : [ ],
-        "pKey" : "585607846471",
-        "name" : "FGSHIPPING",
-        "accountId" : "D",
-        "parentName" : "FGAUTOMATIC",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE",
-        "childLocationGroups" : [ {
-          "links" : [ ],
-          "pKey" : "881973001220",
-          "name" : "FGSHIPPING1",
-          "accountId" : "D",
-          "parentName" : "FGSHIPPING",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE",
-          "childLocationGroups" : [ {
-            "links" : [ ],
-            "pKey" : "18642707784",
-            "name" : "FGWORKPLACE1",
-            "accountId" : "D",
-            "parentName" : "FGSHIPPING1",
-            "operationMode" : "INFEED_AND_OUTFEED",
-            "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          }, {
-            "links" : [ ],
-            "pKey" : "346661868774",
-            "name" : "FGWORKPLACE3",
-            "accountId" : "D",
-            "parentName" : "FGSHIPPING1",
-            "operationMode" : "INFEED_AND_OUTFEED",
-            "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          }, {
-            "links" : [ ],
-            "pKey" : "925145263549",
-            "name" : "FGWORKPLACE2",
-            "accountId" : "D",
-            "parentName" : "FGSHIPPING1",
-            "operationMode" : "INFEED_AND_OUTFEED",
-            "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          } ]
-        }, {
-          "links" : [ ],
-          "pKey" : "753422186594",
-          "name" : "FGSHIPPING2",
-          "accountId" : "D",
-          "parentName" : "FGSHIPPING",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE",
-          "childLocationGroups" : [ {
-            "links" : [ ],
-            "pKey" : "424924693864",
-            "name" : "FGWORKPLACE5",
-            "accountId" : "D",
-            "parentName" : "FGSHIPPING2",
-            "operationMode" : "INFEED_AND_OUTFEED",
-            "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          }, {
-            "links" : [ ],
-            "pKey" : "258953718288",
-            "name" : "FGWORKPLACE4",
-            "accountId" : "D",
-            "parentName" : "FGSHIPPING2",
-            "operationMode" : "INFEED_AND_OUTFEED",
-            "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          }, {
-            "links" : [ ],
-            "pKey" : "687300567810",
-            "name" : "FGWORKPLACE7",
-            "accountId" : "D",
-            "parentName" : "FGSHIPPING2",
-            "operationMode" : "INFEED_AND_OUTFEED",
-            "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          }, {
-            "links" : [ ],
-            "pKey" : "909419439040",
-            "name" : "FGWORKPLACE6",
-            "accountId" : "D",
-            "parentName" : "FGSHIPPING2",
-            "operationMode" : "INFEED_AND_OUTFEED",
-            "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          }, {
-            "links" : [ ],
-            "pKey" : "224868263942",
-            "name" : "FGWORKPLACE9",
-            "accountId" : "D",
-            "parentName" : "FGSHIPPING2",
-            "operationMode" : "INFEED_AND_OUTFEED",
-            "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          }, {
-            "links" : [ ],
-            "pKey" : "860334844801",
-            "name" : "FGWORKPLACE8",
-            "accountId" : "D",
-            "parentName" : "FGSHIPPING2",
-            "operationMode" : "INFEED_AND_OUTFEED",
-            "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          } ]
-        } ]
-      }, {
-        "links" : [ ],
-        "pKey" : "212290962584",
-        "name" : "FGSTOCK",
-        "accountId" : "D",
-        "parentName" : "FGAUTOMATIC",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE",
-        "childLocationGroups" : [ {
-          "links" : [ ],
-          "pKey" : "101671979671",
-          "name" : "FGAISLE2",
-          "accountId" : "D",
-          "parentName" : "FGSTOCK",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE",
-          "childLocationGroups" : [ {
-            "links" : [ ],
-            "pKey" : "379640903941",
-            "name" : "FGAISLE2LEFT",
-            "accountId" : "D",
-            "parentName" : "FGAISLE2",
-            "operationMode" : "INFEED_AND_OUTFEED",
-            "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          }, {
-            "links" : [ ],
-            "pKey" : "209483120518",
-            "name" : "FGAISLE2RIGHT",
-            "accountId" : "D",
-            "parentName" : "FGAISLE2",
-            "operationMode" : "INFEED_AND_OUTFEED",
-            "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          }, {
-            "links" : [ ],
-            "pKey" : "730288310794",
-            "name" : "FGAISLE2LIFT",
-            "accountId" : "D",
-            "parentName" : "FGAISLE2",
-            "operationMode" : "INFEED_AND_OUTFEED",
-            "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          } ]
-        }, {
-          "links" : [ ],
-          "pKey" : "53242834266",
-          "name" : "FGAISLE1",
-          "accountId" : "D",
-          "parentName" : "FGSTOCK",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE",
-          "childLocationGroups" : [ {
-            "links" : [ ],
-            "pKey" : "688238147532",
-            "name" : "FGAISLE1LIFT",
-            "accountId" : "D",
-            "parentName" : "FGAISLE1",
-            "operationMode" : "INFEED_AND_OUTFEED",
-            "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          }, {
-            "links" : [ ],
-            "pKey" : "108758840458",
-            "name" : "FGAISLE1RIGHT",
-            "accountId" : "D",
-            "parentName" : "FGAISLE1",
-            "operationMode" : "INFEED_AND_OUTFEED",
-            "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          }, {
-            "links" : [ ],
-            "pKey" : "154549927614",
-            "name" : "FGAISLE1LEFT",
-            "accountId" : "D",
-            "parentName" : "FGAISLE1",
-            "operationMode" : "INFEED_AND_OUTFEED",
-            "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          } ]
-        } ]
-      }, {
-        "links" : [ ],
-        "pKey" : "811754978035",
-        "name" : "FGCONV",
-        "accountId" : "D",
-        "parentName" : "FGAUTOMATIC",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      } ]
-    } ]
-  }, {
-    "links" : [ ],
-    "pKey" : "166982377557",
-    "name" : "IPOINT",
-    "accountId" : "D",
-    "parentName" : "ZILE",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE",
-    "childLocationGroups" : [ {
-      "links" : [ ],
-      "pKey" : "24417670340",
-      "name" : "IPOINT2",
-      "accountId" : "D",
-      "parentName" : "IPOINT",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "782120388022",
-      "name" : "IPOINT1",
-      "accountId" : "D",
-      "parentName" : "IPOINT",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
-  }, {
-    "links" : [ ],
-    "pKey" : "878177817968",
-    "name" : "PALLET_AREA",
-    "accountId" : "D",
-    "parentName" : "ZILE",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE",
-    "childLocationGroups" : [ {
-      "links" : [ ],
-      "pKey" : "43608343999",
-      "name" : "PHIGHBAY",
-      "accountId" : "D",
-      "parentName" : "PALLET_AREA",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE",
-      "childLocationGroups" : [ {
-        "links" : [ ],
-        "pKey" : "999057994469",
-        "name" : "PAISLE2",
-        "accountId" : "D",
-        "parentName" : "PHIGHBAY",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE",
-        "childLocationGroups" : [ {
-          "links" : [ ],
-          "pKey" : "995126472754",
-          "name" : "PAISLE2LIFT",
-          "accountId" : "D",
-          "parentName" : "PAISLE2",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        }, {
-          "links" : [ ],
-          "pKey" : "48562833846",
-          "name" : "PAISLE2LEFT",
-          "accountId" : "D",
-          "parentName" : "PAISLE2",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        }, {
-          "links" : [ ],
-          "pKey" : "673781181265",
-          "name" : "PAISLE2RIGHT",
-          "accountId" : "D",
-          "parentName" : "PAISLE2",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        } ]
-      }, {
-        "links" : [ ],
-        "pKey" : "500576747031",
-        "name" : "PAISLE1",
-        "accountId" : "D",
-        "parentName" : "PHIGHBAY",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE",
-        "childLocationGroups" : [ {
-          "links" : [ ],
-          "pKey" : "332530824417",
-          "name" : "PAISLE1RIGHT",
-          "accountId" : "D",
-          "parentName" : "PAISLE1",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        }, {
-          "links" : [ ],
-          "pKey" : "443011357014",
-          "name" : "PAISLE1LEFT",
-          "accountId" : "D",
-          "parentName" : "PAISLE1",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        }, {
-          "links" : [ ],
-          "pKey" : "483875811636",
-          "name" : "PAISLE1LIFT",
-          "accountId" : "D",
-          "parentName" : "PAISLE1",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        } ]
-      } ]
-    }, {
-      "links" : [ ],
-      "pKey" : "306784420810",
-      "name" : "PPICKING",
-      "accountId" : "D",
-      "parentName" : "PALLET_AREA",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
-  } ],
-  "pKey" : "623275915496",
-  "name" : "Flatgood_AREA",
-  "accountId" : "D",
-  "parentName" : "ZILE",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE",
-  "childLocationGroups" : [ {
-    "links" : [ ],
-    "pKey" : "264924505336",
-    "name" : "FGMANUAL",
-    "accountId" : "D",
-    "parentName" : "Flatgood_AREA",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "281343921750",
-    "name" : "FGCANBAN",
-    "accountId" : "D",
-    "parentName" : "Flatgood_AREA",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "709819670512",
-    "name" : "FGAUTOMATIC",
-    "accountId" : "D",
-    "parentName" : "Flatgood_AREA",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE",
-    "childLocationGroups" : [ {
-      "links" : [ ],
-      "pKey" : "400335177633",
-      "name" : "FGRECEIVING",
-      "accountId" : "D",
-      "parentName" : "FGAUTOMATIC",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "585607846471",
-      "name" : "FGSHIPPING",
-      "accountId" : "D",
-      "parentName" : "FGAUTOMATIC",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE",
-      "childLocationGroups" : [ {
-        "links" : [ ],
-        "pKey" : "881973001220",
-        "name" : "FGSHIPPING1",
-        "accountId" : "D",
-        "parentName" : "FGSHIPPING",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE",
-        "childLocationGroups" : [ {
-          "links" : [ ],
-          "pKey" : "18642707784",
-          "name" : "FGWORKPLACE1",
-          "accountId" : "D",
-          "parentName" : "FGSHIPPING1",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        }, {
-          "links" : [ ],
-          "pKey" : "346661868774",
-          "name" : "FGWORKPLACE3",
-          "accountId" : "D",
-          "parentName" : "FGSHIPPING1",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        }, {
-          "links" : [ ],
-          "pKey" : "925145263549",
-          "name" : "FGWORKPLACE2",
-          "accountId" : "D",
-          "parentName" : "FGSHIPPING1",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        } ]
-      }, {
-        "links" : [ ],
-        "pKey" : "753422186594",
-        "name" : "FGSHIPPING2",
-        "accountId" : "D",
-        "parentName" : "FGSHIPPING",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE",
-        "childLocationGroups" : [ {
-          "links" : [ ],
-          "pKey" : "424924693864",
-          "name" : "FGWORKPLACE5",
-          "accountId" : "D",
-          "parentName" : "FGSHIPPING2",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        }, {
-          "links" : [ ],
-          "pKey" : "258953718288",
-          "name" : "FGWORKPLACE4",
-          "accountId" : "D",
-          "parentName" : "FGSHIPPING2",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        }, {
-          "links" : [ ],
-          "pKey" : "687300567810",
-          "name" : "FGWORKPLACE7",
-          "accountId" : "D",
-          "parentName" : "FGSHIPPING2",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        }, {
-          "links" : [ ],
-          "pKey" : "909419439040",
-          "name" : "FGWORKPLACE6",
-          "accountId" : "D",
-          "parentName" : "FGSHIPPING2",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        }, {
-          "links" : [ ],
-          "pKey" : "224868263942",
-          "name" : "FGWORKPLACE9",
-          "accountId" : "D",
-          "parentName" : "FGSHIPPING2",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        }, {
-          "links" : [ ],
-          "pKey" : "860334844801",
-          "name" : "FGWORKPLACE8",
-          "accountId" : "D",
-          "parentName" : "FGSHIPPING2",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        } ]
-      } ]
-    }, {
-      "links" : [ ],
-      "pKey" : "212290962584",
-      "name" : "FGSTOCK",
-      "accountId" : "D",
-      "parentName" : "FGAUTOMATIC",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE",
-      "childLocationGroups" : [ {
-        "links" : [ ],
-        "pKey" : "101671979671",
-        "name" : "FGAISLE2",
-        "accountId" : "D",
-        "parentName" : "FGSTOCK",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE",
-        "childLocationGroups" : [ {
-          "links" : [ ],
-          "pKey" : "379640903941",
-          "name" : "FGAISLE2LEFT",
-          "accountId" : "D",
-          "parentName" : "FGAISLE2",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        }, {
-          "links" : [ ],
-          "pKey" : "209483120518",
-          "name" : "FGAISLE2RIGHT",
-          "accountId" : "D",
-          "parentName" : "FGAISLE2",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        }, {
-          "links" : [ ],
-          "pKey" : "730288310794",
-          "name" : "FGAISLE2LIFT",
-          "accountId" : "D",
-          "parentName" : "FGAISLE2",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        } ]
-      }, {
-        "links" : [ ],
-        "pKey" : "53242834266",
-        "name" : "FGAISLE1",
-        "accountId" : "D",
-        "parentName" : "FGSTOCK",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE",
-        "childLocationGroups" : [ {
-          "links" : [ ],
-          "pKey" : "688238147532",
-          "name" : "FGAISLE1LIFT",
-          "accountId" : "D",
-          "parentName" : "FGAISLE1",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        }, {
-          "links" : [ ],
-          "pKey" : "108758840458",
-          "name" : "FGAISLE1RIGHT",
-          "accountId" : "D",
-          "parentName" : "FGAISLE1",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        }, {
-          "links" : [ ],
-          "pKey" : "154549927614",
-          "name" : "FGAISLE1LEFT",
-          "accountId" : "D",
-          "parentName" : "FGAISLE1",
-          "operationMode" : "INFEED_AND_OUTFEED",
-          "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        } ]
-      } ]
-    }, {
-      "links" : [ ],
-      "pKey" : "811754978035",
-      "name" : "FGCONV",
-      "accountId" : "D",
-      "parentName" : "FGAUTOMATIC",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=Flatgood_AREA"
-  } ],
-  "pKey" : "709819670512",
-  "name" : "FGAUTOMATIC",
-  "accountId" : "D",
-  "parentName" : "Flatgood_AREA",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE",
-  "childLocationGroups" : [ {
-    "links" : [ ],
-    "pKey" : "400335177633",
-    "name" : "FGRECEIVING",
-    "accountId" : "D",
-    "parentName" : "FGAUTOMATIC",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "585607846471",
-    "name" : "FGSHIPPING",
-    "accountId" : "D",
-    "parentName" : "FGAUTOMATIC",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE",
-    "childLocationGroups" : [ {
-      "links" : [ ],
-      "pKey" : "881973001220",
-      "name" : "FGSHIPPING1",
-      "accountId" : "D",
-      "parentName" : "FGSHIPPING",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE",
-      "childLocationGroups" : [ {
-        "links" : [ ],
-        "pKey" : "18642707784",
-        "name" : "FGWORKPLACE1",
-        "accountId" : "D",
-        "parentName" : "FGSHIPPING1",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      }, {
-        "links" : [ ],
-        "pKey" : "346661868774",
-        "name" : "FGWORKPLACE3",
-        "accountId" : "D",
-        "parentName" : "FGSHIPPING1",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      }, {
-        "links" : [ ],
-        "pKey" : "925145263549",
-        "name" : "FGWORKPLACE2",
-        "accountId" : "D",
-        "parentName" : "FGSHIPPING1",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      } ]
-    }, {
-      "links" : [ ],
-      "pKey" : "753422186594",
-      "name" : "FGSHIPPING2",
-      "accountId" : "D",
-      "parentName" : "FGSHIPPING",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE",
-      "childLocationGroups" : [ {
-        "links" : [ ],
-        "pKey" : "424924693864",
-        "name" : "FGWORKPLACE5",
-        "accountId" : "D",
-        "parentName" : "FGSHIPPING2",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      }, {
-        "links" : [ ],
-        "pKey" : "258953718288",
-        "name" : "FGWORKPLACE4",
-        "accountId" : "D",
-        "parentName" : "FGSHIPPING2",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      }, {
-        "links" : [ ],
-        "pKey" : "687300567810",
-        "name" : "FGWORKPLACE7",
-        "accountId" : "D",
-        "parentName" : "FGSHIPPING2",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      }, {
-        "links" : [ ],
-        "pKey" : "909419439040",
-        "name" : "FGWORKPLACE6",
-        "accountId" : "D",
-        "parentName" : "FGSHIPPING2",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      }, {
-        "links" : [ ],
-        "pKey" : "224868263942",
-        "name" : "FGWORKPLACE9",
-        "accountId" : "D",
-        "parentName" : "FGSHIPPING2",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      }, {
-        "links" : [ ],
-        "pKey" : "860334844801",
-        "name" : "FGWORKPLACE8",
-        "accountId" : "D",
-        "parentName" : "FGSHIPPING2",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      } ]
-    } ]
-  }, {
-    "links" : [ ],
-    "pKey" : "212290962584",
-    "name" : "FGSTOCK",
-    "accountId" : "D",
-    "parentName" : "FGAUTOMATIC",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE",
-    "childLocationGroups" : [ {
-      "links" : [ ],
-      "pKey" : "101671979671",
-      "name" : "FGAISLE2",
-      "accountId" : "D",
-      "parentName" : "FGSTOCK",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE",
-      "childLocationGroups" : [ {
-        "links" : [ ],
-        "pKey" : "379640903941",
-        "name" : "FGAISLE2LEFT",
-        "accountId" : "D",
-        "parentName" : "FGAISLE2",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      }, {
-        "links" : [ ],
-        "pKey" : "209483120518",
-        "name" : "FGAISLE2RIGHT",
-        "accountId" : "D",
-        "parentName" : "FGAISLE2",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      }, {
-        "links" : [ ],
-        "pKey" : "730288310794",
-        "name" : "FGAISLE2LIFT",
-        "accountId" : "D",
-        "parentName" : "FGAISLE2",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      } ]
-    }, {
-      "links" : [ ],
-      "pKey" : "53242834266",
-      "name" : "FGAISLE1",
-      "accountId" : "D",
-      "parentName" : "FGSTOCK",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE",
-      "childLocationGroups" : [ {
-        "links" : [ ],
-        "pKey" : "688238147532",
-        "name" : "FGAISLE1LIFT",
-        "accountId" : "D",
-        "parentName" : "FGAISLE1",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      }, {
-        "links" : [ ],
-        "pKey" : "108758840458",
-        "name" : "FGAISLE1RIGHT",
-        "accountId" : "D",
-        "parentName" : "FGAISLE1",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      }, {
-        "links" : [ ],
-        "pKey" : "154549927614",
-        "name" : "FGAISLE1LEFT",
-        "accountId" : "D",
-        "parentName" : "FGAISLE1",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      } ]
-    } ]
-  }, {
-    "links" : [ ],
-    "pKey" : "811754978035",
-    "name" : "FGCONV",
-    "accountId" : "D",
-    "parentName" : "FGAUTOMATIC",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
-  } ],
-  "pKey" : "400335177633",
-  "name" : "FGRECEIVING",
-  "accountId" : "D",
-  "parentName" : "FGAUTOMATIC",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
-  } ],
-  "pKey" : "811754978035",
-  "name" : "FGCONV",
-  "accountId" : "D",
-  "parentName" : "FGAUTOMATIC",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
-  } ],
-  "pKey" : "212290962584",
-  "name" : "FGSTOCK",
-  "accountId" : "D",
-  "parentName" : "FGAUTOMATIC",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE",
-  "childLocationGroups" : [ {
-    "links" : [ ],
-    "pKey" : "101671979671",
-    "name" : "FGAISLE2",
-    "accountId" : "D",
-    "parentName" : "FGSTOCK",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE",
-    "childLocationGroups" : [ {
-      "links" : [ ],
-      "pKey" : "379640903941",
-      "name" : "FGAISLE2LEFT",
-      "accountId" : "D",
-      "parentName" : "FGAISLE2",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "209483120518",
-      "name" : "FGAISLE2RIGHT",
-      "accountId" : "D",
-      "parentName" : "FGAISLE2",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "730288310794",
-      "name" : "FGAISLE2LIFT",
-      "accountId" : "D",
-      "parentName" : "FGAISLE2",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
-  }, {
-    "links" : [ ],
-    "pKey" : "53242834266",
-    "name" : "FGAISLE1",
-    "accountId" : "D",
-    "parentName" : "FGSTOCK",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE",
-    "childLocationGroups" : [ {
-      "links" : [ ],
-      "pKey" : "688238147532",
-      "name" : "FGAISLE1LIFT",
-      "accountId" : "D",
-      "parentName" : "FGAISLE1",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "108758840458",
-      "name" : "FGAISLE1RIGHT",
-      "accountId" : "D",
-      "parentName" : "FGAISLE1",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "154549927614",
-      "name" : "FGAISLE1LEFT",
-      "accountId" : "D",
-      "parentName" : "FGAISLE1",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSTOCK"
-  } ],
-  "pKey" : "53242834266",
-  "name" : "FGAISLE1",
-  "accountId" : "D",
-  "parentName" : "FGSTOCK",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE",
-  "childLocationGroups" : [ {
-    "links" : [ ],
-    "pKey" : "688238147532",
-    "name" : "FGAISLE1LIFT",
-    "accountId" : "D",
-    "parentName" : "FGAISLE1",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "108758840458",
-    "name" : "FGAISLE1RIGHT",
-    "accountId" : "D",
-    "parentName" : "FGAISLE1",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "154549927614",
-    "name" : "FGAISLE1LEFT",
-    "accountId" : "D",
-    "parentName" : "FGAISLE1",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
-  } ],
-  "pKey" : "688238147532",
-  "name" : "FGAISLE1LIFT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
-  } ],
-  "pKey" : "154549927614",
-  "name" : "FGAISLE1LEFT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
-  } ],
-  "pKey" : "108758840458",
-  "name" : "FGAISLE1RIGHT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSTOCK"
-  } ],
-  "pKey" : "101671979671",
-  "name" : "FGAISLE2",
-  "accountId" : "D",
-  "parentName" : "FGSTOCK",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE",
-  "childLocationGroups" : [ {
-    "links" : [ ],
-    "pKey" : "379640903941",
-    "name" : "FGAISLE2LEFT",
-    "accountId" : "D",
-    "parentName" : "FGAISLE2",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "209483120518",
-    "name" : "FGAISLE2RIGHT",
-    "accountId" : "D",
-    "parentName" : "FGAISLE2",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "730288310794",
-    "name" : "FGAISLE2LIFT",
-    "accountId" : "D",
-    "parentName" : "FGAISLE2",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
-  } ],
-  "pKey" : "730288310794",
-  "name" : "FGAISLE2LIFT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
-  } ],
-  "pKey" : "379640903941",
-  "name" : "FGAISLE2LEFT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
-  } ],
-  "pKey" : "209483120518",
-  "name" : "FGAISLE2RIGHT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
-  } ],
-  "pKey" : "585607846471",
-  "name" : "FGSHIPPING",
-  "accountId" : "D",
-  "parentName" : "FGAUTOMATIC",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE",
-  "childLocationGroups" : [ {
-    "links" : [ ],
-    "pKey" : "881973001220",
-    "name" : "FGSHIPPING1",
-    "accountId" : "D",
-    "parentName" : "FGSHIPPING",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE",
-    "childLocationGroups" : [ {
-      "links" : [ ],
-      "pKey" : "18642707784",
-      "name" : "FGWORKPLACE1",
-      "accountId" : "D",
-      "parentName" : "FGSHIPPING1",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "346661868774",
-      "name" : "FGWORKPLACE3",
-      "accountId" : "D",
-      "parentName" : "FGSHIPPING1",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "925145263549",
-      "name" : "FGWORKPLACE2",
-      "accountId" : "D",
-      "parentName" : "FGSHIPPING1",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
-  }, {
-    "links" : [ ],
-    "pKey" : "753422186594",
-    "name" : "FGSHIPPING2",
-    "accountId" : "D",
-    "parentName" : "FGSHIPPING",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE",
-    "childLocationGroups" : [ {
-      "links" : [ ],
-      "pKey" : "424924693864",
-      "name" : "FGWORKPLACE5",
-      "accountId" : "D",
-      "parentName" : "FGSHIPPING2",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "258953718288",
-      "name" : "FGWORKPLACE4",
-      "accountId" : "D",
-      "parentName" : "FGSHIPPING2",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "687300567810",
-      "name" : "FGWORKPLACE7",
-      "accountId" : "D",
-      "parentName" : "FGSHIPPING2",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "909419439040",
-      "name" : "FGWORKPLACE6",
-      "accountId" : "D",
-      "parentName" : "FGSHIPPING2",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "224868263942",
-      "name" : "FGWORKPLACE9",
-      "accountId" : "D",
-      "parentName" : "FGSHIPPING2",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "860334844801",
-      "name" : "FGWORKPLACE8",
-      "accountId" : "D",
-      "parentName" : "FGSHIPPING2",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING"
-  } ],
-  "pKey" : "881973001220",
-  "name" : "FGSHIPPING1",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE",
-  "childLocationGroups" : [ {
-    "links" : [ ],
-    "pKey" : "18642707784",
-    "name" : "FGWORKPLACE1",
-    "accountId" : "D",
-    "parentName" : "FGSHIPPING1",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "346661868774",
-    "name" : "FGWORKPLACE3",
-    "accountId" : "D",
-    "parentName" : "FGSHIPPING1",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "925145263549",
-    "name" : "FGWORKPLACE2",
-    "accountId" : "D",
-    "parentName" : "FGSHIPPING1",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
-  } ],
-  "pKey" : "18642707784",
-  "name" : "FGWORKPLACE1",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
-  } ],
-  "pKey" : "925145263549",
-  "name" : "FGWORKPLACE2",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
-  } ],
-  "pKey" : "346661868774",
-  "name" : "FGWORKPLACE3",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING"
-  } ],
-  "pKey" : "753422186594",
-  "name" : "FGSHIPPING2",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE",
-  "childLocationGroups" : [ {
-    "links" : [ ],
-    "pKey" : "424924693864",
-    "name" : "FGWORKPLACE5",
-    "accountId" : "D",
-    "parentName" : "FGSHIPPING2",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "258953718288",
-    "name" : "FGWORKPLACE4",
-    "accountId" : "D",
-    "parentName" : "FGSHIPPING2",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "687300567810",
-    "name" : "FGWORKPLACE7",
-    "accountId" : "D",
-    "parentName" : "FGSHIPPING2",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "909419439040",
-    "name" : "FGWORKPLACE6",
-    "accountId" : "D",
-    "parentName" : "FGSHIPPING2",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "224868263942",
-    "name" : "FGWORKPLACE9",
-    "accountId" : "D",
-    "parentName" : "FGSHIPPING2",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "860334844801",
-    "name" : "FGWORKPLACE8",
-    "accountId" : "D",
-    "parentName" : "FGSHIPPING2",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
-  } ],
-  "pKey" : "258953718288",
-  "name" : "FGWORKPLACE4",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
-  } ],
-  "pKey" : "424924693864",
-  "name" : "FGWORKPLACE5",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
-  } ],
-  "pKey" : "909419439040",
-  "name" : "FGWORKPLACE6",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
-  } ],
-  "pKey" : "687300567810",
-  "name" : "FGWORKPLACE7",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
-  } ],
-  "pKey" : "860334844801",
-  "name" : "FGWORKPLACE8",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
-  } ],
-  "pKey" : "224868263942",
-  "name" : "FGWORKPLACE9",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=Flatgood_AREA"
-  } ],
-  "pKey" : "264924505336",
-  "name" : "FGMANUAL",
-  "accountId" : "D",
-  "parentName" : "Flatgood_AREA",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=Flatgood_AREA"
-  } ],
-  "pKey" : "281343921750",
-  "name" : "FGCANBAN",
-  "accountId" : "D",
-  "parentName" : "Flatgood_AREA",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
-  } ],
-  "pKey" : "166982377557",
-  "name" : "IPOINT",
-  "accountId" : "D",
-  "parentName" : "ZILE",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE",
-  "childLocationGroups" : [ {
-    "links" : [ ],
-    "pKey" : "24417670340",
-    "name" : "IPOINT2",
-    "accountId" : "D",
-    "parentName" : "IPOINT",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "782120388022",
-    "name" : "IPOINT1",
-    "accountId" : "D",
-    "parentName" : "IPOINT",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=IPOINT"
-  } ],
-  "pKey" : "782120388022",
-  "name" : "IPOINT1",
-  "accountId" : "D",
-  "parentName" : "IPOINT",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=IPOINT"
-  } ],
-  "pKey" : "24417670340",
-  "name" : "IPOINT2",
-  "accountId" : "D",
-  "parentName" : "IPOINT",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
-  } ],
-  "pKey" : "878177817968",
-  "name" : "PALLET_AREA",
-  "accountId" : "D",
-  "parentName" : "ZILE",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE",
-  "childLocationGroups" : [ {
-    "links" : [ ],
-    "pKey" : "43608343999",
-    "name" : "PHIGHBAY",
-    "accountId" : "D",
-    "parentName" : "PALLET_AREA",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE",
-    "childLocationGroups" : [ {
-      "links" : [ ],
-      "pKey" : "999057994469",
-      "name" : "PAISLE2",
-      "accountId" : "D",
-      "parentName" : "PHIGHBAY",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE",
-      "childLocationGroups" : [ {
-        "links" : [ ],
-        "pKey" : "995126472754",
-        "name" : "PAISLE2LIFT",
-        "accountId" : "D",
-        "parentName" : "PAISLE2",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      }, {
-        "links" : [ ],
-        "pKey" : "48562833846",
-        "name" : "PAISLE2LEFT",
-        "accountId" : "D",
-        "parentName" : "PAISLE2",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      }, {
-        "links" : [ ],
-        "pKey" : "673781181265",
-        "name" : "PAISLE2RIGHT",
-        "accountId" : "D",
-        "parentName" : "PAISLE2",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      } ]
-    }, {
-      "links" : [ ],
-      "pKey" : "500576747031",
-      "name" : "PAISLE1",
-      "accountId" : "D",
-      "parentName" : "PHIGHBAY",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE",
-      "childLocationGroups" : [ {
-        "links" : [ ],
-        "pKey" : "332530824417",
-        "name" : "PAISLE1RIGHT",
-        "accountId" : "D",
-        "parentName" : "PAISLE1",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      }, {
-        "links" : [ ],
-        "pKey" : "443011357014",
-        "name" : "PAISLE1LEFT",
-        "accountId" : "D",
-        "parentName" : "PAISLE1",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      }, {
-        "links" : [ ],
-        "pKey" : "483875811636",
-        "name" : "PAISLE1LIFT",
-        "accountId" : "D",
-        "parentName" : "PAISLE1",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      } ]
-    } ]
-  }, {
-    "links" : [ ],
-    "pKey" : "306784420810",
-    "name" : "PPICKING",
-    "accountId" : "D",
-    "parentName" : "PALLET_AREA",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=PALLET_AREA"
-  } ],
-  "pKey" : "306784420810",
-  "name" : "PPICKING",
-  "accountId" : "D",
-  "parentName" : "PALLET_AREA",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=PALLET_AREA"
-  } ],
-  "pKey" : "43608343999",
-  "name" : "PHIGHBAY",
-  "accountId" : "D",
-  "parentName" : "PALLET_AREA",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE",
-  "childLocationGroups" : [ {
-    "links" : [ ],
-    "pKey" : "999057994469",
-    "name" : "PAISLE2",
-    "accountId" : "D",
-    "parentName" : "PHIGHBAY",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE",
-    "childLocationGroups" : [ {
-      "links" : [ ],
-      "pKey" : "995126472754",
-      "name" : "PAISLE2LIFT",
-      "accountId" : "D",
-      "parentName" : "PAISLE2",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "48562833846",
-      "name" : "PAISLE2LEFT",
-      "accountId" : "D",
-      "parentName" : "PAISLE2",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "673781181265",
-      "name" : "PAISLE2RIGHT",
-      "accountId" : "D",
-      "parentName" : "PAISLE2",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
-  }, {
-    "links" : [ ],
-    "pKey" : "500576747031",
-    "name" : "PAISLE1",
-    "accountId" : "D",
-    "parentName" : "PHIGHBAY",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE",
-    "childLocationGroups" : [ {
-      "links" : [ ],
-      "pKey" : "332530824417",
-      "name" : "PAISLE1RIGHT",
-      "accountId" : "D",
-      "parentName" : "PAISLE1",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "443011357014",
-      "name" : "PAISLE1LEFT",
-      "accountId" : "D",
-      "parentName" : "PAISLE1",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "483875811636",
-      "name" : "PAISLE1LIFT",
-      "accountId" : "D",
-      "parentName" : "PAISLE1",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=PHIGHBAY"
-  } ],
-  "pKey" : "500576747031",
-  "name" : "PAISLE1",
-  "accountId" : "D",
-  "parentName" : "PHIGHBAY",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE",
-  "childLocationGroups" : [ {
-    "links" : [ ],
-    "pKey" : "332530824417",
-    "name" : "PAISLE1RIGHT",
-    "accountId" : "D",
-    "parentName" : "PAISLE1",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "443011357014",
-    "name" : "PAISLE1LEFT",
-    "accountId" : "D",
-    "parentName" : "PAISLE1",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "483875811636",
-    "name" : "PAISLE1LIFT",
-    "accountId" : "D",
-    "parentName" : "PAISLE1",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE1"
-  } ],
-  "pKey" : "483875811636",
-  "name" : "PAISLE1LIFT",
-  "accountId" : "D",
-  "parentName" : "PAISLE1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE1"
-  } ],
-  "pKey" : "443011357014",
-  "name" : "PAISLE1LEFT",
-  "accountId" : "D",
-  "parentName" : "PAISLE1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE1"
-  } ],
-  "pKey" : "332530824417",
-  "name" : "PAISLE1RIGHT",
-  "accountId" : "D",
-  "parentName" : "PAISLE1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=PHIGHBAY"
-  } ],
-  "pKey" : "999057994469",
-  "name" : "PAISLE2",
-  "accountId" : "D",
-  "parentName" : "PHIGHBAY",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE",
-  "childLocationGroups" : [ {
-    "links" : [ ],
-    "pKey" : "995126472754",
-    "name" : "PAISLE2LIFT",
-    "accountId" : "D",
-    "parentName" : "PAISLE2",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "48562833846",
-    "name" : "PAISLE2LEFT",
-    "accountId" : "D",
-    "parentName" : "PAISLE2",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "673781181265",
-    "name" : "PAISLE2RIGHT",
-    "accountId" : "D",
-    "parentName" : "PAISLE2",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE2"
-  } ],
-  "pKey" : "995126472754",
-  "name" : "PAISLE2LIFT",
-  "accountId" : "D",
-  "parentName" : "PAISLE2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE2"
-  } ],
-  "pKey" : "48562833846",
-  "name" : "PAISLE2LEFT",
-  "accountId" : "D",
-  "parentName" : "PAISLE2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE2"
-  } ],
-  "pKey" : "673781181265",
-  "name" : "PAISLE2RIGHT",
-  "accountId" : "D",
-  "parentName" : "PAISLE2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-} ]</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg-find-all/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>Each <code>LocationGroup</code> has a link to its parent <code>LocationGroup</code> except the root <code>LocationGroup</code> that has no parent. Notice the returned
@@ -3588,73 +1251,26 @@ Content-Length: 57061
 <div class="paragraph">
 <p>Send a HTTP GET request with the unique name of the <code>LocationGroup</code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/location-groups?name=FGRECEIVING HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg/shall_findby_name/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>Request parameters:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The unique name of the LocationGroup</p></td>
-</tr>
-</tbody>
-</table>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg/shall_findby_name/request-parameters.adoc[]</p>
+</div>
 <div class="paragraph">
 <p>If the <code>LocationGroup</code> exists the server responds with</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 333
-
-{
-  "_links" : {
-    "parent" : {
-      "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
-    }
-  },
-  "pKey" : "400335177633",
-  "name" : "FGRECEIVING",
-  "accountId" : "D",
-  "parentName" : "FGAUTOMATIC",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg/shall_findby_name/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the <code>LocationGroup</code> with the given name does not exist, the server responds with</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 125
-
-{
-  "message" : "LocationGroup with name [NOT_EXISTS] does not exist",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg-find-name-404/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -3662,87 +1278,20 @@ Content-Length: 125
 <div class="paragraph">
 <p>Send a HTTP GET request with a list of unique <code>LocationGroup</code> names.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/location-groups?names=FGRECEIVING&amp;names=IPOINT HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg/shall_findby_names/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>Request parameters:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>names</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A list of unique names to identiy the LocationGroups</p></td>
-</tr>
-</tbody>
-</table>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg/shall_findby_names/request-parameters.adoc[]</p>
+</div>
 <div class="paragraph">
 <p>The server sends back a list of all <code>LocationGroups</code> or an empty list if no <code>LocationGroups</code> exist.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 1168
-
-[ {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
-  } ],
-  "pKey" : "400335177633",
-  "name" : "FGRECEIVING",
-  "accountId" : "D",
-  "parentName" : "FGAUTOMATIC",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
-  } ],
-  "pKey" : "166982377557",
-  "name" : "IPOINT",
-  "accountId" : "D",
-  "parentName" : "ZILE",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE",
-  "childLocationGroups" : [ {
-    "links" : [ ],
-    "pKey" : "24417670340",
-    "name" : "IPOINT2",
-    "accountId" : "D",
-    "parentName" : "IPOINT",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  }, {
-    "links" : [ ],
-    "pKey" : "782120388022",
-    "name" : "IPOINT1",
-    "accountId" : "D",
-    "parentName" : "IPOINT",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-} ]</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg/shall_findby_names/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -3755,138 +1304,52 @@ Content-Length: 1168
 <div class="paragraph">
 <p>To change the state of a <code>LocationGroup</code> a <code>PATCH</code> request on the identified resource is accepted:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /v1/location-group/400335177633?statein=NOT_AVAILABLE&amp;stateout=NOT_AVAILABLE&amp;op=change-state HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg/shall_change_state_p-key/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>Request path variables:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /v1/location-group/{pKey}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The persistent key of the LocationGroup</p></td>
-</tr>
-</tbody>
-</table>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg/shall_change_state_p-key/path-parameters.adoc[]</p>
+</div>
 <div class="paragraph">
 <p>Request parameters:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>statein</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The infeed state to set</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>stateout</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The outfeed state to set</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>op</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The operation mode must be set to 'change-state'</p></td>
-</tr>
-</tbody>
-</table>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg/shall_change_state_p-key/request-parameters.adoc[]</p>
+</div>
 <div class="paragraph">
 <p>If the state change operation could be processed successfully, the server responds with:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg/shall_change_state_p-key/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the resource can&#8217;t be identified the server response looks like:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 192
-
-{
-  "message" : "LocationGroup with name [NOT_EXISTS] not found",
-  "messageKey" : "COMMON.LOCATION_GROUP_NOT_FOUND",
-  "obj" : [ "NOT_EXISTS" ],
-  "httpStatus" : "404",
-  "class" : "String"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg-state-404/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>Instead of passing both state values for inbound and outbound directly as query parameters it is also possible to encode the state into a
 8-digit bitmap field and pass it to the request. This is very handy when the subsystem (aka. PLC) sends an error bitmap to the server that
 can then directly passed to the API.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /v1/location-groups?name=IPOINT&amp;op=change-state HTTP/1.1
-Content-Type: application/json
-Content-Length: 30
-Host: localhost:8080
-
-{
-  "errorCode" : "******11"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg/shall_change_state/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>Request parameters:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The unique name of the LocationGroup</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>op</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The operation mode must be set to 'change-state'</p></td>
-</tr>
-</tbody>
-</table>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg/shall_change_state/request-parameters.adoc[]</p>
+</div>
 <div class="paragraph">
 <p>The server response is:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg/shall_change_state/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -3962,14 +1425,8 @@ a set of query parameters.</p>
 <p>To lock a <code>Target</code> to be not considered in inbound, like Putaway, the server requires a HTTP POST request with the lock type
 <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v1/targets/IPOINT?type=ALLOCATION_LOCK&amp;mode=IN HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=ALLOCATION_LOCK&amp;mode=IN</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-lock-in-lg-IPOINT/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -3978,14 +1435,8 @@ type=ALLOCATION_LOCK&amp;mode=IN</code></pre>
 <p>To lock a <code>Target</code> for outbound, like Allocation and Outfeed, the server requires a HTTP POST request with the lock type
 <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v1/targets/IPOINT?type=ALLOCATION_LOCK&amp;mode=OUT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=ALLOCATION_LOCK&amp;mode=OUT</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-lock-out-lg-IPOINT/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -3994,14 +1445,8 @@ type=ALLOCATION_LOCK&amp;mode=OUT</code></pre>
 <p>To lock a <code>Target</code> for inbound and outbound, like Putaway and Allocation, the server requires a HTTP POST request with the
 lock type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v1/targets/IPOINT?type=ALLOCATION_LOCK&amp;mode=IN_AND_OUT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=ALLOCATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-lock-inout-lg-IPOINT/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -4010,14 +1455,8 @@ type=ALLOCATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
 <p>To release all locks on a <code>Target</code> and allow any inbound and outbound operation, the server requires a HTTP POST request with the lock
 type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v1/targets/IPOINT?type=ALLOCATION_LOCK&amp;mode=NONE HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=ALLOCATION_LOCK&amp;mode=NONE</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-lock-none-lg-IPOINT/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -4025,10 +1464,8 @@ type=ALLOCATION_LOCK&amp;mode=NONE</code></pre>
 <div class="paragraph">
 <p>In any of the previous cases the server responds with the following success message.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-lock-none-lg-IPOINT/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -4090,14 +1527,8 @@ for planned short term locks, where a <code>Target</code> is taken out of operat
 <p>To lock a <code>Target</code> for inbound operations only, the server requires a HTTP POST request with the lock type
 <code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v1/targets/IPOINT?reallocation=true&amp;type=OPERATION_LOCK&amp;mode=IN HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-reallocation=true&amp;type=OPERATION_LOCK&amp;mode=IN</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-olock-in-lg-IPOINT/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -4106,14 +1537,8 @@ reallocation=true&amp;type=OPERATION_LOCK&amp;mode=IN</code></pre>
 <p>To lock a <code>Target</code> for outbound operations only, the server requires a HTTP POST request with the lock type
 <code>type=OPERATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v1/targets/IPOINT?type=OPERATION_LOCK&amp;mode=OUT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=OPERATION_LOCK&amp;mode=OUT</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-olock-out-lg-IPOINT/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -4122,14 +1547,8 @@ type=OPERATION_LOCK&amp;mode=OUT</code></pre>
 <p>To lock a <code>Target</code> for inbound and outbound operations, the server requires a HTTP POST request with the
 lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v1/targets/IPOINT?type=OPERATION_LOCK&amp;mode=IN_AND_OUT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=OPERATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-olock-inout-lg-IPOINT/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -4138,14 +1557,8 @@ type=OPERATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
 <p>To release all operational locks on a <code>Target</code> and allow any inbound and outbound operation, the server requires a HTTP POST request with
 the lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v1/targets/IPOINT?type=OPERATION_LOCK&amp;mode=NONE HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=OPERATION_LOCK&amp;mode=NONE</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-olock-none-lg-IPOINT/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -4153,10 +1566,8 @@ type=OPERATION_LOCK&amp;mode=NONE</code></pre>
 <div class="paragraph">
 <p>In any of the previous cases the server responds with the following success message.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-olock-none-lg-IPOINT/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -4175,36 +1586,22 @@ server. Locking  the <code>Target</code> allows an optional flag to signal a re-
 <p>In this example the <code>Target</code> is a <code>LocationGroup</code> with the name <code>IPOINT</code> that gets locked. The server is requested to re-allocate existing
 orders.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v1/targets/IPOINT?reallocation=true&amp;type=PERMANENT_LOCK&amp;mode=lock HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-reallocation=true&amp;type=PERMANENT_LOCK&amp;mode=lock</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lock-lg-IPOINT/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>To unlock the same <code>Target</code> with name <code>IPOINT</code>:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v1/targets/IPOINT?type=PERMANENT_LOCK&amp;mode=unlock HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=PERMANENT_LOCK&amp;mode=unlock</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/unlock-lg-IPOINT/http-request.adoc[]</p>
 </div>
 <div class="sect3">
 <h4 id="_response_success_3"><a class="anchor" href="#_response_success_3"></a><a class="link" href="#_response_success_3">Response: Success</a></h4>
 <div class="paragraph">
 <p>If the server has successfully locked or unlocked the <code>Target</code> the response is:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lock-lg-IPOINT/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -4212,18 +1609,8 @@ type=PERMANENT_LOCK&amp;mode=unlock</code></pre>
 <div class="paragraph">
 <p>If the given <code>Target</code> (FOO) does not exist the server responds with:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 194
-
-{
-  "message" : "The Target with name [FOO] is neither a Location nor a LocationGroup. Other types of Targets are currently not supported",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lock-lg-unknown/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -4241,38 +1628,14 @@ transport items like <code>LoadUnits</code>. It is moved between <code>Locations
 <div class="paragraph">
 <p>The index with all possible operations can be retrieved with the following GET request:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/transport-units/index HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-index/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>The response lists all the operations with a name and the corresponding href link:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 552
-
-{
-  "_links" : {
-    "transport-unit-findbypkey" : {
-      "href" : "http://localhost:8080/v1/transport-units/1"
-    },
-    "transport-unit-findbybarcode" : {
-      "href" : "http://localhost:8080/v1/transport-units?bk=00000000000000004711"
-    },
-    "transport-unit-findbybarcodes" : {
-      "href" : "http://localhost:8080/v1/transport-units?bks=00000000000000004711&amp;bks=00000000000000004712"
-    },
-    "transport-unit-findonlocation" : {
-      "href" : "http://localhost:8080/v1/transport-units?actualLocation=EXT_/0000/0000/0000/0000"
-    }
-  }
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-index/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -4284,137 +1647,33 @@ different request parameters.</p>
 <div class="paragraph">
 <p>The simplest way to create a <code>TransportUnit</code> is to just pass the mandatory fields of a <code>TransportUnit</code> to the API:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v1/transport-units?bk=00000000000000004710&amp;actualLocation=EXT_/0000/0000/0000/0000&amp;tut=PALLET&amp;strict=false HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-bk=00000000000000004710&amp;actualLocation=EXT_%2F0000%2F0000%2F0000%2F0000&amp;tut=PALLET&amp;strict=false</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-create-simple/http-request.adoc[]</p>
 </div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-create-simple/request-parameters.adoc[]</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>actualLocation</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The Location where to book on the TransportUnit initially</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tut</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the TransportUnitType assigned to the TransportUnit</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>strict</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If true, the service fails if the TransportUnit already exist, if false it does not fail and returns the existing one</p></td>
-</tr>
-</tbody>
-</table>
 <div class="paragraph">
 <p>The server stores a <code>TransportUnit</code> instance with the given values and default values for other fields of the <code>TransportUnit</code>. The response
 contains a link to the newly created resource.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/a43a678e-f850-452a-82eb-45e4c7bd4126/
-Content-Type: application/hal+json
-Content-Length: 768
-
-{
-  "pKey" : "a43a678e-f850-452a-82eb-45e4c7bd4126",
-  "barcode" : "00000000000000004710",
-  "actualLocation" : {
-    "pKey" : "113646454019",
-    "locationId" : "EXT_/0000/0000/0000/0000",
-    "type" : "FG",
-    "accountId" : "D",
-    "locationGroupName" : "ZILE",
-    "erpCode" : "ERP_0030",
-    "plcCode" : "PLC_0030",
-    "incomingActive" : true,
-    "outgoingActive" : true,
-    "plcState" : 0
-  },
-  "state" : "AVAILABLE",
-  "transportUnitTypeName" : "PALLET",
-  "length" : 120,
-  "width" : 80,
-  "height" : 102,
-  "weight" : {
-    "@class" : "org.openwms.core.units.api.Weight",
-    "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
-    "magnitude" : 0
-  },
-  "actualLocationDate" : "2021-07-12T18:29:58Z",
-  "createDate" : "2021-07-12T18:29:58Z"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-create-simple/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>In a second approach the client may pass the structure of the <code>TransportUnit</code> to create as request body to the API:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v1/transport-units?bk=00000000000000004710&amp;strict=false HTTP/1.1
-Content-Type: application/json
-Content-Length: 172
-Host: localhost:8080
-
-{
-  "links" : [ ],
-  "barcode" : "4710",
-  "actualLocation" : {
-    "links" : [ ],
-    "locationId" : "EXT_/0000/0000/0000/0000"
-  },
-  "transportUnitTypeName" : "PALLET"
-}</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-create-full/http-request.adoc[]</p>
 </div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-create-full/request-parameters.adoc[]</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>strict</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If true, the service fails if the TransportUnit already exist, if false it does not fail and returns the existing one</p></td>
-</tr>
-</tbody>
-</table>
 <div class="paragraph">
 <p>Like before the server responds with a link to the newly created resource as far as the operation succeeds.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/3763f93a-a94c-42ff-81d6-d2da4181535c/</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-create-full/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>Notice the <code>strict</code> attribute. When the client passes <code>true</code> as value for <code>strict</code> the server ensures there is no <code>TransportUnit</code> with the
@@ -4422,28 +1681,14 @@ given business key. When the attribute is omitted or set to <code>false</code> n
 <code>TransportUnit</code> or the newly created is returned. If the API call fails because a <code>TransportUnit</code> with the given <code>Barcode</code> exists, the
 response looks like:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 409 Conflict
-Content-Type: application/hal+json
-Content-Length: 204
-
-{
-  "message" : "TransportUnit with Barcode [00000000000000004711] already exits",
-  "messageKey" : "COMMON.TU_EXISTS",
-  "obj" : [ "00000000000000004711" ],
-  "httpStatus" : "409",
-  "class" : "String"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-create-error/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the request is invalid or contains invalid fields the server responds with:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-create-invalid/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -4452,67 +1697,17 @@ Content-Length: 204
 <p>To move a <code>TransportUnit</code> from it&#8217;s current Location to a new Location, simply call the API with the identifying Barcode and the new
 Location where the <code>TransportUnit</code> shall be booked on.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /v1/transport-units?bk=00000000000000004711&amp;newLocation=FGIN/0001/LEFT/0000/0000 HTTP/1.1
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-move/http-request.adoc[]</p>
 </div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-move/request-parameters.adoc[]</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>newLocation</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The target Location where to move the TransportUnit to</p></td>
-</tr>
-</tbody>
-</table>
 <div class="paragraph">
 <p>The server returns the updated <code>TransportUnit</code> instance.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 582
-
-{
-  "pKey" : "1",
-  "barcode" : "00000000000000004711",
-  "actualLocation" : {
-    "pKey" : "896384899357",
-    "locationId" : "FGIN/0001/LEFT/0000/0000",
-    "type" : "FG",
-    "accountId" : "D",
-    "locationGroupName" : "FGAISLE1LEFT",
-    "erpCode" : "ERP_0013",
-    "plcCode" : "PLC_0013",
-    "incomingActive" : true,
-    "outgoingActive" : true,
-    "plcState" : 0
-  },
-  "state" : "AVAILABLE",
-  "transportUnitTypeName" : "PALLET",
-  "length" : 120,
-  "width" : 80,
-  "height" : 102,
-  "actualLocationDate" : "2021-07-12T18:29:58Z",
-  "createDate" : "2021-07-12T18:29:58Z"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-move/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -4525,89 +1720,23 @@ The date when the <code>TransportUnit</code> has been recently moved is only cha
 <div class="paragraph">
 <p>Send a HTTP PUT request to the server together with the <code>TransportUnit</code> as part of the request body.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /v1/transport-units?bk=00000000000000004711 HTTP/1.1
-Content-Type: application/json
-Content-Length: 150
-Host: localhost:8080
-
-{
-  "links" : [ ],
-  "barcode" : "00000000000000004711",
-  "actualLocation" : {
-    "links" : [ ],
-    "locationId" : "FGIN/0001/LEFT/0000/0000"
-  }
-}</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-update/http-request.adoc[]</p>
 </div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-update/request-parameters.adoc[]</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
-</tr>
-</tbody>
-</table>
 <div class="paragraph">
 <p>If the server saved the changes, the response contains the updated representation of the <code>TransportUnit</code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 557
-
-{
-  "pKey" : "1",
-  "barcode" : "00000000000000004711",
-  "actualLocation" : {
-    "pKey" : "896384899357",
-    "locationId" : "FGIN/0001/LEFT/0000/0000",
-    "type" : "FG",
-    "accountId" : "D",
-    "locationGroupName" : "FGAISLE1LEFT",
-    "erpCode" : "ERP_0013",
-    "plcCode" : "PLC_0013",
-    "incomingActive" : true,
-    "outgoingActive" : true,
-    "plcState" : 0
-  },
-  "transportUnitTypeName" : "PALLET",
-  "length" : 120,
-  "width" : 80,
-  "height" : 102,
-  "actualLocationDate" : "2021-07-12T18:29:58Z",
-  "createDate" : "2021-07-12T18:29:58Z"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-update/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>In case no <code>TransportUnit</code> with the Barcode exists the server returns an error:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 133
-
-{
-  "message" : "TransportUnit with Barcode [00000000000000004710] not found",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-update-404/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -4615,134 +1744,30 @@ Content-Length: 133
 <div class="paragraph">
 <p>Find a <code>TransportUnit</code> by its unique <code>Barcode</code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/transport-units?bk=00000000000000004711 HTTP/1.1
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-find-by-barcode/http-request.adoc[]</p>
 </div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-find-by-barcode/request-parameters.adoc[]</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
-</tr>
-</tbody>
-</table>
 <div class="paragraph">
 <p>If the <code>TransportUnit</code> has been found the server returns a JSON representation:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 848
-
-{
-  "links" : [ {
-    "rel" : "transport-unit-type",
-    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
-  }, {
-    "rel" : "actual-location",
-    "href" : "http://localhost:8080/v1/locations?locationPK=EXT_/0000/0000/0000/0000"
-  } ],
-  "pKey" : "1",
-  "barcode" : "00000000000000004711",
-  "actualLocation" : {
-    "links" : [ ],
-    "pKey" : "113646454019",
-    "locationId" : "EXT_/0000/0000/0000/0000",
-    "type" : "FG",
-    "accountId" : "D",
-    "locationGroupName" : "ZILE",
-    "erpCode" : "ERP_0030",
-    "plcCode" : "PLC_0030",
-    "incomingActive" : true,
-    "outgoingActive" : true,
-    "plcState" : 0
-  },
-  "state" : "AVAILABLE",
-  "transportUnitTypeName" : "PALLET",
-  "length" : 120,
-  "width" : 80,
-  "height" : 102,
-  "actualLocationDate" : "2021-07-12T18:29:58Z",
-  "createDate" : "2021-07-12T18:29:58Z"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-find-by-barcode/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>In case a <code>TransportUnit</code> with the requested <code>Barcode</code> == <code>9999</code> does not exist the response looks like:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 229
-
-{
-  "message" : "TransportUnit with Barcode [00000000000000000999] not found",
-  "messageKey" : "COMMON.BARCODE_NOT_FOUND",
-  "obj" : [ {
-    "value" : "00000000000000000999"
-  } ],
-  "httpStatus" : "404",
-  "class" : "Barcode"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-find-by-barcode-404/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>Also the short form of a <code>Barcode</code> can be passed to the API and the server implementation adjusts the given <code>Barcode</code> to the configured
 style, like it is left or right aligned and padded.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 848
-
-{
-  "links" : [ {
-    "rel" : "transport-unit-type",
-    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
-  }, {
-    "rel" : "actual-location",
-    "href" : "http://localhost:8080/v1/locations?locationPK=EXT_/0000/0000/0000/0000"
-  } ],
-  "pKey" : "1",
-  "barcode" : "00000000000000004711",
-  "actualLocation" : {
-    "links" : [ ],
-    "pKey" : "113646454019",
-    "locationId" : "EXT_/0000/0000/0000/0000",
-    "type" : "FG",
-    "accountId" : "D",
-    "locationGroupName" : "ZILE",
-    "erpCode" : "ERP_0030",
-    "plcCode" : "PLC_0030",
-    "incomingActive" : true,
-    "outgoingActive" : true,
-    "plcState" : 0
-  },
-  "state" : "AVAILABLE",
-  "transportUnitTypeName" : "PALLET",
-  "length" : 120,
-  "width" : 80,
-  "height" : 102,
-  "actualLocationDate" : "2021-07-12T18:29:58Z",
-  "createDate" : "2021-07-12T18:29:58Z"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-find-by-barcode-short/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -4750,101 +1775,17 @@ Content-Length: 848
 <div class="paragraph">
 <p>Also multiple <code>Barcodes</code> can be passed to the API in order to search for multiple <code>TransportUnits</code>:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/transport-units?bks=00000000000000004711&amp;bks=00000000000000004712&amp;bks=00000000000000004713 HTTP/1.1
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-find-by-barcodes/http-request.adoc[]</p>
 </div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-find-by-barcodes/request-parameters.adoc[]</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bks</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A set of identifying Barcodes of the TransportUnit to search for</p></td>
-</tr>
-</tbody>
-</table>
 <div class="paragraph">
 <p>This returns an array with the <code>TransportUnits</code> found:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1705
-
-[ {
-  "links" : [ {
-    "rel" : "transport-unit-type",
-    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
-  }, {
-    "rel" : "actual-location",
-    "href" : "http://localhost:8080/v1/locations?locationPK=EXT_/0000/0000/0000/0000"
-  } ],
-  "pKey" : "1",
-  "barcode" : "00000000000000004711",
-  "actualLocation" : {
-    "links" : [ ],
-    "pKey" : "113646454019",
-    "locationId" : "EXT_/0000/0000/0000/0000",
-    "type" : "FG",
-    "accountId" : "D",
-    "locationGroupName" : "ZILE",
-    "erpCode" : "ERP_0030",
-    "plcCode" : "PLC_0030",
-    "incomingActive" : true,
-    "outgoingActive" : true,
-    "plcState" : 0
-  },
-  "state" : "AVAILABLE",
-  "transportUnitTypeName" : "PALLET",
-  "length" : 120,
-  "width" : 80,
-  "height" : 102,
-  "actualLocationDate" : "2021-07-12T18:29:57Z",
-  "createDate" : "2021-07-12T18:29:57Z"
-}, {
-  "links" : [ {
-    "rel" : "transport-unit-type",
-    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
-  }, {
-    "rel" : "actual-location",
-    "href" : "http://localhost:8080/v1/locations?locationPK=FGIN/IPNT/0001/0000/0000"
-  } ],
-  "pKey" : "2",
-  "barcode" : "00000000000000004712",
-  "actualLocation" : {
-    "links" : [ ],
-    "pKey" : "439649733836",
-    "locationId" : "FGIN/IPNT/0001/0000/0000",
-    "type" : "FG",
-    "accountId" : "D",
-    "locationGroupName" : "IPOINT1",
-    "erpCode" : "ERP_0031",
-    "plcCode" : "PLC_0031",
-    "incomingActive" : true,
-    "outgoingActive" : true,
-    "plcState" : 0
-  },
-  "state" : "AVAILABLE",
-  "transportUnitTypeName" : "PALLET",
-  "length" : 120,
-  "width" : 80,
-  "height" : 102,
-  "actualLocationDate" : "2021-07-12T18:29:57Z",
-  "createDate" : "2021-07-12T18:29:57Z"
-} ]</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-find-by-barcodes/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -4852,71 +1793,17 @@ Content-Length: 1705
 <div class="paragraph">
 <p>Search and return all <code>TransportUnits</code> that are currently booked on a given <code>Location</code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/transport-units?actualLocation=FGIN/IPNT/0001/0000/0000 HTTP/1.1
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-find-on-location/http-request.adoc[]</p>
 </div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-find-on-location/request-parameters.adoc[]</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>actualLocation</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The Location to find all TransportUnits booked on</p></td>
-</tr>
-</tbody>
-</table>
 <div class="paragraph">
 <p>The <code>TransportUnit</code> with <code>Barcode</code> == <code>00000000000000004712</code> is returned:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 855
-
-[ {
-  "links" : [ {
-    "rel" : "transport-unit-type",
-    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
-  }, {
-    "rel" : "actual-location",
-    "href" : "http://localhost:8080/v1/locations?locationPK=FGIN/IPNT/0001/0000/0000"
-  } ],
-  "pKey" : "2",
-  "barcode" : "00000000000000004712",
-  "actualLocation" : {
-    "links" : [ ],
-    "pKey" : "439649733836",
-    "locationId" : "FGIN/IPNT/0001/0000/0000",
-    "type" : "FG",
-    "accountId" : "D",
-    "locationGroupName" : "IPOINT1",
-    "erpCode" : "ERP_0031",
-    "plcCode" : "PLC_0031",
-    "incomingActive" : true,
-    "outgoingActive" : true,
-    "plcState" : 0
-  },
-  "state" : "AVAILABLE",
-  "transportUnitTypeName" : "PALLET",
-  "length" : 120,
-  "width" : 80,
-  "height" : 102,
-  "actualLocationDate" : "2021-07-12T18:29:58Z",
-  "createDate" : "2021-07-12T18:29:58Z"
-} ]</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-find-on-location/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -4926,44 +1813,17 @@ Content-Length: 855
 for further analysis. Therefore each <code>TransportUnit</code> has a history of error messages attached that can be populated with new messages. A
 client simple calls this API to store a new error message for an existing <code>TransportUnit</code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v1/transport-unit/error?bk=00000000000000004711&amp;errorCode=bla HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-bk=00000000000000004711&amp;errorCode=bla</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-add-error/http-request.adoc[]</p>
 </div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-add-error/request-parameters.adoc[]</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>errorCode</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The error text</p></td>
-</tr>
-</tbody>
-</table>
 <div class="paragraph">
 <p>The server acknowledges the request and stores the error message asynchronously.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 8-transport-unit.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tu-add-error/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -4980,32 +1840,14 @@ length, the height, or the weight of <code>TransportUnits</code>. It is possible
 <div class="paragraph">
 <p>The index with all possible operations can be retrieved with the following GET request:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/transport-unit-types/index HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 9-transport-unit-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tut-index/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>The response lists all the operations with a name and the corresponding href link:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 265
-
-{
-  "_links" : {
-    "transport-unit-types-findtransportunittype" : {
-      "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
-    },
-    "transport-unit-types-findall" : {
-      "href" : "http://localhost:8080/v1/transport-unit-types"
-    }
-  }
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 9-transport-unit-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tut-index/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -5013,35 +1855,14 @@ Content-Length: 265
 <div class="paragraph">
 <p>To retrieve a list of all existing <code>TransportUnitTypes</code> a client must send a GET request to the server:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/transport-unit-types HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 9-transport-unit-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tut-find-all/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>The response contains all existing <code>TransportUnitTypes</code>:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 232
-
-[ {
-  "type" : "PALLET",
-  "description" : "Euro pallet",
-  "height" : "102",
-  "width" : "80",
-  "length" : "120"
-}, {
-  "type" : "BIN",
-  "description" : "Plastic bins",
-  "height" : "102",
-  "width" : "80",
-  "length" : "120"
-} ]</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 9-transport-unit-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tut-find-all/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -5049,45 +1870,20 @@ Content-Length: 232
 <div class="paragraph">
 <p>Each <code>TransportUnitType</code> has an unique name by that it can be identified. Query the resource with a <code>type</code> parameter:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/transport-unit-types?type=PALLET HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 9-transport-unit-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tut-find-type/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the <code>TransportUnitType</code> exists the response looks like:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 114
-
-{
-  "type" : "PALLET",
-  "description" : "Euro pallet",
-  "height" : "102",
-  "width" : "80",
-  "length" : "120"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 9-transport-unit-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tut-find-type/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If no <code>TransportUnitType</code> with the given name exist the server sends a 404-NOT FOUND:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 122
-
-{
-  "message" : "No TransportUniType with type [NOT_EXISTS] found",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 9-transport-unit-type.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/tut-find-type-404/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -5095,7 +1891,7 @@ Content-Length: 122
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-07-12 18:24:11 UTC
+Last updated 2021-08-07 13:27:56 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

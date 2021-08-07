@@ -511,14 +511,8 @@ a set of query parameters.</p>
 <p>To lock a <code>Target</code> to be not considered in inbound, like Putaway, the server requires a HTTP POST request with the lock type
 <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=ALLOCATION_LOCK&amp;mode=IN HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=ALLOCATION_LOCK&amp;mode=IN</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-lock-in-lg-IPOINT/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -527,14 +521,8 @@ type=ALLOCATION_LOCK&amp;mode=IN</code></pre>
 <p>To lock a <code>Target</code> for outbound, like Allocation and Outfeed, the server requires a HTTP POST request with the lock type
 <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=ALLOCATION_LOCK&amp;mode=OUT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=ALLOCATION_LOCK&amp;mode=OUT</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-lock-out-lg-IPOINT/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -543,14 +531,8 @@ type=ALLOCATION_LOCK&amp;mode=OUT</code></pre>
 <p>To lock a <code>Target</code> for inbound and outbound, like Putaway and Allocation, the server requires a HTTP POST request with the
 lock type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=ALLOCATION_LOCK&amp;mode=IN_AND_OUT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=ALLOCATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-lock-inout-lg-IPOINT/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -559,14 +541,8 @@ type=ALLOCATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
 <p>To release all locks on a <code>Target</code> and allow any inbound and outbound operation, the server requires a HTTP POST request with the lock
 type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=ALLOCATION_LOCK&amp;mode=NONE HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=ALLOCATION_LOCK&amp;mode=NONE</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-lock-none-lg-IPOINT/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -574,10 +550,8 @@ type=ALLOCATION_LOCK&amp;mode=NONE</code></pre>
 <div class="paragraph">
 <p>In any of the previous cases the server responds with the following success message.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-lock-none-lg-IPOINT/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -639,14 +613,8 @@ for planned short term locks, where a <code>Target</code> is taken out of operat
 <p>To lock a <code>Target</code> for inbound operations only, the server requires a HTTP POST request with the lock type
 <code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?reallocation=true&amp;type=OPERATION_LOCK&amp;mode=IN HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-reallocation=true&amp;type=OPERATION_LOCK&amp;mode=IN</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-olock-in-lg-IPOINT/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -655,14 +623,8 @@ reallocation=true&amp;type=OPERATION_LOCK&amp;mode=IN</code></pre>
 <p>To lock a <code>Target</code> for outbound operations only, the server requires a HTTP POST request with the lock type
 <code>type=OPERATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=OPERATION_LOCK&amp;mode=OUT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=OPERATION_LOCK&amp;mode=OUT</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-olock-out-lg-IPOINT/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -671,14 +633,8 @@ type=OPERATION_LOCK&amp;mode=OUT</code></pre>
 <p>To lock a <code>Target</code> for inbound and outbound operations, the server requires a HTTP POST request with the
 lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=OPERATION_LOCK&amp;mode=IN_AND_OUT HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=OPERATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-olock-inout-lg-IPOINT/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -687,14 +643,8 @@ type=OPERATION_LOCK&amp;mode=IN_AND_OUT</code></pre>
 <p>To release all operational locks on a <code>Target</code> and allow any inbound and outbound operation, the server requires a HTTP POST request with
 the lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=OPERATION_LOCK&amp;mode=NONE HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=OPERATION_LOCK&amp;mode=NONE</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-olock-none-lg-IPOINT/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -702,10 +652,8 @@ type=OPERATION_LOCK&amp;mode=NONE</code></pre>
 <div class="paragraph">
 <p>In any of the previous cases the server responds with the following success message.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/all-olock-none-lg-IPOINT/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -724,36 +672,22 @@ server. Locking  the <code>Target</code> allows an optional flag to signal a re-
 <p>In this example the <code>Target</code> is a <code>LocationGroup</code> with the name <code>IPOINT</code> that gets locked. The server is requested to re-allocate existing
 orders.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?reallocation=true&amp;type=PERMANENT_LOCK&amp;mode=lock HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-reallocation=true&amp;type=PERMANENT_LOCK&amp;mode=lock</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lock-lg-IPOINT/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>To unlock the same <code>Target</code> with name <code>IPOINT</code>:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=PERMANENT_LOCK&amp;mode=unlock HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-type=PERMANENT_LOCK&amp;mode=unlock</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/unlock-lg-IPOINT/http-request.adoc[]</p>
 </div>
 <div class="sect3">
 <h4 id="_response_success_3">Response: Success</h4>
 <div class="paragraph">
 <p>If the server has successfully locked or unlocked the <code>Target</code> the response is:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lock-lg-IPOINT/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
@@ -761,18 +695,8 @@ type=PERMANENT_LOCK&amp;mode=unlock</code></pre>
 <div class="paragraph">
 <p>If the given <code>Target</code> (FOO) does not exist the server responds with:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 194
-
-{
-  "message" : "The Target with name [FOO] is neither a Location nor a LocationGroup. Other types of Targets are currently not supported",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 7-target.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lock-lg-unknown/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -781,7 +705,7 @@ Content-Length: 194
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-07-12 18:24:11 UTC
+Last updated 2021-08-07 13:27:56 UTC
 </div>
 </div>
 </body>
