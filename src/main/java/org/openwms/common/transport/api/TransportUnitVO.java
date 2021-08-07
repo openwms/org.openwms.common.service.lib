@@ -137,6 +137,10 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
         return targetLocation;
     }
 
+    public void setTargetLocation(LocationVO targetLocation) {
+        this.targetLocation = targetLocation;
+    }
+
     public String getState() {
         return state;
     }

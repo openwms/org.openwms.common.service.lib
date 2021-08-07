@@ -16,8 +16,6 @@
 package org.openwms.common.transport;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
@@ -31,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -60,11 +57,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Heiko Scherrer
  */
 @CommonApplicationTest
-@TestPropertySource(properties = {
-        "owms.common.barcode.padder = 0",
-        "owms.common.barcode.pattern = %1$20s",
-        "org.openwms.common.transport.BarcodeFormatProvider=org.openwms.common.transport.ConfiguredBarcodeFormat"
-})
 class TransportUnitControllerDocumentation {
 
     private MockMvc mockMvc;
@@ -75,19 +67,10 @@ class TransportUnitControllerDocumentation {
     @Autowired
     private BarcodeGenerator generator;
 
-    @BeforeClass void onBeforeClass() {
-        System.setProperty("org.openwms.common.transport.BarcodeFormatProvider", "org.openwms.common.transport.ConfiguredBarcodeFormat");
-        System.setProperty("owms.common.barcode.pattern", "");
-        System.setProperty("owms.common.barcode.padder", "0");
-    }
-
-    @AfterClass void onAfterClass() {
-        System.clearProperty("owms.common.barcode.pattern");
-        System.clearProperty("owms.common.barcode.padder");
-    }
-
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation, WebApplicationContext context) {
+        System.setProperty("owms.common.barcode.pattern", "");
+        System.setProperty("owms.common.barcode.padder", "0");
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
                 .apply(documentationConfiguration(restDocumentation)).build();
     }

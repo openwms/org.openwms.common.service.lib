@@ -19,23 +19,30 @@ import org.ameba.annotation.Measured;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 /**
  * A ConfiguredBarcodeFormat.
  *
  * @author Heiko Scherrer
  */
-@Component
 public class ConfiguredBarcodeFormatter implements BarcodeFormatter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfiguredBarcodeFormatter.class);
-    private final String pattern = System.getProperty("owms.common.barcode.pattern", "");
-    private final String padder = System.getProperty("owms.common.barcode.padder", String.valueOf(Barcode.PADDER));
-    private final String length = System.getProperty("owms.common.barcode.length", String.valueOf(Barcode.BARCODE_LENGTH));
-    private final String alignment = System.getProperty("owms.common.barcode.alignment", Barcode.BARCODE_ALIGN.RIGHT.name());
-    private final String prefix = System.getProperty("owms.common.barcode.prefix", "");
-    private final String suffix = System.getProperty("owms.common.barcode.suffix", "");
+    private  String pattern;
+    private  String padder;
+    private  String length;
+    private  String alignment;
+    private  String prefix;
+    private  String suffix;
+
+    public ConfiguredBarcodeFormatter() {
+        this.pattern = System.getProperty("owms.common.barcode.pattern", "");
+        this.padder = System.getProperty("owms.common.barcode.padder", String.valueOf(Barcode.PADDER));
+        this.length = System.getProperty("owms.common.barcode.length", String.valueOf(Barcode.BARCODE_LENGTH));
+        this.alignment = System.getProperty("owms.common.barcode.alignment", Barcode.BARCODE_ALIGN.RIGHT.name());
+        this.prefix = System.getProperty("owms.common.barcode.prefix", "");
+        this.suffix = System.getProperty("owms.common.barcode.suffix", "");
+    }
 
     /**
      * {@inheritDoc}

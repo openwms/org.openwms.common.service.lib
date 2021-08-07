@@ -26,16 +26,12 @@ import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.UnitError;
 import org.openwms.common.transport.barcode.Barcode;
-import org.openwms.common.transport.barcode.BarcodeFormatter;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
-import org.openwms.common.transport.barcode.ConfiguredBarcodeFormatter;
 import org.openwms.core.units.api.Weight;
 import org.openwms.core.units.api.WeightUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DataAccessException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,13 +46,6 @@ import static org.mockito.Mockito.when;
 @CommonDataTest
 class TransportUnitIT {
 
-    @Configuration
-    public static class TestConfig {
-        @Bean
-        public BarcodeFormatter provider(){
-            return new ConfiguredBarcodeFormatter();
-        }
-    }
     @Autowired
     private TestEntityManager entityManager;
     @Autowired

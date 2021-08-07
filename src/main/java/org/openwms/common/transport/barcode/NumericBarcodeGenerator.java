@@ -20,6 +20,7 @@ import org.ameba.annotation.TxService;
 
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
+import java.util.ServiceLoader;
 
 import static org.openwms.common.CommonConstants.DEFAULT_ACCOUNT_NAME;
 
@@ -32,11 +33,9 @@ import static org.openwms.common.CommonConstants.DEFAULT_ACCOUNT_NAME;
 public class NumericBarcodeGenerator implements BarcodeGenerator {
 
     protected final NextBarcodeRepository repository;
-    protected final BarcodeFormatter formatter;
 
-    public NumericBarcodeGenerator(NextBarcodeRepository repository, BarcodeFormatter formatter) {
+    public NumericBarcodeGenerator(NextBarcodeRepository repository) {
         this.repository = repository;
-        this.formatter = formatter;
     }
 
     /**
@@ -45,7 +44,7 @@ public class NumericBarcodeGenerator implements BarcodeGenerator {
     @Override
     @Measured
     public Barcode convert(String barcode) {
-        return Barcode.of(formatter.format(barcode));
+        return Barcode.of(getFormatter().format(barcode));
     }
 
     /**
@@ -60,12 +59,16 @@ public class NumericBarcodeGenerator implements BarcodeGenerator {
             nb.setName(DEFAULT_ACCOUNT_NAME);
             nb.setCurrentBarcode("1");
             repository.save(nb);
-            return Barcode.of(formatter.format("1"));
+            return Barcode.of(getFormatter().format("1"));
         }
         NextBarcode nextBarcode = aDefault.get();
         int current = Integer.parseInt(nextBarcode.getCurrentBarcode());
         String result = String.valueOf(++current);
         nextBarcode.setCurrentBarcode(result);
-        return Barcode.of(formatter.format(result));
+        return Barcode.of(getFormatter().format(result));
+    }
+
+    private BarcodeFormatter getFormatter() {
+        return ServiceLoader.load(BarcodeFormatter.class).findFirst().orElseThrow(() -> new IllegalStateException("No BarcodeFormatter provider configured for ServiceLoader"));
     }
 }
