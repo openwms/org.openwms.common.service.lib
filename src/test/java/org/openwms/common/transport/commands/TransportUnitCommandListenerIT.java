@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2020 the original author or authors.
+ * Copyright 2005-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ package org.openwms.common.transport.commands;
 
 import org.ameba.exception.NotFoundException;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
@@ -30,7 +29,6 @@ import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.common.transport.api.messages.TransportUnitTypeMO;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
-import org.openwms.core.SpringProfiles;
 import org.springframework.amqp.rabbit.junit.RabbitAvailable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -79,11 +77,6 @@ class TransportUnitCommandListenerIT {
     private TestConfig config;
     @Autowired
     private BarcodeGenerator generator;
-    
-    @BeforeAll
-    public static void enableWithRabbitOnly() {
-        System.setProperty("spring.profiles.active", SpringProfiles.ASYNCHRONOUS_PROFILE);
-    }
 
     @BeforeEach
     void onSetup() {

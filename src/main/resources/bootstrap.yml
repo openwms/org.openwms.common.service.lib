@@ -7,7 +7,7 @@ spring:
         enabled: false
         service-id: openwms-config
       enabled: false
-      fail-fast: true # true means retry
+      fail-fast: false # true means retry
       retry:
         max-attempts: 120
     discovery:
@@ -111,18 +111,6 @@ logging:
 ---
 spring:
   profiles: ASYNCHRONOUS
-  cloud:
-    config:
-      discovery:
-        enabled: true
-      enabled: true
-      fail-fast: true # true means retry
-    discovery:
-      enabled: true
-    bus:
-      enabled: true
-      refresh:
-        enabled: true
 
 management:
   health:
@@ -154,6 +142,10 @@ spring:
 spring:
   profiles: DISTRIBUTED
   cloud:
+    bus:
+      enabled: true
+      refresh:
+        enabled: true
     config:
       discovery:
         enabled: true

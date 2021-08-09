@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2020 the original author or authors.
+ * Copyright 2005-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,18 @@
  */
 package org.openwms.common.app;
 
+import org.openwms.core.SpringProfiles;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 /**
- * A CommonStandaloneConfiguration is activated when the service is deployed as a
- * microservice, not packaged within an application. Then Service Discovery is activated.
+ * A CommonStandaloneConfiguration is activated when the service is deployed as a microservice, not packaged within an application. Then
+ * Service Discovery becomes activate.
  *
  * @author Heiko Scherrer
  */
-@Profile("!INMEM & !TEST")
+@Profile(SpringProfiles.DISTRIBUTED)
 @Configuration
 @EnableDiscoveryClient
 public class CommonStandaloneConfiguration {
