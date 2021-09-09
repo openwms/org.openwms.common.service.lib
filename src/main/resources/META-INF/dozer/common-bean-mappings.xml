@@ -196,6 +196,10 @@
 			<b is-accessible="true">accountId</b>
 		</field>
 		<field>
+			<a is-accessible="true">groupType</a>
+			<b is-accessible="true">groupType</b>
+		</field>
+		<field>
 			<a is-accessible="true">parent.name</a>
 			<b is-accessible="true">parent</b>
 		</field>
