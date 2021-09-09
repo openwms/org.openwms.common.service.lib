@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.7.0-SNAPSHOT-60)">
+<meta name="author" content="(1.7.0-SNAPSHOT-61)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.7.0-SNAPSHOT-60)</span><br>
+<span id="author" class="author">(1.7.0-SNAPSHOT-61)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -4330,12 +4330,12 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/323ece04-43b3-45b4-ab20-93b943fb51a9/
+Location: http://localhost:8080/v1/transport-units/bb81197b-292f-4ce8-ba7b-da35cdffdf1e/
 Content-Type: application/hal+json
 Content-Length: 768
 
 {
-  "pKey" : "323ece04-43b3-45b4-ab20-93b943fb51a9",
+  "pKey" : "bb81197b-292f-4ce8-ba7b-da35cdffdf1e",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "pKey" : "113646454019",
@@ -4359,8 +4359,8 @@ Content-Length: 768
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2021-08-09T15:37:27Z",
-  "createDate" : "2021-08-09T15:37:27Z"
+  "actualLocationDate" : "2021-09-09T14:00:29Z",
+  "createDate" : "2021-09-09T14:00:29Z"
 }</code></pre>
 </div>
 </div>
@@ -4413,7 +4413,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/152f9e3a-2c05-4c2a-87a6-deeb4a5a1f9c/</code></pre>
+Location: http://localhost:8080/v1/transport-units/4cbeeacc-05a5-433f-ab03-582ec6ac87b4/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4509,8 +4509,8 @@ Content-Length: 582
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-08-09T15:37:28Z",
-  "createDate" : "2021-08-09T15:37:28Z"
+  "actualLocationDate" : "2021-09-09T14:00:30Z",
+  "createDate" : "2021-09-09T14:00:30Z"
 }</code></pre>
 </div>
 </div>
@@ -4588,8 +4588,8 @@ Content-Length: 557
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-08-09T15:37:28Z",
-  "createDate" : "2021-08-09T15:37:28Z"
+  "actualLocationDate" : "2021-09-09T14:00:29Z",
+  "createDate" : "2021-09-09T14:00:29Z"
 }</code></pre>
 </div>
 </div>
@@ -4676,8 +4676,8 @@ Content-Length: 848
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-08-09T15:37:28Z",
-  "createDate" : "2021-08-09T15:37:28Z"
+  "actualLocationDate" : "2021-09-09T14:00:30Z",
+  "createDate" : "2021-09-09T14:00:30Z"
 }</code></pre>
 </div>
 </div>
@@ -4739,8 +4739,8 @@ Content-Length: 848
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-08-09T15:37:28Z",
-  "createDate" : "2021-08-09T15:37:28Z"
+  "actualLocationDate" : "2021-09-09T14:00:29Z",
+  "createDate" : "2021-09-09T14:00:29Z"
 }</code></pre>
 </div>
 </div>
@@ -4811,8 +4811,8 @@ Content-Length: 1705
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-08-09T15:37:27Z",
-  "createDate" : "2021-08-09T15:37:27Z"
+  "actualLocationDate" : "2021-09-09T14:00:28Z",
+  "createDate" : "2021-09-09T14:00:28Z"
 }, {
   "links" : [ {
     "rel" : "transport-unit-type",
@@ -4841,8 +4841,8 @@ Content-Length: 1705
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-08-09T15:37:27Z",
-  "createDate" : "2021-08-09T15:37:27Z"
+  "actualLocationDate" : "2021-09-09T14:00:28Z",
+  "createDate" : "2021-09-09T14:00:28Z"
 } ]</code></pre>
 </div>
 </div>
@@ -4913,8 +4913,8 @@ Content-Length: 855
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-08-09T15:37:28Z",
-  "createDate" : "2021-08-09T15:37:28Z"
+  "actualLocationDate" : "2021-09-09T14:00:30Z",
+  "createDate" : "2021-09-09T14:00:30Z"
 } ]</code></pre>
 </div>
 </div>
@@ -5095,7 +5095,7 @@ Content-Length: 122
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-08-09 15:30:08 UTC
+Last updated 2021-09-09 13:43:31 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
