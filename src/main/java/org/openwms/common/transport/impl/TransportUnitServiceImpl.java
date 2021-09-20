@@ -388,6 +388,10 @@ class TransportUnitServiceImpl implements TransportUnitService {
                 .orElseThrow(() -> new NotFoundException(format("No TransportUnit with barcode [%s] found", transportUnitBK)));
         LOGGER.debug("Setting TransportUnit [{}] to state [{}]", transportUnitBK, state);
         transportUnit.setState(state);
+        publisher.publishEvent(TransportUnitEvent.newBuilder()
+                .tu(transportUnit)
+                .type(TransportUnitEvent.TransportUnitEventType.STATE_CHANGE).build()
+        );
         repository.save(transportUnit);
     }
 }
