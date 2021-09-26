@@ -71,7 +71,7 @@
         <HdrHistogram.version>2.1.12</HdrHistogram.version>
         <indriya.version>2.0</indriya.version>
         <joda-time.version>2.10.8</joda-time.version>
-        <spring-cloud-dependencies.version>Hoxton.SR9</spring-cloud-dependencies.version>
+        <spring-cloud-dependencies.version>Hoxton.SR10</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
     </properties>
 
@@ -217,12 +217,12 @@
         <!-- Project Dependencies -->
         <dependency>
             <groupId>org.openwms</groupId>
-            <artifactId>org.openwms.core.util</artifactId>
+            <artifactId>org.openwms.core.units</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.openwms</groupId>
-            <artifactId>org.openwms.core.units</artifactId>
+            <artifactId>org.openwms.core.util</artifactId>
             <optional>true</optional>
         </dependency>
 

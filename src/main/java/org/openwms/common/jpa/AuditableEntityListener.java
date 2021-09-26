@@ -15,8 +15,8 @@
  */
 package org.openwms.common.jpa;
 
+import org.ameba.http.identity.IdentityContextHolder;
 import org.hibernate.envers.RevisionListener;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
@@ -29,8 +29,13 @@ public class AuditableEntityListener implements RevisionListener {
 
     @Override
     public void newRevision(Object revisionEntity) {
-        AuditableRevisionEntity rev = (AuditableRevisionEntity) revisionEntity;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        rev.setUserName(authentication == null ? "N/A" : authentication.getName());
+        var rev = (AuditableRevisionEntity) revisionEntity;
+        if (IdentityContextHolder.getCurrentIdentity() != null) {
+            rev.setUserName(IdentityContextHolder.getCurrentIdentity());
+        } else if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            rev.setUserName(SecurityContextHolder.getContext().getAuthentication().getName());
+        } else {
+            rev.setUserName("N/A");
+        }
     }
 }

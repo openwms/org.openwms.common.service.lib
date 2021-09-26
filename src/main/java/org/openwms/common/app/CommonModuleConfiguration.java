@@ -23,6 +23,7 @@ import org.ameba.app.SpringProfiles;
 import org.ameba.http.EnableMultiTenancy;
 import org.ameba.http.PermitAllCorsConfigurationSource;
 import org.ameba.http.RequestIDFilter;
+import org.ameba.http.identity.EnableIdentityAwareness;
 import org.ameba.i18n.AbstractTranslator;
 import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
@@ -60,6 +61,7 @@ import java.util.Properties;
 @EnableAspects(propagateRootCause = true)
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableConfigurationProperties
+@EnableIdentityAwareness
 @EnableSpringConfigured
 @EnableJpaAuditing
 @EnableJpaRepositories(basePackages = "org.openwms", repositoryFactoryBeanClass = EnversRevisionRepositoryFactoryBean.class)
