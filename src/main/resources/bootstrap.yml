@@ -81,6 +81,15 @@ eureka:
       zone: ${owms.eureka.zone}
       config-protocol: http # The protocol used to access the config server
     prefer-ip-address: true
+    # Request a lease with a validity of 5 seconds. If until then the
+    # lease has not been renewed, it expires and the Eureka server can evict it.
+    # Default: 90s
+    lease-expiration-duration-in-seconds: 5
+
+    # The cadence of lease renewal, i.e. how often a heartbeat is sent to Eureka server.
+    # In this case every 2 seconds. Use this only for development / debugging. In production use the ...
+    # Default: 30s
+    lease-renewal-interval-in-seconds:    2
 
 management:
   endpoints:
@@ -111,6 +120,18 @@ logging:
 ---
 spring:
   profiles: ASYNCHRONOUS
+  cloud:
+    config:
+      discovery:
+        enabled: true
+      enabled: true
+      fail-fast: true # true means retry
+    discovery:
+      enabled: true
+    bus:
+      enabled: true
+      refresh:
+        enabled: true
 
 management:
   health:
