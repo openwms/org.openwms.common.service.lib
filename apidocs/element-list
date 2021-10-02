@@ -6,8 +6,10 @@ org.openwms.common.app
 org.openwms.common.jpa
 org.openwms.common.location
 org.openwms.common.location.api
+org.openwms.common.location.api.commands
 org.openwms.common.location.api.events
 org.openwms.common.location.api.messages
+org.openwms.common.location.commands
 org.openwms.common.location.impl
 org.openwms.common.location.spi
 org.openwms.common.transport
