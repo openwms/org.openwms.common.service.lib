@@ -15,6 +15,9 @@
  */
 package org.openwms.common.location.api.messages;
 
+import org.openwms.common.location.api.ValidationGroups;
+
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -27,6 +30,7 @@ public class LocationMO implements Serializable {
     private static final long serialVersionUID = 5322330486887781251L;
 
     /** The persistent key of the Location. */
+    @NotEmpty(groups = ValidationGroups.SetLocationEmpty.class)
     private String pKey;
     /** The business key of the Location. */
     private String id;
@@ -35,11 +39,11 @@ public class LocationMO implements Serializable {
     /** The business key of the parent Location .*/
     private String parent;
     /** If the Location is available for inbound operations. */
-    private boolean incomingActive;
+    private Boolean incomingActive;
     /** If the Location is available for outbound operations. */
-    private boolean outgoingActive;
+    private Boolean outgoingActive;
     /** The PLC state - '0' means not locked for any operation. */
-    private int plcState;
+    private Integer plcState;
 
     public String getpKey() {
         return pKey;
@@ -73,27 +77,27 @@ public class LocationMO implements Serializable {
         this.parent = parent;
     }
 
-    public boolean isIncomingActive() {
+    public Boolean getIncomingActive() {
         return incomingActive;
     }
 
-    public void setIncomingActive(boolean incomingActive) {
+    public void setIncomingActive(Boolean incomingActive) {
         this.incomingActive = incomingActive;
     }
 
-    public boolean isOutgoingActive() {
+    public Boolean getOutgoingActive() {
         return outgoingActive;
     }
 
-    public void setOutgoingActive(boolean outgoingActive) {
+    public void setOutgoingActive(Boolean outgoingActive) {
         this.outgoingActive = outgoingActive;
     }
 
-    public int getPlcState() {
+    public Integer getPlcState() {
         return plcState;
     }
 
-    public void setPlcState(int plcState) {
+    public void setPlcState(Integer plcState) {
         this.plcState = plcState;
     }
 }

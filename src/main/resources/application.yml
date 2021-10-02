@@ -14,6 +14,10 @@ owms:
       queue-name: common-dl-queue
   commands:
     common:
+      loc:
+        exchange-name: common.loc.commands
+        routing-key: common.loc.command.in.*
+        queue-name: common-loc-commands-queue
       tu:
         exchange-name: common.tu.commands
         routing-key: common.tu.command.in.*

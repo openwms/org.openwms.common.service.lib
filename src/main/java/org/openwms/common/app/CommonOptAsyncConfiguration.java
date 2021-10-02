@@ -112,6 +112,35 @@ class CommonOptAsyncConfiguration {
 
     @RefreshScope
     @Bean
+    Queue commonLocCommandsQueue(@Value("${owms.commands.common.loc.queue-name}") String queueName,
+                        @Value("${owms.common.dead-letter.exchange-name}") String exchangeName) {
+        return QueueBuilder.durable(queueName)
+                .withArgument("x-dead-letter-exchange", exchangeName)
+                .withArgument("x-dead-letter-routing-key", "poison-message")
+                .build();
+    }
+
+    @RefreshScope
+    @Bean
+    TopicExchange commonLocCommandsExchange(@Value("${owms.commands.common.loc.exchange-name}") String exchangeName) {
+        return new TopicExchange(exchangeName, true, false);
+    }
+
+    @RefreshScope
+    @Bean
+    Binding locCommandsBinding(
+            @Qualifier("commonLocCommandsExchange") TopicExchange commonLocCommandsExchange,
+            @Qualifier("commonLocCommandsQueue") Queue commonLocCommandsQueue,
+            @Value("${owms.commands.common.loc.routing-key}") String routingKey
+    ) {
+        return BindingBuilder
+                .bind(commonLocCommandsQueue)
+                .to(commonLocCommandsExchange)
+                .with(routingKey);
+    }
+
+    @RefreshScope
+    @Bean
     DirectExchange dlExchange(@Value("${owms.common.dead-letter.exchange-name}") String exchangeName) {
         return new DirectExchange(exchangeName);
     }

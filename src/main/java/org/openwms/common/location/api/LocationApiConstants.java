@@ -22,6 +22,9 @@ package org.openwms.common.location.api;
  */
 public final class LocationApiConstants {
 
+    /** Location unexpected empty. */
+    public static final int LOCATION_EMPTY = 21;
+
     /** API version. */
     public static final String API_VERSION = "v1";
     /** API root to hit LocationTypes (plural). */
