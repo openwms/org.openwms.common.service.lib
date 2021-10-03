@@ -1,3 +1,4 @@
 #!/bin/bash
 echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USER --password-stdin
 docker build -t openwms/org.openwms.common.service:latest .
+docker tag openwms/org.openwms.common.service:latest openwms/org.openwms.common.service:$VERSION-$BUILD_NUMBER
