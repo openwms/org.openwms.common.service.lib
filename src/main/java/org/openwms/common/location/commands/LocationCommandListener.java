@@ -23,6 +23,7 @@ import org.openwms.common.location.api.ValidationGroups;
 import org.openwms.common.location.api.commands.LocationCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -54,15 +55,21 @@ public class LocationCommandListener {
     @Measured
     @RabbitListener(queues = "${owms.commands.common.loc.queue-name}")
     public void onCommand(@Payload LocationCommand command) {
-        switch(command.getType()) {
-            case SET_LOCATION_EMPTY:
-                validate(validator,command, ValidationGroups.SetLocationEmpty.class);
-                LOGGER.debug("Got command to set a Location [{}] empty", command.getSource().getpKey());
-                var errorCode = ErrorCodeVO.LOCK_STATE_IN_AND_OUT;
-                errorCode.setPlcState(LOCATION_EMPTY);
-                locationService.changeState(command.getSource().getpKey(), errorCode);
-                break;
-            default:
+        try {
+            switch(command.getType()) {
+                case SET_LOCATION_EMPTY:
+                    validate(validator,command, ValidationGroups.SetLocationEmpty.class);
+                    LOGGER.debug("Got command to set a Location [{}] empty", command.getLocation().getpKey());
+                    var errorCode = ErrorCodeVO.LOCK_STATE_IN_AND_OUT;
+                    errorCode.setPlcState(LOCATION_EMPTY);
+                    locationService.changeState(command.getLocation().getpKey(), errorCode);
+                    break;
+                default:
+            }
+        } catch (Exception e) {
+            LOGGER.error("Processing command rejected [{}]", command);
+            throw new AmqpRejectAndDontRequeueException(e.getMessage(), e);
         }
+
     }
 }

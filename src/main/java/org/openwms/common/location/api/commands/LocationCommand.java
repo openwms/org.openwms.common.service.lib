@@ -16,22 +16,24 @@
 package org.openwms.common.location.api.commands;
 
 import org.openwms.common.location.api.messages.LocationMO;
-import org.openwms.core.event.RootApplicationEvent;
 
 import javax.validation.Valid;
+import java.beans.ConstructorProperties;
+import java.io.Serializable;
 
 /**
  * A LocationCommand.
  *
  * @author Heiko Scherrer
  */
-public class LocationCommand extends RootApplicationEvent {
+public class LocationCommand implements Serializable {
 
     private Type type;
     private @Valid LocationMO location;
 
+    /*~-------------------- constructors --------------------*/
+    @ConstructorProperties({"type", "location"})
     public LocationCommand(Type type, LocationMO location) {
-        super(location);
         this.type = type;
         this.location = location;
     }
@@ -40,9 +42,8 @@ public class LocationCommand extends RootApplicationEvent {
         SET_LOCATION_EMPTY
     }
 
-    @Override
-    public LocationMO getSource() {
-        return (LocationMO) super.getSource();
+    public LocationMO getLocation() {
+        return location;
     }
 
     public Type getType() {
