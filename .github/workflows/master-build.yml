@@ -38,12 +38,12 @@ jobs:
       - name: Build Image
         run: ./scripts/docker_build
         env:
-          BUILD_NUMBER: $GITHUB_RUN_NUMBER
+          BUILD_NUMBER: ${{ env.GITHUB_RUN_NUMBER }}
           VERSION: ${{ env.RELEASE_VERSION }}
       - name: Upload Image
         run: ./scripts/docker_push
         env:
-          BUILD_NUMBER: $GITHUB_RUN_NUMBER
+          BUILD_NUMBER: ${{ env.GITHUB_RUN_NUMBER }}
           VERSION: ${{ env.RELEASE_VERSION }}
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
