@@ -25,9 +25,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Set Release version env variable
-        run: |
-          echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
       - name: Build
         run: >
           ./mvnw clean verify
@@ -37,13 +34,8 @@ jobs:
           -U -B $MAVEN_OPTS
       - name: Build Image
         run: ./scripts/docker_build
-        env:
-          BUILD_NUMBER: ${{ env.GITHUB_RUN_NUMBER }}
-          VERSION: ${{ env.RELEASE_VERSION }}
       - name: Upload Image
         run: ./scripts/docker_push
         env:
-          BUILD_NUMBER: ${{ env.GITHUB_RUN_NUMBER }}
-          VERSION: ${{ env.RELEASE_VERSION }}
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

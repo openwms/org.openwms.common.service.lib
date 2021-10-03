@@ -1,7 +1,7 @@
-name: 'branch_build'
+name: 'release_build'
 on:
   push:
-    branches-ignore: [ master, release ]
+    branches: [ release ]
 
 env:
   MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
@@ -25,12 +25,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Cache Maven packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+      - name: Set Release version env variable
+        run: |
+          echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
       - name: Build
         run: >
           ./mvnw clean verify
@@ -38,3 +35,15 @@ jobs:
           -Dspring.rabbitmq.host=localhost
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
           -U -B $MAVEN_OPTS
+      - name: Build Image
+        run: ./scripts/docker_build_release
+        env:
+          BUILD_NUMBER: ${{ env.GITHUB_RUN_NUMBER }}
+          VERSION: ${{ env.RELEASE_VERSION }}
+      - name: Upload Image
+        run: ./scripts/docker_push_release
+        env:
+          BUILD_NUMBER: ${{ env.GITHUB_RUN_NUMBER }}
+          VERSION: ${{ env.RELEASE_VERSION }}
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
