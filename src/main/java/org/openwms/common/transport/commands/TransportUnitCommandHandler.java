@@ -20,6 +20,7 @@ import org.ameba.mapping.BeanMapper;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
+import org.openwms.common.transport.TransportUnitState;
 import org.openwms.common.transport.api.ValidationGroups;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
@@ -106,6 +107,13 @@ class TransportUnitCommandHandler {
                 ctx.publishEvent(
                         TUCommand.newBuilder(UPDATE_CACHE).withTransportUnit(mo).build()
                 );
+                break;
+            case BLOCK:
+                mo = command.getTransportUnit();
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Got a command to BLOCK a TransportUnit");
+                }
+                service.setState(mo.getBarcode(), TransportUnitState.valueOf(mo.getState()));
                 break;
             default:
                 LOGGER.error("TUCommand [{}] not supported", command.getType());

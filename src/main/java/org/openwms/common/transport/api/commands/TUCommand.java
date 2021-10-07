@@ -66,7 +66,9 @@ public class TUCommand implements Command<TUCommand.Type>, Serializable {
         /** Command to change the Target of a TransportUnit. */
         CHANGE_TARGET,
         /** Command to change the actual Location of a TransportUnit. */
-        CHANGE_ACTUAL_LOCATION
+        CHANGE_ACTUAL_LOCATION,
+        /** Block the TransportUnit. */
+        BLOCK,
     }
 
     /*~-------------------- accessors --------------------*/
