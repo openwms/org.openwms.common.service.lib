@@ -24,11 +24,18 @@ public final class CommonMessageCodes {
 
     public static final String ACCOUNT_NO_DEFAULT = "COMMON.ACCOUNT_NO_DEFAULT";
     public static final String ACCOUNT_NOT_FOUND = "COMMON.ACCOUNT_NOT_FOUND";
+
     /** Code to signal that no TransportUnit with given Barcode exists. */
     public static final String BARCODE_NOT_FOUND = "COMMON.BARCODE_NOT_FOUND";
     public static final String BARCODE_MISSING = "COMMON.BARCODE_MISSING";
+
     public static final String LOCATION_NOT_FOUND = "COMMON.LOCATION_NOT_FOUND";
+    public static final String LOCATION_NOT_FOUND_BY_ERP_CODE = "COMMON.LOCATION_NOT_FOUND_BY_ERP_CODE";
+
     public static final String LOCATION_GROUP_NOT_FOUND = "COMMON.LOCATION_GROUP_NOT_FOUND";
+
+    public static final String LOCK_MODE_UNSUPPORTED = "COMMON.LOCK_MODE_UNSUPPORTED";
+
     public static final String TRANSPORT_UNIT_EXISTS = "COMMON.TU_EXISTS";
     public static final String TRANSPORT_UNIT_TYPE_NOT_FOUND = "COMMON.TRANSPORT_UNIT_TYPE_NOT_FOUND";
 

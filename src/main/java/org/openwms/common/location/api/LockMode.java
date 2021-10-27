@@ -15,12 +15,14 @@
  */
 package org.openwms.common.location.api;
 
+import java.io.Serializable;
+
 /**
  * A LockMode is an enumeration of possible modes a Target resource can be locked for.
  *
  * @author Heiko Scherrer
  */
-public enum LockMode {
+public enum LockMode implements Serializable {
 
     /** Locked for inbound operations. */
     IN,

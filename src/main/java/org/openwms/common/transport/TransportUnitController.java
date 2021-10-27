@@ -27,6 +27,7 @@ import org.openwms.common.transport.api.TransportApiConstants;
 import org.openwms.common.transport.api.TransportUnitVO;
 import org.openwms.common.transport.api.ValidationGroups;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
+import org.openwms.core.SpringProfiles;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;
@@ -44,6 +45,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotEmpty;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -62,7 +64,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  *
  * @author Heiko Scherrer
  */
-@Profile("!INMEM")
+@Profile(SpringProfiles.DISTRIBUTED)
+@Validated
 @MeasuredRestController
 public class TransportUnitController extends AbstractWebController {
 
@@ -225,9 +228,6 @@ public class TransportUnitController extends AbstractWebController {
         );
     }
 
-    /*
-     * Write an error message to an existing TransportUnit.
-     */
     @PostMapping(value = API_TRANSPORT_UNIT + "/error", params = {"bk", "errorCode"})
     public ResponseEntity<Void> addErrorToTransportUnit(
             @RequestParam("bk") String transportUnitBK,
@@ -240,9 +240,6 @@ public class TransportUnitController extends AbstractWebController {
         return ResponseEntity.ok().build();
     }
 
-    /*
-     * The index.
-     */
     @GetMapping(API_TRANSPORT_UNITS + "/index")
     public ResponseEntity<Index> index() {
         return ResponseEntity.ok(
@@ -250,7 +247,10 @@ public class TransportUnitController extends AbstractWebController {
                         linkTo(methodOn(TransportUnitController.class).findTransportUnitByPKey("1")).withRel("transport-unit-findbypkey"),
                         linkTo(methodOn(TransportUnitController.class).findTransportUnit("00000000000000004711")).withRel("transport-unit-findbybarcode"),
                         linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList("00000000000000004711", "00000000000000004712"))).withRel("transport-unit-findbybarcodes"),
-                        linkTo(methodOn(TransportUnitController.class).findTransportUnitsOn("EXT_/0000/0000/0000/0000")).withRel("transport-unit-findonlocation")
+                        linkTo(methodOn(TransportUnitController.class).findTransportUnitsOn("EXT_/0000/0000/0000/0000")).withRel("transport-unit-findonlocation"),
+                        linkTo(methodOn(TransportUnitController.class).blockTransportUnit("00000000000000004711")).withRel("transport-unit-block"),
+                        linkTo(methodOn(TransportUnitController.class).unblockTransportUnit("00000000000000004711")).withRel("transport-unit-unblock"),
+                        linkTo(methodOn(TransportUnitController.class).qcTransportUnit("00000000000000004711")).withRel("transport-unit-qc")
                 )
         );
     }
@@ -260,13 +260,13 @@ public class TransportUnitController extends AbstractWebController {
      *
      * @param transportUnitBK The unique (physical) identifier
      */
-    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNIT + "/block", params = {"bk"})
-    public ResponseEntity<Void> blockTransportUnit(@RequestParam("bk") String transportUnitBK) {
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/block", params = {"bk"})
+    public ResponseEntity<Void> blockTransportUnit(@NotEmpty @RequestParam("bk") String transportUnitBK) {
         try {
             service.setState(transportUnitBK, TransportUnitState.BLOCKED);
             return ResponseEntity.ok().build();
         } catch (StateChangeException e) {
-            return ResponseEntity.status(HttpStatus.LOCKED).build();
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
 
@@ -275,13 +275,13 @@ public class TransportUnitController extends AbstractWebController {
      *
      * @param transportUnitBK The unique (physical) identifier
      */
-    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNIT + "/available", params = {"bk"})
-    public ResponseEntity<Void> unblockTransportUnit(@RequestParam("bk") String transportUnitBK) {
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/available", params = {"bk"})
+    public ResponseEntity<Void> unblockTransportUnit(@NotEmpty @RequestParam("bk") String transportUnitBK) {
         try {
-            service.setState(transportUnitBK, TransportUnitState.BLOCKED);
+            service.setState(transportUnitBK, TransportUnitState.AVAILABLE);
             return ResponseEntity.ok().build();
         } catch (StateChangeException e) {
-            return ResponseEntity.status(HttpStatus.LOCKED).build();
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
 
@@ -290,13 +290,13 @@ public class TransportUnitController extends AbstractWebController {
      *
      * @param transportUnitBK The unique (physical) identifier
      */
-    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNIT + "/quality-check", params = {"bk"})
-    public ResponseEntity<Void> qcTransportUnit(@RequestParam("bk") String transportUnitBK) {
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/quality-check", params = {"bk"})
+    public ResponseEntity<Void> qcTransportUnit(@NotEmpty @RequestParam("bk") String transportUnitBK) {
         try {
-            service.setState(transportUnitBK, TransportUnitState.BLOCKED);
+            service.setState(transportUnitBK, TransportUnitState.QUALITY_CHECK);
             return ResponseEntity.ok().build();
         } catch (StateChangeException e) {
-            return ResponseEntity.status(HttpStatus.LOCKED).build();
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
 

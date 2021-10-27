@@ -18,6 +18,7 @@ package org.openwms.common.transport.commands;
 import org.ameba.exception.NotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestData;
@@ -54,6 +55,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @ContextConfiguration(classes = TransportUnitCommandListenerIT.TestConfig.class)
 @Transactional
 @Rollback
+@Disabled
 class TransportUnitCommandListenerIT {
 
     @Configuration

@@ -174,5 +174,5 @@ public interface TransportUnitService {
      * @param state The desired state
      * @throws org.openwms.common.StateChangeException if change is not allowed
      */
-    void setState(String transportUnitBK, TransportUnitState state);
+    void setState(@NotEmpty String transportUnitBK, @NotNull TransportUnitState state);
 }

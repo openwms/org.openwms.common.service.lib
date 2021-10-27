@@ -198,7 +198,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
         if (!barcode.equals(tu.getBarcode())) {
             throw new ServiceLayerException("Mismatch between Barcode and tu.Barcode in API");
         }
-        TransportUnit existing = repository.findByBarcode(barcode).orElseThrow(() -> new NotFoundException(format("TransportUnit with Barcode [%s] not found", barcode)));
+        TransportUnit existing = findByBarcodeInternal(barcode);
         tu.setTransportUnitType(existing.getTransportUnitType());
         TransportUnit updated = mapper.mapFromTo(tu, existing);
         if (tu.getActualLocation() !=  null && tu.getActualLocation().isNew()) {
@@ -220,7 +220,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public TransportUnit moveTransportUnit(@NotNull Barcode barcode, @NotNull LocationPK targetLocationPK) {
-        TransportUnit transportUnit = repository.findByBarcode(barcode).orElseThrow(() -> new NotFoundException(format("TransportUnit with Barcode [%s] not found", barcode)));
+        TransportUnit transportUnit = findByBarcodeInternal(barcode);
         transportUnit.setActualLocation(locationService.findByLocationPk(targetLocationPK).orElseThrow(() -> new NotFoundException(format("No Location with LocationPk [%s] found", targetLocationPK))));
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Moving TransportUnit with barcode [{}] to Location [{}]", barcode, targetLocationPK);
@@ -296,10 +296,10 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Measured
     @Transactional(readOnly = true)
     public TransportUnit findByBarcode(@NotEmpty String transportUnitBK) {
-        return findBy(barcodeGenerator.convert(transportUnitBK));
+        return findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));
     }
 
-    private TransportUnit findBy(Barcode barcode) {
+    private TransportUnit findByBarcodeInternal(Barcode barcode) {
         return repository.findByBarcode(barcode)
                 .orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.BARCODE_NOT_FOUND, new Serializable[]{barcode}, barcode));
     }
@@ -343,7 +343,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public void addError(String transportUnitBK, UnitError unitError) {
-        TransportUnit tu = this.findBy(barcodeGenerator.convert(transportUnitBK));
+        TransportUnit tu = this.findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));
         tu.addError(unitError);
     }
 
@@ -363,8 +363,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public TransportUnit changeTarget(@NotNull Barcode barcode, @NotEmpty String targetLocation) {
-        TransportUnit transportUnit = repository.findByBarcode(barcode)
-                .orElseThrow(() -> new NotFoundException(format("No TransportUnit with barcode [%s] found", barcode)));
+        TransportUnit transportUnit = findByBarcodeInternal(barcode);
 
         Location location = locationService.findByLocationId(targetLocation)
                 .orElseThrow(() -> new NotFoundException(format("Location with locationId [%s] not found", targetLocation)));
@@ -383,9 +382,8 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public void setState(String transportUnitBK, TransportUnitState state) {
-        TransportUnit transportUnit = repository.findByBarcode(barcodeGenerator.convert(transportUnitBK))
-                .orElseThrow(() -> new NotFoundException(format("No TransportUnit with barcode [%s] found", transportUnitBK)));
+    public void setState(@NotEmpty String transportUnitBK, @NotNull TransportUnitState state) {
+        TransportUnit transportUnit = findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));
         LOGGER.debug("Setting TransportUnit [{}] to state [{}]", transportUnitBK, state);
         transportUnit.setState(state);
         publisher.publishEvent(TransportUnitEvent.newBuilder()

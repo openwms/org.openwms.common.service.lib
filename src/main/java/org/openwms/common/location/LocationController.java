@@ -15,26 +15,35 @@
  */
 package org.openwms.common.location;
 
+import org.ameba.exception.BusinessRuntimeException;
 import org.ameba.exception.NotFoundException;
+import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
-import org.openwms.core.http.Index;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationVO;
+import org.openwms.common.location.api.LockMode;
+import org.openwms.common.location.api.LockType;
 import org.openwms.core.http.AbstractWebController;
+import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
+import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND_BY_ERP_CODE;
+import static org.openwms.common.CommonMessageCodes.LOCK_MODE_UNSUPPORTED;
 import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION;
 import static org.openwms.common.location.api.LocationApiConstants.API_LOCATIONS;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -49,12 +58,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 public class LocationController extends AbstractWebController {
 
-    private final LocationService locationService;
     private final BeanMapper mapper;
+    private final Translator translator;
+    private final LocationService locationService;
 
-    LocationController(LocationService locationService, BeanMapper mapper) {
+    LocationController(LocationService locationService, BeanMapper mapper, Translator translator) {
         this.locationService = locationService;
         this.mapper = mapper;
+        this.translator = translator;
     }
 
     @GetMapping(value = API_LOCATIONS, params = {"locationPK"})
@@ -95,6 +106,37 @@ public class LocationController extends AbstractWebController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Change the current {@code mode} a {@code Location}, identified by {@code erpCode}.
+     *
+     * @param erpCode The ERP code of the Location
+     * @param type The type of lock to apply to the Location
+     * @param mode The mode to apply to the Locations lock
+     */
+    @PostMapping(path = API_LOCATIONS , params = {"erpCode", "type!=PERMANENT_LOCK", "mode"})
+    public void changeState(
+            @RequestParam("erpCode") String erpCode,
+            @RequestParam("type") LockType type,
+            @RequestParam("mode") LockMode mode,
+            @RequestParam(value = "plcState", required = false) Integer plcState
+    ) {
+        Location location = locationService.findByErpCode(erpCode).orElseThrow(() -> locationNotFound(erpCode));
+        switch(type) {
+            case ALLOCATION_LOCK:
+                changeLocation(
+                        mode,
+                        location,
+                        plcState,
+                        (l, code) -> locationService.changeState(l.getPersistentKey(), code)
+                );
+                break;
+            case OPERATION_LOCK:
+                throw new UnsupportedOperationException("Changing the operation mode of Locations is currently not supported in the API");
+            default:
+                throw new IllegalArgumentException(format("The Lock Type [%s] is not supported", type));
+        }
+    }
+
     @GetMapping(value = API_LOCATIONS)
     public ResponseEntity<List<LocationVO>> findLocations(
             @RequestParam(value = "area", required = false, defaultValue = "%") String area,
@@ -128,5 +170,41 @@ public class LocationController extends AbstractWebController {
                         linkTo(methodOn(LocationController.class).findLocations("area", "aisle", "x", "y", "z")).withRel("location-fortuple")
                 )
         );
+    }
+
+    private void changeLocation(LockMode mode, Target target, Integer plcState, BiConsumer<Target, ErrorCodeVO> fnc) {
+        ErrorCodeVO state;
+        switch(mode) {
+            case IN:
+                state = ErrorCodeVO.LOCK_STATE_IN;
+                state.setPlcState(plcState);
+                fnc.accept(target, state);
+                break;
+            case OUT:
+                state = ErrorCodeVO.LOCK_STATE_OUT;
+                state.setPlcState(plcState);
+                fnc.accept(target, state);
+                break;
+            case IN_AND_OUT:
+                state = ErrorCodeVO.LOCK_STATE_IN_AND_OUT;
+                state.setPlcState(plcState);
+                fnc.accept(target, state);
+                break;
+            case NONE:
+                state = ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT;
+                state.setPlcState(plcState);
+                fnc.accept(target, state);
+                break;
+            default:
+                unsupportedOperation(mode);
+        }
+    }
+
+    private NotFoundException locationNotFound(String erpCode) {
+        return new NotFoundException(translator, LOCATION_NOT_FOUND_BY_ERP_CODE, new String[]{erpCode}, erpCode);
+    }
+
+    private void unsupportedOperation(LockMode mode) {
+        throw new BusinessRuntimeException(translator, LOCK_MODE_UNSUPPORTED, new Serializable[]{mode}, mode);
     }
 }

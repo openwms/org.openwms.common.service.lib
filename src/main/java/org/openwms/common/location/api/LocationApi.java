@@ -21,6 +21,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -109,6 +110,21 @@ public interface LocationApi {
             @PathVariable(name = "pKey") String pKey,
             @RequestParam(name = "op") String op,
             @RequestBody ErrorCodeVO errorCode
+    );
+
+    /**
+     * Change the current {@code mode} a {@code Location}, identified by {@code erpCode}.
+     *
+     * @param erpCode The ERP code of the Location
+     * @param type The type of lock to apply to the Location
+     * @param mode The mode to apply to the Locations lock
+     */
+    @PostMapping(path = API_LOCATIONS , params = {"erpCode", "type!=PERMANENT_LOCK", "mode"})
+    void changeState(
+            @RequestParam("erpCode") String erpCode,
+            @RequestParam("type") LockType type,
+            @RequestParam("mode") LockMode mode,
+            @RequestParam(value = "plcState", required = false) Integer plcState
     );
 
     /**

@@ -75,8 +75,8 @@ public interface TransportUnitApi {
      *
      * @param transportUnitBK The unique (physical) identifier
      * @param tu Detailed information of the {@code TransportUnit} to create
-     * @param strict If the {@code TransportUnit} already exists and this is {@code true}
-     * an error is thrown. If {@code false}, the implementation exists silently (default)
+     * @param strict If the {@code TransportUnit} already exists and this is {@code true} an error is thrown. If
+     * {@code false}, the implementation exists silently (default)
      */
     @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
     void createTU(
@@ -91,8 +91,8 @@ public interface TransportUnitApi {
      * @param transportUnitBK The unique (physical) identifier
      * @param actualLocation The current location of the {@code TransportUnit}
      * @param tut The type ({@code TransportUnitType}
-     * @param strict If the {@code TransportUnit} already exists and this is {@code true}
-     * an error is thrown. If {@code false}, the implementation exists silently (default)
+     * @param strict If the {@code TransportUnit} already exists and this is {@code true} an error is thrown. If
+     * {@code false}, the implementation exists silently (default)
      */
     @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk", "actualLocation", "tut"})
     void createTU(
@@ -146,7 +146,7 @@ public interface TransportUnitApi {
      *
      * @param transportUnitBK The unique (physical) identifier
      */
-    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNIT + "/block", params = {"bk"})
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/block", params = {"bk"})
     void blockTransportUnit(@RequestParam("bk") String transportUnitBK);
 
     /**
@@ -154,7 +154,7 @@ public interface TransportUnitApi {
      *
      * @param transportUnitBK The unique (physical) identifier
      */
-    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNIT + "/available", params = {"bk"})
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/available", params = {"bk"})
     void unblockTransportUnit(@RequestParam("bk") String transportUnitBK);
 
     /**
@@ -162,6 +162,6 @@ public interface TransportUnitApi {
      *
      * @param transportUnitBK The unique (physical) identifier
      */
-    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNIT + "/quality-check", params = {"bk"})
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/quality-check", params = {"bk"})
     void qcTransportUnit(@RequestParam("bk") String transportUnitBK);
 }
