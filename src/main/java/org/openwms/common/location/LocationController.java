@@ -103,7 +103,7 @@ public class LocationController extends AbstractWebController {
             @RequestBody ErrorCodeVO errorCode
     ) {
         locationService.changeState(pKey, errorCode);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     /**
@@ -114,7 +114,7 @@ public class LocationController extends AbstractWebController {
      * @param mode The mode to apply to the Locations lock
      */
     @PostMapping(path = API_LOCATIONS , params = {"erpCode", "type!=PERMANENT_LOCK", "mode"})
-    public void changeState(
+    public ResponseEntity<Void> changeState(
             @RequestParam("erpCode") String erpCode,
             @RequestParam("type") LockType type,
             @RequestParam("mode") LockMode mode,
@@ -135,6 +135,7 @@ public class LocationController extends AbstractWebController {
             default:
                 throw new IllegalArgumentException(format("The Lock Type [%s] is not supported", type));
         }
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(value = API_LOCATIONS)

@@ -264,7 +264,7 @@ public class TransportUnitController extends AbstractWebController {
     public ResponseEntity<Void> blockTransportUnit(@NotEmpty @RequestParam("bk") String transportUnitBK) {
         try {
             service.setState(transportUnitBK, TransportUnitState.BLOCKED);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.noContent().build();
         } catch (StateChangeException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
@@ -279,7 +279,7 @@ public class TransportUnitController extends AbstractWebController {
     public ResponseEntity<Void> unblockTransportUnit(@NotEmpty @RequestParam("bk") String transportUnitBK) {
         try {
             service.setState(transportUnitBK, TransportUnitState.AVAILABLE);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.noContent().build();
         } catch (StateChangeException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
@@ -294,7 +294,7 @@ public class TransportUnitController extends AbstractWebController {
     public ResponseEntity<Void> qcTransportUnit(@NotEmpty @RequestParam("bk") String transportUnitBK) {
         try {
             service.setState(transportUnitBK, TransportUnitState.QUALITY_CHECK);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.noContent().build();
         } catch (StateChangeException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
