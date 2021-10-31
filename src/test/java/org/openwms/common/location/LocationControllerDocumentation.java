@@ -256,7 +256,7 @@ class LocationControllerDocumentation {
                     .content(mapper.writeValueAsString(ErrorCodeVO.LOCK_STATE_IN))
                     .contentType(MediaType.APPLICATION_JSON)
                     .queryParam("op","change-state"))
-                    .andExpect(status().isOk())
+                    .andExpect(status().isNoContent())
                     .andDo(document("loc-state-in"));
             location = service.findByLocationId(TestData.LOCATION_ID_EXT).get();
             assertThat(location.isInfeedBlocked()).isTrue();
@@ -268,7 +268,7 @@ class LocationControllerDocumentation {
                     .content(mapper.writeValueAsString(new ErrorCodeVO(31)))
                     .contentType(MediaType.APPLICATION_JSON)
                     .queryParam("op","change-state"))
-                    .andExpect(status().isOk())
+                    .andExpect(status().isNoContent())
                     .andDo(document("loc-plcstate"));
             location = service.findByLocationId(TestData.LOCATION_ID_EXT).get();
             assertThat(location.getPlcState()).isEqualTo(31);
@@ -280,7 +280,7 @@ class LocationControllerDocumentation {
                     .content(mapper.writeValueAsString(new ErrorCodeVO("******11",31)))
                     .contentType(MediaType.APPLICATION_JSON)
                     .queryParam("op","change-state"))
-                    .andExpect(status().isOk());
+                    .andExpect(status().isNoContent());
             location = service.findByLocationId(TestData.LOCATION_ID_EXT).get();
             assertThat(location.getPlcState()).isEqualTo(31);
             assertThat(location.isInfeedBlocked()).isTrue();

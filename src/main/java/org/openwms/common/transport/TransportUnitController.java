@@ -64,7 +64,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  *
  * @author Heiko Scherrer
  */
-@Profile(SpringProfiles.DISTRIBUTED)
+@Profile("!" + SpringProfiles.IN_MEMORY)
 @Validated
 @MeasuredRestController
 public class TransportUnitController extends AbstractWebController {
