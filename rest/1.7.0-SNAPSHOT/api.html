@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.7.0-SNAPSHOT-70)">
+<meta name="author" content="(1.7.0-SNAPSHOT-71)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.7.0-SNAPSHOT-70)</span><br>
+<span id="author" class="author">(1.7.0-SNAPSHOT-71)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -1520,7 +1520,7 @@ Host: localhost:8080
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 204 No Content</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1550,7 +1550,7 @@ Host: localhost:8080
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 204 No Content</code></pre>
 </div>
 </div>
 </div>
@@ -4254,7 +4254,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 552
+Content-Length: 941
 
 {
   "_links" : {
@@ -4269,6 +4269,15 @@ Content-Length: 552
     },
     "transport-unit-findonlocation" : {
       "href" : "http://localhost:8080/v1/transport-units?actualLocation=EXT_/0000/0000/0000/0000"
+    },
+    "transport-unit-block" : {
+      "href" : "http://localhost:8080/v1/transport-units/block?bk=00000000000000004711"
+    },
+    "transport-unit-unblock" : {
+      "href" : "http://localhost:8080/v1/transport-units/available?bk=00000000000000004711"
+    },
+    "transport-unit-qc" : {
+      "href" : "http://localhost:8080/v1/transport-units/quality-check?bk=00000000000000004711"
     }
   }
 }</code></pre>
@@ -4330,12 +4339,12 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/7f7bc1d9-f2d5-484b-a9f9-64bf004411a5/
+Location: http://localhost:8080/v1/transport-units/ed6481bb-f2bb-4c11-a224-9894cf1cf2ab/
 Content-Type: application/hal+json
 Content-Length: 768
 
 {
-  "pKey" : "7f7bc1d9-f2d5-484b-a9f9-64bf004411a5",
+  "pKey" : "ed6481bb-f2bb-4c11-a224-9894cf1cf2ab",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "pKey" : "113646454019",
@@ -4359,8 +4368,8 @@ Content-Length: 768
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2021-10-03T21:45:01Z",
-  "createDate" : "2021-10-03T21:45:01Z"
+  "actualLocationDate" : "2021-10-31T11:19:16Z",
+  "createDate" : "2021-10-31T11:19:16Z"
 }</code></pre>
 </div>
 </div>
@@ -4413,7 +4422,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/ef6f5930-4c34-44c7-b8a0-9bcc06ba5e0c/</code></pre>
+Location: http://localhost:8080/v1/transport-units/df2c74af-ad2e-494f-b004-8315a986bd0c/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4509,8 +4518,8 @@ Content-Length: 582
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-10-03T21:45:02Z",
-  "createDate" : "2021-10-03T21:45:02Z"
+  "actualLocationDate" : "2021-10-31T11:19:18Z",
+  "createDate" : "2021-10-31T11:19:17Z"
 }</code></pre>
 </div>
 </div>
@@ -4588,8 +4597,8 @@ Content-Length: 557
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-10-03T21:45:01Z",
-  "createDate" : "2021-10-03T21:45:01Z"
+  "actualLocationDate" : "2021-10-31T11:19:17Z",
+  "createDate" : "2021-10-31T11:19:17Z"
 }</code></pre>
 </div>
 </div>
@@ -4600,12 +4609,16 @@ Content-Length: 557
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 133
+Content-Length: 229
 
 {
   "message" : "TransportUnit with Barcode [00000000000000004710] not found",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
+  "messageKey" : "COMMON.BARCODE_NOT_FOUND",
+  "obj" : [ {
+    "value" : "00000000000000004710"
+  } ],
+  "httpStatus" : "404",
+  "class" : "Barcode"
 }</code></pre>
 </div>
 </div>
@@ -4676,8 +4689,8 @@ Content-Length: 848
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-10-03T21:45:01Z",
-  "createDate" : "2021-10-03T21:45:01Z"
+  "actualLocationDate" : "2021-10-31T11:19:17Z",
+  "createDate" : "2021-10-31T11:19:17Z"
 }</code></pre>
 </div>
 </div>
@@ -4739,8 +4752,8 @@ Content-Length: 848
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-10-03T21:45:01Z",
-  "createDate" : "2021-10-03T21:45:01Z"
+  "actualLocationDate" : "2021-10-31T11:19:17Z",
+  "createDate" : "2021-10-31T11:19:17Z"
 }</code></pre>
 </div>
 </div>
@@ -4811,8 +4824,8 @@ Content-Length: 1705
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-10-03T21:45:01Z",
-  "createDate" : "2021-10-03T21:45:01Z"
+  "actualLocationDate" : "2021-10-31T11:19:16Z",
+  "createDate" : "2021-10-31T11:19:16Z"
 }, {
   "links" : [ {
     "rel" : "transport-unit-type",
@@ -4841,8 +4854,8 @@ Content-Length: 1705
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-10-03T21:45:01Z",
-  "createDate" : "2021-10-03T21:45:01Z"
+  "actualLocationDate" : "2021-10-31T11:19:16Z",
+  "createDate" : "2021-10-31T11:19:16Z"
 } ]</code></pre>
 </div>
 </div>
@@ -4913,8 +4926,8 @@ Content-Length: 855
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-10-03T21:45:02Z",
-  "createDate" : "2021-10-03T21:45:02Z"
+  "actualLocationDate" : "2021-10-31T11:19:18Z",
+  "createDate" : "2021-10-31T11:19:18Z"
 } ]</code></pre>
 </div>
 </div>
@@ -5095,7 +5108,7 @@ Content-Length: 122
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-10-03 21:39:41 UTC
+Last updated 2021-10-31 11:13:48 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

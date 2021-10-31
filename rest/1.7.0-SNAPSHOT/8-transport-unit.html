@@ -465,7 +465,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 552
+Content-Length: 941
 
 {
   "_links" : {
@@ -480,6 +480,15 @@ Content-Length: 552
     },
     "transport-unit-findonlocation" : {
       "href" : "http://localhost:8080/v1/transport-units?actualLocation=EXT_/0000/0000/0000/0000"
+    },
+    "transport-unit-block" : {
+      "href" : "http://localhost:8080/v1/transport-units/block?bk=00000000000000004711"
+    },
+    "transport-unit-unblock" : {
+      "href" : "http://localhost:8080/v1/transport-units/available?bk=00000000000000004711"
+    },
+    "transport-unit-qc" : {
+      "href" : "http://localhost:8080/v1/transport-units/quality-check?bk=00000000000000004711"
     }
   }
 }</code></pre>
@@ -541,12 +550,12 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/7f7bc1d9-f2d5-484b-a9f9-64bf004411a5/
+Location: http://localhost:8080/v1/transport-units/ed6481bb-f2bb-4c11-a224-9894cf1cf2ab/
 Content-Type: application/hal+json
 Content-Length: 768
 
 {
-  "pKey" : "7f7bc1d9-f2d5-484b-a9f9-64bf004411a5",
+  "pKey" : "ed6481bb-f2bb-4c11-a224-9894cf1cf2ab",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "pKey" : "113646454019",
@@ -570,8 +579,8 @@ Content-Length: 768
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2021-10-03T21:45:01Z",
-  "createDate" : "2021-10-03T21:45:01Z"
+  "actualLocationDate" : "2021-10-31T11:19:16Z",
+  "createDate" : "2021-10-31T11:19:16Z"
 }</code></pre>
 </div>
 </div>
@@ -624,7 +633,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/ef6f5930-4c34-44c7-b8a0-9bcc06ba5e0c/</code></pre>
+Location: http://localhost:8080/v1/transport-units/df2c74af-ad2e-494f-b004-8315a986bd0c/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -720,8 +729,8 @@ Content-Length: 582
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-10-03T21:45:02Z",
-  "createDate" : "2021-10-03T21:45:02Z"
+  "actualLocationDate" : "2021-10-31T11:19:18Z",
+  "createDate" : "2021-10-31T11:19:17Z"
 }</code></pre>
 </div>
 </div>
@@ -799,8 +808,8 @@ Content-Length: 557
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-10-03T21:45:01Z",
-  "createDate" : "2021-10-03T21:45:01Z"
+  "actualLocationDate" : "2021-10-31T11:19:17Z",
+  "createDate" : "2021-10-31T11:19:17Z"
 }</code></pre>
 </div>
 </div>
@@ -811,12 +820,16 @@ Content-Length: 557
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 133
+Content-Length: 229
 
 {
   "message" : "TransportUnit with Barcode [00000000000000004710] not found",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
+  "messageKey" : "COMMON.BARCODE_NOT_FOUND",
+  "obj" : [ {
+    "value" : "00000000000000004710"
+  } ],
+  "httpStatus" : "404",
+  "class" : "Barcode"
 }</code></pre>
 </div>
 </div>
@@ -887,8 +900,8 @@ Content-Length: 848
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-10-03T21:45:01Z",
-  "createDate" : "2021-10-03T21:45:01Z"
+  "actualLocationDate" : "2021-10-31T11:19:17Z",
+  "createDate" : "2021-10-31T11:19:17Z"
 }</code></pre>
 </div>
 </div>
@@ -950,8 +963,8 @@ Content-Length: 848
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-10-03T21:45:01Z",
-  "createDate" : "2021-10-03T21:45:01Z"
+  "actualLocationDate" : "2021-10-31T11:19:17Z",
+  "createDate" : "2021-10-31T11:19:17Z"
 }</code></pre>
 </div>
 </div>
@@ -1022,8 +1035,8 @@ Content-Length: 1705
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-10-03T21:45:01Z",
-  "createDate" : "2021-10-03T21:45:01Z"
+  "actualLocationDate" : "2021-10-31T11:19:16Z",
+  "createDate" : "2021-10-31T11:19:16Z"
 }, {
   "links" : [ {
     "rel" : "transport-unit-type",
@@ -1052,8 +1065,8 @@ Content-Length: 1705
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-10-03T21:45:01Z",
-  "createDate" : "2021-10-03T21:45:01Z"
+  "actualLocationDate" : "2021-10-31T11:19:16Z",
+  "createDate" : "2021-10-31T11:19:16Z"
 } ]</code></pre>
 </div>
 </div>
@@ -1124,8 +1137,8 @@ Content-Length: 855
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-10-03T21:45:02Z",
-  "createDate" : "2021-10-03T21:45:02Z"
+  "actualLocationDate" : "2021-10-31T11:19:18Z",
+  "createDate" : "2021-10-31T11:19:18Z"
 } ]</code></pre>
 </div>
 </div>
@@ -1182,7 +1195,7 @@ bk=00000000000000004711&amp;errorCode=bla</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-10-03 21:39:41 UTC
+Last updated 2021-10-31 11:13:48 UTC
 </div>
 </div>
 </body>
