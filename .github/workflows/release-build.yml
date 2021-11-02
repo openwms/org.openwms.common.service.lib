@@ -1,7 +1,8 @@
 name: 'release_build'
 on:
   push:
-    branches: [ release ]
+    branches:
+      - 'release/**'
 
 env:
   MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
@@ -9,7 +10,7 @@ env:
 jobs:
   build_job:
     runs-on: ubuntu-latest
-    name: Build & Test Microservice
+    name: Build & Test Microservice on Release branches
     services:
       rabbitmq:
         image: rabbitmq:3.8
