@@ -69,7 +69,7 @@ class TransportUnitEventPropagator {
                 amqpTemplate.convertAndSend(exchangeName, "tu.event.moved."+event.getActualLocation().getLocationId(), mapper.map(event.getSource(), TransportUnitMO.class));
                 break;
             default:
-                throw new UnsupportedOperationException(format("Eventtype [%s] not supported", event.getType()));
+                throw new UnsupportedOperationException(format("TransportUnitEvent [%s] not supported", event.getType()));
         }
     }
 }

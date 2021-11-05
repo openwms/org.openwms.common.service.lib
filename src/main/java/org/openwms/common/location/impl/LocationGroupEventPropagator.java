@@ -83,7 +83,7 @@ class LocationGroupEventPropagator {
                 amqpTemplate.convertAndSend(exchangeName, "lg.event.state-changed", msg);
                 break;
             default:
-                throw new UnsupportedOperationException(format("Eventtype [%s] currently not supported", event.getType()));
+                throw new UnsupportedOperationException(format("LocationGroupEvent [%s] currently not supported", event.getType()));
         }
     }
 
@@ -103,7 +103,7 @@ class LocationGroupEventPropagator {
                 amqpTemplate.convertAndSend(exchangeName, "loc.event.state-changed", mapper.map(event.getSource(), LocationMO.class));
                 break;
             default:
-                throw new UnsupportedOperationException(format("Eventtype [%s] currently not supported", event.getType()));
+                throw new UnsupportedOperationException(format("LocationEvent [%s] currently not supported", event.getType()));
         }
     }
 }

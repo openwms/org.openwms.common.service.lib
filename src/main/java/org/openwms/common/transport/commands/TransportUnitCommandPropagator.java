@@ -81,7 +81,7 @@ class TransportUnitCommandPropagator {
                 );
                 break;
             default:
-                LOGGER.warn("Not supported command type [{}]", command.getType());
+                LOGGER.warn("Not supported TUCommand [{}]", command.getType());
         }
     }
 }

@@ -65,7 +65,7 @@ class TransportUnitTypeEventPropagator {
                 amqpTemplate.convertAndSend(exchangeName, "tut.event.deleted", mapper.map(event.getSource(), TransportUnitTypeMO.class));
                 break;
             default:
-                LOGGER.warn("Eventtype [{}] not supported", event.getType());
+                LOGGER.warn("TransportUnitTypeEvent [{}] not supported", event.getType());
         }
     }
 }
