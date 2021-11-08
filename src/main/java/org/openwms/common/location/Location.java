@@ -170,8 +170,12 @@ public class Location extends Target implements Serializable {
     public static final boolean DEF_OUTGOING_ACTIVE = true;
 
     /**
-     * The PLC is able to change the state of a Location. This property stores the last state, received from the PLC.<ul><li>-1: Not
-     * defined.</li><li>0 : No PLC error, everything okay.</li></ul>
+     * The PLC is able to change the state of a Location. This property stores the last state, received from the PLC.
+     * <ul>
+     *     <li>0 : No PLC error, everything okay</li>
+     *     <li><0: Not defined</li>
+     *     <li>>0: Some kind of defined error code</li>
+     * </ul>
      */
     @Column(name = "C_PLC_STATE")
     private int plcState = DEF_PLC_STATE;
