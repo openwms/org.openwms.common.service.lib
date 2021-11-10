@@ -24,7 +24,7 @@ import org.ameba.http.EnableMultiTenancy;
 import org.ameba.http.PermitAllCorsConfigurationSource;
 import org.ameba.http.RequestIDFilter;
 import org.ameba.http.identity.EnableIdentityAwareness;
-import org.ameba.i18n.AbstractTranslator;
+import org.ameba.i18n.AbstractSpringTranslator;
 import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.ameba.mapping.DozerMapperImpl;
@@ -47,8 +47,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import javax.servlet.Filter;
+import java.util.Locale;
 import java.util.Properties;
 
 /**
@@ -68,17 +74,32 @@ import java.util.Properties;
 @EntityScan(basePackages = "org.openwms")
 @EnableMultiTenancy(enabled = false)
 @EnableTransactionManagement
-public class CommonModuleConfiguration {
+public class CommonModuleConfiguration implements WebMvcConfigurer {
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(localeChangeInterceptor());
+    }
 
     @RefreshScope
-    @Bean
-    MeterRegistryCustomizer<MeterRegistry> metricsCommonTags(@Value("${spring.application.name}") String applicationName) {
+    @Bean MeterRegistryCustomizer<MeterRegistry> metricsCommonTags(@Value("${spring.application.name}") String applicationName) {
         return registry -> registry.config().commonTags("application", applicationName);
     }
 
-    public @Bean
-    Translator translator() {
-        return new AbstractTranslator() {
+    public @Bean LocaleResolver localeResolver() {
+        SessionLocaleResolver slr = new SessionLocaleResolver();
+        slr.setDefaultLocale(Locale.US);
+        return slr;
+    }
+
+    public @Bean LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+        lci.setParamName("lang");
+        return lci;
+    }
+
+    public @Bean Translator translator() {
+        return new AbstractSpringTranslator() {
             @Override
             protected MessageSource getMessageSource() {
                 return messageSource();
@@ -86,23 +107,20 @@ public class CommonModuleConfiguration {
         };
     }
 
-    public @Bean
-    MessageSource messageSource() {
+    public @Bean MessageSource messageSource() {
         NestedReloadableResourceBundleMessageSource nrrbm = new NestedReloadableResourceBundleMessageSource();
-        nrrbm.setBasename("classpath:i18n");
+        nrrbm.setBasename("classpath:META-INF/i18n/common");
         nrrbm.setDefaultEncoding("UTF-8");
         nrrbm.setCommonMessages(new Properties());
         return nrrbm;
     }
 
     @Profile(SpringProfiles.DEVELOPMENT_PROFILE)
-    public @Bean
-    Filter corsFiler() {
+    public @Bean Filter corsFiler() {
         return new CorsFilter(new PermitAllCorsConfigurationSource());
     }
 
-    public @Bean
-    BeanMapper beanMapper() {
+    public @Bean BeanMapper beanMapper() {
         return new DozerMapperImpl(
                 "META-INF/dozer/common-global-mappings.xml",
                 "META-INF/dozer/common-bean-mappings.xml"
@@ -110,13 +128,11 @@ public class CommonModuleConfiguration {
     }
 
     /*~ ------------- Request ID handling ----------- */
-    public @Bean
-    IDGenerator<String> uuidGenerator() {
+    public @Bean IDGenerator<String> uuidGenerator() {
         return new JdkIDGenerator();
     }
 
-    public @Bean
-    FilterRegistrationBean<RequestIDFilter> requestIDFilter(IDGenerator<String> uuidGenerator) {
+    public @Bean FilterRegistrationBean<RequestIDFilter> requestIDFilter(IDGenerator<String> uuidGenerator) {
         var frb = new FilterRegistrationBean<>(new RequestIDFilter(uuidGenerator));
         frb.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
         return frb;
