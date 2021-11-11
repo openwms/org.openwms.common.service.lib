@@ -765,12 +765,14 @@ type=PERMANENT_LOCK&amp;mode=unlock</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 194
+Content-Length: 269
 
 {
   "message" : "The Target with name [FOO] is neither a Location nor a LocationGroup. Other types of Targets are currently not supported",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
+  "messageKey" : "owms.common.common.target.unsupportedType",
+  "obj" : [ "FOO" ],
+  "httpStatus" : "404",
+  "class" : "String"
 }</code></pre>
 </div>
 </div>
@@ -781,7 +783,7 @@ Content-Length: 194
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-11-05 22:13:32 UTC
+Last updated 2021-11-11 22:34:10 UTC
 </div>
 </div>
 </body>

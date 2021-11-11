@@ -564,11 +564,11 @@ Content-Length: 46
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 163
+Content-Length: 189
 
 {
-  "message" : "Account [UNKNOWN] not found",
-  "messageKey" : "COMMON.ACCOUNT_NOT_FOUND",
+  "message" : "Account with name [UNKNOWN] does not exist",
+  "messageKey" : "owms.common.common.account.notFound",
   "obj" : [ "UNKNOWN" ],
   "httpStatus" : "404",
   "class" : "String"
@@ -610,11 +610,11 @@ Content-Length: 46
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 115
+Content-Length: 133
 
 {
   "message" : "No default Account exists",
-  "messageKey" : "COMMON.ACCOUNT_NO_DEFAULT",
+  "messageKey" : "owms.common.common.account.noDefaultAccount",
   "httpStatus" : "404"
 }</code></pre>
 </div>
@@ -625,7 +625,7 @@ Content-Length: 115
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-11-05 22:13:32 UTC
+Last updated 2021-11-11 22:34:10 UTC
 </div>
 </div>
 </body>

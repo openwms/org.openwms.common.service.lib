@@ -556,12 +556,14 @@ Content-Length: 285
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 134
+Content-Length: 226
 
 {
-  "message" : "No Location with locationPk [EXT_/9999/9999/9999/9999] found",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
+  "message" : "Location with name [EXT_/9999/9999/9999/9999] does not exist",
+  "messageKey" : "owms.common.common.loc.notFoundByName",
+  "obj" : [ "EXT_/9999/9999/9999/9999" ],
+  "httpStatus" : "404",
+  "class" : "String"
 }</code></pre>
 </div>
 </div>
@@ -572,12 +574,14 @@ Content-Length: 134
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 111
+Content-Length: 214
 
 {
-  "message" : "Invalid location [INVALID_COORDINATE]",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
+  "message" : "The given Location name [INVALID_COORDINATE] is not valid",
+  "messageKey" : "owms.common.common.loc.invalidName",
+  "obj" : [ "INVALID_COORDINATE" ],
+  "httpStatus" : "404",
+  "class" : "String"
 }</code></pre>
 </div>
 </div>
@@ -681,12 +685,14 @@ Content-Length: 285
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 118
+Content-Length: 205
 
 {
-  "message" : "No Location with PLC Code [NOT EXISTS] found",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
+  "message" : "Location with PLC code [NOT EXISTS] does not exist",
+  "messageKey" : "owms.common.common.loc.notFoundByPlcCode",
+  "obj" : [ "NOT EXISTS" ],
+  "httpStatus" : "404",
+  "class" : "String"
 }</code></pre>
 </div>
 </div>
@@ -820,12 +826,14 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 123
+Content-Length: 196
 
 {
-  "message" : "No Location with persistent key [NOTEXISTS] found",
-  "messageKey" : "not.found",
-  "httpStatus" : "404"
+  "message" : "Location with name [NOTEXISTS] does not exist",
+  "messageKey" : "owms.common.common.loc.notFoundByName",
+  "obj" : [ "NOTEXISTS" ],
+  "httpStatus" : "404",
+  "class" : "String"
 }</code></pre>
 </div>
 </div>
@@ -959,7 +967,7 @@ Host: localhost:8080
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-11-05 22:13:32 UTC
+Last updated 2021-11-11 22:34:10 UTC
 </div>
 </div>
 </body>
