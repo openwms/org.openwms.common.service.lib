@@ -15,7 +15,10 @@
  */
 package org.openwms.common.location;
 
+import org.ameba.exception.BusinessRuntimeException;
 import org.ameba.exception.NotFoundException;
+import org.ameba.http.MeasuredRestController;
+import org.ameba.i18n.Translator;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationGroupMode;
 import org.openwms.common.location.api.LocationGroupState;
@@ -24,17 +27,22 @@ import org.openwms.common.location.api.LockType;
 import org.openwms.common.location.api.events.TargetEvent;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 
+import java.io.Serializable;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 
 import static java.lang.String.format;
+import static org.openwms.common.CommonMessageCodes.LOCATION_ID_INVALID;
+import static org.openwms.common.CommonMessageCodes.LOCK_MODE_UNSUPPORTED;
+import static org.openwms.common.CommonMessageCodes.LOCK_TYPE_UNSUPPORTED;
+import static org.openwms.common.CommonMessageCodes.TARGET_NOT_SUPPORTED;
 import static org.openwms.common.location.api.LocationApiConstants.API_TARGETS;
 
 /**
@@ -42,14 +50,18 @@ import static org.openwms.common.location.api.LocationApiConstants.API_TARGETS;
  *
  * @author Heiko Scherrer
  */
-@RestController
+@Profile("!INMEM")
+@MeasuredRestController
 class TargetController extends AbstractWebController {
 
+    private final Translator translator;
     private final LocationService locationService;
     private final LocationGroupService locationGroupService;
     private final ApplicationContext ctx;
 
-    TargetController(LocationService locationService, LocationGroupService locationGroupService, ApplicationContext ctx) {
+    TargetController(Translator translator, LocationService locationService, LocationGroupService locationGroupService,
+                     ApplicationContext ctx) {
+        this.translator = translator;
         this.locationService = locationService;
         this.locationGroupService = locationGroupService;
         this.ctx = ctx;
@@ -83,7 +95,7 @@ class TargetController extends AbstractWebController {
                     case OPERATION_LOCK:
                         throw new UnsupportedOperationException("Changing the operation mode of Locations is currently not supported in the API");
                     default:
-                        throw new IllegalArgumentException(format("The Lock Type [%s] is not supported", type));
+                        unsupportedOperation(type);
                 }
             } else {
 
@@ -106,7 +118,7 @@ class TargetController extends AbstractWebController {
                             );
                             break;
                         default:
-                            throw new IllegalArgumentException(format("The Lock Type [%s] is not supported", type));
+                            unsupportedOperation(type);
                     }
                 } else {
                     targetNotFound(targetBK);
@@ -115,7 +127,7 @@ class TargetController extends AbstractWebController {
     }
 
     private void targetNotFound(String targetBK) {
-        throw new NotFoundException(format("The Target with name [%s] is neither a Location nor a LocationGroup. Other types of Targets are currently not supported", targetBK));
+        throw new NotFoundException(translator, TARGET_NOT_SUPPORTED, new String[]{targetBK}, targetBK);
     }
 
     private void changeLocation(LockMode mode, Target target, BiConsumer<Target, ErrorCodeVO> fnc) {
@@ -175,8 +187,16 @@ class TargetController extends AbstractWebController {
         }
     }
 
+    private NotFoundException locationNotFound(String targetBK) {
+        return new NotFoundException(translator, LOCATION_ID_INVALID, new String[]{targetBK}, targetBK);
+    }
+
     private void unsupportedOperation(LockMode mode) {
-        throw new IllegalArgumentException(format("The OperationMode [%s] is not supported", mode));
+        throw new BusinessRuntimeException(translator, LOCK_MODE_UNSUPPORTED, new Serializable[]{mode}, mode);
+    }
+
+    private void unsupportedOperation(LockType type) {
+        throw new BusinessRuntimeException(translator, LOCK_TYPE_UNSUPPORTED, new Serializable[]{type}, type);
     }
 
     /**
@@ -203,7 +223,8 @@ class TargetController extends AbstractWebController {
         if (optLG.isPresent()) {
 
             // The Target is a LocationGroup
-            locationGroupService.changeGroupState(optLG.get().getPersistentKey(), LocationGroupState.NOT_AVAILABLE, LocationGroupState.NOT_AVAILABLE);
+            locationGroupService.changeGroupState(optLG.get().getPersistentKey(), LocationGroupState.NOT_AVAILABLE,
+                    LocationGroupState.NOT_AVAILABLE);
             locationGroupService.changeOperationMode(targetBK, LocationGroupMode.NO_OPERATION);
             raiseEvent(targetBK, reAllocation, LockMode.NONE);
             return;
@@ -235,17 +256,14 @@ class TargetController extends AbstractWebController {
         if (optLG.isPresent()) {
 
             // The Target is a LocationGroup
-            locationGroupService.changeGroupState(optLG.get().getPersistentKey(), LocationGroupState.AVAILABLE, LocationGroupState.AVAILABLE);
+            locationGroupService.changeGroupState(optLG.get().getPersistentKey(), LocationGroupState.AVAILABLE,
+                    LocationGroupState.AVAILABLE);
             locationGroupService.changeOperationMode(targetBK, LocationGroupMode.INFEED_AND_OUTFEED);
             raiseEvent(targetBK, null, LockMode.IN_AND_OUT);
             return;
         }
 
         targetNotFound(targetBK);
-    }
-
-    private NotFoundException locationNotFound(String targetBK) {
-        return new NotFoundException(format("A Location as Target with LocationId [%s] does not exist", targetBK));
     }
 
     private void raiseEvent(String targetBK, Boolean reAllocation, LockMode mode) {

@@ -24,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Lazy;
 
+import static org.openwms.common.CommonMessageCodes.ACCOUNT_NOT_FOUND;
+
 /**
  * A AccountConverter.
  *
@@ -53,7 +55,8 @@ public class AccountConverter extends DozerConverter<String, Account> {
         }
         return repository.findByIdentifier(source)
                 .orElseGet(() -> repository.findByName(source)
-                        .orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.ACCOUNT_NOT_FOUND, new String[]{source}, source))
+                        .orElseThrow(() -> new NotFoundException(translator, ACCOUNT_NOT_FOUND,
+                                new String[]{source}, source))
                 );
     }
 

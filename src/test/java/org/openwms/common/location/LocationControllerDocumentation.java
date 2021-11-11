@@ -16,12 +16,12 @@
 package org.openwms.common.location;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ameba.Messages;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
+import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.TestData;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationApiConstants;
@@ -156,7 +156,7 @@ class LocationControllerDocumentation {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
                     .queryParam("locationPK", "EXT_/9999/9999/9999/9999"))
                     .andExpect(status().isNotFound())
-                    .andExpect(jsonPath("messageKey", is(Messages.NOT_FOUND)))
+                    .andExpect(jsonPath("messageKey", is(CommonMessageCodes.LOCATION_NOT_FOUND)))
                     .andDo(document("loc-find-coordinate-404"));
         }
 
@@ -246,7 +246,7 @@ class LocationControllerDocumentation {
                     .contentType(MediaType.APPLICATION_JSON)
                     .queryParam("op","change-state"))
                     .andExpect(status().isNotFound())
-                    .andExpect(jsonPath("messageKey", is(Messages.NOT_FOUND)))
+                    .andExpect(jsonPath("messageKey", is(CommonMessageCodes.LOCATION_NOT_FOUND)))
                     .andDo(document("loc-state-404"));
         }
 

@@ -15,6 +15,7 @@
  */
 package org.openwms.common.account;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public interface AccountService {
      * @param identifier The Account's identifier
      * @return The Account instance
      */
-    Optional<Account> findByIdentifier(String identifier);
+    Optional<Account> findByIdentifier(@NotEmpty String identifier);
 
     /**
      * Find and return the {@link Account}.
@@ -46,7 +47,7 @@ public interface AccountService {
      * @param name The Account's name
      * @return The Account instance
      */
-    Optional<Account> findByName(String name);
+    Optional<Account> findByName(@NotEmpty String name);
 
     /**
      *

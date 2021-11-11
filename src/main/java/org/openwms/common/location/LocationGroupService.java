@@ -17,6 +17,8 @@ package org.openwms.common.location;
 
 import org.openwms.common.location.api.LocationGroupState;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +37,7 @@ public interface LocationGroupService {
      * @param stateIn The new infeed state
      * @param stateOut The new outfeed state
      */
-    void changeGroupState(String pKey, LocationGroupState stateIn, LocationGroupState stateOut);
+    void changeGroupState(@NotEmpty String pKey, @NotNull LocationGroupState stateIn, @NotNull LocationGroupState stateOut);
 
     /**
      * Change the infeed and outfeed state of a {@link LocationGroup}.
@@ -44,7 +46,7 @@ public interface LocationGroupService {
      * @param stateIn The new infeed state
      * @param stateOut The new outfeed state
      */
-    void changeGroupStates(String name, Optional<LocationGroupState> stateIn, Optional<LocationGroupState> stateOut);
+    void changeGroupStates(@NotEmpty String name, Optional<LocationGroupState> stateIn, Optional<LocationGroupState> stateOut);
 
     /**
      * Change the operation mode of a {@link LocationGroup}.
@@ -53,7 +55,7 @@ public interface LocationGroupService {
      * @param mode The new operation mode to set
      * @see org.openwms.common.location.api.LocationGroupMode for supported mode values
      */
-    void changeOperationMode(String name, String mode);
+    void changeOperationMode(@NotEmpty String name, @NotEmpty String mode);
 
     /**
      * Find and return a {@link LocationGroup} by its unique {@code name}.
@@ -61,7 +63,7 @@ public interface LocationGroupService {
      * @param name The name to search for
      * @return The optional LocationGroup
      */
-    Optional<LocationGroup> findByName(String name);
+    Optional<LocationGroup> findByName(@NotEmpty String name);
 
     /**
      * Find and return all {@link LocationGroup}s.
@@ -76,7 +78,7 @@ public interface LocationGroupService {
      * @param locationGroupNames The names of the LocationGroups to search for
      * @return Always an list instance, never {@literal null}
      */
-    List<LocationGroup> findByNames(List<String> locationGroupNames);
+    List<LocationGroup> findByNames(@NotEmpty List<String> locationGroupNames);
 
     /**
      * Persist a new entity or merge if exists.
@@ -84,5 +86,5 @@ public interface LocationGroupService {
      * @param locationGroup new or changed entity.
      * @return updated entity.
      */
-    LocationGroup save(LocationGroup locationGroup);
+    LocationGroup save(@NotNull LocationGroup locationGroup);
 }

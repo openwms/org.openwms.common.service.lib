@@ -48,7 +48,10 @@ public class TransportUnitTypeConverter extends DozerConverter<String, Transport
         if (source == null) {
             return null;
         }
-        return repository.findByType(source).orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.TRANSPORT_UNIT_TYPE_NOT_FOUND, new String[]{source}, source));
+        return repository.findByType(source)
+                .orElseThrow(() -> new NotFoundException(translator,
+                        CommonMessageCodes.TRANSPORT_UNIT_TYPE_NOT_FOUND,
+                        new String[]{source}, source));
     }
 
     /**

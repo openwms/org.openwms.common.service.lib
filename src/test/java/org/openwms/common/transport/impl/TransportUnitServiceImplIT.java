@@ -173,7 +173,7 @@ class TransportUnitServiceImplIT {
     void shall_change_target_invalid_Barcode() {
         assertThatThrownBy
                 (() -> testee.changeTarget(Barcode.of("UNKNOWN"), TestData.LOCATION_ID_FGIN0001LEFT))
-                .isInstanceOf(NotFoundException.class).hasMessageContaining("TransportUnit with Barcode [UNKNOWN] not found");
+                .isInstanceOf(NotFoundException.class).hasMessageContaining("TransportUnit with Barcode [UNKNOWN] does not exist");
     }
 
     @Test
@@ -193,7 +193,7 @@ class TransportUnitServiceImplIT {
     void findByBarcode_404() {
         assertThatThrownBy(
                 () -> testee.findByBarcode("NOTEXISTS"))
-                .isInstanceOf(NotFoundException.class).hasMessageContaining("not found");
+                .isInstanceOf(NotFoundException.class).hasMessageContaining("TransportUnit with Barcode [NOTEXISTS] does not exist");
     }
 
     @Test

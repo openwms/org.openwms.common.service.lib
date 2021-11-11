@@ -301,7 +301,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
 
     private TransportUnit findByBarcodeInternal(Barcode barcode) {
         return repository.findByBarcode(barcode)
-                .orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.BARCODE_NOT_FOUND, new Serializable[]{barcode}, barcode));
+                .orElseThrow(() -> new NotFoundException(translator, CommonMessageCodes.TU_BARCODE_NOT_FOUND, new Serializable[]{barcode}, barcode));
     }
 
     /**

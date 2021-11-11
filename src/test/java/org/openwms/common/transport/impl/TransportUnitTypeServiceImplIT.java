@@ -52,8 +52,8 @@ class TransportUnitTypeServiceImplIT {
     void findByType() {
         assertThat(service.findByType("PALLET")).isPresent();
         assertThat(service.findByType("UNKNOWN")).isNotPresent();
-        assertThat(service.findByType(null)).isNotPresent();
-        assertThat(service.findByType("")).isNotPresent();
+        assertThatThrownBy(() -> service.findByType(null)).isInstanceOf(ServiceLayerException.class);
+        assertThatThrownBy(() -> service.findByType("")).isInstanceOf(ServiceLayerException.class);
     }
 
     @Test
@@ -112,7 +112,8 @@ class TransportUnitTypeServiceImplIT {
         assertThat(prCount).isEqualTo(3);
 
         // Should not modify rules...
-        service.updateRules("PALLET", null, null);
+        assertThatThrownBy(() -> service.updateRules("PALLET", null, null))
+                .isInstanceOf(ServiceLayerException.class);
         service.updateRules("PALLET", Collections.emptyList(), Collections.emptyList());
         srCount = em.createQuery("select sr from TypeStackingRule sr").getResultList().size();
         prCount = em.createQuery("select pr from TypePlacingRule pr").getResultList().size();
@@ -134,7 +135,7 @@ class TransportUnitTypeServiceImplIT {
     @Test
     void loadRules() {
         List<Rule> rules = service.loadRules("PALLET");
-        assertThatThrownBy(() -> service.loadRules(null)).isInstanceOf(NotFoundException.class);
+        assertThatThrownBy(() -> service.loadRules(null)).isInstanceOf(ServiceLayerException.class);
         assertThatThrownBy(() -> service.loadRules("UNKNOWN")).isInstanceOf(NotFoundException.class);
         assertThat(rules.stream().filter(r -> r instanceof TypePlacingRule).count()).isEqualTo(2);
         assertThat(rules.stream().filter(r -> r instanceof TypeStackingRule).count()).isEqualTo(1);

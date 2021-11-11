@@ -269,7 +269,7 @@ class TransportUnitControllerDocumentation {
         mockMvc.perform(get(API_TRANSPORT_UNITS)
                 .queryParam("bk", "999"))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("messageKey", is(CommonMessageCodes.BARCODE_NOT_FOUND)))
+                .andExpect(jsonPath("messageKey", is(CommonMessageCodes.TU_BARCODE_NOT_FOUND)))
                 .andDo(document("tu-find-by-barcode-404"));
     }
 

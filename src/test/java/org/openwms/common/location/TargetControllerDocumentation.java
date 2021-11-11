@@ -15,13 +15,13 @@
  */
 package org.openwms.common.location;
 
-import org.ameba.Messages;
 import org.ameba.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
+import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.location.api.LocationGroupMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -151,7 +151,7 @@ class TargetControllerDocumentation {
                     .queryParam("type", "PERMANENT_LOCK")
                     .queryParam("mode", "lock"))
                     .andExpect(status().isNotFound())
-                    .andExpect(jsonPath("messageKey", is(Messages.NOT_FOUND)))
+                    .andExpect(jsonPath("messageKey", is(CommonMessageCodes.TARGET_NOT_SUPPORTED)))
                     .andExpect(jsonPath("httpStatus", is("404")))
                     .andDo(document("lock-lg-unknown"));
         }
@@ -173,7 +173,7 @@ class TargetControllerDocumentation {
                     .queryParam("type", "PERMANENT_LOCK")
                     .queryParam("mode", "unlock"))
                     .andExpect(status().isNotFound())
-                    .andExpect(jsonPath("messageKey", is(Messages.NOT_FOUND)))
+                    .andExpect(jsonPath("messageKey", is(CommonMessageCodes.TARGET_NOT_SUPPORTED)))
                     .andExpect(jsonPath("httpStatus", is("404")))
                     ;
         }

@@ -20,7 +20,9 @@ import org.ameba.annotation.TxService;
 import org.openwms.common.account.Account;
 import org.openwms.common.account.AccountService;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +31,7 @@ import java.util.Optional;
  *
  * @author Heiko Scherrer
  */
+@Validated
 @TxService
 class AccountServiceImpl implements AccountService {
 
@@ -54,7 +57,7 @@ class AccountServiceImpl implements AccountService {
     @Measured
     @Transactional(readOnly = true)
     @Override
-    public Optional<Account> findByIdentifier(String identifier) {
+    public Optional<Account> findByIdentifier(@NotEmpty String identifier) {
         return repository.findByIdentifier(identifier);
     }
 
@@ -64,7 +67,7 @@ class AccountServiceImpl implements AccountService {
     @Measured
     @Transactional(readOnly = true)
     @Override
-    public Optional<Account> findByName(String name) {
+    public Optional<Account> findByName(@NotEmpty String name) {
         return repository.findByName(name);
     }
 

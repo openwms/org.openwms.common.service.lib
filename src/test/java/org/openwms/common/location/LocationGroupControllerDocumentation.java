@@ -16,7 +16,6 @@
 package org.openwms.common.location;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ameba.Messages;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
@@ -127,7 +126,7 @@ class LocationGroupControllerDocumentation {
             mockMvc.perform(get(LocationApiConstants.API_LOCATION_GROUPS)
                     .queryParam("name", "NOT_EXISTS"))
                     .andExpect(status().isNotFound())
-                    .andExpect(jsonPath("messageKey", is(Messages.NOT_FOUND)))
+                    .andExpect(jsonPath("messageKey", is(CommonMessageCodes.LOCATION_GROUP_NOT_FOUND)))
                     .andDo(document("lg-find-name-404"));
         }
 

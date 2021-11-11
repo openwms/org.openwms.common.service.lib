@@ -22,22 +22,26 @@ package org.openwms.common;
  */
 public final class CommonMessageCodes {
 
-    public static final String ACCOUNT_NO_DEFAULT = "COMMON.ACCOUNT_NO_DEFAULT";
-    public static final String ACCOUNT_NOT_FOUND = "COMMON.ACCOUNT_NOT_FOUND";
+    public static final String ACCOUNT_NOT_FOUND = "owms.common.common.account.notFound";
+    public static final String ACCOUNT_NO_DEFAULT = "owms.common.common.account.noDefaultAccount";
 
-    /** Code to signal that no TransportUnit with given Barcode exists. */
-    public static final String BARCODE_NOT_FOUND = "COMMON.BARCODE_NOT_FOUND";
-    public static final String BARCODE_MISSING = "COMMON.BARCODE_MISSING";
+    public static final String LOCATION_GROUP_NOT_FOUND_BY_PKEY = "owms.common.common.lg.notFoundByPKey";
+    public static final String LOCATION_GROUP_NOT_FOUND = "owms.common.common.lg.notFoundByName";
 
-    public static final String LOCATION_NOT_FOUND = "COMMON.LOCATION_NOT_FOUND";
-    public static final String LOCATION_NOT_FOUND_BY_ERP_CODE = "COMMON.LOCATION_NOT_FOUND_BY_ERP_CODE";
+    public static final String LOCATION_ID_INVALID = "owms.common.common.loc.invalidName";
+    public static final String LOCATION_NOT_FOUND = "owms.common.common.loc.notFoundByName";
+    public static final String LOCATION_NOT_FOUND_BY_ERP_CODE = "owms.common.common.loc.notFoundByErpCode";
+    public static final String LOCATION_NOT_FOUND_BY_PLC_CODE = "owms.common.common.loc.notFoundByPlcCode";
+    public static final String LOCK_MODE_UNSUPPORTED = "owms.common.common.loc.lockModeUnsupported";
+    public static final String LOCK_TYPE_UNSUPPORTED = "owms.common.common.loc.lockTypeUnsupported";
 
-    public static final String LOCATION_GROUP_NOT_FOUND = "COMMON.LOCATION_GROUP_NOT_FOUND";
+    public static final String TARGET_NOT_SUPPORTED = "owms.common.common.target.unsupportedType";
 
-    public static final String LOCK_MODE_UNSUPPORTED = "COMMON.LOCK_MODE_UNSUPPORTED";
+    public static final String TU_BARCODE_NOT_FOUND = "owms.common.common.tu.notFoundByBK";
+    public static final String TU_BARCODE_MISSING = "owms.common.common.tu.bkMissing";
+    public static final String TU_EXISTS = "owms.common.common.tu.alreadyExists";
 
-    public static final String TRANSPORT_UNIT_EXISTS = "COMMON.TU_EXISTS";
-    public static final String TRANSPORT_UNIT_TYPE_NOT_FOUND = "COMMON.TRANSPORT_UNIT_TYPE_NOT_FOUND";
+    public static final String TRANSPORT_UNIT_TYPE_NOT_FOUND = "owms.common.common.tut.notFoundByName";
 
     private CommonMessageCodes() {
     }

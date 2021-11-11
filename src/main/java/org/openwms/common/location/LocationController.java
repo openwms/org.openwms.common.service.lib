@@ -17,6 +17,7 @@ package org.openwms.common.location;
 
 import org.ameba.exception.BusinessRuntimeException;
 import org.ameba.exception.NotFoundException;
+import org.ameba.http.MeasuredRestController;
 import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.common.location.api.ErrorCodeVO;
@@ -33,17 +34,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 
-import static java.lang.String.format;
 import static java.util.Arrays.asList;
+import static org.openwms.common.CommonMessageCodes.LOCATION_ID_INVALID;
+import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND;
 import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND_BY_ERP_CODE;
+import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND_BY_PLC_CODE;
 import static org.openwms.common.CommonMessageCodes.LOCK_MODE_UNSUPPORTED;
+import static org.openwms.common.CommonMessageCodes.LOCK_TYPE_UNSUPPORTED;
 import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION;
 import static org.openwms.common.location.api.LocationApiConstants.API_LOCATIONS;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -55,7 +58,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  * @author Heiko Scherrer
  */
 @Profile("!INMEM")
-@RestController
+@MeasuredRestController
 public class LocationController extends AbstractWebController {
 
     private final BeanMapper mapper;
@@ -72,26 +75,39 @@ public class LocationController extends AbstractWebController {
     public ResponseEntity<Optional<LocationVO>> findLocationByCoordinate(@RequestParam("locationPK") String locationPK) {
         if (!LocationPK.isValid(locationPK)) {
             // here we need to throw an NFE because Feign needs to cast it into an Optional. IAE won't work!
-            throw new NotFoundException(format("Invalid location [%s]", locationPK));
+            throw new NotFoundException(translator, LOCATION_ID_INVALID, new String[]{locationPK}, locationPK);
         }
-        Location location = locationService.findByLocationPk(LocationPK.fromString(locationPK)).orElseThrow(() -> new NotFoundException(format("No Location with locationPk [%s] found", locationPK)));
+        Location location = locationService.findByLocationPk(LocationPK.fromString(locationPK))
+                .orElseThrow(() -> new NotFoundException(
+                        translator,
+                        LOCATION_NOT_FOUND,
+                        new String[]{locationPK},
+                        locationPK
+                ));
         return ResponseEntity.ok(Optional.ofNullable(mapper.map(location, LocationVO.class)));
     }
 
     @GetMapping(value = API_LOCATIONS, params = {"erpCode"})
     public ResponseEntity<Optional<LocationVO>> findLocationByErpCode(@RequestParam("erpCode") String erpCode) {
-        Location location = locationService.findByErpCode(erpCode).orElseThrow(() -> new NotFoundException(format("No Location with ERP Code [%s] found", erpCode)));
+        Location location = locationService.findByErpCode(erpCode).orElseThrow(() -> locationNotFound(erpCode));
         return ResponseEntity.ok(Optional.ofNullable(mapper.map(location, LocationVO.class)));
     }
 
     @GetMapping(value = API_LOCATIONS, params = {"plcCode"})
     public ResponseEntity<Optional<LocationVO>> findLocationByPlcCode(@RequestParam("plcCode") String plcCode) {
-        Location location = locationService.findByPlcCode(plcCode).orElseThrow(() -> new NotFoundException(format("No Location with PLC Code [%s] found", plcCode)));
+        Location location = locationService.findByPlcCode(plcCode)
+                .orElseThrow(() -> new NotFoundException(
+                        translator,
+                        LOCATION_NOT_FOUND_BY_PLC_CODE,
+                        new String[]{plcCode},
+                        plcCode
+                ));
         return ResponseEntity.ok(Optional.ofNullable(mapper.map(location, LocationVO.class)));
     }
 
     @GetMapping(value = API_LOCATIONS, params = {"locationGroupNames"})
-    public ResponseEntity<List<LocationVO>> findLocationsForLocationGroups(@RequestParam("locationGroupNames") List<String> locationGroupNames) {
+    public ResponseEntity<List<LocationVO>> findLocationsForLocationGroups(
+            @RequestParam("locationGroupNames") List<String> locationGroupNames) {
         List<Location> locations = locationService.findAllOf(locationGroupNames);
         return ResponseEntity.ok(mapper.map(locations, LocationVO.class));
     }
@@ -133,7 +149,7 @@ public class LocationController extends AbstractWebController {
             case OPERATION_LOCK:
                 throw new UnsupportedOperationException("Changing the operation mode of Locations is currently not supported in the API");
             default:
-                throw new IllegalArgumentException(format("The Lock Type [%s] is not supported", type));
+                unsupportedOperation(type);
         }
         return ResponseEntity.noContent().build();
     }
@@ -207,5 +223,9 @@ public class LocationController extends AbstractWebController {
 
     private void unsupportedOperation(LockMode mode) {
         throw new BusinessRuntimeException(translator, LOCK_MODE_UNSUPPORTED, new Serializable[]{mode}, mode);
+    }
+
+    private void unsupportedOperation(LockType type) {
+        throw new BusinessRuntimeException(translator, LOCK_TYPE_UNSUPPORTED, new Serializable[]{type}, type);
     }
 }

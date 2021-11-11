@@ -18,6 +18,7 @@ package org.openwms.common.location.impl;
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
+import org.ameba.i18n.Translator;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
@@ -36,7 +37,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static java.lang.String.format;
+import static org.openwms.common.CommonMessageCodes.LOCATION_ID_INVALID;
+import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND;
 
 /**
  * A LocationServiceImpl is a Spring managed transactional Service that operates on {@link Location} entities and spans the tx boundary.
@@ -48,13 +50,15 @@ import static java.lang.String.format;
 class LocationServiceImpl implements LocationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LocationServiceImpl.class);
+    private final Translator translator;
     private final LocationRepository repository;
     private final ErrorCodeTransformers.LocationStateIn stateInTransformer;
     private final ErrorCodeTransformers.LocationStateOut stateOutTransformer;
     private final ApplicationContext ctx;
 
-    LocationServiceImpl(LocationRepository repository, ErrorCodeTransformers.LocationStateIn stateInTransformer,
-            ErrorCodeTransformers.LocationStateOut stateOutTransformer, ApplicationContext ctx) {
+    LocationServiceImpl(Translator translator, LocationRepository repository, ErrorCodeTransformers.LocationStateIn stateInTransformer,
+                        ErrorCodeTransformers.LocationStateOut stateOutTransformer, ApplicationContext ctx) {
+        this.translator = translator;
         this.repository = repository;
         this.stateInTransformer = stateInTransformer;
         this.stateOutTransformer = stateOutTransformer;
@@ -77,7 +81,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-    public Optional<Location> findByPlcCode(String plcCode) {
+    public Optional<Location> findByPlcCode(@NotEmpty String plcCode) {
         return repository.findByPlcCode(plcCode);
     }
 
@@ -89,7 +93,7 @@ class LocationServiceImpl implements LocationService {
     @Transactional(readOnly = true)
     public Optional<Location> findByLocationId(@NotEmpty String locationId) {
         if (!LocationPK.isValid(locationId)) {
-            throw new IllegalArgumentException(format("The given locationPK [%s] is not of valid format", locationId));
+            throw new IllegalArgumentException(translator.translate(LOCATION_ID_INVALID, locationId));
         }
         return repository.findByLocationId(LocationPK.fromString(locationId));
     }
@@ -100,7 +104,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-    public List<Location> findAllOf(List<String> locationGroupNames) {
+    public List<Location> findAllOf(@NotEmpty List<String> locationGroupNames) {
         return locationGroupNames.size() == 1
                 ? repository.findByLocationGroup_Name(locationGroupNames.get(0))
                 : repository.findByLocationGroup_Name(locationGroupNames);
@@ -111,10 +115,10 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
-    public void changeState(String pKey, ErrorCodeVO errorCode) {
+    public void changeState(@NotEmpty String pKey, @NotNull ErrorCodeVO errorCode) {
         Location location = repository
                 .findBypKey(pKey)
-                .orElseThrow(() -> new NotFoundException(format("No Location with persistent key [%s] found", pKey)));
+                .orElseThrow(() -> new NotFoundException(translator, LOCATION_NOT_FOUND, new String[]{pKey}, pKey));
 
         boolean changed = false;
         if (Optional.ofNullable(errorCode.getPlcState()).isPresent() && errorCode.getPlcState() != location.getPlcState()) {
@@ -161,7 +165,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-    public Optional<Location> findByErpCode(String erpCode) {
+    public Optional<Location> findByErpCode(@NotEmpty String erpCode) {
         return repository.findByErpCode(erpCode);
     }
 
@@ -172,8 +176,7 @@ class LocationServiceImpl implements LocationService {
     @Measured
     public Location save(@NotNull Location location) {
         if (location.isNew()) {
-            throw new NotFoundException("Expected to save an already existing instance but got a transient one");
-
+            throw new IllegalArgumentException("Expected to save an already existing instance but got a transient one");
         }
         return repository.save(location);
     }

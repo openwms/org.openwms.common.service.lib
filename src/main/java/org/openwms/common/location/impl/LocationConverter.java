@@ -15,14 +15,15 @@
  */
 package org.openwms.common.location.impl;
 
+import com.github.dozermapper.core.DozerConverter;
 import org.ameba.exception.NotFoundException;
 import org.ameba.i18n.Translator;
-import com.github.dozermapper.core.DozerConverter;
-import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+
+import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND;
 
 /**
  * A LocationConverter.
@@ -53,7 +54,13 @@ public class LocationConverter extends DozerConverter<String, Location> {
         if (source == null) {
             return null;
         }
-        return locationRepository.findByLocationId(LocationPK.fromString(source)).orElseThrow(()->new NotFoundException(translator, CommonMessageCodes.LOCATION_NOT_FOUND, new String[]{source}, source));
+        return locationRepository
+                .findByLocationId(LocationPK.fromString(source))
+                .orElseThrow(() -> new NotFoundException(translator,
+                        LOCATION_NOT_FOUND,
+                        new String[]{source},
+                        source
+                ));
     }
 
     /**

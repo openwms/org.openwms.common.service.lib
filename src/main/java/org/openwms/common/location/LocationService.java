@@ -60,7 +60,7 @@ public interface LocationService {
      * @param erpCode The ERP Code to search for a Location
      * @return The Location instance
      */
-    Optional<Location> findByErpCode(String erpCode);
+    Optional<Location> findByErpCode(@NotEmpty String erpCode);
 
     /**
      * Find and return a {@code Location}.
@@ -68,7 +68,7 @@ public interface LocationService {
      * @param plcCode The PLC Code to search for a Location
      * @return The Location instance
      */
-    Optional<Location> findByPlcCode(String plcCode);
+    Optional<Location> findByPlcCode(@NotEmpty String plcCode);
 
     /**
      * Find and return all Locations that belong to a {@code LocationGroup}.
@@ -76,7 +76,7 @@ public interface LocationService {
      * @param locationGroupNames One ore names identifying the LocationGroups to search Locations for
      * @return The LocationGroup instances or an empty list, never {@literal null}
      */
-    List<Location> findAllOf(List<String> locationGroupNames);
+    List<Location> findAllOf(@NotEmpty List<String> locationGroupNames);
 
     /**
      * Change the infeed and outfeed state of a {@link Location} in respect of the according {@code LocationGroup}.
@@ -85,8 +85,8 @@ public interface LocationService {
      * @param errorCode Contains the error bitmap to encode the state
      */
     void changeState(
-            String pKey,
-            ErrorCodeVO errorCode
+            @NotEmpty String pKey,
+            @NotNull ErrorCodeVO errorCode
     );
 
     /**

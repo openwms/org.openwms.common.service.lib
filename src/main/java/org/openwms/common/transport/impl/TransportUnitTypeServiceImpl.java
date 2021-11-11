@@ -19,6 +19,8 @@ import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
+import org.ameba.i18n.Translator;
+import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.location.LocationType;
 import org.openwms.common.transport.Rule;
 import org.openwms.common.transport.TransportUnitType;
@@ -29,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -46,16 +49,19 @@ import static org.openwms.common.transport.events.TransportUnitTypeEvent.Transpo
  *
  * @author Heiko Scherrer
  */
+@Validated
 @TxService
 class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitTypeServiceImpl.class);
+    private final Translator translator;
     private final TransportUnitTypeRepository transportUnitTypeRepository;
     private final ApplicationEventPublisher publisher;
 
     TransportUnitTypeServiceImpl(
-            TransportUnitTypeRepository transportUnitTypeRepository,
+            Translator translator, TransportUnitTypeRepository transportUnitTypeRepository,
             ApplicationEventPublisher publisher) {
+        this.translator = translator;
         this.transportUnitTypeRepository = transportUnitTypeRepository;
         this.publisher = publisher;
     }
@@ -66,7 +72,7 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-    public Optional<TransportUnitType> findByType(String type) {
+    public Optional<TransportUnitType> findByType(@NotEmpty String type) {
         return transportUnitTypeRepository.findByType(type);
     }
 
@@ -116,7 +122,7 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
      */
     @Override
     @Measured
-    public TransportUnitType save(TransportUnitType transportUnitType) {
+    public TransportUnitType save(@NotNull TransportUnitType transportUnitType) {
         TransportUnitType tut = transportUnitTypeRepository.save(transportUnitType);
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Save a TransportUnitType with a list of TypePlacingRules [{}]", tut.getTypePlacingRules().size());
@@ -133,8 +139,13 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
      */
     @Override
     @Measured
-    public TransportUnitType updateRules(@NotEmpty String type, List<LocationType> newAssigned, List<LocationType> newNotAssigned) {
-        TransportUnitType tut = transportUnitTypeRepository.findByType(type).orElseThrow(() -> new NotFoundException(format("TransportUnitType with type [%s] does not exist", type)));
+    public TransportUnitType updateRules(@NotEmpty @NotEmpty String type,
+                                         @NotNull List<LocationType> newAssigned,
+                                         @NotNull List<LocationType> newNotAssigned) {
+        TransportUnitType tut = transportUnitTypeRepository.findByType(type)
+                .orElseThrow(() -> new NotFoundException(translator,
+                        CommonMessageCodes.TRANSPORT_UNIT_TYPE_NOT_FOUND,
+                        new String[]{type}, type));
         if (newAssigned != null && !newAssigned.isEmpty()) {
             for (LocationType locationType : newAssigned) {
                 if (tut.getTypePlacingRules()

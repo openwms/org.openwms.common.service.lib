@@ -19,10 +19,9 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.http.MeasuredRestController;
 import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
-import org.openwms.common.CommonMessageCodes;
-import org.openwms.core.http.Index;
 import org.openwms.common.account.api.AccountVO;
 import org.openwms.core.http.AbstractWebController;
+import org.openwms.core.http.Index;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.Serializable;
 import java.util.List;
 
+import static org.openwms.common.CommonMessageCodes.ACCOUNT_NOT_FOUND;
+import static org.openwms.common.CommonMessageCodes.ACCOUNT_NO_DEFAULT;
 import static org.openwms.common.account.api.AccountApiConstants.API_ACCOUNTS;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -62,7 +63,7 @@ public class AccountController extends AbstractWebController {
         return ResponseEntity.ok(
                 mapper.map(
                         service.findDefault().orElseThrow(
-                                ()-> new NotFoundException(translator, CommonMessageCodes.ACCOUNT_NO_DEFAULT)), AccountVO.class
+                                ()-> new NotFoundException(translator, ACCOUNT_NO_DEFAULT)), AccountVO.class
                 ));
     }
 
@@ -71,7 +72,7 @@ public class AccountController extends AbstractWebController {
         return ResponseEntity.ok(
                 mapper.map(
                         service.findByIdentifier(identifier).orElseThrow(
-                                () -> new NotFoundException(translator, CommonMessageCodes.ACCOUNT_NOT_FOUND,
+                                () -> new NotFoundException(translator, ACCOUNT_NOT_FOUND,
                                         new Serializable[]{identifier}, identifier)), AccountVO.class
                 ));
     }
@@ -81,7 +82,7 @@ public class AccountController extends AbstractWebController {
         return ResponseEntity.ok(
                 mapper.map(
                         service.findByName(name).orElseThrow(
-                                ()-> new NotFoundException(translator, CommonMessageCodes.ACCOUNT_NOT_FOUND,
+                                ()-> new NotFoundException(translator, ACCOUNT_NOT_FOUND,
                                         new Serializable[]{name}, name)), AccountVO.class
                 ));
     }

@@ -51,8 +51,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
-import static org.openwms.common.CommonMessageCodes.BARCODE_MISSING;
-import static org.openwms.common.CommonMessageCodes.TRANSPORT_UNIT_EXISTS;
+import static org.openwms.common.CommonMessageCodes.TU_BARCODE_MISSING;
+import static org.openwms.common.CommonMessageCodes.TU_EXISTS;
 import static org.openwms.common.location.LocationPK.fromString;
 import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPORT_UNIT;
 import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPORT_UNITS;
@@ -161,7 +161,7 @@ public class TransportUnitController extends AbstractWebController {
             // check if already exists ...
             try {
                 service.findByBarcode(transportUnitBK);
-                throw new ResourceExistsException(translator.translate(TRANSPORT_UNIT_EXISTS, transportUnitBK), TRANSPORT_UNIT_EXISTS, transportUnitBK);
+                throw new ResourceExistsException(translator.translate(TU_EXISTS, transportUnitBK), TU_EXISTS, transportUnitBK);
             } catch (NotFoundException nfe) {
                 // thats fine we just cast the exception thrown by the service
             }
@@ -181,13 +181,13 @@ public class TransportUnitController extends AbstractWebController {
         if (Boolean.TRUE.equals(strict)) {
 
             if (transportUnitBK == null || transportUnitBK.isEmpty()) {
-                throw new IllegalArgumentException(translator.translate(BARCODE_MISSING));
+                throw new IllegalArgumentException(translator.translate(TU_BARCODE_MISSING));
             }
 
             // check if already exists ...
             try {
                 service.findByBarcode(transportUnitBK);
-                throw new ResourceExistsException(translator.translate(TRANSPORT_UNIT_EXISTS, transportUnitBK), TRANSPORT_UNIT_EXISTS, transportUnitBK);
+                throw new ResourceExistsException(translator.translate(TU_EXISTS, transportUnitBK), TU_EXISTS, transportUnitBK);
             } catch (NotFoundException nfe) {
                 // that's fine we just cast the exception thrown by the service
             }

@@ -17,6 +17,8 @@ package org.openwms.common.transport;
 
 import org.openwms.common.location.LocationType;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +35,7 @@ public interface TransportUnitTypeService {
      * @param type The type as String
      * @return The instance.
      */
-    Optional<TransportUnitType> findByType(String type);
+    Optional<TransportUnitType> findByType(@NotEmpty String type);
 
     /**
      * Returns a List of all {@link TransportUnitType}s.
@@ -48,7 +50,7 @@ public interface TransportUnitTypeService {
      * @param transportUnitType The type to be created
      * @return A new created {@link TransportUnitType} instance.
      */
-    TransportUnitType create(TransportUnitType transportUnitType);
+    TransportUnitType create(@NotNull TransportUnitType transportUnitType);
 
     /**
      * Delete already persisted {@link TransportUnitType} instances.
@@ -63,7 +65,7 @@ public interface TransportUnitTypeService {
      * @param transportUnitType The instance to be updated
      * @return The updated instance
      */
-    TransportUnitType save(TransportUnitType transportUnitType);
+    TransportUnitType save(@NotNull TransportUnitType transportUnitType);
 
     /**
      * Update the List of {@link org.openwms.common.transport.TypePlacingRule}s for the given {@link TransportUnitType} type.
@@ -74,7 +76,9 @@ public interface TransportUnitTypeService {
      * this {@link LocationType}s and the requested {@link TransportUnitType} type.
      * @return The updated {@link TransportUnitType}.
      */
-    TransportUnitType updateRules(String type, List<LocationType> newAssigned, List<LocationType> newNotAssigned);
+    TransportUnitType updateRules(@NotEmpty String type,
+                                  @NotNull List<LocationType> newAssigned,
+                                  @NotNull List<LocationType> newNotAssigned);
 
     /**
      * Return a List of all {@link org.openwms.common.transport.Rule}s that belong to this {@link TransportUnitType} type.
@@ -82,5 +86,5 @@ public interface TransportUnitTypeService {
      * @param transportUnitType The {@link TransportUnitType} to search for.
      * @return The requested List or {@literal null} if no {@link Rule} was found.
      */
-    List<Rule> loadRules(String transportUnitType);
+    List<Rule> loadRules(@NotEmpty String transportUnitType);
 }
