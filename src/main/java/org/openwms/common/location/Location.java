@@ -89,6 +89,10 @@ public class Location extends Target implements Serializable {
     @Size(max = 255)
     private String description;
 
+    /** Sort order index used by Putaway strategies. */
+    @Column(name = "C_SORT")
+    private int sortOrder = 0;
+
     /** May be assigned to a particular zone in stock. */
     @Column(name = "C_STOCK_ZONE")
     private String stockZone;
@@ -325,6 +329,15 @@ public class Location extends Target implements Serializable {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * Get the sortOrder.
+     *
+     * @return A sequence number
+     */
+    public int getSortOrder() {
+        return sortOrder;
     }
 
     /**

@@ -147,7 +147,6 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     private transient EntityManager em;
 
     /*~ ----------------------------- constructors ------------------- */
-
     /** Dear JPA... */
     protected TransportUnit() {
     }
@@ -168,6 +167,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
         setTransportUnitType(tut);
         setActualLocation(actualLocation);
     }
+
     /*~ ----------------------------- methods ------------------- */
     /**
      * Get the actual {@link Location} of the {@code TransportUnit}.
