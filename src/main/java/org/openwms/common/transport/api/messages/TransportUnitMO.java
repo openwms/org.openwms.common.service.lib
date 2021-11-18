@@ -88,6 +88,10 @@ public class TransportUnitMO implements Serializable {
         return new Builder();
     }
 
+    public boolean hasTargetLocation() {
+        return this.targetLocation != null && !this.targetLocation.isEmpty();
+    }
+
     public String getpKey() {
         return pKey;
     }
