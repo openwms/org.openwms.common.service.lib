@@ -550,12 +550,12 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/befa79e3-fd89-4049-9c97-2e23a95140a6/
+Location: http://localhost:8080/v1/transport-units/4ccaa480-ad34-43d5-aa56-0fdef3cf4e46/
 Content-Type: application/hal+json
-Content-Length: 768
+Content-Length: 789
 
 {
-  "pKey" : "befa79e3-fd89-4049-9c97-2e23a95140a6",
+  "pKey" : "4ccaa480-ad34-43d5-aa56-0fdef3cf4e46",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "pKey" : "113646454019",
@@ -565,6 +565,7 @@ Content-Length: 768
     "locationGroupName" : "ZILE",
     "erpCode" : "ERP_0030",
     "plcCode" : "PLC_0030",
+    "sortOrder" : 0,
     "incomingActive" : true,
     "outgoingActive" : true,
     "plcState" : 0
@@ -579,8 +580,8 @@ Content-Length: 768
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2021-11-11T23:04:55Z",
-  "createDate" : "2021-11-11T23:04:55Z"
+  "actualLocationDate" : "2021-11-18T20:40:37Z",
+  "createDate" : "2021-11-18T20:40:37Z"
 }</code></pre>
 </div>
 </div>
@@ -633,7 +634,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/052c46d5-983d-4e13-851c-3278643c81e1/</code></pre>
+Location: http://localhost:8080/v1/transport-units/612d2c51-c518-481b-829e-496c4bd30f9f/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -707,7 +708,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 582
+Content-Length: 603
 
 {
   "pKey" : "1",
@@ -720,6 +721,7 @@ Content-Length: 582
     "locationGroupName" : "FGAISLE1LEFT",
     "erpCode" : "ERP_0013",
     "plcCode" : "PLC_0013",
+    "sortOrder" : 0,
     "incomingActive" : true,
     "outgoingActive" : true,
     "plcState" : 0
@@ -729,8 +731,8 @@ Content-Length: 582
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-11T23:04:56Z",
-  "createDate" : "2021-11-11T23:04:56Z"
+  "actualLocationDate" : "2021-11-18T20:40:39Z",
+  "createDate" : "2021-11-18T20:40:39Z"
 }</code></pre>
 </div>
 </div>
@@ -787,7 +789,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 557
+Content-Length: 578
 
 {
   "pKey" : "1",
@@ -800,6 +802,7 @@ Content-Length: 557
     "locationGroupName" : "FGAISLE1LEFT",
     "erpCode" : "ERP_0013",
     "plcCode" : "PLC_0013",
+    "sortOrder" : 0,
     "incomingActive" : true,
     "outgoingActive" : true,
     "plcState" : 0
@@ -808,8 +811,8 @@ Content-Length: 557
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-11T23:04:56Z",
-  "createDate" : "2021-11-11T23:04:55Z"
+  "actualLocationDate" : "2021-11-18T20:40:38Z",
+  "createDate" : "2021-11-18T20:40:38Z"
 }</code></pre>
 </div>
 </div>
@@ -870,7 +873,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 848
+Content-Length: 869
 
 {
   "links" : [ {
@@ -891,6 +894,7 @@ Content-Length: 848
     "locationGroupName" : "ZILE",
     "erpCode" : "ERP_0030",
     "plcCode" : "PLC_0030",
+    "sortOrder" : 0,
     "incomingActive" : true,
     "outgoingActive" : true,
     "plcState" : 0
@@ -900,8 +904,8 @@ Content-Length: 848
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-11T23:04:56Z",
-  "createDate" : "2021-11-11T23:04:56Z"
+  "actualLocationDate" : "2021-11-18T20:40:38Z",
+  "createDate" : "2021-11-18T20:40:38Z"
 }</code></pre>
 </div>
 </div>
@@ -933,7 +937,7 @@ style, like it is left or right aligned and padded.</p>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 848
+Content-Length: 869
 
 {
   "links" : [ {
@@ -954,6 +958,7 @@ Content-Length: 848
     "locationGroupName" : "ZILE",
     "erpCode" : "ERP_0030",
     "plcCode" : "PLC_0030",
+    "sortOrder" : 0,
     "incomingActive" : true,
     "outgoingActive" : true,
     "plcState" : 0
@@ -963,8 +968,8 @@ Content-Length: 848
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-11T23:04:56Z",
-  "createDate" : "2021-11-11T23:04:56Z"
+  "actualLocationDate" : "2021-11-18T20:40:38Z",
+  "createDate" : "2021-11-18T20:40:38Z"
 }</code></pre>
 </div>
 </div>
@@ -1005,7 +1010,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1705
+Content-Length: 1747
 
 [ {
   "links" : [ {
@@ -1026,6 +1031,7 @@ Content-Length: 1705
     "locationGroupName" : "ZILE",
     "erpCode" : "ERP_0030",
     "plcCode" : "PLC_0030",
+    "sortOrder" : 0,
     "incomingActive" : true,
     "outgoingActive" : true,
     "plcState" : 0
@@ -1035,8 +1041,8 @@ Content-Length: 1705
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-11T23:04:55Z",
-  "createDate" : "2021-11-11T23:04:55Z"
+  "actualLocationDate" : "2021-11-18T20:40:37Z",
+  "createDate" : "2021-11-18T20:40:37Z"
 }, {
   "links" : [ {
     "rel" : "transport-unit-type",
@@ -1056,6 +1062,7 @@ Content-Length: 1705
     "locationGroupName" : "IPOINT1",
     "erpCode" : "ERP_0031",
     "plcCode" : "PLC_0031",
+    "sortOrder" : 0,
     "incomingActive" : true,
     "outgoingActive" : true,
     "plcState" : 0
@@ -1065,8 +1072,8 @@ Content-Length: 1705
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-11T23:04:55Z",
-  "createDate" : "2021-11-11T23:04:55Z"
+  "actualLocationDate" : "2021-11-18T20:40:37Z",
+  "createDate" : "2021-11-18T20:40:37Z"
 } ]</code></pre>
 </div>
 </div>
@@ -1107,7 +1114,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 855
+Content-Length: 876
 
 [ {
   "links" : [ {
@@ -1128,6 +1135,7 @@ Content-Length: 855
     "locationGroupName" : "IPOINT1",
     "erpCode" : "ERP_0031",
     "plcCode" : "PLC_0031",
+    "sortOrder" : 0,
     "incomingActive" : true,
     "outgoingActive" : true,
     "plcState" : 0
@@ -1137,8 +1145,8 @@ Content-Length: 855
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-11T23:04:57Z",
-  "createDate" : "2021-11-11T23:04:57Z"
+  "actualLocationDate" : "2021-11-18T20:40:39Z",
+  "createDate" : "2021-11-18T20:40:39Z"
 } ]</code></pre>
 </div>
 </div>
@@ -1195,7 +1203,7 @@ bk=00000000000000004711&amp;errorCode=bla</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-11-11 22:34:10 UTC
+Last updated 2021-11-18 20:35:03 UTC
 </div>
 </div>
 </body>

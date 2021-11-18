@@ -71,14 +71,15 @@
          <column autoUpdated="false" digits="0" id="24" name="c_outgoing_active" nullable="true" remarks="" size="1" type="bool"/>
          <column autoUpdated="false" digits="0" id="25" name="c_plc_code" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="26" name="c_plc_state" nullable="true" remarks="" size="10" type="int4"/>
-         <column autoUpdated="false" digits="0" id="27" name="c_stock_zone" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="28" name="c_account" nullable="true" remarks="" size="255" type="varchar">
+         <column autoUpdated="false" digits="0" id="27" name="c_sort" nullable="true" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" digits="0" id="28" name="c_stock_zone" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="29" name="c_account" nullable="true" remarks="" size="255" type="varchar">
             <parent column="c_identifier" foreignKey="fk_loc_acc" implied="false" onDeleteCascade="false" table="com_account"/>
          </column>
-         <column autoUpdated="false" digits="0" id="29" name="c_location_group" nullable="true" remarks="" size="19" type="int8">
+         <column autoUpdated="false" digits="0" id="30" name="c_location_group" nullable="true" remarks="" size="19" type="int8">
             <parent column="c_pk" foreignKey="fk_loc_lg" implied="false" onDeleteCascade="false" table="com_location_group"/>
          </column>
-         <column autoUpdated="false" digits="0" id="30" name="c_location_type" nullable="true" remarks="" size="19" type="int8">
+         <column autoUpdated="false" digits="0" id="31" name="c_location_type" nullable="true" remarks="" size="19" type="int8">
             <parent column="c_pk" foreignKey="fk_loc_lt" implied="false" onDeleteCascade="false" table="com_location_type"/>
          </column>
          <primaryKey column="c_pk" sequenceNumberInPK="1"/>

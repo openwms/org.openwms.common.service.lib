@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.7.0-SNAPSHOT-74)">
+<meta name="author" content="(1.7.0-SNAPSHOT-75)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.7.0-SNAPSHOT-74)</span><br>
+<span id="author" class="author">(1.7.0-SNAPSHOT-75)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -1132,7 +1132,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 285
+Content-Length: 304
 
 {
   "links" : [ ],
@@ -1143,6 +1143,7 @@ Content-Length: 285
   "locationGroupName" : "ZILE",
   "erpCode" : "ERP_0030",
   "plcCode" : "PLC_0030",
+  "sortOrder" : 0,
   "incomingActive" : true,
   "outgoingActive" : true,
   "plcState" : 0
@@ -1205,7 +1206,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 592
+Content-Length: 630
 
 [ {
   "links" : [ ],
@@ -1216,6 +1217,7 @@ Content-Length: 592
   "locationGroupName" : "FGAISLE1LIFT",
   "erpCode" : "ERP_0012",
   "plcCode" : "PLC_0012",
+  "sortOrder" : 0,
   "incomingActive" : true,
   "outgoingActive" : true,
   "plcState" : 0
@@ -1228,6 +1230,7 @@ Content-Length: 592
   "locationGroupName" : "FGAISLE2LIFT",
   "erpCode" : "ERP_0015",
   "plcCode" : "PLC_0015",
+  "sortOrder" : 0,
   "incomingActive" : true,
   "outgoingActive" : true,
   "plcState" : 0
@@ -1261,7 +1264,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 285
+Content-Length: 304
 
 {
   "links" : [ ],
@@ -1272,6 +1275,7 @@ Content-Length: 285
   "locationGroupName" : "ZILE",
   "erpCode" : "ERP_0030",
   "plcCode" : "PLC_0030",
+  "sortOrder" : 0,
   "incomingActive" : true,
   "outgoingActive" : true,
   "plcState" : 0
@@ -1315,7 +1319,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 576
+Content-Length: 614
 
 [ {
   "links" : [ ],
@@ -1326,6 +1330,7 @@ Content-Length: 576
   "locationGroupName" : "ZILE",
   "erpCode" : "ERP_0029",
   "plcCode" : "PLC_0029",
+  "sortOrder" : 0,
   "incomingActive" : true,
   "outgoingActive" : true,
   "plcState" : 0
@@ -1338,6 +1343,7 @@ Content-Length: 576
   "locationGroupName" : "ZILE",
   "erpCode" : "ERP_0030",
   "plcCode" : "PLC_0030",
+  "sortOrder" : 0,
   "incomingActive" : true,
   "outgoingActive" : true,
   "plcState" : 0
@@ -1371,7 +1377,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 582
+Content-Length: 620
 
 [ {
   "links" : [ ],
@@ -1382,6 +1388,7 @@ Content-Length: 582
   "locationGroupName" : "IPOINT1",
   "erpCode" : "ERP_0031",
   "plcCode" : "PLC_0031",
+  "sortOrder" : 0,
   "incomingActive" : true,
   "outgoingActive" : true,
   "plcState" : 0
@@ -1394,6 +1401,7 @@ Content-Length: 582
   "locationGroupName" : "IPOINT2",
   "erpCode" : "ERP_0032",
   "plcCode" : "PLC_0032",
+  "sortOrder" : 0,
   "incomingActive" : true,
   "outgoingActive" : true,
   "plcState" : 0
@@ -4351,12 +4359,12 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/befa79e3-fd89-4049-9c97-2e23a95140a6/
+Location: http://localhost:8080/v1/transport-units/4ccaa480-ad34-43d5-aa56-0fdef3cf4e46/
 Content-Type: application/hal+json
-Content-Length: 768
+Content-Length: 789
 
 {
-  "pKey" : "befa79e3-fd89-4049-9c97-2e23a95140a6",
+  "pKey" : "4ccaa480-ad34-43d5-aa56-0fdef3cf4e46",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "pKey" : "113646454019",
@@ -4366,6 +4374,7 @@ Content-Length: 768
     "locationGroupName" : "ZILE",
     "erpCode" : "ERP_0030",
     "plcCode" : "PLC_0030",
+    "sortOrder" : 0,
     "incomingActive" : true,
     "outgoingActive" : true,
     "plcState" : 0
@@ -4380,8 +4389,8 @@ Content-Length: 768
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2021-11-11T23:04:55Z",
-  "createDate" : "2021-11-11T23:04:55Z"
+  "actualLocationDate" : "2021-11-18T20:40:37Z",
+  "createDate" : "2021-11-18T20:40:37Z"
 }</code></pre>
 </div>
 </div>
@@ -4434,7 +4443,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/052c46d5-983d-4e13-851c-3278643c81e1/</code></pre>
+Location: http://localhost:8080/v1/transport-units/612d2c51-c518-481b-829e-496c4bd30f9f/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4508,7 +4517,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 582
+Content-Length: 603
 
 {
   "pKey" : "1",
@@ -4521,6 +4530,7 @@ Content-Length: 582
     "locationGroupName" : "FGAISLE1LEFT",
     "erpCode" : "ERP_0013",
     "plcCode" : "PLC_0013",
+    "sortOrder" : 0,
     "incomingActive" : true,
     "outgoingActive" : true,
     "plcState" : 0
@@ -4530,8 +4540,8 @@ Content-Length: 582
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-11T23:04:56Z",
-  "createDate" : "2021-11-11T23:04:56Z"
+  "actualLocationDate" : "2021-11-18T20:40:39Z",
+  "createDate" : "2021-11-18T20:40:39Z"
 }</code></pre>
 </div>
 </div>
@@ -4588,7 +4598,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 557
+Content-Length: 578
 
 {
   "pKey" : "1",
@@ -4601,6 +4611,7 @@ Content-Length: 557
     "locationGroupName" : "FGAISLE1LEFT",
     "erpCode" : "ERP_0013",
     "plcCode" : "PLC_0013",
+    "sortOrder" : 0,
     "incomingActive" : true,
     "outgoingActive" : true,
     "plcState" : 0
@@ -4609,8 +4620,8 @@ Content-Length: 557
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-11T23:04:56Z",
-  "createDate" : "2021-11-11T23:04:55Z"
+  "actualLocationDate" : "2021-11-18T20:40:38Z",
+  "createDate" : "2021-11-18T20:40:38Z"
 }</code></pre>
 </div>
 </div>
@@ -4671,7 +4682,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 848
+Content-Length: 869
 
 {
   "links" : [ {
@@ -4692,6 +4703,7 @@ Content-Length: 848
     "locationGroupName" : "ZILE",
     "erpCode" : "ERP_0030",
     "plcCode" : "PLC_0030",
+    "sortOrder" : 0,
     "incomingActive" : true,
     "outgoingActive" : true,
     "plcState" : 0
@@ -4701,8 +4713,8 @@ Content-Length: 848
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-11T23:04:56Z",
-  "createDate" : "2021-11-11T23:04:56Z"
+  "actualLocationDate" : "2021-11-18T20:40:38Z",
+  "createDate" : "2021-11-18T20:40:38Z"
 }</code></pre>
 </div>
 </div>
@@ -4734,7 +4746,7 @@ style, like it is left or right aligned and padded.</p>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 848
+Content-Length: 869
 
 {
   "links" : [ {
@@ -4755,6 +4767,7 @@ Content-Length: 848
     "locationGroupName" : "ZILE",
     "erpCode" : "ERP_0030",
     "plcCode" : "PLC_0030",
+    "sortOrder" : 0,
     "incomingActive" : true,
     "outgoingActive" : true,
     "plcState" : 0
@@ -4764,8 +4777,8 @@ Content-Length: 848
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-11T23:04:56Z",
-  "createDate" : "2021-11-11T23:04:56Z"
+  "actualLocationDate" : "2021-11-18T20:40:38Z",
+  "createDate" : "2021-11-18T20:40:38Z"
 }</code></pre>
 </div>
 </div>
@@ -4806,7 +4819,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1705
+Content-Length: 1747
 
 [ {
   "links" : [ {
@@ -4827,6 +4840,7 @@ Content-Length: 1705
     "locationGroupName" : "ZILE",
     "erpCode" : "ERP_0030",
     "plcCode" : "PLC_0030",
+    "sortOrder" : 0,
     "incomingActive" : true,
     "outgoingActive" : true,
     "plcState" : 0
@@ -4836,8 +4850,8 @@ Content-Length: 1705
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-11T23:04:55Z",
-  "createDate" : "2021-11-11T23:04:55Z"
+  "actualLocationDate" : "2021-11-18T20:40:37Z",
+  "createDate" : "2021-11-18T20:40:37Z"
 }, {
   "links" : [ {
     "rel" : "transport-unit-type",
@@ -4857,6 +4871,7 @@ Content-Length: 1705
     "locationGroupName" : "IPOINT1",
     "erpCode" : "ERP_0031",
     "plcCode" : "PLC_0031",
+    "sortOrder" : 0,
     "incomingActive" : true,
     "outgoingActive" : true,
     "plcState" : 0
@@ -4866,8 +4881,8 @@ Content-Length: 1705
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-11T23:04:55Z",
-  "createDate" : "2021-11-11T23:04:55Z"
+  "actualLocationDate" : "2021-11-18T20:40:37Z",
+  "createDate" : "2021-11-18T20:40:37Z"
 } ]</code></pre>
 </div>
 </div>
@@ -4908,7 +4923,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 855
+Content-Length: 876
 
 [ {
   "links" : [ {
@@ -4929,6 +4944,7 @@ Content-Length: 855
     "locationGroupName" : "IPOINT1",
     "erpCode" : "ERP_0031",
     "plcCode" : "PLC_0031",
+    "sortOrder" : 0,
     "incomingActive" : true,
     "outgoingActive" : true,
     "plcState" : 0
@@ -4938,8 +4954,8 @@ Content-Length: 855
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-11T23:04:57Z",
-  "createDate" : "2021-11-11T23:04:57Z"
+  "actualLocationDate" : "2021-11-18T20:40:39Z",
+  "createDate" : "2021-11-18T20:40:39Z"
 } ]</code></pre>
 </div>
 </div>
@@ -5120,7 +5136,7 @@ Content-Length: 122
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-11-11 22:34:10 UTC
+Last updated 2021-11-18 20:35:03 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
