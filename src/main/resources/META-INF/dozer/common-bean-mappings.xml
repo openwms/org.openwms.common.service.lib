@@ -178,6 +178,10 @@
 			<a is-accessible="true">stockZone</a>
 			<b is-accessible="true">stockZone</b>
 		</field>
+		<field>
+			<a is-accessible="true">sortOrder</a>
+			<b is-accessible="true">sortOrder</b>
+		</field>
 	</mapping>
 
 	<mapping>

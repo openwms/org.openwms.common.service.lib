@@ -50,6 +50,8 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
     private String erpCode;
     @JsonProperty("plcCode")
     private String plcCode;
+    @JsonProperty("sortOrder")
+    private Integer sortOrder;
     @JsonProperty("incomingActive")
     private Boolean incomingActive;
     @JsonProperty("outgoingActive")
@@ -145,6 +147,14 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
 
     public void setPlcCode(String plcCode) {
         this.plcCode = plcCode;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public Boolean getIncomingActive() {
