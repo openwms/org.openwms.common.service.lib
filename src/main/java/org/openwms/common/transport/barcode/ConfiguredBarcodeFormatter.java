@@ -71,7 +71,7 @@ public class ConfiguredBarcodeFormatter implements BarcodeFormatter {
                 if (!"".equals(suffix)) {
                     result.append(suffix);
                 }
-                LOGGER.debug("No pattern, formatted Barcode [{}]", result.toString());
+                LOGGER.debug("No pattern, formatted Barcode [{}]", result);
                 return result.toString();
             }
         }
@@ -80,7 +80,7 @@ public class ConfiguredBarcodeFormatter implements BarcodeFormatter {
         if (!"".equals(suffix)) {
             result.append(suffix);
         }
-        LOGGER.debug("Format incoming Barcode [{}] into [{}]", barcode, result.toString());
+        LOGGER.debug("Format incoming Barcode [{}] into [{}]", barcode, result);
         return result.toString();
     }
 }

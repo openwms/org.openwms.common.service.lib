@@ -38,7 +38,7 @@ public class LocationCommand implements Serializable {
         this.location = location;
     }
 
-    public static enum Type {
+    public enum Type {
         SET_LOCATION_EMPTY
     }
 

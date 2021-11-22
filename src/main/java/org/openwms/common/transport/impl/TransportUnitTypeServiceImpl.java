@@ -146,7 +146,7 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
                 .orElseThrow(() -> new NotFoundException(translator,
                         CommonMessageCodes.TRANSPORT_UNIT_TYPE_NOT_FOUND,
                         new String[]{type}, type));
-        if (newAssigned != null && !newAssigned.isEmpty()) {
+        if (!newAssigned.isEmpty()) {
             for (LocationType locationType : newAssigned) {
                 if (tut.getTypePlacingRules()
                         .stream()
@@ -161,7 +161,7 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
                 }
             }
         }
-        if (newNotAssigned != null && !newNotAssigned.isEmpty()) {
+        if (!newNotAssigned.isEmpty()) {
             for (LocationType locationType : newNotAssigned) {
                 tut.removeTypePlacingRules(locationType);
             }

@@ -40,9 +40,6 @@ public class NextBarcode extends BaseEntity implements Serializable {
     @Column(name = "C_CURRENT", length = 40)
     private String currentBarcode;
 
-    /** Dear JPA... */
-    public NextBarcode() {}
-
     public String getName() {
         return name;
     }

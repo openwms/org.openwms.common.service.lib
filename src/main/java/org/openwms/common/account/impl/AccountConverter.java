@@ -18,7 +18,6 @@ package org.openwms.common.account.impl;
 import org.ameba.exception.NotFoundException;
 import org.ameba.i18n.Translator;
 import com.github.dozermapper.core.DozerConverter;
-import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.account.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;

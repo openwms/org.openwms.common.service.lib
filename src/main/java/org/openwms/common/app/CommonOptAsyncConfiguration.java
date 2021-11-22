@@ -48,6 +48,8 @@ import org.springframework.retry.support.RetryTemplate;
 @EnableRabbit
 class CommonOptAsyncConfiguration {
 
+    private static final String POISON_MESSAGE = "poison-message";
+
     @Bean
     MessageConverter jsonConverter() {
         return new Jackson2JsonMessageConverter();
@@ -87,7 +89,7 @@ class CommonOptAsyncConfiguration {
             @Value("${owms.common.dead-letter.exchange-name}") String exchangeName) {
         return QueueBuilder.durable(queueName)
                 .withArgument("x-dead-letter-exchange", exchangeName)
-                .withArgument("x-dead-letter-routing-key", "poison-message")
+                .withArgument("x-dead-letter-routing-key", POISON_MESSAGE)
                 .build();
     }
 
@@ -116,7 +118,7 @@ class CommonOptAsyncConfiguration {
                         @Value("${owms.common.dead-letter.exchange-name}") String exchangeName) {
         return QueueBuilder.durable(queueName)
                 .withArgument("x-dead-letter-exchange", exchangeName)
-                .withArgument("x-dead-letter-routing-key", "poison-message")
+                .withArgument("x-dead-letter-routing-key", POISON_MESSAGE)
                 .build();
     }
 
@@ -158,6 +160,6 @@ class CommonOptAsyncConfiguration {
         return BindingBuilder
                 .bind(dlQueue(queueName))
                 .to(dlExchange(exchangeName))
-                .with("poison-message");
+                .with(POISON_MESSAGE);
     }
 }
