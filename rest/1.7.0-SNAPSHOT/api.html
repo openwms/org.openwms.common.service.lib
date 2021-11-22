@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.7.0-SNAPSHOT-75)">
+<meta name="author" content="(1.7.0-SNAPSHOT-77)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.7.0-SNAPSHOT-75)</span><br>
+<span id="author" class="author">(1.7.0-SNAPSHOT-77)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -1702,34 +1702,6 @@ Content-Length: 57061
   "groupStateOut" : "AVAILABLE",
   "childLocationGroups" : [ {
     "links" : [ ],
-    "pKey" : "166982377557",
-    "name" : "IPOINT",
-    "accountId" : "D",
-    "parentName" : "ZILE",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE",
-    "childLocationGroups" : [ {
-      "links" : [ ],
-      "pKey" : "24417670340",
-      "name" : "IPOINT2",
-      "accountId" : "D",
-      "parentName" : "IPOINT",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
-      "pKey" : "782120388022",
-      "name" : "IPOINT1",
-      "accountId" : "D",
-      "parentName" : "IPOINT",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
-  }, {
-    "links" : [ ],
     "pKey" : "623275915496",
     "name" : "Flatgood_AREA",
     "accountId" : "D",
@@ -1765,6 +1737,15 @@ Content-Length: 57061
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
       "childLocationGroups" : [ {
+        "links" : [ ],
+        "pKey" : "400335177633",
+        "name" : "FGRECEIVING",
+        "accountId" : "D",
+        "parentName" : "FGAUTOMATIC",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      }, {
         "links" : [ ],
         "pKey" : "585607846471",
         "name" : "FGSHIPPING",
@@ -1877,15 +1858,6 @@ Content-Length: 57061
         } ]
       }, {
         "links" : [ ],
-        "pKey" : "400335177633",
-        "name" : "FGRECEIVING",
-        "accountId" : "D",
-        "parentName" : "FGAUTOMATIC",
-        "operationMode" : "INFEED_AND_OUTFEED",
-        "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      }, {
-        "links" : [ ],
         "pKey" : "212290962584",
         "name" : "FGSTOCK",
         "accountId" : "D",
@@ -1978,6 +1950,34 @@ Content-Length: 57061
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE"
       } ]
+    } ]
+  }, {
+    "links" : [ ],
+    "pKey" : "166982377557",
+    "name" : "IPOINT",
+    "accountId" : "D",
+    "parentName" : "ZILE",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE",
+    "childLocationGroups" : [ {
+      "links" : [ ],
+      "pKey" : "24417670340",
+      "name" : "IPOINT2",
+      "accountId" : "D",
+      "parentName" : "IPOINT",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "links" : [ ],
+      "pKey" : "782120388022",
+      "name" : "IPOINT1",
+      "accountId" : "D",
+      "parentName" : "IPOINT",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
     } ]
   }, {
     "links" : [ ],
@@ -2124,6 +2124,15 @@ Content-Length: 57061
     "groupStateOut" : "AVAILABLE",
     "childLocationGroups" : [ {
       "links" : [ ],
+      "pKey" : "400335177633",
+      "name" : "FGRECEIVING",
+      "accountId" : "D",
+      "parentName" : "FGAUTOMATIC",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "links" : [ ],
       "pKey" : "585607846471",
       "name" : "FGSHIPPING",
       "accountId" : "D",
@@ -2235,15 +2244,6 @@ Content-Length: 57061
       } ]
     }, {
       "links" : [ ],
-      "pKey" : "400335177633",
-      "name" : "FGRECEIVING",
-      "accountId" : "D",
-      "parentName" : "FGAUTOMATIC",
-      "operationMode" : "INFEED_AND_OUTFEED",
-      "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    }, {
-      "links" : [ ],
       "pKey" : "212290962584",
       "name" : "FGSTOCK",
       "accountId" : "D",
@@ -2350,6 +2350,15 @@ Content-Length: 57061
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
   "childLocationGroups" : [ {
+    "links" : [ ],
+    "pKey" : "400335177633",
+    "name" : "FGRECEIVING",
+    "accountId" : "D",
+    "parentName" : "FGAUTOMATIC",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
     "links" : [ ],
     "pKey" : "585607846471",
     "name" : "FGSHIPPING",
@@ -2460,15 +2469,6 @@ Content-Length: 57061
         "groupStateOut" : "AVAILABLE"
       } ]
     } ]
-  }, {
-    "links" : [ ],
-    "pKey" : "400335177633",
-    "name" : "FGRECEIVING",
-    "accountId" : "D",
-    "parentName" : "FGAUTOMATIC",
-    "operationMode" : "INFEED_AND_OUTFEED",
-    "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
   }, {
     "links" : [ ],
     "pKey" : "212290962584",
@@ -4359,12 +4359,12 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/4ccaa480-ad34-43d5-aa56-0fdef3cf4e46/
+Location: http://localhost:8080/v1/transport-units/4f65da97-818d-4c8b-89a5-de2f6e15f188/
 Content-Type: application/hal+json
 Content-Length: 789
 
 {
-  "pKey" : "4ccaa480-ad34-43d5-aa56-0fdef3cf4e46",
+  "pKey" : "4f65da97-818d-4c8b-89a5-de2f6e15f188",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "pKey" : "113646454019",
@@ -4389,8 +4389,8 @@ Content-Length: 789
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2021-11-18T20:40:37Z",
-  "createDate" : "2021-11-18T20:40:37Z"
+  "actualLocationDate" : "2021-11-22T00:31:34Z",
+  "createDate" : "2021-11-22T00:31:34Z"
 }</code></pre>
 </div>
 </div>
@@ -4443,7 +4443,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/612d2c51-c518-481b-829e-496c4bd30f9f/</code></pre>
+Location: http://localhost:8080/v1/transport-units/55a02eea-8666-4a7e-beb6-bc150afc56f6/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4540,8 +4540,8 @@ Content-Length: 603
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-18T20:40:39Z",
-  "createDate" : "2021-11-18T20:40:39Z"
+  "actualLocationDate" : "2021-11-22T00:31:35Z",
+  "createDate" : "2021-11-22T00:31:35Z"
 }</code></pre>
 </div>
 </div>
@@ -4620,8 +4620,8 @@ Content-Length: 578
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-18T20:40:38Z",
-  "createDate" : "2021-11-18T20:40:38Z"
+  "actualLocationDate" : "2021-11-22T00:31:35Z",
+  "createDate" : "2021-11-22T00:31:35Z"
 }</code></pre>
 </div>
 </div>
@@ -4713,8 +4713,8 @@ Content-Length: 869
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-18T20:40:38Z",
-  "createDate" : "2021-11-18T20:40:38Z"
+  "actualLocationDate" : "2021-11-22T00:31:35Z",
+  "createDate" : "2021-11-22T00:31:35Z"
 }</code></pre>
 </div>
 </div>
@@ -4777,8 +4777,8 @@ Content-Length: 869
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-18T20:40:38Z",
-  "createDate" : "2021-11-18T20:40:38Z"
+  "actualLocationDate" : "2021-11-22T00:31:35Z",
+  "createDate" : "2021-11-22T00:31:35Z"
 }</code></pre>
 </div>
 </div>
@@ -4850,8 +4850,8 @@ Content-Length: 1747
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-18T20:40:37Z",
-  "createDate" : "2021-11-18T20:40:37Z"
+  "actualLocationDate" : "2021-11-22T00:31:34Z",
+  "createDate" : "2021-11-22T00:31:34Z"
 }, {
   "links" : [ {
     "rel" : "transport-unit-type",
@@ -4881,8 +4881,8 @@ Content-Length: 1747
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-18T20:40:37Z",
-  "createDate" : "2021-11-18T20:40:37Z"
+  "actualLocationDate" : "2021-11-22T00:31:34Z",
+  "createDate" : "2021-11-22T00:31:34Z"
 } ]</code></pre>
 </div>
 </div>
@@ -4954,8 +4954,8 @@ Content-Length: 876
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-18T20:40:39Z",
-  "createDate" : "2021-11-18T20:40:39Z"
+  "actualLocationDate" : "2021-11-22T00:31:36Z",
+  "createDate" : "2021-11-22T00:31:36Z"
 } ]</code></pre>
 </div>
 </div>
@@ -5136,7 +5136,7 @@ Content-Length: 122
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-11-18 20:35:03 UTC
+Last updated 2021-11-22 00:26:06 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
