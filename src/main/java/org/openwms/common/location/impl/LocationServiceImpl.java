@@ -70,6 +70,15 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
+    public Location create(@NotNull Location location) {
+        return repository.save(location);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
     @Transactional(readOnly = true)
     public Optional<Location> findByLocationPk(@NotNull LocationPK locationId) {
         return repository.findByLocationId(locationId);
