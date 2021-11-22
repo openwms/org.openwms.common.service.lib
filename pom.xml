@@ -69,7 +69,7 @@
 		<core.units.version>0.4.0-SNAPSHOT</core.units.version>
         <guava.version>30.0-jre</guava.version>
         <HdrHistogram.version>2.1.12</HdrHistogram.version>
-        <indriya.version>2.0</indriya.version>
+        <indriya.version>2.1.2</indriya.version>
         <joda-time.version>2.10.8</joda-time.version>
         <spring-cloud-dependencies.version>Hoxton.SR10</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
@@ -207,6 +207,11 @@
             <dependency>
                 <groupId>tech.units</groupId>
                 <artifactId>indriya</artifactId>
+                <version>${indriya.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.measure</groupId>
+                <artifactId>unit-api</artifactId>
                 <version>${indriya.version}</version>
             </dependency>
             <dependency>
