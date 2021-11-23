@@ -24,6 +24,7 @@ import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.location.api.LockMode;
 import org.openwms.common.location.api.LockType;
+import org.openwms.common.location.api.ValidationGroups;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;
@@ -76,7 +77,7 @@ public class LocationController extends AbstractWebController {
     }
 
     @PostMapping(API_LOCATIONS)
-    @Validated()
+    @Validated(ValidationGroups.Create.class)
     public ResponseEntity<LocationVO> createLocation(@Valid @RequestBody LocationVO location, HttpServletRequest req) {
         var created = locationService.create(mapper.map(location, Location.class));
         return ResponseEntity
