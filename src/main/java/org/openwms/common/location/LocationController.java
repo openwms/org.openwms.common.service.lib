@@ -193,12 +193,13 @@ public class LocationController extends AbstractWebController {
     public ResponseEntity<Index> index() {
         return ResponseEntity.ok(
                 new Index(
+                        linkTo(methodOn(LocationController.class).changeState("pKey", "change-state", ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel("location-changestate"),
+                        linkTo(methodOn(LocationController.class).createLocation(new LocationVO("locationId"), null)).withRel("location-create"),
                         linkTo(methodOn(LocationController.class).findLocationByCoordinate("AREA/AISLE/X/Y/Z")).withRel("location-findbycoordinate"),
                         linkTo(methodOn(LocationController.class).findLocationByErpCode("ERP_CODE")).withRel("location-findbyerpcode"),
                         linkTo(methodOn(LocationController.class).findLocationByPlcCode("PLC_CODE")).withRel("location-findbyplccode"),
-                        linkTo(methodOn(LocationController.class).findLocationsForLocationGroups(asList("LG1", "LG2"))).withRel("location-forlocationgroup"),
-                        linkTo(methodOn(LocationController.class).changeState("pKey", "change-state", ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel("location-changestate"),
-                        linkTo(methodOn(LocationController.class).findLocations("area", "aisle", "x", "y", "z")).withRel("location-fortuple")
+                        linkTo(methodOn(LocationController.class).findLocations("area", "aisle", "x", "y", "z")).withRel("location-fortuple"),
+                        linkTo(methodOn(LocationController.class).findLocationsForLocationGroups(asList("LG1", "LG2"))).withRel("location-forlocationgroup")
                 )
         );
     }

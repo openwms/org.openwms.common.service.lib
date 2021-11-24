@@ -77,13 +77,14 @@ class LocationControllerDocumentation {
                         get(LocationApiConstants.API_LOCATIONS + "/index")
                 )
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$._links.location-changestate").exists())
+                .andExpect(jsonPath("$._links.location-create").exists())
                 .andExpect(jsonPath("$._links.location-findbycoordinate").exists())
                 .andExpect(jsonPath("$._links.location-findbyerpcode").exists())
                 .andExpect(jsonPath("$._links.location-findbyplccode").exists())
-                .andExpect(jsonPath("$._links.location-forlocationgroup").exists())
-                .andExpect(jsonPath("$._links.location-changestate").exists())
                 .andExpect(jsonPath("$._links.location-fortuple").exists())
-                .andExpect(jsonPath("$._links.length()", is(6)))
+                .andExpect(jsonPath("$._links.location-forlocationgroup").exists())
+                .andExpect(jsonPath("$._links.length()", is(7)))
                 .andDo(document("loc-index", preprocessResponse(prettyPrint())))
         ;
     }
@@ -126,7 +127,7 @@ class LocationControllerDocumentation {
                     .andExpect(jsonPath("incomingActive", is(true)))
                     .andExpect(jsonPath("outgoingActive", is(true)))
                     .andExpect(jsonPath("plcState", is(0)))
-                    .andDo(document("loc-find-plc"));
+                    .andDo(document("loc-find-erp"));
         }
 
         @Test void shall_findby_plccode() throws Exception {
