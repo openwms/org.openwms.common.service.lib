@@ -27,6 +27,7 @@ import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationApiConstants;
 import org.openwms.common.location.api.LocationVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.web.servlet.MockMvc;
@@ -42,6 +43,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -96,7 +98,13 @@ class LocationControllerDocumentation {
                         .content(mapper.writeValueAsString(location))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
-//                .andExpect(status().isCreated())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.pKey").exists())
+                .andExpect(jsonPath("$.locationId", is(location.getLocationId())))
+                .andExpect(jsonPath("$.incomingActive", is(true)))
+                .andExpect(jsonPath("$.outgoingActive", is(true)))
+                .andExpect(jsonPath("$.plcState", is(0)))
+                .andExpect(header().exists(HttpHeaders.LOCATION))
                 .andDo(document("loc-created"));
     }
 
