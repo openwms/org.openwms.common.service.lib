@@ -249,6 +249,14 @@ public class Location extends Target implements Serializable {
     /*~ ----------------------------- methods ------------------- */
 
     /**
+     * Check if the Location has a {@code locationId} set.
+     * @return {@literal true} if so
+     */
+    public boolean hasLocationId() {
+        return locationId != null;
+    }
+
+    /**
      * Return the {@link Account} this {@code Location} is assigned to.
      *
      * @return The Account

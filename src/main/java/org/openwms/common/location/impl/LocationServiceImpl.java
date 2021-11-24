@@ -18,6 +18,7 @@ package org.openwms.common.location.impl;
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
+import org.ameba.exception.ResourceExistsException;
 import org.ameba.i18n.Translator;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
@@ -33,10 +34,12 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.openwms.common.CommonMessageCodes.LOCATION_ID_EXISTS;
 import static org.openwms.common.CommonMessageCodes.LOCATION_ID_INVALID;
 import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND;
 
@@ -71,6 +74,12 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public Location create(@NotNull Location location) {
+        Optional<Location> locationOpt = repository.findByLocationId(location.getLocationId());
+        if (location.hasLocationId() || locationOpt.isPresent()) {
+            throw new ResourceExistsException(translator, LOCATION_ID_EXISTS,
+                    new Serializable[]{location.getLocationId()},
+                    location.getLocationId());
+        };
         return repository.save(location);
     }
 

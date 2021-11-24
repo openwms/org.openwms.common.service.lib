@@ -29,6 +29,7 @@ public final class CommonMessageCodes {
     public static final String LOCATION_GROUP_NOT_FOUND = "owms.common.common.lg.notFoundByName";
 
     public static final String LOCATION_ID_INVALID = "owms.common.common.loc.invalidName";
+    public static final String LOCATION_ID_EXISTS = "owms.common.common.loc.idExists";
     public static final String LOCATION_NOT_FOUND = "owms.common.common.loc.notFoundByName";
     public static final String LOCATION_NOT_FOUND_BY_ERP_CODE = "owms.common.common.loc.notFoundByErpCode";
     public static final String LOCATION_NOT_FOUND_BY_PLC_CODE = "owms.common.common.loc.notFoundByPlcCode";
