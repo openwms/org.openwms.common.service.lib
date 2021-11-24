@@ -75,7 +75,7 @@ class LocationServiceImpl implements LocationService {
     @Measured
     public Location create(@NotNull Location location) {
         Optional<Location> locationOpt = repository.findByLocationId(location.getLocationId());
-        if (location.hasLocationId() || locationOpt.isPresent()) {
+        if (location.hasLocationId() && locationOpt.isPresent()) {
             throw new ResourceExistsException(translator, LOCATION_ID_EXISTS,
                     new Serializable[]{location.getLocationId()},
                     location.getLocationId());
