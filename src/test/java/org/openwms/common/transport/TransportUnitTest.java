@@ -77,8 +77,8 @@ class TransportUnitTest {
             assertThat(tu.getState()).isEqualTo(TransportUnitState.AVAILABLE);
             assertThat(tu.getChildren()).isEmpty();
             assertThat(tu.getNoTransportUnits()).isZero();
-            assertThat(tu.getInventoryDate()).isNull();
-            assertThat(tu.getInventoryUser()).isNull();
+            assertThat(tu.getInventoryDate()).isNotNull();
+            assertThat(tu.getInventoryUser()).isEqualTo("init");
             assertThat(tu.getEmpty()).isNull();
             assertThat(tu.getErrors()).isEmpty();
         }
