@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.7.0-SNAPSHOT-77)">
+<meta name="author" content="(1.7.0-SNAPSHOT-78)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.7.0-SNAPSHOT-77)</span><br>
+<span id="author" class="author">(1.7.0-SNAPSHOT-78)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -473,14 +473,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_find_the_default_account">Find the default Account</a></li>
 </ul>
 </li>
-<li><a href="#_location">Location</a>
+<li><a href="#section-location">Location</a>
 <ul class="sectlevel2">
-<li><a href="#_location_index">Location Index</a></li>
-<li><a href="#_find_location_by_coordinate">Find Location by Coordinate</a></li>
-<li><a href="#_find_location_by_coordinate_with_wildcards">Find Location by Coordinate with Wildcards</a></li>
-<li><a href="#_find_location_by_plc_code">Find Location by PLC code</a></li>
-<li><a href="#_find_locations_of_a_locationgroup">Find Locations of a LocationGroup</a></li>
-<li><a href="#_change_a_locations_state">Change a Location&#8217;s State</a></li>
+<li><a href="#location-index">Location Index</a></li>
+<li><a href="#location-findbycoordinate">Find Location by Coordinate</a></li>
+<li><a href="#location-findbycoordinate">Find Location by Coordinate with Wildcards</a></li>
+<li><a href="#location-findbyerpcode">Find Location by ERP code</a></li>
+<li><a href="#location-findbyplccode">Find Location by PLC code</a></li>
+<li><a href="#location-forlocationgroup">Find Locations of a LocationGroup</a></li>
+<li><a href="#location-changestate">Change a Location&#8217;s State</a></li>
+<li><a href="#location-created">Create a Location</a></li>
 </ul>
 </li>
 <li><a href="#_locationtype">LocationType</a>
@@ -1041,7 +1043,7 @@ Content-Length: 133
 </div>
 </div>
 <div class="sect1">
-<h2 id="_location"><a class="anchor" href="#_location"></a><a class="link" href="#_location">Location</a></h2>
+<h2 id="section-location"><a class="anchor" href="#section-location"></a><a class="link" href="#section-location">Location</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>A <code>Location</code> represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a location on
@@ -1070,7 +1072,7 @@ operations off this <code>Location</code>.</p>
 <p>The API allows to search for <code>Locations</code> and to mutate the <code>Locations</code> state.</p>
 </div>
 <div class="sect2">
-<h3 id="_location_index"><a class="anchor" href="#_location_index"></a><a class="link" href="#_location_index">Location Index</a></h3>
+<h3 id="location-index"><a class="anchor" href="#location-index"></a><a class="link" href="#location-index">Location Index</a></h3>
 <div class="paragraph">
 <p>The Location Index with all possible operations can be retrieved with the following GET request:</p>
 </div>
@@ -1087,10 +1089,16 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 734
+Content-Length: 819
 
 {
   "_links" : {
+    "location-changestate" : {
+      "href" : "http://localhost:8080/v1/location/pKey?op=change-state"
+    },
+    "location-create" : {
+      "href" : "http://localhost:8080/v1/locations"
+    },
     "location-findbycoordinate" : {
       "href" : "http://localhost:8080/v1/locations?locationPK=AREA/AISLE/X/Y/Z"
     },
@@ -1100,14 +1108,11 @@ Content-Length: 734
     "location-findbyplccode" : {
       "href" : "http://localhost:8080/v1/locations?plcCode=PLC_CODE"
     },
-    "location-forlocationgroup" : {
-      "href" : "http://localhost:8080/v1/locations?locationGroupNames=LG1&amp;locationGroupNames=LG2"
-    },
-    "location-changestate" : {
-      "href" : "http://localhost:8080/v1/location/pKey?op=change-state"
-    },
     "location-fortuple" : {
       "href" : "http://localhost:8080/v1/locations?area=area&amp;aisle=aisle&amp;x=x&amp;y=y&amp;z=z"
+    },
+    "location-forlocationgroup" : {
+      "href" : "http://localhost:8080/v1/locations?locationGroupNames=LG1&amp;locationGroupNames=LG2"
     }
   }
 }</code></pre>
@@ -1115,7 +1120,7 @@ Content-Length: 734
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_location_by_coordinate"><a class="anchor" href="#_find_location_by_coordinate"></a><a class="link" href="#_find_location_by_coordinate">Find Location by Coordinate</a></h3>
+<h3 id="location-findbycoordinate"><a class="anchor" href="#location-findbycoordinate"></a><a class="link" href="#location-findbycoordinate">Find Location by Coordinate</a></h3>
 <div class="paragraph">
 <p>Send a HTTP GET request with the 5-tuple coordinate as query parameter to find a <code>Location</code> identified by this coordinate.</p>
 </div>
@@ -1188,7 +1193,7 @@ Content-Length: 214
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_location_by_coordinate_with_wildcards"><a class="anchor" href="#_find_location_by_coordinate_with_wildcards"></a><a class="link" href="#_find_location_by_coordinate_with_wildcards">Find Location by Coordinate with Wildcards</a></h3>
+<h3 id="location-findbycoordinate"><a class="anchor" href="#location-findbycoordinate"></a><a class="link" href="#location-findbycoordinate">Find Location by Coordinate with Wildcards</a></h3>
 <div class="paragraph">
 <p>The API to search for <code>Locations</code> also accepts typical SQL wildcards in each part of the 5-tuple coordinate. Let&#8217;s assume one searches for
 all Lift <code>Locations</code> in the Flat Good area, this could look like this:</p>
@@ -1247,7 +1252,44 @@ Content-Length: 630
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_location_by_plc_code"><a class="anchor" href="#_find_location_by_plc_code"></a><a class="link" href="#_find_location_by_plc_code">Find Location by PLC code</a></h3>
+<h3 id="location-findbyerpcode"><a class="anchor" href="#location-findbyerpcode"></a><a class="link" href="#location-findbyerpcode">Find Location by ERP code</a></h3>
+<div class="paragraph">
+<p>Send a HTTP GET request with the ERP code as query parameter to find a <code>Location</code> identified by this ERP code.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/locations?erpCode=ERP_0030 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> exists the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 304
+
+{
+  "links" : [ ],
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "type" : "FG",
+  "accountId" : "D",
+  "locationGroupName" : "ZILE",
+  "erpCode" : "ERP_0030",
+  "plcCode" : "PLC_0030",
+  "sortOrder" : 0,
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="location-findbyplccode"><a class="anchor" href="#location-findbyplccode"></a><a class="link" href="#location-findbyplccode">Find Location by PLC code</a></h3>
 <div class="paragraph">
 <p>Send a HTTP GET request with the PLC code as query parameter to find a <code>Location</code> identified by this PLC code.</p>
 </div>
@@ -1302,7 +1344,7 @@ Content-Length: 205
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_locations_of_a_locationgroup"><a class="anchor" href="#_find_locations_of_a_locationgroup"></a><a class="link" href="#_find_locations_of_a_locationgroup">Find Locations of a LocationGroup</a></h3>
+<h3 id="location-forlocationgroup"><a class="anchor" href="#location-forlocationgroup"></a><a class="link" href="#location-forlocationgroup">Find Locations of a LocationGroup</a></h3>
 <div class="paragraph">
 <p>Send a HTTP GET request with the name of a <code>LocationGroup</code> as query parameter to find all <code>Locations</code> that belong to this group.</p>
 </div>
@@ -1410,7 +1452,7 @@ Content-Length: 620
 </div>
 </div>
 <div class="sect2">
-<h3 id="_change_a_locations_state"><a class="anchor" href="#_change_a_locations_state"></a><a class="link" href="#_change_a_locations_state">Change a Location&#8217;s State</a></h3>
+<h3 id="location-changestate"><a class="anchor" href="#location-changestate"></a><a class="link" href="#location-changestate">Change a Location&#8217;s State</a></h3>
 <div class="paragraph">
 <p>Send a HTTP PATCH request with the persistent identifying key of an existing <code>Location</code> along the new state decoded as <code>ErrorCodeVO</code> request
 parameter.</p>
@@ -1567,6 +1609,53 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 204 No Content</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="location-created"><a class="anchor" href="#location-created"></a><a class="link" href="#location-created">Create a Location</a></h3>
+<div class="paragraph">
+<p>Usually <code>Locations</code> are created as reference data when the project is setup. It is not intended to create a <code>Location</code>
+during operation. Warehouse locations are fixed and only change when the warehouse is extended, therefore there it makes
+less sense to create <code>Locations</code> on the fly and perhaps also delete them during the usual warehouse processing.</p>
+</div>
+<div class="paragraph">
+<p>Nevertheless there is an API to create a <code>Location</code> via the REST API.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v1/locations HTTP/1.1
+Content-Type: application/json
+Content-Length: 171
+Host: localhost:8080
+
+{
+  "links" : [ ],
+  "locationId" : "FGIN/PICK/WORK/0010/0000",
+  "type" : "PG",
+  "locationGroupName" : "FGWORKPLACE9",
+  "erpCode" : "PICK_10",
+  "plcCode" : "PICK_10"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the server has created the <code>Location</code> successfully the response looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
+Location: http://localhost:8080/v1/locations/6af05a5b-d2cf-44e8-a89a-0d8eb695dcc1/
+Content-Type: application/hal+json
+Content-Length: 170
+
+{
+  "pKey" : "6af05a5b-d2cf-44e8-a89a-0d8eb695dcc1",
+  "locationId" : "FGIN/PICK/WORK/0010/0000",
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0
+}</code></pre>
 </div>
 </div>
 </div>
@@ -4359,12 +4448,12 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/4f65da97-818d-4c8b-89a5-de2f6e15f188/
+Location: http://localhost:8080/v1/transport-units/a7387dad-939d-4546-a453-78dd66b61697/
 Content-Type: application/hal+json
 Content-Length: 789
 
 {
-  "pKey" : "4f65da97-818d-4c8b-89a5-de2f6e15f188",
+  "pKey" : "a7387dad-939d-4546-a453-78dd66b61697",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "pKey" : "113646454019",
@@ -4389,8 +4478,8 @@ Content-Length: 789
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2021-11-22T00:31:34Z",
-  "createDate" : "2021-11-22T00:31:34Z"
+  "actualLocationDate" : "2021-11-29T18:07:38Z",
+  "createDate" : "2021-11-29T18:07:38Z"
 }</code></pre>
 </div>
 </div>
@@ -4443,7 +4532,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/55a02eea-8666-4a7e-beb6-bc150afc56f6/</code></pre>
+Location: http://localhost:8080/v1/transport-units/591ca01d-6b99-4d55-9e21-aa5cf382435a/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4540,8 +4629,8 @@ Content-Length: 603
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-22T00:31:35Z",
-  "createDate" : "2021-11-22T00:31:35Z"
+  "actualLocationDate" : "2021-11-29T18:07:39Z",
+  "createDate" : "2021-11-29T18:07:39Z"
 }</code></pre>
 </div>
 </div>
@@ -4620,8 +4709,8 @@ Content-Length: 578
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-22T00:31:35Z",
-  "createDate" : "2021-11-22T00:31:35Z"
+  "actualLocationDate" : "2021-11-29T18:07:39Z",
+  "createDate" : "2021-11-29T18:07:38Z"
 }</code></pre>
 </div>
 </div>
@@ -4713,8 +4802,8 @@ Content-Length: 869
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-22T00:31:35Z",
-  "createDate" : "2021-11-22T00:31:35Z"
+  "actualLocationDate" : "2021-11-29T18:07:39Z",
+  "createDate" : "2021-11-29T18:07:39Z"
 }</code></pre>
 </div>
 </div>
@@ -4777,8 +4866,8 @@ Content-Length: 869
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-22T00:31:35Z",
-  "createDate" : "2021-11-22T00:31:35Z"
+  "actualLocationDate" : "2021-11-29T18:07:39Z",
+  "createDate" : "2021-11-29T18:07:39Z"
 }</code></pre>
 </div>
 </div>
@@ -4850,8 +4939,8 @@ Content-Length: 1747
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-22T00:31:34Z",
-  "createDate" : "2021-11-22T00:31:34Z"
+  "actualLocationDate" : "2021-11-29T18:07:38Z",
+  "createDate" : "2021-11-29T18:07:38Z"
 }, {
   "links" : [ {
     "rel" : "transport-unit-type",
@@ -4881,8 +4970,8 @@ Content-Length: 1747
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-22T00:31:34Z",
-  "createDate" : "2021-11-22T00:31:34Z"
+  "actualLocationDate" : "2021-11-29T18:07:38Z",
+  "createDate" : "2021-11-29T18:07:38Z"
 } ]</code></pre>
 </div>
 </div>
@@ -4954,8 +5043,8 @@ Content-Length: 876
   "length" : 120,
   "width" : 80,
   "height" : 102,
-  "actualLocationDate" : "2021-11-22T00:31:36Z",
-  "createDate" : "2021-11-22T00:31:36Z"
+  "actualLocationDate" : "2021-11-29T18:07:39Z",
+  "createDate" : "2021-11-29T18:07:39Z"
 } ]</code></pre>
 </div>
 </div>
@@ -5136,7 +5225,7 @@ Content-Length: 122
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-11-22 00:26:06 UTC
+Last updated 2021-11-29 18:02:35 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
