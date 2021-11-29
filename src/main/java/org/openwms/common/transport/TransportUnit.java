@@ -148,8 +148,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
 
     /*~ ----------------------------- constructors ------------------- */
     /** Dear JPA... */
-    protected TransportUnit() {
-    }
+    protected TransportUnit() { }
 
     /**
      * Create a new {@code TransportUnit} with an unique {@link Barcode}.
@@ -166,6 +165,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
         this.barcode = barcode;
         setTransportUnitType(tut);
         setActualLocation(actualLocation);
+        initInventory();
     }
 
     /*~ ----------------------------- methods ------------------- */
@@ -192,6 +192,14 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
         if (this.getChildren() != null) {
             this.getChildren().forEach(child -> child.setActualLocation(actualLocation));
         }
+    }
+
+    /**
+     * Initialize inventory info of the {@code TransportUnit}.
+     */
+    public void initInventory() {
+        setInventoryUser("init");
+        setInventoryDate(new Date());
     }
 
     /**

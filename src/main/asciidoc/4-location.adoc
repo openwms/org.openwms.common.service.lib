@@ -1,3 +1,4 @@
+[[section-location]]
 == Location
 
 A `Location` represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a location on
@@ -20,6 +21,7 @@ operations off this `Location`.
 
 The API allows to search for `Locations` and to mutate the `Locations` state.
 
+[[location-index]]
 === Location Index
 The Location Index with all possible operations can be retrieved with the following GET request:
 
@@ -29,6 +31,7 @@ The response lists all the operations with a name and the corresponding href lin
 
 include::{generated}/loc-index/http-response.adoc[]
 
+[[location-findbycoordinate]]
 === Find Location by Coordinate
 Send a HTTP GET request with the 5-tuple coordinate as query parameter to find a `Location` identified by this coordinate.
 
@@ -46,6 +49,7 @@ If the passed coordinate is not well formatted and rejected by the server the re
 
 include::{generated}/loc-find-coordinate-400/http-response.adoc[]
 
+[[location-findbycoordinate]]
 === Find Location by Coordinate with Wildcards
 The API to search for `Locations` also accepts typical SQL wildcards in each part of the 5-tuple coordinate. Let's assume one searches for
 all Lift `Locations` in the Flat Good area, this could look like this:
@@ -60,6 +64,17 @@ If the search query did not find any `Locations` the server responds with:
 
 include::{generated}/loc-find-coordinate-wildcard-404/http-response.adoc[]
 
+[[location-findbyerpcode]]
+=== Find Location by ERP code
+Send a HTTP GET request with the ERP code as query parameter to find a `Location` identified by this ERP code.
+
+include::{generated}/loc-find-erp/http-request.adoc[]
+
+If the `Location` exists the server responds with
+
+include::{generated}/loc-find-erp/http-response.adoc[]
+
+[[location-findbyplccode]]
 === Find Location by PLC code
 Send a HTTP GET request with the PLC code as query parameter to find a `Location` identified by this PLC code.
 
@@ -73,6 +88,7 @@ If no `Location` with the requested PLC code exists, the server responds with
 
 include::{generated}/loc-find-plc-404/http-response.adoc[]
 
+[[location-forlocationgroup]]
 === Find Locations of a LocationGroup
 Send a HTTP GET request with the name of a `LocationGroup` as query parameter to find all `Locations` that belong to this group.
 
@@ -96,6 +112,7 @@ The response is a list of `Locations` that belong to a `LocationGroup` where the
 
 include::{generated}/loc-find-in-lg-wc/http-response.adoc[]
 
+[[location-changestate]]
 === Change a Location's State
 Send a HTTP PATCH request with the persistent identifying key of an existing `Location` along the new state decoded as `ErrorCodeVO` request
 parameter.
@@ -149,3 +166,17 @@ include::{generated}/loc-plcstate/http-request.adoc[]
 If the server could set the state successfully the response is:
 
 include::{generated}/loc-plcstate/http-response.adoc[]
+
+[[location-created]]
+=== Create a Location
+Usually `Locations` are created as reference data when the project is setup. It is not intended to create a `Location`
+during operation. Warehouse locations are fixed and only change when the warehouse is extended, therefore there it makes
+less sense to create `Locations` on the fly and perhaps also delete them during the usual warehouse processing.
+
+Nevertheless there is an API to create a `Location` via the REST API.
+
+include::{generated}/loc-created/http-request.adoc[]
+
+If the server has created the `Location` successfully the response looks like:
+
+include::{generated}/loc-created/http-response.adoc[]

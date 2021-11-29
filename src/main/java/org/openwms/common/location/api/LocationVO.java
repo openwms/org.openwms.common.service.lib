@@ -41,14 +41,18 @@ public class LocationVO extends RepresentationModel<LocationVO> implements Targe
     @NotEmpty
     private String locationId;
     @JsonProperty("type")
+    @NotEmpty(groups = ValidationGroups.Create.class)
     private String type;
     @JsonProperty("accountId")
     private String accountId;
     @JsonProperty("locationGroupName")
+    @NotEmpty(groups = ValidationGroups.Create.class)
     private String locationGroupName;
     @JsonProperty("erpCode")
+    @NotEmpty(groups = ValidationGroups.Create.class)
     private String erpCode;
     @JsonProperty("plcCode")
+    @NotEmpty(groups = ValidationGroups.Create.class)
     private String plcCode;
     @JsonProperty("sortOrder")
     private Integer sortOrder;

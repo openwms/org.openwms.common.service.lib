@@ -25,7 +25,9 @@ import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.TestData;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationApiConstants;
+import org.openwms.common.location.api.LocationVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.web.servlet.MockMvc;
@@ -39,7 +41,9 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -73,15 +77,36 @@ class LocationControllerDocumentation {
                         get(LocationApiConstants.API_LOCATIONS + "/index")
                 )
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$._links.location-changestate").exists())
+                .andExpect(jsonPath("$._links.location-create").exists())
                 .andExpect(jsonPath("$._links.location-findbycoordinate").exists())
                 .andExpect(jsonPath("$._links.location-findbyerpcode").exists())
                 .andExpect(jsonPath("$._links.location-findbyplccode").exists())
-                .andExpect(jsonPath("$._links.location-forlocationgroup").exists())
-                .andExpect(jsonPath("$._links.location-changestate").exists())
                 .andExpect(jsonPath("$._links.location-fortuple").exists())
-                .andExpect(jsonPath("$._links.length()", is(6)))
+                .andExpect(jsonPath("$._links.location-forlocationgroup").exists())
+                .andExpect(jsonPath("$._links.length()", is(7)))
                 .andDo(document("loc-index", preprocessResponse(prettyPrint())))
         ;
+    }
+
+    @Test void shall_create_Location() throws Exception {
+        var location = new LocationVO("FGIN/PICK/WORK/0010/0000");
+        location.setLocationGroupName("FGWORKPLACE9");
+        location.setErpCode("PICK_10");
+        location.setPlcCode("PICK_10");
+        location.setType("PG");
+        mockMvc.perform(post(LocationApiConstants.API_LOCATIONS)
+                        .content(mapper.writeValueAsString(location))
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.pKey").exists())
+                .andExpect(jsonPath("$.locationId", is(location.getLocationId())))
+                .andExpect(jsonPath("$.incomingActive", is(true)))
+                .andExpect(jsonPath("$.outgoingActive", is(true)))
+                .andExpect(jsonPath("$.plcState", is(0)))
+                .andExpect(header().exists(HttpHeaders.LOCATION))
+                .andDo(document("loc-created"));
     }
 
     /* Depends on https://github.com/spring-projects/spring-framework/issues/19930
@@ -102,7 +127,7 @@ class LocationControllerDocumentation {
                     .andExpect(jsonPath("incomingActive", is(true)))
                     .andExpect(jsonPath("outgoingActive", is(true)))
                     .andExpect(jsonPath("plcState", is(0)))
-                    .andDo(document("loc-find-plc"));
+                    .andDo(document("loc-find-erp"));
         }
 
         @Test void shall_findby_plccode() throws Exception {

@@ -91,7 +91,7 @@ public class Location extends Target implements Serializable {
 
     /** Sort order index used by Putaway strategies. */
     @Column(name = "C_SORT")
-    private int sortOrder = 0;
+    private Integer sortOrder;
 
     /** May be assigned to a particular zone in stock. */
     @Column(name = "C_STOCK_ZONE")
@@ -249,6 +249,14 @@ public class Location extends Target implements Serializable {
     /*~ ----------------------------- methods ------------------- */
 
     /**
+     * Check if the Location has a {@code locationId} set.
+     * @return {@literal true} if so
+     */
+    public boolean hasLocationId() {
+        return locationId != null;
+    }
+
+    /**
      * Return the {@link Account} this {@code Location} is assigned to.
      *
      * @return The Account
@@ -336,7 +344,7 @@ public class Location extends Target implements Serializable {
      *
      * @return A sequence number
      */
-    public int getSortOrder() {
+    public Integer getSortOrder() {
         return sortOrder;
     }
 

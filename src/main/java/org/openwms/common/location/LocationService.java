@@ -30,6 +30,14 @@ import java.util.Optional;
 public interface LocationService {
 
     /**
+     * Create a new non-existing {@link Location}.
+     *
+     * @param location The representation with the mandatory data to create the Location
+     * @return The created instance
+     */
+    Location create(@NotNull Location location);
+
+    /**
      * Find and return a {@code Location}.
      *
      * @param locationId The business key of the Location to search for
