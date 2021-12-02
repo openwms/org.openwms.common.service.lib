@@ -72,8 +72,7 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
 
     /*~-------------------- constructors --------------------*/
     @JsonCreator
-    protected TransportUnitVO() {
-    }
+    public TransportUnitVO() {}
 
     public TransportUnitVO(String barcode) {
         this.barcode = barcode;
@@ -115,6 +114,10 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
 
     public String getBarcode() {
         return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 
     public String getGroupId() {
@@ -199,6 +202,10 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
 
     public Date getCreateDate() {
         return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     @Override

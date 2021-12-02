@@ -18,8 +18,8 @@ package org.openwms.common.account;
 import org.ameba.exception.NotFoundException;
 import org.ameba.http.MeasuredRestController;
 import org.ameba.i18n.Translator;
-import org.ameba.mapping.BeanMapper;
 import org.openwms.common.account.api.AccountVO;
+import org.openwms.common.account.impl.AccountMapper;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.http.ResponseEntity;
@@ -44,10 +44,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class AccountController extends AbstractWebController {
 
     private final AccountService service;
-    private final BeanMapper mapper;
+    private final AccountMapper mapper;
     private final Translator translator;
 
-    public AccountController(AccountService service, BeanMapper mapper, Translator translator) {
+    public AccountController(AccountService service, AccountMapper mapper, Translator translator) {
         this.service = service;
         this.mapper = mapper;
         this.translator = translator;
@@ -55,35 +55,35 @@ public class AccountController extends AbstractWebController {
 
     @GetMapping(API_ACCOUNTS)
     public ResponseEntity<List<AccountVO>> findAll() {
-        return ResponseEntity.ok(mapper.map(service.findAll(), AccountVO.class));
+        return ResponseEntity.ok(mapper.convertToVO(service.findAll()));
     }
 
     @GetMapping(value = API_ACCOUNTS, params = "default")
     public ResponseEntity<AccountVO> findDefault() {
         return ResponseEntity.ok(
-                mapper.map(
+                mapper.convertToVO(
                         service.findDefault().orElseThrow(
-                                ()-> new NotFoundException(translator, ACCOUNT_NO_DEFAULT)), AccountVO.class
+                                ()-> new NotFoundException(translator, ACCOUNT_NO_DEFAULT))
                 ));
     }
 
     @GetMapping(value = API_ACCOUNTS, params = "identifier")
     public ResponseEntity<AccountVO> findByIdentifier(@RequestParam("identifier") String identifier) {
         return ResponseEntity.ok(
-                mapper.map(
+                mapper.convertToVO(
                         service.findByIdentifier(identifier).orElseThrow(
                                 () -> new NotFoundException(translator, ACCOUNT_NOT_FOUND,
-                                        new Serializable[]{identifier}, identifier)), AccountVO.class
+                                        new Serializable[]{identifier}, identifier))
                 ));
     }
 
     @GetMapping(value = API_ACCOUNTS, params = "name")
     public ResponseEntity<AccountVO> findByName(@RequestParam("name") String name) {
         return ResponseEntity.ok(
-                mapper.map(
+                mapper.convertToVO(
                         service.findByName(name).orElseThrow(
                                 ()-> new NotFoundException(translator, ACCOUNT_NOT_FOUND,
-                                        new Serializable[]{name}, name)), AccountVO.class
+                                        new Serializable[]{name}, name))
                 ));
     }
 

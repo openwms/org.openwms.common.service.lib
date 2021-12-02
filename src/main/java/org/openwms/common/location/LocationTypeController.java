@@ -40,16 +40,16 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class LocationTypeController extends AbstractWebController {
 
     private final LocationTypeService locationTypeService;
-    private final BeanMapper mapper;
+    private final LocationTypeMapper mapper;
 
-    LocationTypeController(LocationTypeService locationTypeService, BeanMapper mapper) {
+    LocationTypeController(LocationTypeService locationTypeService, LocationTypeMapper mapper) {
         this.locationTypeService = locationTypeService;
         this.mapper = mapper;
     }
 
     @GetMapping(value = API_LOCATION_TYPES)
     public ResponseEntity<List<LocationTypeVO>> findAll() {
-        return ResponseEntity.ok(mapper.map(locationTypeService.findAll(), LocationTypeVO.class));
+        return ResponseEntity.ok(mapper.convertToVO(locationTypeService.findAll()));
     }
 
     @GetMapping(API_LOCATION_TYPES + "/index")

@@ -19,7 +19,6 @@ import org.ameba.exception.BusinessRuntimeException;
 import org.ameba.exception.NotFoundException;
 import org.ameba.http.MeasuredRestController;
 import org.ameba.i18n.Translator;
-import org.ameba.mapping.BeanMapper;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.location.api.LockMode;
@@ -34,6 +33,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -66,11 +66,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @MeasuredRestController
 public class LocationController extends AbstractWebController {
 
-    private final BeanMapper mapper;
+    private final LocationMapper mapper;
     private final Translator translator;
     private final LocationService locationService;
 
-    LocationController(LocationService locationService, BeanMapper mapper, Translator translator) {
+    LocationController(LocationService locationService, LocationMapper mapper, Translator translator) {
         this.locationService = locationService;
         this.mapper = mapper;
         this.translator = translator;
@@ -79,10 +79,17 @@ public class LocationController extends AbstractWebController {
     @PostMapping(API_LOCATIONS)
     @Validated(ValidationGroups.Create.class)
     public ResponseEntity<LocationVO> createLocation(@Valid @RequestBody LocationVO location, HttpServletRequest req) {
-        var created = locationService.create(mapper.map(location, Location.class));
+        var created = locationService.create(mapper.convertVO(location));
         return ResponseEntity
                 .created(super.getLocationURIForCreatedResource(req, created.getPersistentKey()))
-                .body(mapper.map(created, LocationVO.class));
+                .body(mapper.convertToVO(created));
+    }
+
+    @PutMapping(API_LOCATIONS)
+    @Validated(ValidationGroups.Update.class)
+    public ResponseEntity<LocationVO> updateLocation(@Valid @RequestBody LocationVO location) {
+        var updated = locationService.save(mapper.convertVO(location));
+        return ResponseEntity.ok(mapper.convertToVO(updated));
     }
 
     @GetMapping(value = API_LOCATIONS, params = {"locationPK"})
@@ -98,13 +105,13 @@ public class LocationController extends AbstractWebController {
                         new String[]{locationPK},
                         locationPK
                 ));
-        return ResponseEntity.ok(Optional.ofNullable(mapper.map(location, LocationVO.class)));
+        return ResponseEntity.ok(Optional.ofNullable(mapper.convertToVO(location)));
     }
 
     @GetMapping(value = API_LOCATIONS, params = {"erpCode"})
     public ResponseEntity<Optional<LocationVO>> findLocationByErpCode(@RequestParam("erpCode") String erpCode) {
         Location location = locationService.findByErpCode(erpCode).orElseThrow(() -> locationNotFound(erpCode));
-        return ResponseEntity.ok(Optional.ofNullable(mapper.map(location, LocationVO.class)));
+        return ResponseEntity.ok(Optional.ofNullable(mapper.convertToVO(location)));
     }
 
     @GetMapping(value = API_LOCATIONS, params = {"plcCode"})
@@ -116,14 +123,14 @@ public class LocationController extends AbstractWebController {
                         new String[]{plcCode},
                         plcCode
                 ));
-        return ResponseEntity.ok(Optional.ofNullable(mapper.map(location, LocationVO.class)));
+        return ResponseEntity.ok(Optional.ofNullable(mapper.convertToVO(location)));
     }
 
     @GetMapping(value = API_LOCATIONS, params = {"locationGroupNames"})
     public ResponseEntity<List<LocationVO>> findLocationsForLocationGroups(
             @RequestParam("locationGroupNames") List<String> locationGroupNames) {
         List<Location> locations = locationService.findAllOf(locationGroupNames);
-        return ResponseEntity.ok(mapper.map(locations, LocationVO.class));
+        return ResponseEntity.ok(mapper.convertToVO(locations));
     }
 
     @PatchMapping(value = API_LOCATION + "/{pKey}", params = "op=change-state")
@@ -186,7 +193,7 @@ public class LocationController extends AbstractWebController {
         List<Location> locations = locationService.findLocations(pk);
         return locations.isEmpty()
                 ? ResponseEntity.notFound().build()
-                : ResponseEntity.ok(mapper.map(locations, LocationVO.class));
+                : ResponseEntity.ok(mapper.convertToVO(locations));
     }
 
     @GetMapping(API_LOCATIONS + "/index")

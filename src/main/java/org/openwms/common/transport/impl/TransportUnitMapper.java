@@ -1,0 +1,68 @@
+/*
+ * Copyright 2005-2021 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.transport.impl;
+
+import org.ameba.i18n.Translator;
+import org.mapstruct.Builder;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.openwms.common.location.LocationMapper;
+import org.openwms.common.transport.TransportUnit;
+import org.openwms.common.transport.api.TransportUnitVO;
+import org.openwms.common.transport.api.messages.TransportUnitMO;
+import org.openwms.common.transport.barcode.BarcodeGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
+/**
+ * A TransportUnitMapper.
+ *
+ * @author Heiko Scherrer
+ */
+@Mapper(uses = {LocationMapper.class, TransportUnitTypeMapper.class}, builder = @Builder(disableBuilder = true))
+public abstract class TransportUnitMapper {
+
+    @Autowired
+    private Translator translator;
+    @Autowired
+    private TransportUnitTypeRepository repository;
+    @Autowired
+    protected BarcodeGenerator barcodeGenerator;
+
+    @Mapping(target = "persistentKey", source = "vo.pKey")
+    @Mapping(target = "barcode", expression = "java( barcodeGenerator.convert(vo.getBarcode()) )")
+    public abstract TransportUnit convert(TransportUnitVO vo);
+
+    @Mapping(target = "pKey", source = "eo.persistentKey")
+    @Mapping(target = "barcode", source = "eo.barcode.value")
+    @Mapping(target = "transportUnitType", source = "eo.transportUnitType.type")
+    @Mapping(target = "length", source = "eo.transportUnitType.length")
+    @Mapping(target = "width", source = "eo.transportUnitType.width")
+    @Mapping(target = "height", source = "eo.transportUnitType.height")
+    @Mapping(target = "createDate", source = "eo.createDt")
+    public abstract TransportUnitVO convertToVO(TransportUnit eo);
+
+    public abstract List<TransportUnitVO> convertToVO(List<TransportUnit> eo);
+
+    @Mapping(target = "pKey", source = "eo.persistentKey")
+    @Mapping(target = "barcode", expression = "java( eo.getBarcode().getValue() )")
+    @Mapping(target = "actualLocation", expression = "java( eo.getActualLocation().getLocationId().toString() )")
+    @Mapping(target = "targetLocation", expression = "java( eo.getTargetLocation().getLocationId().toString() )")
+    @Mapping(target = "parent", expression = "java( eo.getParent().getBarcode().getValue() )")
+    @Mapping(target = "plcCode", expression = "java( eo.getActualLocation().getPlcCode() )")
+    public abstract TransportUnitMO convertToMO(TransportUnit eo);
+}

@@ -19,7 +19,6 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ResourceExistsException;
 import org.ameba.http.MeasuredRestController;
 import org.ameba.i18n.Translator;
-import org.ameba.mapping.BeanMapper;
 import org.openwms.common.SimpleLink;
 import org.openwms.common.StateChangeException;
 import org.openwms.common.location.LocationController;
@@ -27,6 +26,7 @@ import org.openwms.common.transport.api.TransportApiConstants;
 import org.openwms.common.transport.api.TransportUnitVO;
 import org.openwms.common.transport.api.ValidationGroups;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
+import org.openwms.common.transport.impl.TransportUnitMapper;
 import org.openwms.core.SpringProfiles;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
@@ -69,12 +69,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @MeasuredRestController
 public class TransportUnitController extends AbstractWebController {
 
-    private final BeanMapper mapper;
+    private final TransportUnitMapper mapper;
     private final Translator translator;
     private final BarcodeGenerator barcodeGenerator;
     private final TransportUnitService service;
 
-    TransportUnitController(BeanMapper mapper, Translator translator, BarcodeGenerator barcodeGenerator, TransportUnitService service) {
+    TransportUnitController(TransportUnitMapper mapper, Translator translator, BarcodeGenerator barcodeGenerator, TransportUnitService service) {
         this.mapper = mapper;
         this.translator = translator;
         this.barcodeGenerator = barcodeGenerator;
@@ -86,7 +86,7 @@ public class TransportUnitController extends AbstractWebController {
             @PathVariable("pKey") String pKey
     ) {
         TransportUnit transportUnit = service.findByPKey(pKey);
-        TransportUnitVO result = mapper.map(transportUnit, TransportUnitVO.class);
+        TransportUnitVO result = mapper.convertToVO(transportUnit);
         addLinks(result);
         return ResponseEntity.ok(result);
     }
@@ -96,7 +96,7 @@ public class TransportUnitController extends AbstractWebController {
             @RequestParam("bk") String transportUnitBK
     ) {
         TransportUnit transportUnit = service.findByBarcode(transportUnitBK);
-        TransportUnitVO result = mapper.map(transportUnit, TransportUnitVO.class);
+        TransportUnitVO result = mapper.convertToVO(transportUnit);
         addLinks(result);
         return ResponseEntity.ok(result);
     }
@@ -104,7 +104,7 @@ public class TransportUnitController extends AbstractWebController {
     @GetMapping(value = API_TRANSPORT_UNITS, produces = "application/vnd.openwms.transport-unit-v1+json")
     public ResponseEntity<Page<TransportUnitVO>> findAll() {
         List<TransportUnit> transportUnits = service.findAll();
-        List<TransportUnitVO> result = mapper.map(transportUnits, TransportUnitVO.class);
+        List<TransportUnitVO> result = mapper.convertToVO(transportUnits);
         return ResponseEntity.ok(new PageImpl<>(result));
     }
 
@@ -142,7 +142,7 @@ public class TransportUnitController extends AbstractWebController {
     }
 
     private List<TransportUnitVO> augmentResults(List<TransportUnit> tus) {
-        List<TransportUnitVO> result = mapper.map(tus, TransportUnitVO.class);
+        List<TransportUnitVO> result = mapper.convertToVO(tus);
         result.forEach(this::addLinks);
         return result;
     }
@@ -197,7 +197,7 @@ public class TransportUnitController extends AbstractWebController {
                 : service.create(transportUnitBK, tut, actualLocation, strict);
         return ResponseEntity
                 .created(getLocationURIForCreatedResource(req, created.getPersistentKey()))
-                .body(mapper.map(created, TransportUnitVO.class))
+                .body(mapper.convertToVO(created))
                 ;
     }
 
@@ -210,7 +210,7 @@ public class TransportUnitController extends AbstractWebController {
             @RequestBody TransportUnitVO tu
     ) {
         return ResponseEntity.ok(
-                mapper.map(service.update(barcodeGenerator.convert(transportUnitBK), mapper.map(tu, TransportUnit.class)), TransportUnitVO.class)
+                mapper.convertToVO(service.update(barcodeGenerator.convert(transportUnitBK), mapper.convert(tu)))
         );
     }
 
@@ -224,7 +224,7 @@ public class TransportUnitController extends AbstractWebController {
     ) {
         TransportUnit tu = service.moveTransportUnit(barcodeGenerator.convert(transportUnitBK), fromString(newLocation));
         return ResponseEntity.ok(
-                mapper.map(tu, TransportUnitVO.class)
+                mapper.convertToVO(tu)
         );
     }
 

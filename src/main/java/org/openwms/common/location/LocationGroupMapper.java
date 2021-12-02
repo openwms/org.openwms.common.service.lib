@@ -13,30 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location.impl;
+package org.openwms.common.location;
 
 import org.mapstruct.Mapper;
-import org.openwms.common.location.api.LocationGroupState;
+import org.mapstruct.Mapping;
+import org.openwms.common.location.api.LocationGroupVO;
+
+import java.util.List;
 
 /**
- * A LocationGroupStateConverter.
+ * A LocationGroupMapper.
  *
  * @author Heiko Scherrer
  */
 @Mapper
-public abstract class LocationGroupStateConverter {
+public interface LocationGroupMapper {
 
-    public LocationGroupState convertTo(Boolean source) {
-        if (source == null) {
-            return null;
-        }
-        return Boolean.TRUE.equals(source) ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;
-    }
+    @Mapping(target = "parent", source = "eo.parent.name")
+    LocationGroupVO convertToVO(LocationGroup eo);
 
-    public Boolean convertFrom(LocationGroupState source) {
-        if (source == null) {
-            return Boolean.FALSE;
-        }
-        return source == LocationGroupState.AVAILABLE;
-    }
+    List<LocationGroupVO> convertToVO(List<LocationGroup> eo);
 }

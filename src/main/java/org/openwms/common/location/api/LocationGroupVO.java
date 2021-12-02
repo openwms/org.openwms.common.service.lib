@@ -58,8 +58,7 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
     private List<LocationGroupVO> children;
 
     /*~ ------------------ constructors ----------------------*/
-    protected LocationGroupVO() {
-    }
+    public LocationGroupVO() {}
 
     public LocationGroupVO(String name) {
         this.name = name;

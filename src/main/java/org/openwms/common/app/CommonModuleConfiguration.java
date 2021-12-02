@@ -26,8 +26,6 @@ import org.ameba.http.RequestIDFilter;
 import org.ameba.http.identity.EnableIdentityAwareness;
 import org.ameba.i18n.AbstractSpringTranslator;
 import org.ameba.i18n.Translator;
-import org.ameba.mapping.BeanMapper;
-import org.ameba.mapping.DozerMapperImpl;
 import org.ameba.system.NestedReloadableResourceBundleMessageSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
@@ -121,13 +119,6 @@ public class CommonModuleConfiguration implements WebMvcConfigurer {
     @Profile(SpringProfiles.DEVELOPMENT_PROFILE)
     public @Bean Filter corsFiler() {
         return new CorsFilter(new PermitAllCorsConfigurationSource());
-    }
-
-    public @Bean BeanMapper beanMapper() {
-        return new DozerMapperImpl(
-                "META-INF/dozer/common-global-mappings.xml",
-                "META-INF/dozer/common-bean-mappings.xml"
-        );
     }
 
     /*~ ------------- Request ID handling ----------- */

@@ -13,30 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location.impl;
+package org.openwms.common.account.impl;
 
 import org.mapstruct.Mapper;
-import org.openwms.common.location.api.LocationGroupState;
+import org.openwms.common.account.Account;
+import org.openwms.common.account.api.AccountVO;
+
+import java.util.List;
 
 /**
- * A LocationGroupStateConverter.
+ * A AccountMapper.
  *
  * @author Heiko Scherrer
  */
 @Mapper
-public abstract class LocationGroupStateConverter {
+public abstract class AccountMapper {
 
-    public LocationGroupState convertTo(Boolean source) {
-        if (source == null) {
-            return null;
-        }
-        return Boolean.TRUE.equals(source) ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;
-    }
+    public abstract AccountVO convertToVO(Account eo);
 
-    public Boolean convertFrom(LocationGroupState source) {
-        if (source == null) {
-            return Boolean.FALSE;
-        }
-        return source == LocationGroupState.AVAILABLE;
-    }
+    public abstract List<AccountVO> convertToVO(List<Account> eo);
 }

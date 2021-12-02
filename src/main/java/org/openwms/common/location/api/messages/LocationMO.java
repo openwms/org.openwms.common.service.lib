@@ -36,8 +36,6 @@ public class LocationMO implements Serializable {
     private String id;
     /** The accountId the Location belongs to. */
     private String accountId;
-    /** The business key of the parent Location .*/
-    private String parent;
     /** If the Location is available for inbound operations. */
     private Boolean incomingActive;
     /** If the Location is available for outbound operations. */
@@ -67,14 +65,6 @@ public class LocationMO implements Serializable {
 
     public void setAccountId(String accountId) {
         this.accountId = accountId;
-    }
-
-    public String getParent() {
-        return parent;
-    }
-
-    public void setParent(String parent) {
-        this.parent = parent;
     }
 
     public Boolean getIncomingActive() {

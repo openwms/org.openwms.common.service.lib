@@ -67,10 +67,8 @@ public class TransportUnitMO implements Serializable {
     /** The business key of the parent TransportUnit. */
     private String parent;
 
-    /**
-     * Required Default constructor.
-     */
-    protected TransportUnitMO() { }
+    /**  Required Default constructor. */
+    public TransportUnitMO() { }
 
     private TransportUnitMO(Builder builder) {
         setpKey(builder.pKey);

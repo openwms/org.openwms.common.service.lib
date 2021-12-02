@@ -38,10 +38,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -100,6 +101,33 @@ class LocationControllerDocumentation {
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.pKey").exists())
+                .andExpect(jsonPath("$.locationId", is(location.getLocationId())))
+                .andExpect(jsonPath("$.incomingActive", is(true)))
+                .andExpect(jsonPath("$.outgoingActive", is(true)))
+                .andExpect(jsonPath("$.plcState", is(0)))
+                .andExpect(header().exists(HttpHeaders.LOCATION))
+                .andDo(document("loc-created"));
+    }
+
+    @Test void shall_update_Location() throws Exception {
+        var location = new LocationVO("FGIN/CONV/0001/0000/0000");
+        location.setpKey("1000");
+        location.setLocationGroupName("FGWORKPLACE9");
+        location.setErpCode("PICK_10");
+        location.setPlcCode("PICK_10");
+        location.setPlcCode("99");
+        location.setAccountId("BLA");
+        location.setIncomingActive(false);
+        location.setOutgoingActive(false);
+        location.setSortOrder(99);
+        location.setStockZone("STOCK");
+        location.setType("PG");
+        mockMvc.perform(put(LocationApiConstants.API_LOCATIONS)
+                        .content(mapper.writeValueAsString(location))
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.pKey").exists())
                 .andExpect(jsonPath("$.locationId", is(location.getLocationId())))
                 .andExpect(jsonPath("$.incomingActive", is(true)))

@@ -42,6 +42,7 @@ import java.util.Optional;
 import static org.openwms.common.CommonMessageCodes.LOCATION_ID_EXISTS;
 import static org.openwms.common.CommonMessageCodes.LOCATION_ID_INVALID;
 import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND;
+import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND_BY_PKEY;
 
 /**
  * A LocationServiceImpl is a Spring managed transactional Service that operates on {@link Location} entities and spans the tx boundary.
@@ -196,6 +197,15 @@ class LocationServiceImpl implements LocationService {
         if (location.isNew()) {
             throw new IllegalArgumentException("Expected to save an already existing instance but got a transient one");
         }
+        Optional<Location> existingOpt = repository.findBypKey(location.getPersistentKey());
+        if (existingOpt.isEmpty()) {
+            throw new NotFoundException(translator, LOCATION_NOT_FOUND_BY_PKEY, new String[]{location.getPersistentKey()},
+                    location.getPersistentKey());
+        }
+        var existing = existingOpt.get();
+        location.setPlcState(existing.getPlcState());
+        location.setInfeed(existing.isInfeedActive());
+        location.setOutfeed(existing.isOutfeedActive());
         return repository.save(location);
     }
 }
