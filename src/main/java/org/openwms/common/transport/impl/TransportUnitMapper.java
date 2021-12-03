@@ -19,6 +19,9 @@ import org.ameba.i18n.Translator;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValueCheckStrategy;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.openwms.common.location.LocationMapper;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.api.TransportUnitVO;
@@ -42,6 +45,10 @@ public abstract class TransportUnitMapper {
     private TransportUnitTypeRepository repository;
     @Autowired
     protected BarcodeGenerator barcodeGenerator;
+
+    @Mapping(target = "parent", source = "source.parent", ignore = true)
+    @Mapping(target = "inventoryDate", source = "source.inventoryDate", nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    public abstract void copy(TransportUnit source, @MappingTarget TransportUnit target);
 
     @Mapping(target = "persistentKey", source = "vo.pKey")
     @Mapping(target = "barcode", expression = "java( barcodeGenerator.convert(vo.getBarcode()) )")

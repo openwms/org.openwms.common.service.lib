@@ -23,10 +23,13 @@ package org.openwms.common;
 public final class CommonMessageCodes {
 
     public static final String ACCOUNT_NOT_FOUND = "owms.common.common.account.notFound";
+    public static final String ACCOUNT_NOT_FOUND_BY_ID = "owms.common.common.account.notFoundByID";
     public static final String ACCOUNT_NO_DEFAULT = "owms.common.common.account.noDefaultAccount";
 
     public static final String LOCATION_GROUP_NOT_FOUND_BY_PKEY = "owms.common.common.lg.notFoundByPKey";
     public static final String LOCATION_GROUP_NOT_FOUND = "owms.common.common.lg.notFoundByName";
+
+    public static final String LOCATION_TYPE_NOT_FOUND = "owms.common.common.lt.notFoundByType";
 
     public static final String LOCATION_ID_INVALID = "owms.common.common.loc.invalidName";
     public static final String LOCATION_ID_EXISTS = "owms.common.common.loc.idExists";

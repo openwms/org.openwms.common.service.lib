@@ -16,7 +16,7 @@
 package org.openwms.common.transport;
 
 import org.ameba.exception.NotFoundException;
-import org.ameba.mapping.BeanMapper;
+import org.openwms.common.transport.impl.TransportUnitTypeMapper;
 import org.openwms.core.http.Index;
 import org.openwms.common.transport.api.TransportUnitTypeVO;
 import org.openwms.core.http.AbstractWebController;
@@ -44,9 +44,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class TransportUnitTypeController extends AbstractWebController {
 
     private final TransportUnitTypeService service;
-    private final BeanMapper mapper;
+    private final TransportUnitTypeMapper mapper;
 
-    TransportUnitTypeController(TransportUnitTypeService service, BeanMapper mapper) {
+    TransportUnitTypeController(TransportUnitTypeService service, TransportUnitTypeMapper mapper) {
         this.service = service;
         this.mapper = mapper;
     }
@@ -56,14 +56,14 @@ public class TransportUnitTypeController extends AbstractWebController {
     public TransportUnitTypeVO findTransportUnitType(@RequestParam("type") String type) {
         TransportUnitType optType = service.findByType(type)
                 .orElseThrow(() -> new NotFoundException(format("No TransportUniType with type [%s] found", type)));
-        return mapper.map(optType, TransportUnitTypeVO.class);
+        return mapper.convertToVO(optType);
     }
 
     @GetMapping(API_TRANSPORT_UNIT_TYPES)
     @ResponseBody
     public List<TransportUnitTypeVO> findTransportUnitTypes() {
         List<TransportUnitType> all = service.findAll();
-        return mapper.map(all, TransportUnitTypeVO.class);
+        return mapper.convertToVO(all);
     }
 
     @GetMapping(API_TRANSPORT_UNIT_TYPES + "/index")

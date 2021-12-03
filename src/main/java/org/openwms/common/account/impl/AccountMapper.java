@@ -15,11 +15,17 @@
  */
 package org.openwms.common.account.impl;
 
+import org.ameba.exception.NotFoundException;
+import org.ameba.i18n.Translator;
 import org.mapstruct.Mapper;
 import org.openwms.common.account.Account;
+import org.openwms.common.account.AccountService;
 import org.openwms.common.account.api.AccountVO;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+
+import static org.openwms.common.CommonMessageCodes.ACCOUNT_NOT_FOUND_BY_ID;
 
 /**
  * A AccountMapper.
@@ -28,6 +34,19 @@ import java.util.List;
  */
 @Mapper
 public abstract class AccountMapper {
+
+    @Autowired
+    private Translator translator;
+    @Autowired
+    private AccountService accountService;
+
+    public Account convertFromId(String id) {
+        var accountOpt = accountService.findByIdentifier(id);
+        if (accountOpt.isEmpty()) {
+            throw new NotFoundException(translator, ACCOUNT_NOT_FOUND_BY_ID, new String[]{id}, id);
+        }
+        return accountOpt.get();
+    }
 
     public abstract AccountVO convertToVO(Account eo);
 

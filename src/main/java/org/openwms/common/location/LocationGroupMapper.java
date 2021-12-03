@@ -15,11 +15,17 @@
  */
 package org.openwms.common.location;
 
+import org.ameba.exception.NotFoundException;
+import org.ameba.i18n.Translator;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.openwms.common.location.api.LocationGroupVO;
+import org.openwms.common.location.api.messages.LocationGroupMO;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+
+import static org.openwms.common.CommonMessageCodes.LOCATION_GROUP_NOT_FOUND;
 
 /**
  * A LocationGroupMapper.
@@ -27,10 +33,30 @@ import java.util.List;
  * @author Heiko Scherrer
  */
 @Mapper
-public interface LocationGroupMapper {
+public abstract class LocationGroupMapper {
+
+    @Autowired
+    private Translator translator;
+    @Autowired
+    private LocationGroupService locationGroupService;
+
+    public LocationGroup convertFromName(String name) {
+        var locationGroupOpt = locationGroupService.findByName(name);
+        if (locationGroupOpt.isEmpty()) {
+            throw new NotFoundException(translator, LOCATION_GROUP_NOT_FOUND, new String[]{name}, name);
+        }
+        return locationGroupOpt.get();
+    }
 
     @Mapping(target = "parent", source = "eo.parent.name")
-    LocationGroupVO convertToVO(LocationGroup eo);
+    public abstract LocationGroupVO convertToVO(LocationGroup eo);
 
-    List<LocationGroupVO> convertToVO(List<LocationGroup> eo);
+    @Mapping(target = "accountId", source = "eo.account.identifier")
+    @Mapping(target = "parent", source = "eo.parent.name")
+    @Mapping(target = "operationMode", source = "eo.operationMode")
+    @Mapping(target = "incomingActive", expression = "java( eo.isInfeedAllowed() )")
+    @Mapping(target = "outgoingActive", expression = "java( eo.isOutfeedAllowed() )")
+    public abstract LocationGroupMO convertToMO(LocationGroup eo);
+
+    public abstract List<LocationGroupVO> convertToVO(List<LocationGroup> eo);
 }

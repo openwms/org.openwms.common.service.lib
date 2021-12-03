@@ -15,12 +15,17 @@
  */
 package org.openwms.common.location;
 
+import org.ameba.exception.NotFoundException;
+import org.ameba.i18n.Translator;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.openwms.common.account.impl.AccountMapper;
 import org.openwms.common.location.api.LocationTypeVO;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+
+import static org.openwms.common.CommonMessageCodes.LOCATION_TYPE_NOT_FOUND;
 
 /**
  * A LocationTypeMapper.
@@ -28,10 +33,23 @@ import java.util.List;
  * @author Heiko Scherrer
  */
 @Mapper(uses = {AccountMapper.class})
-public interface LocationTypeMapper {
+public abstract class LocationTypeMapper {
+
+    @Autowired
+    private LocationTypeService locationTypeService;
+    @Autowired
+    private Translator translator;
+
+    public LocationType convertFromString(String type) {
+        var locationTypeOpt = locationTypeService.findByType(type);
+        if (locationTypeOpt.isEmpty()) {
+            throw new NotFoundException(translator, LOCATION_TYPE_NOT_FOUND, new String[]{type}, type);
+        }
+        return locationTypeOpt.get();
+    }
 
     @Mapping(target = "pKey", source = "eo.persistentKey")
-    LocationTypeVO convertToVO(LocationType eo);
+    public abstract LocationTypeVO convertToVO(LocationType eo);
 
-    List<LocationTypeVO> convertToVO(List<LocationType> eo);
+    public abstract List<LocationTypeVO> convertToVO(List<LocationType> eo);
 }

@@ -118,7 +118,7 @@ class TransportUnitIT {
     }
 
 
-    @Test void shall_add_an_error_to_a_new_TU() {
+    @Test void shall_cascade_errors_of_TU() {
         when(generator.convert("NEVER_PERSISTED")).thenReturn(Barcode.of("NEVER_PERSISTED"));
         TransportUnit tu = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, knownLocation);
         UnitError saved = tu.addError(
@@ -126,21 +126,9 @@ class TransportUnitIT {
                         .errorNo("NEVER_PERSISTED")
                         .errorText("Damaged").build()
         );
-        assertThat(saved.isNew()).isTrue();
+        assertThat(tu.getErrors()).contains(saved);
+        assertThat(saved.getTransportUnit()).isEqualTo(tu);
         entityManager.persistAndFlush(tu);
-        assertThat(entityManager.getEntityManager().createQuery("select count(u) from UnitError u").getResultList()).hasSize(1);
-    }
-
-    @Test void shall_add_an_error_to_a_managed_TU() {
-        when(generator.convert("NEVER_PERSISTED")).thenReturn(Barcode.of("NEVER_PERSISTED"));
-        TransportUnit tu = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, knownLocation);
-        tu = entityManager.persistAndFlush(tu);
-        UnitError saved = tu.addError(
-                UnitError.newBuilder()
-                        .errorNo("NEVER_PERSISTED")
-                        .errorText("Damaged").build()
-        );
-        assertThat(saved.isNew()).isFalse();
         assertThat(entityManager.getEntityManager().createQuery("select count(u) from UnitError u").getResultList()).hasSize(1);
     }
 

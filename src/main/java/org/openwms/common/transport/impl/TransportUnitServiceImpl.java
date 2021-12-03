@@ -21,7 +21,6 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ResourceExistsException;
 import org.ameba.exception.ServiceLayerException;
 import org.ameba.i18n.Translator;
-import org.ameba.mapping.BeanMapper;
 import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
@@ -80,7 +79,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     private final LocationService locationService;
     private final TransportUnitTypeRepository transportUnitTypeRepository;
     private final Translator translator;
-    private final BeanMapper mapper;
+    private final TransportUnitMapper mapper;
     private final Validator validator;
     private final ApplicationEventPublisher publisher;
 
@@ -88,7 +87,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     TransportUnitServiceImpl(Translator translator,
             TransportUnitTypeRepository transportUnitTypeRepository,
             LocationService locationService, TransportUnitRepository repository,
-            BarcodeGenerator barcodeGenerator, BeanMapper mapper, Validator validator,
+            BarcodeGenerator barcodeGenerator, TransportUnitMapper mapper, Validator validator,
             ApplicationEventPublisher publisher) {
         this.translator = translator;
         this.transportUnitTypeRepository = transportUnitTypeRepository;
@@ -200,11 +199,11 @@ class TransportUnitServiceImpl implements TransportUnitService {
         }
         TransportUnit existing = findByBarcodeInternal(barcode);
         tu.setTransportUnitType(existing.getTransportUnitType());
-        TransportUnit updated = mapper.mapFromTo(tu, existing);
+        mapper.copy(existing, tu);
         if (tu.getActualLocation() !=  null && tu.getActualLocation().isNew()) {
-            updated.setActualLocation(this.locationService.findByLocationPk(tu.getActualLocation().getLocationId()).orElseThrow(() -> new NotFoundException(format("Location [%s] not found", tu.getActualLocation()))));
+            existing.setActualLocation(this.locationService.findByLocationPk(tu.getActualLocation().getLocationId()).orElseThrow(() -> new NotFoundException(format("Location [%s] not found", tu.getActualLocation()))));
         }
-        TransportUnit saved = repository.save(updated);
+        TransportUnit saved = repository.save(existing);
         publisher.publishEvent(TransportUnitEvent.newBuilder()
                 .tu(saved)
                 .type(TransportUnitEvent.TransportUnitEventType.CHANGED)

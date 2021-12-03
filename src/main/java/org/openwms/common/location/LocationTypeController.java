@@ -16,7 +16,6 @@
 package org.openwms.common.location;
 
 import org.ameba.http.MeasuredRestController;
-import org.ameba.mapping.BeanMapper;
 import org.openwms.common.location.api.LocationTypeVO;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;

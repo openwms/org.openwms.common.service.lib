@@ -17,6 +17,7 @@ package org.openwms.common.location;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A LocationTypeService offers useful methods according to the handling of {@link LocationType}s.
@@ -24,6 +25,8 @@ import java.util.List;
  * @author Heiko Scherrer
  */
 public interface LocationTypeService {
+
+    Optional<LocationType> findByType(String type);
 
     /**
      * Return a list of all LocationTypes in natural order.

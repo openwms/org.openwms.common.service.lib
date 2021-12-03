@@ -30,7 +30,7 @@ public class LocationGroupMO implements Serializable {
 
     /** The business key of the LocationGroup. */
     private String name;
-    /** The accountId the Location belongs to. */
+    /** The accountId the LocationGroup belongs to. */
     private String accountId;
     /** The business key of the parent LocationGroup .*/
     private String parent;

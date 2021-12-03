@@ -15,11 +15,13 @@
  */
 package org.openwms.common.location.impl;
 
-import org.ameba.mapping.BeanMapper;
+import org.openwms.common.location.Location;
+import org.openwms.common.location.LocationGroup;
+import org.openwms.common.location.LocationGroupMapper;
+import org.openwms.common.location.LocationMapper;
 import org.openwms.common.location.api.events.LocationEvent;
 import org.openwms.common.location.api.events.LocationGroupEvent;
 import org.openwms.common.location.api.messages.LocationGroupMO;
-import org.openwms.common.location.api.messages.LocationMO;
 import org.openwms.core.SpringProfiles;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,13 +49,16 @@ class LocationGroupEventPropagator {
     private final AmqpTemplate amqpTemplate;
     private final Validator validator;
     private final String exchangeName;
-    private final BeanMapper mapper;
+    private final LocationMapper locationMapper;
+    private final LocationGroupMapper locationGroupMapper;
 
-    LocationGroupEventPropagator(AmqpTemplate amqpTemplate, Validator validator, @Value("${owms.events.common.lg.exchange-name}") String exchangeName, BeanMapper mapper) {
+    LocationGroupEventPropagator(AmqpTemplate amqpTemplate, Validator validator,
+            @Value("${owms.events.common.lg.exchange-name}") String exchangeName, LocationMapper locationMapper, LocationGroupMapper locationGroupMapper) {
         this.amqpTemplate = amqpTemplate;
         this.validator = validator;
         this.exchangeName = exchangeName;
-        this.mapper = mapper;
+        this.locationMapper = locationMapper;
+        this.locationGroupMapper = locationGroupMapper;
     }
 
     @PostConstruct
@@ -69,16 +74,16 @@ class LocationGroupEventPropagator {
     public void onEvent(LocationGroupEvent event) {
         switch (event.getType()) {
             case CREATED:
-                amqpTemplate.convertAndSend(exchangeName, "lg.event.created", mapper.map(event.getSource(), LocationGroupMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "lg.event.created", locationGroupMapper.convertToMO((LocationGroup) event.getSource()));
                 break;
             case CHANGED:
-                amqpTemplate.convertAndSend(exchangeName, "lg.event.changed", mapper.map(event.getSource(), LocationGroupMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "lg.event.changed", locationGroupMapper.convertToMO((LocationGroup) event.getSource()));
                 break;
             case DELETED:
-                amqpTemplate.convertAndSend(exchangeName, "lg.event.deleted", mapper.map(event.getSource(), LocationGroupMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "lg.event.deleted", locationGroupMapper.convertToMO((LocationGroup) event.getSource()));
                 break;
             case STATE_CHANGE:
-                LocationGroupMO msg = mapper.map(event.getSource(), LocationGroupMO.class);
+                LocationGroupMO msg = locationGroupMapper.convertToMO((LocationGroup) event.getSource());
                 validate(validator, msg);
                 amqpTemplate.convertAndSend(exchangeName, "lg.event.state-changed", msg);
                 break;
@@ -91,16 +96,16 @@ class LocationGroupEventPropagator {
     public void onLocationEvent(LocationEvent event) {
         switch (event.getType()) {
             case CREATED:
-                amqpTemplate.convertAndSend(exchangeName, "loc.event.created", mapper.map(event.getSource(), LocationMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "loc.event.created", locationMapper.convertToMO((Location) event.getSource()));
                 break;
             case CHANGED:
-                amqpTemplate.convertAndSend(exchangeName, "loc.event.changed", mapper.map(event.getSource(), LocationMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "loc.event.changed", locationMapper.convertToMO((Location) event.getSource()));
                 break;
             case DELETED:
-                amqpTemplate.convertAndSend(exchangeName, "loc.event.deleted", mapper.map(event.getSource(), LocationMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "loc.event.deleted", locationMapper.convertToMO((Location) event.getSource()));
                 break;
             case STATE_CHANGE:
-                amqpTemplate.convertAndSend(exchangeName, "loc.event.state-changed", mapper.map(event.getSource(), LocationMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "loc.event.state-changed", locationMapper.convertToMO((Location) event.getSource()));
                 break;
             default:
                 throw new UnsupportedOperationException(format("LocationEvent [%s] currently not supported", event.getType()));

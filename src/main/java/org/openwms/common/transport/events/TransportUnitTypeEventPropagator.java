@@ -15,8 +15,8 @@
  */
 package org.openwms.common.transport.events;
 
-import org.ameba.mapping.BeanMapper;
-import org.openwms.common.transport.api.messages.TransportUnitTypeMO;
+import org.openwms.common.transport.TransportUnitType;
+import org.openwms.common.transport.impl.TransportUnitTypeMapper;
 import org.openwms.core.SpringProfiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,12 +41,12 @@ class TransportUnitTypeEventPropagator {
     private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitTypeEventPropagator.class);
     private final AmqpTemplate amqpTemplate;
     private final String exchangeName;
-    private final BeanMapper mapper;
+    private final TransportUnitTypeMapper mapper;
 
     TransportUnitTypeEventPropagator(
             AmqpTemplate amqpTemplate,
             @Value("${owms.events.common.tut.exchange-name}") String exchangeName,
-            BeanMapper mapper) {
+            TransportUnitTypeMapper mapper) {
         this.amqpTemplate = amqpTemplate;
         this.exchangeName = exchangeName;
         this.mapper = mapper;
@@ -56,13 +56,13 @@ class TransportUnitTypeEventPropagator {
     public void onEvent(TransportUnitTypeEvent event) {
         switch (event.getType()) {
             case CREATED:
-                amqpTemplate.convertAndSend(exchangeName, "tut.event.created", mapper.map(event.getSource(), TransportUnitTypeMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "tut.event.created", mapper.convertToMO((TransportUnitType) event.getSource()));
                 break;
             case CHANGED:
-                amqpTemplate.convertAndSend(exchangeName, "tut.event.changed", mapper.map(event.getSource(), TransportUnitTypeMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "tut.event.changed", mapper.convertToMO((TransportUnitType) event.getSource()));
                 break;
             case DELETED:
-                amqpTemplate.convertAndSend(exchangeName, "tut.event.deleted", mapper.map(event.getSource(), TransportUnitTypeMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "tut.event.deleted", mapper.convertToMO((TransportUnitType) event.getSource()));
                 break;
             default:
                 LOGGER.warn("TransportUnitTypeEvent [{}] not supported", event.getType());

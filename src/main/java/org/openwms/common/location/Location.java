@@ -16,6 +16,7 @@
 package org.openwms.common.location;
 
 import org.openwms.common.account.Account;
+import org.openwms.common.app.Default;
 import org.springframework.util.Assert;
 
 import javax.persistence.AttributeOverride;
@@ -232,6 +233,28 @@ public class Location extends Target implements Serializable {
         this.locationId = locationId;
     }
 
+    /**
+     * Create a new Location.
+     *
+     * @param locationId The unique natural key of the Location
+     * @param locationGroup The LocationGroup the Location belongs to
+     */
+    @Default
+    public Location(LocationPK locationId, Account account, LocationGroup locationGroup, LocationType locationType, String erpCode,
+            String plcCode, Integer sortOrder, boolean incomingActive, boolean outgoingActive, String stockZone) {
+        Assert.notNull(locationId, "Creation of Location with locationId null");
+        this.locationId = locationId;
+        this.account = account;
+        this.locationGroup = locationGroup;
+        this.locationType = locationType;
+        this.erpCode = erpCode;
+        this.plcCode = plcCode;
+        this.sortOrder = sortOrder;
+        this.incomingActive = incomingActive;
+        this.outgoingActive = outgoingActive;
+        this.stockZone = stockZone;
+    }
+
     /** Dear JPA... */
     protected Location() {
     }
@@ -247,6 +270,11 @@ public class Location extends Target implements Serializable {
         return new Location(locationId);
     }
     /*~ ----------------------------- methods ------------------- */
+    /** Required for the Mapper. */
+    @Override
+    public void setPersistentKey(String pKey) {
+        super.setPersistentKey(pKey);
+    }
 
     /**
      * Check if the Location has a {@code locationId} set.

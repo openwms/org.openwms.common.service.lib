@@ -28,9 +28,21 @@ import java.util.List;
  *
  * @author Heiko Scherrer
  */
-@Mapper(uses = {AccountMapper.class})
+@Mapper(uses = {AccountMapper.class, LocationTypeMapper.class, LocationGroupMapper.class})
 public interface LocationMapper {
 
+    @Mapping(target = "persistentKey", source = "pKey")
+    @Mapping(target = "locationId", expression = "java( org.openwms.common.location.LocationPK.fromString(vo.getLocationId()) )")
+    @Mapping(target = "locationType", source = "type")
+    @Mapping(target = "account", source = "accountId")
+    @Mapping(target = "locationGroup", source = "locationGroupName")
+    @Mapping(target = "erpCode", source = "erpCode")
+    @Mapping(target = "plcCode", source = "plcCode")
+    @Mapping(target = "sortOrder", source = "sortOrder")
+    @Mapping(target = "incomingActive", source = "incomingActive", ignore = true)
+    @Mapping(target = "outgoingActive", source = "outgoingActive", ignore = true)
+    @Mapping(target = "plcState", source = "plcState")
+    @Mapping(target = "stockZone", source = "stockZone")
     Location convertVO(LocationVO vo);
 
     @Mapping(target = "pKey", source = "eo.persistentKey")
