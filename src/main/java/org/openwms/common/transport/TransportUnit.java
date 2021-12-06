@@ -106,7 +106,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     @JoinColumn(name = "C_ACTUAL_LOCATION", nullable = false, foreignKey = @ForeignKey(name = "COM_TU_FK_LOC_ACTUAL"))
     private Location actualLocation;
 
-    /** The target {@link Location} of the {@code TransportUnit}. This property will be set when a {@code TransportOrder} is started. */
+    /** The target {@link Location} of the {@code TransportUnit}. This property is set when a {@code TransportOrder} is started. */
     @ManyToOne
     @JoinColumn(name = "C_TARGET_LOCATION", foreignKey = @ForeignKey(name = "COM_TU_FK_LOC_TARGET"))
     private Location targetLocation;

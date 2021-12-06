@@ -15,7 +15,7 @@
  */
 package org.openwms.common.location.impl;
 
-import org.ameba.exception.ServiceLayerException;
+import org.ameba.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestBase;
@@ -80,6 +80,6 @@ class LocationServiceImplIT extends TestBase {
         Location newOne = Location.create(LocationPK.fromString("UNKOWN/UNKOWN/UNKOWN/UNKOWN/UNKOWN"));
 
         // act & assert
-        assertThrows(ServiceLayerException.class, () -> testee.save(newOne));
+        assertThrows(NotFoundException.class, () -> testee.save(newOne));
     }
 }

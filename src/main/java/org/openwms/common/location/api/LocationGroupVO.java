@@ -116,6 +116,10 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
         this.groupStateIn = incomingActive ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;
     }
 
+    public void setGroupStateIn(LocationGroupState groupStateIn) {
+        this.groupStateIn = groupStateIn;
+    }
+
     /**
      * Checks whether the LocationGroup is available for outfeed.
      *
@@ -133,6 +137,10 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
      */
     public void setOutgoingActive(boolean outgoingActive) {
         this.groupStateIn = outgoingActive ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;
+    }
+
+    public void setGroupStateOut(LocationGroupState groupStateOut) {
+        this.groupStateOut = groupStateOut;
     }
 
     /*~ ------------------ accessors ----------------------*/

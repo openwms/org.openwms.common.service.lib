@@ -348,6 +348,11 @@
         <!-- Spring Dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
             <optional>true</optional>
         </dependency>
@@ -422,6 +427,11 @@
             <artifactId>spring-cloud-starter-zipkin</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-envers</artifactId>
+            <optional>true</optional>
+        </dependency>
 
         <!-- both for retry -->
         <dependency>
@@ -432,16 +442,6 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
             <optional>true</optional>
         </dependency>
 
@@ -546,11 +546,6 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-envers</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>

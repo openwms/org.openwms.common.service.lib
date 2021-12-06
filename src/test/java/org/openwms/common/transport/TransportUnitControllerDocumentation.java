@@ -23,6 +23,7 @@ import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.TestData;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.api.LocationVO;
+import org.openwms.common.transport.api.TransportUnitTypeVO;
 import org.openwms.common.transport.api.TransportUnitVO;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.openwms.common.TestData.TU_1_ID;
+import static org.openwms.common.TestData.TU_1_PKEY;
 import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPORT_UNIT;
 import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPORT_UNITS;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -134,7 +137,8 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_createFull() throws Exception {
-        TransportUnitVO transportUnit = new TransportUnitVO("4710", TestData.TUT_TYPE_PALLET, new LocationVO(TestData.LOCATION_ID_EXT));
+        var tut = TransportUnitTypeVO.Builder.aTransportUnitTypeVO().withType(TestData.TUT_TYPE_PALLET).build();
+        var transportUnit = new TransportUnitVO("4710", tut, new LocationVO(TestData.LOCATION_ID_EXT));
         mockMvc.perform(post(API_TRANSPORT_UNITS)
                 .queryParam("bk", "00000000000000004710")
                 .queryParam("strict", "false")
@@ -151,7 +155,8 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_create_with_invalid() throws Exception {
-        TransportUnitVO transportUnit = new TransportUnitVO("4711", TestData.TUT_TYPE_PALLET, new LocationVO(TestData.LOCATION_ID_EXT));
+        var tut = TransportUnitTypeVO.Builder.aTransportUnitTypeVO().withType(TestData.TUT_TYPE_PALLET).build();
+        var transportUnit = new TransportUnitVO("4711", tut, new LocationVO(TestData.LOCATION_ID_EXT));
         transportUnit.setActualLocation(null);
         mockMvc.perform(post(API_TRANSPORT_UNITS)
                 .queryParam("bk", "00000000000000004711")
@@ -163,7 +168,8 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_create_with_error() throws Exception {
-        TransportUnitVO transportUnit = new TransportUnitVO("4711", TestData.TUT_TYPE_PALLET, new LocationVO(TestData.LOCATION_ID_EXT));
+        var tut = TransportUnitTypeVO.Builder.aTransportUnitTypeVO().withType(TestData.TUT_TYPE_PALLET).build();
+        var transportUnit = new TransportUnitVO("4711", tut, new LocationVO(TestData.LOCATION_ID_EXT));
         mockMvc.perform(post(API_TRANSPORT_UNITS)
                 .queryParam("bk", "00000000000000004711")
                 .queryParam("strict", "true")
@@ -174,10 +180,9 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_update_existing() throws Exception {
-        TransportUnitVO transportUnit = new TransportUnitVO("00000000000000004711");
-        transportUnit.setActualLocation(new LocationVO(TestData.LOCATION_ID_FGIN0001LEFT));
+        var transportUnit = createValidTU(TU_1_ID, TU_1_PKEY, TestData.LOCATION_ID_FGIN0001LEFT);
         mockMvc.perform(put(API_TRANSPORT_UNITS)
-                .queryParam("bk", "00000000000000004711")
+                .queryParam("bk", TU_1_ID)
                 .content(om.writeValueAsString(transportUnit))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -186,13 +191,22 @@ class TransportUnitControllerDocumentation {
                                 parameterWithName("bk").description("The identifying Barcode of the TransportUnit")
                         )
                 ));
-        TransportUnit tu = service.findByBarcode("00000000000000004711");
+        TransportUnit tu = service.findByBarcode(TU_1_ID);
         assertThat(tu.getActualLocation().getLocationId()).isEqualTo(LocationPK.fromString(TestData.LOCATION_ID_FGIN0001LEFT));
     }
 
+    private TransportUnitVO createValidTU(String barcode, String pKey, String actualLocation) {
+        var tut = new TransportUnitTypeVO("PL");
+        var transportUnit = new TransportUnitVO(barcode);
+        transportUnit.setActualLocation(new LocationVO(actualLocation));
+        transportUnit.setState("AVAILABLE");
+        transportUnit.setTransportUnitType(tut);
+        transportUnit.setpKey(pKey);
+        return transportUnit;
+    }
+
     @Test void shall_update_404() throws Exception {
-        TransportUnitVO transportUnit = new TransportUnitVO("00000000000000004710");
-        transportUnit.setActualLocation(new LocationVO(TestData.LOCATION_ID_FGIN0001LEFT));
+        var transportUnit = createValidTU("00000000000000004710", "UNKNOWN", TestData.LOCATION_ID_FGIN0001LEFT);
         mockMvc.perform(put(API_TRANSPORT_UNITS)
                 .queryParam("bk", "00000000000000004710")
                 .content(om.writeValueAsString(transportUnit))
@@ -234,7 +248,7 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_findByPKey() throws Exception {
-        mockMvc.perform(get(API_TRANSPORT_UNITS + "/" + TestData.TU_1_PKEY))
+        mockMvc.perform(get(API_TRANSPORT_UNITS + "/" + TU_1_PKEY))
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.CONTENT_TYPE, "application/vnd.openwms.transport-unit-v1+json"))
                 .andDo(document("tu-find-by-pkey"));

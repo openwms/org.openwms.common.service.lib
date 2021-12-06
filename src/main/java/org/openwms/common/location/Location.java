@@ -38,7 +38,6 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -241,7 +240,7 @@ public class Location extends Target implements Serializable {
      */
     @Default
     public Location(LocationPK locationId, Account account, LocationGroup locationGroup, LocationType locationType, String erpCode,
-            String plcCode, Integer sortOrder, boolean incomingActive, boolean outgoingActive, String stockZone) {
+            String plcCode, Integer sortOrder, String stockZone) {
         Assert.notNull(locationId, "Creation of Location with locationId null");
         this.locationId = locationId;
         this.account = account;
@@ -250,8 +249,6 @@ public class Location extends Target implements Serializable {
         this.erpCode = erpCode;
         this.plcCode = plcCode;
         this.sortOrder = sortOrder;
-        this.incomingActive = incomingActive;
-        this.outgoingActive = outgoingActive;
         this.stockZone = stockZone;
     }
 
@@ -535,7 +532,7 @@ public class Location extends Target implements Serializable {
      * @return An unmodifiable Set
      */
     public Set<Message> getMessages() {
-        return Collections.unmodifiableSet(messages);
+        return new HashSet<>(messages);
     }
 
     /**

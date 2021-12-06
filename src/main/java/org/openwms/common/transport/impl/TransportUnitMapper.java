@@ -57,9 +57,6 @@ public abstract class TransportUnitMapper {
     @Mapping(target = "pKey", source = "eo.persistentKey")
     @Mapping(target = "barcode", source = "eo.barcode.value")
     @Mapping(target = "transportUnitType", source = "eo.transportUnitType.type")
-    @Mapping(target = "length", source = "eo.transportUnitType.length")
-    @Mapping(target = "width", source = "eo.transportUnitType.width")
-    @Mapping(target = "height", source = "eo.transportUnitType.height")
     @Mapping(target = "createDate", source = "eo.createDt")
     public abstract TransportUnitVO convertToVO(TransportUnit eo);
 

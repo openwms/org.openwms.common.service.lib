@@ -21,6 +21,7 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ResourceExistsException;
 import org.ameba.i18n.Translator;
 import org.openwms.common.location.Location;
+import org.openwms.common.location.LocationCopier;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
 import org.openwms.common.location.api.ErrorCodeTransformers;
@@ -55,14 +56,16 @@ class LocationServiceImpl implements LocationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LocationServiceImpl.class);
     private final Translator translator;
+    private final LocationCopier locationCopier;
     private final LocationRepository repository;
     private final ErrorCodeTransformers.LocationStateIn stateInTransformer;
     private final ErrorCodeTransformers.LocationStateOut stateOutTransformer;
     private final ApplicationContext ctx;
 
-    LocationServiceImpl(Translator translator, LocationRepository repository, ErrorCodeTransformers.LocationStateIn stateInTransformer,
-                        ErrorCodeTransformers.LocationStateOut stateOutTransformer, ApplicationContext ctx) {
+    LocationServiceImpl(Translator translator, LocationCopier locationCopier, LocationRepository repository, ErrorCodeTransformers.LocationStateIn stateInTransformer,
+            ErrorCodeTransformers.LocationStateOut stateOutTransformer, ApplicationContext ctx) {
         this.translator = translator;
+        this.locationCopier = locationCopier;
         this.repository = repository;
         this.stateInTransformer = stateInTransformer;
         this.stateOutTransformer = stateOutTransformer;
@@ -194,18 +197,13 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public Location save(@NotNull Location location) {
-        if (location.isNew()) {
-            throw new IllegalArgumentException("Expected to save an already existing instance but got a transient one");
-        }
         Optional<Location> existingOpt = repository.findBypKey(location.getPersistentKey());
         if (existingOpt.isEmpty()) {
             throw new NotFoundException(translator, LOCATION_NOT_FOUND_BY_PKEY, new String[]{location.getPersistentKey()},
                     location.getPersistentKey());
         }
         var existing = existingOpt.get();
-        location.setPlcState(existing.getPlcState());
-        location.setInfeed(existing.isInfeedActive());
-        location.setOutfeed(existing.isOutfeedActive());
-        return repository.save(location);
+        locationCopier.copyForUpdate(location, existing);
+        return repository.save(existing);
     }
 }

@@ -45,6 +45,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collections;
 import java.util.List;
@@ -110,7 +111,7 @@ public class TransportUnitController extends AbstractWebController {
 
     private void addLinks(TransportUnitVO result) {
         result.add(
-                new SimpleLink(linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitType(result.getTransportUnitType())).withRel("transport-unit-type"))
+                new SimpleLink(linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitType(result.getTransportUnitType().getType())).withRel("transport-unit-type"))
         );
         if (result.getActualLocation() != null) {
             result.add(
@@ -166,7 +167,7 @@ public class TransportUnitController extends AbstractWebController {
                 // thats fine we just cast the exception thrown by the service
             }
         }
-        TransportUnit created = service.create(transportUnitBK, tu.getTransportUnitType(), tu.getActualLocation().getLocationId(), strict);
+        TransportUnit created = service.create(transportUnitBK, tu.getTransportUnitType().getType(), tu.getActualLocation().getLocationId(), strict);
         return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();
     }
 
@@ -204,10 +205,11 @@ public class TransportUnitController extends AbstractWebController {
     /*
      * Update a TransportUnits data.
      */
+    @Validated(ValidationGroups.TransportUnit.Update.class)
     @PutMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
     public ResponseEntity<TransportUnitVO> updateTU(
             @RequestParam("bk") String transportUnitBK,
-            @RequestBody TransportUnitVO tu
+            @Valid @RequestBody TransportUnitVO tu
     ) {
         return ResponseEntity.ok(
                 mapper.convertToVO(service.update(barcodeGenerator.convert(transportUnitBK), mapper.convert(tu)))

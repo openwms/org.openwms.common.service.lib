@@ -41,6 +41,9 @@ public abstract class LocationGroupMapper {
     private LocationGroupService locationGroupService;
 
     public LocationGroup convertFromName(String name) {
+        if (name == null) {
+            return null;
+        }
         var locationGroupOpt = locationGroupService.findByName(name);
         if (locationGroupOpt.isEmpty()) {
             throw new NotFoundException(translator, LOCATION_GROUP_NOT_FOUND, new String[]{name}, name);
@@ -48,7 +51,11 @@ public abstract class LocationGroupMapper {
         return locationGroupOpt.get();
     }
 
+    @Mapping(target = "pKey", source = "eo.persistentKey")
+    @Mapping(target = "accountId", source = "eo.account.identifier")
     @Mapping(target = "parent", source = "eo.parent.name")
+    @Mapping(target = "groupStateIn", source = "eo.groupStateIn")
+    @Mapping(target = "groupStateOut", source = "eo.groupStateOut")
     public abstract LocationGroupVO convertToVO(LocationGroup eo);
 
     @Mapping(target = "accountId", source = "eo.account.identifier")

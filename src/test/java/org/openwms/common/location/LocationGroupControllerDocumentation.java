@@ -102,6 +102,7 @@ class LocationGroupControllerDocumentation {
         void shall_findby_name() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATION_GROUPS)
                     .queryParam("name", TestData.LOCATION_GROUP_NAME_LG2))
+                    .andExpect(status().isOk())
                     .andExpect(jsonPath("pKey").exists())
                     .andExpect(jsonPath("name", is(TestData.LOCATION_GROUP_NAME_LG2)))
                     .andExpect(jsonPath("parentName").exists())
@@ -110,7 +111,6 @@ class LocationGroupControllerDocumentation {
                     .andExpect(jsonPath("groupStateIn", is(LocationGroupState.AVAILABLE.toString())))
                     .andExpect(jsonPath("groupStateOut", is(LocationGroupState.AVAILABLE.toString())))
                     .andExpect(jsonPath("_links.parent.href").exists())
-                    .andExpect(status().isOk())
                     .andDo(
                             documentationResultHandler.document(
                                     requestParameters(

@@ -13,23 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.transport.api;
+package org.openwms.common.location;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.openwms.common.account.impl.AccountMapper;
 
 /**
- * A ValidationGroups is a marker interface collection to aggregate all types used for Bean validation groups.
+ * A LocationCopier.
  *
  * @author Heiko Scherrer
  */
-public interface ValidationGroups {
+@Mapper(uses = {AccountMapper.class, LocationTypeMapper.class, LocationGroupMapper.class})
+public abstract class LocationCopier {
 
-    interface TransportUnit {
-
-        interface WithTuT {}
-        interface ChangeTarget{}
-        interface Request{}
-        interface Remove{}
-        interface Create{}
-        interface Update{}
-        interface Modified{}
-    }
+    @Mapping(target = "plcState", source = "plcState", ignore = true)
+    public abstract void copyForUpdate(Location source, @MappingTarget Location target);
 }

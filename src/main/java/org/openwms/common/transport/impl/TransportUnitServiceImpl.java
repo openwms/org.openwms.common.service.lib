@@ -46,6 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import javax.validation.Validator;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -192,14 +193,16 @@ class TransportUnitServiceImpl implements TransportUnitService {
      * {@inheritDoc}
      */
     @Override
+    @Validated(ValidationGroups.TransportUnit.Update.class)
     @Measured
-    public TransportUnit update(@NotNull Barcode barcode, @NotNull TransportUnit tu) {
+    public TransportUnit update(@NotNull Barcode barcode, final @Valid @NotNull TransportUnit tu) {
         if (!barcode.equals(tu.getBarcode())) {
             throw new ServiceLayerException("Mismatch between Barcode and tu.Barcode in API");
         }
-        TransportUnit existing = findByBarcodeInternal(barcode);
-        tu.setTransportUnitType(existing.getTransportUnitType());
-        mapper.copy(existing, tu);
+        var existing = findByBarcodeInternal(barcode);
+        var updated = new TransportUnit(barcode);
+        updated.setTransportUnitType(existing.getTransportUnitType());
+        mapper.copy(existing, updated);
         if (tu.getActualLocation() !=  null && tu.getActualLocation().isNew()) {
             existing.setActualLocation(this.locationService.findByLocationPk(tu.getActualLocation().getLocationId()).orElseThrow(() -> new NotFoundException(format("Location [%s] not found", tu.getActualLocation()))));
         }

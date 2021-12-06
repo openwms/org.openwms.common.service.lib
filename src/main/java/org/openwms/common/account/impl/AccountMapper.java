@@ -41,6 +41,9 @@ public abstract class AccountMapper {
     private AccountService accountService;
 
     public Account convertFromId(String id) {
+        if (id == null) {
+            return null;
+        }
         var accountOpt = accountService.findByIdentifier(id);
         if (accountOpt.isEmpty()) {
             throw new NotFoundException(translator, ACCOUNT_NOT_FOUND_BY_ID, new String[]{id}, id);

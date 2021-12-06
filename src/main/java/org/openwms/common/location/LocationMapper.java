@@ -17,6 +17,7 @@ package org.openwms.common.location;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.NullValueCheckStrategy;
 import org.openwms.common.account.impl.AccountMapper;
 import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.location.api.messages.LocationMO;
@@ -29,21 +30,20 @@ import java.util.List;
  * @author Heiko Scherrer
  */
 @Mapper(uses = {AccountMapper.class, LocationTypeMapper.class, LocationGroupMapper.class})
-public interface LocationMapper {
+public abstract class LocationMapper {
 
     @Mapping(target = "persistentKey", source = "pKey")
-    @Mapping(target = "locationId", expression = "java( org.openwms.common.location.LocationPK.fromString(vo.getLocationId()) )")
+    @Mapping(target = "locationId", expression = "java( org.openwms.common.location.LocationPK.fromString(vo.getLocationId()) )",
+    nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     @Mapping(target = "locationType", source = "type")
-    @Mapping(target = "account", source = "accountId")
+    @Mapping(target = "account", source = "accountId", nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     @Mapping(target = "locationGroup", source = "locationGroupName")
     @Mapping(target = "erpCode", source = "erpCode")
     @Mapping(target = "plcCode", source = "plcCode")
     @Mapping(target = "sortOrder", source = "sortOrder")
-    @Mapping(target = "incomingActive", source = "incomingActive", ignore = true)
-    @Mapping(target = "outgoingActive", source = "outgoingActive", ignore = true)
     @Mapping(target = "plcState", source = "plcState")
     @Mapping(target = "stockZone", source = "stockZone")
-    Location convertVO(LocationVO vo);
+    public abstract Location convertVO(LocationVO vo);
 
     @Mapping(target = "pKey", source = "eo.persistentKey")
     @Mapping(target = "accountId", source = "eo.account.identifier")
@@ -52,14 +52,14 @@ public interface LocationMapper {
     @Mapping(target = "locationGroupName", source = "eo.locationGroup.name")
     @Mapping(target = "incomingActive", source = "eo.infeedActive")
     @Mapping(target = "outgoingActive", source = "eo.outfeedActive")
-    LocationVO convertToVO(Location eo);
+    public abstract LocationVO convertToVO(Location eo);
 
-    List<LocationVO> convertToVO(List<Location> eo);
+    public abstract List<LocationVO> convertToVO(List<Location> eo);
 
     @Mapping(target = "pKey", source = "eo.persistentKey")
     @Mapping(target = "accountId", source = "eo.account.identifier")
     @Mapping(target = "id", expression = "java( eo.getLocationId().toString() )")
     @Mapping(target = "incomingActive", source = "eo.infeedActive")
     @Mapping(target = "outgoingActive", source = "eo.outfeedActive")
-    LocationMO convertToMO(Location eo);
+    public abstract LocationMO convertToMO(Location eo);
 }
