@@ -16,7 +16,6 @@
 package org.openwms.common.transport.commands;
 
 import org.ameba.annotation.TxService;
-import org.ameba.mapping.BeanMapper;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
@@ -25,6 +24,7 @@ import org.openwms.common.transport.api.ValidationGroups;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
+import org.openwms.common.transport.impl.TransportUnitMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -47,13 +47,14 @@ import static org.openwms.common.transport.api.commands.TUCommand.Type.UPDATE_CA
 class TransportUnitCommandHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandHandler.class);
-    private final BeanMapper mapper;
+    private final TransportUnitMapper mapper;
     private final Validator validator;
     private final BarcodeGenerator generator;
     private final TransportUnitService service;
     private final ApplicationContext ctx;
 
-    TransportUnitCommandHandler(BeanMapper mapper, Validator validator, BarcodeGenerator generator, TransportUnitService service, ApplicationContext ctx) {
+    TransportUnitCommandHandler(TransportUnitMapper mapper, Validator validator, BarcodeGenerator generator, TransportUnitService service,
+            ApplicationContext ctx) {
         this.mapper = mapper;
         this.validator = validator;
         this.generator = generator;
@@ -89,7 +90,7 @@ class TransportUnitCommandHandler {
                 }
                 validate(validator, command, ValidationGroups.TransportUnit.Request.class);
                 TransportUnit tu = service.findByPKey(command.getTransportUnit().getpKey());
-                TransportUnitMO mo = mapper.map(tu, TransportUnitMO.class);
+                TransportUnitMO mo = mapper.convertToMO(tu);
                 ctx.publishEvent(TUCommand.newBuilder(UPDATE_CACHE).withTransportUnit(mo).build());
                 break;
             case CREATE:
@@ -103,7 +104,7 @@ class TransportUnitCommandHandler {
                         command.getTransportUnit().getActualLocation(),
                         false
                 );
-                mo = mapper.map(tu, TransportUnitMO.class);
+                mo = mapper.convertToMO(tu);
                 ctx.publishEvent(
                         TUCommand.newBuilder(UPDATE_CACHE).withTransportUnit(mo).build()
                 );

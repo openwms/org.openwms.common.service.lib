@@ -23,5 +23,6 @@ package org.openwms.common.location.api;
 public interface ValidationGroups {
 
     interface Create {}
+    interface Update {}
     interface SetLocationEmpty {}
 }

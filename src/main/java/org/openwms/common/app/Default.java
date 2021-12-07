@@ -13,23 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.transport.api;
+package org.openwms.common.app;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * A ValidationGroups is a marker interface collection to aggregate all types used for Bean validation groups.
+ * A Default.
  *
  * @author Heiko Scherrer
  */
-public interface ValidationGroups {
+@Target(ElementType.CONSTRUCTOR)
+@Retention(RetentionPolicy.CLASS)
+public @interface Default {
 
-    interface TransportUnit {
-
-        interface WithTuT {}
-        interface ChangeTarget{}
-        interface Request{}
-        interface Remove{}
-        interface Create{}
-        interface Update{}
-        interface Modified{}
-    }
 }

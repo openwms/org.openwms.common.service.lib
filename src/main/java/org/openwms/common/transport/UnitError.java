@@ -49,7 +49,7 @@ public class UnitError extends ApplicationEntity implements Serializable {
 
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "C_TU_ID", foreignKey = @ForeignKey(name = "FK_TU_ERROR_PK"))
-    private TransportUnit tu;
+    private TransportUnit transportUnit;
 
     /*~ ----------------------------- constructors ------------------- */
 
@@ -62,7 +62,7 @@ public class UnitError extends ApplicationEntity implements Serializable {
     private UnitError(Builder builder) {
         this.errorNo = builder.errorNo;
         this.errorText = builder.errorText;
-        this.tu = builder.tu;
+        this.transportUnit = builder.transportUnit;
     }
 
     public static Builder newBuilder() {
@@ -81,10 +81,14 @@ public class UnitError extends ApplicationEntity implements Serializable {
     /**
      * Set the TransportUnit for this error.
      *
-     * @param tu The TransportUnit instance
+     * @param transportUnit The TransportUnit instance
      */
-    void setTu(TransportUnit tu) {
-        this.tu = tu;
+    void setTransportUnit(TransportUnit transportUnit) {
+        this.transportUnit = transportUnit;
+    }
+
+    public TransportUnit getTransportUnit() {
+        return transportUnit;
     }
 
     /**
@@ -123,7 +127,7 @@ public class UnitError extends ApplicationEntity implements Serializable {
 
         private String errorNo;
         private String errorText;
-        private TransportUnit tu;
+        private TransportUnit transportUnit;
 
         private Builder() {
         }
@@ -138,8 +142,8 @@ public class UnitError extends ApplicationEntity implements Serializable {
             return this;
         }
 
-        public Builder tu(TransportUnit val) {
-            tu = val;
+        public Builder transportUnit(TransportUnit val) {
+            transportUnit = val;
             return this;
         }
 

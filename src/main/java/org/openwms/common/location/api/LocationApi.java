@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -33,12 +34,30 @@ import static org.openwms.common.location.api.LocationApiConstants.API_LOCATIONS
 import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION_TYPES;
 
 /**
- * A LocationApi deals with {@code Location}s.
+ * A LocationApi defines the public REST API to manage {@code Location}s. It is a Feign remote stub that can be used by client application.
  *
  * @author Heiko Scherrer
  */
 @FeignClient(name = "common-service", qualifier = "locationApi", decode404 = true)
 public interface LocationApi {
+
+    /**
+     * Create a new {@code Location}.
+     *
+     * @param location The representation of the Location to create
+     * @return The created instance
+     */
+    @PostMapping(API_LOCATIONS)
+    LocationVO createLocation(@RequestBody LocationVO location);
+
+    /**
+     * Save a modified {@code Location}.
+     *
+     * @param location The representation of the modified Location to save
+     * @return The updated and saved instance
+     */
+    @PutMapping(API_LOCATIONS)
+    LocationVO updateLocation(@RequestBody LocationVO location);
 
     /**
      * Find and return all {@code LocationTypes}.

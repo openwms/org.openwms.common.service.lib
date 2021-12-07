@@ -111,4 +111,54 @@ public class TransportUnitTypeVO implements Serializable {
     public int hashCode() {
         return Objects.hash(type, description, height, width, length);
     }
+
+    public static final class Builder {
+        private String type;
+        private String description;
+        private String height;
+        private String width;
+        private String length;
+
+        private Builder() {
+        }
+
+        public static Builder aTransportUnitTypeVO() {
+            return new Builder();
+        }
+
+        public Builder withType(String type) {
+            this.type = type;
+            return this;
+        }
+
+        public Builder withDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder withHeight(String height) {
+            this.height = height;
+            return this;
+        }
+
+        public Builder withWidth(String width) {
+            this.width = width;
+            return this;
+        }
+
+        public Builder withLength(String length) {
+            this.length = length;
+            return this;
+        }
+
+        public TransportUnitTypeVO build() {
+            TransportUnitTypeVO transportUnitTypeVO = new TransportUnitTypeVO();
+            transportUnitTypeVO.setType(type);
+            transportUnitTypeVO.setDescription(description);
+            transportUnitTypeVO.setHeight(height);
+            transportUnitTypeVO.setWidth(width);
+            transportUnitTypeVO.setLength(length);
+            return transportUnitTypeVO;
+        }
+    }
 }

@@ -21,6 +21,7 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ResourceExistsException;
 import org.ameba.i18n.Translator;
 import org.openwms.common.location.Location;
+import org.openwms.common.location.LocationMapper;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
 import org.openwms.common.location.api.ErrorCodeTransformers;
@@ -32,6 +33,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -42,6 +44,7 @@ import java.util.Optional;
 import static org.openwms.common.CommonMessageCodes.LOCATION_ID_EXISTS;
 import static org.openwms.common.CommonMessageCodes.LOCATION_ID_INVALID;
 import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND;
+import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND_BY_PKEY;
 
 /**
  * A LocationServiceImpl is a Spring managed transactional Service that operates on {@link Location} entities and spans the tx boundary.
@@ -54,14 +57,17 @@ class LocationServiceImpl implements LocationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LocationServiceImpl.class);
     private final Translator translator;
+    private final LocationMapper locationMapper;
     private final LocationRepository repository;
     private final ErrorCodeTransformers.LocationStateIn stateInTransformer;
     private final ErrorCodeTransformers.LocationStateOut stateOutTransformer;
     private final ApplicationContext ctx;
 
-    LocationServiceImpl(Translator translator, LocationRepository repository, ErrorCodeTransformers.LocationStateIn stateInTransformer,
-                        ErrorCodeTransformers.LocationStateOut stateOutTransformer, ApplicationContext ctx) {
+    LocationServiceImpl(Translator translator, LocationMapper locationMapper, LocationRepository repository,
+            ErrorCodeTransformers.LocationStateIn stateInTransformer, ErrorCodeTransformers.LocationStateOut stateOutTransformer,
+            ApplicationContext ctx) {
         this.translator = translator;
+        this.locationMapper = locationMapper;
         this.repository = repository;
         this.stateInTransformer = stateInTransformer;
         this.stateOutTransformer = stateOutTransformer;
@@ -72,8 +78,9 @@ class LocationServiceImpl implements LocationService {
      * {@inheritDoc}
      */
     @Override
+    @Validated
     @Measured
-    public Location create(@NotNull Location location) {
+    public Location create(@NotNull @Valid Location location) {
         Optional<Location> locationOpt = repository.findByLocationId(location.getLocationId());
         if (location.hasLocationId() && locationOpt.isPresent()) {
             throw new ResourceExistsException(translator, LOCATION_ID_EXISTS,
@@ -193,9 +200,15 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public Location save(@NotNull Location location) {
-        if (location.isNew()) {
-            throw new IllegalArgumentException("Expected to save an already existing instance but got a transient one");
+        Optional<Location> existingOpt = repository.findBypKey(location.getPersistentKey());
+        if (existingOpt.isEmpty()) {
+            throw new NotFoundException(translator, LOCATION_NOT_FOUND_BY_PKEY, new String[]{location.getPersistentKey()},
+                    location.getPersistentKey());
         }
-        return repository.save(location);
+        var modified = locationMapper.copyForUpdate(location, existingOpt.get());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Saving Location [{}]", modified);
+        }
+        return repository.save(modified);
     }
 }

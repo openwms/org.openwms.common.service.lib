@@ -21,7 +21,6 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ResourceExistsException;
 import org.ameba.exception.ServiceLayerException;
 import org.ameba.i18n.Translator;
-import org.ameba.mapping.BeanMapper;
 import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
@@ -47,6 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import javax.validation.Validator;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -80,7 +80,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     private final LocationService locationService;
     private final TransportUnitTypeRepository transportUnitTypeRepository;
     private final Translator translator;
-    private final BeanMapper mapper;
+    private final TransportUnitMapper mapper;
     private final Validator validator;
     private final ApplicationEventPublisher publisher;
 
@@ -88,7 +88,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     TransportUnitServiceImpl(Translator translator,
             TransportUnitTypeRepository transportUnitTypeRepository,
             LocationService locationService, TransportUnitRepository repository,
-            BarcodeGenerator barcodeGenerator, BeanMapper mapper, Validator validator,
+            BarcodeGenerator barcodeGenerator, TransportUnitMapper mapper, Validator validator,
             ApplicationEventPublisher publisher) {
         this.translator = translator;
         this.transportUnitTypeRepository = transportUnitTypeRepository;
@@ -193,18 +193,20 @@ class TransportUnitServiceImpl implements TransportUnitService {
      * {@inheritDoc}
      */
     @Override
+    @Validated(ValidationGroups.TransportUnit.Update.class)
     @Measured
-    public TransportUnit update(@NotNull Barcode barcode, @NotNull TransportUnit tu) {
+    public TransportUnit update(@NotNull Barcode barcode, final @Valid @NotNull TransportUnit tu) {
         if (!barcode.equals(tu.getBarcode())) {
             throw new ServiceLayerException("Mismatch between Barcode and tu.Barcode in API");
         }
-        TransportUnit existing = findByBarcodeInternal(barcode);
-        tu.setTransportUnitType(existing.getTransportUnitType());
-        TransportUnit updated = mapper.mapFromTo(tu, existing);
+        var existing = findByBarcodeInternal(barcode);
+        var updated = new TransportUnit(barcode);
+        updated.setTransportUnitType(existing.getTransportUnitType());
+        mapper.copy(existing, updated);
         if (tu.getActualLocation() !=  null && tu.getActualLocation().isNew()) {
-            updated.setActualLocation(this.locationService.findByLocationPk(tu.getActualLocation().getLocationId()).orElseThrow(() -> new NotFoundException(format("Location [%s] not found", tu.getActualLocation()))));
+            existing.setActualLocation(this.locationService.findByLocationPk(tu.getActualLocation().getLocationId()).orElseThrow(() -> new NotFoundException(format("Location [%s] not found", tu.getActualLocation()))));
         }
-        TransportUnit saved = repository.save(updated);
+        TransportUnit saved = repository.save(existing);
         publisher.publishEvent(TransportUnitEvent.newBuilder()
                 .tu(saved)
                 .type(TransportUnitEvent.TransportUnitEventType.CHANGED)

@@ -49,10 +49,8 @@ public class TransportUnitTypeMO implements Serializable {
     /** Some arbitrary compatibility information. */
     private String compatibility;
 
-    /**
-     * Required Default constructor.
-     */
-    protected TransportUnitTypeMO() { }
+    /** Required Default constructor. */
+    public TransportUnitTypeMO() { }
 
     private TransportUnitTypeMO(Builder builder) {
         setType(builder.type);

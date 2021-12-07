@@ -15,8 +15,8 @@
  */
 package org.openwms.common.transport.events;
 
-import org.ameba.mapping.BeanMapper;
-import org.openwms.common.transport.api.messages.TransportUnitMO;
+import org.openwms.common.transport.TransportUnit;
+import org.openwms.common.transport.impl.TransportUnitMapper;
 import org.openwms.core.SpringProfiles;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,12 +39,12 @@ class TransportUnitEventPropagator {
 
     private final AmqpTemplate amqpTemplate;
     private final String exchangeName;
-    private final BeanMapper mapper;
+    private final TransportUnitMapper mapper;
 
     TransportUnitEventPropagator(
             AmqpTemplate amqpTemplate,
             @Value("${owms.events.common.tu.exchange-name}") String exchangeName,
-            BeanMapper mapper) {
+            TransportUnitMapper mapper) {
         this.amqpTemplate = amqpTemplate;
         this.exchangeName = exchangeName;
         this.mapper = mapper;
@@ -54,19 +54,19 @@ class TransportUnitEventPropagator {
     public void onEvent(TransportUnitEvent event) {
         switch (event.getType()) {
             case CREATED:
-                amqpTemplate.convertAndSend(exchangeName, "tu.event.created", mapper.map(event.getSource(), TransportUnitMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "tu.event.created", mapper.convertToMO((TransportUnit) event.getSource()));
                 break;
             case CHANGED:
-                amqpTemplate.convertAndSend(exchangeName, "tu.event.changed", mapper.map(event.getSource(), TransportUnitMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "tu.event.changed", mapper.convertToMO((TransportUnit) event.getSource()));
                 break;
             case DELETED:
-                amqpTemplate.convertAndSend(exchangeName, "tu.event.deleted", mapper.map(event.getSource(), TransportUnitMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "tu.event.deleted", mapper.convertToMO((TransportUnit) event.getSource()));
                 break;
             case STATE_CHANGE:
-                amqpTemplate.convertAndSend(exchangeName, "tu.event.state-changed", mapper.map(event.getSource(), TransportUnitMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "tu.event.state-changed", mapper.convertToMO((TransportUnit) event.getSource()));
                 break;
             case MOVED:
-                amqpTemplate.convertAndSend(exchangeName, "tu.event.moved."+event.getActualLocation().getLocationId(), mapper.map(event.getSource(), TransportUnitMO.class));
+                amqpTemplate.convertAndSend(exchangeName, "tu.event.moved."+event.getActualLocation().getLocationId(), mapper.convertToMO((TransportUnit) event.getSource()));
                 break;
             default:
                 throw new UnsupportedOperationException(format("TransportUnitEvent [%s] not supported", event.getType()));

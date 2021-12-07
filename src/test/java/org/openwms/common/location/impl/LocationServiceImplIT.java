@@ -15,7 +15,7 @@
  */
 package org.openwms.common.location.impl;
 
-import org.ameba.exception.ServiceLayerException;
+import org.ameba.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestBase;
@@ -23,6 +23,7 @@ import org.openwms.common.TestData;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
+import org.openwms.common.location.LocationTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
@@ -31,6 +32,12 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertThrows;
+import static org.openwms.common.location.Location.DEF_CONSIDERED_IN_ALLOCATION;
+import static org.openwms.common.location.Location.DEF_COUNTING_ACTIVE;
+import static org.openwms.common.location.Location.DEF_INCOMING_ACTIVE;
+import static org.openwms.common.location.Location.DEF_LG_COUNTING_ACTIVE;
+import static org.openwms.common.location.Location.DEF_OUTGOING_ACTIVE;
+import static org.openwms.common.location.Location.DEF_PLC_STATE;
 
 /**
  * A LocationServiceIT.
@@ -41,18 +48,63 @@ import static org.junit.Assert.assertThrows;
 class LocationServiceImplIT extends TestBase {
 
     @Autowired
+    private LocationTypeService locationTypeService;
+    @Autowired
     private LocationService testee;
     @Autowired
     private EntityManager em;
 
+    @Test void shall_throw_create_with_null() {
+        assertThatThrownBy(() -> testee.create(null));
+    }
+
+    @Test void shall_throw_create_with_existing() {
+        var location = Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000"));
+        assertThatThrownBy(() -> testee.create(location)).hasMessageContaining("already exists");
+    }
+
+    @Test void shall_create_Location() {
+        var location = Location.create(LocationPK.fromString("NEW_/NEW_/NEW_/NEW_/NEW_"));
+        var result = testee.create(location);
+        assertThat(result.getLocationId()).isEqualTo(LocationPK.fromString("NEW_/NEW_/NEW_/NEW_/NEW_"));
+        assertThat(result.getNoMaxTransportUnits()).isEqualTo(Location.DEF_MAX_TU);
+        assertThat(result.isDirectBookingAllowed()).isTrue();
+        assertThat(result.isCountingActive()).isEqualTo(DEF_COUNTING_ACTIVE);
+        assertThat(result.getCheckState()).isEqualTo(Location.DEF_CHECK_STATE);
+        assertThat(result.isLocationGroupCountingActive()).isEqualTo(DEF_LG_COUNTING_ACTIVE);
+        assertThat(result.isInfeedActive()).isEqualTo(DEF_INCOMING_ACTIVE);
+        assertThat(result.isOutfeedActive()).isEqualTo(DEF_OUTGOING_ACTIVE);
+        assertThat(result.getPlcState()).isEqualTo(DEF_PLC_STATE);
+        assertThat(result.isConsideredInAllocation()).isEqualTo(DEF_CONSIDERED_IN_ALLOCATION);
+    }
+
+    @Test void shall_create_Location_with_LocationType() {
+        var locationType = locationTypeService.findByType("PG").orElseThrow();
+        var location = Location.create(LocationPK.fromString("NEW_/NEW_/NEW_/NEW_/NEW_"));
+        location.setLocationType(locationType);
+        var result = testee.create(location);
+        assertThat(result.getLocationId()).isEqualTo(LocationPK.fromString("NEW_/NEW_/NEW_/NEW_/NEW_"));
+        assertThat(result.getNoMaxTransportUnits()).isEqualTo(Location.DEF_MAX_TU);
+        assertThat(result.isDirectBookingAllowed()).isTrue();
+        assertThat(result.isCountingActive()).isEqualTo(DEF_COUNTING_ACTIVE);
+        assertThat(result.getCheckState()).isEqualTo(Location.DEF_CHECK_STATE);
+        assertThat(result.isLocationGroupCountingActive()).isEqualTo(DEF_LG_COUNTING_ACTIVE);
+        assertThat(result.isInfeedActive()).isEqualTo(DEF_INCOMING_ACTIVE);
+        assertThat(result.isOutfeedActive()).isEqualTo(DEF_OUTGOING_ACTIVE);
+        assertThat(result.getPlcState()).isEqualTo(DEF_PLC_STATE);
+        assertThat(result.isConsideredInAllocation()).isEqualTo(DEF_CONSIDERED_IN_ALLOCATION);
+    }
+
     @Test void test_finder_with_null() {
-        assertThatThrownBy(
-                () -> testee.findByLocationPk(null)).hasMessageContaining("findByLocationPk.locationId");
+        assertThatThrownBy(() -> testee.findByLocationPk(null)).hasMessageContaining("findByLocationPk.locationId");
+    }
+
+    @Test void test_finder_with_invalid() {
+        assertThatThrownBy(() -> testee.findByLocationId("FOOBAR")).hasMessageContaining("is not valid");
     }
 
     @Test void test_finder_with_empty() {
-        assertThatThrownBy(
-                () -> testee.findByLocationId("")).hasMessageContaining("findByLocationId.locationId");
+        assertThatThrownBy(() -> testee.findByLocationId("")).hasMessageContaining("findByLocationId.locationId");
     }
 
     @Test void shall_find_existing_by_ID() {
@@ -60,6 +112,11 @@ class LocationServiceImplIT extends TestBase {
 
         assertThat(byLocationId).isNotEmpty();
         assertThat(byLocationId.get().getLocationId()).isEqualTo(LocationPK.fromString(TestData.LOCATION_ID_EXT));
+    }
+
+    @Test void shall_throw_update_with_unknown() {
+        var location = Location.create(LocationPK.fromString("UNKN/UNKN/UNKN/UNKN/UNKN"));
+        assertThatThrownBy(() -> testee.save(location)).hasMessageContaining("does not exist");
     }
 
     @Test void shall_modify_existing_one() {
@@ -80,6 +137,6 @@ class LocationServiceImplIT extends TestBase {
         Location newOne = Location.create(LocationPK.fromString("UNKOWN/UNKOWN/UNKOWN/UNKOWN/UNKOWN"));
 
         // act & assert
-        assertThrows(ServiceLayerException.class, () -> testee.save(newOne));
+        assertThrows(NotFoundException.class, () -> testee.save(newOne));
     }
 }

@@ -18,6 +18,7 @@ package org.openwms.common.transport;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.transport.barcode.Barcode;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -92,7 +93,7 @@ public interface TransportUnitService {
      * @param tu The TransportUnit instance to save
      * @return The updated instance
      */
-    TransportUnit update(@NotNull Barcode barcode, @NotNull TransportUnit tu);
+    TransportUnit update(@NotNull Barcode barcode, @Valid @NotNull TransportUnit tu);
 
     /**
      * Move a {@link TransportUnit} identified by its {@link Barcode} to the {@code Location} identified by the given

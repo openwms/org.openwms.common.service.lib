@@ -24,6 +24,7 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A LocationTypeServiceImpl is a Spring managed transactional Service that operates on {@link LocationType} entities and spans the
@@ -39,6 +40,15 @@ class LocationTypeServiceImpl implements LocationTypeService {
 
     LocationTypeServiceImpl(LocationTypeRepository repository) {
         this.repository = repository;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public Optional<LocationType> findByType(String type) {
+        return repository.findByType(type);
     }
 
     /**

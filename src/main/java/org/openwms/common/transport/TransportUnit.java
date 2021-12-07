@@ -20,11 +20,11 @@ import org.ameba.integration.jpa.BaseEntity;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
+import org.openwms.common.app.Default;
 import org.openwms.common.location.Location;
 import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.core.units.api.Weight;
 import org.openwms.core.values.CoreTypeDefinitions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.util.Assert;
 
@@ -33,7 +33,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
@@ -44,12 +43,11 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -108,7 +106,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     @JoinColumn(name = "C_ACTUAL_LOCATION", nullable = false, foreignKey = @ForeignKey(name = "COM_TU_FK_LOC_ACTUAL"))
     private Location actualLocation;
 
-    /** The target {@link Location} of the {@code TransportUnit}. This property will be set when a {@code TransportOrder} is started. */
+    /** The target {@link Location} of the {@code TransportUnit}. This property is set when a {@code TransportOrder} is started. */
     @ManyToOne
     @JoinColumn(name = "C_TARGET_LOCATION", foreignKey = @ForeignKey(name = "COM_TU_FK_LOC_TARGET"))
     private Location targetLocation;
@@ -138,37 +136,48 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     private Set<TransportUnit> children = new HashSet<>();
 
     /** A List of errors occurred on the {@code TransportUnit}. */
-    @OneToMany(mappedBy = "tu", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "transportUnit", cascade = {CascadeType.ALL})
     @NotAudited
     private List<UnitError> errors = new ArrayList<>(0);
-
-    @Autowired
-    @Transient
-    private transient EntityManager em;
 
     /*~ ----------------------------- constructors ------------------- */
     /** Dear JPA... */
     protected TransportUnit() { }
 
+    @Default
+    @ConstructorProperties({"barcode"})
+    public TransportUnit(@NotNull Barcode barcode) {
+        Assert.notNull(barcode, "Barcode must not be null");
+        this.barcode = barcode;
+        initInventory();
+    }
+
     /**
      * Create a new {@code TransportUnit} with an unique {@link Barcode}.
      *
      * @param barcode The unique identifier of this {@code TransportUnit} is the {@link Barcode} - must not be {@literal null}
-     * @param tut The {@code TransportUnitType} of this {@code TransportUnit} - must not be {@literal null}
+     * @param transportUnitType The {@code TransportUnitType} of this {@code TransportUnit} - must not be {@literal null}
      * @param actualLocation The current {@code Location} of this {@code TransportUnit} - must not be {@literal null}
      * @throws IllegalArgumentException when one of the params is {@literal null}
      */
-    public TransportUnit(@NotNull Barcode barcode, @NotNull TransportUnitType tut, @NotNull Location actualLocation) {
+    @ConstructorProperties({"barcode", "transportUnitType", "actualLocation"})
+    public TransportUnit(@NotNull Barcode barcode, @NotNull TransportUnitType transportUnitType, @NotNull Location actualLocation) {
         Assert.notNull(barcode, "Barcode must not be null");
-        Assert.notNull(tut, "TransportUnitType must not be null");
+        Assert.notNull(transportUnitType, "TransportUnitType must not be null");
         Assert.notNull(actualLocation, "ActualLocation must not be null");
         this.barcode = barcode;
-        setTransportUnitType(tut);
+        setTransportUnitType(transportUnitType);
         setActualLocation(actualLocation);
         initInventory();
     }
 
     /*~ ----------------------------- methods ------------------- */
+    /** Required for the Mapper. */
+    @Override
+    public void setPersistentKey(String pKey) {
+        super.setPersistentKey(pKey);
+    }
+
     /**
      * Get the actual {@link Location} of the {@code TransportUnit}.
      *
@@ -340,7 +349,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     }
 
     public List<UnitError> getErrors() {
-        return Collections.unmodifiableList(this.errors);
+        return this.errors;
     }
 
     /**
@@ -352,12 +361,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      */
     public UnitError addError(UnitError error) {
         Assert.notNull(error, () -> "Error must not be null, this: " + this);
-        error.setTu(this);
-        if (em != null && em.contains(this)) {
-            // if the instance is currently bound to a PC...
-            em.persist(error);
-            error = em.merge(error);
-        }
+        error.setTransportUnit(this);
         this.errors.add(error);
         return error;
     }
@@ -432,7 +436,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return the transportUnits.
      */
     public Set<TransportUnit> getChildren() {
-        return Collections.unmodifiableSet(children);
+        return this.children;
     }
 
     /**

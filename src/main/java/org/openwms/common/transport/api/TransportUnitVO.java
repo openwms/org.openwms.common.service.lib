@@ -37,49 +37,61 @@ import java.util.Objects;
 public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Serializable {
 
     /** The persistent key. */
+    @NotEmpty(groups = ValidationGroups.TransportUnit.Update.class)
     @JsonProperty("pKey")
     private String pKey;
+
     /** Unique natural key. */
-    @NotEmpty(message = "{owms.common.common.tu.barcode}")
+    @NotEmpty(message = "{owms.common.common.tu.barcode}", groups = {ValidationGroups.TransportUnit.Create.class, ValidationGroups.TransportUnit.Update.class})
     @JsonProperty("barcode")
     private String barcode;
+
     /** A {@code TransportUnit} may belong to a group of {@code TransportUnits}. */
     @JsonProperty("groupId")
     private String groupId;
-    @NotNull(message = "{owms.common.common.tu.actualLocation}", groups = ValidationGroups.TransportUnit.Create.class)
+
+    /** The current {@code Location} of the {@code TransportUnit}. */
+    @NotNull(message = "{owms.common.common.tu.actualLocation}", groups = {ValidationGroups.TransportUnit.Create.class, ValidationGroups.TransportUnit.Update.class})
     @JsonProperty("actualLocation")
     private LocationVO actualLocation;
+
+    /** The target {@code Location} of the {@code TransportUnit}. */
     @JsonProperty("toLocation")
     private LocationVO targetLocation;
+
     /** The state of the TransportUnit. */
+    @NotEmpty(message = "{owms.common.common.tu.state}", groups = {ValidationGroups.TransportUnit.Update.class})
     @JsonProperty("state")
     private String state;
-    @NotEmpty(message = "{owms.common.common.tu.transportUnitTypeName}", groups = {ValidationGroups.TransportUnit.Create.class, ValidationGroups.TransportUnit.WithTuT.class})
-    @JsonProperty("transportUnitTypeName")
-    private String transportUnitType;
-    @JsonProperty("length")
-    private Integer length;
-    @JsonProperty("width")
-    private Integer width;
-    @JsonProperty("height")
-    private Integer height;
+
+    /** The {@code TransportUnitType} of the {@code TransportUnit}. */
+    @NotNull(message = "{owms.common.common.tu.transportUnitType}", groups = {ValidationGroups.TransportUnit.Create.class, ValidationGroups.TransportUnit.WithTuT.class})
+    @JsonProperty("transportUnitType")
+    private TransportUnitTypeVO transportUnitType;
+
+    /** Weight of the {@code TransportUnit}. */
     @JsonProperty("weight")
     private Weight weight;
+
+    /** Date when the {@code TransportUnit} has been moved to the current {@code Location}. */
     @JsonProperty("actualLocationDate")
     private Date actualLocationDate;
+
+    /** Timestamp when the record was created the first time. */
     @JsonProperty("createDate")
     private Date createDate;
 
     /*~-------------------- constructors --------------------*/
     @JsonCreator
-    protected TransportUnitVO() {
-    }
+    public TransportUnitVO() {}
 
+    //@ConstructorProperties({"barcode"})
     public TransportUnitVO(String barcode) {
         this.barcode = barcode;
     }
 
-    public TransportUnitVO(String barcode, String transportUnitType, LocationVO actualLocation) {
+    //@ConstructorProperties({"barcode", "transportUnitType", "actualLocation"})
+    public TransportUnitVO(String barcode, TransportUnitTypeVO transportUnitType, LocationVO actualLocation) {
         this.barcode = barcode;
         this.transportUnitType = transportUnitType;
         this.actualLocation = actualLocation;
@@ -89,9 +101,6 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
         barcode = builder.barcode;
         actualLocation = builder.actualLocation;
         transportUnitType = builder.transportUnitType;
-        length = builder.length;
-        width = builder.width;
-        height = builder.height;
         actualLocationDate = builder.actualLocationDate;
         createDate = builder.createDate;
     }
@@ -115,6 +124,10 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
 
     public String getBarcode() {
         return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 
     public String getGroupId() {
@@ -149,36 +162,12 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
         this.state = state;
     }
 
-    public String getTransportUnitType() {
+    public TransportUnitTypeVO getTransportUnitType() {
         return transportUnitType;
     }
 
-    public void setTransportUnitType(String transportUnitType) {
+    public void setTransportUnitType(TransportUnitTypeVO transportUnitType) {
         this.transportUnitType = transportUnitType;
-    }
-
-    public Integer getLength() {
-        return length;
-    }
-
-    public void setLength(Integer length) {
-        this.length = length;
-    }
-
-    public Integer getWidth() {
-        return width;
-    }
-
-    public void setWidth(Integer width) {
-        this.width = width;
-    }
-
-    public Integer getHeight() {
-        return height;
-    }
-
-    public void setHeight(Integer height) {
-        this.height = height;
     }
 
     public Weight getWeight() {
@@ -201,44 +190,47 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
         return createDate;
     }
 
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof TransportUnitVO)) return false;
         if (!super.equals(o)) return false;
         TransportUnitVO that = (TransportUnitVO) o;
-        return Objects.equals(barcode, that.barcode) &&
-                Objects.equals(groupId, that.groupId) &&
-                Objects.equals(actualLocation, that.actualLocation) &&
-                Objects.equals(transportUnitType, that.transportUnitType) &&
-                Objects.equals(length, that.length) &&
-                Objects.equals(width, that.width) &&
-                Objects.equals(height, that.height) &&
-                Objects.equals(actualLocationDate, that.actualLocationDate) &&
-                Objects.equals(createDate, that.createDate);
+        return Objects.equals(pKey, that.pKey) && Objects.equals(barcode, that.barcode) && Objects.equals(groupId, that.groupId) && Objects.equals(actualLocation, that.actualLocation) && Objects.equals(targetLocation, that.targetLocation) && Objects.equals(state, that.state) && Objects.equals(transportUnitType, that.transportUnitType) && Objects.equals(weight, that.weight) && Objects.equals(actualLocationDate, that.actualLocationDate) && Objects.equals(createDate, that.createDate);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), barcode, groupId, actualLocation, transportUnitType, length, width, height, actualLocationDate, createDate);
+        return Objects.hash(super.hashCode(), pKey, barcode, groupId, actualLocation, targetLocation, state, transportUnitType, weight, actualLocationDate, createDate);
     }
 
     /*~-------------------- Builder --------------------*/
     public static final class Builder {
-        private @NotEmpty String barcode;
+        private String barcode;
         private LocationVO actualLocation;
-        private String target;
-        private @NotEmpty(groups = ValidationGroups.TransportUnit.WithTuT.class) String transportUnitType;
-        private Integer length;
-        private Integer width;
-        private Integer height;
+        private TransportUnitTypeVO transportUnitType;
         private Date actualLocationDate;
         private Date createDate;
 
         private Builder() {
         }
 
-        public Builder barcode(@NotEmpty String val) {
+        public Builder barcode(String val) {
             barcode = val;
             return this;
         }
@@ -248,28 +240,8 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
             return this;
         }
 
-        public Builder target(String val) {
-            target = val;
-            return this;
-        }
-
-        public Builder transportUnitType(@NotEmpty(groups = ValidationGroups.TransportUnit.WithTuT.class) String val) {
+        public Builder transportUnitType(TransportUnitTypeVO val) {
             transportUnitType = val;
-            return this;
-        }
-
-        public Builder length(Integer val) {
-            length = val;
-            return this;
-        }
-
-        public Builder width(Integer val) {
-            width = val;
-            return this;
-        }
-
-        public Builder height(Integer val) {
-            height = val;
             return this;
         }
 

@@ -18,7 +18,6 @@ package org.openwms.common.location;
 import org.ameba.exception.NotFoundException;
 import org.ameba.http.MeasuredRestController;
 import org.ameba.i18n.Translator;
-import org.ameba.mapping.BeanMapper;
 import org.openwms.common.SimpleLink;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
@@ -59,11 +58,11 @@ public class LocationGroupController extends AbstractWebController {
     public static final String PARENT = "parent";
     private final Translator translator;
     private final LocationGroupService locationGroupService;
-    private final BeanMapper mapper;
+    private final LocationGroupMapper mapper;
     private final ErrorCodeTransformers.GroupStateIn groupStateIn;
     private final ErrorCodeTransformers.GroupStateOut groupStateOut;
 
-    LocationGroupController(Translator translator, LocationGroupService locationGroupService, BeanMapper mapper,
+    LocationGroupController(Translator translator, LocationGroupService locationGroupService, LocationGroupMapper mapper,
                             ErrorCodeTransformers.GroupStateIn groupStateIn,
                             ErrorCodeTransformers.GroupStateOut groupStateOut) {
         this.translator = translator;
@@ -80,7 +79,7 @@ public class LocationGroupController extends AbstractWebController {
     ) {
         LocationGroup locationGroup = locationGroupService.findByName(name)
                 .orElseThrow(() -> new NotFoundException(translator, LOCATION_GROUP_NOT_FOUND, new String[]{name}, name));
-        LocationGroupVO result = mapper.map(locationGroup, LocationGroupVO.class);
+        LocationGroupVO result = mapper.convertToVO(locationGroup);
         if (locationGroup.hasParent()) {
             result.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class)
                     .findByName(locationGroup.getParent().getName())).withRel(PARENT)));
@@ -94,7 +93,7 @@ public class LocationGroupController extends AbstractWebController {
             @RequestParam("names") List<String> names
     ) {
         List<LocationGroup> locationGroups = locationGroupService.findByNames(names);
-        List<LocationGroupVO> vos = mapper.map(locationGroups, LocationGroupVO.class);
+        List<LocationGroupVO> vos = mapper.convertToVO(locationGroups);
         vos.forEach(lg -> {
             if (lg.hasParent()) {
                 lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class)
@@ -108,7 +107,7 @@ public class LocationGroupController extends AbstractWebController {
     @GetMapping(API_LOCATION_GROUPS)
     public List<LocationGroupVO> findAll() {
         List<LocationGroup> all = locationGroupService.findAll();
-        List<LocationGroupVO> result = all == null ? Collections.emptyList() : mapper.map(all, LocationGroupVO.class);
+        List<LocationGroupVO> result = all == null ? Collections.emptyList() : mapper.convertToVO(all);
         result.forEach(lg -> {
                     if (lg.hasParent()) {
                         lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class)

@@ -38,10 +38,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -84,7 +88,8 @@ class LocationControllerDocumentation {
                 .andExpect(jsonPath("$._links.location-findbyplccode").exists())
                 .andExpect(jsonPath("$._links.location-fortuple").exists())
                 .andExpect(jsonPath("$._links.location-forlocationgroup").exists())
-                .andExpect(jsonPath("$._links.length()", is(7)))
+                .andExpect(jsonPath("$._links.location-updatelocation").exists())
+                .andExpect(jsonPath("$._links.length()", is(8)))
                 .andDo(document("loc-index", preprocessResponse(prettyPrint())))
         ;
     }
@@ -93,7 +98,7 @@ class LocationControllerDocumentation {
         var location = new LocationVO("FGIN/PICK/WORK/0010/0000");
         location.setLocationGroupName("FGWORKPLACE9");
         location.setErpCode("PICK_10");
-        location.setPlcCode("PICK_10");
+        location.setPlcCode("PICK_20");
         location.setType("PG");
         mockMvc.perform(post(LocationApiConstants.API_LOCATIONS)
                         .content(mapper.writeValueAsString(location))
@@ -102,11 +107,100 @@ class LocationControllerDocumentation {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.pKey").exists())
                 .andExpect(jsonPath("$.locationId", is(location.getLocationId())))
+                .andExpect(jsonPath("$.plcCode", is("PICK_20")))
+                .andExpect(jsonPath("$.erpCode", is("PICK_10")))
                 .andExpect(jsonPath("$.incomingActive", is(true)))
                 .andExpect(jsonPath("$.outgoingActive", is(true)))
                 .andExpect(jsonPath("$.plcState", is(0)))
+                .andExpect(jsonPath("$.type", is("PG")))
+                .andExpect(jsonPath("$.locationGroupName", is("FGWORKPLACE9")))
                 .andExpect(header().exists(HttpHeaders.LOCATION))
-                .andDo(document("loc-created"));
+                .andDo(document("loc-created",
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("links[]").ignored(),
+                                fieldWithPath("locationId").description("Unique natural key"),
+                                fieldWithPath("plcCode").description("PLC code of the Location"),
+                                fieldWithPath("erpCode").description("ERP code of the Location"),
+                                fieldWithPath("type").description("The name of the LocationType the Location belongs to"),
+                                fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to")
+                        ),
+                        responseFields(
+                                fieldWithPath("pKey").description("The persistent technical key of the Location"),
+                                fieldWithPath("locationId").description("Unique natural key"),
+                                fieldWithPath("plcCode").description("PLC code of the Location"),
+                                fieldWithPath("erpCode").description("ERP code of the Location"),
+                                fieldWithPath("incomingActive").description("Whether the Location is enabled for incoming movements (read-only)"),
+                                fieldWithPath("outgoingActive").description("Whether the Location is enabled for outgoing movements (read-only)"),
+                                fieldWithPath("plcState").description("The current state, set by the PLC system (read-only)"),
+                                fieldWithPath("type").description("The name of the LocationType the Location belongs to"),
+                                fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to")
+                        )
+                ));
+    }
+
+    @Test void shall_update_Location() throws Exception {
+        var location = new LocationVO("FGIN/CONV/0001/0000/0000");
+        location.setpKey("1000");
+        location.setLocationGroupName("FGWORKPLACE9");
+        location.setErpCode("PICK_10");
+        location.setPlcCode("PICK_20");
+        location.setPlcState(21);
+        location.setAccountId("A1");
+        location.setIncomingActive(false);
+        location.setOutgoingActive(false);
+        location.setSortOrder(99);
+        location.setStockZone("STOCK");
+        location.setType("FG");
+        mockMvc.perform(put(LocationApiConstants.API_LOCATIONS)
+                        .content(mapper.writeValueAsString(location))
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.pKey", is("1000")))
+                .andExpect(jsonPath("$.locationId", is(location.getLocationId())))
+                .andExpect(jsonPath("$.accountId", is("A1")))
+                .andExpect(jsonPath("$.plcCode", is("PICK_20")))
+                .andExpect(jsonPath("$.erpCode", is("PICK_10")))
+                .andExpect(jsonPath("$.sortOrder", is(99)))
+                .andExpect(jsonPath("$.stockZone", is("STOCK")))
+                .andExpect(jsonPath("$.incomingActive", is(true))) // not allowed to change this here
+                .andExpect(jsonPath("$.outgoingActive", is(true))) // not allowed to change this here
+                .andExpect(jsonPath("$.plcState", is(0))) // not allowed to change this here
+                .andExpect(jsonPath("$.type", is("FG")))
+                .andExpect(jsonPath("$.locationGroupName", is("FGWORKPLACE9")))
+                .andDo(document("loc-updated",
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("links[]").ignored(),
+                                fieldWithPath("pKey").description("The persistent technical key of the Location"),
+                                fieldWithPath("locationId").description("Unique natural key"),
+                                fieldWithPath("accountId").description("The ID of the Account, the Location is assigned to"),
+                                fieldWithPath("plcCode").description("PLC code of the Location"),
+                                fieldWithPath("erpCode").description("ERP code of the Location"),
+                                fieldWithPath("sortOrder").description("Sort order index used by strategies for putaway, or picking"),
+                                fieldWithPath("stockZone").description("Might be assigned to a particular zone in stock"),
+                                fieldWithPath("incomingActive").description("Whether the Location is enabled for incoming movements (read-only)"),
+                                fieldWithPath("outgoingActive").description("Whether the Location is enabled for outgoing movements (read-only)"),
+                                fieldWithPath("plcState").description("The current state, set by the PLC system (read-only)"),
+                                fieldWithPath("type").description("The name of the LocationType the Location belongs to"),
+                                fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to")
+                        ),
+                        responseFields(
+                                fieldWithPath("pKey").description("The persistent technical key of the Location"),
+                                fieldWithPath("locationId").description("Unique natural key"),
+                                fieldWithPath("accountId").description("The ID of the Account, the Location is assigned to"),
+                                fieldWithPath("plcCode").description("PLC code of the Location"),
+                                fieldWithPath("erpCode").description("ERP code of the Location"),
+                                fieldWithPath("sortOrder").description("Sort order index used by strategies for putaway, or picking"),
+                                fieldWithPath("stockZone").description("Might be assigned to a particular zone in stock"),
+                                fieldWithPath("incomingActive").description("Whether the Location is enabled for incoming movements (read-only)"),
+                                fieldWithPath("outgoingActive").description("Whether the Location is enabled for outgoing movements (read-only)"),
+                                fieldWithPath("plcState").description("The current state, set by the PLC system (read-only)"),
+                                fieldWithPath("type").description("The name of the LocationType the Location belongs to"),
+                                fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to")
+                        )
+                ));
     }
 
     /* Depends on https://github.com/spring-projects/spring-framework/issues/19930

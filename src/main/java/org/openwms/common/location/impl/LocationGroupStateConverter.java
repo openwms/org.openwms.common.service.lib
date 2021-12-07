@@ -15,7 +15,7 @@
  */
 package org.openwms.common.location.impl;
 
-import com.github.dozermapper.core.DozerConverter;
+import org.mapstruct.Mapper;
 import org.openwms.common.location.api.LocationGroupState;
 
 /**
@@ -23,37 +23,17 @@ import org.openwms.common.location.api.LocationGroupState;
  *
  * @author Heiko Scherrer
  */
-public class LocationGroupStateConverter extends DozerConverter<Boolean, LocationGroupState> {
+@Mapper
+public abstract class LocationGroupStateConverter {
 
-
-    public LocationGroupStateConverter() {
-        super(Boolean.class, LocationGroupState.class);
-    }
-
-    /**
-     * Converts the source field to the destination field and return the resulting destination value.
-     *
-     * @param source the value of the source field
-     * @param destination the current value of the destination field (or null)
-     * @return the resulting value for the destination field
-     */
-    @Override
-    public LocationGroupState convertTo(Boolean source, LocationGroupState destination) {
+    public LocationGroupState convertTo(Boolean source) {
         if (source == null) {
             return null;
         }
         return Boolean.TRUE.equals(source) ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;
     }
 
-    /**
-     * Converts the source field to the destination field and return the resulting destination value
-     *
-     * @param source the value of the source field
-     * @param destination the current value of the destination field (or null)
-     * @return the resulting value for the destination field
-     */
-    @Override
-    public Boolean convertFrom(LocationGroupState source, Boolean destination) {
+    public Boolean convertFrom(LocationGroupState source) {
         if (source == null) {
             return Boolean.FALSE;
         }
