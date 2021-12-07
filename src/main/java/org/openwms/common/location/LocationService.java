@@ -17,6 +17,7 @@ package org.openwms.common.location;
 
 import org.openwms.common.location.api.ErrorCodeVO;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -35,7 +36,7 @@ public interface LocationService {
      * @param location The representation with the mandatory data to create the Location
      * @return The created instance
      */
-    Location create(@NotNull Location location);
+    Location create(@NotNull @Valid Location location);
 
     /**
      * Find and return a {@code Location}.

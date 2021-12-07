@@ -26,6 +26,7 @@ import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
+import org.openwms.common.location.api.ValidationGroups;
 import org.openwms.common.location.api.events.LocationEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -76,8 +78,9 @@ class LocationServiceImpl implements LocationService {
      * {@inheritDoc}
      */
     @Override
+    @Validated
     @Measured
-    public Location create(@NotNull Location location) {
+    public Location create(@NotNull @Valid Location location) {
         Optional<Location> locationOpt = repository.findByLocationId(location.getLocationId());
         if (location.hasLocationId() && locationOpt.isPresent()) {
             throw new ResourceExistsException(translator, LOCATION_ID_EXISTS,

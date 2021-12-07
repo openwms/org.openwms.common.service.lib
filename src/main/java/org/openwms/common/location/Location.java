@@ -34,6 +34,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -44,6 +45,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import static java.lang.String.format;
 import static org.openwms.common.location.StringListConverter.STRING_LIST_LENGTH;
 
 /**
@@ -64,6 +66,7 @@ public class Location extends Target implements Serializable {
 
     /** Unique natural key. */
     @Embedded
+    @NotNull
     @AttributeOverride(name = "area", column = @Column(name = "C_AREA"))
     @AttributeOverride(name = "aisle", column = @Column(name = "C_AISLE"))
     @AttributeOverride(name = "x", column = @Column(name = "C_X"))
@@ -113,7 +116,7 @@ public class Location extends Target implements Serializable {
     @Column(name = "C_MAXIMUM_WEIGHT")
     private BigDecimal maximumWeight;
 
-    /** Whether or not moving Products without {@code TransportUnit} to this Location is allowed. */
+    /** Whether moving Products without {@code TransportUnit} to this Location is allowed. */
     @Column(name = "C_DIRECT_BOOKING_ALLOWED")
     private Boolean directBookingAllowed = true;
 
@@ -479,6 +482,13 @@ public class Location extends Target implements Serializable {
      */
     public LocationType getLocationType() {
         return this.locationType;
+    }
+
+    public void setLocationType(LocationType locationType) {
+        if (this.locationType != null) {
+            throw new IllegalArgumentException(format("LocationType of Location [%s] is already defined and can't be changed", locationType));
+        }
+        this.locationType = locationType;
     }
 
     /**
