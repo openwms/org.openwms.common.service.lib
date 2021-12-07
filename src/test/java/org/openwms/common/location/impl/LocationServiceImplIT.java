@@ -58,6 +58,11 @@ class LocationServiceImplIT extends TestBase {
         assertThatThrownBy(() -> testee.create(null));
     }
 
+    @Test void shall_throw_create_with_existing() {
+        var location = Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000"));
+        assertThatThrownBy(() -> testee.create(location)).hasMessageContaining("already exists");
+    }
+
     @Test void shall_create_Location() {
         var location = Location.create(LocationPK.fromString("NEW_/NEW_/NEW_/NEW_/NEW_"));
         var result = testee.create(location);
@@ -91,13 +96,15 @@ class LocationServiceImplIT extends TestBase {
     }
 
     @Test void test_finder_with_null() {
-        assertThatThrownBy(
-                () -> testee.findByLocationPk(null)).hasMessageContaining("findByLocationPk.locationId");
+        assertThatThrownBy(() -> testee.findByLocationPk(null)).hasMessageContaining("findByLocationPk.locationId");
+    }
+
+    @Test void test_finder_with_invalid() {
+        assertThatThrownBy(() -> testee.findByLocationId("FOOBAR")).hasMessageContaining("is not valid");
     }
 
     @Test void test_finder_with_empty() {
-        assertThatThrownBy(
-                () -> testee.findByLocationId("")).hasMessageContaining("findByLocationId.locationId");
+        assertThatThrownBy(() -> testee.findByLocationId("")).hasMessageContaining("findByLocationId.locationId");
     }
 
     @Test void shall_find_existing_by_ID() {
@@ -105,6 +112,11 @@ class LocationServiceImplIT extends TestBase {
 
         assertThat(byLocationId).isNotEmpty();
         assertThat(byLocationId.get().getLocationId()).isEqualTo(LocationPK.fromString(TestData.LOCATION_ID_EXT));
+    }
+
+    @Test void shall_throw_update_with_unknown() {
+        var location = Location.create(LocationPK.fromString("UNKN/UNKN/UNKN/UNKN/UNKN"));
+        assertThatThrownBy(() -> testee.save(location)).hasMessageContaining("does not exist");
     }
 
     @Test void shall_modify_existing_one() {

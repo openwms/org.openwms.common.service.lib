@@ -206,7 +206,8 @@ public class LocationController extends AbstractWebController {
                         linkTo(methodOn(LocationController.class).findLocationByErpCode("ERP_CODE")).withRel("location-findbyerpcode"),
                         linkTo(methodOn(LocationController.class).findLocationByPlcCode("PLC_CODE")).withRel("location-findbyplccode"),
                         linkTo(methodOn(LocationController.class).findLocations("area", "aisle", "x", "y", "z")).withRel("location-fortuple"),
-                        linkTo(methodOn(LocationController.class).findLocationsForLocationGroups(asList("LG1", "LG2"))).withRel("location-forlocationgroup")
+                        linkTo(methodOn(LocationController.class).findLocationsForLocationGroups(asList("LG1", "LG2"))).withRel("location-forlocationgroup"),
+                        linkTo(methodOn(LocationController.class).updateLocation(new LocationVO("locationId"))).withRel("location-updatelocation")
                 )
         );
     }
