@@ -124,7 +124,8 @@ class LocationControllerDocumentation {
                                 fieldWithPath("erpCode").description("ERP code of the Location"),
                                 fieldWithPath("type").description("The name of the LocationType the Location belongs to"),
                                 fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to")
-                        ),responseFields(
+                        ),
+                        responseFields(
                                 fieldWithPath("pKey").description("The persistent technical key of the Location"),
                                 fieldWithPath("locationId").description("Unique natural key"),
                                 fieldWithPath("plcCode").description("PLC code of the Location"),
@@ -134,8 +135,8 @@ class LocationControllerDocumentation {
                                 fieldWithPath("plcState").description("The current state, set by the PLC system (read-only)"),
                                 fieldWithPath("type").description("The name of the LocationType the Location belongs to"),
                                 fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to")
-                        ))
-                );
+                        )
+                ));
     }
 
     @Test void shall_update_Location() throws Exception {
@@ -184,7 +185,22 @@ class LocationControllerDocumentation {
                                 fieldWithPath("plcState").description("The current state, set by the PLC system (read-only)"),
                                 fieldWithPath("type").description("The name of the LocationType the Location belongs to"),
                                 fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to")
-                        )));
+                        ),
+                        responseFields(
+                                fieldWithPath("pKey").description("The persistent technical key of the Location"),
+                                fieldWithPath("locationId").description("Unique natural key"),
+                                fieldWithPath("accountId").description("The ID of the Account, the Location is assigned to"),
+                                fieldWithPath("plcCode").description("PLC code of the Location"),
+                                fieldWithPath("erpCode").description("ERP code of the Location"),
+                                fieldWithPath("sortOrder").description("Sort order index used by strategies for putaway, or picking"),
+                                fieldWithPath("stockZone").description("Might be assigned to a particular zone in stock"),
+                                fieldWithPath("incomingActive").description("Whether the Location is enabled for incoming movements (read-only)"),
+                                fieldWithPath("outgoingActive").description("Whether the Location is enabled for outgoing movements (read-only)"),
+                                fieldWithPath("plcState").description("The current state, set by the PLC system (read-only)"),
+                                fieldWithPath("type").description("The name of the LocationType the Location belongs to"),
+                                fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to")
+                        )
+                ));
     }
 
     /* Depends on https://github.com/spring-projects/spring-framework/issues/19930

@@ -167,7 +167,7 @@ If the server could set the state successfully the response is:
 
 include::{generated}/loc-plcstate/http-response.adoc[]
 
-[[location-created]]
+[[location-create]]
 === Create a Location
 Usually `Locations` are created as reference data when the project is setup. It is not intended to create a `Location`
 during operation. Warehouse locations are fixed and only change when the warehouse is extended, therefore there it makes
@@ -177,6 +177,25 @@ Nevertheless there is an API to create a `Location` via the REST API.
 
 include::{generated}/loc-created/http-request.adoc[]
 
+include::{generated}/loc-created/request-fields.adoc[]
+
 If the server has created the `Location` successfully the response looks like:
 
 include::{generated}/loc-created/http-response.adoc[]
+
+include::{generated}/loc-created/response-fields.adoc[]
+
+[[location-updatelocation]]
+=== Update an existing Location
+It's also possible to modify and save an existing `Location`. Therefore the client sends a `PUT` request with the full required
+representation of the `Location`, including the necessary ID fields.
+
+include::{generated}/loc-updated/http-request.adoc[]
+
+include::{generated}/loc-updated/request-fields.adoc[]
+
+If the server has saved the `Location` successfully the response looks like:
+
+include::{generated}/loc-updated/http-response.adoc[]
+
+include::{generated}/loc-updated/response-fields.adoc[]

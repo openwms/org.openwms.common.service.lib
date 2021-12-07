@@ -247,11 +247,6 @@
                 <version>${core.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.dozermapper</groupId>
-                <artifactId>dozer-spring-boot-starter</artifactId>
-                <version>${dozer.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>

@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * A LocationService offers useful methods according to the handling of {@code Location}s.
+ * A LocationService manages {@code Location}s.
  *
  * @author Heiko Scherrer
  */
@@ -93,10 +93,7 @@ public interface LocationService {
      * @param pKey The persistent key identifier of the Location to change
      * @param errorCode Contains the error bitmap to encode the state
      */
-    void changeState(
-            @NotEmpty String pKey,
-            @NotNull ErrorCodeVO errorCode
-    );
+    void changeState(@NotEmpty String pKey, @NotNull ErrorCodeVO errorCode);
 
     /**
      * Modify and update an existing {@code location}.
