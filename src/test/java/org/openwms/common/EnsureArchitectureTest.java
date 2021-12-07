@@ -49,7 +49,12 @@ class EnsureArchitectureTest {
                     .resideInAPackage("..location.api..")
                     .should()
                     .onlyDependOnClassesThat()
-                    .resideInAnyPackage("..location.api..", "org.openwms.core..", "java..", "javax..", "org.springframework..", "com..")
+                    .resideInAnyPackage("..location.api..",
+                            "org.ameba..",
+                            "org.openwms.core..",
+                            "java..", "javax..",
+                            "org.springframework..",
+                            "com..")
                     .because("The API package is separated and the only package accessible by the client")
             ;
 

@@ -74,29 +74,29 @@ public class Location extends Target implements Serializable {
     @AttributeOverride(name = "z", column = @Column(name = "C_Z"))
     private LocationPK locationId;
 
-    /** The Location might be assigned to an {@link Account}. */
+    /** The {@code Location} might be assigned to an {@link Account}. */
     @ManyToOne
     @JoinColumn(name = "C_ACCOUNT", referencedColumnName = "C_IDENTIFIER", foreignKey = @ForeignKey(name = "FK_LOC_ACC"))
     private Account account;
 
-    /** PLC code of the Location. */
+    /** PLC code of the {@code Location}. */
     @Column(name = "C_PLC_CODE", unique = true)
     private String plcCode;
 
-    /** ERP code of the Location. */
+    /** ERP code of the {@code Location}. */
     @Column(name = "C_ERP_CODE", unique = true)
     private String erpCode;
 
-    /** Description of the Location. */
+    /** Description of the {@code Location}. */
     @Column(name = "C_DESCRIPTION")
     @Size(max = 255)
     private String description;
 
-    /** Sort order index used by Putaway strategies. */
+    /** Sort order index used by strategies for putaway, or picking. */
     @Column(name = "C_SORT")
     private Integer sortOrder;
 
-    /** May be assigned to a particular zone in stock. */
+    /** Might be assigned to a particular zone in stock. */
     @Column(name = "C_STOCK_ZONE")
     private String stockZone;
 
@@ -106,31 +106,31 @@ public class Location extends Target implements Serializable {
     @Convert(converter = StringListConverter.class)
     private List<String> labels;
 
-    /** Maximum number of {@code TransportUnit}s allowed on this Location. */
+    /** Maximum number of {@code TransportUnit}s allowed on the {@code Location}. */
     @Column(name = "C_NO_MAX_TRANSPORT_UNITS")
     private int noMaxTransportUnits = DEF_MAX_TU;
     /** Default value of {@link #noMaxTransportUnits}. */
     public static final int DEF_MAX_TU = 1;
 
-    /** Maximum allowed weight on this Location. */
+    /** Maximum allowed weight on the {@code Location}. */
     @Column(name = "C_MAXIMUM_WEIGHT")
     private BigDecimal maximumWeight;
 
-    /** Whether moving Products without {@code TransportUnit} to this Location is allowed. */
+    /** Whether moving {@code Product}s directly to the {@code Location} is allowed. */
     @Column(name = "C_DIRECT_BOOKING_ALLOWED")
     private Boolean directBookingAllowed = true;
 
     /**
-     * Date of last change. When a {@code TransportUnit} is moving to or away from this Location, {@code lastMovement} will be updated. This
-     * is useful to get the history of {@code TransportUnit}s as well as for inventory calculation.
+     * Date of last movement. When a {@code TransportUnit} is moving to or away from the {@code Location}, {@code lastMovement} is updated.
+     * This is useful to get the history of {@code TransportUnit}s as well as for inventory calculation.
      */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "C_LAST_MOVEMENT")
     private Date lastMovement;
 
-    /** Flag to indicate whether {@code TransportUnit}s should be counted on this Location or not. */
+    /** Flag to indicate whether {@code TransportUnit}s should be counted on the {@code Location} or not. */
     @Column(name = "C_COUNTING_ACTIVE")
-    private boolean countingActive = DEF_COUNTING_ACTIVE;
+    private Boolean countingActive = DEF_COUNTING_ACTIVE;
     /** Default value of {@link #countingActive}. */
     public static final boolean DEF_COUNTING_ACTIVE = false;
 
@@ -141,21 +141,23 @@ public class Location extends Target implements Serializable {
     public static final String DEF_CHECK_STATE = "--";
 
     /**
-     * Shall this Location be integrated in the calculation of {@code TransportUnit}s of the parent {@link LocationGroup}.<ul><li>{@literal
-     * true} : Location is included in calculation of {@code TransportUnit}s.</li><li>{@literal false}: Location is not included in
-     * calculation of {@code TransportUnit}s.</li></ul>
+     * Shall the {@code Location} be integrated in the calculation of {@code TransportUnit}s of the parent {@link LocationGroup}.
+     * <ul>
+     *     <li>{@literal true} : {@code Location} is included in calculation of {@code TransportUnit}s.</li>
+     *     <li>{@literal false}: {@code Location} is not included in calculation of {@code TransportUnit}s.</li>
+     * </ul>
      */
     @Column(name = "C_LG_COUNTING_ACTIVE")
-    private boolean locationGroupCountingActive = DEF_LG_COUNTING_ACTIVE;
+    private Boolean locationGroupCountingActive = DEF_LG_COUNTING_ACTIVE;
     /** Default value of {@link #locationGroupCountingActive}. */
     public static final boolean DEF_LG_COUNTING_ACTIVE = false;
 
     /**
-     * Signals the incoming state of this Location.
-     * Locations which are blocked for incoming cannot pick up {@code TransportUnit}s.
+     * Signals the incoming state of the {@code Location}.
+     * {@code Location}s which are blocked for incoming movements do not accept {@code TransportUnit}s.
      * <ul>
-     * <li>{@literal true} : Location is ready to pick up {@code TransportUnit}s.</li>
-     * <li>{@literal false}: Location is locked, and cannot pick up {@code TransportUnit}s.</li>
+     *     <li>{@literal true} : {@code Location} is ready to pick up {@code TransportUnit}s.</li>
+     *     <li>{@literal false}: {@code Location} is locked, and cannot pick up {@code TransportUnit}s.</li>
      * </ul>
      */
     @Column(name = "C_INCOMING_ACTIVE")
@@ -164,11 +166,11 @@ public class Location extends Target implements Serializable {
     public static final boolean DEF_INCOMING_ACTIVE = true;
 
     /**
-     * Signals the outgoing state of this Location.
-     * Locations which are blocked for outgoing cannot release {@code TransportUnit}s.
+     * Signals the outgoing state of the {@code Location}.
+     * {@code Location}s which are blocked for outgoing do not accept to move {@code TransportUnit}s away.
      * <ul>
-     * <li>{@literal true} : Location is enabled for outgoing {@code TransportUnit}s.</li>
-     * <li>{@literal false}: Location is locked, {@code TransportUnit}s can't leave this Location.</li>
+     *     <li>{@literal true} : {@code Location} is enabled for outgoing {@code TransportUnit}s.</li>
+     *     <li>{@literal false}: {@code Location} is locked, {@code TransportUnit}s can't leave the {@code Location}.</li>
      * </ul>
      */
     @Column(name = "C_OUTGOING_ACTIVE")
@@ -177,11 +179,11 @@ public class Location extends Target implements Serializable {
     public static final boolean DEF_OUTGOING_ACTIVE = true;
 
     /**
-     * The PLC is able to change the state of a Location. This property stores the last state, received from the PLC.
+     * The PLC is able to change the state of a {@code Location}. This property stores the last state, received from the PLC.
      * <ul>
      *     <li>0 : No PLC error, everything okay</li>
-     *     <li><0: Not defined</li>
-     *     <li>>0: Some kind of defined error code</li>
+     *     <li>< 0: Not defined</li>
+     *     <li>> 0: Some defined error code</li>
      * </ul>
      */
     @Column(name = "C_PLC_STATE")
@@ -190,35 +192,37 @@ public class Location extends Target implements Serializable {
     public static final int DEF_PLC_STATE = 0;
 
     /**
-     * Determines whether the Location is considered in the allocation procedure.<ul><li>{@literal true} : This Location will be considered
-     * in storage calculation by an allocation procedure.</li><li>{@literal false} : This Location will not be considered in the allocation
-     * process.</li></ul>
+     * Determines whether the {@code Location} is considered in the allocation procedure.
+     * <ul>
+     *     <li>{@literal true} : The {@code Location} is considered in storage calculation by an allocation procedure.</li>
+     *     <li>{@literal false} : The {@code Location} is not considered in the allocation process.</li>
+     * </ul>
      */
     @Column(name = "C_CONSIDERED_IN_ALLOCATION")
-    private boolean consideredInAllocation = DEF_CONSIDERED_IN_ALLOCATION;
+    private Boolean consideredInAllocation = DEF_CONSIDERED_IN_ALLOCATION;
     /** Default value of {@link #consideredInAllocation}. */
     public static final boolean DEF_CONSIDERED_IN_ALLOCATION = true;
 
-    /** The {@link LocationType} this Location belongs to. */
+    /** The {@link LocationType} the {@code Location} belongs to. */
     @ManyToOne
     @JoinColumn(name = "C_LOCATION_TYPE", foreignKey = @ForeignKey(name = "FK_LOC_LT"))
     private LocationType locationType;
 
-    /** Some group this Location belongs to. */
+    /** Some group the {@code Location} belongs to. */
     @Column(name = "C_GROUP")
     private String group;
 
-    /** The Location may be classified, like hazardeous. */
+    /** The {@code Location} may be classified, like 'hazardous'. */
     @Column(name = "C_CLASSIFICATION")
     @Size(max = 255)
     private String classification;
 
-    /** The {@link LocationGroup} this Location belongs to. */
+    /** The {@link LocationGroup} the {@code Location} belongs to. */
     @ManyToOne
     @JoinColumn(name = "C_LOCATION_GROUP", foreignKey = @ForeignKey(name = "FK_LOC_LG"))
     private LocationGroup locationGroup;
 
-    /** Stored {@link Message}s on this Location. */
+    /** Stored {@link Message}s on the {@code Location}. */
     @OneToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "COM_LOCATION_MESSAGE", joinColumns = @JoinColumn(name = "C_LOCATION_ID"), inverseJoinColumns = @JoinColumn(name = "C_MESSAGE_ID"))
     private Set<Message> messages = new HashSet<>();
@@ -485,7 +489,7 @@ public class Location extends Target implements Serializable {
     }
 
     public void setLocationType(LocationType locationType) {
-        if (this.locationType != null) {
+        if (this.locationType != null && !this.locationType.equals(locationType)) {
             throw new IllegalArgumentException(format("LocationType of Location [%s] is already defined and can't be changed", locationType));
         }
         this.locationType = locationType;
@@ -693,5 +697,137 @@ public class Location extends Target implements Serializable {
     @Override
     public String toString() {
         return locationId.toString();
+    }
+
+
+    public static final class LocationBuilder {
+        private final Location target;
+
+        private LocationBuilder(Location target) {
+            this.target = target;
+        }
+
+        public static LocationBuilder aLocation(Location target) {
+            return new LocationBuilder(target);
+        }
+
+        public LocationBuilder withAccount(Account account) {
+            this.target.account = account;
+            return this;
+        }
+
+        public LocationBuilder withPlcCode(String plcCode) {
+            this.target.plcCode = plcCode;
+            return this;
+        }
+
+        public LocationBuilder withErpCode(String erpCode) {
+            this.target.erpCode = erpCode;
+            return this;
+        }
+
+        public LocationBuilder withDescription(String description) {
+            this.target.description = description;
+            return this;
+        }
+
+        public LocationBuilder withSortOrder(Integer sortOrder) {
+            this.target.sortOrder = sortOrder;
+            return this;
+        }
+
+        public LocationBuilder withStockZone(String stockZone) {
+            this.target.stockZone = stockZone;
+            return this;
+        }
+
+        public LocationBuilder withLabels(List<String> labels) {
+            this.target.labels = labels;
+            return this;
+        }
+
+        public LocationBuilder withNoMaxTransportUnits(int noMaxTransportUnits) {
+            this.target.noMaxTransportUnits = noMaxTransportUnits;
+            return this;
+        }
+
+        public LocationBuilder withMaximumWeight(BigDecimal maximumWeight) {
+            this.target.maximumWeight = maximumWeight;
+            return this;
+        }
+
+        public LocationBuilder withDirectBookingAllowed(Boolean directBookingAllowed) {
+            this.target.directBookingAllowed = directBookingAllowed;
+            return this;
+        }
+
+        public LocationBuilder withLastMovement(Date lastMovement) {
+            this.target.lastMovement = lastMovement;
+            return this;
+        }
+
+        public LocationBuilder withCountingActive(boolean countingActive) {
+            this.target.countingActive = countingActive;
+            return this;
+        }
+
+        public LocationBuilder withCheckState(String checkState) {
+            this.target.checkState = checkState;
+            return this;
+        }
+
+        public LocationBuilder withLocationGroupCountingActive(boolean locationGroupCountingActive) {
+            this.target.locationGroupCountingActive = locationGroupCountingActive;
+            return this;
+        }
+
+        public LocationBuilder withIncomingActive(boolean incomingActive) {
+            this.target.incomingActive = incomingActive;
+            return this;
+        }
+
+        public LocationBuilder withOutgoingActive(boolean outgoingActive) {
+            this.target.outgoingActive = outgoingActive;
+            return this;
+        }
+
+        public LocationBuilder withPlcState(int plcState) {
+            this.target.plcState = plcState;
+            return this;
+        }
+
+        public LocationBuilder withConsideredInAllocation(boolean consideredInAllocation) {
+            this.target.consideredInAllocation = consideredInAllocation;
+            return this;
+        }
+
+        public LocationBuilder withLocationType(LocationType locationType) {
+            this.target.locationType = locationType;
+            return this;
+        }
+
+        public LocationBuilder withGroup(String group) {
+            this.target.group = group;
+            return this;
+        }
+
+        public LocationBuilder withClassification(String classification) {
+            this.target.classification = classification;
+            return this;
+        }
+
+        public LocationBuilder withLocationGroup(LocationGroup locationGroup) {
+            this.target.locationGroup = locationGroup;
+            return this;
+        }
+
+        public LocationBuilder withMessages(Set<Message> messages) {
+            this.target.messages = messages;
+            return this;
+        }
+
+        public Location build() {
+            return target;
+        }
     }
 }

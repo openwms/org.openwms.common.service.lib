@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.ameba.http.AbstractBase;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotEmpty;
@@ -32,38 +33,60 @@ import java.util.StringJoiner;
  * @author Heiko Scherrer
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PUBLIC_ONLY)
-public class LocationVO extends RepresentationModel<LocationVO> implements TargetVO, Serializable {
+public class LocationVO extends AbstractBase<LocationVO> implements TargetVO, Serializable {
 
+    /** The persistent technical key of the {@code Location}. */
     @JsonProperty("pKey")
     private String pKey;
+
+    /** Unique natural key. */
     @JsonProperty("locationId")
     @NotEmpty
     private String locationId;
-    @JsonProperty("type")
-    @NotEmpty(groups = ValidationGroups.Create.class)
-    private String type;
+
+    /** The ID of the {@code Account}, the {@code Location} is assigned to. */
     @JsonProperty("accountId")
     private String accountId;
-    @JsonProperty("locationGroupName")
-    @NotEmpty(groups = ValidationGroups.Create.class)
-    private String locationGroupName;
-    @JsonProperty("erpCode")
-    @NotEmpty(groups = ValidationGroups.Create.class)
-    private String erpCode;
+
+    /** PLC code of the {@code Location}. */
     @JsonProperty("plcCode")
     @NotEmpty(groups = ValidationGroups.Create.class)
     private String plcCode;
+
+    /** ERP code of the {@code Location}. */
+    @JsonProperty("erpCode")
+    @NotEmpty(groups = ValidationGroups.Create.class)
+    private String erpCode;
+
+    /** Sort order index used by strategies for putaway, or picking. */
     @JsonProperty("sortOrder")
     private Integer sortOrder;
-    @JsonProperty("incomingActive")
-    private Boolean incomingActive;
-    @JsonProperty("outgoingActive")
-    private Boolean outgoingActive;
-    @JsonProperty("plcState")
-    private Integer plcState;
+
+    /** Might be assigned to a particular zone in stock. */
     @JsonProperty("stockZone")
     private String stockZone;
+
+    /** Whether the {@code Location} is enabled for incoming movements (read-only). */
+    @JsonProperty("incomingActive")
+    private Boolean incomingActive;
+
+    /** Whether the {@code Location} is enabled for outgoing movements (read-only). */
+    @JsonProperty("outgoingActive")
+    private Boolean outgoingActive;
+
+    /** The current state, set by the PLC system (read-only). */
+    @JsonProperty("plcState")
+    private Integer plcState;
+
+    /** The name of the {@code LocationType} the {@code Location} belongs to. */
+    @JsonProperty("type")
+    @NotEmpty(groups = ValidationGroups.Create.class)
+    private String type;
+
+    /** The {@code LocationGroup} the {@code Location} belongs to. */
+    @JsonProperty("locationGroupName")
+    @NotEmpty(groups = ValidationGroups.Create.class)
+    private String locationGroupName;
 
     /*~-------------------- constructors --------------------*/
     protected LocationVO() {

@@ -21,14 +21,19 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.openwms.common.account.impl.AccountMapper;
 import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.location.api.messages.LocationMO;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
+
+import static java.lang.String.format;
 
 /**
  * A LocationMapper.
  *
  * @author Heiko Scherrer
  */
+@Validated
 @Mapper(uses = {AccountMapper.class, LocationTypeMapper.class, LocationGroupMapper.class})
 public abstract class LocationMapper {
 
@@ -62,4 +67,44 @@ public abstract class LocationMapper {
     @Mapping(target = "incomingActive", source = "eo.infeedActive")
     @Mapping(target = "outgoingActive", source = "eo.outfeedActive")
     public abstract LocationMO convertToMO(Location eo);
+
+    public final Location copyForUpdate(Location source, @NotNull Location target) {
+        if ( source == null ) {
+            return target;
+        }
+
+        if (!source.getLocationId().equals(target.getLocationId())) {
+            throw new IllegalArgumentException(format("Not allowed to change the LocationId from [%s] to [%s]", source.getLocationId(),
+                    target.getLocationId()));
+        }
+
+        var builder = Location.LocationBuilder.aLocation(target);
+
+        builder.withAccount( source.getAccount() )
+                .withPlcCode( source.getPlcCode() )
+                .withErpCode( source.getErpCode() )
+                .withDescription( source.getDescription() )
+                .withSortOrder( source.getSortOrder() )
+                .withStockZone( source.getStockZone() )
+                .withLabels( source.getLabels() )
+                .withNoMaxTransportUnits( source.getNoMaxTransportUnits() )
+                .withMaximumWeight( source.getMaximumWeight() )
+                .withDirectBookingAllowed( source.isDirectBookingAllowed() )
+                .withLastMovement( source.getLastMovement() )
+                .withLocationType( source.getLocationType() )
+                .withCountingActive( source.isCountingActive() )
+                .withCheckState( source.getCheckState() )
+                .withLocationGroupCountingActive( source.isLocationGroupCountingActive() )
+                //.withIncomingActive( source.isInfeedActive() )  Don't allow to change the plcState here with update
+                //.withOutgoingActive( source.isOutfeedActive() )  Don't allow to change the plcState here with update
+                //.withPlcState( source.getPlcState() ) Don't allow to change the plcState here with update
+                .withConsideredInAllocation( source.isConsideredInAllocation() )
+                .withLocationType( source.getLocationType() )
+                .withGroup( source.getGroup() )
+                .withClassification( source.getClassification() )
+                .withLocationGroup( source.getLocationGroup() )
+                .withMessages( source.getMessages() );
+
+        return builder.build();
+    }
 }

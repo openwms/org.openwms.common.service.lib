@@ -21,12 +21,11 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ResourceExistsException;
 import org.ameba.i18n.Translator;
 import org.openwms.common.location.Location;
-import org.openwms.common.location.LocationCopier;
+import org.openwms.common.location.LocationMapper;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
-import org.openwms.common.location.api.ValidationGroups;
 import org.openwms.common.location.api.events.LocationEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,16 +57,17 @@ class LocationServiceImpl implements LocationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LocationServiceImpl.class);
     private final Translator translator;
-    private final LocationCopier locationCopier;
+    private final LocationMapper locationMapper;
     private final LocationRepository repository;
     private final ErrorCodeTransformers.LocationStateIn stateInTransformer;
     private final ErrorCodeTransformers.LocationStateOut stateOutTransformer;
     private final ApplicationContext ctx;
 
-    LocationServiceImpl(Translator translator, LocationCopier locationCopier, LocationRepository repository, ErrorCodeTransformers.LocationStateIn stateInTransformer,
-            ErrorCodeTransformers.LocationStateOut stateOutTransformer, ApplicationContext ctx) {
+    LocationServiceImpl(Translator translator, LocationMapper locationMapper, LocationRepository repository,
+            ErrorCodeTransformers.LocationStateIn stateInTransformer, ErrorCodeTransformers.LocationStateOut stateOutTransformer,
+            ApplicationContext ctx) {
         this.translator = translator;
-        this.locationCopier = locationCopier;
+        this.locationMapper = locationMapper;
         this.repository = repository;
         this.stateInTransformer = stateInTransformer;
         this.stateOutTransformer = stateOutTransformer;
@@ -205,8 +205,10 @@ class LocationServiceImpl implements LocationService {
             throw new NotFoundException(translator, LOCATION_NOT_FOUND_BY_PKEY, new String[]{location.getPersistentKey()},
                     location.getPersistentKey());
         }
-        var existing = existingOpt.get();
-        locationCopier.copyForUpdate(location, existing);
-        return repository.save(existing);
+        var modified = locationMapper.copyForUpdate(location, existingOpt.get());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Saving Location [{}]", modified);
+        }
+        return repository.save(modified);
     }
 }
