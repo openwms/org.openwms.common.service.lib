@@ -155,7 +155,7 @@ If the server could lock the `Location` successfully the response looks like:
 include::{generated}/loc-state-in/http-response.adoc[]
 
 Beside locking the `Location` for Inbound- and Outbound processing it is also possible to change the PLC state of the `Location` through
-this API. Therefor the `ErrorCodeVO` data structure contains a property `plcState` that can be set to a numeric integer value. Usually a
+this API. Therefore the `ErrorCodeVO` data structure contains a property `plcState` that can be set to a numeric integer value. Usually a
 PLC state of `0` means the `Location` is not blocked and available for any operation. A PLC may set the state to a value greater than 0 to
 signal an error occurred on the `Location`.
 
