@@ -22,6 +22,8 @@ owms:
         exchange-name: common.tu.commands
         routing-key: common.tu.command.in.*
         queue-name: common-tu-commands-queue
+      tx:
+        exchange-name: common.tx.commands
   events:
     common:
       lg:

@@ -44,6 +44,8 @@ public final class CommonMessageCodes {
 
     public static final String TRANSPORT_UNIT_TYPE_NOT_FOUND = "owms.common.common.tut.notFoundByName";
 
+    public static final String MSG_TU_MOVED = "owms.common.common.msg.tu.moved";
+
     private CommonMessageCodes() {
     }
 }

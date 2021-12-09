@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -65,6 +66,7 @@
 
     <properties>
         <commons-configuration.version>1.10</commons-configuration.version>
+        <common.transactions.version>1.0.0-SNAPSHOT</common.transactions.version>
         <core.version>1.9.0-SNAPSHOT</core.version>
 		<core.units.version>0.4.0-SNAPSHOT</core.units.version>
         <guava.version>30.0-jre</guava.version>
@@ -173,6 +175,12 @@
         <dependencies>
             <dependency>
                 <groupId>org.openwms</groupId>
+                <artifactId>org.openwms.common.transactions</artifactId>
+                <version>${common.transactions.version}</version>
+                <classifier>client</classifier>
+            </dependency>
+            <dependency>
+                <groupId>org.openwms</groupId>
                 <artifactId>org.openwms.core.units</artifactId>
                 <version>${core.units.version}</version>
             </dependency>
@@ -221,6 +229,12 @@
 
     <dependencies>
         <!-- Project Dependencies -->
+        <dependency>
+            <groupId>org.openwms</groupId>
+            <artifactId>org.openwms.common.transactions</artifactId>
+            <classifier>client</classifier>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>org.openwms</groupId>
             <artifactId>org.openwms.core.units</artifactId>

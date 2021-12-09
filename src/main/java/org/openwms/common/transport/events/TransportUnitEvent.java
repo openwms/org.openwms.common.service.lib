@@ -28,6 +28,7 @@ public class TransportUnitEvent extends RootApplicationEvent {
 
     private TransportUnitEventType type;
     private Location actualLocation;
+    private Location previousLocation;
 
     private TransportUnitEvent(Object source, TransportUnitEventType type) {
         super(source);
@@ -38,6 +39,7 @@ public class TransportUnitEvent extends RootApplicationEvent {
         super(builder.source);
         type = builder.type;
         actualLocation = builder.actualLocation;
+        previousLocation = builder.previousLocation;
     }
 
     public static Builder newBuilder() {
@@ -52,6 +54,10 @@ public class TransportUnitEvent extends RootApplicationEvent {
         return actualLocation;
     }
 
+    public Location getPreviousLocation() {
+        return previousLocation;
+    }
+
     public static TransportUnitEvent of(TransportUnit tu, TransportUnitEventType type) {
         return new TransportUnitEvent(tu, type);
     }
@@ -63,6 +69,7 @@ public class TransportUnitEvent extends RootApplicationEvent {
     public static final class Builder {
         private Object source;
         private TransportUnitEventType type;
+        private Location previousLocation;
         private Location actualLocation;
 
         private Builder() {
@@ -75,6 +82,11 @@ public class TransportUnitEvent extends RootApplicationEvent {
 
         public Builder type(TransportUnitEventType val) {
             type = val;
+            return this;
+        }
+
+        public Builder previousLocation(Location val) {
+            previousLocation = val;
             return this;
         }
 
