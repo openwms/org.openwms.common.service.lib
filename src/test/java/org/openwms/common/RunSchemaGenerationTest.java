@@ -16,6 +16,8 @@
 package org.openwms.common;
 
 import org.junit.jupiter.api.Test;
+import org.openwms.transactions.api.commands.AsyncTransactionApi;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,6 +29,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @CommonApplicationTest
 class RunSchemaGenerationTest {
+
+    @MockBean
+    private AsyncTransactionApi transactionApi;
 
     @Test
     void runSchemaGeneration() {

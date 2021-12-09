@@ -20,7 +20,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestData;
+import org.openwms.transactions.api.commands.AsyncTransactionApi;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -46,6 +48,8 @@ class TransportUnitTypeControllerDocumentation {
 
     @Autowired
     private WebApplicationContext context;
+    @MockBean
+    private AsyncTransactionApi transactionApi;
     private MockMvc mockMvc;
 
     @BeforeEach
