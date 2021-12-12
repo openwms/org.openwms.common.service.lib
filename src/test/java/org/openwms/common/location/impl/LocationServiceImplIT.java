@@ -31,7 +31,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.openwms.common.location.Location.DEF_CONSIDERED_IN_ALLOCATION;
 import static org.openwms.common.location.Location.DEF_COUNTING_ACTIVE;
 import static org.openwms.common.location.Location.DEF_INCOMING_ACTIVE;
