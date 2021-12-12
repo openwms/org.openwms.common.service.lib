@@ -27,7 +27,7 @@ import javax.validation.ConstraintViolationException;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.openwms.common.location.StringListConverter.STRING_LIST_LENGTH;
 
 /**
