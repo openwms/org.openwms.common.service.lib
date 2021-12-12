@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>19.1</version>
+        <version>20</version>
         <relativePath />
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
@@ -74,8 +74,11 @@
         <joda-time.version>2.10.8</joda-time.version>
 		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
 		<querydsl.version>5.0.0</querydsl.version>
-        <spring-cloud-dependencies.version>Hoxton.SR10</spring-cloud-dependencies.version>
+        <servo-core.version>0.12.21</servo-core.version>
+        <spring-cloud-dependencies.version>2021.0.0</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
+        <wagon-provider-api.version>3.3.4</wagon-provider-api.version>
+        <plexus-utils.version>3.2.1</plexus-utils.version>
     </properties>
 
     <reporting>
@@ -101,42 +104,6 @@
     <build>
         <finalName>openwms-common-service</finalName>
         <plugins>
-            <plugin>
-                <groupId>com.mysema.maven</groupId>
-                <artifactId>apt-maven-plugin</artifactId>
-                <version>${apt-maven-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>process</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>target/generated-sources/jpa</outputDirectory>
-                            <options>
-                                <querydsl.entityAccessors>true</querydsl.entityAccessors>
-                                <querydsl.listAccessors>true</querydsl.listAccessors>
-                            </options>
-                            <processors>
-                                <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
-                            </processors>
-                        </configuration>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.querydsl</groupId>
-                        <artifactId>querydsl-apt</artifactId>
-                        <version>${querydsl.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.querydsl</groupId>
-                        <artifactId>querydsl-jpa</artifactId>
-                        <classifier>apt</classifier>
-                        <version>${querydsl.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -247,6 +214,16 @@
                 <version>${core.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-provider-api</artifactId>
+                <version>${wagon-provider-api.version}</version>
+            </dependency>
+            <dependency> <!-- Internal conflict in spring-cloud-starter-bus-amqp -->
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-utils</artifactId>
+                <version>${plexus-utils.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
@@ -294,6 +271,11 @@
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
                 <version>${joda-time.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.servo</groupId>
+                <artifactId>servo-core</artifactId>
+                <version>${servo-core.version}</version>
             </dependency>
             <dependency>
                 <!-- com.netflix.eureka:eureka has an internal clash -->
@@ -414,12 +396,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-zipkin</artifactId>
+            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -449,6 +426,11 @@
         </dependency>
 
         <!-- 3rd party dependencies -->
+        <dependency> <!-- Internal conflict in spring-cloud-starter-bus-amqp -->
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-utils</artifactId>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
