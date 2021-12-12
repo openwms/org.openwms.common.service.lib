@@ -984,7 +984,7 @@ Host: localhost:8080
 </div>
 <div class="paragraph">
 <p>Beside locking the <code>Location</code> for Inbound- and Outbound processing it is also possible to change the PLC state of the <code>Location</code> through
-this API. Therefor the <code>ErrorCodeVO</code> data structure contains a property <code>plcState</code> that can be set to a numeric integer value. Usually a
+this API. Therefore the <code>ErrorCodeVO</code> data structure contains a property <code>plcState</code> that can be set to a numeric integer value. Usually a
 PLC state of <code>0</code> means the <code>Location</code> is not blocked and available for any operation. A PLC may set the state to a value greater than 0 to
 signal an error occurred on the <code>Location</code>.</p>
 </div>
@@ -1087,12 +1087,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/locations/290a4f05-7b8e-4ba6-94e2-aebe78ee83a5/
+Location: http://localhost:8080/v1/locations/6704ab52-13a5-4c5d-9157-0760855b4f36/
 Content-Type: application/hal+json
 Content-Length: 277
 
 {
-  "pKey" : "290a4f05-7b8e-4ba6-94e2-aebe78ee83a5",
+  "pKey" : "6704ab52-13a5-4c5d-9157-0760855b4f36",
   "locationId" : "FGIN/PICK/WORK/0010/0000",
   "plcCode" : "PICK_20",
   "erpCode" : "PICK_10",
@@ -1379,7 +1379,7 @@ Content-Length: 312
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-12-07 23:03:03 UTC
+Last updated 2021-12-12 18:03:32 UTC
 </div>
 </div>
 </body>
