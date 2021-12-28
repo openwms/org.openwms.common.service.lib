@@ -16,7 +16,7 @@
 package org.openwms.common;
 
 import org.junit.jupiter.api.Test;
-import org.openwms.transactions.api.commands.AsyncTransactionApi;
+import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

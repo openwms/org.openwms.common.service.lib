@@ -25,12 +25,12 @@ import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestData;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
+import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
-import org.openwms.transactions.api.commands.AsyncTransactionApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 

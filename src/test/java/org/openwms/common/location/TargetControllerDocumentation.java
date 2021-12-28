@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.location.api.LocationGroupMode;
-import org.openwms.transactions.api.commands.AsyncTransactionApi;
+import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationContextProvider;

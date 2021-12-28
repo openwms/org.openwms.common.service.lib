@@ -24,7 +24,7 @@ import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
 import org.openwms.common.location.LocationTypeService;
-import org.openwms.transactions.api.commands.AsyncTransactionApi;
+import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 

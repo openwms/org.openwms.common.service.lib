@@ -17,10 +17,10 @@ package org.openwms.common.transport.events;
 
 import org.ameba.http.identity.IdentityContextHolder;
 import org.ameba.i18n.Translator;
+import org.openwms.common.spi.transactions.TransactionBuilder;
+import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
+import org.openwms.common.spi.transactions.commands.TransactionCommand;
 import org.openwms.common.transport.TransportUnit;
-import org.openwms.transactions.api.TransactionBuilder;
-import org.openwms.transactions.api.commands.AsyncTransactionApi;
-import org.openwms.transactions.api.commands.TransactionCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
