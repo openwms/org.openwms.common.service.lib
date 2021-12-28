@@ -44,6 +44,7 @@ jobs:
           -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
           -Dspring.rabbitmq.host=localhost
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
+          -s /home/runner/.m2/settings.xml
           -U -B $MAVEN_OPTS
       - name: Build Image
         run: ./scripts/docker_build
