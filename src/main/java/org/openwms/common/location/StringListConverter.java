@@ -38,7 +38,7 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
     public static final String SEPARATOR = ",";
 
     /**
-     * Return the maximum possible list length, default is {@value}.
+     * Return the maximum possible list length.
      *
      * @return The maximum list length
      */
@@ -46,6 +46,9 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
         return STRING_LIST_LENGTH;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String convertToDatabaseColumn(List<String> attribute) {
         if (attribute == null) {
@@ -58,6 +61,9 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
         return join;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<String> convertToEntityAttribute(String dbData) {
         if (dbData == null || "".equals(dbData)) {
