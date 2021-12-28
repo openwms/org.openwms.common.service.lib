@@ -54,6 +54,19 @@ jobs:
           sudo apt-get install graphviz
           git config --global user.email "ci@example.com"
           git config --global user.name "CI Server"
+      - uses: s4u/maven-settings-action@v2.4.1
+        with:
+          servers: |
+            [{
+              "id": "openwms-nexus-snapshots",
+              "username": "${{ secrets.REPO_USERNAME }}",
+              "password": "${{ secrets.REPO_PASSWORD }}"
+            },
+            {
+              "id": "openwms-nexus-releases",
+              "username": "${{ secrets.REPO_USERNAME }}",
+              "password": "${{ secrets.REPO_PASSWORD }}"
+            }]
       - name: Site
         run: >
           ./mvnw post-integration-test site scm-publish:publish-scm
@@ -69,6 +82,7 @@ jobs:
           -Dscmpublish.pubScmUrl=scm:git:https://openwms:$PUSHKEY@github.com/openwms/org.openwms.common.service.git
           -DdeveloperConnectionUrl=scm:git:https://openwms:$PUSHKEY@github.com/openwms/org.openwms.common.service.git
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
+          -s /home/runner/.m2/settings.xml
           -Pschemagen -B $MAVEN_OPTS
         env:
           PUSHKEY: ${{ secrets.PUSHKEY }}
@@ -80,6 +94,7 @@ jobs:
           -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
           -DSONAR_TOKEN=$SONAR_TOKEN
+          -s /home/runner/.m2/settings.xml
           -Pcoverage -B $MAVEN_OPTS
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
