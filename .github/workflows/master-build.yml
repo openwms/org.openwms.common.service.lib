@@ -19,6 +19,12 @@ jobs:
         ports:
           - 5672:5672
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
       - uses: s4u/maven-settings-action@v2.4.1
         with:
           servers: |
@@ -32,12 +38,6 @@ jobs:
               "username": "${{ secrets.REPO_USERNAME }}",
               "password": "${{ secrets.REPO_PASSWORD }}"
             }]
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
       - name: Build
         run: >
           ./mvnw clean verify
