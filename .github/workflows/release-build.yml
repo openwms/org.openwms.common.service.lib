@@ -29,26 +29,12 @@ jobs:
       - name: Set Release version env variable
         run: |
           echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-      - uses: s4u/maven-settings-action@v2.4.1
-        with:
-          servers: |
-            [{
-              "id": "openwms-nexus-snapshots",
-              "username": "${{ secrets.REPO_USERNAME }}",
-              "password": "${{ secrets.REPO_PASSWORD }}"
-            },
-            {
-              "id": "openwms-nexus-releases",
-              "username": "${{ secrets.REPO_USERNAME }}",
-              "password": "${{ secrets.REPO_PASSWORD }}"
-            }]
       - name: Build
         run: >
           ./mvnw clean verify
           -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
           -Dspring.rabbitmq.host=localhost
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
-          -s /home/runner/.m2/settings.xml
           -U -B $MAVEN_OPTS
       - name: Build Image
         run: ./scripts/docker_build_release
