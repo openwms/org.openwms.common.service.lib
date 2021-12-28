@@ -39,7 +39,7 @@ Exposed resources to API clients
 The Technical Context illustrates interfaces (channels and transmission media) linking the system to its environment. In addition a mapping
 of domain specific input/output to the channels, i.e. an explanation with I/O uses which channel.
 
-The Common Service exposes several resources over HTTP REST. The current available and detailed interface description can be found https://openwms.github.io/org.openwms.common.service/rest/1.6.0-SNAPSHOT/api.html[here].
+The Common Service exposes several resources over HTTP REST. The current available and detailed interface description can be found https://openwms.github.io/org.openwms.common.service/rest/1.7.0-SNAPSHOT/api.html[here].
 In addition the service sends event notifications out to surrounding services about master data changes and actions that occur within the
 service.
 

@@ -19,6 +19,19 @@ jobs:
         ports:
           - 5672:5672
     steps:
+      - uses: s4u/maven-settings-action@v2.4.1
+        with:
+          servers: |
+            [{
+              "id": "openwms-nexus-snapshots",
+              "username": "${{ secrets.REPO_USERNAME }}",
+              "password": "${{ secrets.REPO_PASSWORD }}"
+            },
+            {
+              "id": "openwms-nexus-releases",
+              "username": "${{ secrets.REPO_USERNAME }}",
+              "password": "${{ secrets.REPO_PASSWORD }}"
+            }]
       - name: Checkout
         uses: actions/checkout@v2
       - name: Set up JDK 11
