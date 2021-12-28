@@ -25,7 +25,9 @@ import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationApiConstants;
 import org.openwms.common.location.api.LocationGroupMode;
 import org.openwms.common.location.api.LocationGroupState;
+import org.openwms.transactions.api.commands.AsyncTransactionApi;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
@@ -68,6 +70,8 @@ class LocationGroupControllerDocumentation {
     private ObjectMapper mapper;
     @Autowired
     private LocationGroupService service;
+    @MockBean
+    private AsyncTransactionApi transactionApi;
     private MockMvc mockMvc;
     private RestDocumentationResultHandler documentationResultHandler;
 
