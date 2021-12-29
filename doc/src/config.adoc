@@ -7,3 +7,5 @@
 
 // where are images located?
 :imagesdir: ./images
+
+//:data-uri:
