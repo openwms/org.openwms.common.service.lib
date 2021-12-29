@@ -23,10 +23,12 @@ import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.TestData;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.api.LocationVO;
+import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.openwms.common.transport.api.TransportUnitTypeVO;
 import org.openwms.common.transport.api.TransportUnitVO;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -69,6 +71,8 @@ class TransportUnitControllerDocumentation {
     private TransportUnitService service;
     @Autowired
     private BarcodeGenerator generator;
+    @MockBean
+    private AsyncTransactionApi transactionApi;
 
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation, WebApplicationContext context) {

@@ -24,7 +24,9 @@ import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
 import org.openwms.common.location.LocationTypeService;
+import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import javax.persistence.EntityManager;
 import java.util.Optional;
@@ -51,6 +53,8 @@ class LocationServiceImplIT extends TestBase {
     private LocationTypeService locationTypeService;
     @Autowired
     private LocationService testee;
+    @MockBean
+    private AsyncTransactionApi transactionApi;
     @Autowired
     private EntityManager em;
 

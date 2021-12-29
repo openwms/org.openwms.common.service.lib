@@ -13,33 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common;
+package org.openwms.common.spi.transactions.commands;
 
-import org.ameba.app.BaseConfiguration;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import org.openwms.core.SpringProfiles;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 /**
- * A CommonStarter.
+ * A NoOpTransactionApiImpl.
  *
  * @author Heiko Scherrer
  */
-@SpringBootApplication(
-        scanBasePackages = {
-                "org.openwms.common",
-                "org.openwms.transactions.api",
-                "org.openwms.projects"
-        })
-@Import(BaseConfiguration.class)
-public class CommonStarter {
+@Profile("!" + SpringProfiles.ASYNCHRONOUS_PROFILE)
+@Component
+class NoOpTransactionApiImpl implements AsyncTransactionApi {
 
     /**
-     * Boot up!
-     *
-     * @param args Some args
+     * {@inheritDoc}
      */
-    public static void main(String[] args) {
-        SpringApplication.run(CommonStarter.class, args);
+    @Override
+    public void process(TransactionCommand command) {
+        // No operation in standalone mode
     }
 }

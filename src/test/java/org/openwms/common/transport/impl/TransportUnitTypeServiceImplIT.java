@@ -20,11 +20,13 @@ import org.ameba.exception.ServiceLayerException;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.location.LocationType;
+import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.openwms.common.transport.Rule;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.TypePlacingRule;
 import org.openwms.common.transport.TypeStackingRule;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -47,6 +49,8 @@ class TransportUnitTypeServiceImplIT {
     private TransportUnitTypeServiceImpl service;
     @Autowired
     private EntityManager em;
+    @MockBean
+    private AsyncTransactionApi transactionApi;
 
     @Test
     void findByType() {

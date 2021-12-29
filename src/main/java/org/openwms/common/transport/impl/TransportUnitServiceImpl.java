@@ -222,16 +222,24 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public TransportUnit moveTransportUnit(@NotNull Barcode barcode, @NotNull LocationPK targetLocationPK) {
-        TransportUnit transportUnit = findByBarcodeInternal(barcode);
-        transportUnit.setActualLocation(locationService.findByLocationPk(targetLocationPK).orElseThrow(() -> new NotFoundException(format("No Location with LocationPk [%s] found", targetLocationPK))));
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Moving TransportUnit with barcode [{}] to Location [{}]", barcode, targetLocationPK);
+        var transportUnit = findByBarcodeInternal(barcode);
+        var previousLocation = transportUnit.getActualLocation();
+        if (previousLocation.getLocationId().equals(targetLocationPK)) {
+            LOGGER.debug("TransportUnit [{}] is already booked on Location [{}]", barcode, targetLocationPK);
+            return transportUnit;
         }
-        TransportUnit saved = repository.save(transportUnit);
+        transportUnit.setActualLocation(locationService.findByLocationPk(targetLocationPK)
+                .orElseThrow(() -> new NotFoundException(format("No Location with LocationPk [%s] found", targetLocationPK))));
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Moving TransportUnit with barcode [{}] from Location [{}] to Location [{}]", barcode, previousLocation,
+                    targetLocationPK);
+        }
+        var saved = repository.save(transportUnit);
         publisher.publishEvent(
                 TransportUnitEvent.newBuilder()
                         .tu(saved)
                         .type(TransportUnitEvent.TransportUnitEventType.MOVED)
+                        .previousLocation(previousLocation)
                         .actualLocation(transportUnit.getActualLocation())
                         .build()
         );

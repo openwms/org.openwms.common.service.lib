@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -9,7 +10,7 @@
         <relativePath />
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
-    <version>1.7.0-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <name>OpenWMS.org COMMON: Base Services</name>
     <description>Essential services on common resources like Locations, LocationGroups and TransportUnits</description>
     <url>https://openwms.github.io/${project.artifactId}/index.html</url>
@@ -66,8 +67,8 @@
     <properties>
         <apt-maven-plugin.version>1.1.3</apt-maven-plugin.version>
         <commons-configuration.version>1.10</commons-configuration.version>
-        <core.version>1.9.0-SNAPSHOT</core.version>
-		<core.units.version>0.4.0-SNAPSHOT</core.units.version>
+        <core.version>1.9.0</core.version>
+		<core.units.version>0.4.0</core.units.version>
         <guava.version>30.0-jre</guava.version>
         <HdrHistogram.version>2.1.12</HdrHistogram.version>
         <indriya.version>2.0</indriya.version>
@@ -133,6 +134,10 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
             </plugin>
             <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
                 <executions>
                     <execution>
@@ -165,10 +170,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.asciidoctor</groupId>
-                <artifactId>asciidoctor-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

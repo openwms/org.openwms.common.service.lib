@@ -19,11 +19,13 @@ import org.ameba.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestData;
+import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.core.SpringProfiles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.annotation.Rollback;
@@ -48,6 +50,8 @@ class TransportUnitServiceImplAsyncIT {
     private ApplicationEventPublisher publisher;
     @Autowired
     private TransportUnitService testee;
+    @MockBean
+    private AsyncTransactionApi transactionApi;
 
     @Test void shall_trigger_deletion() {
         assertThat(testee.findByPKey(TestData.TU_1_PKEY)).isNotNull();

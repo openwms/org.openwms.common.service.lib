@@ -13,33 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common;
-
-import org.ameba.app.BaseConfiguration;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+package org.openwms.common.spi.transactions.commands;
 
 /**
- * A CommonStarter.
+ * A AsyncTransactionApi accepts asynchronous transaction commands.
  *
  * @author Heiko Scherrer
  */
-@SpringBootApplication(
-        scanBasePackages = {
-                "org.openwms.common",
-                "org.openwms.transactions.api",
-                "org.openwms.projects"
-        })
-@Import(BaseConfiguration.class)
-public class CommonStarter {
+public interface AsyncTransactionApi {
 
     /**
-     * Boot up!
+     * Process the given {@code command}.
      *
-     * @param args Some args
+     * @param command Command to process
      */
-    public static void main(String[] args) {
-        SpringApplication.run(CommonStarter.class, args);
-    }
+    void process(TransactionCommand command);
 }

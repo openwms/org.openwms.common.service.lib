@@ -182,8 +182,8 @@ public class Location extends Target implements Serializable {
      * The PLC is able to change the state of a {@code Location}. This property stores the last state, received from the PLC.
      * <ul>
      *     <li>0 : No PLC error, everything okay</li>
-     *     <li>< 0: Not defined</li>
-     *     <li>> 0: Some defined error code</li>
+     *     <li>&lt; 0: Not defined</li>
+     *     <li>&gt; 0: Some defined error code</li>
      * </ul>
      */
     @Column(name = "C_PLC_STATE")
