@@ -10,7 +10,7 @@
         <relativePath />
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
-    <version>1.7.0-SNAPSHOT</version>
+    <version>1.7.0</version>
     <name>OpenWMS.org COMMON: Base Services</name>
     <description>Essential services on common resources like Locations, LocationGroups and TransportUnits</description>
     <url>https://openwms.github.io/${project.artifactId}/index.html</url>
@@ -68,7 +68,7 @@
         <apt-maven-plugin.version>1.1.3</apt-maven-plugin.version>
         <commons-configuration.version>1.10</commons-configuration.version>
         <core.version>1.9.0</core.version>
-		<core.units.version>0.4.0-SNAPSHOT</core.units.version>
+		<core.units.version>0.4.0</core.units.version>
         <guava.version>30.0-jre</guava.version>
         <HdrHistogram.version>2.1.12</HdrHistogram.version>
         <indriya.version>2.0</indriya.version>
