@@ -12,6 +12,8 @@ org.openwms.common.location.api.messages
 org.openwms.common.location.commands
 org.openwms.common.location.impl
 org.openwms.common.location.spi
+org.openwms.common.spi.transactions
+org.openwms.common.spi.transactions.commands
 org.openwms.common.transport
 org.openwms.common.transport.api
 org.openwms.common.transport.api.commands
