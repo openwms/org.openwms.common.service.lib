@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    bootstrap:
+      enabled: true
+    bus:
+      enabled: true
+      refresh:
+        enabled: true
+    config:
+      discovery:
+        enabled: true
+        service-id: openwms-config
+      enabled: true
+      fail-fast: true # true means retry
+    discovery:
+      enabled: true
