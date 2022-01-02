@@ -18,6 +18,7 @@ spring:
             default_schema: public
             audit_strategy_validity_end_rev_field_name: C_REV_END
             audit_strategy_validity_revend_timestamp_field_name: C_REVEND_TSTMP
+            store_data_at_delete: true
     show-sql: false
     mapping-resources: META-INF/common-orm.xml
   jackson:
@@ -208,6 +209,8 @@ spring:
         max-attempts: 120
     discovery:
       enabled: false
+  jpa:
+    show-sql: false
   main:
     banner-mode: "off"
   zipkin:
@@ -215,8 +218,6 @@ spring:
     discovery-client-enabled: false
     sender:
       type: rabbit
-  jpa:
-    show-sql: false
 
 ---
 spring:
@@ -237,13 +238,11 @@ spring:
         max-attempts: 120
     discovery:
       enabled: false
-  main:
-    banner-mode: "off"
-  zipkin:
-    enabled: false
-    discovery-client-enabled: false
-    sender:
-      type: rabbit
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql:testdb
+    username: KARL
+    password: KARL
   jpa:
     database: postgresql
     generate-ddl: true
@@ -255,8 +254,10 @@ spring:
         default_schema: public
     hibernate:
       ddl-auto: update
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql:testdb
-    username: KARL
-    password: KARL
+  main:
+    banner-mode: "off"
+  zipkin:
+    enabled: false
+    discovery-client-enabled: false
+    sender:
+      type: rabbit

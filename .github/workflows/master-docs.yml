@@ -75,11 +75,11 @@ jobs:
       - name: Sonar
         run: >
           ./mvnw clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar
-          -Dsonar.login=$SONAR_TOKEN
-          -Dspring.rabbitmq.host=localhost
           -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
-          -Dci.buildNumber=$GITHUB_RUN_NUMBER
+          -Dspring.rabbitmq.host=localhost
+          -Dsonar.login=$SONAR_TOKEN
           -DSONAR_TOKEN=$SONAR_TOKEN
+          -Dci.buildNumber=$GITHUB_RUN_NUMBER
           -Pcoverage -B $MAVEN_OPTS
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
