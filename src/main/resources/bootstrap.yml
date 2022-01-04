@@ -79,6 +79,11 @@ eureka:
     # Default: 30s
     lease-renewal-interval-in-seconds:    2
 
+logging:
+  file:
+    name: BOOT-COMMON-Service.log
+    path: "/tmp/owms"
+
 management:
   endpoints:
     web:
@@ -99,11 +104,6 @@ management:
   info:
     git:
       mode: simple
-
-logging:
-  file:
-    name: BOOT-COMMON-Service.log
-    path: "/tmp/owms"
 
 ---
 spring:
