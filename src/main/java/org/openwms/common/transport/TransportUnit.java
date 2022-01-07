@@ -57,8 +57,10 @@ import java.util.Set;
 import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 /**
- * A TransportUnit is an item like a box, a toad, a bin or a pallet that is moved within a warehouse and can carry goods. Used as container
- * to transport items like {@code LoadUnit}s. It can be moved between {@code Location}s.
+ * A TransportUnit is a physical item like a box, a toad, a bin, a pallet etc., used as a container that is moved between warehouse
+ * {@code Location}s and might carry goods or other items like {@code LoadUnit}s on top. A TransportUnit must have some kind of identifier,
+ * like a physical Barcode, an RFID tag or others. There might be projects where TransportUnits are solely identified by virtual identifiers
+ * and don't have physical identifiers.
  *
  * @author Heiko Scherrer
  * @GlossaryTerm
