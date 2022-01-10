@@ -141,7 +141,7 @@ public class Location extends Target implements Serializable {
     public static final String DEF_CHECK_STATE = "--";
 
     /**
-     * Shall the {@code Location} be integrated in the calculation of {@code TransportUnit}s of the parent {@link LocationGroup}.
+     * Shall the {@code Location} be included in the calculation of {@code TransportUnit}s of the parent {@link LocationGroup}.
      * <ul>
      *     <li>{@literal true} : {@code Location} is included in calculation of {@code TransportUnit}s.</li>
      *     <li>{@literal false}: {@code Location} is not included in calculation of {@code TransportUnit}s.</li>
