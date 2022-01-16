@@ -116,7 +116,7 @@ public class Location extends Target implements Serializable {
     @Column(name = "C_MAXIMUM_WEIGHT")
     private BigDecimal maximumWeight;
 
-    /** Whether moving {@code Product}s directly to the {@code Location} is allowed. */
+    /** Whether moving Products without {@code TransportUnit} to this Location is allowed or not. */
     @Column(name = "C_DIRECT_BOOKING_ALLOWED")
     private Boolean directBookingAllowed = true;
 
