@@ -52,7 +52,7 @@ jobs:
       - name: Install tools
         run: |
           sudo apt-get update
-          sudo apt-get install --no-cache graphviz ttf-droid
+          sudo apt-get install graphviz ttf-droid
           git config --global user.email "ci@example.com"
           git config --global user.name "CI Server"
       - name: Site
