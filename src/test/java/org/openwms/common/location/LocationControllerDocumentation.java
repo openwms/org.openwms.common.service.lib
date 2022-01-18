@@ -88,12 +88,13 @@ class LocationControllerDocumentation {
                 .andExpect(jsonPath("$._links.location-changestate").exists())
                 .andExpect(jsonPath("$._links.location-create").exists())
                 .andExpect(jsonPath("$._links.location-findbycoordinate").exists())
+                .andExpect(jsonPath("$._links.location-findbypkey").exists())
                 .andExpect(jsonPath("$._links.location-findbyerpcode").exists())
                 .andExpect(jsonPath("$._links.location-findbyplccode").exists())
                 .andExpect(jsonPath("$._links.location-fortuple").exists())
                 .andExpect(jsonPath("$._links.location-forlocationgroup").exists())
                 .andExpect(jsonPath("$._links.location-updatelocation").exists())
-                .andExpect(jsonPath("$._links.length()", is(8)))
+                .andExpect(jsonPath("$._links.length()", is(9)))
                 .andDo(document("loc-index", preprocessResponse(prettyPrint())))
         ;
     }
@@ -369,7 +370,7 @@ class LocationControllerDocumentation {
                     .contentType(MediaType.APPLICATION_JSON)
                     .queryParam("op","change-state"))
                     .andExpect(status().isNotFound())
-                    .andExpect(jsonPath("messageKey", is(CommonMessageCodes.LOCATION_NOT_FOUND)))
+                    .andExpect(jsonPath("messageKey", is(CommonMessageCodes.LOCATION_NOT_FOUND_BY_PKEY)))
                     .andDo(document("loc-state-404"));
         }
 

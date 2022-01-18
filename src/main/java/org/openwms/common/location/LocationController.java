@@ -96,8 +96,12 @@ public class LocationController extends AbstractWebController {
     public ResponseEntity<LocationVO> findByPKey(@PathVariable("pKey") String pKey) {
         var location = locationService.findByPKey(pKey);
         var result = mapper.convertToVO(location);
-        result.add(linkTo(methodOn(LocationController.class).findByPKey("pKey")).withRel("location-findByPKey"));
+        addSelfLink(result);
         return ResponseEntity.ok(result);
+    }
+
+    private void addSelfLink(LocationVO result) {
+        result.add(linkTo(methodOn(LocationController.class).findByPKey(result.getpKey())).withRel("location-findbypkey"));
     }
 
     @GetMapping(value = API_LOCATIONS, params = {"locationPK"})
@@ -114,7 +118,7 @@ public class LocationController extends AbstractWebController {
                         locationPK
                 ));
         var result = mapper.convertToVO(location);
-        result.add(linkTo(methodOn(LocationController.class).findByPKey("pKey")).withRel("location-findByPKey"));
+        addSelfLink(result);
         return ResponseEntity.ok(result);
     }
 
@@ -212,7 +216,7 @@ public class LocationController extends AbstractWebController {
                 new Index(
                         linkTo(methodOn(LocationController.class).changeState("pKey", "change-state", ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel("location-changestate"),
                         linkTo(methodOn(LocationController.class).createLocation(new LocationVO("locationId"), null)).withRel("location-create"),
-                        linkTo(methodOn(LocationController.class).findByPKey("pKey")).withRel("location-findByPKey"),
+                        linkTo(methodOn(LocationController.class).findByPKey("pKey")).withRel("location-findbypkey"),
                         linkTo(methodOn(LocationController.class).findLocationByCoordinate("AREA/AISLE/X/Y/Z")).withRel("location-findbycoordinate"),
                         linkTo(methodOn(LocationController.class).findLocationByErpCode("ERP_CODE")).withRel("location-findbyerpcode"),
                         linkTo(methodOn(LocationController.class).findLocationByPlcCode("PLC_CODE")).withRel("location-findbyplccode"),
