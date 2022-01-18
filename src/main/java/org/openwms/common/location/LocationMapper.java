@@ -89,11 +89,8 @@ public abstract class LocationMapper {
                 .withLabels( source.getLabels() )
                 .withNoMaxTransportUnits( source.getNoMaxTransportUnits() )
                 .withMaximumWeight( source.getMaximumWeight() )
-                .withDirectBookingAllowed( source.isDirectBookingAllowed() )
                 .withLastMovement( source.getLastMovement() )
                 .withLocationType( source.getLocationType() )
-                .withCountingActive( source.isCountingActive() )
-                .withCheckState( source.getCheckState() )
                 .withLocationGroupCountingActive( source.isLocationGroupCountingActive() )
                 //.withIncomingActive( source.isInfeedActive() )  Don't allow to change the plcState here with update
                 //.withOutgoingActive( source.isOutfeedActive() )  Don't allow to change the plcState here with update

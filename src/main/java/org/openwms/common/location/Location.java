@@ -116,10 +116,6 @@ public class Location extends Target implements Serializable {
     @Column(name = "C_MAXIMUM_WEIGHT")
     private BigDecimal maximumWeight;
 
-    /** Whether moving Products without {@code TransportUnit} to this Location is allowed or not. */
-    @Column(name = "C_DIRECT_BOOKING_ALLOWED")
-    private Boolean directBookingAllowed = true;
-
     /**
      * Date of last movement. When a {@code TransportUnit} is moving to or away from the {@code Location}, {@code lastMovement} is updated.
      * This is useful to get the history of {@code TransportUnit}s as well as for inventory calculation.
@@ -127,18 +123,6 @@ public class Location extends Target implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "C_LAST_MOVEMENT")
     private Date lastMovement;
-
-    /** Flag to indicate whether {@code TransportUnit}s should be counted on the {@code Location} or not. */
-    @Column(name = "C_COUNTING_ACTIVE")
-    private Boolean countingActive = DEF_COUNTING_ACTIVE;
-    /** Default value of {@link #countingActive}. */
-    public static final boolean DEF_COUNTING_ACTIVE = false;
-
-    /** Reserved for stock check procedure and inventory calculation. */
-    @Column(name = "C_CHECK_STATE")
-    private String checkState = DEF_CHECK_STATE;
-    /** Default value of {@link #checkState}. */
-    public static final String DEF_CHECK_STATE = "--";
 
     /**
      * Shall the {@code Location} be included in the calculation of {@code TransportUnit}s of the parent {@link LocationGroup}.
@@ -327,30 +311,12 @@ public class Location extends Target implements Serializable {
     }
 
     /**
-     * Returns the checkState to indicate the stock check procedure.
-     *
-     * @return The checkState
-     */
-    public String getCheckState() {
-        return this.checkState;
-    }
-
-    /**
      * Determine whether the Location is considered during allocation.
      *
      * @return {@literal true} when considered in allocation, otherwise {@literal false}
      */
     public boolean isConsideredInAllocation() {
         return this.consideredInAllocation;
-    }
-
-    /**
-     * Determine whether {@code TransportUnit}s should be counted on this Location or not.
-     *
-     * @return {@literal true} when counting is active, otherwise {@literal false}
-     */
-    public boolean isCountingActive() {
-        return this.countingActive;
     }
 
     /**
@@ -529,15 +495,6 @@ public class Location extends Target implements Serializable {
      */
     public BigDecimal getMaximumWeight() {
         return this.maximumWeight;
-    }
-
-    /**
-     * Whether or not moving Products without {@code TransportUnit} to this Location is allowed.
-     *
-     * @return {@literal true} if allowed, otherwise {@literal false}
-     */
-    public boolean isDirectBookingAllowed() {
-        return directBookingAllowed;
     }
 
     /**
@@ -756,23 +713,8 @@ public class Location extends Target implements Serializable {
             return this;
         }
 
-        public LocationBuilder withDirectBookingAllowed(Boolean directBookingAllowed) {
-            this.target.directBookingAllowed = directBookingAllowed;
-            return this;
-        }
-
         public LocationBuilder withLastMovement(Date lastMovement) {
             this.target.lastMovement = lastMovement;
-            return this;
-        }
-
-        public LocationBuilder withCountingActive(boolean countingActive) {
-            this.target.countingActive = countingActive;
-            return this;
-        }
-
-        public LocationBuilder withCheckState(String checkState) {
-            this.target.checkState = checkState;
             return this;
         }
 

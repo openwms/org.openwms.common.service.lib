@@ -43,7 +43,6 @@ import java.util.Optional;
 
 import static org.openwms.common.CommonMessageCodes.LOCATION_ID_EXISTS;
 import static org.openwms.common.CommonMessageCodes.LOCATION_ID_INVALID;
-import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND;
 import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND_BY_PKEY;
 
 /**
@@ -78,7 +77,6 @@ class LocationServiceImpl implements LocationService {
      * {@inheritDoc}
      */
     @Override
-    @Validated
     @Measured
     public Location create(@NotNull @Valid Location location) {
         Optional<Location> locationOpt = repository.findByLocationId(location.getLocationId());
@@ -88,6 +86,21 @@ class LocationServiceImpl implements LocationService {
                     location.getLocationId());
         };
         return repository.save(location);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public Location findByPKey(@NotEmpty String pKey) {
+        return findInternal(pKey);
+    }
+
+    private Location findInternal(String pKey) {
+        return repository
+                .findBypKey(pKey)
+                .orElseThrow(() -> new NotFoundException(translator, LOCATION_NOT_FOUND_BY_PKEY, new String[]{pKey}, pKey));
     }
 
     /**
@@ -141,9 +154,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public void changeState(@NotEmpty String pKey, @NotNull ErrorCodeVO errorCode) {
-        Location location = repository
-                .findBypKey(pKey)
-                .orElseThrow(() -> new NotFoundException(translator, LOCATION_NOT_FOUND, new String[]{pKey}, pKey));
+        var location = findInternal(pKey);
 
         boolean changed = false;
         if (Optional.ofNullable(errorCode.getPlcState()).isPresent() && errorCode.getPlcState() != location.getPlcState()) {
@@ -200,12 +211,8 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public Location save(@NotNull Location location) {
-        Optional<Location> existingOpt = repository.findBypKey(location.getPersistentKey());
-        if (existingOpt.isEmpty()) {
-            throw new NotFoundException(translator, LOCATION_NOT_FOUND_BY_PKEY, new String[]{location.getPersistentKey()},
-                    location.getPersistentKey());
-        }
-        var modified = locationMapper.copyForUpdate(location, existingOpt.get());
+        var existing = findInternal(location.getPersistentKey());
+        var modified = locationMapper.copyForUpdate(location, existing);
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Saving Location [{}]", modified);
         }

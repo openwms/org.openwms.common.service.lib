@@ -39,6 +39,15 @@ public interface LocationService {
     Location create(@NotNull @Valid Location location);
 
     /**
+     * Find and return a {@link Location}.
+     *
+     * @param pKey The persistent key
+     * @return The instance
+     * @throws org.ameba.exception.NotFoundException If the Location does not exist
+     */
+    Location findByPKey(@NotEmpty String pKey);
+
+    /**
      * Find and return a {@code Location}.
      *
      * @param locationId The business key of the Location to search for

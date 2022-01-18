@@ -65,16 +65,14 @@ class LocationTest {
             Location l = new Location(ID1);
             assertThat(l.getLocationId()).isEqualTo(ID1);
             assertThat(l.getNoMaxTransportUnits()).isEqualTo(Location.DEF_MAX_TU);
-            assertThat(l.isCountingActive()).isFalse();
-            assertThat(l.getCheckState()).isEqualTo(Location.DEF_CHECK_STATE);
             assertThat(l.isLocationGroupCountingActive()).isEqualTo(Location.DEF_LG_COUNTING_ACTIVE);
             assertThat(l.isInfeedActive()).isEqualTo(Location.DEF_INCOMING_ACTIVE);
             assertThat(l.isInfeedBlocked()).isNotEqualTo(Location.DEF_INCOMING_ACTIVE);
             assertThat(l.isOutfeedActive()).isEqualTo(Location.DEF_OUTGOING_ACTIVE);
             assertThat(l.isOutfeedBlocked()).isNotEqualTo(Location.DEF_OUTGOING_ACTIVE);
-            assertThat(l.isDirectBookingAllowed()).isTrue();
             assertThat(l.getPlcState()).isEqualTo(Location.DEF_PLC_STATE);
-            assertThat(l.isConsideredInAllocation()).isEqualTo(Location.DEF_CONSIDERED_IN_ALLOCATION);
+            assertThat(l
+                    .isConsideredInAllocation()).isEqualTo(Location.DEF_CONSIDERED_IN_ALLOCATION);
         }
     }
 

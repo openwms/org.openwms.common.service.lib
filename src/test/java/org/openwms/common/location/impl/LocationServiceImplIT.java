@@ -35,7 +35,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.openwms.common.location.Location.DEF_CONSIDERED_IN_ALLOCATION;
-import static org.openwms.common.location.Location.DEF_COUNTING_ACTIVE;
 import static org.openwms.common.location.Location.DEF_INCOMING_ACTIVE;
 import static org.openwms.common.location.Location.DEF_LG_COUNTING_ACTIVE;
 import static org.openwms.common.location.Location.DEF_OUTGOING_ACTIVE;
@@ -72,9 +71,6 @@ class LocationServiceImplIT extends TestBase {
         var result = testee.create(location);
         assertThat(result.getLocationId()).isEqualTo(LocationPK.fromString("NEW_/NEW_/NEW_/NEW_/NEW_"));
         assertThat(result.getNoMaxTransportUnits()).isEqualTo(Location.DEF_MAX_TU);
-        assertThat(result.isDirectBookingAllowed()).isTrue();
-        assertThat(result.isCountingActive()).isEqualTo(DEF_COUNTING_ACTIVE);
-        assertThat(result.getCheckState()).isEqualTo(Location.DEF_CHECK_STATE);
         assertThat(result.isLocationGroupCountingActive()).isEqualTo(DEF_LG_COUNTING_ACTIVE);
         assertThat(result.isInfeedActive()).isEqualTo(DEF_INCOMING_ACTIVE);
         assertThat(result.isOutfeedActive()).isEqualTo(DEF_OUTGOING_ACTIVE);
@@ -89,9 +85,6 @@ class LocationServiceImplIT extends TestBase {
         var result = testee.create(location);
         assertThat(result.getLocationId()).isEqualTo(LocationPK.fromString("NEW_/NEW_/NEW_/NEW_/NEW_"));
         assertThat(result.getNoMaxTransportUnits()).isEqualTo(Location.DEF_MAX_TU);
-        assertThat(result.isDirectBookingAllowed()).isTrue();
-        assertThat(result.isCountingActive()).isEqualTo(DEF_COUNTING_ACTIVE);
-        assertThat(result.getCheckState()).isEqualTo(Location.DEF_CHECK_STATE);
         assertThat(result.isLocationGroupCountingActive()).isEqualTo(DEF_LG_COUNTING_ACTIVE);
         assertThat(result.isInfeedActive()).isEqualTo(DEF_INCOMING_ACTIVE);
         assertThat(result.isOutfeedActive()).isEqualTo(DEF_OUTGOING_ACTIVE);

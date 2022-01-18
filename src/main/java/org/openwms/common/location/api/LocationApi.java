@@ -60,6 +60,17 @@ public interface LocationApi {
     LocationVO updateLocation(@RequestBody LocationVO location);
 
     /**
+     * Find and return a {@code Location}.
+     *
+     * @param pKey The persistent key
+     * @return The instance
+     * @throws org.ameba.exception.NotFoundException If no instance exists
+     */
+    @GetMapping(value = API_LOCATIONS + "/{pKey}")
+    @Cacheable("locations")
+    LocationVO findByPKey(@PathVariable("pKey") String pKey);
+
+    /**
      * Find and return all {@code LocationTypes}.
      *
      * @return Never {@literal null}
