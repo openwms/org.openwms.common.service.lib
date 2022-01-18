@@ -82,7 +82,7 @@
 </tr>
 </thead>
 <tbody valign='top'>
-<tr class='even'>
+<tr class='odd'>
  <td class='primaryKey' title='Primary Key'>c_pk</td>
  <td class='detail'>int8</td>
  <td class='detail' align='right'>19</td>
@@ -91,19 +91,19 @@
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="com_location_message.c_location_id refs com_location.c_pk via fkcy1pukrprpi3lh48xhf44lk2a"><a href='com_location_message.html'>com_location_message</a><span class='relatedKey'>.c_location_id</span>
     </td>
     <td class='constraint detail'>fkcy1pukrprpi3lh48xhf44lk2a<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="com_transport_unit.c_actual_location refs com_location.c_pk via com_tu_fk_loc_actual"><a href='com_transport_unit.html'>com_transport_unit</a><span class='relatedKey'>.c_actual_location</span>
     </td>
     <td class='constraint detail'>com_tu_fk_loc_actual<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="com_transport_unit.c_target_location refs com_location.c_pk via com_tu_fk_loc_target"><a href='com_transport_unit.html'>com_transport_unit</a><span class='relatedKey'>.c_target_location</span>
     </td>
     <td class='constraint detail'>com_tu_fk_loc_target<span title='Restrict delete:
@@ -114,7 +114,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>c_created</td>
  <td class='detail'>timestamp</td>
  <td class='detail' align='right'>29,6</td>
@@ -125,7 +125,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>c_updated</td>
  <td class='detail'>timestamp</td>
  <td class='detail' align='right'>29,6</td>
@@ -136,7 +136,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>c_ol</td>
  <td class='detail'>int8</td>
  <td class='detail' align='right'>19</td>
@@ -147,24 +147,13 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>c_pid</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
  <td class='detail' align='center'></td>
  <td class='detail' align='center'></td>
  <td class='detail'></td>
- <td class='detail'></td>
- <td class='detail'> </td>
- <td class='comment detail'></td>
-</tr>
-<tr class='odd'>
- <td class='detail'>c_check_state</td>
- <td class='detail'>varchar</td>
- <td class='detail' align='right'>255</td>
- <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
- <td class='detail' align='center'></td>
- <td class='detail' align='right'>null</td>
  <td class='detail'></td>
  <td class='detail'> </td>
  <td class='comment detail'></td>
@@ -192,31 +181,9 @@
  <td class='comment detail'></td>
 </tr>
 <tr class='even'>
- <td class='detail'>c_counting_active</td>
- <td class='detail'>bool</td>
- <td class='detail' align='right'>1</td>
- <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
- <td class='detail' align='center'></td>
- <td class='detail' align='right'>null</td>
- <td class='detail'></td>
- <td class='detail'> </td>
- <td class='comment detail'></td>
-</tr>
-<tr class='odd'>
  <td class='detail'>c_description</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
- <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
- <td class='detail' align='center'></td>
- <td class='detail' align='right'>null</td>
- <td class='detail'></td>
- <td class='detail'> </td>
- <td class='comment detail'></td>
-</tr>
-<tr class='even'>
- <td class='detail'>c_direct_booking_allowed</td>
- <td class='detail'>bool</td>
- <td class='detail' align='right'>1</td>
  <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
  <td class='detail' align='center'></td>
  <td class='detail' align='right'>null</td>
@@ -483,7 +450,7 @@
  <td class='comment detail'></td>
 </tr>
 </table>
-<p title='32 columns'>Table contained 32 rows at Mon Jan 17 19:37 UTC 2022<p/>
+<p title='29 columns'>Table contained 32 rows at Tue Jan 18 23:35 UTC 2022<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -532,24 +499,24 @@
 <br><form action='get'><b>Close relationships</b><span class='degrees' id='degrees' title='Detail diminishes with increased separation from com_location'>
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="com_location.html" title="com_location" alt="" coords="435,463,795,1295">
-<area shape="rect" id="node2" href="com_account.html" title="com_account" alt="" coords="5,1188,137,1439">
-<area shape="rect" id="node3" href="com_location_group.html" title="com_location_group" alt="" coords="181,1185,391,1700">
-<area shape="rect" id="node4" href="com_location_type.html" title="com_location_type" alt="" coords="203,1717,369,2016">
+<area shape="rect" id="node1" href="com_location.html" title="com_location" alt="" coords="435,463,795,1223">
+<area shape="rect" id="node2" href="com_account.html" title="com_account" alt="" coords="5,1116,137,1367">
+<area shape="rect" id="node3" href="com_location_group.html" title="com_location_group" alt="" coords="181,1113,391,1628">
+<area shape="rect" id="node4" href="com_location_type.html" title="com_location_type" alt="" coords="203,1645,369,1944">
 <area shape="rect" id="node5" href="com_location_message.html" title="com_location_message" alt="" coords="839,5,1037,112">
 <area shape="rect" id="node6" href="com_transport_unit.html" title="com_transport_unit" alt="" coords="841,129,1035,620">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/com_location.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="com_location.html" title="com_location" alt="" coords="435,296,795,1128">
-<area shape="rect" id="node2" href="com_account.html" title="com_account" alt="" coords="5,979,137,1229">
-<area shape="rect" id="node3" href="com_location_group.html" title="com_location_group" alt="" coords="181,976,391,1491">
-<area shape="rect" id="node4" href="com_location_type.html" title="com_location_type" alt="" coords="203,1508,369,1807">
+<area shape="rect" id="node1" href="com_location.html" title="com_location" alt="" coords="435,296,795,1056">
+<area shape="rect" id="node2" href="com_account.html" title="com_account" alt="" coords="5,907,137,1157">
+<area shape="rect" id="node3" href="com_location_group.html" title="com_location_group" alt="" coords="181,904,391,1419">
+<area shape="rect" id="node4" href="com_location_type.html" title="com_location_type" alt="" coords="203,1436,369,1735">
 <area shape="rect" id="node5" href="com_location_message.html" title="com_location_message" alt="" coords="839,5,1037,112">
 <area shape="rect" id="node6" href="cor_message.html" title="cor_message" alt="" coords="549,29,681,112">
 <area shape="rect" id="node7" href="com_transport_unit.html" title="com_transport_unit" alt="" coords="841,129,1035,620">
-<area shape="rect" id="node8" href="com_transport_unit_type.html" title="com_transport_unit_type" alt="" coords="509,1188,720,1271">
-<area shape="rect" id="node9" href="com_type_placing_rule.html" title="com_type_placing_rule" alt="" coords="841,1307,1035,1389">
+<area shape="rect" id="node8" href="com_transport_unit_type.html" title="com_transport_unit_type" alt="" coords="509,1116,720,1199">
+<area shape="rect" id="node9" href="com_type_placing_rule.html" title="com_type_placing_rule" alt="" coords="841,1235,1035,1317">
 <area shape="rect" id="node10" href="com_unit_error.html" title="com_unit_error" alt="" coords="1081,129,1220,212">
 </map>
 

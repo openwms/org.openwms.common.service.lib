@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<meta name="author" content="(2.0.0-SNAPSHOT-102)">
+<meta name="author" content="(2.0.0-SNAPSHOT-104)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(2.0.0-SNAPSHOT-102)</span><br>
+<span id="author" class="author">(2.0.0-SNAPSHOT-104)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -1090,7 +1090,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 936
+Content-Length: 1030
 
 {
   "_links" : {
@@ -1099,6 +1099,9 @@ Content-Length: 936
     },
     "location-create" : {
       "href" : "http://localhost:8080/v1/locations"
+    },
+    "location-findbypkey" : {
+      "href" : "http://localhost:8080/v1/locations/pKey"
     },
     "location-findbycoordinate" : {
       "href" : "http://localhost:8080/v1/locations?locationPK=AREA%2FAISLE%2FX%2FY%2FZ"
@@ -1140,11 +1143,15 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 304
+Content-Type: application/hal+json
+Content-Length: 408
 
 {
-  "links" : [ ],
+  "_links" : {
+    "location-findbypkey" : {
+      "href" : "http://localhost:8080/v1/locations/113646454019"
+    }
+  },
   "pKey" : "113646454019",
   "locationId" : "EXT_/0000/0000/0000/0000",
   "accountId" : "D",
@@ -1480,11 +1487,11 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 196
+Content-Length: 194
 
 {
-  "message" : "Location with name [NOTEXISTS] does not exist",
-  "messageKey" : "owms.common.common.loc.notFoundByName",
+  "message" : "Location with ID [NOTEXISTS] does not exist",
+  "messageKey" : "owms.common.common.loc.notFoundByPKey",
   "obj" : [ "NOTEXISTS" ],
   "httpStatus" : "404",
   "class" : "String"
@@ -1690,12 +1697,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/locations/e0d0e3af-10b1-4e9c-9fbf-5375907a7179/
+Location: http://localhost:8080/v1/locations/65232ffe-8a6a-4be3-a071-3005cc50c329/
 Content-Type: application/hal+json
 Content-Length: 277
 
 {
-  "pKey" : "e0d0e3af-10b1-4e9c-9fbf-5375907a7179",
+  "pKey" : "65232ffe-8a6a-4be3-a071-3005cc50c329",
   "locationId" : "FGIN/PICK/WORK/0010/0000",
   "plcCode" : "PICK_20",
   "erpCode" : "PICK_10",
@@ -3347,12 +3354,12 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/6a7762e0-8d51-45cb-87a8-7c866ee96ef2/
+Location: http://localhost:8080/v1/transport-units/b2478a7f-9b7a-4738-931a-81b46f14ffa6/
 Content-Type: application/hal+json
 Content-Length: 851
 
 {
-  "pKey" : "6a7762e0-8d51-45cb-87a8-7c866ee96ef2",
+  "pKey" : "b2478a7f-9b7a-4738-931a-81b46f14ffa6",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "pKey" : "113646454019",
@@ -3380,8 +3387,8 @@ Content-Length: 851
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2022-01-17T19:36:08Z",
-  "createDate" : "2022-01-17T19:36:08Z"
+  "actualLocationDate" : "2022-01-18T23:33:52Z",
+  "createDate" : "2022-01-18T23:33:52Z"
 }</code></pre>
 </div>
 </div>
@@ -3439,7 +3446,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/9b7ec520-375a-459e-897c-c10c60847a8a/</code></pre>
+Location: http://localhost:8080/v1/transport-units/a34a69c7-6175-4c82-bf3f-941c3a7fddac/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3539,8 +3546,8 @@ Content-Length: 665
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-01-17T19:36:09Z",
-  "createDate" : "2022-01-17T19:36:09Z"
+  "actualLocationDate" : "2022-01-18T23:33:53Z",
+  "createDate" : "2022-01-18T23:33:52Z"
 }</code></pre>
 </div>
 </div>
@@ -3631,8 +3638,8 @@ Content-Length: 665
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-01-17T19:36:08Z",
-  "createDate" : "2022-01-17T19:36:08Z"
+  "actualLocationDate" : "2022-01-18T23:33:52Z",
+  "createDate" : "2022-01-18T23:33:52Z"
 }</code></pre>
 </div>
 </div>
@@ -3695,7 +3702,7 @@ Host: localhost:8080</code></pre>
 Content-Type: application/vnd.openwms.transport-unit-v1+json
 Content-Length: 717
 
-{"links":[{"rel":"transport-unit-type","href":"http://localhost:8080/v1/transport-unit-types?type=PALLET"},{"rel":"actual-location","href":"http://localhost:8080/v1/locations?locationPK=EXT_%2F0000%2F0000%2F0000%2F0000"}],"pKey":"1","barcode":"00000000000000004711","actualLocation":{"links":[],"pKey":"113646454019","locationId":"EXT_/0000/0000/0000/0000","accountId":"D","plcCode":"PLC_0030","erpCode":"ERP_0030","sortOrder":0,"incomingActive":true,"outgoingActive":true,"plcState":0,"type":"FG","locationGroupName":"ZILE"},"state":"AVAILABLE","transportUnitType":{"type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"},"actualLocationDate":1642448168827,"createDate":1642448168827}</code></pre>
+{"links":[{"rel":"transport-unit-type","href":"http://localhost:8080/v1/transport-unit-types?type=PALLET"},{"rel":"actual-location","href":"http://localhost:8080/v1/locations?locationPK=EXT_%2F0000%2F0000%2F0000%2F0000"}],"pKey":"1","barcode":"00000000000000004711","actualLocation":{"links":[],"pKey":"113646454019","locationId":"EXT_/0000/0000/0000/0000","accountId":"D","plcCode":"PLC_0030","erpCode":"ERP_0030","sortOrder":0,"incomingActive":true,"outgoingActive":true,"plcState":0,"type":"FG","locationGroupName":"ZILE"},"state":"AVAILABLE","transportUnitType":{"type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"},"actualLocationDate":1642548832739,"createDate":1642548832739}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3728,7 +3735,7 @@ style, like it is left or right aligned and padded.</p>
 Content-Type: application/vnd.openwms.transport-unit-v1+json
 Content-Length: 717
 
-{"links":[{"rel":"transport-unit-type","href":"http://localhost:8080/v1/transport-unit-types?type=PALLET"},{"rel":"actual-location","href":"http://localhost:8080/v1/locations?locationPK=EXT_%2F0000%2F0000%2F0000%2F0000"}],"pKey":"1","barcode":"00000000000000004711","actualLocation":{"links":[],"pKey":"113646454019","locationId":"EXT_/0000/0000/0000/0000","accountId":"D","plcCode":"PLC_0030","erpCode":"ERP_0030","sortOrder":0,"incomingActive":true,"outgoingActive":true,"plcState":0,"type":"FG","locationGroupName":"ZILE"},"state":"AVAILABLE","transportUnitType":{"type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"},"actualLocationDate":1642448168617,"createDate":1642448168617}</code></pre>
+{"links":[{"rel":"transport-unit-type","href":"http://localhost:8080/v1/transport-unit-types?type=PALLET"},{"rel":"actual-location","href":"http://localhost:8080/v1/locations?locationPK=EXT_%2F0000%2F0000%2F0000%2F0000"}],"pKey":"1","barcode":"00000000000000004711","actualLocation":{"links":[],"pKey":"113646454019","locationId":"EXT_/0000/0000/0000/0000","accountId":"D","plcCode":"PLC_0030","erpCode":"ERP_0030","sortOrder":0,"incomingActive":true,"outgoingActive":true,"plcState":0,"type":"FG","locationGroupName":"ZILE"},"state":"AVAILABLE","transportUnitType":{"type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"},"actualLocationDate":1642548832497,"createDate":1642548832497}</code></pre>
 </div>
 </div>
 </div>
@@ -3802,8 +3809,8 @@ Content-Length: 1887
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-01-17T19:36:08Z",
-  "createDate" : "2022-01-17T19:36:08Z"
+  "actualLocationDate" : "2022-01-18T23:33:51Z",
+  "createDate" : "2022-01-18T23:33:51Z"
 }, {
   "links" : [ {
     "rel" : "transport-unit-type",
@@ -3836,8 +3843,8 @@ Content-Length: 1887
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-01-17T19:36:08Z",
-  "createDate" : "2022-01-17T19:36:08Z"
+  "actualLocationDate" : "2022-01-18T23:33:51Z",
+  "createDate" : "2022-01-18T23:33:51Z"
 } ]</code></pre>
 </div>
 </div>
@@ -3912,8 +3919,8 @@ Content-Length: 946
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-01-17T19:36:09Z",
-  "createDate" : "2022-01-17T19:36:09Z"
+  "actualLocationDate" : "2022-01-18T23:33:53Z",
+  "createDate" : "2022-01-18T23:33:53Z"
 } ]</code></pre>
 </div>
 </div>
@@ -4094,7 +4101,7 @@ Content-Length: 122
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-01-17 19:32:10 UTC
+Last updated 2022-01-18 23:29:22 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
