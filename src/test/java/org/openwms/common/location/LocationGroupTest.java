@@ -157,7 +157,7 @@ class LocationGroupTest {
 
     @Test void testAddLocation() {
         LocationGroup lg = new LocationGroup("Error zone");
-        Location loc = Location.create(new LocationPK("area", "aisle", "x", "y", "z"));
+        Location loc = Location.create(LocationPK.of("area", "aisle", "x", "y", "z"));
         assertThat(loc.belongsNotToLocationGroup()).isTrue();
         lg.addLocation(loc);
         assertThat(loc.belongsToLocationGroup()).isTrue();
@@ -174,7 +174,7 @@ class LocationGroupTest {
 
     @Test void testRemoveLocation() {
         LocationGroup lg = new LocationGroup("Error zone");
-        Location loc = Location.create(new LocationPK("area", "aisle", "x", "y", "z"));
+        Location loc = Location.create(LocationPK.of("area", "aisle", "x", "y", "z"));
         lg.addLocation(loc);
         assertThat(loc.belongsToLocationGroup()).isTrue();
         assertThat(lg.getLocations()).hasSize(1);

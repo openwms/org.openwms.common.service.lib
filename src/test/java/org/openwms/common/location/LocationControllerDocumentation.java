@@ -87,11 +87,11 @@ class LocationControllerDocumentation {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$._links.location-changestate").exists())
                 .andExpect(jsonPath("$._links.location-create").exists())
-                .andExpect(jsonPath("$._links.location-findbycoordinate").exists())
+                .andExpect(jsonPath("$._links.location-findbyid").exists())
                 .andExpect(jsonPath("$._links.location-findbypkey").exists())
                 .andExpect(jsonPath("$._links.location-findbyerpcode").exists())
                 .andExpect(jsonPath("$._links.location-findbyplccode").exists())
-                .andExpect(jsonPath("$._links.location-fortuple").exists())
+                .andExpect(jsonPath("$._links.location-findbycoordinate").exists())
                 .andExpect(jsonPath("$._links.location-forlocationgroup").exists())
                 .andExpect(jsonPath("$._links.location-updatelocation").exists())
                 .andExpect(jsonPath("$._links.length()", is(9)))
@@ -105,9 +105,11 @@ class LocationControllerDocumentation {
         location.setErpCode("PICK_10");
         location.setPlcCode("PICK_20");
         location.setType("PG");
-        mockMvc.perform(post(LocationApiConstants.API_LOCATIONS)
+        mockMvc.perform(
+                post(LocationApiConstants.API_LOCATIONS)
                         .content(mapper.writeValueAsString(location))
                         .contentType(MediaType.APPLICATION_JSON)
+                        .accept(LocationVO.MEDIA_TYPE)
                 )
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.pKey").exists())
@@ -131,6 +133,7 @@ class LocationControllerDocumentation {
                                 fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to")
                         ),
                         responseFields(
+                                fieldWithPath("links[].*").ignored(),
                                 fieldWithPath("pKey").description("The persistent technical key of the Location"),
                                 fieldWithPath("locationId").description("Unique natural key"),
                                 fieldWithPath("plcCode").description("PLC code of the Location"),
@@ -157,9 +160,11 @@ class LocationControllerDocumentation {
         location.setSortOrder(99);
         location.setStockZone("STOCK");
         location.setType("FG");
-        mockMvc.perform(put(LocationApiConstants.API_LOCATIONS)
+        mockMvc.perform(
+                put(LocationApiConstants.API_LOCATIONS)
                         .content(mapper.writeValueAsString(location))
                         .contentType(MediaType.APPLICATION_JSON)
+                        .accept(LocationVO.MEDIA_TYPE)
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.pKey", is("1000")))
@@ -192,6 +197,7 @@ class LocationControllerDocumentation {
                                 fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to")
                         ),
                         responseFields(
+                                fieldWithPath("links[].*").ignored(),
                                 fieldWithPath("pKey").description("The persistent technical key of the Location"),
                                 fieldWithPath("locationId").description("Unique natural key"),
                                 fieldWithPath("accountId").description("The ID of the Account, the Location is assigned to"),
@@ -245,8 +251,11 @@ class LocationControllerDocumentation {
         }
 
         @Test void shall_findby_plccode_404() throws Exception {
-            mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
-                    .queryParam("plcCode", "NOT EXISTS"))
+            mockMvc.perform(
+                    get(LocationApiConstants.API_LOCATIONS)
+                            .queryParam("plcCode", "NOT EXISTS")
+                            .accept(LocationVO.MEDIA_TYPE)
+                    )
                     .andExpect(status().isNotFound())
                     .andDo(document("loc-find-plc-404"));
         }
@@ -261,9 +270,9 @@ class LocationControllerDocumentation {
     class CoordinateTests {
 
          */
-        @Test void shall_findby_locationPk() throws Exception {
+        @Test void shall_findby_locationId() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
-                    .queryParam("locationPK", TestData.LOCATION_ID_EXT))
+                    .queryParam("locationId", TestData.LOCATION_ID_EXT))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("pKey").exists())
                     .andExpect(jsonPath("locationId", is(TestData.LOCATION_ID_EXT)))
@@ -276,22 +285,25 @@ class LocationControllerDocumentation {
                     .andDo(document("loc-find-coordinate"));
         }
 
-        @Test void shall_findby_locationPk_404() throws Exception {
-            mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
-                    .queryParam("locationPK", "EXT_/9999/9999/9999/9999"))
+        @Test void shall_findby_locationId_404() throws Exception {
+            mockMvc.perform(
+                    get(LocationApiConstants.API_LOCATIONS)
+                            .queryParam("locationId", "EXT_/9999/9999/9999/9999")
+                            .accept(LocationVO.MEDIA_TYPE)
+                    )
                     .andExpect(status().isNotFound())
                     .andExpect(jsonPath("messageKey", is(CommonMessageCodes.LOCATION_NOT_FOUND)))
                     .andDo(document("loc-find-coordinate-404"));
         }
 
-        @Test void shall_findby_locationPk_400() throws Exception {
+        @Test void shall_findby_locationId_400() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
-                    .queryParam("locationPK", "INVALID_COORDINATE"))
+                    .queryParam("locationId", "INVALID_COORDINATE"))
                     .andExpect(status().isNotFound())
                     .andDo(document("loc-find-coordinate-400"));
         }
 
-        @Test void shall_findby_locationPk_wildcard() throws Exception {
+        @Test void shall_findby_locationId_wildcard() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
                     .queryParam("area", "FGIN")
                     .queryParam("aisle", "00__")
@@ -303,7 +315,7 @@ class LocationControllerDocumentation {
                     .andDo(document("loc-find-coordinate-wildcard"));
         }
 
-        @Test void shall_findby_locationPk_wildcard_404() throws Exception {
+        @Test void shall_findby_locationId_wildcard_404() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
                     .queryParam("area", "UNKN")
                     .queryParam("aisle", "%")
@@ -314,7 +326,7 @@ class LocationControllerDocumentation {
                     .andDo(document("loc-find-coordinate-wildcard-404"));
         }
 
-        @Test void shall_findby_locationPk_wildcard_All() throws Exception {
+        @Test void shall_findby_locationId_wildcard_All() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS))
                     .andExpect(status().isOk());
         }

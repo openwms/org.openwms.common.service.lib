@@ -41,7 +41,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.BiConsumer;
 
 import static java.util.Arrays.asList;
@@ -76,23 +75,27 @@ public class LocationController extends AbstractWebController {
         this.translator = translator;
     }
 
-    @PostMapping(API_LOCATIONS)
+    @PostMapping(value = API_LOCATIONS, produces = LocationVO.MEDIA_TYPE)
     @Validated(ValidationGroups.Create.class)
     public ResponseEntity<LocationVO> createLocation(@Valid @RequestBody LocationVO location, HttpServletRequest req) {
         var created = locationService.create(mapper.convertVO(location));
+        var result = mapper.convertToVO(created);
+        addSelfLink(result);
         return ResponseEntity
                 .created(super.getLocationURIForCreatedResource(req, created.getPersistentKey()))
-                .body(mapper.convertToVO(created));
+                .body(result);
     }
 
-    @PutMapping(API_LOCATIONS)
+    @PutMapping(value = API_LOCATIONS, produces = LocationVO.MEDIA_TYPE)
     @Validated(ValidationGroups.Update.class)
     public ResponseEntity<LocationVO> updateLocation(@Valid @RequestBody LocationVO location) {
         var updated = locationService.save(mapper.convertVO(location));
-        return ResponseEntity.ok(mapper.convertToVO(updated));
+        var result = mapper.convertToVO(updated);
+        addSelfLink(result);
+        return ResponseEntity.ok(result);
     }
 
-    @GetMapping(value = API_LOCATIONS + "/{pKey}")
+    @GetMapping(value = API_LOCATIONS + "/{pKey}", produces = LocationVO.MEDIA_TYPE)
     public ResponseEntity<LocationVO> findByPKey(@PathVariable("pKey") String pKey) {
         var location = locationService.findByPKey(pKey);
         var result = mapper.convertToVO(location);
@@ -104,47 +107,53 @@ public class LocationController extends AbstractWebController {
         result.add(linkTo(methodOn(LocationController.class).findByPKey(result.getpKey())).withRel("location-findbypkey"));
     }
 
-    @GetMapping(value = API_LOCATIONS, params = {"locationPK"})
-    public ResponseEntity<LocationVO> findLocationByCoordinate(@RequestParam("locationPK") String locationPK) {
-        if (!LocationPK.isValid(locationPK)) {
+    @GetMapping(value = API_LOCATIONS, params = {"locationId"}, produces = LocationVO.MEDIA_TYPE)
+    public ResponseEntity<LocationVO> findById(@RequestParam("locationId") String locationId) {
+        if (!LocationPK.isValid(locationId)) {
             // here we need to throw an NFE because Feign needs to cast it into an Optional. IAE won't work!
-            throw new NotFoundException(translator, LOCATION_ID_INVALID, new String[]{locationPK}, locationPK);
+            throw new NotFoundException(translator, LOCATION_ID_INVALID, new String[]{locationId}, locationId);
         }
-        var location = locationService.findByLocationPk(LocationPK.fromString(locationPK))
+        var location = locationService.findByLocationPk(LocationPK.fromString(locationId))
                 .orElseThrow(() -> new NotFoundException(
                         translator,
                         LOCATION_NOT_FOUND,
-                        new String[]{locationPK},
-                        locationPK
+                        new String[]{locationId},
+                        locationId
                 ));
         var result = mapper.convertToVO(location);
         addSelfLink(result);
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping(value = API_LOCATIONS, params = {"erpCode"})
-    public ResponseEntity<Optional<LocationVO>> findLocationByErpCode(@RequestParam("erpCode") String erpCode) {
-        Location location = locationService.findByErpCode(erpCode).orElseThrow(() -> locationNotFound(erpCode));
-        return ResponseEntity.ok(Optional.ofNullable(mapper.convertToVO(location)));
+    @GetMapping(value = API_LOCATIONS, params = {"erpCode"}, produces = LocationVO.MEDIA_TYPE)
+    public ResponseEntity<LocationVO> findByErpCode(@RequestParam("erpCode") String erpCode) {
+        var location = locationService.findByErpCode(erpCode).orElseThrow(() -> locationNotFound(erpCode));
+        var result = mapper.convertToVO(location);
+        addSelfLink(result);
+        return ResponseEntity.ok(result);
     }
 
-    @GetMapping(value = API_LOCATIONS, params = {"plcCode"})
-    public ResponseEntity<Optional<LocationVO>> findLocationByPlcCode(@RequestParam("plcCode") String plcCode) {
-        Location location = locationService.findByPlcCode(plcCode)
+    @GetMapping(value = API_LOCATIONS, params = {"plcCode"}, produces = LocationVO.MEDIA_TYPE)
+    public ResponseEntity<LocationVO> findByPlcCode(@RequestParam("plcCode") String plcCode) {
+        var location = locationService.findByPlcCode(plcCode)
                 .orElseThrow(() -> new NotFoundException(
                         translator,
                         LOCATION_NOT_FOUND_BY_PLC_CODE,
                         new String[]{plcCode},
                         plcCode
                 ));
-        return ResponseEntity.ok(Optional.ofNullable(mapper.convertToVO(location)));
+        var result = mapper.convertToVO(location);
+        addSelfLink(result);
+        return ResponseEntity.ok(result);
     }
 
-    @GetMapping(value = API_LOCATIONS, params = {"locationGroupNames"})
-    public ResponseEntity<List<LocationVO>> findLocationsForLocationGroups(
+    @GetMapping(value = API_LOCATIONS, params = {"locationGroupNames"}, produces = {LocationVO.MEDIA_TYPE, LocationVO.MEDIA_TYPE_OPT})
+    public ResponseEntity<List<LocationVO>> findForLocationGroups(
             @RequestParam("locationGroupNames") List<String> locationGroupNames) {
-        List<Location> locations = locationService.findAllOf(locationGroupNames);
-        return ResponseEntity.ok(mapper.convertToVO(locations));
+        var locations = locationService.findAllOf(locationGroupNames);
+        var result = mapper.convertToVO(locations);
+        result.forEach(this::addSelfLink);
+        return ResponseEntity.ok(result);
     }
 
     @PatchMapping(value = API_LOCATION + "/{pKey}", params = "op=change-state")
@@ -172,42 +181,33 @@ public class LocationController extends AbstractWebController {
             @RequestParam(value = "plcState", required = false) Integer plcState
     ) {
         Location location = locationService.findByErpCode(erpCode).orElseThrow(() -> locationNotFound(erpCode));
-        switch(type) {
-            case ALLOCATION_LOCK:
-                changeLocation(
-                        mode,
-                        location,
-                        plcState,
-                        (l, code) -> locationService.changeState(l.getPersistentKey(), code)
-                );
-                break;
-            case OPERATION_LOCK:
-                throw new UnsupportedOperationException("Changing the operation mode of Locations is currently not supported in the API");
-            default:
-                unsupportedOperation(type);
+        switch (type) {
+            case ALLOCATION_LOCK -> changeLocation(
+                    mode,
+                    location,
+                    plcState,
+                    (l, code) -> locationService.changeState(l.getPersistentKey(), code)
+            );
+            case OPERATION_LOCK -> throw new UnsupportedOperationException("Changing the operation mode of Locations is currently not supported in the API");
+            default -> unsupportedOperation(type);
         }
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(value = API_LOCATIONS)
-    public ResponseEntity<List<LocationVO>> findLocations(
+    @GetMapping(value = API_LOCATIONS, produces = {LocationVO.MEDIA_TYPE, LocationVO.MEDIA_TYPE_OPT})
+    public ResponseEntity<List<LocationVO>> findByCoordinate(
             @RequestParam(value = "area", required = false, defaultValue = "%") String area,
             @RequestParam(value = "aisle", required = false, defaultValue = "%") String aisle,
             @RequestParam(value = "x", required = false, defaultValue = "%") String x,
             @RequestParam(value = "y", required = false, defaultValue = "%") String y,
             @RequestParam(value = "z", required = false, defaultValue = "%") String z
     ) {
-        LocationPK pk = LocationPK.newBuilder()
-                .area(area)
-                .aisle(aisle)
-                .x(x)
-                .y(y)
-                .z(z)
-                .build();
-        List<Location> locations = locationService.findLocations(pk);
-        return locations.isEmpty()
+        LocationPK pk = LocationPK.of(area, aisle, x, y, z);
+        var result = mapper.convertToVO(locationService.findLocations(pk));
+        result.forEach(this::addSelfLink);
+        return result.isEmpty()
                 ? ResponseEntity.notFound().build()
-                : ResponseEntity.ok(mapper.convertToVO(locations));
+                : ResponseEntity.ok(result);
     }
 
     @GetMapping(API_LOCATIONS + "/index")
@@ -217,11 +217,11 @@ public class LocationController extends AbstractWebController {
                         linkTo(methodOn(LocationController.class).changeState("pKey", "change-state", ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel("location-changestate"),
                         linkTo(methodOn(LocationController.class).createLocation(new LocationVO("locationId"), null)).withRel("location-create"),
                         linkTo(methodOn(LocationController.class).findByPKey("pKey")).withRel("location-findbypkey"),
-                        linkTo(methodOn(LocationController.class).findLocationByCoordinate("AREA/AISLE/X/Y/Z")).withRel("location-findbycoordinate"),
-                        linkTo(methodOn(LocationController.class).findLocationByErpCode("ERP_CODE")).withRel("location-findbyerpcode"),
-                        linkTo(methodOn(LocationController.class).findLocationByPlcCode("PLC_CODE")).withRel("location-findbyplccode"),
-                        linkTo(methodOn(LocationController.class).findLocations("area", "aisle", "x", "y", "z")).withRel("location-fortuple"),
-                        linkTo(methodOn(LocationController.class).findLocationsForLocationGroups(asList("LG1", "LG2"))).withRel("location-forlocationgroup"),
+                        linkTo(methodOn(LocationController.class).findById("AREA/AISLE/X/Y/Z")).withRel("location-findbyid"),
+                        linkTo(methodOn(LocationController.class).findByErpCode("ERP_CODE")).withRel("location-findbyerpcode"),
+                        linkTo(methodOn(LocationController.class).findByPlcCode("PLC_CODE")).withRel("location-findbyplccode"),
+                        linkTo(methodOn(LocationController.class).findByCoordinate("area", "aisle", "x", "y", "z")).withRel("location-findbycoordinate"),
+                        linkTo(methodOn(LocationController.class).findForLocationGroups(asList("LG1", "LG2"))).withRel("location-forlocationgroup"),
                         linkTo(methodOn(LocationController.class).updateLocation(new LocationVO("locationId"))).withRel("location-updatelocation")
                 )
         );
@@ -229,29 +229,28 @@ public class LocationController extends AbstractWebController {
 
     private void changeLocation(LockMode mode, Target target, Integer plcState, BiConsumer<Target, ErrorCodeVO> fnc) {
         ErrorCodeVO state;
-        switch(mode) {
-            case IN:
+        switch (mode) {
+            case IN -> {
                 state = ErrorCodeVO.LOCK_STATE_IN;
                 state.setPlcState(plcState);
                 fnc.accept(target, state);
-                break;
-            case OUT:
+            }
+            case OUT -> {
                 state = ErrorCodeVO.LOCK_STATE_OUT;
                 state.setPlcState(plcState);
                 fnc.accept(target, state);
-                break;
-            case IN_AND_OUT:
+            }
+            case IN_AND_OUT -> {
                 state = ErrorCodeVO.LOCK_STATE_IN_AND_OUT;
                 state.setPlcState(plcState);
                 fnc.accept(target, state);
-                break;
-            case NONE:
+            }
+            case NONE -> {
                 state = ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT;
                 state.setPlcState(plcState);
                 fnc.accept(target, state);
-                break;
-            default:
-                unsupportedOperation(mode);
+            }
+            default -> unsupportedOperation(mode);
         }
     }
 

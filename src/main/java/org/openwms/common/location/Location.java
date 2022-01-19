@@ -58,7 +58,11 @@ import static org.openwms.common.location.StringListConverter.STRING_LIST_LENGTH
  * @see org.openwms.common.location.LocationGroup
  */
 @Entity
-@Table(name = Location.TABLE, uniqueConstraints = @UniqueConstraint(name = "UC_LOC_ID", columnNames = {"C_AREA", "C_AISLE", "C_X", "C_Y", "C_Z"}))
+@Table(name = Location.TABLE, uniqueConstraints = {
+        @UniqueConstraint(name = "UC_LOC_ID", columnNames = {"C_AREA", "C_AISLE", "C_X", "C_Y", "C_Z"}),
+        @UniqueConstraint(name = "UC_LOC_PLC_CODE", columnNames = "C_PLC_CODE"),
+        @UniqueConstraint(name = "UC_LOC_ERP_CODE", columnNames = "C_ERP_CODE")
+})
 public class Location extends Target implements Serializable {
 
     /** Table name. */
@@ -80,7 +84,7 @@ public class Location extends Target implements Serializable {
     private Account account;
 
     /** PLC code of the {@code Location}. */
-    @Column(name = "C_PLC_CODE", unique = true)
+    @Column(name = "C_PLC_CODE")
     private String plcCode;
 
     /** ERP code of the {@code Location}. */

@@ -29,7 +29,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  */
 class LocationTest {
 
-    private static final LocationPK ID1 = new LocationPK.Builder().area("area").aisle("aisle").x("x").y("y").z("z").build();
+    private static final LocationPK ID1 = LocationPK.of("area", "aisle", "x", "y", "z");
 
     @Nested
     @DisplayName("Creation")

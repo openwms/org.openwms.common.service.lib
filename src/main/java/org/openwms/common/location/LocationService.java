@@ -109,6 +109,7 @@ public interface LocationService {
      *
      * @param location Modified instance
      * @return Saved instance
+     * @throws org.ameba.exception.NotFoundException If the passed instance does not already exist
      */
     Location save(@NotNull Location location);
 }

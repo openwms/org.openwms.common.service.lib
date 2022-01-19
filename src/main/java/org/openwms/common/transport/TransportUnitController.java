@@ -115,7 +115,7 @@ public class TransportUnitController extends AbstractWebController {
         );
         if (result.getActualLocation() != null) {
             result.add(
-                    new SimpleLink(linkTo(methodOn(LocationController.class).findLocationByCoordinate(result.getActualLocation().getLocationId())).withRel("actual-location"))
+                    new SimpleLink(linkTo(methodOn(LocationController.class).findById(result.getActualLocation().getLocationId())).withRel("actual-location"))
             );
         }
     }

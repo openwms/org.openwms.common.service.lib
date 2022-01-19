@@ -91,7 +91,7 @@ class TransportUnitIT {
 
     @Test void shall_fail_with_transient_actualLocation() {
         when(generator.convert("NEVER_PERSISTED")).thenReturn(Barcode.of("NEVER_PERSISTED"));
-        TransportUnit transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, Location.create(new LocationPK("UNKN", "UNKN", "UNKN", "UNKN", "UNKN")));
+        TransportUnit transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, Location.create(LocationPK.of("UNKN", "UNKN", "UNKN", "UNKN", "UNKN")));
         assertThatThrownBy(
                 () -> repository.save(transportUnit))
                 .isInstanceOf(DataAccessException.class)
@@ -101,7 +101,7 @@ class TransportUnitIT {
     @Test void shall_fail_with_transient_targetLocation() {
         when(generator.convert("NEVER_PERSISTED")).thenReturn(Barcode.of("NEVER_PERSISTED"));
         TransportUnit transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, knownLocation);
-        transportUnit.setTargetLocation(Location.create(new LocationPK("UNKN", "UNKN", "UNKN", "UNKN", "UNKN")));
+        transportUnit.setTargetLocation(Location.create(LocationPK.of("UNKN", "UNKN", "UNKN", "UNKN", "UNKN")));
         assertThatThrownBy(
                 () -> entityManager.persistAndFlush(transportUnit))
                 .isInstanceOf(IllegalStateException.class)

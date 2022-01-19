@@ -47,14 +47,14 @@ class LocationIT {
      * Creating two groups with same id must fail.
      */
     @Test void testNameConstraint() {
-        Location loc2 = new Location(LocationPK.newBuilder().area("EXT_").aisle("0000").x("0000").y("0000").z("0000").build());
+        Location loc2 = new Location(LocationPK.of("EXT_", "0000", "0000", "0000", "0000"));
         assertThatThrownBy(
                 () -> repository.saveAndFlush(loc2))
                 .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test void shall_persist_with_labels() {
-        Location l = new Location(LocationPK.newBuilder().area("UNKW").aisle("0000").x("0000").y("0000").z("0000").build());
+        Location l = new Location(LocationPK.of("UNKN", "0000", "0000", "0000", "0000"));
         l.setLabels(asList("L1", "L2"));
         l = repository.saveAndFlush(l);
 
@@ -66,7 +66,7 @@ class LocationIT {
     }
 
     @Test void shall_fail_with_too_long_strings() {
-        Location l = new Location(LocationPK.newBuilder().area("UNKW").aisle("0000").x("0000").y("0000").z("0000").build());
+        Location l = new Location(LocationPK.of("UNKN", "0000", "0000", "0000", "0000"));
         l.setDescription(" ".repeat(256));
         ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> repository.saveAndFlush(l));
         assertThat(ex.getMessage()).contains("propertyPath=description");

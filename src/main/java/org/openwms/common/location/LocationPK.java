@@ -19,7 +19,7 @@ import org.springframework.util.Assert;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -40,36 +40,34 @@ public class LocationPK implements Serializable {
     public static final short PK_LENGTH = NUMBER_OF_KEYS * KEY_LENGTH;
 
     /** Expresses the area the {@link Location} belongs to. */
-    @Column(name = "AREA", nullable = false, length = KEY_LENGTH)
-    @Max(value = KEY_LENGTH)
+    @Column(name = "C_AREA", nullable = false, length = KEY_LENGTH)
+    @Size(max = KEY_LENGTH)
     private String area;
 
     /** Expresses the aisle the {@link Location} belongs to. */
-    @Column(name = "AISLE", nullable = false, length = KEY_LENGTH)
-    @Max(value = KEY_LENGTH)
+    @Column(name = "C_AISLE", nullable = false, length = KEY_LENGTH)
+    @Size(max = KEY_LENGTH)
     private String aisle;
 
     /** Expresses the x-dimension the {@link Location} belongs to. */
-    @Column(name = "X", nullable = false, length = KEY_LENGTH)
-    @Max(value = KEY_LENGTH)
+    @Column(name = "C_X", nullable = false, length = KEY_LENGTH)
+    @Size(max = KEY_LENGTH)
     private String x;
 
     /** Expresses the y-dimension the {@link Location} belongs to. */
-    @Column(name = "Y", nullable = false, length = KEY_LENGTH)
-    @Max(value = KEY_LENGTH)
+    @Column(name = "C_Y", nullable = false, length = KEY_LENGTH)
+    @Size(max = KEY_LENGTH)
     private String y;
 
     /** Expresses the z-dimension the {@link Location} belongs to. */
-    @Column(name = "Z", nullable = false, length = KEY_LENGTH)
-    @Max(value = KEY_LENGTH)
+    @Column(name = "C_Z", nullable = false, length = KEY_LENGTH)
+    @Size(max = KEY_LENGTH)
     private String z;
 
     /*~ ----------------------------- constructors ------------------- */
 
     /** Dear JPA ... */
-    protected LocationPK() {
-        super();
-    }
+    protected LocationPK() { }
 
     /**
      * Create a new LocationPK with all required fields.
@@ -80,12 +78,8 @@ public class LocationPK implements Serializable {
      * @param y Dimension y where the {@link Location} belongs to
      * @param z Dimension z where the {@link Location} belongs to
      */
-    public LocationPK(String area, String aisle, String x, String y, String z) {
-        this.area = area;
-        this.aisle = aisle;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    public static LocationPK of(String area, String aisle, String x, String y, String z) {
+        return new LocationPK(area, aisle, x, y, z);
     }
 
     /**
@@ -94,7 +88,7 @@ public class LocationPK implements Serializable {
      * @param keys The array of keys, currently expected to be 5
      * @throws IllegalArgumentException if the number of keys does not match {@link LocationPK#NUMBER_OF_KEYS}
      */
-    public LocationPK(String... keys) {
+    private LocationPK(String... keys) {
         if (keys == null || keys.length != NUMBER_OF_KEYS) {
             throw new IllegalArgumentException(
                     "Number of key fields to create a LocationPK does not match the defined number of keys. Expected: " + NUMBER_OF_KEYS);
@@ -104,14 +98,6 @@ public class LocationPK implements Serializable {
         this.x = keys[2];
         this.y = keys[3];
         this.z = keys[4];
-    }
-
-    private LocationPK(Builder builder) {
-        area = builder.area;
-        aisle = builder.aisle;
-        x = builder.x;
-        y = builder.y;
-        z = builder.z;
     }
 
     /**
@@ -133,15 +119,6 @@ public class LocationPK implements Serializable {
      */
     public static boolean isValid(String locationPk) {
         return locationPk != null && locationPk.split("/").length == NUMBER_OF_KEYS;
-    }
-
-    /**
-     * Create a new builder instance to create LocationPK from.
-     *
-     * @return The builder
-     */
-    public static Builder newBuilder() {
-        return new Builder();
     }
     /*~ ----------------------------- methods ------------------- */
 
@@ -200,10 +177,9 @@ public class LocationPK implements Serializable {
         if (o == this) {
             return true;
         }
-        if (!(o instanceof LocationPK)) {
+        if (!(o instanceof LocationPK other)) {
             return false;
         }
-        LocationPK other = (LocationPK) o;
         return this.y.equals(other.y) && this.x.equals(other.x) && this.area.equals(other.area)
                 && this.z.equals(other.z) && this.aisle.equals(other.aisle);
     }
@@ -227,81 +203,5 @@ public class LocationPK implements Serializable {
     @Override
     public String toString() {
         return this.area + "/" + this.aisle + "/" + this.x + "/" + this.y + "/" + this.z;
-    }
-
-    /**
-     * {@code LocationPK} builder static inner class.
-     */
-    public static final class Builder {
-
-        private String area;
-        private String aisle;
-        private String x;
-        private String y;
-        private String z;
-
-        /**
-         * Sets the {@code area} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param val the {@code area} to set
-         * @return a reference to this Builder
-         */
-        public Builder area(String val) {
-            area = val;
-            return this;
-        }
-
-        /**
-         * Sets the {@code aisle} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param val the {@code aisle} to set
-         * @return a reference to this Builder
-         */
-        public Builder aisle(String val) {
-            aisle = val;
-            return this;
-        }
-
-        /**
-         * Sets the {@code x} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param val the {@code x} to set
-         * @return a reference to this Builder
-         */
-        public Builder x(String val) {
-            x = val;
-            return this;
-        }
-
-        /**
-         * Sets the {@code y} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param val the {@code y} to set
-         * @return a reference to this Builder
-         */
-        public Builder y(String val) {
-            y = val;
-            return this;
-        }
-
-        /**
-         * Sets the {@code z} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param val the {@code z} to set
-         * @return a reference to this Builder
-         */
-        public Builder z(String val) {
-            z = val;
-            return this;
-        }
-
-        /**
-         * Returns a {@code LocationPK} built from the parameters previously set.
-         *
-         * @return a {@code LocationPK} built with parameters of this {@code LocationPK.Builder}
-         */
-        public LocationPK build() {
-            return new LocationPK(this);
-        }
     }
 }

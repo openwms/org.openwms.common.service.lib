@@ -47,7 +47,7 @@ public interface LocationApi {
      * @param location The representation of the Location to create
      * @return The created instance
      */
-    @PostMapping(API_LOCATIONS)
+    @PostMapping(value = API_LOCATIONS, produces = LocationVO.MEDIA_TYPE)
     LocationVO createLocation(@RequestBody LocationVO location);
 
     /**
@@ -56,7 +56,7 @@ public interface LocationApi {
      * @param location The representation of the modified Location to save
      * @return The updated and saved instance
      */
-    @PutMapping(API_LOCATIONS)
+    @PutMapping(value = API_LOCATIONS, produces = LocationVO.MEDIA_TYPE)
     LocationVO updateLocation(@RequestBody LocationVO location);
 
     /**
@@ -64,33 +64,30 @@ public interface LocationApi {
      *
      * @param pKey The persistent key
      * @return The instance
-     * @throws org.ameba.exception.NotFoundException If no instance exists
      */
-    @GetMapping(value = API_LOCATIONS + "/{pKey}")
+    @GetMapping(value = API_LOCATIONS + "/{pKey}", produces = LocationVO.MEDIA_TYPE_OPT)
     @Cacheable("locations")
-    LocationVO findByPKey(@PathVariable("pKey") String pKey);
+    Optional<LocationVO> findByPKey(@PathVariable("pKey") String pKey);
 
     /**
      * Find and return all {@code LocationTypes}.
      *
      * @return Never {@literal null}
      */
-    @GetMapping(API_LOCATION_TYPES)
+    @GetMapping(value = API_LOCATION_TYPES, produces = LocationVO.MEDIA_TYPE)
     @Cacheable("locations")
     List<LocationTypeVO> findAll();
 
     /**
-     * Find and return a {@code Location} representation by the given {@code locationPK}.
+     * Find and return a {@code Location}.
      *
-     * @param locationPK The business key of the Location
+     * @param locationId The business key of the Location
      * @return Never {@literal null}
-     * @throws IllegalArgumentException in case the given locationPK is not valid
+     * @throws IllegalArgumentException in case the given locationPK is invalid
      */
-    @GetMapping(value = API_LOCATIONS, params = {"locationPK"})
+    @GetMapping(value = API_LOCATIONS, params = {"locationId"}, produces = LocationVO.MEDIA_TYPE_OPT)
     @Cacheable("locations")
-    Optional<LocationVO> findLocationByCoordinate(
-            @RequestParam("locationPK") String locationPK
-    );
+    Optional<LocationVO> findById(@RequestParam("locationId") String locationId);
 
     /**
      * Find and return a {@code Location} representation by the given {@code plcCode}.
@@ -98,11 +95,9 @@ public interface LocationApi {
      * @param plcCode The PLC code
      * @return Never {@literal null}
      */
-    @GetMapping(value = API_LOCATIONS, params = {"plcCode"})
+    @GetMapping(value = API_LOCATIONS, params = {"plcCode"}, produces = LocationVO.MEDIA_TYPE_OPT)
     @Cacheable("locations")
-    Optional<LocationVO> findLocationByPlcCode(
-            @RequestParam("plcCode") String plcCode
-    );
+    Optional<LocationVO> findByPlcCode(@RequestParam("plcCode") String plcCode);
 
     /**
      * Find and return a {@code Location} representation by the given {@code erpCode}.
@@ -110,11 +105,9 @@ public interface LocationApi {
      * @param erpCode The ERP code
      * @return Never {@literal null}
      */
-    @GetMapping(value = API_LOCATIONS, params = {"erpCode"})
+    @GetMapping(value = API_LOCATIONS, params = {"erpCode"}, produces = LocationVO.MEDIA_TYPE_OPT)
     @Cacheable("locations")
-    Optional<LocationVO> findLocationByErpCode(
-            @RequestParam("erpCode") String erpCode
-    );
+    Optional<LocationVO> findByErpCode(@RequestParam("erpCode") String erpCode);
 
     /**
      * Find and return all {@code Location}s that belong to one or more {@code LocationGroup}s identified by their {@code locationGroupNames}.
@@ -122,11 +115,9 @@ public interface LocationApi {
      * @param locationGroupNames A list of LocationGroup names
      * @return All Location instances or an empty list
      */
-    @GetMapping(value = API_LOCATIONS, params = {"locationGroupNames"})
+    @GetMapping(value = API_LOCATIONS, params = {"locationGroupNames"}, produces = LocationVO.MEDIA_TYPE)
     @Cacheable("locations")
-    List<LocationVO> findLocationsForLocationGroups(
-            @RequestParam("locationGroupNames") List<String> locationGroupNames
-    );
+    List<LocationVO> findForLocationGroups(@RequestParam("locationGroupNames") List<String> locationGroupNames);
 
     /**
      * Change the state of a a {@code Location}.
@@ -158,7 +149,8 @@ public interface LocationApi {
     );
 
     /**
-     * Find and return all {@code Location}s that match the given criteria expressed by area/aisle/x/y/z. Supported wildcards in coordinates: {@code %,_}.
+     * Find and return all {@code Location}s that match the given criteria expressed by area/aisle/x/y/z. Supported wildcards in
+     * coordinates: {@code %,_}.
      *
      * @param area The Area to search for
      * @param aisle The Aisle to search for
@@ -167,9 +159,9 @@ public interface LocationApi {
      * @param z The Z to search for or
      * @return All Location instances or an empty list
      */
-    @GetMapping(value = API_LOCATIONS, params = {"area", "aisle", "x", "y", "z"})
+    @GetMapping(value = API_LOCATIONS, params = {"area", "aisle", "x", "y", "z"}, produces = LocationVO.MEDIA_TYPE)
     @Cacheable("locations")
-    List<LocationVO> findLocations(
+    List<LocationVO> findByCoordinate(
             @RequestParam(value = "area", required = false) String area,
             @RequestParam(value = "aisle", required = false) String aisle,
             @RequestParam(value = "x", required = false) String x,

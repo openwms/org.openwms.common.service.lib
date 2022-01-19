@@ -15,12 +15,10 @@
  */
 package org.openwms.common.location.api;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.ameba.http.AbstractBase;
-import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
@@ -34,6 +32,11 @@ import java.util.StringJoiner;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LocationVO extends AbstractBase<LocationVO> implements TargetVO, Serializable {
+
+    /** HTTP media type representation. */
+    public static final String MEDIA_TYPE = "application/vnd.openwms.common.location-v1+json";
+    /** HTTP media type representation. */
+    public static final String MEDIA_TYPE_OPT = "application/vnd.openwms.common.location-opt-v1+json";
 
     /** The persistent technical key of the {@code Location}. */
     @JsonProperty("pKey")
