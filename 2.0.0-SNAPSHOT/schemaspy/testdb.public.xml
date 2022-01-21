@@ -83,6 +83,9 @@
          <index name="com_location_pkey" unique="true">
             <column ascending="true" name="c_pk"/>
          </index>
+         <index name="uc_loc_erp_code" unique="true">
+            <column ascending="true" name="c_erp_code"/>
+         </index>
          <index name="uc_loc_id" unique="true">
             <column ascending="true" name="c_area"/>
             <column ascending="true" name="c_aisle"/>
@@ -90,7 +93,7 @@
             <column ascending="true" name="c_y"/>
             <column ascending="true" name="c_z"/>
          </index>
-         <index name="uk_6j2cwfpxn549vlfupsaxh95i4" unique="true">
+         <index name="uc_loc_plc_code" unique="true">
             <column ascending="true" name="c_plc_code"/>
          </index>
          <index name="uk_84fpvvehdtcv8g56lhd5lng38" unique="true">
