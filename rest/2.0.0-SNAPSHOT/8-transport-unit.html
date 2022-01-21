@@ -506,7 +506,10 @@ different request parameters.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/transport-units?bk=00000000000000004710&amp;actualLocation=EXT_/0000/0000/0000/0000&amp;tut=PALLET&amp;strict=false HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+bk=00000000000000004710&amp;actualLocation=EXT_%2F0000%2F0000%2F0000%2F0000&amp;tut=PALLET&amp;strict=false</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -546,12 +549,12 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/91e7d5ec-5c4a-4340-a464-7ce6a9938b14/
+Location: http://localhost:8080/v1/transport-units/df270089-9a5b-418a-a3b3-c316208ee6eb/
 Content-Type: application/hal+json
 Content-Length: 851
 
 {
-  "pKey" : "91e7d5ec-5c4a-4340-a464-7ce6a9938b14",
+  "pKey" : "df270089-9a5b-418a-a3b3-c316208ee6eb",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "pKey" : "113646454019",
@@ -579,8 +582,8 @@ Content-Length: 851
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2022-01-21T21:20:37Z",
-  "createDate" : "2022-01-21T21:20:37Z"
+  "actualLocationDate" : "2022-01-21T21:40:18Z",
+  "createDate" : "2022-01-21T21:40:18Z"
 }</code></pre>
 </div>
 </div>
@@ -638,7 +641,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/fed0056b-3ee3-4db8-b5f1-58e71e23681b/</code></pre>
+Location: http://localhost:8080/v1/transport-units/b5d02e36-ed62-4742-aa66-b4ef4b67b32d/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -738,8 +741,8 @@ Content-Length: 665
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-01-21T21:20:37Z",
-  "createDate" : "2022-01-21T21:20:37Z"
+  "actualLocationDate" : "2022-01-21T21:40:19Z",
+  "createDate" : "2022-01-21T21:40:19Z"
 }</code></pre>
 </div>
 </div>
@@ -830,8 +833,8 @@ Content-Length: 665
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-01-21T21:20:37Z",
-  "createDate" : "2022-01-21T21:20:37Z"
+  "actualLocationDate" : "2022-01-21T21:40:19Z",
+  "createDate" : "2022-01-21T21:40:18Z"
 }</code></pre>
 </div>
 </div>
@@ -894,7 +897,7 @@ Host: localhost:8080</code></pre>
 Content-Type: application/vnd.openwms.transport-unit-v1+json
 Content-Length: 717
 
-{"links":[{"rel":"transport-unit-type","href":"http://localhost:8080/v1/transport-unit-types?type=PALLET"},{"rel":"actual-location","href":"http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"}],"pKey":"1","barcode":"00000000000000004711","actualLocation":{"links":[],"pKey":"113646454019","locationId":"EXT_/0000/0000/0000/0000","accountId":"D","plcCode":"PLC_0030","erpCode":"ERP_0030","sortOrder":0,"incomingActive":true,"outgoingActive":true,"plcState":0,"type":"FG","locationGroupName":"ZILE"},"state":"AVAILABLE","transportUnitType":{"type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"},"actualLocationDate":1642800037690,"createDate":1642800037690}</code></pre>
+{"links":[{"rel":"transport-unit-type","href":"http://localhost:8080/v1/transport-unit-types?type=PALLET"},{"rel":"actual-location","href":"http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"}],"pKey":"1","barcode":"00000000000000004711","actualLocation":{"links":[],"pKey":"113646454019","locationId":"EXT_/0000/0000/0000/0000","accountId":"D","plcCode":"PLC_0030","erpCode":"ERP_0030","sortOrder":0,"incomingActive":true,"outgoingActive":true,"plcState":0,"type":"FG","locationGroupName":"ZILE"},"state":"AVAILABLE","transportUnitType":{"type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"},"actualLocationDate":1642801219487,"createDate":1642801219487}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -927,7 +930,7 @@ style, like it is left or right aligned and padded.</p>
 Content-Type: application/vnd.openwms.transport-unit-v1+json
 Content-Length: 717
 
-{"links":[{"rel":"transport-unit-type","href":"http://localhost:8080/v1/transport-unit-types?type=PALLET"},{"rel":"actual-location","href":"http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"}],"pKey":"1","barcode":"00000000000000004711","actualLocation":{"links":[],"pKey":"113646454019","locationId":"EXT_/0000/0000/0000/0000","accountId":"D","plcCode":"PLC_0030","erpCode":"ERP_0030","sortOrder":0,"incomingActive":true,"outgoingActive":true,"plcState":0,"type":"FG","locationGroupName":"ZILE"},"state":"AVAILABLE","transportUnitType":{"type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"},"actualLocationDate":1642800037484,"createDate":1642800037484}</code></pre>
+{"links":[{"rel":"transport-unit-type","href":"http://localhost:8080/v1/transport-unit-types?type=PALLET"},{"rel":"actual-location","href":"http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"}],"pKey":"1","barcode":"00000000000000004711","actualLocation":{"links":[],"pKey":"113646454019","locationId":"EXT_/0000/0000/0000/0000","accountId":"D","plcCode":"PLC_0030","erpCode":"ERP_0030","sortOrder":0,"incomingActive":true,"outgoingActive":true,"plcState":0,"type":"FG","locationGroupName":"ZILE"},"state":"AVAILABLE","transportUnitType":{"type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"},"actualLocationDate":1642801219148,"createDate":1642801219148}</code></pre>
 </div>
 </div>
 </div>
@@ -1001,8 +1004,8 @@ Content-Length: 1887
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-01-21T21:20:36Z",
-  "createDate" : "2022-01-21T21:20:36Z"
+  "actualLocationDate" : "2022-01-21T21:40:18Z",
+  "createDate" : "2022-01-21T21:40:18Z"
 }, {
   "links" : [ {
     "rel" : "transport-unit-type",
@@ -1035,8 +1038,8 @@ Content-Length: 1887
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-01-21T21:20:36Z",
-  "createDate" : "2022-01-21T21:20:36Z"
+  "actualLocationDate" : "2022-01-21T21:40:18Z",
+  "createDate" : "2022-01-21T21:40:18Z"
 } ]</code></pre>
 </div>
 </div>
@@ -1111,8 +1114,8 @@ Content-Length: 946
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-01-21T21:20:38Z",
-  "createDate" : "2022-01-21T21:20:38Z"
+  "actualLocationDate" : "2022-01-21T21:40:19Z",
+  "createDate" : "2022-01-21T21:40:19Z"
 } ]</code></pre>
 </div>
 </div>
@@ -1127,7 +1130,10 @@ client simple calls this API to store a new error message for an existing <code>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/transport-unit/error?bk=00000000000000004711&amp;errorCode=bla HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+bk=00000000000000004711&amp;errorCode=bla</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1166,7 +1172,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-01-21 21:11:06 UTC
+Last updated 2022-01-21 21:36:12 UTC
 </div>
 </div>
 </body>
