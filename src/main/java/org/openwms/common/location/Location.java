@@ -212,7 +212,11 @@ public class Location extends Target implements Serializable {
 
     /** Stored {@link Message}s on the {@code Location}. */
     @OneToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "COM_LOCATION_MESSAGE", joinColumns = @JoinColumn(name = "C_LOCATION_ID"), inverseJoinColumns = @JoinColumn(name = "C_MESSAGE_ID"))
+    @JoinTable(name = "COM_LOCATION_MESSAGE",
+            uniqueConstraints = @UniqueConstraint(name = "UC_LOCM_ID", columnNames = "C_MESSAGE_ID"),
+            joinColumns = @JoinColumn(name = "C_LOCATION_ID", foreignKey = @ForeignKey(name = "FK_LOCM_LOCPK")),
+            inverseJoinColumns = @JoinColumn(name = "C_MESSAGE_ID", foreignKey = @ForeignKey(name = "FK_LOCM_MSGPK"))
+    )
     private Set<Message> messages = new HashSet<>();
 
     /*~ ----------------------------- constructors ------------------- */

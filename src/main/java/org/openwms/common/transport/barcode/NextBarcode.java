@@ -30,7 +30,9 @@ import java.util.Objects;
  * @author Heiko Scherrer
  */
 @Entity
-@Table(name = "COM_BARCODE", uniqueConstraints = @UniqueConstraint(columnNames = {"C_NAME"}))
+@Table(name = "COM_BARCODE", uniqueConstraints =
+    @UniqueConstraint(name = "UC_BARCODE_NAME", columnNames = {"C_NAME"})
+)
 public class NextBarcode extends BaseEntity implements Serializable {
 
     /** Name of the Account. */

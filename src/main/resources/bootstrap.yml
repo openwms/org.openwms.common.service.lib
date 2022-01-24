@@ -6,6 +6,8 @@ spring:
       name: user
       password: sa
   jpa:
+    mapping-resources:
+      - META-INF/common-orm.xml
     open-in-view: false
     properties:
       org:
@@ -20,7 +22,6 @@ spring:
             audit_strategy_validity_revend_timestamp_field_name: C_REVEND_TSTMP
             store_data_at_delete: true
     show-sql: false
-    mapping-resources: META-INF/common-orm.xml
   jackson:
     date-format: "yyyy-MM-dd'T'HH:mm:ssXXX" # Only matches Dates no Instants!
   main:
@@ -78,6 +79,10 @@ eureka:
     # In this case every 2 seconds. Use this only for development / debugging. In production use the ...
     # Default: 30s
     lease-renewal-interval-in-seconds:    2
+
+info:
+  scm-url: "@scm.url@"
+  build-url: "@ciManagement.url@"
 
 logging:
   file:

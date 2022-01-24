@@ -33,6 +33,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -47,11 +48,13 @@ import java.util.Set;
  * @see org.openwms.common.location.Location
  */
 @Entity
-@Table(name = "COM_LOCATION_GROUP")
+@Table(name = "COM_LOCATION_GROUP", uniqueConstraints =
+    @UniqueConstraint(name = "UC_LG_NAME", columnNames = "C_NAME")
+)
 public class LocationGroup extends Target implements Serializable {
 
     /** Unique identifier of a {@code LocationGroup}. */
-    @Column(name = "C_NAME", unique = true, nullable = false, length = LENGTH_NAME)
+    @Column(name = "C_NAME", nullable = false, length = LENGTH_NAME)
     private String name;
     /** Length of the name field; used for telegram mapping and for column definition. */
     public static final int LENGTH_NAME = 20;

@@ -22,6 +22,11 @@ package org.openwms.common.location.api;
  */
 public interface TargetVO {
 
+    /**
+     * Get the persistent key.
+     *
+     * @return As String
+     */
     String getpKey();
 
     /**
