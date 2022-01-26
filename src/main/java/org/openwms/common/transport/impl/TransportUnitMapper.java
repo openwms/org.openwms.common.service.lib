@@ -64,9 +64,8 @@ public abstract class TransportUnitMapper {
 
     @Mapping(target = "pKey", source = "eo.persistentKey")
     @Mapping(target = "barcode", expression = "java( eo.getBarcode().getValue() )")
-    @Mapping(target = "actualLocation", expression = "java( eo.getActualLocation().getLocationId().toString() )")
-    @Mapping(target = "targetLocation", expression = "java( eo.getTargetLocation().getLocationId().toString() )")
-    @Mapping(target = "parent", expression = "java( eo.getParent().getBarcode().getValue() )")
-    @Mapping(target = "plcCode", expression = "java( eo.getActualLocation().getPlcCode() )")
+    @Mapping(target = "actualLocation", source = "actualLocation")
+    @Mapping(target = "targetLocation", source = "targetLocation")
+    @Mapping(target = "parent", expression = "java( eo.getParent() == null ? null : eo.getParent().getBarcode().getValue() )")
     public abstract TransportUnitMO convertToMO(TransportUnit eo);
 }

@@ -59,10 +59,10 @@ public class LocationCommandListener {
             switch(command.getType()) {
                 case SET_LOCATION_EMPTY:
                     validate(validator,command, ValidationGroups.SetLocationEmpty.class);
-                    LOGGER.debug("Got command to set a Location [{}] empty", command.getLocation().getpKey());
+                    LOGGER.debug("Got command to set a Location [{}] empty", command.getLocation().pKey());
                     var errorCode = ErrorCodeVO.LOCK_STATE_IN_AND_OUT;
                     errorCode.setPlcState(LOCATION_EMPTY);
-                    locationService.changeState(command.getLocation().getpKey(), errorCode);
+                    locationService.changeState(command.getLocation().pKey(), errorCode);
                     break;
                 default:
             }

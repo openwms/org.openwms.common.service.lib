@@ -33,7 +33,7 @@ public class TUCommand implements Command<TUCommand.Type>, Serializable {
     @NotNull
     private Type type;
     @NotNull @Valid
-    private TransportUnitMO transportUnit;
+    private final TransportUnitMO transportUnit;
 
     /*~-------------------- constructors --------------------*/
     @ConstructorProperties({"type", "transportUnit"})
@@ -91,7 +91,7 @@ public class TUCommand implements Command<TUCommand.Type>, Serializable {
 
 
     public static final class Builder {
-        private Type type;
+        private final Type type;
         private TransportUnitMO transportUnit;
 
         private Builder(@NotNull Type type) {

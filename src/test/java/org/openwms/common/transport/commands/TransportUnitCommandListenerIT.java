@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestData;
 import org.openwms.common.location.LocationPK;
+import org.openwms.common.location.api.messages.LocationMO;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.api.commands.MessageCommand;
@@ -112,7 +113,7 @@ class TransportUnitCommandListenerIT {
                         TransportUnitMO.newBuilder()
                                 .withPKey(TestData.TU_1_PKEY)
                                 .withBarcode(TestData.TU_1_ID)
-                                .withActualLocation(TestData.LOCATION_ID_FGIN0001LEFT)
+                                .withActualLocation(LocationMO.ofId(TestData.LOCATION_ID_FGIN0001LEFT))
                                 .build()
                 )
                 .build()
@@ -127,7 +128,7 @@ class TransportUnitCommandListenerIT {
                 .withTransportUnit(
                         TransportUnitMO.newBuilder()
                                 .withBarcode(TestData.TU_1_ID)
-                                .withTargetLocation(TestData.LOCATION_ID_FGIN0001LEFT)
+                                .withTargetLocation(LocationMO.ofId(TestData.LOCATION_ID_FGIN0001LEFT))
                                 .build()
                 )
                 .build()
@@ -145,7 +146,7 @@ class TransportUnitCommandListenerIT {
                                                 .type(TestData.TUT_TYPE_PALLET)
                                                 .build()
                                 )
-                                .withActualLocation(TestData.LOCATION_ID_FGIN0001LEFT)
+                                .withActualLocation(LocationMO.ofId(TestData.LOCATION_ID_FGIN0001LEFT))
                                 .build()
                 )
                 .build()

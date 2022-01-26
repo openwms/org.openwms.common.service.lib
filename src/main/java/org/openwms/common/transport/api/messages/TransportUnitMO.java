@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport.api.messages;
 
+import org.openwms.common.location.api.messages.LocationMO;
 import org.openwms.common.transport.api.ValidationGroups;
 
 import javax.validation.Valid;
@@ -50,14 +51,12 @@ public class TransportUnitMO implements Serializable {
             ValidationGroups.TransportUnit.Create.class,
             ValidationGroups.TransportUnit.Modified.class
     })
-    private String actualLocation;
-    /** The plcCode of the TransportUnit. */
-    private String plcCode;
+    private LocationMO actualLocation;
     /** The targetLocation of the TransportUnit. */
     @NotEmpty(groups = {
             ValidationGroups.TransportUnit.ChangeTarget.class
     })
-    private String targetLocation;
+    private LocationMO targetLocation;
     /** The transportUnitType of the TransportUnit. */
     @Valid
     @NotNull(groups = {
@@ -76,7 +75,6 @@ public class TransportUnitMO implements Serializable {
         setActualLocationDate(builder.actualLocationDate);
         setState(builder.state);
         setActualLocation(builder.actualLocation);
-        setPlcCode(builder.plcCode);
         setTargetLocation(builder.targetLocation);
         setTransportUnitType(builder.transportUnitType);
         setParent(builder.parent);
@@ -87,7 +85,7 @@ public class TransportUnitMO implements Serializable {
     }
 
     public boolean hasTargetLocation() {
-        return this.targetLocation != null && !this.targetLocation.isEmpty();
+        return this.targetLocation != null;
     }
 
     public String getpKey() {
@@ -122,27 +120,19 @@ public class TransportUnitMO implements Serializable {
         this.state = state;
     }
 
-    public String getActualLocation() {
+    public LocationMO getActualLocation() {
         return actualLocation;
     }
 
-    public void setActualLocation(String actualLocation) {
+    public void setActualLocation(LocationMO actualLocation) {
         this.actualLocation = actualLocation;
     }
 
-    public String getPlcCode() {
-        return plcCode;
-    }
-
-    public void setPlcCode(String plcCode) {
-        this.plcCode = plcCode;
-    }
-
-    public String getTargetLocation() {
+    public LocationMO getTargetLocation() {
         return targetLocation;
     }
 
-    public void setTargetLocation(String targetLocation) {
+    public void setTargetLocation(LocationMO targetLocation) {
         this.targetLocation = targetLocation;
     }
 
@@ -162,9 +152,23 @@ public class TransportUnitMO implements Serializable {
         this.parent = parent;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
     @Override
     public String toString() {
-        return new StringJoiner(", ", TransportUnitMO.class.getSimpleName() + "[", "]").add("pKey='" + pKey + "'").add("barcode='" + barcode + "'").add("actualLocationDate=" + actualLocationDate).add("state='" + state + "'").add("actualLocation='" + actualLocation + "'").add("plcCode='" + plcCode + "'").add("targetLocation='" + targetLocation + "'").add("transportUnitType=" + transportUnitType).add("parent='" + parent + "'").toString();
+        return new StringJoiner(", ", TransportUnitMO.class.getSimpleName() + "[", "]")
+                .add("pKey='" + pKey + "'")
+                .add("barcode='" + barcode + "'")
+                .add("actualLocationDate=" + actualLocationDate)
+                .add("state='" + state + "'")
+                .add("actualLocation=" + actualLocation)
+                .add("targetLocation=" + targetLocation)
+                .add("transportUnitType=" + transportUnitType)
+                .add("parent='" + parent + "'")
+                .toString();
     }
 
     public static final class Builder {
@@ -172,9 +176,8 @@ public class TransportUnitMO implements Serializable {
         private String barcode;
         private Date actualLocationDate;
         private String state;
-        private String actualLocation;
-        private String plcCode;
-        private String targetLocation;
+        private LocationMO actualLocation;
+        private LocationMO targetLocation;
         private TransportUnitTypeMO transportUnitType;
         private String parent;
 
@@ -201,17 +204,12 @@ public class TransportUnitMO implements Serializable {
             return this;
         }
 
-        public Builder withActualLocation(String val) {
+        public Builder withActualLocation(LocationMO val) {
             actualLocation = val;
             return this;
         }
 
-        public Builder withPlcCode(String val) {
-            plcCode = val;
-            return this;
-        }
-
-        public Builder withTargetLocation(String val) {
+        public Builder withTargetLocation(LocationMO val) {
             targetLocation = val;
             return this;
         }
@@ -230,6 +228,4 @@ public class TransportUnitMO implements Serializable {
             return new TransportUnitMO(this);
         }
     }
-
-
 }

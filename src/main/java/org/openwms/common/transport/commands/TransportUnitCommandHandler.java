@@ -66,16 +66,20 @@ class TransportUnitCommandHandler {
         switch(command.getType()) {
             case CHANGE_ACTUAL_LOCATION:
                 if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Got command to MOVE TransportUnit with id [{}] to [{}]", command.getTransportUnit().getBarcode(), command.getTransportUnit().getActualLocation());
+                    LOGGER.debug("Got command to MOVE TransportUnit with id [{}] to [{}]", command.getTransportUnit().getBarcode(),
+                            command.getTransportUnit().getActualLocation());
                 }
-                service.moveTransportUnit(generator.convert(command.getTransportUnit().getBarcode()), LocationPK.fromString(command.getTransportUnit().getActualLocation()));
+                service.moveTransportUnit(generator.convert(command.getTransportUnit().getBarcode()),
+                        LocationPK.fromString(command.getTransportUnit().getActualLocation().id()));
                 break;
             case CHANGE_TARGET:
                 validate(validator, command, ValidationGroups.TransportUnit.ChangeTarget.class);
                 if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Got command to CHANGE the target of the TransportUnit with id [{}] to [{}]", command.getTransportUnit().getBarcode(), command.getTransportUnit().getTargetLocation());
+                    LOGGER.debug("Got command to CHANGE the target of the TransportUnit with id [{}] to [{}]",
+                            command.getTransportUnit().getBarcode(), command.getTransportUnit().getTargetLocation());
                 }
-                service.changeTarget(generator.convert(command.getTransportUnit().getBarcode()), command.getTransportUnit().getTargetLocation());
+                service.changeTarget(generator.convert(command.getTransportUnit().getBarcode()),
+                        command.getTransportUnit().getTargetLocation().id());
                 break;
             case REMOVE:
                 validate(validator, command, ValidationGroups.TransportUnit.Remove.class);
@@ -101,7 +105,7 @@ class TransportUnitCommandHandler {
                 tu = service.create(
                         command.getTransportUnit().getBarcode(),
                         command.getTransportUnit().getTransportUnitType().getType(),
-                        command.getTransportUnit().getActualLocation(),
+                        command.getTransportUnit().getActualLocation().id(),
                         false
                 );
                 mo = mapper.convertToMO(tu);

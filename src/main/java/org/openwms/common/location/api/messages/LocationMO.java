@@ -25,69 +25,37 @@ import java.io.Serializable;
  *
  * @author Heiko Scherrer
  */
-public class LocationMO implements Serializable {
+public record LocationMO (
 
-    private static final long serialVersionUID = 5322330486887781251L;
+        /** The persistent key of the {@code Location}. */
+        @NotEmpty(groups = ValidationGroups.SetLocationEmpty.class)
+        String pKey,
+        /** The accountId the {@code Location} belongs to. */
+        String accountId,
+        /** The business key of the {@code Location}. */
+        String id,
+        /** PLC code of the {@code Location}. */
+        String plcCode,
+        /** ERP code of the {@code Location}. */
+        String erpCode,
+        /** If the {@code Location} is available for inbound operations. */
+        Boolean incomingActive,
+        /** If the {@code Location} is available for outbound operations. */
+        Boolean outgoingActive,
+        /** The PLC state - '0' means not locked for any operation. */
+        Integer plcState
 
-    /** The persistent key of the Location. */
-    @NotEmpty(groups = ValidationGroups.SetLocationEmpty.class)
-    private String pKey;
-    /** The business key of the Location. */
-    private String id;
-    /** The accountId the Location belongs to. */
-    private String accountId;
-    /** If the Location is available for inbound operations. */
-    private Boolean incomingActive;
-    /** If the Location is available for outbound operations. */
-    private Boolean outgoingActive;
-    /** The PLC state - '0' means not locked for any operation. */
-    private Integer plcState;
+) implements Serializable {
 
-    public String getpKey() {
-        return pKey;
+    public static LocationMO ofPKey(String pKey) {
+        return new LocationMO(pKey, null, null, null, null, null, null, null);
     }
 
-    public void setpKey(String pKey) {
-        this.pKey = pKey;
+    public static LocationMO ofId(String id) {
+        return new LocationMO(null, null, id, null, null, null, null, null);
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
-    }
-
-    public Boolean getIncomingActive() {
-        return incomingActive;
-    }
-
-    public void setIncomingActive(Boolean incomingActive) {
-        this.incomingActive = incomingActive;
-    }
-
-    public Boolean getOutgoingActive() {
-        return outgoingActive;
-    }
-
-    public void setOutgoingActive(Boolean outgoingActive) {
-        this.outgoingActive = outgoingActive;
-    }
-
-    public Integer getPlcState() {
-        return plcState;
-    }
-
-    public void setPlcState(Integer plcState) {
-        this.plcState = plcState;
+    public static LocationMO ofErpCode(String erpCode) {
+        return new LocationMO(null, null, null, null, erpCode, null, null, null);
     }
 }

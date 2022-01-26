@@ -84,8 +84,8 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     private Boolean empty;
 
     /** A {@code TransportUnit} may belong to a group of {@code TransportUnits}. */
-    @Column(name = "C_GROUP_ID")
-    private String groupId;
+    @Column(name = "C_GROUP_NAME")
+    private String groupName;
 
     /** Date when the {@code TransportUnit} has been moved to the current {@link Location}. */
     @Temporal(TemporalType.TIMESTAMP)
@@ -257,8 +257,8 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      *
      * @return The groupId
      */
-    public String getGroupId() {
-        return groupId;
+    public String getGroupName() {
+        return groupName;
     }
 
     /**
@@ -266,8 +266,8 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      *
      * @param groupId The groupId
      */
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
+    public void setGroupName(String groupId) {
+        this.groupName = groupId;
     }
 
     /**
