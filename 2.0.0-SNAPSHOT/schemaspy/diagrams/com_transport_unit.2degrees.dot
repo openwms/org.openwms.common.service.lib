@@ -123,7 +123,7 @@ digraph "twoDegreesRelationshipsDiagram" {
       <TR><TD PORT="c_actual_location_date" COLSPAN="2" ALIGN="LEFT">c_actual_location_date</TD><TD PORT="c_actual_location_date.type" ALIGN="LEFT">timestamp[29,6]</TD></TR>
       <TR><TD PORT="c_barcode" COLSPAN="2" BGCOLOR="#f4f7da" ALIGN="LEFT">c_barcode</TD><TD PORT="c_barcode.type" ALIGN="LEFT">varchar[20]</TD></TR>
       <TR><TD PORT="c_empty" COLSPAN="2" ALIGN="LEFT">c_empty</TD><TD PORT="c_empty.type" ALIGN="LEFT">bool[1]</TD></TR>
-      <TR><TD PORT="c_group_id" COLSPAN="2" ALIGN="LEFT">c_group_id</TD><TD PORT="c_group_id.type" ALIGN="LEFT">varchar[255]</TD></TR>
+      <TR><TD PORT="c_group_name" COLSPAN="2" ALIGN="LEFT">c_group_name</TD><TD PORT="c_group_name.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_inventory_date" COLSPAN="2" ALIGN="LEFT">c_inventory_date</TD><TD PORT="c_inventory_date.type" ALIGN="LEFT">timestamp[29,6]</TD></TR>
       <TR><TD PORT="c_inventory_user" COLSPAN="2" ALIGN="LEFT">c_inventory_user</TD><TD PORT="c_inventory_user.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_state" COLSPAN="2" ALIGN="LEFT">c_state</TD><TD PORT="c_state.type" ALIGN="LEFT">varchar[255]</TD></TR>

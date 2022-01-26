@@ -203,7 +203,7 @@
          <column autoUpdated="false" digits="6" id="5" name="c_actual_location_date" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="0" id="6" name="c_barcode" nullable="false" remarks="" size="20" type="varchar"/>
          <column autoUpdated="false" digits="0" id="7" name="c_empty" nullable="true" remarks="" size="1" type="bool"/>
-         <column autoUpdated="false" digits="0" id="8" name="c_group_id" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="8" name="c_group_name" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="6" id="9" name="c_inventory_date" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="0" id="10" name="c_inventory_user" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="11" name="c_state" nullable="true" remarks="" size="255" type="varchar"/>
@@ -241,7 +241,7 @@
          <column autoUpdated="false" digits="6" id="6" name="c_actual_location_date" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="0" id="7" name="c_barcode" nullable="true" remarks="" size="20" type="varchar"/>
          <column autoUpdated="false" digits="0" id="8" name="c_empty" nullable="true" remarks="" size="1" type="bool"/>
-         <column autoUpdated="false" digits="0" id="9" name="c_group_id" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="9" name="c_group_name" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="6" id="10" name="c_inventory_date" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="0" id="11" name="c_inventory_user" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="12" name="c_state" nullable="true" remarks="" size="255" type="varchar"/>
