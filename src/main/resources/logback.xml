@@ -7,6 +7,11 @@
     <include resource="logback-appenders.xml"/>
     <include resource="logback-loggers.xml"/>
 
+    <appender name="ELK" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>elk:5000</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+
     <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
 
     <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
@@ -27,6 +32,10 @@
     <logger name="INTEGRATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="LOGFILE"/>
+    </logger>
+    <logger name="CALLCONTEXT" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ELK" />
     </logger>
     <logger name="MEASURED" level="INFO" additivity="false">
         <appender-ref ref="STDOUT"/>

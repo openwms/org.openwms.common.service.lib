@@ -22,6 +22,7 @@ import org.hibernate.envers.RevisionTimestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -37,7 +38,7 @@ import java.io.Serializable;
 class AuditableRevisionEntity implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "generator")
     @RevisionNumber
     @Column(name = "C_PK")
     private Long pk;
@@ -49,7 +50,14 @@ class AuditableRevisionEntity implements Serializable {
     @Column(name = "C_USER")
     private String userName;
 
+    @Column(name = "C_TRACE_ID")
+    private String traceId;
+
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    void setTraceId(String traceId) {
+        this.traceId = traceId;
     }
 }
