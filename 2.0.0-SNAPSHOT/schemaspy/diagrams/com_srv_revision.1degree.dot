@@ -26,6 +26,7 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">com_srv_revision</TD></TR>
       <TR><TD PORT="c_pk" COLSPAN="2" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD><TD PORT="c_pk.type" ALIGN="LEFT">int8[19]</TD></TR>
       <TR><TD PORT="c_timestamp" COLSPAN="2" ALIGN="LEFT">c_timestamp</TD><TD PORT="c_timestamp.type" ALIGN="LEFT">int8[19]</TD></TR>
+      <TR><TD PORT="c_trace_id" COLSPAN="2" ALIGN="LEFT">c_trace_id</TD><TD PORT="c_trace_id.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_user" COLSPAN="2" ALIGN="LEFT">c_user</TD><TD PORT="c_user.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 0</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
     </TABLE>>

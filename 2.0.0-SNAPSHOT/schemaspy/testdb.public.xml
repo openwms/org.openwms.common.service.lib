@@ -185,7 +185,8 @@
             <child column="c_rev" foreignKey="fk7hgjsbhte1esjljdnkmxpkk78" implied="false" onDeleteCascade="false" table="com_transport_unit_log"/>
          </column>
          <column autoUpdated="false" digits="0" id="1" name="c_timestamp" nullable="true" remarks="" size="19" type="int8"/>
-         <column autoUpdated="false" digits="0" id="2" name="c_user" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="c_trace_id" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="3" name="c_user" nullable="true" remarks="" size="255" type="varchar"/>
          <primaryKey column="c_pk" sequenceNumberInPK="1"/>
          <index name="com_srv_revision_pkey" unique="true">
             <column ascending="true" name="c_pk"/>
