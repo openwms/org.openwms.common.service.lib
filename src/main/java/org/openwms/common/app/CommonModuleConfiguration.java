@@ -19,11 +19,11 @@ import io.micrometer.core.instrument.MeterRegistry;
 import org.ameba.IDGenerator;
 import org.ameba.JdkIDGenerator;
 import org.ameba.annotation.EnableAspects;
+import org.ameba.app.BaseClientHttpRequestInterceptor;
 import org.ameba.app.SpringProfiles;
 import org.ameba.http.EnableMultiTenancy;
 import org.ameba.http.PermitAllCorsConfigurationSource;
 import org.ameba.http.RequestIDFilter;
-import org.ameba.http.ctx.CallContextClientRequestInterceptor;
 import org.ameba.http.identity.EnableIdentityAwareness;
 import org.ameba.i18n.AbstractSpringTranslator;
 import org.ameba.i18n.Translator;
@@ -55,6 +55,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import javax.servlet.Filter;
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -89,9 +90,9 @@ public class CommonModuleConfiguration implements WebMvcConfigurer {
 
     @LoadBalanced
     @Bean
-    RestTemplate aLoadBalanced() {
+    RestTemplate aLoadBalanced(List<BaseClientHttpRequestInterceptor> baseInterceptors) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getInterceptors().add(new CallContextClientRequestInterceptor());
+        restTemplate.getInterceptors().addAll(baseInterceptors);
         return restTemplate;
     }
 

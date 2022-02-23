@@ -15,10 +15,8 @@
  */
 package org.openwms.common;
 
-import org.ameba.app.BaseConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
 
 /**
  * A CommonStarter.
@@ -31,7 +29,6 @@ import org.springframework.context.annotation.Import;
                 "org.openwms.transactions.api",
                 "org.openwms.projects"
         })
-@Import(BaseConfiguration.class)
 public class CommonStarter {
 
     /**

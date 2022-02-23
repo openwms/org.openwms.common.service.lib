@@ -15,6 +15,8 @@
  */
 package org.openwms.common.jpa;
 
+import org.ameba.http.ctx.CallContext;
+import org.ameba.http.ctx.CallContextHolder;
 import org.ameba.http.identity.IdentityContextHolder;
 import org.hibernate.envers.RevisionListener;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,5 +39,6 @@ public class AuditableEntityListener implements RevisionListener {
         } else {
             rev.setUserName("N/A");
         }
+        CallContextHolder.getOptionalCallContext().flatMap(CallContext::getOptionalTraceId).ifPresent(rev::setTraceId);
     }
 }

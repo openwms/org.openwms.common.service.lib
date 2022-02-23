@@ -126,6 +126,7 @@ owms:
     dead-letter:
       exchange-name: dle.common
       queue-name: common-dl-queue
+    serialization: json
   commands:
     common:
       loc:

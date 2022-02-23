@@ -15,7 +15,10 @@
  */
 package org.openwms.common.app;
 
+import org.ameba.amqp.RabbitTemplateConfigurable;
 import org.openwms.core.SpringProfiles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
@@ -27,14 +30,19 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.amqp.support.converter.SerializerMessageConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.retry.backoff.ExponentialBackOffPolicy;
 import org.springframework.retry.support.RetryTemplate;
+
+import static org.ameba.LoggingCategories.BOOT;
 
 /**
  * A CommonOptAsyncConfiguration contains the modules asynchronous configuration that is
@@ -48,15 +56,28 @@ import org.springframework.retry.support.RetryTemplate;
 @EnableRabbit
 class CommonOptAsyncConfiguration {
 
+    private static final Logger BOOT_LOGGER = LoggerFactory.getLogger(BOOT);
     private static final String POISON_MESSAGE = "poison-message";
 
+    @ConditionalOnExpression("'${owms.common.serialization}'=='json'")
     @Bean
-    MessageConverter jsonConverter() {
-        return new Jackson2JsonMessageConverter();
+    MessageConverter messageConverter() {
+        Jackson2JsonMessageConverter messageConverter = new Jackson2JsonMessageConverter();
+        BOOT_LOGGER.info("Using JSON serialization over AMQP");
+        return messageConverter;
+    }
+
+    @ConditionalOnExpression("'${owms.common.serialization}'=='barray'")
+    @Bean
+    MessageConverter serializerMessageConverter() {
+        SerializerMessageConverter messageConverter = new SerializerMessageConverter();
+        BOOT_LOGGER.info("Using byte array serialization over AMQP");
+        return messageConverter;
     }
 
     @Bean
-    RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+    RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory,
+            MessageConverter messageConverter, @Autowired(required = false) RabbitTemplateConfigurable rabbitTemplateConfigurable) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         ExponentialBackOffPolicy backOffPolicy = new ExponentialBackOffPolicy();
         backOffPolicy.setMultiplier(2);
@@ -65,17 +86,19 @@ class CommonOptAsyncConfiguration {
         RetryTemplate retryTemplate = new RetryTemplate();
         retryTemplate.setBackOffPolicy(backOffPolicy);
         rabbitTemplate.setRetryTemplate(retryTemplate);
-        rabbitTemplate.setMessageConverter(jsonConverter());
+        rabbitTemplate.setMessageConverter(messageConverter);
+        if (rabbitTemplateConfigurable != null) {
+            rabbitTemplateConfigurable.configure(rabbitTemplate);
+        }
         return rabbitTemplate;
     }
 
-    /*~ ------------ Events ------------- */
+    /*~ --------------- Exchanges --------------- */
     @RefreshScope
     @Bean
     TopicExchange commonTuExchange(@Value("${owms.events.common.tu.exchange-name}") String exchangeName) {
         return new TopicExchange(exchangeName, true, false);
     }
-
     @RefreshScope
     @Bean
     TopicExchange commonTuTExchange(@Value("${owms.events.common.tut.exchange-name}") String exchangeName) {
@@ -127,7 +150,6 @@ class CommonOptAsyncConfiguration {
     TopicExchange commonLocCommandsExchange(@Value("${owms.commands.common.loc.exchange-name}") String exchangeName) {
         return new TopicExchange(exchangeName, true, false);
     }
-
     @RefreshScope
     @Bean
     Binding locCommandsBinding(
@@ -141,6 +163,7 @@ class CommonOptAsyncConfiguration {
                 .with(routingKey);
     }
 
+    /* Dead Letter */
     @RefreshScope
     @Bean
     DirectExchange dlExchange(@Value("${owms.common.dead-letter.exchange-name}") String exchangeName) {
@@ -153,10 +176,11 @@ class CommonOptAsyncConfiguration {
         return QueueBuilder.durable(queueName).build();
     }
 
+    @RefreshScope
     @Bean
     Binding dlBinding(
-            @Value("${owms.common.dead-letter.exchange-name}") String exchangeName,
-            @Value("${owms.common.dead-letter.queue-name}") String queueName) {
+            @Value("${owms.common.dead-letter.queue-name}") String queueName,
+            @Value("${owms.common.dead-letter.exchange-name}") String exchangeName) {
         return BindingBuilder
                 .bind(dlQueue(queueName))
                 .to(dlExchange(exchangeName))
