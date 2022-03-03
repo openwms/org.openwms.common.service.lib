@@ -23,6 +23,9 @@
          <index name="uc_acc_name" unique="true">
             <column ascending="true" name="c_name"/>
          </index>
+         <index name="uk_30uqy3p0fff13xe1p4j40cosf" unique="true">
+            <column ascending="true" name="c_pid"/>
+         </index>
       </table>
       <table name="com_barcode" numRows="1" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8"/>
@@ -99,6 +102,9 @@
          <index name="uk_84fpvvehdtcv8g56lhd5lng38" unique="true">
             <column ascending="true" name="c_erp_code"/>
          </index>
+         <index name="uk_pry7ywwtihwmbg8lwtonwvdfj" unique="true">
+            <column ascending="true" name="c_pid"/>
+         </index>
       </table>
       <table name="com_location_group" numRows="42" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
@@ -140,6 +146,9 @@
          <index name="uc_lg_name" unique="true">
             <column ascending="true" name="c_name"/>
          </index>
+         <index name="uk_9a9we4uv0famk8k7878pqh710" unique="true">
+            <column ascending="true" name="c_pid"/>
+         </index>
       </table>
       <table name="com_location_message" numRows="0" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_location_id" nullable="false" remarks="" size="19" type="int8">
@@ -175,6 +184,9 @@
          <primaryKey column="c_pk" sequenceNumberInPK="1"/>
          <index name="com_location_type_pkey" unique="true">
             <column ascending="true" name="c_pk"/>
+         </index>
+         <index name="uk_d5qkbwvvprcfa266xjoqneb54" unique="true">
+            <column ascending="true" name="c_pid"/>
          </index>
          <index name="uk_h6r9kr990ufge67kp6g1p8kcw" unique="true">
             <column ascending="true" name="c_type"/>
@@ -228,6 +240,9 @@
          </index>
          <index name="com_transport_unit_barcode" unique="true">
             <column ascending="true" name="c_barcode"/>
+         </index>
+         <index name="uk_kc2o74wfovxldm50nv2vtt3jy" unique="true">
+            <column ascending="true" name="c_pid"/>
          </index>
       </table>
       <table name="com_transport_unit_log" numRows="0" remarks="" schema="public" type="TABLE">
@@ -285,6 +300,9 @@
          </index>
          <index name="uc_tut_type" unique="true">
             <column ascending="true" name="c_type"/>
+         </index>
+         <index name="uk_kk3jrppqflukplca8502pwkf7" unique="true">
+            <column ascending="true" name="c_pid"/>
          </index>
       </table>
       <table name="com_type_placing_rule" numRows="3" remarks="" schema="public" type="TABLE">
@@ -345,6 +363,9 @@
          <primaryKey column="c_pk" sequenceNumberInPK="1"/>
          <index name="com_unit_error_pkey" unique="true">
             <column ascending="true" name="c_pk"/>
+         </index>
+         <index name="uk_4gash0gi0u539k5h0blohfp5e" unique="true">
+            <column ascending="true" name="c_pid"/>
          </index>
       </table>
       <table name="cor_message" numRows="0" remarks="" schema="public" type="TABLE">
