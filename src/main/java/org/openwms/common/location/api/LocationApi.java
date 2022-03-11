@@ -48,6 +48,7 @@ public interface LocationApi {
      * @return The created instance
      */
     @PostMapping(value = API_LOCATIONS, produces = LocationVO.MEDIA_TYPE)
+    @CacheEvict(cacheNames = "locations", allEntries = true)
     LocationVO createLocation(@RequestBody LocationVO location);
 
     /**
@@ -57,6 +58,7 @@ public interface LocationApi {
      * @return The updated and saved instance
      */
     @PutMapping(value = API_LOCATIONS, produces = LocationVO.MEDIA_TYPE)
+    @CacheEvict(cacheNames = "locations", allEntries = true)
     LocationVO updateLocation(@RequestBody LocationVO location);
 
     /**
@@ -141,6 +143,7 @@ public interface LocationApi {
      * @param mode The mode to apply to the Locations lock
      */
     @PostMapping(path = API_LOCATIONS , params = {"erpCode", "type!=PERMANENT_LOCK", "mode"})
+    @CacheEvict(cacheNames = "locations", allEntries = true)
     void changeState(
             @RequestParam("erpCode") String erpCode,
             @RequestParam("type") LockType type,
