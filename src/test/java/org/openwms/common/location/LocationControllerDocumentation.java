@@ -147,6 +147,20 @@ class LocationControllerDocumentation {
                 ));
     }
 
+    @Test void shall_findby_pKey() throws Exception {
+        mockMvc.perform(get(LocationApiConstants.API_LOCATIONS + " /1000").accept(LocationVO.MEDIA_TYPE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("pKey").exists())
+                .andExpect(jsonPath("locationId", is(TestData.LOCATION_ID_EXT)))
+                .andExpect(jsonPath("locationGroupName").exists())
+                .andExpect(jsonPath("plcCode", is(TestData.LOCATION_PLC_CODE_EXT)))
+                .andExpect(jsonPath("erpCode", is(TestData.LOCATION_ERP_CODE_EXT)))
+                .andExpect(jsonPath("incomingActive", is(true)))
+                .andExpect(jsonPath("outgoingActive", is(true)))
+                .andExpect(jsonPath("plcState", is(0)))
+                .andDo(document("loc-find-erp"));
+    }
+
     @Test void shall_update_Location() throws Exception {
         var location = new LocationVO("FGIN/CONV/0001/0000/0000");
         location.setpKey("1000");
