@@ -1,7 +1,9 @@
 name: 'branch_build'
 on:
   push:
-    branches-ignore: [ master, release ]
+    branches-ignore:
+      - master
+      - 'release/**'
 
 env:
   MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn

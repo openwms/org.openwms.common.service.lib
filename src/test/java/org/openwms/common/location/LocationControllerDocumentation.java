@@ -38,6 +38,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.openwms.common.TestData.LOCATION_PKEY_EXT;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -148,9 +149,9 @@ class LocationControllerDocumentation {
     }
 
     @Test void shall_findby_pKey() throws Exception {
-        mockMvc.perform(get(LocationApiConstants.API_LOCATIONS + " /1000").accept(LocationVO.MEDIA_TYPE))
+        mockMvc.perform(get(LocationApiConstants.API_LOCATIONS + "/" + TestData.LOCATION_PKEY_EXT).accept(LocationVO.MEDIA_TYPE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("pKey").exists())
+                .andExpect(jsonPath("pKey", is(TestData.LOCATION_PKEY_EXT)))
                 .andExpect(jsonPath("locationId", is(TestData.LOCATION_ID_EXT)))
                 .andExpect(jsonPath("locationGroupName").exists())
                 .andExpect(jsonPath("plcCode", is(TestData.LOCATION_PLC_CODE_EXT)))
@@ -158,7 +159,7 @@ class LocationControllerDocumentation {
                 .andExpect(jsonPath("incomingActive", is(true)))
                 .andExpect(jsonPath("outgoingActive", is(true)))
                 .andExpect(jsonPath("plcState", is(0)))
-                .andDo(document("loc-find-erp"));
+                .andDo(document("loc-find-pKey"));
     }
 
     @Test void shall_update_Location() throws Exception {

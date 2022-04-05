@@ -27,6 +27,7 @@ public final class TestData {
     public static final String LOCATION_GROUP_NAME_LG3 = "IPOINT";
 
     public static final Long LOCATION_PK_EXT = 1029L;
+    public static final String LOCATION_PKEY_EXT = "1029";
     public static final String LOCATION_ERP_CODE_EXT = "ERP_0030";
     public static final String LOCATION_PLC_CODE_EXT = "PLC_0030";
     public static final String LOCATION_ID_EXT = "EXT_/0000/0000/0000/0000";

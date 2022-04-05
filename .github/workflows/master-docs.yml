@@ -52,7 +52,7 @@ jobs:
       - name: Install tools
         run: |
           sudo apt-get update
-          sudo apt-get install graphviz
+          sudo apt-get install graphviz gsfonts graphviz-doc
           git config --global user.email "ci@example.com"
           git config --global user.name "CI Server"
       - name: Site
@@ -70,7 +70,7 @@ jobs:
           -Dscmpublish.pubScmUrl=scm:git:https://openwms:$PUSHKEY@github.com/openwms/org.openwms.common.service.git
           -DdeveloperConnectionUrl=scm:git:https://openwms:$PUSHKEY@github.com/openwms/org.openwms.common.service.git
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
-          -Pschemagen -B $MAVEN_OPTS
+          -Pschemagen,release -B $MAVEN_OPTS
         env:
           PUSHKEY: ${{ secrets.PUSHKEY }}
       - name: Sonar
