@@ -36,6 +36,8 @@ import java.util.Objects;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Serializable {
 
+    public static final String MEDIA_TYPE = "application/vnd.openwms.transport-unit-v1+json";
+
     /** The persistent key. */
     @NotEmpty(groups = ValidationGroups.TransportUnit.Update.class)
     @JsonProperty("pKey")

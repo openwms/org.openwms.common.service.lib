@@ -48,11 +48,11 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.Validator;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -105,8 +105,8 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public TransportUnit create(
-            @NotNull String transportUnitBK, @NotNull TransportUnitType transportUnitType,
+    public @NotNull TransportUnit create(
+            @NotBlank String transportUnitBK, @NotNull TransportUnitType transportUnitType,
             @NotNull LocationPK actualLocation, Boolean strict) {
         Assert.notNull(transportUnitBK, NO_BARCODE);
         Assert.notNull(transportUnitType, NO_TRANSPORT_UNIT_TYPE);
@@ -125,9 +125,9 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public TransportUnit create(
-            @NotNull String transportUnitBK, @NotEmpty String transportUnitType,
-            @NotEmpty String actualLocation, Boolean strict) {
+    public @NotNull TransportUnit create(
+            @NotBlank String transportUnitBK, @NotBlank String transportUnitType,
+            @NotBlank String actualLocation, Boolean strict) {
         Assert.notNull(actualLocation, NO_LOCATION_SET);
 
         return createInternal(
@@ -144,7 +144,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public TransportUnit createNew(@NotEmpty String transportUnitType, @NotEmpty String actualLocation) {
+    public @NotNull TransportUnit createNew(@NotBlank String transportUnitType, @NotBlank String actualLocation) {
         Barcode nextBarcode = barcodeGenerator.generate(transportUnitType, actualLocation);
         return createInternal(
                 nextBarcode,
@@ -195,7 +195,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Validated(ValidationGroups.TransportUnit.Update.class)
     @Measured
-    public TransportUnit update(@NotNull Barcode barcode, final @Valid @NotNull TransportUnit tu) {
+    public @NotNull TransportUnit update(@NotNull Barcode barcode, final @Valid @NotNull TransportUnit tu) {
         if (!barcode.equals(tu.getBarcode())) {
             throw new ServiceLayerException("Mismatch between Barcode and tu.Barcode in API");
         }
@@ -221,7 +221,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @SuppressWarnings("javasecurity:S5145")
     @Override
     @Measured
-    public TransportUnit moveTransportUnit(@NotNull Barcode barcode, @NotNull LocationPK targetLocationPK) {
+    public @NotNull TransportUnit moveTransportUnit(@NotNull Barcode barcode, @NotNull LocationPK targetLocationPK) {
         var transportUnit = findByBarcodeInternal(barcode);
         var previousLocation = transportUnit.getActualLocation();
         if (previousLocation.getLocationId().equals(targetLocationPK)) {
@@ -304,8 +304,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    @Transactional(readOnly = true)
-    public TransportUnit findByBarcode(@NotEmpty String transportUnitBK) {
+    public @NotNull TransportUnit findByBarcode(@NotBlank String transportUnitBK) {
         return findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));
     }
 
@@ -319,10 +318,9 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    @Transactional(readOnly = true)
-    public List<TransportUnit> findByBarcodes(List<Barcode> barcodes) {
-        List<TransportUnit> tus = repository.findByBarcodeIn(barcodes);
-        return tus == null ? Collections.emptyList() : tus;
+    public @NotNull List<TransportUnit> findByBarcodes(@NotEmpty List<Barcode> barcodes) {
+        var tus = repository.findByBarcodeIn(barcodes);
+        return tus == null ? new ArrayList<>(0) : tus;
     }
 
     /**
@@ -330,10 +328,9 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    @Transactional(readOnly = true)
-    public List<TransportUnit> findOnLocation(@NotEmpty String actualLocation) {
+    public @NotNull List<TransportUnit> findOnLocation(@NotBlank String actualLocation) {
         Assert.hasText(actualLocation, NO_LOCATION_SET);
-        Location location = locationService.findByLocationId(actualLocation).orElseThrow(() -> new NotFoundException(format("Location [%s] not found", actualLocation)));
+        var location = locationService.findByLocationIdOrThrow(actualLocation);
         return repository.findByActualLocationOrderByActualLocationDate(location);
     }
 
@@ -342,8 +339,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    @Transactional(readOnly = true)
-    public TransportUnit findByPKey(@NotEmpty String pKey) {
+    public @NotNull TransportUnit findByPKey(@NotBlank String pKey) {
         return repository.findByPKey(pKey).orElseThrow(() -> new NotFoundException(format("No TransportUnit with pKey [%s] found", pKey)));
     }
 
@@ -352,7 +348,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public void addError(String transportUnitBK, UnitError unitError) {
+    public void addError(@NotBlank String transportUnitBK, @NotNull UnitError unitError) {
         TransportUnit tu = this.findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));
         tu.addError(unitError);
     }
@@ -362,8 +358,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    @Transactional(readOnly = true)
-    public List<TransportUnit> findAll() {
+    public @NotNull List<TransportUnit> findAll() {
         return repository.findAll(PageRequest.of(10, 200)).getContent();
     }
 
@@ -372,14 +367,11 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public TransportUnit changeTarget(@NotNull Barcode barcode, @NotEmpty String targetLocation) {
-        TransportUnit transportUnit = findByBarcodeInternal(barcode);
-
-        Location location = locationService.findByLocationId(targetLocation)
-                .orElseThrow(() -> new NotFoundException(format("Location with locationId [%s] not found", targetLocation)));
-
+    public TransportUnit changeTarget(@NotNull Barcode barcode, @NotBlank String targetLocation) {
+        var transportUnit = findByBarcodeInternal(barcode);
+        var location = locationService.findByLocationIdOrThrow(targetLocation);
         transportUnit.setTargetLocation(location);
-        TransportUnit saved = repository.save(transportUnit);
+        var saved = repository.save(transportUnit);
         publisher.publishEvent(TransportUnitEvent.newBuilder()
                 .tu(saved)
                 .type(TransportUnitEvent.TransportUnitEventType.CHANGED).build()
@@ -392,7 +384,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public void setState(@NotEmpty String transportUnitBK, @NotNull TransportUnitState state) {
+    public void setState(@NotBlank String transportUnitBK, @NotNull TransportUnitState state) {
         TransportUnit transportUnit = findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));
         LOGGER.debug("Setting TransportUnit [{}] to state [{}]", transportUnitBK, state);
         transportUnit.setState(state);

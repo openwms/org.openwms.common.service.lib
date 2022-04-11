@@ -1,4 +1,4 @@
-name: 'master_docs'
+name: 'Build Documentation & QA'
 on:
   workflow_run:
     workflows: ["master_build"]
@@ -10,7 +10,7 @@ env:
   MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 
 jobs:
-  site_job:
+  build_site:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     name: Build Microservice Docs
@@ -43,6 +43,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 17
+      - name: Cache SonarQube packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
       - name: Cache Maven packages
         uses: actions/cache@v1
         with:
@@ -76,7 +82,7 @@ jobs:
       - name: Sonar
         run: >
           ./mvnw clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar
-          -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
+          -DsurefireArgs="-Dspring.profiles.active=ASYNCHRONOUS,TEST"
           -Dspring.rabbitmq.host=localhost
           -Dsonar.login=$SONAR_TOKEN
           -DSONAR_TOKEN=$SONAR_TOKEN

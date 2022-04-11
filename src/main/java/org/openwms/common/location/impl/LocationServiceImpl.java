@@ -34,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -43,6 +44,7 @@ import java.util.Optional;
 
 import static org.openwms.common.CommonMessageCodes.LOCATION_ID_EXISTS;
 import static org.openwms.common.CommonMessageCodes.LOCATION_ID_INVALID;
+import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND_BY_ID;
 import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND_BY_PKEY;
 
 /**
@@ -78,7 +80,7 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
-    public Location create(@NotNull @Valid Location location) {
+    public @NotNull Location create(@NotNull @Valid Location location) {
         Optional<Location> locationOpt = repository.findByLocationId(location.getLocationId());
         if (location.hasLocationId() && locationOpt.isPresent()) {
             throw new ResourceExistsException(translator, LOCATION_ID_EXISTS,
@@ -93,7 +95,7 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
-    public Location findByPKey(@NotEmpty String pKey) {
+    public @NotNull Location findByPKey(@NotBlank String pKey) {
         return findInternal(pKey);
     }
 
@@ -119,7 +121,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-    public Optional<Location> findByPlcCode(@NotEmpty String plcCode) {
+    public Optional<Location> findByPlcCode(@NotBlank String plcCode) {
         return repository.findByPlcCode(plcCode);
     }
 
@@ -128,8 +130,14 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
-    @Transactional(readOnly = true)
-    public Optional<Location> findByLocationId(@NotEmpty String locationId) {
+    public Optional<Location> findByLocationId(@NotBlank String locationId) {
+        if (!LocationPK.isValid(locationId)) {
+            throw new IllegalArgumentException(translator.translate(LOCATION_ID_INVALID, locationId));
+        }
+        return repository.findByLocationId(LocationPK.fromString(locationId));
+    }
+
+    private Optional<Location> findByLocationIdInternal(String locationId) {
         if (!LocationPK.isValid(locationId)) {
             throw new IllegalArgumentException(translator.translate(LOCATION_ID_INVALID, locationId));
         }
@@ -141,8 +149,21 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
-    @Transactional(readOnly = true)
-    public List<Location> findAllOf(@NotEmpty List<String> locationGroupNames) {
+    public @NotNull Location findByLocationIdOrThrow(@NotBlank String locationId) {
+        return findByLocationIdInternal(locationId).orElseThrow(() -> new NotFoundException(
+                translator,
+                LOCATION_NOT_FOUND_BY_ID,
+                new String[]{locationId},
+                locationId
+        ));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public @NotNull List<Location> findAllOf(@NotEmpty List<String> locationGroupNames) {
         return locationGroupNames.size() == 1
                 ? repository.findByLocationGroup_Name(locationGroupNames.get(0))
                 : repository.findByLocationGroup_Name(locationGroupNames);
@@ -153,7 +174,7 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
-    public void changeState(@NotEmpty String pKey, @NotNull ErrorCodeVO errorCode) {
+    public void changeState(@NotBlank String pKey, @NotNull ErrorCodeVO errorCode) {
         var location = findInternal(pKey);
 
         boolean changed = false;
@@ -189,8 +210,7 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
-    @Transactional(readOnly = true)
-    public List<Location> findLocations(@NotNull LocationPK locationPK) {
+    public @NotNull List<Location> findLocations(@NotNull LocationPK locationPK) {
         List<Location> result = repository.findByLocationIdContaining(locationPK);
         return result == null ? Collections.emptyList() : result;
     }
@@ -200,8 +220,7 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
-    @Transactional(readOnly = true)
-    public Optional<Location> findByErpCode(@NotEmpty String erpCode) {
+    public Optional<Location> findByErpCode(@NotBlank String erpCode) {
         return repository.findByErpCode(erpCode);
     }
 
@@ -210,7 +229,7 @@ class LocationServiceImpl implements LocationService {
      */
     @Override
     @Measured
-    public Location save(@NotNull Location location) {
+    public @NotNull Location save(@NotNull Location location) {
         var existing = findInternal(location.getPersistentKey());
         var modified = locationMapper.copyForUpdate(location, existing);
         if (LOGGER.isDebugEnabled()) {

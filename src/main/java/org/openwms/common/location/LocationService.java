@@ -18,13 +18,14 @@ package org.openwms.common.location;
 import org.openwms.common.location.api.ErrorCodeVO;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * A LocationService manages {@code Location}s.
+ * A LocationService manages {@link Location}s.
  *
  * @author Heiko Scherrer
  */
@@ -36,7 +37,7 @@ public interface LocationService {
      * @param location The representation with the mandatory data to create the Location
      * @return The created instance
      */
-    Location create(@NotNull @Valid Location location);
+    @NotNull Location create(@NotNull @Valid Location location);
 
     /**
      * Find and return a {@link Location}.
@@ -45,56 +46,65 @@ public interface LocationService {
      * @return The instance
      * @throws org.ameba.exception.NotFoundException If the Location does not exist
      */
-    Location findByPKey(@NotEmpty String pKey);
+    @NotNull Location findByPKey(@NotBlank String pKey);
 
     /**
-     * Find and return a {@code Location}.
+     * Find and return a {@link Location}.
      *
-     * @param locationId The business key of the Location to search for
+     * @param locationId The business key of the Location to search for as String
      * @return The Location instance
      */
     Optional<Location> findByLocationPk(@NotNull LocationPK locationId);
 
     /**
-     * Find and return a {@code Location}.
+     * Find and return a {@link Location}.
      *
-     * @param locationId The business key as String of the Location to search for
+     * @param locationId The business key of the Location to search for as String
      * @return The Location instance
      */
-    Optional<Location> findByLocationId(@NotEmpty String locationId);
+    Optional<Location> findByLocationId(@NotBlank String locationId);
 
     /**
-     * Find and return all {@code Location}s that match the {@code locationIds} whereas the attributes of the {@code LocationPK} may include
+     * Find and return a {@link Location}.
+     *
+     * @param locationId The business key of the Location to search for as String
+     * @return The Location instance
+     * @throws org.ameba.exception.NotFoundException In case the Location does not exist
+     */
+    @NotNull Location findByLocationIdOrThrow(@NotBlank String locationId);
+
+    /**
+     * Find and return all {@link Location}s that match the {@code locationIds} whereas the attributes of the {@code LocationPK} may include
      * SQL wildcard operators, like '%', '_'.
      *
-     * @param locationIds The business keys of the Locations to search for
+     * @param locationIds The business keys of the Locations to search for as Strings
      * @return The Location instances or an empty list, never {@literal null}
      */
-    List<Location> findLocations(@NotNull LocationPK locationIds);
+    @NotNull List<Location> findLocations(@NotNull LocationPK locationIds);
 
     /**
-     * Find and return a {@code Location}.
+     * Find and return a {@link Location}.
      *
-     * @param erpCode The ERP Code to search for a Location
+     * @param erpCode The ERP Code of the Location to search for
      * @return The Location instance
      */
-    Optional<Location> findByErpCode(@NotEmpty String erpCode);
+    Optional<Location> findByErpCode(@NotBlank String erpCode);
 
     /**
-     * Find and return a {@code Location}.
+     * Find and return a {@link Location}.
      *
-     * @param plcCode The PLC Code to search for a Location
+     * @param plcCode The PLC Code of the Location to search for
      * @return The Location instance
      */
-    Optional<Location> findByPlcCode(@NotEmpty String plcCode);
+    Optional<Location> findByPlcCode(@NotBlank String plcCode);
 
     /**
      * Find and return all Locations that belong to a {@code LocationGroup}.
      *
-     * @param locationGroupNames One ore names identifying the LocationGroups to search Locations for
+     * @param locationGroupNames The identifying names of the LocationGroups to search Locations for
      * @return The LocationGroup instances or an empty list, never {@literal null}
      */
-    List<Location> findAllOf(@NotEmpty List<String> locationGroupNames);
+    @NotNull List<Location> findAllOf(@NotEmpty List<String> locationGroupNames);
 
     /**
      * Change the infeed and outfeed state of a {@link Location} in respect of the according {@code LocationGroup}.
@@ -102,14 +112,14 @@ public interface LocationService {
      * @param pKey The persistent key identifier of the Location to change
      * @param errorCode Contains the error bitmap to encode the state
      */
-    void changeState(@NotEmpty String pKey, @NotNull ErrorCodeVO errorCode);
+    void changeState(@NotBlank String pKey, @NotNull ErrorCodeVO errorCode);
 
     /**
-     * Modify and update an existing {@code location}.
+     * Modify and update an existing {@link Location}.
      *
      * @param location Modified instance
      * @return Saved instance
      * @throws org.ameba.exception.NotFoundException If the passed instance does not already exist
      */
-    Location save(@NotNull Location location);
+    @NotNull Location save(@NotNull Location location);
 }

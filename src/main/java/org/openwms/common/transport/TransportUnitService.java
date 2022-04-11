@@ -19,6 +19,7 @@ import org.openwms.common.location.LocationPK;
 import org.openwms.common.transport.barcode.Barcode;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -43,8 +44,8 @@ public interface TransportUnitService {
      * ({@literal false}
      * @return The newly created instance
      */
-    TransportUnit create(
-            @NotNull String transportUnitBK,
+    @NotNull TransportUnit create(
+            @NotBlank String transportUnitBK,
             @NotNull TransportUnitType transportUnitType,
             @NotNull LocationPK actualLocation,
             Boolean strict
@@ -62,10 +63,10 @@ public interface TransportUnitService {
      * @return The newly created instance
      * @throws org.ameba.exception.ServiceLayerException when invalid parameters
      */
-    TransportUnit create(
-            @NotNull String transportUnitBK,
-            @NotEmpty String transportUnitType,
-            @NotEmpty String actualLocation,
+    @NotNull TransportUnit create(
+            @NotBlank String transportUnitBK,
+            @NotBlank String transportUnitType,
+            @NotBlank String actualLocation,
             Boolean strict
     );
 
@@ -78,9 +79,9 @@ public interface TransportUnitService {
      * @return The newly created instance
      * @throws org.ameba.exception.ServiceLayerException when invalid parameters
      */
-    TransportUnit createNew(
-            @NotEmpty String transportUnitType,
-            @NotEmpty String actualLocation
+    @NotNull TransportUnit createNew(
+            @NotBlank String transportUnitType,
+            @NotBlank String actualLocation
     );
 
     /**
@@ -93,7 +94,7 @@ public interface TransportUnitService {
      * @param tu The TransportUnit instance to save
      * @return The updated instance
      */
-    TransportUnit update(@NotNull Barcode barcode, @Valid @NotNull TransportUnit tu);
+    @NotNull TransportUnit update(@NotNull Barcode barcode, @Valid @NotNull TransportUnit tu);
 
     /**
      * Move a {@link TransportUnit} identified by its {@link Barcode} to the {@code Location} identified by the given
@@ -103,7 +104,7 @@ public interface TransportUnitService {
      * @param targetLocationPK Unique identifier of the target Location
      * @return The moved instance
      */
-    TransportUnit moveTransportUnit(@NotNull Barcode barcode, @NotNull LocationPK targetLocationPK);
+    @NotNull TransportUnit moveTransportUnit(@NotNull Barcode barcode, @NotNull LocationPK targetLocationPK);
 
     /**
      * Change the target of the {@link TransportUnit} identified with its {@code barcode} to the Location identified by the
@@ -113,7 +114,7 @@ public interface TransportUnitService {
      * @param targetLocationId The LocationPK or {@literal null} to reset the current
      * target
      */
-    TransportUnit changeTarget(@NotNull Barcode barcode, @NotEmpty String targetLocationId);
+    @NotNull TransportUnit changeTarget(@NotNull Barcode barcode, @NotBlank String targetLocationId);
 
     /**
      * Delete already persisted {@link TransportUnit}s from the persistent storage. It is not allowed in every case to delete a
@@ -131,7 +132,7 @@ public interface TransportUnitService {
      * @return The TransportUnit
      * @throws org.ameba.exception.NotFoundException may throw if not found
      */
-    TransportUnit findByBarcode(@NotEmpty String transportUnitBK);
+    @NotNull TransportUnit findByBarcode(@NotBlank String transportUnitBK);
 
     /**
      * Find and return all {@link TransportUnit}s identified by their particular {@link Barcode}.
@@ -139,7 +140,7 @@ public interface TransportUnitService {
      * @param barcodes A list of business identifiers of the TransportUnits
      * @return A List of TransportUnits or an empty List, never {@literal null}
      */
-    List<TransportUnit> findByBarcodes(List<Barcode> barcodes);
+    @NotNull List<TransportUnit> findByBarcodes(@NotEmpty List<Barcode> barcodes);
 
     /**
      * Find and return all {@link TransportUnit}s that are located on the {@code Location} identified by the given {@code actualLocation}.
@@ -147,7 +148,7 @@ public interface TransportUnitService {
      * @param actualLocation The Location where the TransportUnits are placed on
      * @return All TransportUnits or an empty List, never {@literal null}
      */
-    List<TransportUnit> findOnLocation(@NotEmpty String actualLocation);
+    @NotNull List<TransportUnit> findOnLocation(@NotBlank String actualLocation);
 
     /**
      * Find and return a {@link TransportUnit} identified by the given {@code pKey}.
@@ -156,7 +157,7 @@ public interface TransportUnitService {
      * @return The instance, never {@literal null}
      * @throws org.ameba.exception.NotFoundException may throw if not found
      */
-    TransportUnit findByPKey(@NotEmpty String pKey);
+    @NotNull TransportUnit findByPKey(@NotBlank String pKey);
 
     /**
      * Add an error to a {@link TransportUnit}.
@@ -164,9 +165,14 @@ public interface TransportUnitService {
      * @param transportUnitBK The business identifier of the TransportUnit
      * @param errorCode The errorCode bitmap
      */
-    void addError(String transportUnitBK, UnitError errorCode);
+    void addError(@NotBlank String transportUnitBK, @NotNull UnitError errorCode);
 
-    List<TransportUnit> findAll();
+    /**
+     * Find and return all existing {@link TransportUnit}s.
+     *
+     * @return a List of all existing or an empty List but never {@literal null}
+     */
+    @NotNull List<TransportUnit> findAll();
 
     /**
      * Change the state of a {@link TransportUnit}.
@@ -175,5 +181,5 @@ public interface TransportUnitService {
      * @param state The desired state
      * @throws org.openwms.common.StateChangeException if change is not allowed
      */
-    void setState(@NotEmpty String transportUnitBK, @NotNull TransportUnitState state);
+    void setState(@NotBlank String transportUnitBK, @NotNull TransportUnitState state);
 }
