@@ -16,7 +16,6 @@
 package org.openwms.common.location;
 
 import org.ameba.exception.BusinessRuntimeException;
-import org.ameba.exception.NotFoundException;
 import org.ameba.http.MeasuredRestController;
 import org.ameba.i18n.Translator;
 import org.openwms.common.location.api.ErrorCodeVO;
@@ -29,21 +28,20 @@ import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.Serializable;
-import java.util.Optional;
 import java.util.function.BiConsumer;
 
-import static java.lang.String.format;
-import static org.openwms.common.CommonMessageCodes.LOCATION_ID_INVALID;
 import static org.openwms.common.CommonMessageCodes.LOCK_MODE_UNSUPPORTED;
 import static org.openwms.common.CommonMessageCodes.LOCK_TYPE_UNSUPPORTED;
-import static org.openwms.common.CommonMessageCodes.TARGET_NOT_SUPPORTED;
 import static org.openwms.common.location.api.LocationApiConstants.API_TARGETS;
+import static org.openwms.common.location.api.LocationGroupState.AVAILABLE;
+import static org.openwms.common.location.api.LocationGroupState.NOT_AVAILABLE;
 
 /**
  * A TargetController represents the REST API to handle the state and availability of {@code Target}s.
@@ -51,6 +49,7 @@ import static org.openwms.common.location.api.LocationApiConstants.API_TARGETS;
  * @author Heiko Scherrer
  */
 @Profile("!INMEM")
+@Validated
 @MeasuredRestController
 class TargetController extends AbstractWebController {
 
@@ -83,112 +82,63 @@ class TargetController extends AbstractWebController {
 
             if (LocationPK.isValid(targetBK)) {
 
-                Location location = locationService.findByLocationId(targetBK).orElseThrow(() -> locationNotFound(targetBK));
-                switch(type) {
-                    case ALLOCATION_LOCK:
-                        changeLocation(
-                                mode,
-                                location,
-                                (l, code) -> locationService.changeState(l.getPersistentKey(), code)
-                        );
-                        break;
-                    case OPERATION_LOCK:
-                        throw new UnsupportedOperationException("Changing the operation mode of Locations is currently not supported in the API");
-                    default:
-                        unsupportedOperation(type);
+                var location = locationService.findByLocationIdOrThrow(targetBK);
+                switch (type) {
+                    case ALLOCATION_LOCK -> changeLocation(
+                            mode,
+                            location,
+                            (l, code) -> locationService.changeState(l.getPersistentKey(), code)
+                    );
+                    case OPERATION_LOCK -> throw new UnsupportedOperationException("Changing the operation mode of Locations is currently not supported in the API");
+                    default -> unsupportedOperation(type);
                 }
             } else {
 
-                Optional<LocationGroup> optLG = locationGroupService.findByName(targetBK);
-                if (optLG.isPresent()) {
-
-                    switch(type) {
-                        case ALLOCATION_LOCK:
-                            changeLocationGroupState(
-                                    mode,
-                                    optLG.get(),
-                                    (lg, states) -> locationGroupService.changeGroupState(lg.getPersistentKey(), states[0], states[1])
-                            );
-                            break;
-                        case OPERATION_LOCK:
-                            changeLocationGroupMode(
-                                    mode,
-                                    optLG.get(),
-                                    (lg, m) -> locationGroupService.changeOperationMode(lg.getName(), m)
-                            );
-                            break;
-                        default:
-                            unsupportedOperation(type);
-                    }
-                } else {
-                    targetNotFound(targetBK);
+                var locationGroup = locationGroupService.findByNameOrThrow(targetBK);
+                switch (type) {
+                    case ALLOCATION_LOCK -> changeLocationGroupState(
+                            mode,
+                            locationGroup,
+                            (lg, states) -> locationGroupService.changeGroupState(lg.getPersistentKey(), states[0], states[1])
+                    );
+                    case OPERATION_LOCK -> changeLocationGroupMode(
+                            mode,
+                            locationGroup,
+                            (lg, m) -> locationGroupService.changeOperationMode(lg.getName(), m)
+                    );
+                    default -> unsupportedOperation(type);
                 }
             }
     }
 
-    private void targetNotFound(String targetBK) {
-        throw new NotFoundException(translator, TARGET_NOT_SUPPORTED, new String[]{targetBK}, targetBK);
-    }
-
     private void changeLocation(LockMode mode, Target target, BiConsumer<Target, ErrorCodeVO> fnc) {
-        switch(mode) {
-            case IN:
-                fnc.accept(target, ErrorCodeVO.LOCK_STATE_IN);
-                break;
-            case OUT:
-                fnc.accept(target, ErrorCodeVO.LOCK_STATE_OUT);
-                break;
-            case IN_AND_OUT:
-                fnc.accept(target, ErrorCodeVO.LOCK_STATE_IN_AND_OUT);
-                break;
-            case NONE:
-                fnc.accept(target, ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT);
-                break;
-            default:
-                unsupportedOperation(mode);
+        switch (mode) {
+            case IN -> fnc.accept(target, ErrorCodeVO.LOCK_STATE_IN);
+            case OUT -> fnc.accept(target, ErrorCodeVO.LOCK_STATE_OUT);
+            case IN_AND_OUT -> fnc.accept(target, ErrorCodeVO.LOCK_STATE_IN_AND_OUT);
+            case NONE -> fnc.accept(target, ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT);
+            default -> unsupportedOperation(mode);
         }
     }
 
     private void changeLocationGroupState(LockMode mode, Target target, BiConsumer<Target, LocationGroupState[]> fnc) {
-        switch(mode) {
-            case IN:
-                fnc.accept(target, new LocationGroupState[]{LocationGroupState.NOT_AVAILABLE, LocationGroupState.AVAILABLE});
-                break;
-            case OUT:
-                fnc.accept(target, new LocationGroupState[]{LocationGroupState.AVAILABLE, LocationGroupState.NOT_AVAILABLE});
-                break;
-            case IN_AND_OUT:
-                fnc.accept(target, new LocationGroupState[]{LocationGroupState.NOT_AVAILABLE, LocationGroupState.NOT_AVAILABLE});
-                break;
-            case NONE:
-                fnc.accept(target, new LocationGroupState[]{LocationGroupState.AVAILABLE, LocationGroupState.AVAILABLE});
-                break;
-            default:
-                unsupportedOperation(mode);
+        switch (mode) {
+            case IN -> fnc.accept(target, new LocationGroupState[]{NOT_AVAILABLE, AVAILABLE});
+            case OUT -> fnc.accept(target, new LocationGroupState[]{AVAILABLE, NOT_AVAILABLE});
+            case IN_AND_OUT -> fnc.accept(target, new LocationGroupState[]{NOT_AVAILABLE, NOT_AVAILABLE});
+            case NONE -> fnc.accept(target, new LocationGroupState[]{AVAILABLE, AVAILABLE});
+            default -> unsupportedOperation(mode);
         }
     }
 
     private void changeLocationGroupMode(LockMode mode, LocationGroup target, BiConsumer<LocationGroup, String> fnc) {
-        switch(mode) {
-            case IN:
-                fnc.accept(target, LocationGroupMode.OUTFEED);
-                break;
-            case OUT:
-                fnc.accept(target, LocationGroupMode.INFEED);
-                break;
-            case IN_AND_OUT:
-                fnc.accept(target, LocationGroupMode.NO_OPERATION);
-                break;
-            case NONE:
-                fnc.accept(target, LocationGroupMode.INFEED_AND_OUTFEED);
-                break;
-            default:
-                unsupportedOperation(mode);
+        switch (mode) {
+            case IN -> fnc.accept(target, LocationGroupMode.OUTFEED);
+            case OUT -> fnc.accept(target, LocationGroupMode.INFEED);
+            case IN_AND_OUT -> fnc.accept(target, LocationGroupMode.NO_OPERATION);
+            case NONE -> fnc.accept(target, LocationGroupMode.INFEED_AND_OUTFEED);
+            default -> unsupportedOperation(mode);
         }
-    }
-
-    private NotFoundException locationNotFound(String targetBK) {
-        return new NotFoundException(translator, LOCATION_ID_INVALID, new String[]{targetBK}, targetBK);
     }
 
     private void unsupportedOperation(LockMode mode) {
@@ -211,26 +161,19 @@ class TargetController extends AbstractWebController {
             @RequestParam(value = "reallocation", required = false) Boolean reAllocation
     ) {
         if (LocationPK.isValid(targetBK)) {
-            Location location = locationService.findByLocationId(targetBK).orElseThrow(() -> locationNotFound(targetBK));
+            var location = locationService.findByLocationIdOrThrow(targetBK);
 
-            // Okay we handle a Location as Target
+            // Okay we have a Location as Target
             locationService.changeState(location.getPersistentKey(), ErrorCodeVO.LOCK_STATE_IN_AND_OUT);
             raiseEvent(targetBK, reAllocation, LockMode.NONE);
             return;
         }
 
-        Optional<LocationGroup> optLG = locationGroupService.findByName(targetBK);
-        if (optLG.isPresent()) {
-
-            // The Target is a LocationGroup
-            locationGroupService.changeGroupState(optLG.get().getPersistentKey(), LocationGroupState.NOT_AVAILABLE,
-                    LocationGroupState.NOT_AVAILABLE);
-            locationGroupService.changeOperationMode(targetBK, LocationGroupMode.NO_OPERATION);
-            raiseEvent(targetBK, reAllocation, LockMode.NONE);
-            return;
-        }
-
-        targetNotFound(targetBK);
+        var locationGroup = locationGroupService.findByNameOrThrow(targetBK);
+        // The Target is a LocationGroup
+        locationGroupService.changeGroupState(locationGroup.getPersistentKey(), NOT_AVAILABLE, NOT_AVAILABLE);
+        locationGroupService.changeOperationMode(targetBK, LocationGroupMode.NO_OPERATION);
+        raiseEvent(targetBK, reAllocation, LockMode.NONE);
     }
 
     /**
@@ -244,26 +187,19 @@ class TargetController extends AbstractWebController {
             @PathVariable("targetBK") String targetBK
     ) {
         if (LocationPK.isValid(targetBK)) {
-            Location location = locationService.findByLocationId(targetBK).orElseThrow(() -> locationNotFound(targetBK));
+            var location = locationService.findByLocationIdOrThrow(targetBK);
 
-            // Okay we handle a Location as Target
+            // Okay we have a Location as Target
             locationService.changeState(location.getPersistentKey(), ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT);
             raiseEvent(targetBK, null, LockMode.IN_AND_OUT);
             return;
         }
 
-        Optional<LocationGroup> optLG = locationGroupService.findByName(targetBK);
-        if (optLG.isPresent()) {
-
-            // The Target is a LocationGroup
-            locationGroupService.changeGroupState(optLG.get().getPersistentKey(), LocationGroupState.AVAILABLE,
-                    LocationGroupState.AVAILABLE);
-            locationGroupService.changeOperationMode(targetBK, LocationGroupMode.INFEED_AND_OUTFEED);
-            raiseEvent(targetBK, null, LockMode.IN_AND_OUT);
-            return;
-        }
-
-        targetNotFound(targetBK);
+        var locationGroup = locationGroupService.findByNameOrThrow(targetBK);
+        // The Target is a LocationGroup
+        locationGroupService.changeGroupState(locationGroup.getPersistentKey(), AVAILABLE, AVAILABLE);
+        locationGroupService.changeOperationMode(targetBK, LocationGroupMode.INFEED_AND_OUTFEED);
+        raiseEvent(targetBK, null, LockMode.IN_AND_OUT);
     }
 
     private void raiseEvent(String targetBK, Boolean reAllocation, LockMode mode) {
