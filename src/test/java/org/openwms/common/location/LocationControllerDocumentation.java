@@ -38,7 +38,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
-import static org.openwms.common.TestData.LOCATION_PKEY_EXT;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -307,7 +306,7 @@ class LocationControllerDocumentation {
                             .accept(LocationVO.MEDIA_TYPE)
                     )
                     .andExpect(status().isNotFound())
-                    .andExpect(jsonPath("messageKey", is(CommonMessageCodes.LOCATION_NOT_FOUND)))
+                    .andExpect(jsonPath("messageKey", is(CommonMessageCodes.LOCATION_NOT_FOUND_BY_ID)))
                     .andDo(document("loc-find-coordinate-404"));
         }
 
