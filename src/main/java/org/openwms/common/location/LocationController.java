@@ -45,7 +45,7 @@ import java.util.function.BiConsumer;
 
 import static java.util.Arrays.asList;
 import static org.openwms.common.CommonMessageCodes.LOCATION_ID_INVALID;
-import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND;
+import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND_BY_ID;
 import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND_BY_ERP_CODE;
 import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND_BY_PLC_CODE;
 import static org.openwms.common.CommonMessageCodes.LOCK_MODE_UNSUPPORTED;
@@ -116,7 +116,7 @@ public class LocationController extends AbstractWebController {
         var location = locationService.findByLocationPk(LocationPK.fromString(locationId))
                 .orElseThrow(() -> new NotFoundException(
                         translator,
-                        LOCATION_NOT_FOUND,
+                        LOCATION_NOT_FOUND_BY_ID,
                         new String[]{locationId},
                         locationId
                 ));
