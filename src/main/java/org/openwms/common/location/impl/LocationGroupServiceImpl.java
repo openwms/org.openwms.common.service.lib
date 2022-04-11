@@ -26,9 +26,10 @@ import org.openwms.common.location.api.events.LocationGroupEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,8 +61,8 @@ class LocationGroupServiceImpl implements LocationGroupService {
      */
     @Override
     @Measured
-    public void changeGroupState(@NotEmpty String pKey, @NotNull LocationGroupState stateIn, @NotNull LocationGroupState stateOut) {
-        LocationGroup locationGroup = repository.findBypKey(pKey).orElseThrow(() -> new NotFoundException(
+    public void changeGroupState(@NotBlank String pKey, @NotNull LocationGroupState stateIn, @NotNull LocationGroupState stateOut) {
+        var locationGroup = repository.findBypKey(pKey).orElseThrow(() -> new NotFoundException(
                 translator, LOCATION_GROUP_NOT_FOUND_BY_PKEY, new String[]{pKey}, pKey
         ));
         locationGroup.changeState(stateIn, stateOut);
@@ -73,10 +74,8 @@ class LocationGroupServiceImpl implements LocationGroupService {
      */
     @Override
     @Measured
-    public void changeGroupStates(@NotEmpty String name, Optional<LocationGroupState> stateIn, Optional<LocationGroupState> stateOut) {
-        LocationGroup locationGroup = repository
-                .findByName(name)
-                .orElseThrow(() -> new NotFoundException(translator, LOCATION_GROUP_NOT_FOUND, new String[]{name}, name));
+    public void changeGroupStates(@NotBlank String name, Optional<LocationGroupState> stateIn, Optional<LocationGroupState> stateOut) {
+        var locationGroup = findByNameOrThrowInternal(name);
         stateIn.ifPresent(locationGroup::changeGroupStateIn);
         stateOut.ifPresent(locationGroup::changeGroupStateOut);
         if (stateIn.isPresent() || stateOut.isPresent()) {
@@ -89,10 +88,8 @@ class LocationGroupServiceImpl implements LocationGroupService {
      */
     @Override
     @Measured
-    public void changeOperationMode(@NotEmpty String name, @NotEmpty String mode) {
-        LocationGroup locationGroup = repository
-                .findByName(name)
-                .orElseThrow(() -> new NotFoundException(translator, LOCATION_GROUP_NOT_FOUND, new String[]{name}, name));
+    public void changeOperationMode(@NotBlank String name, @NotBlank String mode) {
+        var locationGroup = findByNameOrThrowInternal(name);
         locationGroup.setOperationMode(mode);
         repository.save(locationGroup);
     }
@@ -102,7 +99,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
      */
     @Override
     @Measured
-    public Optional<LocationGroup> findByName(@NotEmpty String name) {
+    public Optional<LocationGroup> findByName(@NotBlank String name) {
         return repository.findByName(name);
     }
 
@@ -111,7 +108,22 @@ class LocationGroupServiceImpl implements LocationGroupService {
      */
     @Override
     @Measured
-    public List<LocationGroup> findAll() {
+    public @NotNull LocationGroup findByNameOrThrow(@NotBlank String name) {
+        return findByNameOrThrowInternal(name);
+    }
+
+    private LocationGroup findByNameOrThrowInternal(String name) {
+        return repository.findByName(name).orElseThrow(() -> new NotFoundException(
+                translator, LOCATION_GROUP_NOT_FOUND, new String[]{name}, name
+        ));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public @NotNull List<LocationGroup> findAll() {
         return repository.findAll();
     }
 
@@ -120,9 +132,9 @@ class LocationGroupServiceImpl implements LocationGroupService {
      */
     @Override
     @Measured
-    public List<LocationGroup> findByNames(@NotEmpty List<String> locationGroupNames) {
-        List<LocationGroup> result = repository.findByNameIn(locationGroupNames);
-        return result == null ? Collections.emptyList() : result;
+    public @NotNull List<LocationGroup> findByNames(@NotEmpty List<String> locationGroupNames) {
+        var result = repository.findByNameIn(locationGroupNames);
+        return result == null ? new ArrayList<>(0) : result;
     }
 
     /**
@@ -130,7 +142,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
      */
     @Override
     @Measured
-    public LocationGroup save(@NotNull LocationGroup locationGroup) {
+    public @NotNull LocationGroup save(@NotNull LocationGroup locationGroup) {
         return repository.save(locationGroup);
     }
 }

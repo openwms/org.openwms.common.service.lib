@@ -17,6 +17,7 @@ package org.openwms.common.location;
 
 import org.openwms.common.location.api.LocationGroupState;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -37,7 +38,7 @@ public interface LocationGroupService {
      * @param stateIn The new infeed state
      * @param stateOut The new outfeed state
      */
-    void changeGroupState(@NotEmpty String pKey, @NotNull LocationGroupState stateIn, @NotNull LocationGroupState stateOut);
+    void changeGroupState(@NotBlank String pKey, @NotNull LocationGroupState stateIn, @NotNull LocationGroupState stateOut);
 
     /**
      * Change the infeed and outfeed state of a {@link LocationGroup}.
@@ -45,32 +46,43 @@ public interface LocationGroupService {
      * @param name The name of the LocationGroup to change
      * @param stateIn The new infeed state
      * @param stateOut The new outfeed state
+     * @throws org.ameba.exception.NotFoundException In case it doesn't exist
      */
-    void changeGroupStates(@NotEmpty String name, Optional<LocationGroupState> stateIn, Optional<LocationGroupState> stateOut);
+    void changeGroupStates(@NotBlank String name, Optional<LocationGroupState> stateIn, Optional<LocationGroupState> stateOut);
 
     /**
      * Change the operation mode of a {@link LocationGroup}.
      *
      * @param name The name of the LocationGroup to change
      * @param mode The new operation mode to set
+     * @throws org.ameba.exception.NotFoundException In case it doesn't exist
      * @see org.openwms.common.location.api.LocationGroupMode for supported mode values
      */
-    void changeOperationMode(@NotEmpty String name, @NotEmpty String mode);
+    void changeOperationMode(@NotBlank String name, @NotBlank String mode);
 
     /**
-     * Find and return a {@link LocationGroup} by its unique {@code name}.
+     * Find and return a {@link LocationGroup} identified by its unique {@code name}.
      *
      * @param name The name to search for
-     * @return The optional LocationGroup
+     * @return The optional LocationGroup instance
      */
-    Optional<LocationGroup> findByName(@NotEmpty String name);
+    Optional<LocationGroup> findByName(@NotBlank String name);
+
+    /**
+     * Find and return a {@link LocationGroup} identified by its unique {@code name}.
+     *
+     * @param name The name to search for
+     * @return The LocationGroup, never {@literal null}
+     * @throws org.ameba.exception.NotFoundException In case it doesn't exist
+     */
+    @NotNull LocationGroup findByNameOrThrow(@NotBlank String name);
 
     /**
      * Find and return all {@link LocationGroup}s.
      *
-     * @return All existing instances
+     * @return All existing instances or an empty List, never {@literal null}
      */
-    List<LocationGroup> findAll();
+    @NotNull List<LocationGroup> findAll();
 
     /**
      * Find and return all {@link LocationGroup}s with the given {@code locationGroupNames}.
@@ -78,13 +90,13 @@ public interface LocationGroupService {
      * @param locationGroupNames The names of the LocationGroups to search for
      * @return Always an list instance, never {@literal null}
      */
-    List<LocationGroup> findByNames(@NotEmpty List<String> locationGroupNames);
+    @NotNull List<LocationGroup> findByNames(@NotEmpty List<String> locationGroupNames);
 
     /**
      * Persist a new entity or merge if exists.
      *
-     * @param locationGroup new or changed entity.
-     * @return updated entity.
+     * @param locationGroup new or changed entity
+     * @return updated entity
      */
-    LocationGroup save(@NotNull LocationGroup locationGroup);
+    @NotNull LocationGroup save(@NotNull LocationGroup locationGroup);
 }

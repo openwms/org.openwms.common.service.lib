@@ -57,6 +57,7 @@ import static org.openwms.common.CommonMessageCodes.TU_EXISTS;
 import static org.openwms.common.location.LocationPK.fromString;
 import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPORT_UNIT;
 import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPORT_UNITS;
+import static org.openwms.common.transport.api.TransportUnitVO.MEDIA_TYPE;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -82,30 +83,30 @@ public class TransportUnitController extends AbstractWebController {
         this.service = service;
     }
 
-    @GetMapping(value = API_TRANSPORT_UNITS + "/{pKey}", produces = "application/vnd.openwms.transport-unit-v1+json")
+    @GetMapping(value = API_TRANSPORT_UNITS + "/{pKey}", produces = MEDIA_TYPE)
     public ResponseEntity<TransportUnitVO> findTransportUnitByPKey(
             @PathVariable("pKey") String pKey
     ) {
-        TransportUnit transportUnit = service.findByPKey(pKey);
-        TransportUnitVO result = mapper.convertToVO(transportUnit);
+        var transportUnit = service.findByPKey(pKey);
+        var result = mapper.convertToVO(transportUnit);
         addLinks(result);
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping(value = API_TRANSPORT_UNITS, params = {"bk"}, produces = "application/vnd.openwms.transport-unit-v1+json")
+    @GetMapping(value = API_TRANSPORT_UNITS, params = {"bk"}, produces = MEDIA_TYPE)
     public ResponseEntity<TransportUnitVO> findTransportUnit(
             @RequestParam("bk") String transportUnitBK
     ) {
-        TransportUnit transportUnit = service.findByBarcode(transportUnitBK);
-        TransportUnitVO result = mapper.convertToVO(transportUnit);
+        var transportUnit = service.findByBarcode(transportUnitBK);
+        var result = mapper.convertToVO(transportUnit);
         addLinks(result);
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping(value = API_TRANSPORT_UNITS, produces = "application/vnd.openwms.transport-unit-v1+json")
+    @GetMapping(value = API_TRANSPORT_UNITS, produces = MEDIA_TYPE)
     public ResponseEntity<Page<TransportUnitVO>> findAll() {
-        List<TransportUnit> transportUnits = service.findAll();
-        List<TransportUnitVO> result = mapper.convertToVO(transportUnits);
+        var transportUnits = service.findAll();
+        var result = mapper.convertToVO(transportUnits);
         return ResponseEntity.ok(new PageImpl<>(result));
     }
 
@@ -120,30 +121,24 @@ public class TransportUnitController extends AbstractWebController {
         }
     }
 
-    /*
-     * Find all TransportUnits by their business keys.
-     */
-    @GetMapping(value = API_TRANSPORT_UNITS, params = {"bks"}, produces = "application/vnd.openwms.transport-unit-v1+json")
+    @GetMapping(value = API_TRANSPORT_UNITS, params = {"bks"}, produces = MEDIA_TYPE)
     public ResponseEntity<List<TransportUnitVO>> findTransportUnits(
-            @RequestParam("bks") List<String> barcodes
+            @RequestParam("bks") @NotEmpty List<String> barcodes
     ) {
-        List<TransportUnit> tus = service.findByBarcodes(barcodes.stream().map(barcodeGenerator::convert).collect(Collectors.toList()));
+        var tus = service.findByBarcodes(barcodes.stream().map(barcodeGenerator::convert).collect(Collectors.toList()));
         return ResponseEntity.ok(augmentResults(tus));
     }
 
-    /*
-     * Find all TransportUnits placed on the given Location.
-     */
     @GetMapping(value = API_TRANSPORT_UNITS, params = {"actualLocation"}, produces = "application/vnd.openwms.transport-unit-v1+json")
     public ResponseEntity<List<TransportUnitVO>> findTransportUnitsOn(
             @RequestParam("actualLocation") String actualLocation
     ) {
-        List<TransportUnit> tus = service.findOnLocation(actualLocation);
+        var tus = service.findOnLocation(actualLocation);
         return tus == null ? ResponseEntity.ok(Collections.emptyList()) : ResponseEntity.ok(augmentResults(tus));
     }
 
     private List<TransportUnitVO> augmentResults(List<TransportUnit> tus) {
-        List<TransportUnitVO> result = mapper.convertToVO(tus);
+        var result = mapper.convertToVO(tus);
         result.forEach(this::addLinks);
         return result;
     }
@@ -247,12 +242,12 @@ public class TransportUnitController extends AbstractWebController {
         return ResponseEntity.ok(
                 new Index(
                         linkTo(methodOn(TransportUnitController.class).findTransportUnitByPKey("1")).withRel("transport-unit-findbypkey"),
-                        linkTo(methodOn(TransportUnitController.class).findTransportUnit("00000000000000004711")).withRel("transport-unit-findbybarcode"),
-                        linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList("00000000000000004711", "00000000000000004712"))).withRel("transport-unit-findbybarcodes"),
-                        linkTo(methodOn(TransportUnitController.class).findTransportUnitsOn("EXT_/0000/0000/0000/0000")).withRel("transport-unit-findonlocation"),
-                        linkTo(methodOn(TransportUnitController.class).blockTransportUnit("00000000000000004711")).withRel("transport-unit-block"),
-                        linkTo(methodOn(TransportUnitController.class).unblockTransportUnit("00000000000000004711")).withRel("transport-unit-unblock"),
-                        linkTo(methodOn(TransportUnitController.class).qcTransportUnit("00000000000000004711")).withRel("transport-unit-qc")
+                        linkTo(methodOn(TransportUnitController.class).findTransportUnit("{transportUnitBK}")).withRel("transport-unit-findbybarcode"),
+                        linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList("{transportUnitBK-1}", "{transportUnitBK-n}"))).withRel("transport-unit-findbybarcodes"),
+                        linkTo(methodOn(TransportUnitController.class).findTransportUnitsOn("{actualLocation.locationId}")).withRel("transport-unit-findonlocation"),
+                        linkTo(methodOn(TransportUnitController.class).blockTransportUnit("{transportUnitBK}")).withRel("transport-unit-block"),
+                        linkTo(methodOn(TransportUnitController.class).unblockTransportUnit("{transportUnitBK}")).withRel("transport-unit-unblock"),
+                        linkTo(methodOn(TransportUnitController.class).qcTransportUnit("{transportUnitBK}")).withRel("transport-unit-qc")
                 )
         );
     }
