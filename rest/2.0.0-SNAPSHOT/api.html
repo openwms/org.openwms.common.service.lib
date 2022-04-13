@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<meta name="author" content="(2.0.0-SNAPSHOT-120)">
+<meta name="author" content="(2.0.0-SNAPSHOT-124)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(2.0.0-SNAPSHOT-120)</span><br>
+<span id="author" class="author">(2.0.0-SNAPSHOT-124)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -930,12 +930,12 @@ Content-Length: 141
 
 [ {
   "links" : [ ],
-  "identifier" : "D",
-  "name" : "Default"
-}, {
-  "links" : [ ],
   "identifier" : "A1",
   "name" : "Cost Center FIN"
+}, {
+  "links" : [ ],
+  "identifier" : "D",
+  "name" : "Default"
 } ]</code></pre>
 </div>
 </div>
@@ -1172,9 +1172,9 @@ Content-Length: 408
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 198
+Content-Length: 196
 
-{"message":"Location with name [EXT_/9999/9999/9999/9999] does not exist","messageKey":"owms.common.common.loc.notFoundByName","obj":["EXT_/9999/9999/9999/9999"],"httpStatus":"404","class":"String"}</code></pre>
+{"message":"Location with name [EXT_/9999/9999/9999/9999] does not exist","messageKey":"owms.common.common.loc.notFoundById","obj":["EXT_/9999/9999/9999/9999"],"httpStatus":"404","class":"String"}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1709,16 +1709,16 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/locations/bc81d601-8b01-4b9d-a555-c5c982c72260/
+Location: http://localhost:8080/v1/locations/79c85a50-1a6c-4807-882f-c4481c3fb52d/
 Content-Type: application/vnd.openwms.common.location-v1+json
 Content-Length: 422
 
 {
   "links" : [ {
     "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/bc81d601-8b01-4b9d-a555-c5c982c72260"
+    "href" : "http://localhost:8080/v1/locations/79c85a50-1a6c-4807-882f-c4481c3fb52d"
   } ],
-  "pKey" : "bc81d601-8b01-4b9d-a555-c5c982c72260",
+  "pKey" : "79c85a50-1a6c-4807-882f-c4481c3fb52d",
   "locationId" : "FGIN/PICK/WORK/0010/0000",
   "plcCode" : "PICK_20",
   "erpCode" : "PICK_10",
@@ -3220,11 +3220,11 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 269
+Content-Length: 188
 
 {
-  "message" : "The Target with name [FOO] is neither a Location nor a LocationGroup. Other types of Targets are currently not supported",
-  "messageKey" : "owms.common.common.target.unsupportedType",
+  "message" : "LocationGroup with name [FOO] does not exist",
+  "messageKey" : "owms.common.common.lg.notFoundByName",
   "obj" : [ "FOO" ],
   "httpStatus" : "404",
   "class" : "String"
@@ -3260,7 +3260,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 949
+Content-Length: 958
 
 {
   "_links" : {
@@ -3268,22 +3268,22 @@ Content-Length: 949
       "href" : "http://localhost:8080/v1/transport-units/1"
     },
     "transport-unit-findbybarcode" : {
-      "href" : "http://localhost:8080/v1/transport-units?bk=00000000000000004711"
+      "href" : "http://localhost:8080/v1/transport-units?bk=%7BtransportUnitBK%7D"
     },
     "transport-unit-findbybarcodes" : {
-      "href" : "http://localhost:8080/v1/transport-units?bks=00000000000000004711&amp;bks=00000000000000004712"
+      "href" : "http://localhost:8080/v1/transport-units?bks=%7BtransportUnitBK-1%7D&amp;bks=%7BtransportUnitBK-n%7D"
     },
     "transport-unit-findonlocation" : {
-      "href" : "http://localhost:8080/v1/transport-units?actualLocation=EXT_%2F0000%2F0000%2F0000%2F0000"
+      "href" : "http://localhost:8080/v1/transport-units?actualLocation=%7BactualLocation.locationId%7D"
     },
     "transport-unit-block" : {
-      "href" : "http://localhost:8080/v1/transport-units/block?bk=00000000000000004711"
+      "href" : "http://localhost:8080/v1/transport-units/block?bk=%7BtransportUnitBK%7D"
     },
     "transport-unit-unblock" : {
-      "href" : "http://localhost:8080/v1/transport-units/available?bk=00000000000000004711"
+      "href" : "http://localhost:8080/v1/transport-units/available?bk=%7BtransportUnitBK%7D"
     },
     "transport-unit-qc" : {
-      "href" : "http://localhost:8080/v1/transport-units/quality-check?bk=00000000000000004711"
+      "href" : "http://localhost:8080/v1/transport-units/quality-check?bk=%7BtransportUnitBK%7D"
     }
   }
 }</code></pre>
@@ -3342,12 +3342,12 @@ contains a link to the newly created resource.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/7f5d95c8-a127-4130-9b97-dbd18f47d834/
+Location: http://localhost:8080/v1/transport-units/6df54e2f-244c-43d2-ba33-731c0a8b81e6/
 Content-Type: application/hal+json
 Content-Length: 851
 
 {
-  "pKey" : "7f5d95c8-a127-4130-9b97-dbd18f47d834",
+  "pKey" : "6df54e2f-244c-43d2-ba33-731c0a8b81e6",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "pKey" : "113646454019",
@@ -3375,8 +3375,8 @@ Content-Length: 851
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2022-04-05T13:32:33Z",
-  "createDate" : "2022-04-05T13:32:33Z"
+  "actualLocationDate" : "2022-04-13T23:06:39Z",
+  "createDate" : "2022-04-13T23:06:39Z"
 }</code></pre>
 </div>
 </div>
@@ -3434,7 +3434,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/f4daede0-c91e-4de5-bdfe-70199b46f8de/</code></pre>
+Location: http://localhost:8080/v1/transport-units/be824868-b6c2-40a5-80df-fa99b330d571/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3534,8 +3534,8 @@ Content-Length: 665
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-04-05T13:32:34Z",
-  "createDate" : "2022-04-05T13:32:34Z"
+  "actualLocationDate" : "2022-04-13T23:06:40Z",
+  "createDate" : "2022-04-13T23:06:40Z"
 }</code></pre>
 </div>
 </div>
@@ -3626,8 +3626,8 @@ Content-Length: 665
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-04-05T13:32:33Z",
-  "createDate" : "2022-04-05T13:32:33Z"
+  "actualLocationDate" : "2022-04-13T23:06:40Z",
+  "createDate" : "2022-04-13T23:06:39Z"
 }</code></pre>
 </div>
 </div>
@@ -3690,7 +3690,7 @@ Host: localhost:8080</code></pre>
 Content-Type: application/vnd.openwms.transport-unit-v1+json
 Content-Length: 717
 
-{"links":[{"rel":"transport-unit-type","href":"http://localhost:8080/v1/transport-unit-types?type=PALLET"},{"rel":"actual-location","href":"http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"}],"pKey":"1","barcode":"00000000000000004711","actualLocation":{"links":[],"pKey":"113646454019","locationId":"EXT_/0000/0000/0000/0000","accountId":"D","plcCode":"PLC_0030","erpCode":"ERP_0030","sortOrder":0,"incomingActive":true,"outgoingActive":true,"plcState":0,"type":"FG","locationGroupName":"ZILE"},"state":"AVAILABLE","transportUnitType":{"type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"},"actualLocationDate":1649165554009,"createDate":1649165554009}</code></pre>
+{"links":[{"rel":"transport-unit-type","href":"http://localhost:8080/v1/transport-unit-types?type=PALLET"},{"rel":"actual-location","href":"http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"}],"pKey":"1","barcode":"00000000000000004711","actualLocation":{"links":[],"pKey":"113646454019","locationId":"EXT_/0000/0000/0000/0000","accountId":"D","plcCode":"PLC_0030","erpCode":"ERP_0030","sortOrder":0,"incomingActive":true,"outgoingActive":true,"plcState":0,"type":"FG","locationGroupName":"ZILE"},"state":"AVAILABLE","transportUnitType":{"type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"},"actualLocationDate":1649891200379,"createDate":1649891200379}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3723,7 +3723,7 @@ style, like it is left or right aligned and padded.</p>
 Content-Type: application/vnd.openwms.transport-unit-v1+json
 Content-Length: 717
 
-{"links":[{"rel":"transport-unit-type","href":"http://localhost:8080/v1/transport-unit-types?type=PALLET"},{"rel":"actual-location","href":"http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"}],"pKey":"1","barcode":"00000000000000004711","actualLocation":{"links":[],"pKey":"113646454019","locationId":"EXT_/0000/0000/0000/0000","accountId":"D","plcCode":"PLC_0030","erpCode":"ERP_0030","sortOrder":0,"incomingActive":true,"outgoingActive":true,"plcState":0,"type":"FG","locationGroupName":"ZILE"},"state":"AVAILABLE","transportUnitType":{"type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"},"actualLocationDate":1649165553735,"createDate":1649165553735}</code></pre>
+{"links":[{"rel":"transport-unit-type","href":"http://localhost:8080/v1/transport-unit-types?type=PALLET"},{"rel":"actual-location","href":"http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"}],"pKey":"1","barcode":"00000000000000004711","actualLocation":{"links":[],"pKey":"113646454019","locationId":"EXT_/0000/0000/0000/0000","accountId":"D","plcCode":"PLC_0030","erpCode":"ERP_0030","sortOrder":0,"incomingActive":true,"outgoingActive":true,"plcState":0,"type":"FG","locationGroupName":"ZILE"},"state":"AVAILABLE","transportUnitType":{"type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"},"actualLocationDate":1649891200159,"createDate":1649891200159}</code></pre>
 </div>
 </div>
 </div>
@@ -3797,8 +3797,8 @@ Content-Length: 1887
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-04-05T13:32:33Z",
-  "createDate" : "2022-04-05T13:32:33Z"
+  "actualLocationDate" : "2022-04-13T23:06:39Z",
+  "createDate" : "2022-04-13T23:06:39Z"
 }, {
   "links" : [ {
     "rel" : "transport-unit-type",
@@ -3831,8 +3831,8 @@ Content-Length: 1887
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-04-05T13:32:33Z",
-  "createDate" : "2022-04-05T13:32:33Z"
+  "actualLocationDate" : "2022-04-13T23:06:39Z",
+  "createDate" : "2022-04-13T23:06:39Z"
 } ]</code></pre>
 </div>
 </div>
@@ -3907,8 +3907,8 @@ Content-Length: 946
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-04-05T13:32:34Z",
-  "createDate" : "2022-04-05T13:32:34Z"
+  "actualLocationDate" : "2022-04-13T23:06:40Z",
+  "createDate" : "2022-04-13T23:06:40Z"
 } ]</code></pre>
 </div>
 </div>
@@ -4086,7 +4086,7 @@ Content-Length: 122
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-04-05 13:27:50 UTC
+Last updated 2022-04-13 23:02:02 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
