@@ -155,7 +155,7 @@ class TargetControllerDocumentation {
                     .queryParam("type", "PERMANENT_LOCK")
                     .queryParam("mode", "lock"))
                     .andExpect(status().isNotFound())
-                    .andExpect(jsonPath("messageKey", is(CommonMessageCodes.TARGET_NOT_SUPPORTED)))
+                    .andExpect(jsonPath("messageKey", is(CommonMessageCodes.LOCATION_GROUP_NOT_FOUND)))
                     .andExpect(jsonPath("httpStatus", is("404")))
                     .andDo(document("lock-lg-unknown"));
         }
@@ -177,7 +177,7 @@ class TargetControllerDocumentation {
                     .queryParam("type", "PERMANENT_LOCK")
                     .queryParam("mode", "unlock"))
                     .andExpect(status().isNotFound())
-                    .andExpect(jsonPath("messageKey", is(CommonMessageCodes.TARGET_NOT_SUPPORTED)))
+                    .andExpect(jsonPath("messageKey", is(CommonMessageCodes.LOCATION_GROUP_NOT_FOUND)))
                     .andExpect(jsonPath("httpStatus", is("404")))
                     ;
         }
