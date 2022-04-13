@@ -170,7 +170,7 @@ class TransportUnitServiceImplIT {
     void shall_change_target_invalid_Location() {
         assertThatThrownBy
                 (() -> testee.changeTarget(Barcode.of(TestData.TU_2_ID), "UNKW/UNKW/UNKW/UNKW/UNKW"))
-                .isInstanceOf(NotFoundException.class).hasMessageContaining("Location with locationId");
+                .isInstanceOf(NotFoundException.class).hasMessageContaining("Location with name");
     }
 
     @Test
