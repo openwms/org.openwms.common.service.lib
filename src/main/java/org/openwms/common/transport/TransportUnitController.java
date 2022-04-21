@@ -31,8 +31,6 @@ import org.openwms.core.SpringProfiles;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -46,10 +44,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 import static org.openwms.common.CommonMessageCodes.TU_BARCODE_MISSING;
@@ -104,10 +101,10 @@ public class TransportUnitController extends AbstractWebController {
     }
 
     @GetMapping(value = API_TRANSPORT_UNITS, produces = MEDIA_TYPE)
-    public ResponseEntity<Page<TransportUnitVO>> findAll() {
+    public ResponseEntity<List<TransportUnitVO>> findAll() {
         var transportUnits = service.findAll();
         var result = mapper.convertToVO(transportUnits);
-        return ResponseEntity.ok(new PageImpl<>(result));
+        return ResponseEntity.ok(result);
     }
 
     private void addLinks(TransportUnitVO result) {
@@ -125,7 +122,7 @@ public class TransportUnitController extends AbstractWebController {
     public ResponseEntity<List<TransportUnitVO>> findTransportUnits(
             @RequestParam("bks") @NotEmpty List<String> barcodes
     ) {
-        var tus = service.findByBarcodes(barcodes.stream().map(barcodeGenerator::convert).collect(Collectors.toList()));
+        var tus = service.findByBarcodes(barcodes.stream().map(barcodeGenerator::convert).toList());
         return ResponseEntity.ok(augmentResults(tus));
     }
 
@@ -134,7 +131,7 @@ public class TransportUnitController extends AbstractWebController {
             @RequestParam("actualLocation") String actualLocation
     ) {
         var tus = service.findOnLocation(actualLocation);
-        return tus == null ? ResponseEntity.ok(Collections.emptyList()) : ResponseEntity.ok(augmentResults(tus));
+        return ResponseEntity.ok(augmentResults(tus));
     }
 
     private List<TransportUnitVO> augmentResults(List<TransportUnit> tus) {
@@ -258,7 +255,7 @@ public class TransportUnitController extends AbstractWebController {
      * @param transportUnitBK The unique (physical) identifier
      */
     @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/block", params = {"bk"})
-    public ResponseEntity<Void> blockTransportUnit(@NotEmpty @RequestParam("bk") String transportUnitBK) {
+    public ResponseEntity<Void> blockTransportUnit(@NotBlank @RequestParam("bk") String transportUnitBK) {
         try {
             service.setState(transportUnitBK, TransportUnitState.BLOCKED);
             return ResponseEntity.noContent().build();
@@ -273,7 +270,7 @@ public class TransportUnitController extends AbstractWebController {
      * @param transportUnitBK The unique (physical) identifier
      */
     @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/available", params = {"bk"})
-    public ResponseEntity<Void> unblockTransportUnit(@NotEmpty @RequestParam("bk") String transportUnitBK) {
+    public ResponseEntity<Void> unblockTransportUnit(@NotBlank @RequestParam("bk") String transportUnitBK) {
         try {
             service.setState(transportUnitBK, TransportUnitState.AVAILABLE);
             return ResponseEntity.noContent().build();
@@ -288,7 +285,7 @@ public class TransportUnitController extends AbstractWebController {
      * @param transportUnitBK The unique (physical) identifier
      */
     @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/quality-check", params = {"bk"})
-    public ResponseEntity<Void> qcTransportUnit(@NotEmpty @RequestParam("bk") String transportUnitBK) {
+    public ResponseEntity<Void> qcTransportUnit(@NotBlank @RequestParam("bk") String transportUnitBK) {
         try {
             service.setState(transportUnitBK, TransportUnitState.QUALITY_CHECK);
             return ResponseEntity.noContent().build();
@@ -296,5 +293,4 @@ public class TransportUnitController extends AbstractWebController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
-
 }

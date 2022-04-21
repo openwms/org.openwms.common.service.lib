@@ -40,7 +40,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -359,7 +358,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public @NotNull List<TransportUnit> findAll() {
-        return repository.findAll(PageRequest.of(10, 200)).getContent();
+        return repository.findAll();
     }
 
     /**
@@ -385,7 +384,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public void setState(@NotBlank String transportUnitBK, @NotNull TransportUnitState state) {
-        TransportUnit transportUnit = findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));
+        var transportUnit = findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));
         LOGGER.debug("Setting TransportUnit [{}] to state [{}]", transportUnitBK, state);
         transportUnit.setState(state);
         publisher.publishEvent(TransportUnitEvent.newBuilder()
