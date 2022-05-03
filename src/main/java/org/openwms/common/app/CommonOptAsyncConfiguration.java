@@ -82,8 +82,8 @@ class CommonOptAsyncConfiguration {
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory,
             ObjectProvider<MessageConverter> messageConverter,
             @Autowired(required = false) RabbitTemplateConfigurable rabbitTemplateConfigurable) {
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        ExponentialBackOffPolicy backOffPolicy = new ExponentialBackOffPolicy();
+        var rabbitTemplate = new RabbitTemplate(connectionFactory);
+        var backOffPolicy = new ExponentialBackOffPolicy();
         backOffPolicy.setMultiplier(2);
         backOffPolicy.setMaxInterval(15000);
         backOffPolicy.setInitialInterval(500);
@@ -181,8 +181,7 @@ class CommonOptAsyncConfiguration {
     }
 
     @RefreshScope
-    @Bean
-    Binding dlBinding(
+    @Bean Binding dlBinding(
             @Value("${owms.common.dead-letter.queue-name}") String queueName,
             @Value("${owms.common.dead-letter.exchange-name}") String exchangeName) {
         return BindingBuilder

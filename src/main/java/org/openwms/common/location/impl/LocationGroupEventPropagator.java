@@ -73,22 +73,15 @@ class LocationGroupEventPropagator {
     @TransactionalEventListener(fallbackExecution = true)
     public void onEvent(LocationGroupEvent event) {
         switch (event.getType()) {
-            case CREATED:
-                amqpTemplate.convertAndSend(exchangeName, "lg.event.created", locationGroupMapper.convertToMO((LocationGroup) event.getSource()));
-                break;
-            case CHANGED:
-                amqpTemplate.convertAndSend(exchangeName, "lg.event.changed", locationGroupMapper.convertToMO((LocationGroup) event.getSource()));
-                break;
-            case DELETED:
-                amqpTemplate.convertAndSend(exchangeName, "lg.event.deleted", locationGroupMapper.convertToMO((LocationGroup) event.getSource()));
-                break;
-            case STATE_CHANGE:
+            case CREATED -> amqpTemplate.convertAndSend(exchangeName, "lg.event.created", locationGroupMapper.convertToMO((LocationGroup) event.getSource()));
+            case CHANGED -> amqpTemplate.convertAndSend(exchangeName, "lg.event.changed", locationGroupMapper.convertToMO((LocationGroup) event.getSource()));
+            case DELETED -> amqpTemplate.convertAndSend(exchangeName, "lg.event.deleted", locationGroupMapper.convertToMO((LocationGroup) event.getSource()));
+            case STATE_CHANGE -> {
                 LocationGroupMO msg = locationGroupMapper.convertToMO((LocationGroup) event.getSource());
                 validate(validator, msg);
                 amqpTemplate.convertAndSend(exchangeName, "lg.event.state-changed", msg);
-                break;
-            default:
-                throw new UnsupportedOperationException(format("LocationGroupEvent [%s] currently not supported", event.getType()));
+            }
+            default -> throw new UnsupportedOperationException(format("LocationGroupEvent [%s] currently not supported", event.getType()));
         }
     }
 

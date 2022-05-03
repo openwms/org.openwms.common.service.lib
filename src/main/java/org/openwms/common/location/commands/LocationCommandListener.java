@@ -56,15 +56,12 @@ public class LocationCommandListener {
     @RabbitListener(queues = "${owms.commands.common.loc.queue-name}")
     public void onCommand(@Payload LocationCommand command) {
         try {
-            switch(command.getType()) {
-                case SET_LOCATION_EMPTY:
-                    validate(validator,command, ValidationGroups.SetLocationEmpty.class);
-                    LOGGER.debug("Got command to set a Location [{}] empty", command.getLocation().pKey());
-                    var errorCode = ErrorCodeVO.LOCK_STATE_IN_AND_OUT;
-                    errorCode.setPlcState(LOCATION_EMPTY);
-                    locationService.changeState(command.getLocation().pKey(), errorCode);
-                    break;
-                default:
+            if (LocationCommand.Type.SET_LOCATION_EMPTY == command.getType()) {
+                validate(validator, command, ValidationGroups.SetLocationEmpty.class);
+                LOGGER.debug("Got command to set a Location [{}] empty", command.getLocation().pKey());
+                var errorCode = ErrorCodeVO.LOCK_STATE_IN_AND_OUT;
+                errorCode.setPlcState(LOCATION_EMPTY);
+                locationService.changeState(command.getLocation().pKey(), errorCode);
             }
         } catch (Exception e) {
             LOGGER.error("Processing command rejected [{}]", command);

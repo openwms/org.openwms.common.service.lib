@@ -250,8 +250,10 @@ class LocationControllerDocumentation {
         }
 
         @Test void shall_findby_plccode() throws Exception {
-            mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
-                    .queryParam("plcCode", TestData.LOCATION_PLC_CODE_EXT))
+            mockMvc.perform(
+                    get(LocationApiConstants.API_LOCATIONS)
+                        .queryParam("plcCode", TestData.LOCATION_PLC_CODE_EXT)
+                    )
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("pKey").exists())
                     .andExpect(jsonPath("locationId", is(TestData.LOCATION_ID_EXT)))
