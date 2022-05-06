@@ -145,8 +145,4 @@ public class WorkflowApi extends AbstractWebController {
         }
         return ResponseEntity.ok(Optional.empty());
     }
-
-    private void unsupportedOperation(LockMode mode) {
-        throw new BusinessRuntimeException(translator, LOCK_MODE_UNSUPPORTED, new Serializable[]{mode}, mode);
-    }
 }

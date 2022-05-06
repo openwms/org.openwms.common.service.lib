@@ -24,16 +24,16 @@ import org.openwms.common.location.api.LocationGroupState;
  * @author Heiko Scherrer
  */
 @Mapper
-public abstract class LocationGroupStateConverter {
+public interface LocationGroupStateConverter {
 
-    public LocationGroupState convertTo(Boolean source) {
+    default LocationGroupState convertTo(Boolean source) {
         if (source == null) {
             return null;
         }
         return Boolean.TRUE.equals(source) ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;
     }
 
-    public Boolean convertFrom(LocationGroupState source) {
+    default Boolean convertFrom(LocationGroupState source) {
         if (source == null) {
             return Boolean.FALSE;
         }

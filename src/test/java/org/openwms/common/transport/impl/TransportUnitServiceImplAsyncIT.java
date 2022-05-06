@@ -55,7 +55,7 @@ class TransportUnitServiceImplAsyncIT {
 
     @Test void shall_trigger_deletion() {
         assertThat(testee.findByPKey(TestData.TU_1_PKEY)).isNotNull();
-        TUCommand command = TUCommand.newBuilder(TUCommand.Type.REMOVE)
+        var command = TUCommand.newBuilder(TUCommand.Type.REMOVE)
                 .withTransportUnit(
                         TransportUnitMO.newBuilder().withPKey(TestData.TU_1_PKEY).build()
                 )

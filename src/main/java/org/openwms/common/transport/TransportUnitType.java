@@ -30,10 +30,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * A TransportUnitType is a type of a certain {@code TransportUnit}. Typically to store characteristic attributes of {@code TransportUnit}s,
@@ -325,11 +323,11 @@ public class TransportUnitType extends ApplicationEntity implements Serializable
      */
     public void removeTypePlacingRules(LocationType locationType) {
         Assert.notNull(locationType, "locationType to remove is null, this: " + this);
-        List<TypePlacingRule> toRemove = typePlacingRules
+        var toRemove = typePlacingRules
                 .stream()
                 .filter(tpr -> tpr.getAllowedLocationType().getType().equals(locationType.getType()))
-                .collect(Collectors.toList());
-        typePlacingRules.removeAll(toRemove);
+                .toList();
+        toRemove.forEach(typePlacingRules::remove);
     }
 
     /**

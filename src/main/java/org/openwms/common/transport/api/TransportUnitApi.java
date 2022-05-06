@@ -32,7 +32,7 @@ import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPO
  *
  * @author Heiko Scherrer
  */
-@FeignClient(name = "common-service", qualifier = "transportUnitApi")
+@FeignClient(name = "common-service")
 public interface TransportUnitApi {
 
     /*~----------------------------- Finders --------------------------------*/

@@ -35,11 +35,11 @@ import static java.lang.String.format;
  */
 @Validated
 @Mapper(uses = {AccountMapper.class, LocationTypeMapper.class, LocationGroupMapper.class})
-public abstract class LocationMapper {
+public interface LocationMapper {
 
     @Mapping(target = "persistentKey", source = "pKey")
     @Mapping(target = "locationId", expression = "java( org.openwms.common.location.LocationPK.fromString(vo.getLocationId()) )",
-    nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+            nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     @Mapping(target = "locationType", source = "type")
     @Mapping(target = "account", source = "accountId", nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     @Mapping(target = "locationGroup", source = "locationGroupName")
@@ -48,7 +48,7 @@ public abstract class LocationMapper {
     @Mapping(target = "sortOrder", source = "sortOrder")
     @Mapping(target = "plcState", source = "plcState")
     @Mapping(target = "stockZone", source = "stockZone")
-    public abstract Location convertVO(LocationVO vo);
+    Location convertVO(LocationVO vo);
 
     @Mapping(target = "pKey", source = "eo.persistentKey")
     @Mapping(target = "accountId", source = "eo.account.identifier")
@@ -57,18 +57,18 @@ public abstract class LocationMapper {
     @Mapping(target = "locationGroupName", source = "eo.locationGroup.name")
     @Mapping(target = "incomingActive", source = "eo.infeedActive")
     @Mapping(target = "outgoingActive", source = "eo.outfeedActive")
-    public abstract LocationVO convertToVO(Location eo);
+    LocationVO convertToVO(Location eo);
 
-    public abstract List<LocationVO> convertToVO(List<Location> eo);
+    List<LocationVO> convertToVO(List<Location> eo);
 
     @Mapping(target = "pKey", source = "eo.persistentKey")
     @Mapping(target = "accountId", source = "eo.account.identifier")
     @Mapping(target = "id", expression = "java( eo.getLocationId().toString() )")
     @Mapping(target = "incomingActive", source = "eo.infeedActive")
     @Mapping(target = "outgoingActive", source = "eo.outfeedActive")
-    public abstract LocationMO convertToMO(Location eo);
+    LocationMO convertToMO(Location eo);
 
-    public final Location copyForUpdate(Location source, @NotNull Location target) {
+    default Location copyForUpdate(Location source, @NotNull Location target) {
         if ( source == null ) {
             return target;
         }
@@ -92,9 +92,6 @@ public abstract class LocationMapper {
                 .withLastMovement( source.getLastMovement() )
                 .withLocationType( source.getLocationType() )
                 .withLocationGroupCountingActive( source.isLocationGroupCountingActive() )
-                //.withIncomingActive( source.isInfeedActive() )  Don't allow to change the plcState here with update
-                //.withOutgoingActive( source.isOutfeedActive() )  Don't allow to change the plcState here with update
-                //.withPlcState( source.getPlcState() ) Don't allow to change the plcState here with update
                 .withConsideredInAllocation( source.isConsideredInAllocation() )
                 .withLocationType( source.getLocationType() )
                 .withGroup( source.getGroup() )

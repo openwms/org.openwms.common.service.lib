@@ -72,7 +72,7 @@ class TransportUnitIT {
 
     @Test void shall_create_and_persist() {
         when(generator.convert("NEVER_PERSISTED")).thenReturn(Barcode.of("NEVER_PERSISTED"));
-        TransportUnit transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, knownLocation);
+        var transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, knownLocation);
         transportUnit = repository.save(transportUnit);
         assertThat(transportUnit.isNew()).isFalse();
         assertThat(transportUnit.getActualLocation()).isEqualTo(knownLocation);
@@ -81,7 +81,7 @@ class TransportUnitIT {
 
     @Test void shall_fail_with_transient_TUT() {
         when(generator.convert("NEVER_PERSISTED")).thenReturn(Barcode.of("NEVER_PERSISTED"));
-        TransportUnit transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), TransportUnitType.of("UNKNOWN_TUT"), knownLocation);
+        var transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), TransportUnitType.of("UNKNOWN_TUT"), knownLocation);
         assertThatThrownBy(
                 () -> repository.save(transportUnit))
                 .isInstanceOf(DataAccessException.class)
@@ -91,7 +91,7 @@ class TransportUnitIT {
 
     @Test void shall_fail_with_transient_actualLocation() {
         when(generator.convert("NEVER_PERSISTED")).thenReturn(Barcode.of("NEVER_PERSISTED"));
-        TransportUnit transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, Location.create(LocationPK.of("UNKN", "UNKN", "UNKN", "UNKN", "UNKN")));
+        var transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, Location.create(LocationPK.of("UNKN", "UNKN", "UNKN", "UNKN", "UNKN")));
         assertThatThrownBy(
                 () -> repository.save(transportUnit))
                 .isInstanceOf(DataAccessException.class)
@@ -100,7 +100,7 @@ class TransportUnitIT {
 
     @Test void shall_fail_with_transient_targetLocation() {
         when(generator.convert("NEVER_PERSISTED")).thenReturn(Barcode.of("NEVER_PERSISTED"));
-        TransportUnit transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, knownLocation);
+        var transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, knownLocation);
         transportUnit.setTargetLocation(Location.create(LocationPK.of("UNKN", "UNKN", "UNKN", "UNKN", "UNKN")));
         assertThatThrownBy(
                 () -> entityManager.persistAndFlush(transportUnit))
@@ -110,7 +110,7 @@ class TransportUnitIT {
 
     @Test void shall_create_with_valid_targetLocation() {
         when(generator.convert("NEVER_PERSISTED")).thenReturn(Barcode.of("NEVER_PERSISTED"));
-        TransportUnit transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, knownLocation);
+        var transportUnit = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, knownLocation);
         transportUnit.setTargetLocation(knownLocation);
 
         transportUnit = repository.save(transportUnit);
@@ -120,8 +120,8 @@ class TransportUnitIT {
 
     @Test void shall_cascade_errors_of_TU() {
         when(generator.convert("NEVER_PERSISTED")).thenReturn(Barcode.of("NEVER_PERSISTED"));
-        TransportUnit tu = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, knownLocation);
-        UnitError saved = tu.addError(
+        var tu = new TransportUnit(generator.convert("NEVER_PERSISTED"), knownType, knownLocation);
+        var saved = tu.addError(
                 UnitError.newBuilder()
                         .errorNo("NEVER_PERSISTED")
                         .errorText("Damaged").build()
@@ -134,9 +134,9 @@ class TransportUnitIT {
 
     @Test void shall_cascade_operations_to_children() {
         when(generator.convert("PARENT")).thenReturn(Barcode.of("PARENT"));
-        TransportUnit parent = new TransportUnit(generator.convert("PARENT"), knownType, knownLocation);
+        var parent = new TransportUnit(generator.convert("PARENT"), knownType, knownLocation);
         when(generator.convert("CHILD")).thenReturn(Barcode.of("CHILD"));
-        TransportUnit child = new TransportUnit(generator.convert("CHILD"), knownType, knownLocation);
+        var child = new TransportUnit(generator.convert("CHILD"), knownType, knownLocation);
 
         parent.addChild(child);
 

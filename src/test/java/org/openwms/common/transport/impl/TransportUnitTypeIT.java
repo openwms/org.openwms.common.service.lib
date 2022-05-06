@@ -24,8 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -44,22 +42,22 @@ class TransportUnitTypeIT {
 
     @Test void testUniqueConstraint() {
         repository.saveAndFlush(new TransportUnitType("TUT1"));
-        TransportUnitType tut1 = new TransportUnitType("TUT1");
+        var tut1 = new TransportUnitType("TUT1");
         assertThatThrownBy(
                 () -> repository.saveAndFlush(tut1))
                 .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test void testCascadingTypePlacingRuleWithOrphan() {
-        LocationType locationType = new LocationType("conveyor");
+        var locationType = new LocationType("conveyor");
         entityManager.persist(locationType);
         entityManager.flush();
 
-        TransportUnitType cartonType = new TransportUnitType("Carton Type");
-        TypePlacingRule typePlacingRule = new TypePlacingRule(cartonType, locationType, 1);
+        var cartonType = new TransportUnitType("Carton Type");
+        var typePlacingRule = new TypePlacingRule(cartonType, locationType, 1);
         cartonType.addTypePlacingRule(typePlacingRule);
-        List<TypePlacingRule> tpr = entityManager.getEntityManager().createQuery("select tpr from TypePlacingRule tpr", TypePlacingRule.class).getResultList();
-        int before = tpr.size();
+        var tpr = entityManager.getEntityManager().createQuery("select tpr from TypePlacingRule tpr", TypePlacingRule.class).getResultList();
+        var before = tpr.size();
         cartonType = entityManager.merge(cartonType);
 
         tpr = entityManager.getEntityManager().createQuery("select tpr from TypePlacingRule tpr", TypePlacingRule.class).getResultList();
@@ -72,15 +70,15 @@ class TransportUnitTypeIT {
     }
 
     @Test void testCascadingTypePlacingRule() {
-        LocationType locationType = entityManager.find(LocationType.class,1000L);
+        var locationType = entityManager.find(LocationType.class,1000L);
 
-        TransportUnitType cartonType = new TransportUnitType("Carton Type");
-        TypePlacingRule typePlacingRule = new TypePlacingRule(cartonType, locationType, 1);
+        var cartonType = new TransportUnitType("Carton Type");
+        var typePlacingRule = new TypePlacingRule(cartonType, locationType, 1);
         cartonType.addTypePlacingRule(typePlacingRule);
         cartonType = entityManager.merge(cartonType);
 
-        List<TypePlacingRule> tpr = entityManager.getEntityManager().createQuery("select tpr from TypePlacingRule tpr", TypePlacingRule.class).getResultList();
-        int before = tpr.size();
+        var tpr = entityManager.getEntityManager().createQuery("select tpr from TypePlacingRule tpr", TypePlacingRule.class).getResultList();
+        var before = tpr.size();
 
         entityManager.remove(cartonType);
         tpr = entityManager.getEntityManager().createQuery("select tpr from TypePlacingRule tpr", TypePlacingRule.class).getResultList();

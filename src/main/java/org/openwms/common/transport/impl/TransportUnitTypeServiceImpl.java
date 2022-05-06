@@ -92,7 +92,7 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
     @Override
     @Measured
     public TransportUnitType create(@NotNull TransportUnitType transportUnitType) {
-        TransportUnitType created = transportUnitTypeRepository.save(transportUnitType);
+        var created = transportUnitTypeRepository.save(transportUnitType);
         publisher.publishEvent(TransportUnitTypeEvent.newBuilder()
                 .tut(created)
                 .type(CREATED)
@@ -106,7 +106,7 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
     @Override
     @Measured
     public void deleteType(TransportUnitType... transportUnitTypes) {
-        for (TransportUnitType transportUnitType : transportUnitTypes) {
+        for (var transportUnitType : transportUnitTypes) {
             transportUnitTypeRepository.findByType(transportUnitType.getType()).ifPresent(tut -> {
                 transportUnitTypeRepository.delete(tut);
                 publisher.publishEvent(TransportUnitTypeEvent.newBuilder()
@@ -123,7 +123,7 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
     @Override
     @Measured
     public TransportUnitType save(@NotNull TransportUnitType transportUnitType) {
-        TransportUnitType tut = transportUnitTypeRepository.save(transportUnitType);
+        var tut = transportUnitTypeRepository.save(transportUnitType);
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Save a TransportUnitType with a list of TypePlacingRules [{}]", tut.getTypePlacingRules().size());
         }
@@ -142,12 +142,12 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
     public TransportUnitType updateRules(@NotEmpty @NotEmpty String type,
                                          @NotNull List<LocationType> newAssigned,
                                          @NotNull List<LocationType> newNotAssigned) {
-        TransportUnitType tut = transportUnitTypeRepository.findByType(type)
+        var tut = transportUnitTypeRepository.findByType(type)
                 .orElseThrow(() -> new NotFoundException(translator,
                         CommonMessageCodes.TRANSPORT_UNIT_TYPE_NOT_FOUND,
                         new String[]{type}, type));
         if (!newAssigned.isEmpty()) {
-            for (LocationType locationType : newAssigned) {
+            for (var locationType : newAssigned) {
                 if (tut.getTypePlacingRules()
                         .stream()
                         .map(TypePlacingRule::getAllowedLocationType)
@@ -156,13 +156,13 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
                     if (locationType.isNew()) {
                         throw new ServiceLayerException(format("LocationType [%s] does not exist and must be persisted before adding it as a rule", locationType.getType()));
                     }
-                    TypePlacingRule newRule = new TypePlacingRule(tut, locationType);
+                    var newRule = new TypePlacingRule(tut, locationType);
                     tut.addTypePlacingRule(newRule);
                 }
             }
         }
         if (!newNotAssigned.isEmpty()) {
-            for (LocationType locationType : newNotAssigned) {
+            for (var locationType : newNotAssigned) {
                 tut.removeTypePlacingRules(locationType);
             }
         }
@@ -180,8 +180,8 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
     @Override
     @Measured
     public List<Rule> loadRules(@NotEmpty String transportUnitType) {
-        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -> new NotFoundException(format("TransportUnitType with type [%s] does not exist", transportUnitType)));
-        List<Rule> rules = new ArrayList<>(type.getTypePlacingRules());
+        var type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -> new NotFoundException(format("TransportUnitType with type [%s] does not exist", transportUnitType)));
+        var rules = new ArrayList<Rule>(type.getTypePlacingRules());
         rules.addAll(type.getTypeStackingRules());
         return rules;
     }

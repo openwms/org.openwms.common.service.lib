@@ -35,7 +35,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -77,9 +76,9 @@ public class LocationGroupController extends AbstractWebController {
     public LocationGroupVO findByName(
             @RequestParam("name") String name
     ) {
-        LocationGroup locationGroup = locationGroupService.findByName(name)
+        var locationGroup = locationGroupService.findByName(name)
                 .orElseThrow(() -> new NotFoundException(translator, LOCATION_GROUP_NOT_FOUND, new String[]{name}, name));
-        LocationGroupVO result = mapper.convertToVO(locationGroup);
+        var result = mapper.convertToVO(locationGroup);
         if (locationGroup.hasParent()) {
             result.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class)
                     .findByName(locationGroup.getParent().getName())).withRel(PARENT)));
@@ -92,8 +91,7 @@ public class LocationGroupController extends AbstractWebController {
     public List<LocationGroupVO> findByNames(
             @RequestParam("names") List<String> names
     ) {
-        List<LocationGroup> locationGroups = locationGroupService.findByNames(names);
-        List<LocationGroupVO> vos = mapper.convertToVO(locationGroups);
+        var vos = mapper.convertToVO(locationGroupService.findByNames(names));
         vos.forEach(lg -> {
             if (lg.hasParent()) {
                 lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class)
@@ -106,8 +104,7 @@ public class LocationGroupController extends AbstractWebController {
     @Transactional(readOnly = true)
     @GetMapping(API_LOCATION_GROUPS)
     public List<LocationGroupVO> findAll() {
-        List<LocationGroup> all = locationGroupService.findAll();
-        List<LocationGroupVO> result = all == null ? Collections.emptyList() : mapper.convertToVO(all);
+        var result = mapper.convertToVO(locationGroupService.findAll());
         result.forEach(lg -> {
                     if (lg.hasParent()) {
                         lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class)

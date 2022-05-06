@@ -255,12 +255,12 @@ class TransportUnitServiceImplIT {
     @Test
     void findOnLocation_Empty() {
         var tus = testee.findOnLocation(TestData.LOCATION_ID_FGIN0001LEFT);
-        assertThat(tus.isEmpty()).isTrue();
+        assertThat(tus).isEmpty();
     }
 
     @Test
     void findOnLocation() {
         var tus = testee.findOnLocation(TestData.LOCATION_ID_EXT);
-        assertThat(tus.isEmpty()).isFalse();
+        assertThat(tus).isNotEmpty();
     }
 }

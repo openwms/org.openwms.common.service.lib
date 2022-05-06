@@ -86,7 +86,7 @@ class LocationServiceImpl implements LocationService {
             throw new ResourceExistsException(translator, LOCATION_ID_EXISTS,
                     new Serializable[]{location.getLocationId()},
                     location.getLocationId());
-        };
+        }
         return repository.save(location);
     }
 
@@ -131,10 +131,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public Optional<Location> findByLocationId(@NotBlank String locationId) {
-        if (!LocationPK.isValid(locationId)) {
-            throw new IllegalArgumentException(translator.translate(LOCATION_ID_INVALID, locationId));
-        }
-        return repository.findByLocationId(LocationPK.fromString(locationId));
+        return findByLocationIdInternal(locationId);
     }
 
     private Optional<Location> findByLocationIdInternal(String locationId) {

@@ -51,10 +51,10 @@ class TransportUnitCommandListener {
     @RabbitListener(queues = "${owms.commands.common.tu.queue-name}")
     public void onCommand(@Payload Command<?> command) {
         try {
-            if (command instanceof TUCommand) {
-                handler.handle((TUCommand) command);
-            } else if (command instanceof MessageCommand) {
-                messageCommandHandler.handle((MessageCommand) command);
+            if (command instanceof TUCommand tuCommand) {
+                handler.handle(tuCommand);
+            } else if (command instanceof MessageCommand messageCommand) {
+                messageCommandHandler.handle(messageCommand);
             }
         } catch (Exception e) {
             LOGGER.error("Processing command rejected [{}]", command);

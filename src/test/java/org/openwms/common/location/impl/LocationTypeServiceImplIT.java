@@ -54,7 +54,7 @@ class LocationTypeServiceImplIT {
 
     @Test void findAll() {
         List<LocationType> all = testee.findAll();
-        assertThat(all.size()).isGreaterThan(1);
+        assertThat(all).hasSizeGreaterThan(1);
     }
 
     @Test void delete() {

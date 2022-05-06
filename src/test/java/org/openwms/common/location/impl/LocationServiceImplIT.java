@@ -16,6 +16,7 @@
 package org.openwms.common.location.impl;
 
 import org.ameba.exception.NotFoundException;
+import org.ameba.exception.ServiceLayerException;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestBase;
@@ -58,7 +59,7 @@ class LocationServiceImplIT extends TestBase {
     private EntityManager em;
 
     @Test void shall_throw_create_with_null() {
-        assertThatThrownBy(() -> testee.create(null));
+        assertThatThrownBy(() -> testee.create(null)).isInstanceOf(ServiceLayerException.class);
     }
 
     @Test void shall_throw_create_with_existing() {

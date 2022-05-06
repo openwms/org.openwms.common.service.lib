@@ -49,16 +49,15 @@ class TransportUnitEventListener {
 
     @TransactionalEventListener(fallbackExecution = true)
     public void onEvent(TransportUnitEvent event) {
-        switch (event.getType()) {
-            case MOVED:
-                var tu = (TransportUnit) event.getSource();
-                var description = translator.translate(MSG_TU_MOVED,
-                        tu.getBarcode().getValue(),
-                        event.getPreviousLocation().getLocationId(),
-                        tu.getActualLocation().getLocationId()
-                );
-                LOGGER.info(description);
-                transactionApi.process(TransactionCommand.of(TransactionCommand.Type.CREATE,
+        if (event.getType() == TransportUnitEvent.TransportUnitEventType.MOVED) {
+            var tu = (TransportUnit) event.getSource();
+            var description = translator.translate(MSG_TU_MOVED,
+                    tu.getBarcode().getValue(),
+                    event.getPreviousLocation().getLocationId(),
+                    tu.getActualLocation().getLocationId()
+            );
+            LOGGER.info(description);
+            transactionApi.process(TransactionCommand.of(TransactionCommand.Type.CREATE,
                     createDefaultBuilder().withType(MSG_TU_MOVED)
                             .withDescription(description)
                             .withDetail("transportUnitBK", tu.getBarcode().getValue())
@@ -69,9 +68,7 @@ class TransportUnitEventListener {
                             .withDetail("actualLocationErpCode", tu.getActualLocation().getErpCode())
                             .withDetail("actualLocationPlcCode", tu.getActualLocation().getPlcCode())
                             .build()
-                ));
-                break;
-            default:
+            ));
         }
     }
 

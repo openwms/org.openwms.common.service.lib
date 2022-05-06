@@ -31,7 +31,7 @@ import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPO
  *
  * @author Heiko Scherrer
  */
-@FeignClient(name = "common-service", qualifier = "transportUnitTypeApi")
+@FeignClient(name = "common-service")
 public interface TransportUnitTypeApi {
 
     /**

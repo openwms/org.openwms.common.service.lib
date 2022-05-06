@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.location.LocationType;
 import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
-import org.openwms.common.transport.Rule;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.TypePlacingRule;
 import org.openwms.common.transport.TypeStackingRule;
@@ -62,12 +61,12 @@ class TransportUnitTypeServiceImplIT {
 
     @Test
     void findAll() {
-        assertThat(service.findAll().size()).isPositive();
+        assertThat(service.findAll()).isNotEmpty();
     }
 
     @Test
     void create() {
-        TransportUnitType europallet = service.create(new TransportUnitType("Europallet"));
+        var europallet = service.create(new TransportUnitType("Europallet"));
         assertThat(europallet.isNew()).isFalse();
         assertThat(em.find(TransportUnitType.class, europallet.getPk())).isEqualTo(europallet);
     }
@@ -75,7 +74,7 @@ class TransportUnitTypeServiceImplIT {
     @Test
     @Transactional
     void deleteType() {
-        int i = service.findAll().size();
+        var i = service.findAll().size();
         // Delete Rules first...
         em.createQuery("delete from TypeStackingRule").executeUpdate();
         service.deleteType(new TransportUnitType("BIN"));
@@ -84,7 +83,7 @@ class TransportUnitTypeServiceImplIT {
 
     @Test
     void save() {
-        TransportUnitType transportUnitType = service.findAll().get(0);
+        var transportUnitType = service.findAll().get(0);
         transportUnitType.setDescription("Jam");
         transportUnitType = service.save(transportUnitType);
         assertThat(em.find(TransportUnitType.class, transportUnitType.getPk()).getDescription()).isEqualTo("Jam");
@@ -93,25 +92,25 @@ class TransportUnitTypeServiceImplIT {
     @Test
     void addRules() {
         // Testing with transient entities...
-        List<LocationType> news = new ArrayList<>(1);
+        var news = new ArrayList<LocationType>(1);
         news.add(new LocationType("PG"));
-        List<LocationType> emptyList = Collections.emptyList();
+        var emptyList = Collections.<LocationType>emptyList();
         assertThatThrownBy(() -> service.updateRules("BIN", news, emptyList))
                 .isInstanceOf(ServiceLayerException.class)
                 .hasMessageContaining("must be persisted before");
         news.clear();
 
         // Test with detached entities...
-        LocationType lt1001 = em.find(LocationType.class, 1001L);
+        var lt1001 = em.find(LocationType.class, 1001L);
         news.add(lt1001);
-        TransportUnitType bin = service.updateRules("BIN", news, Collections.emptyList());
+        var bin = service.updateRules("BIN", news, Collections.emptyList());
         assertThat(bin.getTypePlacingRules().stream().anyMatch(r -> r.getAllowedLocationType().getPk().equals(1001L))).isTrue();
     }
 
     @Test
     void removeRules() {
-        int srCount = em.createQuery("select sr from TypeStackingRule sr").getResultList().size();
-        int prCount = em.createQuery("select pr from TypePlacingRule pr").getResultList().size();
+        var srCount = em.createQuery("select sr from TypeStackingRule sr").getResultList().size();
+        var prCount = em.createQuery("select pr from TypePlacingRule pr").getResultList().size();
         assertThat(srCount).isEqualTo(1);
         assertThat(prCount).isEqualTo(3);
 
@@ -138,7 +137,7 @@ class TransportUnitTypeServiceImplIT {
 
     @Test
     void loadRules() {
-        List<Rule> rules = service.loadRules("PALLET");
+        var rules = service.loadRules("PALLET");
         assertThatThrownBy(() -> service.loadRules(null)).isInstanceOf(ServiceLayerException.class);
         assertThatThrownBy(() -> service.loadRules("UNKNOWN")).isInstanceOf(NotFoundException.class);
         assertThat(rules.stream().filter(r -> r instanceof TypePlacingRule).count()).isEqualTo(2);

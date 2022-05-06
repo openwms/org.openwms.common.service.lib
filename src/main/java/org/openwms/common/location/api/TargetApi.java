@@ -27,7 +27,7 @@ import static org.openwms.common.location.api.LocationApiConstants.API_TARGETS;
  *
  * @author Heiko Scherrer
  */
-@FeignClient(name = "common-service", qualifier = "targetApi", decode404 = true)
+@FeignClient(name = "common-service", decode404 = true)
 public interface TargetApi {
 
     /**
