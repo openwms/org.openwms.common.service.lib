@@ -465,12 +465,15 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 409
+Content-Length: 502
 
 {
   "_links" : {
     "accounts-findall" : {
       "href" : "http://localhost:8080/v1/accounts"
+    },
+    "accounts-findbypkey" : {
+      "href" : "http://localhost:8080/v1/accounts/pKey"
     },
     "accounts-finddefault" : {
       "href" : "http://localhost:8080/v1/accounts"
@@ -503,15 +506,21 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 141
+Content-Type: application/vnd.openwms.common.account-v1+json
+Content-Length: 335
 
 [ {
-  "links" : [ ],
+  "links" : [ {
+    "rel" : "accounts-findbypkey",
+    "href" : "http://localhost:8080/v1/accounts/{pKey}"
+  } ],
   "identifier" : "D",
   "name" : "Default"
 }, {
-  "links" : [ ],
+  "links" : [ {
+    "rel" : "accounts-findbypkey",
+    "href" : "http://localhost:8080/v1/accounts/{pKey}"
+  } ],
   "identifier" : "A1",
   "name" : "Cost Center FIN"
 } ]</code></pre>
@@ -547,10 +556,14 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 46
+Content-Type: application/vnd.openwms.common.account-v1+json
+Content-Length: 160
 
 {
+  "links" : [ {
+    "rel" : "accounts-findbypkey",
+    "href" : "http://localhost:8080/v1/accounts/{pKey}"
+  } ],
   "identifier" : "D",
   "name" : "Default"
 }</code></pre>
@@ -576,6 +589,59 @@ Content-Length: 189
 </div>
 </div>
 <div class="sect2">
+<h3 id="_find_an_account_by_persistent_key">Find an Account by persistent key</h3>
+<div class="paragraph">
+<p>To look up an <code>Account</code> with its unique persistent identifier, a client needs to send a <code>GET</code> request with the persistent identifier as part
+of the resource path.</p>
+</div>
+<div class="paragraph">
+<p>Find an <code>Account</code> by pKey:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts/1000 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with the <code>Account</code> resource if it exists:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.account-v1+json
+Content-Length: 160
+
+{
+  "links" : [ {
+    "rel" : "accounts-findbypkey",
+    "href" : "http://localhost:8080/v1/accounts/{pKey}"
+  } ],
+  "identifier" : "D",
+  "name" : "Default"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or with a <code>404-Not Found</code> if no <code>Account</code> exists:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 189
+
+{
+  "message" : "Account with PKey [2000] does not exist",
+  "messageKey" : "owms.common.common.account.notFoundByPKey",
+  "obj" : [ "2000" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_find_the_default_account">Find the default Account</h3>
 <div class="paragraph">
 <p>At least one <code>Account</code> must exist in the system and must be defined as the default <code>Account</code>. This <code>Account</code> is used when no other account information is available. To get the default <code>Account</code>
@@ -593,10 +659,14 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 46
+Content-Type: application/vnd.openwms.common.account-v1+json
+Content-Length: 160
 
 {
+  "links" : [ {
+    "rel" : "accounts-findbypkey",
+    "href" : "http://localhost:8080/v1/accounts/{pKey}"
+  } ],
   "identifier" : "D",
   "name" : "Default"
 }</code></pre>
@@ -624,7 +694,7 @@ Content-Length: 133
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-06 21:38:25 UTC
+Last updated 2022-05-07 06:17:32 UTC
 </div>
 </div>
 </body>
