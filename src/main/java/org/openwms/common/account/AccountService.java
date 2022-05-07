@@ -15,7 +15,8 @@
  */
 package org.openwms.common.account;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +32,15 @@ public interface AccountService {
      *
      * @return A list, never {@literal null}
      */
-    List<Account> findAll();
+    @NotNull List<Account> findAll();
+
+    /**
+     * Find and return a single {@link Account} instance identified by its persistent key.
+     *
+     * @param pKey The persistent key
+     * @return The Account instance
+     */
+    @NotNull Account findByPKey(@NotBlank String pKey);
 
     /**
      * Find and return the {@link Account}.
@@ -39,7 +48,7 @@ public interface AccountService {
      * @param identifier The Account's identifier
      * @return The Account instance
      */
-    Optional<Account> findByIdentifier(@NotEmpty String identifier);
+    Optional<Account> findByIdentifier(@NotBlank String identifier);
 
     /**
      * Find and return the {@link Account}.
@@ -47,7 +56,7 @@ public interface AccountService {
      * @param name The Account's name
      * @return The Account instance
      */
-    Optional<Account> findByName(@NotEmpty String name);
+    Optional<Account> findByName(@NotBlank String name);
 
     /**
      *

@@ -27,6 +27,8 @@ import java.util.Optional;
  */
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
+    Optional<Account> findBypKey(String persistentKey);
+
     Optional<Account> findByIdentifier(String identifier);
 
     Optional<Account> findByName(String name);

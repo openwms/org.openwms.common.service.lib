@@ -23,7 +23,9 @@ import org.openwms.common.account.impl.AccountMapper;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.Serializable;
@@ -40,6 +42,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  *
  * @author Heiko Scherrer
  */
+@Validated
 @MeasuredRestController
 public class AccountController extends AbstractWebController {
 
@@ -53,49 +56,78 @@ public class AccountController extends AbstractWebController {
         this.translator = translator;
     }
 
-    @GetMapping(API_ACCOUNTS)
+    @GetMapping(value = API_ACCOUNTS, produces = AccountVO.MEDIA_TYPE)
     public ResponseEntity<List<AccountVO>> findAll() {
-        return ResponseEntity.ok(mapper.convertToVO(service.findAll()));
+        return ResponseEntity.ok(
+            convertAndLinks(service.findAll()
+        ));
     }
 
-    @GetMapping(value = API_ACCOUNTS, params = "default")
+    @GetMapping(value = API_ACCOUNTS + "/{pKey}", produces = AccountVO.MEDIA_TYPE)
+    public ResponseEntity<AccountVO> findByPKey(@PathVariable("pKey") String pKey) {
+        return ResponseEntity.ok(
+            convertAndLinks(
+                service.findByPKey(pKey)
+        ));
+    }
+
+    @GetMapping(value = API_ACCOUNTS, params = "default", produces = AccountVO.MEDIA_TYPE)
     public ResponseEntity<AccountVO> findDefault() {
         return ResponseEntity.ok(
-                mapper.convertToVO(
-                        service.findDefault().orElseThrow(
-                                ()-> new NotFoundException(translator, ACCOUNT_NO_DEFAULT))
-                ));
+            convertAndLinks(
+                service.findDefault().orElseThrow(
+                    ()-> new NotFoundException(translator, ACCOUNT_NO_DEFAULT))
+        ));
     }
 
-    @GetMapping(value = API_ACCOUNTS, params = "identifier")
+    @GetMapping(value = API_ACCOUNTS, params = "identifier", produces = AccountVO.MEDIA_TYPE)
     public ResponseEntity<AccountVO> findByIdentifier(@RequestParam("identifier") String identifier) {
         return ResponseEntity.ok(
-                mapper.convertToVO(
-                        service.findByIdentifier(identifier).orElseThrow(
-                                () -> new NotFoundException(translator, ACCOUNT_NOT_FOUND,
-                                        new Serializable[]{identifier}, identifier))
-                ));
+            convertAndLinks(
+                service.findByIdentifier(identifier).orElseThrow(
+                    () -> new NotFoundException(translator, ACCOUNT_NOT_FOUND,
+                        new Serializable[]{identifier}, identifier))
+        ));
     }
 
-    @GetMapping(value = API_ACCOUNTS, params = "name")
+    @GetMapping(value = API_ACCOUNTS, params = "name", produces = AccountVO.MEDIA_TYPE)
     public ResponseEntity<AccountVO> findByName(@RequestParam("name") String name) {
         return ResponseEntity.ok(
-                mapper.convertToVO(
-                        service.findByName(name).orElseThrow(
-                                ()-> new NotFoundException(translator, ACCOUNT_NOT_FOUND,
-                                        new Serializable[]{name}, name))
-                ));
+            convertAndLinks(
+                service.findByName(name).orElseThrow(
+                    ()-> new NotFoundException(translator, ACCOUNT_NOT_FOUND,
+                        new Serializable[]{name}, name))
+        ));
+    }
+
+    private AccountVO convertAndLinks(Account account) {
+        return addSelfLink(
+                mapper.convertToVO(account)
+        );
+    }
+
+    private List<AccountVO> convertAndLinks(List<Account> accounts) {
+        return accounts.stream()
+                .map(mapper::convertToVO)
+                .map(this::addSelfLink)
+                .toList();
+    }
+
+    private AccountVO addSelfLink(AccountVO result) {
+        result.add(linkTo(methodOn(AccountController.class).findByPKey(result.getpKey())).withRel("accounts-findbypkey"));
+        return result;
     }
 
     @GetMapping(API_ACCOUNTS + "/index")
     public ResponseEntity<Index> index() {
         return ResponseEntity.ok(
-                new Index(
-                        linkTo(methodOn(AccountController.class).findAll()).withRel("accounts-findall"),
-                        linkTo(methodOn(AccountController.class).findDefault()).withRel("accounts-finddefault"),
-                        linkTo(methodOn(AccountController.class).findByIdentifier("identifier")).withRel("accounts-findbyidentifier"),
-                        linkTo(methodOn(AccountController.class).findByName("name")).withRel("accounts-findbyname")
-                )
+            new Index(
+                linkTo(methodOn(AccountController.class).findAll()).withRel("accounts-findall"),
+                linkTo(methodOn(AccountController.class).findByPKey("pKey")).withRel("accounts-findbypkey"),
+                linkTo(methodOn(AccountController.class).findDefault()).withRel("accounts-finddefault"),
+                linkTo(methodOn(AccountController.class).findByIdentifier("identifier")).withRel("accounts-findbyidentifier"),
+                linkTo(methodOn(AccountController.class).findByName("name")).withRel("accounts-findbyname")
+            )
         );
     }
 }

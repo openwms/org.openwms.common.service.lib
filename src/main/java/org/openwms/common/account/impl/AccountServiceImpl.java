@@ -17,14 +17,19 @@ package org.openwms.common.account.impl;
 
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
+import org.ameba.exception.NotFoundException;
+import org.ameba.i18n.Translator;
 import org.openwms.common.account.Account;
 import org.openwms.common.account.AccountService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
+
+import static org.openwms.common.CommonMessageCodes.ACCOUNT_NOT_FOUND_BY_PKEY;
 
 /**
  * A AccountServiceImpl.
@@ -36,9 +41,11 @@ import java.util.Optional;
 class AccountServiceImpl implements AccountService {
 
     private final AccountRepository repository;
+    private final Translator translator;
 
-    AccountServiceImpl(AccountRepository repository) {
+    AccountServiceImpl(AccountRepository repository, Translator translator) {
         this.repository = repository;
+        this.translator = translator;
     }
 
     /**
@@ -47,7 +54,7 @@ class AccountServiceImpl implements AccountService {
     @Measured
     @Transactional(readOnly = true)
     @Override
-    public List<Account> findAll() {
+    public @NotNull List<Account> findAll() {
         return repository.findAll();
     }
 
@@ -57,7 +64,18 @@ class AccountServiceImpl implements AccountService {
     @Measured
     @Transactional(readOnly = true)
     @Override
-    public Optional<Account> findByIdentifier(@NotEmpty String identifier) {
+    public @NotNull Account findByPKey(@NotBlank String pKey) {
+        return repository.findBypKey(pKey)
+                .orElseThrow(() -> new NotFoundException(translator, ACCOUNT_NOT_FOUND_BY_PKEY, new String[]{pKey}, pKey));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Measured
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<Account> findByIdentifier(@NotBlank String identifier) {
         return repository.findByIdentifier(identifier);
     }
 
@@ -67,7 +85,7 @@ class AccountServiceImpl implements AccountService {
     @Measured
     @Transactional(readOnly = true)
     @Override
-    public Optional<Account> findByName(@NotEmpty String name) {
+    public Optional<Account> findByName(@NotBlank String name) {
         return repository.findByName(name);
     }
 

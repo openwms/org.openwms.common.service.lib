@@ -22,6 +22,7 @@ import org.springframework.hateoas.RepresentationModel;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * A AccountVO is the representation object that encapsulates identifying information about the actual cost center.
@@ -31,14 +32,30 @@ import java.util.Objects;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AccountVO extends RepresentationModel<AccountVO> implements Serializable {
 
+    /** HTTP media type representation. */
+    public static final String MEDIA_TYPE = "application/vnd.openwms.common.account-v1+json";
+
+    /** The persistent technical key of the {@code Account}. */
+    @JsonProperty("pKey")
+    private String pKey;
+
     /** Unique identifier. */
     @NotEmpty
     @JsonProperty("identifier")
     private String identifier;
+
     /** Name. */
     @NotEmpty
     @JsonProperty("name")
     private String name;
+
+    public String getpKey() {
+        return pKey;
+    }
+
+    public void setpKey(String pKey) {
+        this.pKey = pKey;
+    }
 
     public String getIdentifier() {
         return identifier;
@@ -56,18 +73,41 @@ public class AccountVO extends RepresentationModel<AccountVO> implements Seriali
         this.name = name;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof AccountVO)) return false;
         if (!super.equals(o)) return false;
         AccountVO accountVO = (AccountVO) o;
-        return Objects.equals(identifier, accountVO.identifier) &&
-                Objects.equals(name, accountVO.name);
+        return Objects.equals(pKey, accountVO.pKey) && Objects.equals(identifier, accountVO.identifier) && Objects.equals(name, accountVO.name);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), identifier, name);
+        return Objects.hash(super.hashCode(), pKey, identifier, name);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", AccountVO.class.getSimpleName() + "[", "]")
+                .add("pKey='" + pKey + "'")
+                .add("identifier='" + identifier + "'")
+                .add("name='" + name + "'")
+                .toString();
     }
 }

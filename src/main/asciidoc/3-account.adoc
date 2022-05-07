@@ -37,6 +37,19 @@ include::{generated}/acc-find-byName/http-response.adoc[]
 or with a `404-Not Found` if no `Account` exists:
 include::{generated}/acc-find-byName404/http-response.adoc[]
 
+=== Find an Account by persistent key
+To look up an `Account` with its unique persistent identifier, a client needs to send a `GET` request with the persistent identifier as part
+of the resource path.
+
+Find an `Account` by pKey:
+include::{generated}/acc-find-byPKey/http-request.adoc[]
+
+The server responds with the `Account` resource if it exists:
+include::{generated}/acc-find-byPKey/http-response.adoc[]
+
+or with a `404-Not Found` if no `Account` exists:
+include::{generated}/acc-find-byPKey404/http-response.adoc[]
+
 === Find the default Account
 At least one `Account` must exist in the system and must be defined as the default `Account`. This `Account` is used when no other account information is available. To get the default `Account`
 from the Common Service a `GET` request must be send to the server:

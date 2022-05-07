@@ -68,6 +68,7 @@ class AccountControllerDocumentation {
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$._links.accounts-findall").exists())
+                .andExpect(jsonPath("$._links.accounts-findbypkey").exists())
                 .andExpect(jsonPath("$._links.accounts-finddefault").exists())
                 .andExpect(jsonPath("$._links.accounts-findbyidentifier").exists())
                 .andExpect(jsonPath("$._links.accounts-findbyname").exists())
@@ -79,6 +80,18 @@ class AccountControllerDocumentation {
         mockMvc.perform(get(API_ACCOUNTS))
                 .andExpect(status().isOk())
                 .andDo(document("acc-find-all", preprocessResponse(prettyPrint())));
+    }
+
+    @Test void shall_findByPKey() throws Exception {
+        mockMvc.perform(get(API_ACCOUNTS + "/1000"))
+                .andExpect(status().isOk())
+                .andDo(document("acc-find-byPKey", preprocessResponse(prettyPrint())));
+    }
+
+    @Test void shall_findByPKey_404() throws Exception {
+        mockMvc.perform(get(API_ACCOUNTS + "/2000"))
+                .andExpect(status().isNotFound())
+                .andDo(document("acc-find-byPKey404", preprocessResponse(prettyPrint())));
     }
 
     @Test void shall_findByIdentifier() throws Exception {

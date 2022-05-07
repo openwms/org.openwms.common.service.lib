@@ -23,6 +23,7 @@ package org.openwms.common;
 public final class CommonMessageCodes {
 
     public static final String ACCOUNT_NOT_FOUND = "owms.common.common.account.notFound";
+    public static final String ACCOUNT_NOT_FOUND_BY_PKEY = "owms.common.common.account.notFoundByPKey";
     public static final String ACCOUNT_NOT_FOUND_BY_ID = "owms.common.common.account.notFoundByID";
     public static final String ACCOUNT_NO_DEFAULT = "owms.common.common.account.noDefaultAccount";
 
