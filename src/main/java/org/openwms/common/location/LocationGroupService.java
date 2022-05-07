@@ -91,12 +91,4 @@ public interface LocationGroupService {
      * @return Always an list instance, never {@literal null}
      */
     @NotNull List<LocationGroup> findByNames(@NotEmpty List<String> locationGroupNames);
-
-    /**
-     * Persist a new entity or merge if exists.
-     *
-     * @param locationGroup new or changed entity
-     * @return updated entity
-     */
-    @NotNull LocationGroup save(@NotNull LocationGroup locationGroup);
 }

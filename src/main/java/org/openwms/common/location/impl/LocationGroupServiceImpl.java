@@ -136,13 +136,4 @@ class LocationGroupServiceImpl implements LocationGroupService {
         var result = repository.findByNameIn(locationGroupNames);
         return result == null ? new ArrayList<>(0) : result;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Measured
-    public @NotNull LocationGroup save(@NotNull LocationGroup locationGroup) {
-        return repository.save(locationGroup);
-    }
 }

@@ -384,5 +384,20 @@ class TransportUnitControllerDocumentation {
 
         tu = service.findByBarcode(TU_1_ID);
         assertThat(tu.getState()).isEqualTo(TransportUnitState.AVAILABLE);
+
+        // Set to quality-check
+        mockMvc.perform(post(API_TRANSPORT_UNITS + "/quality-check")
+                        .queryParam("bk", TU_1_ID))
+                .andDo(document("tu-quality-check",
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                parameterWithName("bk").description("The identifying Barcode of the TransportUnit")
+                        )
+                ))
+                .andExpect(status().isNoContent())
+        ;
+
+        tu = service.findByBarcode(TU_1_ID);
+        assertThat(tu.getState()).isEqualTo(TransportUnitState.QUALITY_CHECK);
     }
 }

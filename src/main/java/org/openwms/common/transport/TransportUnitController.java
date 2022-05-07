@@ -20,7 +20,6 @@ import org.ameba.exception.ResourceExistsException;
 import org.ameba.http.MeasuredRestController;
 import org.ameba.i18n.Translator;
 import org.openwms.common.SimpleLink;
-import org.openwms.common.StateChangeException;
 import org.openwms.common.location.LocationController;
 import org.openwms.common.transport.api.TransportApiConstants;
 import org.openwms.common.transport.api.TransportUnitVO;
@@ -31,7 +30,6 @@ import org.openwms.core.SpringProfiles;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -256,12 +254,8 @@ public class TransportUnitController extends AbstractWebController {
      */
     @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/block", params = {"bk"})
     public ResponseEntity<Void> blockTransportUnit(@NotBlank @RequestParam("bk") String transportUnitBK) {
-        try {
-            service.setState(transportUnitBK, TransportUnitState.BLOCKED);
-            return ResponseEntity.noContent().build();
-        } catch (StateChangeException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+        service.setState(transportUnitBK, TransportUnitState.BLOCKED);
+        return ResponseEntity.noContent().build();
     }
 
     /**
@@ -271,12 +265,8 @@ public class TransportUnitController extends AbstractWebController {
      */
     @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/available", params = {"bk"})
     public ResponseEntity<Void> unblockTransportUnit(@NotBlank @RequestParam("bk") String transportUnitBK) {
-        try {
-            service.setState(transportUnitBK, TransportUnitState.AVAILABLE);
-            return ResponseEntity.noContent().build();
-        } catch (StateChangeException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+        service.setState(transportUnitBK, TransportUnitState.AVAILABLE);
+        return ResponseEntity.noContent().build();
     }
 
     /**
@@ -286,11 +276,7 @@ public class TransportUnitController extends AbstractWebController {
      */
     @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/quality-check", params = {"bk"})
     public ResponseEntity<Void> qcTransportUnit(@NotBlank @RequestParam("bk") String transportUnitBK) {
-        try {
-            service.setState(transportUnitBK, TransportUnitState.QUALITY_CHECK);
-            return ResponseEntity.noContent().build();
-        } catch (StateChangeException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+        service.setState(transportUnitBK, TransportUnitState.QUALITY_CHECK);
+        return ResponseEntity.noContent().build();
     }
 }

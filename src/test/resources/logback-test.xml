@@ -15,13 +15,13 @@
     <logger name="org.hibernate.SQL" level="OFF"/>
     <logger name="org.hibernate.type" level="OFF"/>
     <logger name="org.junit" level="OFF"/>
-    <logger name="org.openwms" level="OFF" additivity="true" />
+    <logger name="org.openwms" level="DEBUG" additivity="true" />
     <logger name="org.springframework" level="ERROR"/>
 
-    <logger name="PRESENTATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
+    <logger name="PRESENTATION_LAYER_EXCEPTION" level="OFF" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="SERVICE_LAYER_EXCEPTION" level="ERROR" additivity="false">
+    <logger name="SERVICE_LAYER_EXCEPTION" level="OFF" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="INTEGRATION_LAYER_EXCEPTION" level="OFF" additivity="false">
