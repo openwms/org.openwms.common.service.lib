@@ -36,6 +36,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -85,7 +87,20 @@ class AccountControllerDocumentation {
     @Test void shall_findByPKey() throws Exception {
         mockMvc.perform(get(API_ACCOUNTS + "/1000"))
                 .andExpect(status().isOk())
-                .andDo(document("acc-find-byPKey", preprocessResponse(prettyPrint())));
+                .andExpect(jsonPath("$.links[0].rel", is("accounts-findbypkey")))
+                .andExpect(jsonPath("$.links[0].href").exists())
+                .andExpect(jsonPath("$.pKey", is("1000")))
+                .andExpect(jsonPath("$.identifier", is("D")))
+                .andExpect(jsonPath("$.name", is("Default")))
+                .andDo(document("acc-find-byPKey",
+                    preprocessResponse(prettyPrint()),
+                    responseFields(
+                            fieldWithPath("links[].*").ignored(),
+                            fieldWithPath("pKey").description("The persistent technical key of the Account"),
+                            fieldWithPath("identifier").description("Unique natural key"),
+                            fieldWithPath("name").description("Unique Account name")
+                    )
+                ));
     }
 
     @Test void shall_findByPKey_404() throws Exception {

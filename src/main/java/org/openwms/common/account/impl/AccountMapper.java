@@ -18,6 +18,7 @@ package org.openwms.common.account.impl;
 import org.ameba.exception.NotFoundException;
 import org.ameba.i18n.Translator;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.openwms.common.account.Account;
 import org.openwms.common.account.AccountService;
 import org.openwms.common.account.api.AccountVO;
@@ -51,6 +52,7 @@ public abstract class AccountMapper {
         return accountOpt.get();
     }
 
+    @Mapping(target = "pKey", source = "eo.persistentKey")
     public abstract AccountVO convertToVO(Account eo);
 
     public abstract List<AccountVO> convertToVO(List<Account> eo);

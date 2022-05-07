@@ -38,7 +38,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
- * A AccountController is a measured and Spring managed REST controller that serves Account information.
+ * A AccountController is a measured and Spring managed REST controller that serves Account resources.
  *
  * @author Heiko Scherrer
  */

@@ -58,7 +58,9 @@ public class LocationCommandListener {
         try {
             if (LocationCommand.Type.SET_LOCATION_EMPTY == command.getType()) {
                 validate(validator, command, ValidationGroups.SetLocationEmpty.class);
-                LOGGER.debug("Got command to set a Location [{}] empty", command.getLocation().pKey());
+                if (LOGGER.isDebugEnabled() && command.getLocation() != null) {
+                    LOGGER.debug("Got command to set a Location [{}] empty", command.getLocation().pKey());
+                }
                 var errorCode = ErrorCodeVO.LOCK_STATE_IN_AND_OUT;
                 errorCode.setPlcState(LOCATION_EMPTY);
                 locationService.changeState(command.getLocation().pKey(), errorCode);

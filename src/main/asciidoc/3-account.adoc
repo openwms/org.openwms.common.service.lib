@@ -46,6 +46,7 @@ include::{generated}/acc-find-byPKey/http-request.adoc[]
 
 The server responds with the `Account` resource if it exists:
 include::{generated}/acc-find-byPKey/http-response.adoc[]
+include::{generated}/acc-find-byPKey/response-body.adoc[]
 
 or with a `404-Not Found` if no `Account` exists:
 include::{generated}/acc-find-byPKey404/http-response.adoc[]

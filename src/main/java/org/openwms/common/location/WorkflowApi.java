@@ -15,13 +15,11 @@
  */
 package org.openwms.common.location;
 
-import org.ameba.exception.BusinessRuntimeException;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ResourceExistsException;
 import org.ameba.http.MeasuredRestController;
 import org.ameba.i18n.Translator;
 import org.openwms.common.location.api.LocationVO;
-import org.openwms.common.location.api.LockMode;
 import org.openwms.common.location.api.ValidationGroups;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.annotation.Profile;
@@ -36,11 +34,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.Serializable;
 import java.util.Optional;
 
 import static org.openwms.common.CommonMessageCodes.LOCATION_ID_INVALID;
-import static org.openwms.common.CommonMessageCodes.LOCK_MODE_UNSUPPORTED;
 import static org.openwms.common.location.api.LocationApiConstants.API_LOCATIONS;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
