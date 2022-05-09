@@ -10,6 +10,7 @@ OpenWMS.org defines additional configuration parameters beside the standard Spri
 |owms.service.hostname|string|localhost|The hostname the service' is accessible from Eureka clients|
 |owms.common.dead-letter.exchange-name|string|dle.common|Exchange for the poison message forwarding|
 |owms.common.dead-letter.queue-name|string|common-dle-common|Queue for poison messages bound to the dead-letter exchange|
+|owms.common.delete-transport-unit-mode|string|strict|Can be `strict` to delete TransportUnits immediately, or `on-accept` where at least one collaborator must accept removal of the TransportUnit|
 |owms.commands.common.tu.exchange-name|string|common.tu.commands|Exchange to send out TU requests|
 |owms.commands.common.tu.queue-name|string|common-tu-commands-queue|Queue to receive TU commands and responses from|
 |owms.commands.common.tu.routing-key|string|common.tu.command.in.*|Routing key to filter incoming commands|

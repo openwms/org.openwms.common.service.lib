@@ -33,6 +33,7 @@ import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.Collections;
@@ -148,14 +149,21 @@ class TransportUnitServiceImplIT {
         assertThat(transportUnit.getBarcode()).isEqualTo(generator.convert(TestData.TU_1_ID));
     }
 
+    @Transactional
     @Test
     void shall_delete_multiple() {
         var transportUnitType = em.find(TransportUnitType.class, TestData.TUT_PK_PALLET);
-        testee.deleteTransportUnits(
-                List.of(
-                        new TransportUnit(generator.convert(TestData.TU_1_ID), transportUnitType, Location.create(LocationPK.fromString(TestData.LOCATION_ID_EXT)))
-                )
+        var transportUnit = em.find(TransportUnit.class, TestData.TU_1_PK);
+        assertThat(transportUnit).isNotNull();
+        var tu = new TransportUnit(
+                generator.convert(TestData.TU_1_ID),
+                transportUnitType,
+                Location.create(LocationPK.fromString(TestData.LOCATION_ID_EXT))
         );
+        tu.setPersistentKey(TestData.TU_1_PKEY);
+        testee.deleteTransportUnits(List.of(tu));
+        transportUnit = em.find(TransportUnit.class, TestData.TU_1_PK);
+        assertThat(transportUnit).isNull();
     }
 
     @Test

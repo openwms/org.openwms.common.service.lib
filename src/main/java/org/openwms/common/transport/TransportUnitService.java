@@ -123,7 +123,7 @@ public interface TransportUnitService {
      *
      * @param transportUnits A collection of {@link TransportUnit}s to delete
      */
-    void deleteTransportUnits(List<TransportUnit> transportUnits);
+    void deleteTransportUnits(@NotNull List<TransportUnit> transportUnits);
 
     /**
      * Find and return a {@link TransportUnit} by it's {@code transportUnitBK}.

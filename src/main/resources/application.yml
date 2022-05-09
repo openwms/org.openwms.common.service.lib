@@ -2,3 +2,9 @@ eureka:
   client:
     healthcheck:
       enabled: true
+
+owms:
+  common:
+    # strict: TransportUnits are directly deleted without
+    # on-accept: TransportUnits are only deleted when at least one participant accepted deletion
+    delete-transport-unit-mode: strict

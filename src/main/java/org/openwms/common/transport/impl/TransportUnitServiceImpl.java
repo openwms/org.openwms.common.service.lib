@@ -36,8 +36,10 @@ import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.openwms.common.transport.events.TransportUnitEvent;
+import org.openwms.core.exception.IllegalConfigurationValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.transaction.annotation.Propagation;
@@ -53,7 +55,6 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 import static java.lang.String.format;
@@ -82,13 +83,14 @@ class TransportUnitServiceImpl implements TransportUnitService {
     private final TransportUnitMapper mapper;
     private final Validator validator;
     private final ApplicationEventPublisher publisher;
+    private final String deleteTransportUnitMode;
 
     @SuppressWarnings("squid:S107")
     TransportUnitServiceImpl(Translator translator,
             TransportUnitTypeRepository transportUnitTypeRepository,
             LocationService locationService, TransportUnitRepository repository,
             BarcodeGenerator barcodeGenerator, TransportUnitMapper mapper, Validator validator,
-            ApplicationEventPublisher publisher) {
+            ApplicationEventPublisher publisher, @Value("${owms.common.delete-transport-unit-mode}") String deleteTransportUnitMode) {
         this.translator = translator;
         this.transportUnitTypeRepository = transportUnitTypeRepository;
         this.locationService = locationService;
@@ -97,6 +99,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
         this.mapper = mapper;
         this.validator = validator;
         this.publisher = publisher;
+        this.deleteTransportUnitMode = deleteTransportUnitMode;
     }
 
     /**
@@ -144,7 +147,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public @NotNull TransportUnit createNew(@NotBlank String transportUnitType, @NotBlank String actualLocation) {
-        Barcode nextBarcode = barcodeGenerator.generate(transportUnitType, actualLocation);
+        var nextBarcode = barcodeGenerator.generate(transportUnitType, actualLocation);
         return createInternal(
                 nextBarcode,
                 transportUnitType,
@@ -158,27 +161,26 @@ class TransportUnitServiceImpl implements TransportUnitService {
         Assert.notNull(barcode, NO_BARCODE);
         Assert.hasText(transportUnitType, NO_TRANSPORT_UNIT_TYPE);
 
-        Optional<TransportUnit> opt = repository.findByBarcode(barcode);
+        var optTransportUnit = repository.findByBarcode(barcode);
         if (strict == null || Boolean.FALSE.equals(strict)) {
-            if (opt.isPresent()) {
+            if (optTransportUnit.isPresent()) {
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("TransportUnit with Barcode [{}] already exists, silently returning the existing one", barcode);
                 }
-                return opt.get();
+                return optTransportUnit.get();
             }
         } else {
-            opt.ifPresent(tu -> {
+            optTransportUnit.ifPresent(tu -> {
                 throw new ResourceExistsException(format("TransportUnit with id [%s] already exists", barcode));
             });
         }
 
-        Location actualLocation = locationResolver.get();
-        TransportUnitType type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -> new NotFoundException(format("TransportUnitType [%s] not found", transportUnitType)));
+        var actualLocation = locationResolver.get();
+        var type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -> new NotFoundException(format("TransportUnitType [%s] not found", transportUnitType)));
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Creating a TransportUnit with Barcode [{}] of Type [{}] on Location [{}]", barcode, transportUnitType, actualLocation);
         }
-        TransportUnit transportUnit = new TransportUnit(barcode, type, actualLocation);
-        transportUnit = repository.save(transportUnit);
+        var transportUnit = repository.save(new TransportUnit(barcode, type, actualLocation));
         publisher.publishEvent(
                 TransportUnitEvent.newBuilder()
                         .tu(transportUnit)
@@ -205,7 +207,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
         if (tu.getActualLocation() !=  null && tu.getActualLocation().isNew()) {
             existing.setActualLocation(this.locationService.findByLocationPk(tu.getActualLocation().getLocationId()).orElseThrow(() -> new NotFoundException(format("Location [%s] not found", tu.getActualLocation()))));
         }
-        TransportUnit saved = repository.save(existing);
+        var saved = repository.save(existing);
         publisher.publishEvent(TransportUnitEvent.newBuilder()
                 .tu(saved)
                 .type(TransportUnitEvent.TransportUnitEventType.CHANGED)
@@ -250,9 +252,9 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public void deleteTransportUnits(List<TransportUnit> transportUnits) {
+    public void deleteTransportUnits(@NotNull List<TransportUnit> transportUnits) {
         if (transportUnits != null && !transportUnits.isEmpty()) {
-            List<TransportUnit> tus = new ArrayList<>(transportUnits);
+            var tus = new ArrayList<>(transportUnits);
             tus.sort((o1, o2) -> {
                 if (o1.getChildren().isEmpty() && o2.getChildren().isEmpty() ||
                         !o1.getChildren().isEmpty() && !o2.getChildren().isEmpty()) {
@@ -276,26 +278,36 @@ class TransportUnitServiceImpl implements TransportUnitService {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Got command to REMOVE TransportUnit with pKey [{}]", command.getTransportUnit().getpKey());
             }
-            repository.findByPKey(command.getTransportUnit().getpKey()).ifPresent(tu -> {
-                repository.delete(tu);
-                publisher.publishEvent(
-                        TransportUnitEvent.newBuilder()
-                                .tu(tu)
-                                .type(TransportUnitEvent.TransportUnitEventType.DELETED)
-                                .build());
-            });
+            deleteDefinitely(command.getTransportUnit().getpKey());
         }
     }
 
+    private void deleteDefinitely(String pKey) {
+        repository.findByPKey(pKey).ifPresent(tu -> {
+            repository.delete(tu);
+            publisher.publishEvent(
+                    TransportUnitEvent.newBuilder()
+                            .tu(tu)
+                            .type(TransportUnitEvent.TransportUnitEventType.DELETED)
+                            .build());
+        });
+    }
+
     private void delete(TransportUnit transportUnit) {
-        TransportUnitMO mo = TransportUnitMO.newBuilder()
-                .withPKey(transportUnit.getPersistentKey())
-                .withBarcode(transportUnit.getBarcode().getValue())
-                .build();
-        publisher.publishEvent(TUCommand.newBuilder(REMOVING)
-                .withTransportUnit(mo)
-                .build()
-        );
+        if ("strict".equalsIgnoreCase(deleteTransportUnitMode)) {
+            deleteDefinitely(transportUnit.getPersistentKey());
+        } else if ("on-accept".equalsIgnoreCase(deleteTransportUnitMode)) {
+            var mo = TransportUnitMO.newBuilder()
+                    .withPKey(transportUnit.getPersistentKey())
+                    .withBarcode(transportUnit.getBarcode().getValue())
+                    .build();
+            publisher.publishEvent(TUCommand.newBuilder(REMOVING)
+                    .withTransportUnit(mo)
+                    .build()
+            );
+        } else {
+            throw new IllegalConfigurationValueException(format("Configuration value [owms.common.delete-transport-unit-mode] is configured with invalid value [%s]", deleteTransportUnitMode));
+        }
     }
 
     /**
@@ -348,7 +360,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public void addError(@NotBlank String transportUnitBK, @NotNull UnitError unitError) {
-        TransportUnit tu = this.findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));
+        var tu = this.findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));
         tu.addError(unitError);
     }
 

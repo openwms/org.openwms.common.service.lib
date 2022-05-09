@@ -26,10 +26,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
-import java.util.Set;
 
 /**
  * A TransportUnitCommandPropagator propagates {@link TUCommand}s send by this service
@@ -56,9 +54,9 @@ class TransportUnitCommandPropagator {
 
     @TransactionalEventListener(fallbackExecution = true)
     public void onEvent(TUCommand command) {
-        switch(command.getType()) {
-            case REMOVING:
-                Set<ConstraintViolation<TUCommand>> violations = validator.validate(command);
+        switch (command.getType()) {
+            case REMOVING -> {
+                var violations = validator.validate(command);
                 if (!violations.isEmpty()) {
                     throw new ValidationException(violations.iterator().next().getMessage());
                 }
@@ -66,22 +64,11 @@ class TransportUnitCommandPropagator {
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("Sending REMOVING command to announce the TransportUnit [{}] is going to be removed", command.getTransportUnit().getpKey());
                     }
-                    amqpTemplate.convertAndSend(
-                            exchangeName,
-                            "common.tu.command.out.removing",
-                            command
-                    );
+                    amqpTemplate.convertAndSend(exchangeName, "common.tu.command.out.removing", command);
                 }
-                break;
-            case UPDATE_CACHE:
-                amqpTemplate.convertAndSend(
-                        exchangeName,
-                        "common.tu.command.out.update-cache",
-                        command
-                );
-                break;
-            default:
-                LOGGER.warn("Not supported TUCommand [{}]", command.getType());
+            }
+            case UPDATE_CACHE -> amqpTemplate.convertAndSend(exchangeName, "common.tu.command.out.update-cache", command);
+            default -> LOGGER.warn("Not supported TUCommand [{}]", command.getType());
         }
     }
 }
