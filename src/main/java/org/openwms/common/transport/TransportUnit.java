@@ -465,8 +465,22 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
         this.children.add(transportUnit);
     }
 
+    /**
+     * Checks whether this {@code TransportUnit} has a parent {@code TransportUnit} or not.
+     *
+     * @return {@code true} it has a parent, otherwise {@code false}
+     */
     public boolean hasParent() {
         return parent != null;
+    }
+
+    /**
+     * Checks whether this {@code TransportUnit} has child {@code TransportUnit}s or not.
+     *
+     * @return {@code true} it has children, otherwise {@code false}
+     */
+    public boolean hasChildren() {
+        return this.children != null && !this.children.isEmpty();
     }
 
     /**

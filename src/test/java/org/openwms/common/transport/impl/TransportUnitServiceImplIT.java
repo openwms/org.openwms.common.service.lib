@@ -155,13 +155,20 @@ class TransportUnitServiceImplIT {
         var transportUnitType = em.find(TransportUnitType.class, TestData.TUT_PK_PALLET);
         var transportUnit = em.find(TransportUnit.class, TestData.TU_1_PK);
         assertThat(transportUnit).isNotNull();
-        var tu = new TransportUnit(
+        var tu1 = new TransportUnit(
                 generator.convert(TestData.TU_1_ID),
                 transportUnitType,
                 Location.create(LocationPK.fromString(TestData.LOCATION_ID_EXT))
         );
-        tu.setPersistentKey(TestData.TU_1_PKEY);
-        testee.deleteTransportUnits(List.of(tu));
+        tu1.setPersistentKey(TestData.TU_1_PKEY);
+        var tu2 = new TransportUnit(
+                generator.convert(TestData.TU_2_ID),
+                transportUnitType,
+                Location.create(LocationPK.fromString(TestData.LOCATION_ID_EXT))
+        );
+        tu2.setPersistentKey(TestData.TU_2_PKEY);
+
+        testee.deleteTransportUnits(List.of(tu1, tu2));
         transportUnit = em.find(TransportUnit.class, TestData.TU_1_PK);
         assertThat(transportUnit).isNull();
     }

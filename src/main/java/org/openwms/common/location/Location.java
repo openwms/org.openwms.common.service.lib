@@ -67,6 +67,7 @@ public class Location extends Target implements Serializable {
 
     /** Table name. */
     public static final String TABLE = "COM_LOCATION";
+    private static final String CREATION_OF_LOCATION_WITH_LOCATION_ID_NULL = "Creation of Location with locationId null";
 
     /** Unique natural key. */
     @Embedded
@@ -227,7 +228,7 @@ public class Location extends Target implements Serializable {
      * @param locationId The unique natural key of the Location
      */
     protected Location(LocationPK locationId) {
-        Assert.notNull(locationId, "Creation of Location with locationId null");
+        Assert.notNull(locationId, CREATION_OF_LOCATION_WITH_LOCATION_ID_NULL);
         this.locationId = locationId;
     }
 
@@ -240,7 +241,7 @@ public class Location extends Target implements Serializable {
     @Default
     public Location(LocationPK locationId, Account account, LocationGroup locationGroup, LocationType locationType, String erpCode,
             String plcCode, Integer sortOrder, String stockZone) {
-        Assert.notNull(locationId, "Creation of Location with locationId null");
+        Assert.notNull(locationId, CREATION_OF_LOCATION_WITH_LOCATION_ID_NULL);
         this.locationId = locationId;
         this.account = account;
         this.locationGroup = locationGroup;
@@ -252,8 +253,7 @@ public class Location extends Target implements Serializable {
     }
 
     /** Dear JPA... */
-    protected Location() {
-    }
+    protected Location() { }
 
     /**
      * Create a new Location with the business key.
@@ -262,7 +262,6 @@ public class Location extends Target implements Serializable {
      * @return The Location
      */
     public static Location create(LocationPK locationId) {
-        Assert.notNull(locationId, "Creation of Location with locationId null");
         return new Location(locationId);
     }
     /*~ ----------------------------- methods ------------------- */

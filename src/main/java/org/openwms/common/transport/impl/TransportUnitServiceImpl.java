@@ -253,13 +253,13 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public void deleteTransportUnits(@NotNull List<TransportUnit> transportUnits) {
-        if (transportUnits != null && !transportUnits.isEmpty()) {
+        if (!transportUnits.isEmpty()) {
             var tus = new ArrayList<>(transportUnits);
             tus.sort((o1, o2) -> {
-                if (o1.getChildren().isEmpty() && o2.getChildren().isEmpty() ||
-                        !o1.getChildren().isEmpty() && !o2.getChildren().isEmpty()) {
+                if (o1.hasChildren() && o2.hasChildren() ||
+                        !o1.hasChildren() && !o2.hasChildren()) {
                     return 0;
-                } else if (o1.getChildren().isEmpty() && !o2.getChildren().isEmpty()) {
+                } else if (!o1.hasChildren() && o2.hasChildren()) {
                     return -1;
                 } else {
                     return 1;

@@ -107,5 +107,5 @@ INSERT INTO com_type_placing_rule(c_pk,c_privilege_level,c_allowed_location_type
 INSERT INTO com_type_stacking_rule(c_pk,c_no_transport_units,c_allowed_transport_unit_type,c_transport_unit_type,c_ol,c_created) VALUES (1003, 3, 1001, 1000, 0, now());
 
 -- TransportUnit
-insert into com_transport_unit (c_pk,c_pid,c_barcode,c_state,c_actual_location,c_transport_unit_type,c_actual_location_date,c_ol,c_created) values (1000,1,'00000000000000004711','AVAILABLE',1029,1000,now(),1,now());
-insert into com_transport_unit (c_pk,c_pid,c_barcode,c_state,c_actual_location,c_transport_unit_type,c_actual_location_date,c_ol,c_created) values (1001,2,'00000000000000004712','AVAILABLE',1030,1000,now(),1,now());
+insert into com_transport_unit (c_pk,c_pid,c_barcode,c_state,c_actual_location,c_transport_unit_type,c_actual_location_date,c_ol,c_created) values (1000,'1','00000000000000004711','AVAILABLE',1029,1000,now(),1,now());
+insert into com_transport_unit (c_pk,c_pid,c_barcode,c_state,c_actual_location,c_transport_unit_type,c_actual_location_date,c_ol,c_created) values (1001,'2','00000000000000004712','AVAILABLE',1030,1000,now(),1,now());
