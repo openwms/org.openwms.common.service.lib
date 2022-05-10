@@ -239,7 +239,7 @@ public class Location extends Target implements Serializable {
      * @param locationGroup The LocationGroup the Location belongs to
      */
     @Default
-    public Location(LocationPK locationId, Account account, LocationGroup locationGroup, LocationType locationType, String erpCode,
+    Location(LocationPK locationId, Account account, LocationGroup locationGroup, LocationType locationType, String erpCode,
             String plcCode, Integer sortOrder, String stockZone) {
         Assert.notNull(locationId, CREATION_OF_LOCATION_WITH_LOCATION_ID_NULL);
         this.locationId = locationId;

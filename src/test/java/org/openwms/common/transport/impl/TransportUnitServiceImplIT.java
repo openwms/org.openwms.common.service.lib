@@ -181,15 +181,17 @@ class TransportUnitServiceImplIT {
 
     @Test
     void shall_change_target_invalid_Location() {
+        var bc = Barcode.of(TestData.TU_2_ID);
         assertThatExceptionOfType(NotFoundException.class)
-                .isThrownBy(() -> testee.changeTarget(Barcode.of(TestData.TU_2_ID), "UNKW/UNKW/UNKW/UNKW/UNKW"))
+                .isThrownBy(() -> testee.changeTarget(bc, "UNKW/UNKW/UNKW/UNKW/UNKW"))
                 .withMessageContaining("Location with name");
     }
 
     @Test
     void shall_change_target_invalid_Barcode() {
+        var bc = Barcode.of("UNKNOWN");
         assertThatExceptionOfType(NotFoundException.class)
-                .isThrownBy(() -> testee.changeTarget(Barcode.of("UNKNOWN"), TestData.LOCATION_ID_FGIN0001LEFT))
+                .isThrownBy(() -> testee.changeTarget(bc, TestData.LOCATION_ID_FGIN0001LEFT))
                 .withMessageContaining("TransportUnit with Barcode [UNKNOWN] does not exist");
     }
 
