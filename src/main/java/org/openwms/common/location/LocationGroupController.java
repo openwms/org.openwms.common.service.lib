@@ -144,11 +144,11 @@ public class LocationGroupController extends AbstractWebController {
     public ResponseEntity<Index> index() {
         return ResponseEntity.ok(
                 new Index(
-                        linkTo(methodOn(LocationGroupController.class).findAll()).withRel("location-groups-findall"),
                         linkTo(methodOn(LocationGroupController.class).findByName("FOO")).withRel("location-groups-findbyname"),
                         linkTo(methodOn(LocationGroupController.class).findByNames(asList("FOO", "BAR"))).withRel("location-groups-findbynames"),
-                        linkTo(methodOn(LocationGroupController.class).changeGroupState("FOO", "change-state", ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel("location-groups-changestate1"),
-                        linkTo(methodOn(LocationGroupController.class).changeGroupState("UUID", "change-state", LocationGroupState.AVAILABLE, LocationGroupState.NOT_AVAILABLE)).withRel("location-groups-changestate2")
+                        linkTo(methodOn(LocationGroupController.class).findAll()).withRel("location-groups-findall"),
+                        linkTo(methodOn(LocationGroupController.class).changeGroupState("UUID", "change-state", LocationGroupState.AVAILABLE, LocationGroupState.NOT_AVAILABLE)).withRel("location-groups-changestate"),
+                        linkTo(methodOn(LocationGroupController.class).changeGroupState("FOO", "change-state", ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel("location-groups-changestate-with-bitmap")
                 )
         );
     }

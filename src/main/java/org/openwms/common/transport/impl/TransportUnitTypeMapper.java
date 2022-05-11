@@ -16,6 +16,7 @@
 package org.openwms.common.transport.impl;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.api.TransportUnitTypeVO;
 import org.openwms.common.transport.api.messages.TransportUnitTypeMO;
@@ -34,19 +35,17 @@ public abstract class TransportUnitTypeMapper {
     @Autowired
     private TransportUnitTypeRepository repository;
 
+    @Mapping(target = "persistentKey", source = "vo.pKey")
     public abstract TransportUnitType convert(TransportUnitTypeVO vo);
 
     public abstract TransportUnitTypeMO convertToMO(TransportUnitType eo);
 
+    @Mapping(target = "pKey", source = "eo.persistentKey")
     public abstract TransportUnitTypeVO convertToVO(TransportUnitType eo);
 
     public abstract List<TransportUnitTypeVO> convertToVO(List<TransportUnitType> eo);
 
     public TransportUnitType convert(String type) {
-        var tutOpt = repository.findByType(type);
-        if (tutOpt.isPresent()) {
-            return tutOpt.get();
-        }
-        return TransportUnitType.newBuilder(type).build();
+        return repository.findByType(type).orElseGet(() -> TransportUnitType.newBuilder(type).build());
     }
 }

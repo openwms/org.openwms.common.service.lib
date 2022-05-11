@@ -65,11 +65,25 @@ class TransportUnitTypeControllerDocumentation {
                         get(API_TRANSPORT_UNIT_TYPES + "/index")
                 )
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$._links.transport-unit-types-findbypkey").exists())
                 .andExpect(jsonPath("$._links.transport-unit-types-findtransportunittype").exists())
                 .andExpect(jsonPath("$._links.transport-unit-types-findall").exists())
-                .andExpect(jsonPath("$._links.length()", is(2)))
+                .andExpect(jsonPath("$._links.length()", is(3)))
                 .andDo(document("tut-index", preprocessResponse(prettyPrint())))
         ;
+    }
+
+    @Test void shall_findByPKey() throws Exception {
+        mockMvc.perform(get(API_TRANSPORT_UNIT_TYPES + "/1000"))
+                .andExpect(jsonPath("$.pKey", is("1000")))
+                .andExpect(status().isOk())
+                .andDo(document("tut-find-bypkey"));
+    }
+
+    @Test void shall_findByPKey_404() throws Exception {
+        mockMvc.perform(get(API_TRANSPORT_UNIT_TYPES + "/UNKNOWN"))
+                .andExpect(status().isNotFound())
+                .andDo(document("tut-find-bypkey-404"));
     }
 
     @Test void shall_findall() throws Exception {

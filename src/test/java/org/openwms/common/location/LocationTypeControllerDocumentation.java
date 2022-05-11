@@ -33,6 +33,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -69,9 +71,63 @@ class LocationTypeControllerDocumentation {
                         get(LocationApiConstants.API_LOCATION_TYPES + "/index")
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._links.locationType-findall").exists())
-                .andExpect(jsonPath("$._links.length()", is(1)))
+                .andExpect(jsonPath("$._links.length()", is(3)))
+                .andExpect(jsonPath("$._links.location-types-findbypkey").exists())
+                .andExpect(jsonPath("$._links.location-types-findbytypename").exists())
+                .andExpect(jsonPath("$._links.location-types-findall").exists())
                 .andDo(document("loctype-index", preprocessResponse(prettyPrint())))
+        ;
+    }
+
+    @Test void shall_find_by_pKey() throws Exception {
+        mockMvc.perform(get(LocationApiConstants.API_LOCATION_TYPES + "/326981811784"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.type", is("FG")))
+                .andDo(document("loctype-findbypkey",
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("links[]").ignored(),
+                                fieldWithPath("links[].*").ignored(),
+                                fieldWithPath("pKey").description("The persistent technical key of the LocationType"),
+                                fieldWithPath("type").description("Unique natural key"),
+                                fieldWithPath("description").description("A descriptive text of the LocationType"),
+                                fieldWithPath("length").description("The typical length of a Location belonging to this type"),
+                                fieldWithPath("width").description("The typical width of a Location belonging to this type"),
+                                fieldWithPath("height").description("The typical height of a Location belonging to this type")
+                        )
+                ))
+                ;
+    }
+
+    @Test void shall_find_by_pKey_404() throws Exception {
+        mockMvc.perform(get(LocationApiConstants.API_LOCATION_TYPES + "/UNKNOWN"))
+                .andExpect(status().isNotFound())
+                .andDo(document("loctype-findbypkey-404",
+                        preprocessResponse(prettyPrint())
+                ))
+        ;
+    }
+
+    @Test void shall_find_by_name() throws Exception {
+        mockMvc.perform(get(LocationApiConstants.API_LOCATION_TYPES)
+                        .queryParam("typeName", "FG")
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.type", is("FG")))
+                .andDo(document("loctype-findbytypename",
+                        preprocessResponse(prettyPrint())
+                ))
+        ;
+    }
+
+    @Test void shall_find_by_name_404() throws Exception {
+        mockMvc.perform(get(LocationApiConstants.API_LOCATION_TYPES)
+                        .queryParam("typeName", "UNKNOWN")
+                )
+                .andExpect(status().isNotFound())
+                .andDo(document("loctype-findbytypename-404",
+                        preprocessResponse(prettyPrint())
+                ))
         ;
     }
 

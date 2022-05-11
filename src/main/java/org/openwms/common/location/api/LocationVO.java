@@ -108,7 +108,7 @@ public class LocationVO extends AbstractBase<LocationVO> implements TargetVO, Se
      * @return {@literal true} if blocked, otherwise {@literal false}
      */
     @JsonIgnore
-    public Boolean isInfeedBlocked() {
+    public boolean isInfeedBlocked() {
         return !incomingActive;
     }
 
@@ -118,7 +118,7 @@ public class LocationVO extends AbstractBase<LocationVO> implements TargetVO, Se
      * @return {@literal true} if blocked, otherwise {@literal false}
      */
     @JsonIgnore
-    public Boolean isOutfeedBlocked() {
+    public boolean isOutfeedBlocked() {
         return !outgoingActive;
     }
 

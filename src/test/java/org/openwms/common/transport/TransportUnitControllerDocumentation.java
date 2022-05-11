@@ -90,11 +90,15 @@ class TransportUnitControllerDocumentation {
                 )
                 .andDo(document("tu-index", preprocessResponse(prettyPrint())))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$._links.transport-unit-createtuwithbody").exists())
+                .andExpect(jsonPath("$._links.transport-unit-createtuwithparams").exists())
                 .andExpect(jsonPath("$._links.transport-unit-findbypkey").exists())
                 .andExpect(jsonPath("$._links.transport-unit-findbybarcode").exists())
                 .andExpect(jsonPath("$._links.transport-unit-findbybarcodes").exists())
                 .andExpect(jsonPath("$._links.transport-unit-findonlocation").exists())
-                .andExpect(jsonPath("$._links.length()", is(7)))
+                .andExpect(jsonPath("$._links.transport-unit-block").exists())
+                .andExpect(jsonPath("$._links.transport-unit-unblock").exists())
+                .andExpect(jsonPath("$._links.length()", is(9)))
         ;
     }
 
@@ -265,7 +269,7 @@ class TransportUnitControllerDocumentation {
                                 parameterWithName("errorCode").description("The error text")
                         )
                 ))
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
         ;
     }
 

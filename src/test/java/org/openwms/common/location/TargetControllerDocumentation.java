@@ -34,8 +34,12 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.openwms.common.location.api.LocationApiConstants.API_TARGETS;
+import static org.springframework.restdocs.http.HttpDocumentation.httpRequest;
+import static org.springframework.restdocs.http.HttpDocumentation.httpResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -139,12 +143,21 @@ class TargetControllerDocumentation {
                     .queryParam("type", "PERMANENT_LOCK")
                     .queryParam("mode", "lock"))
                     .andExpect(status().isOk())
-                    .andDo(document("lock-lg-IPOINT"));
-            LocationGroup ipoint = locationGroupService.findByName("IPOINT").orElseThrow(NotFoundException::new);
+                    .andDo(document("lock-lg-IPOINT",
+                            requestParameters(
+                                    parameterWithName("reallocation").description("*true* to trigger an order re-allocation, or *false* if not"),
+                                    parameterWithName("type").description("The lock type"),
+                                    parameterWithName("mode").description("The operation mode")
+                            ),
+                            httpRequest(), httpResponse()
+                    ));
+
+            var ipoint = locationGroupService.findByName("IPOINT").orElseThrow(NotFoundException::new);
             assertThat(ipoint.isInfeedAllowed()).isFalse();
             assertThat(ipoint.isOutfeedAllowed()).isFalse();
             assertThat(ipoint.getOperationMode()).isEqualTo("NO_OPERATION");
-            LocationGroup ipoint1 = locationGroupService.findByName("IPOINT1").orElseThrow(NotFoundException::new);
+
+            var ipoint1 = locationGroupService.findByName("IPOINT1").orElseThrow(NotFoundException::new);
             assertThat(ipoint1.isInfeedAllowed()).isFalse();
             assertThat(ipoint1.isOutfeedAllowed()).isFalse();
             assertThat(ipoint1.getOperationMode()).isEqualTo("NO_OPERATION");

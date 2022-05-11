@@ -1,6 +1,5 @@
 [[section-location]]
 == Location
-
 A `Location` represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a location on
 the conveyor. Even error locations can be represented with the `Location`. Multiple `Locations` with same characteristics are grouped to a
 `LocationGroup`.
@@ -31,100 +30,137 @@ The response lists all the operations with a name and the corresponding href lin
 
 include::{generated}/loc-index/http-response.adoc[]
 
+[[location-create]]
+=== Create a Location
+Usually `Locations` are created as static reference data when the project is setup. It is not intended to create a `Location` during normal
+warehouse operation. Warehouse locations are fixed and do only change when the warehouse is extended, therefore it makes less sense to
+create `Locations` on the fly or delete them in operation.
+
+Nevertheless there is an API to create a `Location` via the REST API that might be used for automatic data migration from a legacy system to
+OpenWMS.org.
+
+A client sends a `POST` request with the `Location` representation in the request body
+include::{generated}/loc-created/http-request.adoc[]
+include::{generated}/loc-created/request-fields.adoc[]
+
+If the server has successfully created the `Location` the response looks like
+include::{generated}/loc-created/http-response.adoc[]
+include::{generated}/loc-created/response-fields.adoc[]
+
+[[location-updatelocation]]
+=== Update an existing Location
+It's also possible to modify an existing `Location`. Therefore the client sends a `PUT` request with the full representation of the
+`Location` resource, including the necessary identifier fields.
+
+include::{generated}/loc-updated/http-request.adoc[]
+include::{generated}/loc-updated/request-fields.adoc[]
+
+If the server has updated the `Location` successfully the response looks like
+include::{generated}/loc-updated/http-response.adoc[]
+include::{generated}/loc-updated/response-fields.adoc[]
+
+[[location-findbypkey]]
+=== Find Location by Persistent Id (pKey)
+To lookup a `Location` identified by it's technical persistent identifier, a client needs to have the identifier on hand and must send a
+`GET` request to the identifying URI:
+
+include::{generated}/loc-find-pKey/http-request.adoc[]
+
+If the `Location` exists the server responds with
+include::{generated}/loc-find-pKey/http-response.adoc[]
+
+If no `Location` resource with the requested persistent identifier exists, the server responds with
+include::{generated}/loc-find-pKey-404/http-response.adoc[]
+
 [[location-findbycoordinate]]
 === Find Location by Coordinate
-Send a HTTP GET request with the 5-tuple coordinate as query parameter to find a `Location` identified by this coordinate.
+Send a HTTP `GET` request with the 5-tuple coordinate as query parameter to find a `Location` identified by this coordinate.
 
 include::{generated}/loc-find-coordinate/http-request.adoc[]
 
 If the `Location` exists the server responds with
-
 include::{generated}/loc-find-coordinate/http-response.adoc[]
 
 If the `Location` with the requested coordinate does not exist, the server responds with
-
 include::{generated}/loc-find-coordinate-404/http-response.adoc[]
 
 If the passed coordinate is not well formatted and rejected by the server the response looks like
-
 include::{generated}/loc-find-coordinate-400/http-response.adoc[]
 
-[[location-findbycoordinate]]
+[[location-findbycoordinate-wc]]
 === Find Location by Coordinate with Wildcards
 The API to search for `Locations` also accepts typical SQL wildcards in each part of the 5-tuple coordinate. Let's assume one searches for
-all Lift `Locations` in the Flat Good area, this could look like this:
-
+all elevator `Locations` in the Flat Good area, a query could look like this
 include::{generated}/loc-find-coordinate-wildcard/http-request.adoc[]
 
-In this case the Flat Good area has only 2 Lift positions and the server returns both:
-
+In this case the Flat Good area has only 2 elevator positions and the server returns both
 include::{generated}/loc-find-coordinate-wildcard/http-response.adoc[]
 
-If the search query did not find any `Locations` the server responds with:
-
+If the search query did not find any `Locations` the server responds with
 include::{generated}/loc-find-coordinate-wildcard-404/http-response.adoc[]
+
+This wildcard query API can also be used to find and return all existing `Locations` just by not passing any wildcard at all
+include::{generated}/loc-find-coordinate-wildcard-all/http-request.adoc[]
 
 [[location-findbyerpcode]]
 === Find Location by ERP code
-Send a HTTP GET request with the ERP code as query parameter to find a `Location` identified by this ERP code.
+Send a HTTP `GET` request with the ERP code as query parameter to find a `Location` identified by this ERP code.
 
 include::{generated}/loc-find-erp/http-request.adoc[]
 
 If the `Location` exists the server responds with
-
 include::{generated}/loc-find-erp/http-response.adoc[]
 
 [[location-findbyplccode]]
 === Find Location by PLC code
-Send a HTTP GET request with the PLC code as query parameter to find a `Location` identified by this PLC code.
+Send a HTTP `GET` request with the PLC code as query parameter to find a `Location` identified by this PLC code.
 
 include::{generated}/loc-find-plc/http-request.adoc[]
 
 If the `Location` exists the server responds with
-
 include::{generated}/loc-find-plc/http-response.adoc[]
 
 If no `Location` with the requested PLC code exists, the server responds with
-
 include::{generated}/loc-find-plc-404/http-response.adoc[]
 
 [[location-forlocationgroup]]
-=== Find Locations of a LocationGroup
-Send a HTTP GET request with the name of a `LocationGroup` as query parameter to find all `Locations` that belong to this group.
+=== Find Locations that belong to a LocationGroup
+Send a HTTP `GET` request with the name of a `LocationGroup` as query parameter to find all `Locations` that belong to this group.
 
 include::{generated}/loc-find-in-lg/http-request.adoc[]
 
 The server responds with the list of all `Locations` - the name of the `LocationGroup` is not validated.
-
 include::{generated}/loc-find-in-lg/http-response.adoc[]
 
-The server accepts multiple `LocationGroup` names as request parameter to get a combined list of `Locations` that belong to group with name
-`ZILE` and `FGRECEIVING`:
+If no `Locations` exist that belong to the given `LocationGroup` the server responds:
+include::{generated}/loc-find-in-lg-404/http-response.adoc[]
 
+The server accepts multiple `LocationGroup` names as request parameter to get a combined list of `Locations` that belong to groups with name
+`ZILE` and `FGRECEIVING`:
 include::{generated}/loc-find-in-lg-multiple/http-request.adoc[]
 
-Wildcards in the `LocationGroup` name are supported if only one `LocationGroup` name is provided:
+Returns
+include::{generated}/loc-find-in-lg-multiple/http-response.adoc[]
 
+Wildcards in the `LocationGroup` name are supported if only one `LocationGroup` name is provided:
 include::{generated}/loc-find-in-lg-wc/http-request.adoc[]
 
 The response is a list of `Locations` that belong to a `LocationGroup` where the name starts with `IP` (matching the groups `IPOINT`,
 `IPOINT1` and `IPOINT2` in this example:
-
 include::{generated}/loc-find-in-lg-wc/http-response.adoc[]
 
 [[location-changestate]]
 === Change a Location's State
-Send a HTTP PATCH request with the persistent identifying key of an existing `Location` along the new state decoded as `ErrorCodeVO` request
-parameter.
+Send a HTTP `PATCH` request with the persistent identifying key of the existing `Location` along with the new state decoded as `errorCode`
+request parameter.
 
 include::{generated}/loc-state-404/http-request.adoc[]
 
 If the `Location` with the given persistent key does not exist, the server responds with
-
 include::{generated}/loc-state-404/http-response.adoc[]
 
-The `ErrorCodeVO` contains a ternary error bitmap that decodes all state information. It is expected as 8-digit String with allowed symbols
-`*|0|1`. Each digit is assigned to one of the state attribute of the `Location` or `LocationGroup`:
+The `errorCode` contains a ternary error bitmap that decodes all state information. It is expected as 8-digit String with allowed symbols
+`*|0|1`. Each digit is assigned to one of the state attribute of the `Location` resp. `LocationGroup`:
 
 |===
 | Digit Position (RtL) | Assigned attribute
@@ -135,7 +171,7 @@ The `ErrorCodeVO` contains a ternary error bitmap that decodes all state informa
 | 2^3^                 | Location.groupStateOut
 |===
 
-The following table shows all currently accepted decodings of the `ErrorCodeVO.errorCode` String that is sent with the request body:
+The following table shows all accepted decodings of the `ErrorCodeVO.errorCode` String that is sent as part of the request body:
 |===
 | ErrorCode String                                                                   | Description
 
@@ -147,11 +183,9 @@ The following table shows all currently accepted decodings of the `ErrorCodeVO.e
 |===
 
 In this example a `Location` identified with the given persistent key is locked for Inbound operations with the following request:
-
 include::{generated}/loc-state-in/http-request.adoc[]
 
-If the server could lock the `Location` successfully the response looks like:
-
+If the server could lock the `Location` successfully the response looks like
 include::{generated}/loc-state-in/http-response.adoc[]
 
 Beside locking the `Location` for Inbound- and Outbound processing it is also possible to change the PLC state of the `Location` through
@@ -160,42 +194,13 @@ PLC state of `0` means the `Location` is not blocked and available for any opera
 signal an error occurred on the `Location`.
 
 Set the `plcState` to `31` (In terms of https://interface21-io.gitbook.io/osip[OSIP] this means `Location unexpected occupied`):
-
 include::{generated}/loc-plcstate/http-request.adoc[]
 
-If the server could set the state successfully the response is:
-
+If the server could set the state successfully the response is
 include::{generated}/loc-plcstate/http-response.adoc[]
 
-[[location-create]]
-=== Create a Location
-Usually `Locations` are created as reference data when the project is setup. It is not intended to create a `Location`
-during operation. Warehouse locations are fixed and only change when the warehouse is extended, therefore there it makes
-less sense to create `Locations` on the fly and perhaps also delete them during the usual warehouse processing.
+Also both is possible in one request, changing the `Locations` state and the `plcState`:
+include::{generated}/loc-plcstate-both/http-request.adoc[]
 
-Nevertheless there is an API to create a `Location` via the REST API.
-
-include::{generated}/loc-created/http-request.adoc[]
-
-include::{generated}/loc-created/request-fields.adoc[]
-
-If the server has created the `Location` successfully the response looks like:
-
-include::{generated}/loc-created/http-response.adoc[]
-
-include::{generated}/loc-created/response-fields.adoc[]
-
-[[location-updatelocation]]
-=== Update an existing Location
-It's also possible to modify and save an existing `Location`. Therefore the client sends a `PUT` request with the full required
-representation of the `Location`, including the necessary ID fields.
-
-include::{generated}/loc-updated/http-request.adoc[]
-
-include::{generated}/loc-updated/request-fields.adoc[]
-
-If the server has saved the `Location` successfully the response looks like:
-
-include::{generated}/loc-updated/http-response.adoc[]
-
-include::{generated}/loc-updated/response-fields.adoc[]
+If the server could set both states successfully the response is
+include::{generated}/loc-plcstate-both/http-response.adoc[]

@@ -108,7 +108,7 @@ public class LocationController extends AbstractWebController {
     }
 
     @GetMapping(value = API_LOCATIONS, params = {"locationId"}, produces = LocationVO.MEDIA_TYPE)
-    public ResponseEntity<LocationVO> findById(@RequestParam("locationId") String locationId) {
+    public ResponseEntity<LocationVO> findByCoordinate(@RequestParam("locationId") String locationId) {
         if (!LocationPK.isValid(locationId)) {
             // here we need to throw an NFE because Feign needs to cast it into an Optional. IAE won't work!
             throw new NotFoundException(translator, LOCATION_ID_INVALID, new String[]{locationId}, locationId);
@@ -214,15 +214,15 @@ public class LocationController extends AbstractWebController {
     public ResponseEntity<Index> index() {
         return ResponseEntity.ok(
                 new Index(
-                        linkTo(methodOn(LocationController.class).changeState("pKey", "change-state", ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel("location-changestate"),
                         linkTo(methodOn(LocationController.class).createLocation(new LocationVO("locationId"), null)).withRel("location-create"),
+                        linkTo(methodOn(LocationController.class).updateLocation(new LocationVO("locationId"))).withRel("location-updatelocation"),
                         linkTo(methodOn(LocationController.class).findByPKey("pKey")).withRel("location-findbypkey"),
-                        linkTo(methodOn(LocationController.class).findById("AREA/AISLE/X/Y/Z")).withRel("location-findbyid"),
+                        linkTo(methodOn(LocationController.class).findByCoordinate("AREA/AISLE/X/Y/Z")).withRel("location-findbycoordinate"),
+                        linkTo(methodOn(LocationController.class).findByCoordinate("area", "aisle", "x", "y", "z")).withRel("location-findbycoordinate-wc"),
                         linkTo(methodOn(LocationController.class).findByErpCode("ERP_CODE")).withRel("location-findbyerpcode"),
                         linkTo(methodOn(LocationController.class).findByPlcCode("PLC_CODE")).withRel("location-findbyplccode"),
-                        linkTo(methodOn(LocationController.class).findByCoordinate("area", "aisle", "x", "y", "z")).withRel("location-findbycoordinate"),
                         linkTo(methodOn(LocationController.class).findForLocationGroups(asList("LG1", "LG2"))).withRel("location-forlocationgroup"),
-                        linkTo(methodOn(LocationController.class).updateLocation(new LocationVO("locationId"))).withRel("location-updatelocation")
+                        linkTo(methodOn(LocationController.class).changeState("pKey", "change-state", ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel("location-changestate")
                 )
         );
     }

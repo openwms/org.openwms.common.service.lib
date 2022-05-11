@@ -44,7 +44,7 @@ public abstract class LocationTypeMapper {
         if (type == null) {
             return null;
         }
-        var locationTypeOpt = locationTypeService.findByType(type);
+        var locationTypeOpt = locationTypeService.findByTypeName(type);
         if (locationTypeOpt.isEmpty()) {
             throw new NotFoundException(translator, LOCATION_TYPE_NOT_FOUND, new String[]{type}, type);
         }

@@ -1,35 +1,43 @@
+[[section-transportunittype]]
 == TransportUnitType
 
 A `TransportUnitType` is a type of a certain `TransportUnit`. Typically to store some static attributes of `TransportUnits`, such as the
-length, the height, or the weight of `TransportUnits`. It is possible to group and characterize `TransportUnits`.
+length, the height, or the weight of `TransportUnits`. This way it is possible to group and characterize `TransportUnits`.
 
+[[transportunittypes-index]]
 === TransportUnitType Index
-The index with all possible operations can be retrieved with the following GET request:
-
+The index with all possible operations can be retrieved with the following `GET` request
 include::{generated}/tut-index/http-request.adoc[]
 
-The response lists all the operations with a name and the corresponding href link:
-
+The response lists all the operations with a name and the corresponding link
 include::{generated}/tut-index/http-response.adoc[]
 
-=== Find all TransportUnitTypes
-To retrieve a list of all existing `TransportUnitTypes` a client must send a GET request to the server:
+[[transportunittypes-findbypkey]]
+=== Find a TransportUnitType by Persistent Id (pKey)
+An existing `TransportUnitType` can be looked up by it's persistent key (pKey)
+include::{generated}/tut-find-bypkey/http-request.adoc[]
 
-include::{generated}/tut-find-all/http-request.adoc[]
+If the `TransportUnitType` exists the response is
+include::{generated}/tut-find-bypkey/http-response.adoc[]
 
-The response contains all existing `TransportUnitTypes`:
+If no `TransportUnitType` with the given pKey exist the server responds with
+include::{generated}/tut-find-bypkey-404/http-response.adoc[]
 
-include::{generated}/tut-find-all/http-response.adoc[]
-
+[[transportunittypes-findbyname]]
 === Find a TransportUnitType by Name
-Each `TransportUnitType` has an unique name by that it can be identified. Query the resource with a `type` parameter:
-
+Each `TransportUnitType` has an unique name with that it can be identified. Query the resource with a `type` parameter
 include::{generated}/tut-find-type/http-request.adoc[]
 
-If the `TransportUnitType` exists the response looks like:
-
+If the `TransportUnitType` exists the response looks like
 include::{generated}/tut-find-type/http-response.adoc[]
 
-If no `TransportUnitType` with the given name exist the server sends a 404-NOT FOUND:
-
+If no `TransportUnitType` with the given name exist the server sends a `404-NOT FOUND`
 include::{generated}/tut-find-type-404/http-response.adoc[]
+
+[[transportunittypes-findall]]
+=== Find all TransportUnitTypes
+To retrieve a list of all existing `TransportUnitTypes` a client must send a `GET` request to the server
+include::{generated}/tut-find-all/http-request.adoc[]
+
+The response contains all existing `TransportUnitTypes`
+include::{generated}/tut-find-all/http-response.adoc[]

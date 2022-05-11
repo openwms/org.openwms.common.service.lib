@@ -1,3 +1,4 @@
+[[section-target]]
 == Target
 A `Target` is a `Location` or a group of `Locations` (`LocationGroup`) where a `TransportUnit` may be sent to.
 
@@ -10,9 +11,10 @@ inbound/outbound.
 The operation mode of a `Target` is controlled separately. If the `Targets` is in PERMANENT operation mode it stops all operations and does
 no longer process any commands or telegrams.
 
+[[targets-inbound-outbound-locking]]
 === Inbound/Outbound Locking
-Locking a `Target` for Inbound/Outbound operation is controlled with a HTTP POST request against the URI `/v1/targets/ALLOCATION_LOCK` with
-a set of query parameters.
+Locking a `Target` for Inbound/Outbound operation is controlled with a HTTP `POST` request against the URI `/v1/targets/ALLOCATION_LOCK`
+with a set of query parameters.
 
 |===
 | HTTP Verb | Query Param `type` | Query Param `mode` | Description
@@ -35,35 +37,35 @@ a set of query parameters.
 | Release the `Target` for all kind of allocation
 |===
 
+[[targets-inbound-lock]]
 ==== Lock Inbound (Putaway, Infeed)
-To lock a `Target` to be not considered in inbound, like Putaway, the server requires a HTTP POST request with the lock type
+To lock a `Target` to be not considered in inbound, like Putaway, the server expects a HTTP `POST` request with the lock type
 `type=ALLOCATION_LOCK` and the `*mode=IN*`.
-
 include::{generated}/all-lock-in-lg-IPOINT/http-request.adoc[]
 
+[[targets-outbound-lock]]
 ==== Lock Outbound (Dispatching, Allocation, Outfeed)
-To lock a `Target` for outbound, like Allocation and Outfeed, the server requires a HTTP POST request with the lock type
+To lock a `Target` for outbound, like Allocation and Outfeed, the server expects a HTTP `POST` request with the lock type
 `type=ALLOCATION_LOCK` and the `*mode=OUT*`.
-
 include::{generated}/all-lock-out-lg-IPOINT/http-request.adoc[]
 
+[[targets-inbound-outbound-lock]]
 ==== Lock Inbound & Outbound
-To lock a `Target` for inbound and outbound, like Putaway and Allocation, the server requires a HTTP POST request with the
+To lock a `Target` for inbound and outbound, like Putaway and Allocation, the server expects a HTTP `POST` request with the
 lock type `type=ALLOCATION_LOCK` and the `*mode=IN_AND_OUT*`.
-
 include::{generated}/all-lock-inout-lg-IPOINT/http-request.adoc[]
 
+[[targets-release-lock]]
 ==== Release Lock
-To release all locks on a `Target` and allow any inbound and outbound operation, the server requires a HTTP POST request with the lock
+To release all locks on a `Target` and allow any inbound and outbound operation, the server expects a HTTP `POST` request with the lock
 type `type=ALLOCATION_LOCK` and the `*mode=NONE*`.
-
 include::{generated}/all-lock-none-lg-IPOINT/http-request.adoc[]
 
 ==== Response: Success
 In any of the previous cases the server responds with the following success message.
-
 include::{generated}/all-lock-none-lg-IPOINT/http-response.adoc[]
 
+[[targets-operational-locking]]
 === Locking Operational Processing
 A `Target` could also be locked for operation only but not for further Allocation. This means, the `Target` is active and looks available
 in warehouse counting and order allocation but is currently out-of-order and not ready to execute any (physical) operation. This is useful
@@ -92,41 +94,41 @@ Like the infeed/outfeed locking an *operational lock* can be set to different mo
 | Release the `Target` for all kind of operations
 |===
 
+[[targets-inbound-operational-lock]]
 ==== Lock for inbound Operations
-To lock a `Target` for inbound operations only, the server requires a HTTP POST request with the lock type
+To lock a `Target` for inbound operations only, the server expects a HTTP `POST` request with the lock type
 `type=OPERATION_LOCK` and the `*mode=IN*`.
-
 include::{generated}/all-olock-in-lg-IPOINT/http-request.adoc[]
 
+[[targets-outbound-operational-lock]]
 ==== Lock for outbound Operations
-To lock a `Target` for outbound operations only, the server requires a HTTP POST request with the lock type
+To lock a `Target` for outbound operations only, the server expects a HTTP `POST` request with the lock type
 `type=OPERATION_LOCK` and the `*mode=OUT*`.
-
 include::{generated}/all-olock-out-lg-IPOINT/http-request.adoc[]
 
+[[targets-inbound-outbound-operational-lock]]
 ==== Lock inbound & outbound Operations
-To lock a `Target` for inbound and outbound operations, the server requires a HTTP POST request with the
+To lock a `Target` for inbound and outbound operations, the server expects a HTTP `POST` request with the
 lock type `type=OPERATION_LOCK` and the `*mode=IN_AND_OUT*`.
-
 include::{generated}/all-olock-inout-lg-IPOINT/http-request.adoc[]
 
+[[targets-release-operational-lock]]
 ==== Release Lock
-To release all operational locks on a `Target` and allow any inbound and outbound operation, the server requires a HTTP POST request with
+To release all operational locks on a `Target` and allow any inbound and outbound operation, the server expects a HTTP `POST` request with
 the lock type `type=OPERATION_LOCK` and the `*mode=NONE*`.
-
 include::{generated}/all-olock-none-lg-IPOINT/http-request.adoc[]
 
 ==== Response: Success
 In any of the previous cases the server responds with the following success message.
-
 include::{generated}/all-olock-none-lg-IPOINT/http-response.adoc[]
 
+[[targets-processing-locking]]
 === Locking / Unlocking a Target for Allocation and Processing
-If a `Target` locked for operation it does not process and requests anymore. In case of a physical `Target`, like a Crane, no new movements
+If a `Target` is locked for operation it does not process requests anymore. In case of a physical `Target`, like a Crane, no new movements
 are accepted and the Crane will stop working. This depends on the implemented Crane strategy. The Crane could stop immediately or after it
-finishes the current operation.
+has finished the current operation.
 
-To permanently lock or unlock a `Target` for allocation _and_ processing send a HTTP POST request with the name of the `Target` to the
+To permanently lock or unlock a `Target` for allocation _and_ processing send a HTTP `POST` request with the name of the `Target` to the
 server. Locking  the `Target` allows an optional flag to signal a re-allocation of already assigned movements and orders.
 
 In this example the `Target` is a `LocationGroup` with the name `IPOINT` that gets locked. The server is requested to re-allocate existing
@@ -134,16 +136,17 @@ orders.
 
 include::{generated}/lock-lg-IPOINT/http-request.adoc[]
 
+Request parameters:
+include::{generated}/lock-lg-IPOINT/request-parameters.adoc[]
+
 To unlock the same `Target` with name `IPOINT`:
 
 include::{generated}/unlock-lg-IPOINT/http-request.adoc[]
 
 ==== Response: Success
 If the server has successfully locked or unlocked the `Target` the response is:
-
 include::{generated}/lock-lg-IPOINT/http-response.adoc[]
 
 ==== Response: Target does not exist
 If the given `Target` (FOO) does not exist the server responds with:
-
 include::{generated}/lock-lg-unknown/http-response.adoc[]

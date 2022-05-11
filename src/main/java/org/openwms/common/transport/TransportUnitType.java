@@ -149,6 +149,16 @@ public class TransportUnitType extends ApplicationEntity implements Serializable
     /*~ ----------------------------- methods ------------------- */
 
     /**
+     * Set the persistent identifier.
+     *
+     * @param pKey The persistent key to set
+     */
+    @Override
+    public void setPersistentKey(String pKey) {
+        super.setPersistentKey(pKey);
+    }
+
+    /**
      * Factory method to create a new TransportUnitType.
      *
      * @param type The business key

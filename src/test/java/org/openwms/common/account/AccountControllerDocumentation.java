@@ -78,12 +78,6 @@ class AccountControllerDocumentation {
         ;
     }
 
-    @Test void shall_findAll() throws Exception {
-        mockMvc.perform(get(API_ACCOUNTS))
-                .andExpect(status().isOk())
-                .andDo(document("acc-find-all", preprocessResponse(prettyPrint())));
-    }
-
     @Test void shall_findByPKey() throws Exception {
         mockMvc.perform(get(API_ACCOUNTS + "/1000"))
                 .andExpect(status().isOk())
@@ -154,6 +148,12 @@ class AccountControllerDocumentation {
                 .andExpect(jsonPath("messageKey", is(CommonMessageCodes.ACCOUNT_NO_DEFAULT)))
                 .andDo(document("acc-find-default404", preprocessResponse(prettyPrint())));
         em.createNativeQuery("update com_account set c_default=true where c_pk=1000").executeUpdate();
+    }
+
+    @Test void shall_findAll() throws Exception {
+        mockMvc.perform(get(API_ACCOUNTS))
+                .andExpect(status().isOk())
+                .andDo(document("acc-find-all", preprocessResponse(prettyPrint())));
     }
 }
 

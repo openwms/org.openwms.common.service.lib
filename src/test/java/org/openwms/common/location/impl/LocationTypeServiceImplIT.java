@@ -15,12 +15,14 @@
  */
 package org.openwms.common.location.impl;
 
+import org.ameba.i18n.Translator;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonDataTest;
 import org.openwms.common.location.LocationType;
 import org.openwms.common.location.LocationTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
@@ -51,6 +53,8 @@ class LocationTypeServiceImplIT {
 
     @Autowired
     private LocationTypeService testee;
+    @MockBean
+    private Translator translator;
 
     @Test void findAll() {
         List<LocationType> all = testee.findAll();

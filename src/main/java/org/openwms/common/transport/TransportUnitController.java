@@ -82,65 +82,45 @@ public class TransportUnitController extends AbstractWebController {
     public ResponseEntity<TransportUnitVO> findTransportUnitByPKey(
             @PathVariable("pKey") String pKey
     ) {
-        var transportUnit = service.findByPKey(pKey);
-        var result = mapper.convertToVO(transportUnit);
-        addLinks(result);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(
+                convertAndLinks(service.findByPKey(pKey))
+        );
     }
 
     @GetMapping(value = API_TRANSPORT_UNITS, params = {"bk"}, produces = MEDIA_TYPE)
     public ResponseEntity<TransportUnitVO> findTransportUnit(
             @RequestParam("bk") String transportUnitBK
     ) {
-        var transportUnit = service.findByBarcode(transportUnitBK);
-        var result = mapper.convertToVO(transportUnit);
-        addLinks(result);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(
+                convertAndLinks(service.findByBarcode(transportUnitBK))
+        );
     }
 
     @GetMapping(value = API_TRANSPORT_UNITS, produces = MEDIA_TYPE)
     public ResponseEntity<List<TransportUnitVO>> findAll() {
-        var transportUnits = service.findAll();
-        var result = mapper.convertToVO(transportUnits);
-        return ResponseEntity.ok(result);
-    }
-
-    private void addLinks(TransportUnitVO result) {
-        result.add(
-                new SimpleLink(linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitType(result.getTransportUnitType().getType())).withRel("transport-unit-type"))
+        return ResponseEntity.ok(
+                convertAndLinks(service.findAll())
         );
-        if (result.getActualLocation() != null) {
-            result.add(
-                    new SimpleLink(linkTo(methodOn(LocationController.class).findById(result.getActualLocation().getLocationId())).withRel("actual-location"))
-            );
-        }
     }
 
     @GetMapping(value = API_TRANSPORT_UNITS, params = {"bks"}, produces = MEDIA_TYPE)
     public ResponseEntity<List<TransportUnitVO>> findTransportUnits(
             @RequestParam("bks") @NotEmpty List<String> barcodes
     ) {
-        var tus = service.findByBarcodes(barcodes.stream().map(barcodeGenerator::convert).toList());
-        return ResponseEntity.ok(augmentResults(tus));
+        return ResponseEntity.ok(
+                convertAndLinks(service.findByBarcodes(barcodes.stream().map(barcodeGenerator::convert).toList()))
+        );
     }
 
-    @GetMapping(value = API_TRANSPORT_UNITS, params = {"actualLocation"}, produces = "application/vnd.openwms.transport-unit-v1+json")
+    @GetMapping(value = API_TRANSPORT_UNITS, params = {"actualLocation"}, produces = MEDIA_TYPE)
     public ResponseEntity<List<TransportUnitVO>> findTransportUnitsOn(
             @RequestParam("actualLocation") String actualLocation
     ) {
-        var tus = service.findOnLocation(actualLocation);
-        return ResponseEntity.ok(augmentResults(tus));
+        return ResponseEntity.ok(
+                convertAndLinks(service.findOnLocation(actualLocation))
+        );
     }
 
-    private List<TransportUnitVO> augmentResults(List<TransportUnit> tus) {
-        var result = mapper.convertToVO(tus);
-        result.forEach(this::addLinks);
-        return result;
-    }
-
-    /*
-     * Create a TransportUnit with values in the Body.
-     */
     @PostMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
     public ResponseEntity<Void> createTU(
             @RequestParam("bk") String transportUnitBK,
@@ -157,11 +137,11 @@ public class TransportUnitController extends AbstractWebController {
                 // thats fine we just cast the exception thrown by the service
             }
         }
-        TransportUnit created = service.create(transportUnitBK, tu.getTransportUnitType().getType(), tu.getActualLocation().getLocationId(), strict);
+        var created = service.create(transportUnitBK, tu.getTransportUnitType().getType(), tu.getActualLocation().getLocationId(), strict);
         return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();
     }
 
-    @PostMapping(value = API_TRANSPORT_UNITS, params = {"actualLocation", "tut"})
+    @PostMapping(value = API_TRANSPORT_UNITS, params = {"actualLocation", "tut"}, produces = MEDIA_TYPE)
     public ResponseEntity<TransportUnitVO> createTU(
             @RequestParam(value = "bk", required = false) String transportUnitBK,
             @RequestParam("actualLocation") String actualLocation,
@@ -183,44 +163,37 @@ public class TransportUnitController extends AbstractWebController {
                 // that's fine we just cast the exception thrown by the service
             }
         }
-        TransportUnit created = transportUnitBK == null
+        var created = transportUnitBK == null
                 ? service.createNew(tut, actualLocation)
                 : service.create(transportUnitBK, tut, actualLocation, strict);
         return ResponseEntity
                 .created(getLocationURIForCreatedResource(req, created.getPersistentKey()))
-                .body(mapper.convertToVO(created))
+                .body(convertAndLinks(created))
                 ;
     }
 
-    /*
-     * Update a TransportUnits data.
-     */
     @Validated(ValidationGroups.TransportUnit.Update.class)
-    @PutMapping(value = API_TRANSPORT_UNITS, params = {"bk"})
+    @PutMapping(value = API_TRANSPORT_UNITS, params = {"bk"}, produces = MEDIA_TYPE)
     public ResponseEntity<TransportUnitVO> updateTU(
             @RequestParam("bk") String transportUnitBK,
             @Valid @RequestBody TransportUnitVO tu
     ) {
         return ResponseEntity.ok(
-                mapper.convertToVO(service.update(barcodeGenerator.convert(transportUnitBK), mapper.convert(tu)))
+                convertAndLinks(service.update(barcodeGenerator.convert(transportUnitBK), mapper.convert(tu)))
         );
     }
 
-    /*
-     * Move an existing TransportUnit to a new Location.
-     */
-    @PatchMapping(value = API_TRANSPORT_UNITS, params = {"bk", "newLocation"})
+    @PatchMapping(value = API_TRANSPORT_UNITS, params = {"bk", "newLocation"}, produces = MEDIA_TYPE)
     public ResponseEntity<TransportUnitVO> moveTU(
             @RequestParam("bk") String transportUnitBK,
             @RequestParam("newLocation") String newLocation
     ) {
-        TransportUnit tu = service.moveTransportUnit(barcodeGenerator.convert(transportUnitBK), fromString(newLocation));
         return ResponseEntity.ok(
-                mapper.convertToVO(tu)
+                convertAndLinks(service.moveTransportUnit(barcodeGenerator.convert(transportUnitBK), fromString(newLocation)))
         );
     }
 
-    @PostMapping(value = API_TRANSPORT_UNIT + "/error", params = {"bk", "errorCode"})
+    @PostMapping(value = API_TRANSPORT_UNIT + "/error", params = {"bk", "errorCode"}, produces = MEDIA_TYPE)
     public ResponseEntity<Void> addErrorToTransportUnit(
             @RequestParam("bk") String transportUnitBK,
             @RequestParam(value = "errorCode") String errorCode
@@ -229,13 +202,15 @@ public class TransportUnitController extends AbstractWebController {
                 .errorNo(errorCode)
                 .build()
         );
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(API_TRANSPORT_UNITS + "/index")
     public ResponseEntity<Index> index() {
         return ResponseEntity.ok(
                 new Index(
+                        linkTo(methodOn(TransportUnitController.class).createTU("{transportUnitBK}", null, true, null)).withRel("transport-unit-createtuwithbody"),
+                        linkTo(methodOn(TransportUnitController.class).createTU("{transportUnitBK}", "{actualLocation}", "{transportUnitType}", true, null)).withRel("transport-unit-createtuwithparams"),
                         linkTo(methodOn(TransportUnitController.class).findTransportUnitByPKey("1")).withRel("transport-unit-findbypkey"),
                         linkTo(methodOn(TransportUnitController.class).findTransportUnit("{transportUnitBK}")).withRel("transport-unit-findbybarcode"),
                         linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList("{transportUnitBK-1}", "{transportUnitBK-n}"))).withRel("transport-unit-findbybarcodes"),
@@ -247,36 +222,47 @@ public class TransportUnitController extends AbstractWebController {
         );
     }
 
-    /**
-     * Set the state of a {@code TransportUnit} to BLOCKED.
-     *
-     * @param transportUnitBK The unique (physical) identifier
-     */
     @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/block", params = {"bk"})
     public ResponseEntity<Void> blockTransportUnit(@NotBlank @RequestParam("bk") String transportUnitBK) {
         service.setState(transportUnitBK, TransportUnitState.BLOCKED);
         return ResponseEntity.noContent().build();
     }
 
-    /**
-     * Set the state of a {@code TransportUnit} to AVAILABLE.
-     *
-     * @param transportUnitBK The unique (physical) identifier
-     */
     @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/available", params = {"bk"})
     public ResponseEntity<Void> unblockTransportUnit(@NotBlank @RequestParam("bk") String transportUnitBK) {
         service.setState(transportUnitBK, TransportUnitState.AVAILABLE);
         return ResponseEntity.noContent().build();
     }
 
-    /**
-     * Set the state of a {@code TransportUnit} to QUALITY_CHECK.
-     *
-     * @param transportUnitBK The unique (physical) identifier
-     */
     @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/quality-check", params = {"bk"})
     public ResponseEntity<Void> qcTransportUnit(@NotBlank @RequestParam("bk") String transportUnitBK) {
         service.setState(transportUnitBK, TransportUnitState.QUALITY_CHECK);
         return ResponseEntity.noContent().build();
+    }
+
+    private TransportUnitVO addLinks(TransportUnitVO result) {
+        result.add(
+                new SimpleLink(linkTo(methodOn(TransportUnitController.class).findTransportUnitByPKey(result.getpKey())).withSelfRel()),
+                new SimpleLink(linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitType(result.getTransportUnitType().getType())).withRel("transport-unit-type"))
+        );
+        if (result.getActualLocation() != null) {
+            result.add(
+                    new SimpleLink(linkTo(methodOn(LocationController.class).findByCoordinate(result.getActualLocation().getLocationId())).withRel("actual-location"))
+            );
+        }
+        return result;
+    }
+
+    private TransportUnitVO convertAndLinks(TransportUnit entity) {
+        return addLinks(
+                mapper.convertToVO(entity)
+        );
+    }
+
+    private List<TransportUnitVO> convertAndLinks(List<TransportUnit> entities) {
+        return entities.stream()
+                .map(mapper::convertToVO)
+                .map(this::addLinks)
+                .toList();
     }
 }

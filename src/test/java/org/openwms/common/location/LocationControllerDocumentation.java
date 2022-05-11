@@ -85,16 +85,16 @@ class LocationControllerDocumentation {
                         get(LocationApiConstants.API_LOCATIONS + "/index")
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._links.location-changestate").exists())
+                .andExpect(jsonPath("$._links.length()", is(9)))
                 .andExpect(jsonPath("$._links.location-create").exists())
-                .andExpect(jsonPath("$._links.location-findbyid").exists())
+                .andExpect(jsonPath("$._links.location-updatelocation").exists())
                 .andExpect(jsonPath("$._links.location-findbypkey").exists())
+                .andExpect(jsonPath("$._links.location-findbycoordinate").exists())
+                .andExpect(jsonPath("$._links.location-findbycoordinate-wc").exists())
                 .andExpect(jsonPath("$._links.location-findbyerpcode").exists())
                 .andExpect(jsonPath("$._links.location-findbyplccode").exists())
-                .andExpect(jsonPath("$._links.location-findbycoordinate").exists())
                 .andExpect(jsonPath("$._links.location-forlocationgroup").exists())
-                .andExpect(jsonPath("$._links.location-updatelocation").exists())
-                .andExpect(jsonPath("$._links.length()", is(9)))
+                .andExpect(jsonPath("$._links.location-changestate").exists())
                 .andDo(document("loc-index", preprocessResponse(prettyPrint())))
         ;
     }
@@ -148,7 +148,9 @@ class LocationControllerDocumentation {
     }
 
     @Test void shall_findby_pKey() throws Exception {
-        mockMvc.perform(get(LocationApiConstants.API_LOCATIONS + "/" + TestData.LOCATION_PKEY_EXT).accept(LocationVO.MEDIA_TYPE))
+        mockMvc.perform(get(LocationApiConstants.API_LOCATIONS + "/" + TestData.LOCATION_PKEY_EXT)
+                        .accept(LocationVO.MEDIA_TYPE)
+                )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("pKey", is(TestData.LOCATION_PKEY_EXT)))
                 .andExpect(jsonPath("locationId", is(TestData.LOCATION_ID_EXT)))
@@ -158,7 +160,15 @@ class LocationControllerDocumentation {
                 .andExpect(jsonPath("incomingActive", is(true)))
                 .andExpect(jsonPath("outgoingActive", is(true)))
                 .andExpect(jsonPath("plcState", is(0)))
-                .andDo(document("loc-find-pKey"));
+                .andDo(document("loc-find-pKey", preprocessResponse(prettyPrint())));
+    }
+
+    @Test void shall_findby_pKey_404() throws Exception {
+        mockMvc.perform(get(LocationApiConstants.API_LOCATIONS + "/UNKNOWN")
+                        .accept(LocationVO.MEDIA_TYPE)
+                )
+                .andExpect(status().isNotFound())
+                .andDo(document("loc-find-pKey-404", preprocessResponse(prettyPrint())));
     }
 
     @Test void shall_update_Location() throws Exception {
@@ -246,7 +256,7 @@ class LocationControllerDocumentation {
                     .andExpect(jsonPath("incomingActive", is(true)))
                     .andExpect(jsonPath("outgoingActive", is(true)))
                     .andExpect(jsonPath("plcState", is(0)))
-                    .andDo(document("loc-find-erp"));
+                    .andDo(document("loc-find-erp", preprocessResponse(prettyPrint())));
         }
 
         @Test void shall_findby_plccode() throws Exception {
@@ -263,7 +273,7 @@ class LocationControllerDocumentation {
                     .andExpect(jsonPath("incomingActive", is(true)))
                     .andExpect(jsonPath("outgoingActive", is(true)))
                     .andExpect(jsonPath("plcState", is(0)))
-                    .andDo(document("loc-find-plc"));
+                    .andDo(document("loc-find-plc", preprocessResponse(prettyPrint())));
         }
 
         @Test void shall_findby_plccode_404() throws Exception {
@@ -273,7 +283,7 @@ class LocationControllerDocumentation {
                             .accept(LocationVO.MEDIA_TYPE)
                     )
                     .andExpect(status().isNotFound())
-                    .andDo(document("loc-find-plc-404"));
+                    .andDo(document("loc-find-plc-404", preprocessResponse(prettyPrint())));
         }
         /*
     }
@@ -298,7 +308,7 @@ class LocationControllerDocumentation {
                     .andExpect(jsonPath("incomingActive", is(true)))
                     .andExpect(jsonPath("outgoingActive", is(true)))
                     .andExpect(jsonPath("plcState", is(0)))
-                    .andDo(document("loc-find-coordinate"));
+                    .andDo(document("loc-find-coordinate", preprocessResponse(prettyPrint())));
         }
 
         @Test void shall_findby_locationId_404() throws Exception {
@@ -309,14 +319,14 @@ class LocationControllerDocumentation {
                     )
                     .andExpect(status().isNotFound())
                     .andExpect(jsonPath("messageKey", is(CommonMessageCodes.LOCATION_NOT_FOUND_BY_ID)))
-                    .andDo(document("loc-find-coordinate-404"));
+                    .andDo(document("loc-find-coordinate-404", preprocessResponse(prettyPrint())));
         }
 
         @Test void shall_findby_locationId_400() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
                     .queryParam("locationId", "INVALID_COORDINATE"))
                     .andExpect(status().isNotFound())
-                    .andDo(document("loc-find-coordinate-400"));
+                    .andDo(document("loc-find-coordinate-400", preprocessResponse(prettyPrint())));
         }
 
         @Test void shall_findby_locationId_wildcard() throws Exception {
@@ -328,7 +338,7 @@ class LocationControllerDocumentation {
                     .queryParam("z", "%"))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.length()", is(2)))
-                    .andDo(document("loc-find-coordinate-wildcard"));
+                    .andDo(document("loc-find-coordinate-wildcard", preprocessResponse(prettyPrint())));
         }
 
         @Test void shall_findby_locationId_wildcard_404() throws Exception {
@@ -339,12 +349,13 @@ class LocationControllerDocumentation {
                     .queryParam("y", "%")
                     .queryParam("z", "%"))
                     .andExpect(status().isNotFound())
-                    .andDo(document("loc-find-coordinate-wildcard-404"));
+                    .andDo(document("loc-find-coordinate-wildcard-404", preprocessResponse(prettyPrint())));
         }
 
         @Test void shall_findby_locationId_wildcard_All() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS))
-                    .andExpect(status().isOk());
+                    .andExpect(status().isOk())
+                    .andDo(document("loc-find-coordinate-wildcard-all", preprocessResponse(prettyPrint())));
         }
         /*
     }
@@ -358,7 +369,7 @@ class LocationControllerDocumentation {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
                     .queryParam("locationGroupNames", TestData.LOCATION_GROUP_NAME_LG1))
                     .andExpect(status().isOk())
-                    .andDo(document("loc-find-in-lg"));
+                    .andDo(document("loc-find-in-lg", preprocessResponse(prettyPrint())));
         }
 
         @Test void shall_findby_lgnames() throws Exception {
@@ -366,14 +377,16 @@ class LocationControllerDocumentation {
                     .queryParam("locationGroupNames", TestData.LOCATION_GROUP_NAME_LG1)
                     .queryParam("locationGroupNames", TestData.LOCATION_GROUP_NAME_LG2))
                     .andExpect(status().isOk())
-                    .andDo(document("loc-find-in-lg-multiple"));
+                    .andDo(document("loc-find-in-lg-multiple", preprocessResponse(prettyPrint())))
+                    .andExpect(jsonPath("$.length()", is(3)))
+            ;
         }
 
         @Test void shall_findby_lgname_404() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
                     .queryParam("locationGroupNames", "NOT EXISTS"))
                     .andExpect(status().isOk())
-                    .andDo(document("loc-find-in-lg-404"));
+                    .andDo(document("loc-find-in-lg-404", preprocessResponse(prettyPrint())));
         }
 
         @Test void shall_findby_lgname_wc() throws Exception {
@@ -382,7 +395,7 @@ class LocationControllerDocumentation {
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$").isArray())
                     //.andExpect(jsonPath("$.length", is(2)))
-                    .andDo(document("loc-find-in-lg-wc"));
+                    .andDo(document("loc-find-in-lg-wc", preprocessResponse(prettyPrint())));
         }
     }
 
@@ -399,7 +412,7 @@ class LocationControllerDocumentation {
                     .queryParam("op","change-state"))
                     .andExpect(status().isNotFound())
                     .andExpect(jsonPath("messageKey", is(CommonMessageCodes.LOCATION_NOT_FOUND_BY_PKEY)))
-                    .andDo(document("loc-state-404"));
+                    .andDo(document("loc-state-404", preprocessResponse(prettyPrint())));
         }
 
         @Test void shall_disable_Inbound_() throws Exception {
@@ -409,7 +422,7 @@ class LocationControllerDocumentation {
                     .contentType(MediaType.APPLICATION_JSON)
                     .queryParam("op","change-state"))
                     .andExpect(status().isNoContent())
-                    .andDo(document("loc-state-in"));
+                    .andDo(document("loc-state-in", preprocessResponse(prettyPrint())));
             location = service.findByLocationId(TestData.LOCATION_ID_EXT).get();
             assertThat(location.isInfeedBlocked()).isTrue();
         }
@@ -421,7 +434,7 @@ class LocationControllerDocumentation {
                     .contentType(MediaType.APPLICATION_JSON)
                     .queryParam("op","change-state"))
                     .andExpect(status().isNoContent())
-                    .andDo(document("loc-plcstate"));
+                    .andDo(document("loc-plcstate", preprocessResponse(prettyPrint())));
             location = service.findByLocationId(TestData.LOCATION_ID_EXT).get();
             assertThat(location.getPlcState()).isEqualTo(31);
         }
@@ -432,7 +445,9 @@ class LocationControllerDocumentation {
                     .content(mapper.writeValueAsString(new ErrorCodeVO("******11",31)))
                     .contentType(MediaType.APPLICATION_JSON)
                     .queryParam("op","change-state"))
-                    .andExpect(status().isNoContent());
+                    .andExpect(status().isNoContent())
+                    .andDo(document("loc-plcstate-both", preprocessResponse(prettyPrint())))
+            ;
             location = service.findByLocationId(TestData.LOCATION_ID_EXT).get();
             assertThat(location.getPlcState()).isEqualTo(31);
             assertThat(location.isInfeedBlocked()).isTrue();

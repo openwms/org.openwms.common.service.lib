@@ -32,6 +32,9 @@ import java.util.Objects;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PUBLIC_ONLY)
 public class LocationTypeVO extends RepresentationModel<LocationTypeVO> implements Serializable {
 
+    /** HTTP media type representation. */
+    public static final String MEDIA_TYPE = "application/vnd.openwms.common.location-type-v1+json";
+
     @JsonProperty("pKey")
     private String pKey;
     @JsonProperty("type")

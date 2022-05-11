@@ -31,6 +31,7 @@ public final class CommonMessageCodes {
     public static final String LOCATION_GROUP_NOT_FOUND = "owms.common.common.lg.notFoundByName";
 
     public static final String LOCATION_TYPE_NOT_FOUND = "owms.common.common.lt.notFoundByType";
+    public static final String LOCATION_TYPE_NOT_FOUND_BY_PKEY = "owms.common.common.lt.notFoundByPKey";
 
     public static final String LOCATION_ID_INVALID = "owms.common.common.loc.invalidName";
     public static final String LOCATION_ID_EXISTS = "owms.common.common.loc.idExists";
@@ -48,6 +49,7 @@ public final class CommonMessageCodes {
     public static final String TU_EXISTS = "owms.common.common.tu.alreadyExists";
 
     public static final String TRANSPORT_UNIT_TYPE_NOT_FOUND = "owms.common.common.tut.notFoundByName";
+    public static final String TRANSPORT_UNIT_TYPE_NOT_FOUND_BY_PKEY = "owms.common.common.tut.notFoundByPKey";
 
     public static final String MSG_TU_MOVED = "owms.common.common.msg.tu.moved";
 

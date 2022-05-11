@@ -1,14 +1,51 @@
+[[section-locationtype]]
 == LocationType
-A `LocationType` represents the type of a `Location`. Each `Location` must belong to one and only one specific `LocationType`. This type
-definition basically defined physical dimensions of the kind of `Location`. Usually `LocationTypes` are creared statically when a project
-is set up. Types may be changed, but not deleted at runtime, because every `Location` is assigned to one `LocationType`.
+A `LocationType` represents the type of a `Location`. Each `Location` must belong to one and only one specific `LocationType`. The type
+definition basically defines physical dimensions of all `Location`s of this type. Usually `LocationTypes` are created statically when a
+project is set up. Types may be changed, but not deleted at runtime, because every `Location` is assigned to one `LocationType` only.
 
+[[loctype-index]]
+=== LocationType Index
+The `LocationType` Index with all possible operations can be retrieved with the following GET request:
+
+include::{generated}/loctype-index/http-request.adoc[]
+
+The response lists all the operations with a name and the corresponding href link:
+include::{generated}/loctype-index/http-response.adoc[]
+
+[[loctype-findbypkey]]
+=== Find a LocationType by its Persistent Id (pKey)
+To query a `LocationType` by it's technical persistent identifier, a `GET` request is send to the `LocationType` resource along with the
+`pKey` as part of the URI.
+
+include::{generated}/loctype-findbypkey/http-request.adoc[]
+
+The server responds with the existing `LocationType`
+include::{generated}/loctype-findbypkey/http-response.adoc[]
+include::{generated}/loctype-findbypkey/response-fields.adoc[]
+
+If no `LocationType` with the given `name` exists the response looks like
+include::{generated}/loctype-findbypkey-404/http-response.adoc[]
+
+[[loctype-findbytypename]]
+=== Find a LocationType by its name
+To query a `LocationType` by it's unique name, a `GET` request is send to the `LocationType` resource along with the `name` as query
+parameter.
+
+include::{generated}/loctype-findbytypename/http-request.adoc[]
+
+The server responds with the existing `LocationType`
+include::{generated}/loctype-findbytypename/http-response.adoc[]
+
+If no `LocationType` with the given `name` exists the response looks like
+include::{generated}/loctype-findbytypename-404/http-response.adoc[]
+
+[[loctype-findall]]
 === Find all existing LocationTypes
 If a client wants to get a list of all existing `LocationTypes`, a simple `GET` request to the plural resource is required. Notice that no
-paging nor sorting is implemented in the API, because the expected retrieved data is less than hundred entries,
+paging nor sorting is implemented in the API, because the expected retrieved data is less than a hundred entries.
 
 include::{generated}/loctype-findall/http-request.adoc[]
 
 The server responds with the existing `LocationTypes` or an empty list:
-
 include::{generated}/loctype-findall/http-response.adoc[]

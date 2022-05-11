@@ -29,6 +29,8 @@ import java.util.Optional;
 @Repository
 interface TransportUnitTypeRepository extends JpaRepository<TransportUnitType, Long> {
 
+    Optional<TransportUnitType> findBypKey(String persistentKey);
+
     /**
      * Find and return a TransportUnitType by the given {@literal type}.
      *

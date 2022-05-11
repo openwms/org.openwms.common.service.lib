@@ -17,6 +17,7 @@ package org.openwms.common.transport;
 
 import org.openwms.common.location.LocationType;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -30,12 +31,21 @@ import java.util.Optional;
 public interface TransportUnitTypeService {
 
     /**
+     * Find and return a {@link TransportUnitType}.
+     *
+     * @param pKey The persistent key
+     * @return The instance
+     * @throws org.ameba.exception.NotFoundException If the TransportUnitType does not exist
+     */
+    @NotNull TransportUnitType findByPKey(@NotBlank String pKey);
+
+    /**
      * Find and return a {@link TransportUnitType} identified by its unique business key.
      *
      * @param type The type as String
      * @return The instance.
      */
-    Optional<TransportUnitType> findByType(@NotEmpty String type);
+    Optional<TransportUnitType> findByType(@NotBlank String type);
 
     /**
      * Returns a List of all {@link TransportUnitType}s.

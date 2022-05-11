@@ -80,7 +80,7 @@ class LocationServiceImplIT extends TestBase {
     }
 
     @Test void shall_create_Location_with_LocationType() {
-        var locationType = locationTypeService.findByType("PG").orElseThrow();
+        var locationType = locationTypeService.findByTypeName("PG").orElseThrow();
         var location = Location.create(LocationPK.fromString("NEW_/NEW_/NEW_/NEW_/NEW_"));
         location.setLocationType(locationType);
         var result = testee.create(location);

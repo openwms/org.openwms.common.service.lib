@@ -48,6 +48,8 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
@@ -77,7 +79,7 @@ class LocationGroupControllerDocumentation {
 
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation) {
-        this.documentationResultHandler = document("lg/{method-name}", preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()));
+        documentationResultHandler = document("lg/{method-name}", preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()));
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
                 .apply(documentationConfiguration(restDocumentation)).build();
     }
@@ -89,11 +91,11 @@ class LocationGroupControllerDocumentation {
                         get(LocationApiConstants.API_LOCATION_GROUPS + "/index")
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._links.location-groups-findall").exists())
                 .andExpect(jsonPath("$._links.location-groups-findbyname").exists())
                 .andExpect(jsonPath("$._links.location-groups-findbynames").exists())
+                .andExpect(jsonPath("$._links.location-groups-findall").exists())
                 .andExpect(jsonPath("$._links.length()", is(5)))
-                .andDo(document("lg-index", preprocessResponse(prettyPrint())))
+                .andDo(documentationResultHandler.document(httpRequest(), httpResponse()))
         ;
     }
 
@@ -120,6 +122,18 @@ class LocationGroupControllerDocumentation {
                                     requestParameters(
                                             parameterWithName("name").description("The unique name of the LocationGroup")
                                     ),
+                                    responseFields(
+                                            fieldWithPath("_links").ignored(),
+                                            fieldWithPath("_links.parent").ignored(),
+                                            fieldWithPath("_links.parent.href").ignored(),
+                                            fieldWithPath("pKey").description("The persistent technical key of the LocationGroup"),
+                                            fieldWithPath("name").description("Unique natural key"),
+                                            fieldWithPath("accountId").description("The Account identifier the LocationGroup is assigned to"),
+                                            fieldWithPath("parentName").description("Name of the parent LocationGroup"),
+                                            fieldWithPath("operationMode").description("The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in"),
+                                            fieldWithPath("groupStateIn").description("State of infeed, controlled by the subsystem only"),
+                                            fieldWithPath("groupStateOut").description("State of outfeed, controlled by the subsystem only")
+                                    ),
                                     httpRequest(), httpResponse()
                             )
                     );
@@ -131,7 +145,7 @@ class LocationGroupControllerDocumentation {
                     .queryParam("name", "NOT_EXISTS"))
                     .andExpect(status().isNotFound())
                     .andExpect(jsonPath("messageKey", is(CommonMessageCodes.LOCATION_GROUP_NOT_FOUND)))
-                    .andDo(document("lg-find-name-404"));
+                    .andDo(documentationResultHandler.document(httpRequest(), httpResponse()));
         }
 
         @Test
@@ -153,7 +167,7 @@ class LocationGroupControllerDocumentation {
                     .andDo(
                             documentationResultHandler.document(
                                     requestParameters(
-                                            parameterWithName("names").description("A list of unique names to identiy the LocationGroups")
+                                            parameterWithName("names").description("A list of unique names to identify the LocationGroups")
                                     ),
                                     httpRequest(), httpResponse()
                             )
@@ -165,7 +179,7 @@ class LocationGroupControllerDocumentation {
             mockMvc.perform(get(LocationApiConstants.API_LOCATION_GROUPS))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$").isArray())
-                    .andDo(document("lg-find-all"));
+                    .andDo(documentationResultHandler.document(httpRequest(), httpResponse()));
         }
         /*
     }
@@ -186,7 +200,7 @@ class LocationGroupControllerDocumentation {
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isNotFound())
                     .andExpect(jsonPath("messageKey", is(CommonMessageCodes.LOCATION_GROUP_NOT_FOUND)))
-                    .andDo(document("lg-state-404"));
+                    .andDo(documentationResultHandler.document(httpRequest(), httpResponse()));
         }
 
         @Test void shall_change_state() throws Exception {
@@ -205,13 +219,13 @@ class LocationGroupControllerDocumentation {
                                     httpRequest(), httpResponse()
                             )
                     );
-            LocationGroup lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG3).get();
+            var lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG3).get();
             assertThat(lg.getGroupStateIn()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
             assertThat(lg.getGroupStateOut()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
         }
 
         @Test void shall_change_state_pKey() throws Exception {
-            LocationGroup lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
+            var lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
             mockMvc.perform(
                     patch(API_LOCATION_GROUP + "/{pKey}", lg.getPersistentKey())
                     .queryParam("statein", LocationGroupState.NOT_AVAILABLE.toString())

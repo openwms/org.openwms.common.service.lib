@@ -27,5 +27,7 @@ import java.util.Optional;
  */
 interface LocationTypeRepository extends JpaRepository<LocationType, Long> {
 
+    Optional<LocationType> findBypKey(String persistentKey);
+
     Optional<LocationType> findByType(String type);
 }

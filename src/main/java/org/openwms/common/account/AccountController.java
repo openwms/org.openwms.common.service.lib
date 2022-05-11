@@ -122,11 +122,11 @@ public class AccountController extends AbstractWebController {
     public ResponseEntity<Index> index() {
         return ResponseEntity.ok(
             new Index(
-                linkTo(methodOn(AccountController.class).findAll()).withRel("accounts-findall"),
                 linkTo(methodOn(AccountController.class).findByPKey("pKey")).withRel("accounts-findbypkey"),
-                linkTo(methodOn(AccountController.class).findDefault()).withRel("accounts-finddefault"),
                 linkTo(methodOn(AccountController.class).findByIdentifier("identifier")).withRel("accounts-findbyidentifier"),
-                linkTo(methodOn(AccountController.class).findByName("name")).withRel("accounts-findbyname")
+                linkTo(methodOn(AccountController.class).findByName("name")).withRel("accounts-findbyname"),
+                linkTo(methodOn(AccountController.class).findDefault()).withRel("accounts-finddefault"),
+                linkTo(methodOn(AccountController.class).findAll()).withRel("accounts-findall")
             )
         );
     }

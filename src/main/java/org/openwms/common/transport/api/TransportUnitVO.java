@@ -22,6 +22,7 @@ import org.ameba.http.AbstractBase;
 import org.openwms.common.location.api.LocationVO;
 import org.openwms.core.units.api.Weight;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -36,15 +37,16 @@ import java.util.Objects;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Serializable {
 
+    /** HTTP media type representation. */
     public static final String MEDIA_TYPE = "application/vnd.openwms.transport-unit-v1+json";
 
     /** The persistent key. */
-    @NotEmpty(groups = ValidationGroups.TransportUnit.Update.class)
+    @NotBlank(groups = ValidationGroups.TransportUnit.Update.class)
     @JsonProperty("pKey")
     private String pKey;
 
     /** Unique natural key. */
-    @NotEmpty(message = "{owms.common.common.tu.barcode}", groups = {ValidationGroups.TransportUnit.Create.class, ValidationGroups.TransportUnit.Update.class})
+    @NotBlank(message = "{owms.common.common.tu.barcode}", groups = {ValidationGroups.TransportUnit.Create.class, ValidationGroups.TransportUnit.Update.class})
     @JsonProperty("barcode")
     private String barcode;
 
@@ -62,7 +64,7 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
     private LocationVO targetLocation;
 
     /** The state of the TransportUnit. */
-    @NotEmpty(message = "{owms.common.common.tu.state}", groups = {ValidationGroups.TransportUnit.Update.class})
+    @NotBlank(message = "{owms.common.common.tu.state}", groups = {ValidationGroups.TransportUnit.Update.class})
     @JsonProperty("state")
     private String state;
 

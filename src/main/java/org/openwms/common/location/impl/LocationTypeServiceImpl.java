@@ -17,14 +17,19 @@ package org.openwms.common.location.impl;
 
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
+import org.ameba.exception.NotFoundException;
+import org.ameba.i18n.Translator;
 import org.openwms.common.location.LocationType;
 import org.openwms.common.location.LocationTypeService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
+
+import static org.openwms.common.CommonMessageCodes.LOCATION_TYPE_NOT_FOUND_BY_PKEY;
 
 /**
  * A LocationTypeServiceImpl is a Spring managed transactional Service that operates on {@link LocationType} entities and spans the
@@ -36,9 +41,11 @@ import java.util.Optional;
 @TxService
 class LocationTypeServiceImpl implements LocationTypeService {
 
+    private final Translator translator;
     private final LocationTypeRepository repository;
 
-    LocationTypeServiceImpl(LocationTypeRepository repository) {
+    LocationTypeServiceImpl(Translator translator, LocationTypeRepository repository) {
+        this.translator = translator;
         this.repository = repository;
     }
 
@@ -47,8 +54,23 @@ class LocationTypeServiceImpl implements LocationTypeService {
      */
     @Override
     @Measured
-    public Optional<LocationType> findByType(String type) {
-        return repository.findByType(type);
+    @NotNull public LocationType findByPKey(@NotBlank String pKey) {
+        return findInternal(pKey);
+    }
+
+    private LocationType findInternal(String pKey) {
+        return repository
+                .findBypKey(pKey)
+                .orElseThrow(() -> new NotFoundException(translator, LOCATION_TYPE_NOT_FOUND_BY_PKEY, new String[]{pKey}, pKey));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public Optional<LocationType> findByTypeName(@NotBlank String typeName) {
+        return repository.findByType(typeName);
     }
 
     /**
@@ -57,7 +79,7 @@ class LocationTypeServiceImpl implements LocationTypeService {
     @Override
     @Measured
     @Transactional(readOnly = true)
-    public List<LocationType> findAll() {
+    public @NotNull List<LocationType> findAll() {
         return repository.findAll();
     }
 
@@ -80,7 +102,7 @@ class LocationTypeServiceImpl implements LocationTypeService {
      */
     @Override
     @Measured
-    public LocationType save(@NotNull LocationType locationType) {
+    public @NotNull LocationType save(@NotNull LocationType locationType) {
         return repository.save(locationType);
     }
 }

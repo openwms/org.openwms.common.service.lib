@@ -17,30 +17,49 @@ package org.openwms.common.transport.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.ameba.http.AbstractBase;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * A TransportUnitTypeVO.
  *
  * @author Heiko Scherrer
  */
-public class TransportUnitTypeVO implements Serializable {
+public class TransportUnitTypeVO extends AbstractBase<TransportUnitTypeVO> implements Serializable {
 
-    @NotEmpty
+    /** HTTP media type representation. */
+    public static final String MEDIA_TYPE = "application/vnd.openwms.transport-unit-type-v1+json";
+
+    /** The persistent key. */
+    @NotBlank
+    @JsonProperty("pKey")
+    private String pKey;
+
+    /** Unique natural key. */
+    @NotBlank
     @JsonProperty("type")
     private String type;
+
+    /** Description for the TransportUnitType. */
     @JsonProperty("description")
     private String description;
-    @NotEmpty
+
+    /** Height of the TransportUnitType. */
+    @NotBlank
     @JsonProperty("height")
     private String height;
-    @NotEmpty
+
+    /** Width of the TransportUnitType. */
+    @NotBlank
     @JsonProperty("width")
     private String width;
-    @NotEmpty
+
+    /** Length of the TransportUnitType. */
+    @NotBlank
     @JsonProperty("length")
     private String length;
 
@@ -54,6 +73,13 @@ public class TransportUnitTypeVO implements Serializable {
     }
 
     /*~-------------------- accessors --------------------*/
+    public String getpKey() {
+        return pKey;
+    }
+
+    public void setpKey(String pKey) {
+        this.pKey = pKey;
+    }
 
     public String getType() {
         return type;
@@ -95,21 +121,39 @@ public class TransportUnitTypeVO implements Serializable {
         this.length = length;
     }
 
+    /**
+     * All fields.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof TransportUnitTypeVO)) return false;
+        if (!super.equals(o)) return false;
         TransportUnitTypeVO that = (TransportUnitTypeVO) o;
-        return Objects.equals(type, that.type) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(height, that.height) &&
-                Objects.equals(width, that.width) &&
-                Objects.equals(length, that.length);
+        return Objects.equals(pKey, that.pKey) && Objects.equals(type, that.type) && Objects.equals(description, that.description) && Objects.equals(height, that.height) && Objects.equals(width, that.width) && Objects.equals(length, that.length);
     }
 
+    /**
+     * All fields.
+     */
     @Override
     public int hashCode() {
-        return Objects.hash(type, description, height, width, length);
+        return Objects.hash(super.hashCode(), pKey, type, description, height, width, length);
+    }
+
+    /**
+     * All fields.
+     */
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", TransportUnitTypeVO.class.getSimpleName() + "[", "]")
+                .add("pKey='" + pKey + "'")
+                .add("type='" + type + "'")
+                .add("description='" + description + "'")
+                .add("height='" + height + "'")
+                .add("width='" + width + "'")
+                .add("length='" + length + "'")
+                .toString();
     }
 
     public static final class Builder {

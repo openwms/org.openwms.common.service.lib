@@ -1,11 +1,12 @@
+[[section-account]]
 == Account
-
 An `Account` reflects to a customers cost center. A project may know about several cost centers - `Accounts`. The `Account` information is
 usually defined at project setup and does not change at runtime. So it is not foreseen that `Account` instances are created or deleted
 through the API.
 
+[[account-index]]
 === Account Index
-The index with all possible operations can be retrieved with an `GET request:
+The index with all possible operations on `Account` resources can be retrieved with an `GET` request:
 
 include::{generated}/acc-index/http-request.adoc[]
 
@@ -13,16 +14,23 @@ The response lists all the operations with a name and the corresponding href lin
 
 include::{generated}/acc-index/http-response.adoc[]
 
-=== Find all Accounts
-To retrieve a list of all existing `Accounts` a client must send a `GET` request to the server:
+[[accounts-findbypkey]]
+=== Find an Account by Persistent Id (pKey)
+To look up an `Account` with its unique persistent identifier, a client needs to send a `GET` request with the persistent identifier as part
+of the URI.
 
-include::{generated}/acc-find-all/http-request.adoc[]
+Find an `Account` by pKey:
+include::{generated}/acc-find-byPKey/http-request.adoc[]
 
-The response contains all existing `Accounts`:
+The server responds with the `Account` resource if it exists:
+include::{generated}/acc-find-byPKey/http-response.adoc[]
+include::{generated}/acc-find-byPKey/response-fields.adoc[]
 
-include::{generated}/acc-find-all/http-response.adoc[]
+or with a `404-Not Found` if no `Account` with that persistent identifier exists:
+include::{generated}/acc-find-byPKey404/http-response.adoc[]
 
-=== Find an Account
+[[accounts-findbyidentifier]]
+=== Find an Account by business key
 The `name` and the `identifier` of the `Account` are unique and mandatory attributes. So an `Account` can be searched for both fields.
 
 Find an `Account` by name:
@@ -31,34 +39,28 @@ include::{generated}/acc-find-byName/http-request.adoc[]
 or find an `Account` by identifier:
 include::{generated}/acc-find-byIdentifier/http-request.adoc[]
 
-The server responds with the Account entity if it exists:
+The server responds with the `Account` resource if it exists:
 include::{generated}/acc-find-byName/http-response.adoc[]
 
 or with a `404-Not Found` if no `Account` exists:
 include::{generated}/acc-find-byName404/http-response.adoc[]
 
-=== Find an Account by persistent key
-To look up an `Account` with its unique persistent identifier, a client needs to send a `GET` request with the persistent identifier as part
-of the resource path.
-
-Find an `Account` by pKey:
-include::{generated}/acc-find-byPKey/http-request.adoc[]
-
-The server responds with the `Account` resource if it exists:
-include::{generated}/acc-find-byPKey/http-response.adoc[]
-include::{generated}/acc-find-byPKey/response-body.adoc[]
-
-or with a `404-Not Found` if no `Account` exists:
-include::{generated}/acc-find-byPKey404/http-response.adoc[]
-
+[[accounts-finddefault]]
 === Find the default Account
-At least one `Account` must exist in the system and must be defined as the default `Account`. This `Account` is used when no other account information is available. To get the default `Account`
-from the Common Service a `GET` request must be send to the server:
-
+At least one `Account` must exist in the system and must be defined as the default `Account`. This `Account` is used when no other account
+information is available. To get the default `Account` a `GET` request must be send to the server
 include::{generated}/acc-find-default/http-request.adoc[]
 
-The server sends back the Account entity if it exists
+The server sends back the `Account` resource if it exists
 include::{generated}/acc-find-default/http-response.adoc[]
 
-Otherwise a 404-Not Found if not exist:
+Otherwise a `404-Not Found` if it doesn't exist
 include::{generated}/acc-find-default404/http-response.adoc[]
+
+[[accounts-findall]]
+=== Find all Accounts
+To retrieve a list of all existing `Accounts` a client must send a `GET` request to the server
+include::{generated}/acc-find-all/http-request.adoc[]
+
+The response contains all existing `Accounts`
+include::{generated}/acc-find-all/http-response.adoc[]

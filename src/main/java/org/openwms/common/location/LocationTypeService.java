@@ -15,6 +15,7 @@
  */
 package org.openwms.common.location;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
@@ -26,27 +27,42 @@ import java.util.Optional;
  */
 public interface LocationTypeService {
 
-    Optional<LocationType> findByType(String type);
+    /**
+     * Find and return a {@link LocationType}.
+     *
+     * @param pKey The persistent key
+     * @return The instance
+     * @throws org.ameba.exception.NotFoundException If the LocationType does not exist
+     */
+    @NotNull LocationType findByPKey(@NotBlank String pKey);
 
     /**
-     * Return a list of all LocationTypes in natural order.
+     * Find a {@code LocationType} by it's name.
+     *
+     * @param typeName The name of the LocationType
+     * @return The instance
+     */
+    Optional<LocationType> findByTypeName(@NotBlank String typeName);
+
+    /**
+     * Return a list of all {@code LocationType}s in natural order.
      *
      * @return All LocationTypes as a list
      */
-    List<LocationType> findAll();
+    @NotNull List<LocationType> findAll();
 
     /**
-     * Delete already persisted LocationType instances.
+     * Delete already persisted {@code LocationType}s.
      *
      * @param locationTypes A list of all instances to be deleted.
      */
     void delete(@NotNull List<LocationType> locationTypes);
 
     /**
-     * Save a LocationType.
+     * Save a {@code LocationType}.
      *
      * @param locationType The type to save
      * @return The saved type
      */
-    LocationType save(@NotNull LocationType locationType);
+    @NotNull LocationType save(@NotNull LocationType locationType);
 }
