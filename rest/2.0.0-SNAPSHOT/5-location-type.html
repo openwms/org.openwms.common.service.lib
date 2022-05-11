@@ -440,18 +440,198 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_locationtype">LocationType</h2>
+<h2 id="section-locationtype">LocationType</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A <code>LocationType</code> represents the type of a <code>Location</code>. Each <code>Location</code> must belong to one and only one specific <code>LocationType</code>. This type
-definition basically defined physical dimensions of the kind of <code>Location</code>. Usually <code>LocationTypes</code> are creared statically when a project
-is set up. Types may be changed, but not deleted at runtime, because every <code>Location</code> is assigned to one <code>LocationType</code>.</p>
+<p>A <code>LocationType</code> represents the type of a <code>Location</code>. Each <code>Location</code> must belong to one and only one specific <code>LocationType</code>. The type
+definition basically defines physical dimensions of all <code>Location`s of this type. Usually `LocationTypes</code> are created statically when a
+project is set up. Types may be changed, but not deleted at runtime, because every <code>Location</code> is assigned to one <code>LocationType</code> only.</p>
 </div>
 <div class="sect2">
-<h3 id="_find_all_existing_locationtypes">Find all existing LocationTypes</h3>
+<h3 id="loctype-index">LocationType Index</h3>
+<div class="paragraph">
+<p>The <code>LocationType</code> Index with all possible operations can be retrieved with the following GET request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-types/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response lists all the operations with a name and the corresponding href link:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 345
+
+{
+  "_links" : {
+    "location-types-findbypkey" : {
+      "href" : "http://localhost:8080/v1/location-types/pKey"
+    },
+    "location-types-findbytypename" : {
+      "href" : "http://localhost:8080/v1/location-types?typeName=typeName"
+    },
+    "location-types-findall" : {
+      "href" : "http://localhost:8080/v1/location-types"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="loctype-findbypkey">Find a LocationType by its Persistent Id (pKey)</h3>
+<div class="paragraph">
+<p>To query a <code>LocationType</code> by it&#8217;s technical persistent identifier, a <code>GET</code> request is send to the <code>LocationType</code> resource along with the
+<code>pKey</code> as part of the URI.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-types/326981811784 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with the existing <code>LocationType</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.location-type-v1+json
+Content-Length: 268
+
+{
+  "links" : [ {
+    "rel" : "location-types-findbypkey",
+    "href" : "http://localhost:8080/v1/location-types/326981811784"
+  } ],
+  "pKey" : "326981811784",
+  "type" : "FG",
+  "description" : "Flat Good Location",
+  "length" : 30,
+  "width" : 50,
+  "height" : 20
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The persistent technical key of the LocationType</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique natural key</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A descriptive text of the LocationType</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>length</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The typical length of a Location belonging to this type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>width</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The typical width of a Location belonging to this type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>height</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The typical height of a Location belonging to this type</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If no <code>LocationType</code> with the given <code>name</code> exists the response looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 193
+
+{
+  "message" : "LocationType with ID [UNKNOWN] does not exist",
+  "messageKey" : "owms.common.common.lt.notFoundByPKey",
+  "obj" : [ "UNKNOWN" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="loctype-findbytypename">Find a LocationType by its name</h3>
+<div class="paragraph">
+<p>To query a <code>LocationType</code> by it&#8217;s unique name, a <code>GET</code> request is send to the <code>LocationType</code> resource along with the <code>name</code> as query
+parameter.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-types?typeName=FG HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with the existing <code>LocationType</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.location-type-v1+json
+Content-Length: 268
+
+{
+  "links" : [ {
+    "rel" : "location-types-findbypkey",
+    "href" : "http://localhost:8080/v1/location-types/326981811784"
+  } ],
+  "pKey" : "326981811784",
+  "type" : "FG",
+  "description" : "Flat Good Location",
+  "length" : 30,
+  "width" : 50,
+  "height" : 20
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no <code>LocationType</code> with the given <code>name</code> exists the response looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="loctype-findall">Find all existing LocationTypes</h3>
 <div class="paragraph">
 <p>If a client wants to get a list of all existing <code>LocationTypes</code>, a simple <code>GET</code> request to the plural resource is required. Notice that no
-paging nor sorting is implemented in the API, because the expected retrieved data is less than hundred entries,</p>
+paging nor sorting is implemented in the API, because the expected retrieved data is less than a hundred entries.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -465,11 +645,14 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 317
+Content-Type: application/vnd.openwms.common.location-type-v1+json
+Content-Length: 547
 
 [ {
-  "links" : [ ],
+  "links" : [ {
+    "rel" : "location-types-findbypkey",
+    "href" : "http://localhost:8080/v1/location-types/326981811784"
+  } ],
   "pKey" : "326981811784",
   "type" : "FG",
   "description" : "Flat Good Location",
@@ -477,7 +660,10 @@ Content-Length: 317
   "width" : 50,
   "height" : 20
 }, {
-  "links" : [ ],
+  "links" : [ {
+    "rel" : "location-types-findbypkey",
+    "href" : "http://localhost:8080/v1/location-types/404376159041"
+  } ],
   "pKey" : "404376159041",
   "type" : "PG",
   "description" : "Pallet Good Location",
@@ -493,7 +679,7 @@ Content-Length: 317
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-10 06:50:34 UTC
+Last updated 2022-05-11 14:41:15 UTC
 </div>
 </div>
 </body>

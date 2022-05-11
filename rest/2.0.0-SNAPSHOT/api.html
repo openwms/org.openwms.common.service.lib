@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<meta name="author" content="(2.0.0-SNAPSHOT-132)">
+<meta name="author" content="(2.0.0-SNAPSHOT-133)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(2.0.0-SNAPSHOT-132)</span><br>
+<span id="author" class="author">(2.0.0-SNAPSHOT-133)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -465,63 +465,67 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#resources-prg">Resources</a>
 <ul class="sectlevel1">
 <li><a href="#resources-index">Index</a></li>
-<li><a href="#_account">Account</a>
+<li><a href="#section-account">Account</a>
 <ul class="sectlevel2">
-<li><a href="#_account_index">Account Index</a></li>
-<li><a href="#_find_all_accounts">Find all Accounts</a></li>
-<li><a href="#_find_an_account">Find an Account</a></li>
-<li><a href="#_find_an_account_by_persistent_key">Find an Account by persistent key</a></li>
-<li><a href="#_find_the_default_account">Find the default Account</a></li>
+<li><a href="#account-index">Account Index</a></li>
+<li><a href="#accounts-findbypkey">Find an Account by Persistent Id (pKey)</a></li>
+<li><a href="#accounts-findbyidentifier">Find an Account by business key</a></li>
+<li><a href="#accounts-finddefault">Find the default Account</a></li>
+<li><a href="#accounts-findall">Find all Accounts</a></li>
 </ul>
 </li>
 <li><a href="#section-location">Location</a>
 <ul class="sectlevel2">
 <li><a href="#location-index">Location Index</a></li>
-<li><a href="#location-findbycoordinate">Find Location by Coordinate</a></li>
-<li><a href="#location-findbycoordinate">Find Location by Coordinate with Wildcards</a></li>
-<li><a href="#location-findbyerpcode">Find Location by ERP code</a></li>
-<li><a href="#location-findbyplccode">Find Location by PLC code</a></li>
-<li><a href="#location-forlocationgroup">Find Locations of a LocationGroup</a></li>
-<li><a href="#location-changestate">Change a Location&#8217;s State</a></li>
 <li><a href="#location-create">Create a Location</a></li>
 <li><a href="#location-updatelocation">Update an existing Location</a></li>
+<li><a href="#location-findbypkey">Find Location by Persistent Id (pKey)</a></li>
+<li><a href="#location-findbycoordinate">Find Location by Coordinate</a></li>
+<li><a href="#location-findbycoordinate-wc">Find Location by Coordinate with Wildcards</a></li>
+<li><a href="#location-findbyerpcode">Find Location by ERP code</a></li>
+<li><a href="#location-findbyplccode">Find Location by PLC code</a></li>
+<li><a href="#location-forlocationgroup">Find Locations that belong to a LocationGroup</a></li>
+<li><a href="#location-changestate">Change a Location&#8217;s State</a></li>
 </ul>
 </li>
-<li><a href="#_locationtype">LocationType</a>
+<li><a href="#section-locationtype">LocationType</a>
 <ul class="sectlevel2">
-<li><a href="#_find_all_existing_locationtypes">Find all existing LocationTypes</a></li>
+<li><a href="#loctype-index">LocationType Index</a></li>
+<li><a href="#loctype-findbypkey">Find a LocationType by its Persistent Id (pKey)</a></li>
+<li><a href="#loctype-findbytypename">Find a LocationType by its name</a></li>
+<li><a href="#loctype-findall">Find all existing LocationTypes</a></li>
 </ul>
 </li>
-<li><a href="#_locationgroup">LocationGroup</a>
+<li><a href="#section-locationgroup">LocationGroup</a>
 <ul class="sectlevel2">
-<li><a href="#_locationgroup_index">LocationGroup Index</a></li>
-<li><a href="#_find_all_locationgroups">Find all LocationGroups</a></li>
-<li><a href="#_find_locationgroup_by_name">Find LocationGroup by Name</a></li>
-<li><a href="#_find_multiple_locationgroups_by_name">Find multiple LocationGroups by Name</a></li>
-<li><a href="#_change_a_locationgroups_state">Change a LocationGroup&#8217;s State</a></li>
+<li><a href="#locationgroups-index">LocationGroup Index</a></li>
+<li><a href="#location-groups-findbyname">Find LocationGroup by Name</a></li>
+<li><a href="#location-groups-findbynames">Find multiple LocationGroups by Name</a></li>
+<li><a href="#location-groups-findall">Find all LocationGroups</a></li>
+<li><a href="#location-groups-changestate">Change a LocationGroup&#8217;s State</a></li>
 </ul>
 </li>
-<li><a href="#_target">Target</a>
+<li><a href="#section-target">Target</a>
 <ul class="sectlevel2">
-<li><a href="#_inboundoutbound_locking">Inbound/Outbound Locking</a>
+<li><a href="#targets-inbound-outbound-locking">Inbound/Outbound Locking</a>
 <ul class="sectlevel3">
-<li><a href="#_lock_inbound_putaway_infeed">Lock Inbound (Putaway, Infeed)</a></li>
-<li><a href="#_lock_outbound_dispatching_allocation_outfeed">Lock Outbound (Dispatching, Allocation, Outfeed)</a></li>
-<li><a href="#_lock_inbound_outbound">Lock Inbound &amp; Outbound</a></li>
-<li><a href="#_release_lock">Release Lock</a></li>
+<li><a href="#targets-inbound-lock">Lock Inbound (Putaway, Infeed)</a></li>
+<li><a href="#targets-outbound-lock">Lock Outbound (Dispatching, Allocation, Outfeed)</a></li>
+<li><a href="#targets-inbound-outbound-lock">Lock Inbound &amp; Outbound</a></li>
+<li><a href="#targets-release-lock">Release Lock</a></li>
 <li><a href="#_response_success">Response: Success</a></li>
 </ul>
 </li>
-<li><a href="#_locking_operational_processing">Locking Operational Processing</a>
+<li><a href="#targets-operational-locking">Locking Operational Processing</a>
 <ul class="sectlevel3">
-<li><a href="#_lock_for_inbound_operations">Lock for inbound Operations</a></li>
-<li><a href="#_lock_for_outbound_operations">Lock for outbound Operations</a></li>
-<li><a href="#_lock_inbound_outbound_operations">Lock inbound &amp; outbound Operations</a></li>
-<li><a href="#_release_lock_2">Release Lock</a></li>
+<li><a href="#targets-inbound-operational-lock">Lock for inbound Operations</a></li>
+<li><a href="#targets-outbound-operational-lock">Lock for outbound Operations</a></li>
+<li><a href="#targets-inbound-outbound-operational-lock">Lock inbound &amp; outbound Operations</a></li>
+<li><a href="#targets-release-operational-lock">Release Lock</a></li>
 <li><a href="#_response_success_2">Response: Success</a></li>
 </ul>
 </li>
-<li><a href="#_locking_unlocking_a_target_for_allocation_and_processing">Locking / Unlocking a Target for Allocation and Processing</a>
+<li><a href="#targets-processing-locking">Locking / Unlocking a Target for Allocation and Processing</a>
 <ul class="sectlevel3">
 <li><a href="#_response_success_3">Response: Success</a></li>
 <li><a href="#_response_target_does_not_exist">Response: Target does not exist</a></li>
@@ -529,23 +533,24 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
-<li><a href="#_transportunit">TransportUnit</a>
+<li><a href="#section-transportunit">TransportUnit</a>
 <ul class="sectlevel2">
-<li><a href="#_transportunit_index">TransportUnit Index</a></li>
-<li><a href="#_create_a_transportunit">Create a TransportUnit</a></li>
-<li><a href="#_move_a_transportunit">Move a TransportUnit</a></li>
-<li><a href="#_modify_a_transportunit">Modify a TransportUnit</a></li>
-<li><a href="#_find_by_barcode">Find by Barcode</a></li>
-<li><a href="#_find_by_multiple_barcodes">Find by multiple Barcodes</a></li>
-<li><a href="#_find_transportunits_on_a_location">Find TransportUnits on a Location</a></li>
-<li><a href="#_add_an_error_to_a_transportunit">Add an Error to a TransportUnit</a></li>
+<li><a href="#transportunits-index">TransportUnit Index</a></li>
+<li><a href="#transportunits-create">Create a TransportUnit</a></li>
+<li><a href="#transportunits-move">Move a TransportUnit</a></li>
+<li><a href="#transportunits-modify">Modify a TransportUnit</a></li>
+<li><a href="#transportunits-findbybarcode">Find by Barcode</a></li>
+<li><a href="#transportunits-findbybarcodes">Find by multiple Barcodes</a></li>
+<li><a href="#transportunits-findonlocation">Find TransportUnits on a Location</a></li>
+<li><a href="#transportunits-adderror">Add an Error to a TransportUnit</a></li>
 </ul>
 </li>
-<li><a href="#_transportunittype">TransportUnitType</a>
+<li><a href="#section-transportunittype">TransportUnitType</a>
 <ul class="sectlevel2">
-<li><a href="#_transportunittype_index">TransportUnitType Index</a></li>
-<li><a href="#_find_all_transportunittypes">Find all TransportUnitTypes</a></li>
-<li><a href="#_find_a_transportunittype_by_name">Find a TransportUnitType by Name</a></li>
+<li><a href="#transportunittypes-index">TransportUnitType Index</a></li>
+<li><a href="#transportunittypes-findbypkey">Find a TransportUnitType by Persistent Id (pKey)</a></li>
+<li><a href="#transportunittypes-findbyname">Find a TransportUnitType by Name</a></li>
+<li><a href="#transportunittypes-findall">Find all TransportUnitTypes</a></li>
 </ul>
 </li>
 </ul>
@@ -863,7 +868,7 @@ Content-Length: 515
 </div>
 </div>
 <div class="sect1">
-<h2 id="_account"><a class="anchor" href="#_account"></a><a class="link" href="#_account">Account</a></h2>
+<h2 id="section-account"><a class="anchor" href="#section-account"></a><a class="link" href="#section-account">Account</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>An <code>Account</code> reflects to a customers cost center. A project may know about several cost centers - <code>Accounts</code>. The <code>Account</code> information is
@@ -871,9 +876,9 @@ usually defined at project setup and does not change at runtime. So it is not fo
 through the API.</p>
 </div>
 <div class="sect2">
-<h3 id="_account_index"><a class="anchor" href="#_account_index"></a><a class="link" href="#_account_index">Account Index</a></h3>
+<h3 id="account-index"><a class="anchor" href="#account-index"></a><a class="link" href="#account-index">Account Index</a></h3>
 <div class="paragraph">
-<p>The index with all possible operations can be retrieved with an `GET request:</p>
+<p>The index with all possible operations on <code>Account</code> resources can be retrieved with an <code>GET</code> request:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -892,20 +897,20 @@ Content-Length: 502
 
 {
   "_links" : {
-    "accounts-findall" : {
-      "href" : "http://localhost:8080/v1/accounts"
-    },
     "accounts-findbypkey" : {
       "href" : "http://localhost:8080/v1/accounts/pKey"
-    },
-    "accounts-finddefault" : {
-      "href" : "http://localhost:8080/v1/accounts"
     },
     "accounts-findbyidentifier" : {
       "href" : "http://localhost:8080/v1/accounts?identifier=identifier"
     },
     "accounts-findbyname" : {
       "href" : "http://localhost:8080/v1/accounts?name=name"
+    },
+    "accounts-finddefault" : {
+      "href" : "http://localhost:8080/v1/accounts"
+    },
+    "accounts-findall" : {
+      "href" : "http://localhost:8080/v1/accounts"
     }
   }
 }</code></pre>
@@ -913,26 +918,30 @@ Content-Length: 502
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_all_accounts"><a class="anchor" href="#_find_all_accounts"></a><a class="link" href="#_find_all_accounts">Find all Accounts</a></h3>
+<h3 id="accounts-findbypkey"><a class="anchor" href="#accounts-findbypkey"></a><a class="link" href="#accounts-findbypkey">Find an Account by Persistent Id (pKey)</a></h3>
 <div class="paragraph">
-<p>To retrieve a list of all existing <code>Accounts</code> a client must send a <code>GET</code> request to the server:</p>
+<p>To look up an <code>Account</code> with its unique persistent identifier, a client needs to send a <code>GET</code> request with the persistent identifier as part
+of the URI.</p>
+</div>
+<div class="paragraph">
+<p>Find an <code>Account</code> by pKey:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/accounts HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/accounts/1000 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The response contains all existing <code>Accounts</code>:</p>
+<p>The server responds with the <code>Account</code> resource if it exists:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.account-v1+json
-Content-Length: 369
+Content-Length: 177
 
-[ {
+{
   "links" : [ {
     "rel" : "accounts-findbypkey",
     "href" : "http://localhost:8080/v1/accounts/1000"
@@ -940,20 +949,61 @@ Content-Length: 369
   "pKey" : "1000",
   "identifier" : "D",
   "name" : "Default"
-}, {
-  "links" : [ {
-    "rel" : "accounts-findbypkey",
-    "href" : "http://localhost:8080/v1/accounts/1001"
-  } ],
-  "pKey" : "1001",
-  "identifier" : "A1",
-  "name" : "Cost Center FIN"
-} ]</code></pre>
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The persistent technical key of the Account</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>identifier</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique natural key</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique Account name</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>or with a <code>404-Not Found</code> if no <code>Account</code> with that persistent identifier exists:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 189
+
+{
+  "message" : "Account with PKey [2000] does not exist",
+  "messageKey" : "owms.common.common.account.notFoundByPKey",
+  "obj" : [ "2000" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_an_account"><a class="anchor" href="#_find_an_account"></a><a class="link" href="#_find_an_account">Find an Account</a></h3>
+<h3 id="accounts-findbyidentifier"><a class="anchor" href="#accounts-findbyidentifier"></a><a class="link" href="#accounts-findbyidentifier">Find an Account by business key</a></h3>
 <div class="paragraph">
 <p>The <code>name</code> and the <code>identifier</code> of the <code>Account</code> are unique and mandatory attributes. So an <code>Account</code> can be searched for both fields.</p>
 </div>
@@ -976,7 +1026,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The server responds with the Account entity if it exists:</p>
+<p>The server responds with the <code>Account</code> resource if it exists:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1015,77 +1065,10 @@ Content-Length: 189
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_an_account_by_persistent_key"><a class="anchor" href="#_find_an_account_by_persistent_key"></a><a class="link" href="#_find_an_account_by_persistent_key">Find an Account by persistent key</a></h3>
+<h3 id="accounts-finddefault"><a class="anchor" href="#accounts-finddefault"></a><a class="link" href="#accounts-finddefault">Find the default Account</a></h3>
 <div class="paragraph">
-<p>To look up an <code>Account</code> with its unique persistent identifier, a client needs to send a <code>GET</code> request with the persistent identifier as part
-of the resource path.</p>
-</div>
-<div class="paragraph">
-<p>Find an <code>Account</code> by pKey:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/accounts/1000 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The server responds with the <code>Account</code> resource if it exists:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.common.account-v1+json
-Content-Length: 177
-
-{
-  "links" : [ {
-    "rel" : "accounts-findbypkey",
-    "href" : "http://localhost:8080/v1/accounts/1000"
-  } ],
-  "pKey" : "1000",
-  "identifier" : "D",
-  "name" : "Default"
-}</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
-  "links" : [ {
-    "rel" : "accounts-findbypkey",
-    "href" : "http://localhost:8080/v1/accounts/1000"
-  } ],
-  "pKey" : "1000",
-  "identifier" : "D",
-  "name" : "Default"
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>or with a <code>404-Not Found</code> if no <code>Account</code> exists:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 189
-
-{
-  "message" : "Account with PKey [2000] does not exist",
-  "messageKey" : "owms.common.common.account.notFoundByPKey",
-  "obj" : [ "2000" ],
-  "httpStatus" : "404",
-  "class" : "String"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_find_the_default_account"><a class="anchor" href="#_find_the_default_account"></a><a class="link" href="#_find_the_default_account">Find the default Account</a></h3>
-<div class="paragraph">
-<p>At least one <code>Account</code> must exist in the system and must be defined as the default <code>Account</code>. This <code>Account</code> is used when no other account information is available. To get the default <code>Account</code>
-from the Common Service a <code>GET</code> request must be send to the server:</p>
+<p>At least one <code>Account</code> must exist in the system and must be defined as the default <code>Account</code>. This <code>Account</code> is used when no other account
+information is available. To get the default <code>Account</code> a <code>GET</code> request must be send to the server</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1094,7 +1077,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The server sends back the Account entity if it exists</p>
+<p>The server sends back the <code>Account</code> resource if it exists</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1114,7 +1097,7 @@ Content-Length: 177
 </div>
 </div>
 <div class="paragraph">
-<p>Otherwise a 404-Not Found if not exist:</p>
+<p>Otherwise a <code>404-Not Found</code> if it doesn&#8217;t exist</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1127,6 +1110,46 @@ Content-Length: 133
   "messageKey" : "owms.common.common.account.noDefaultAccount",
   "httpStatus" : "404"
 }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="accounts-findall"><a class="anchor" href="#accounts-findall"></a><a class="link" href="#accounts-findall">Find all Accounts</a></h3>
+<div class="paragraph">
+<p>To retrieve a list of all existing <code>Accounts</code> a client must send a <code>GET</code> request to the server</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/accounts HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response contains all existing <code>Accounts</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.account-v1+json
+Content-Length: 369
+
+[ {
+  "links" : [ {
+    "rel" : "accounts-findbypkey",
+    "href" : "http://localhost:8080/v1/accounts/1000"
+  } ],
+  "pKey" : "1000",
+  "identifier" : "D",
+  "name" : "Default"
+}, {
+  "links" : [ {
+    "rel" : "accounts-findbypkey",
+    "href" : "http://localhost:8080/v1/accounts/1001"
+  } ],
+  "pKey" : "1001",
+  "identifier" : "A1",
+  "name" : "Cost Center FIN"
+} ]</code></pre>
 </div>
 </div>
 </div>
@@ -1179,21 +1202,24 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 1030
+Content-Length: 1041
 
 {
   "_links" : {
-    "location-changestate" : {
-      "href" : "http://localhost:8080/v1/location/pKey?op=change-state&amp;op=change-state"
-    },
     "location-create" : {
+      "href" : "http://localhost:8080/v1/locations"
+    },
+    "location-updatelocation" : {
       "href" : "http://localhost:8080/v1/locations"
     },
     "location-findbypkey" : {
       "href" : "http://localhost:8080/v1/locations/pKey"
     },
-    "location-findbyid" : {
+    "location-findbycoordinate" : {
       "href" : "http://localhost:8080/v1/locations?locationId=AREA%2FAISLE%2FX%2FY%2FZ"
+    },
+    "location-findbycoordinate-wc" : {
+      "href" : "http://localhost:8080/v1/locations?area=area&amp;aisle=aisle&amp;x=x&amp;y=y&amp;z=z"
     },
     "location-findbyerpcode" : {
       "href" : "http://localhost:8080/v1/locations?erpCode=ERP_CODE"
@@ -1201,14 +1227,11 @@ Content-Length: 1030
     "location-findbyplccode" : {
       "href" : "http://localhost:8080/v1/locations?plcCode=PLC_CODE"
     },
-    "location-findbycoordinate" : {
-      "href" : "http://localhost:8080/v1/locations?area=area&amp;aisle=aisle&amp;x=x&amp;y=y&amp;z=z"
-    },
     "location-forlocationgroup" : {
       "href" : "http://localhost:8080/v1/locations?locationGroupNames=LG1&amp;locationGroupNames=LG2"
     },
-    "location-updatelocation" : {
-      "href" : "http://localhost:8080/v1/locations"
+    "location-changestate" : {
+      "href" : "http://localhost:8080/v1/location/pKey?op=change-state&amp;op=change-state"
     }
   }
 }</code></pre>
@@ -1216,522 +1239,18 @@ Content-Length: 1030
 </div>
 </div>
 <div class="sect2">
-<h3 id="location-findbycoordinate"><a class="anchor" href="#location-findbycoordinate"></a><a class="link" href="#location-findbycoordinate">Find Location by Coordinate</a></h3>
-<div class="paragraph">
-<p>Send a HTTP GET request with the 5-tuple coordinate as query parameter to find a <code>Location</code> identified by this coordinate.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationId=EXT_/0000/0000/0000/0000 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the <code>Location</code> exists the server responds with</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.common.location-opt-v1+json
-Content-Length: 408
-
-{
-  "links" : [ {
-    "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/113646454019"
-  } ],
-  "pKey" : "113646454019",
-  "locationId" : "EXT_/0000/0000/0000/0000",
-  "accountId" : "D",
-  "plcCode" : "PLC_0030",
-  "erpCode" : "ERP_0030",
-  "sortOrder" : 0,
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0,
-  "type" : "FG",
-  "locationGroupName" : "ZILE"
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the <code>Location</code> with the requested coordinate does not exist, the server responds with</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
-Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 196
-
-{"message":"Location with name [EXT_/9999/9999/9999/9999] does not exist","messageKey":"owms.common.common.loc.notFoundById","obj":["EXT_/9999/9999/9999/9999"],"httpStatus":"404","class":"String"}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the passed coordinate is not well formatted and rejected by the server the response looks like</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 214
-
-{
-  "message" : "The given Location name [INVALID_COORDINATE] is not valid",
-  "messageKey" : "owms.common.common.loc.invalidName",
-  "obj" : [ "INVALID_COORDINATE" ],
-  "httpStatus" : "404",
-  "class" : "String"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="location-findbycoordinate"><a class="anchor" href="#location-findbycoordinate"></a><a class="link" href="#location-findbycoordinate">Find Location by Coordinate with Wildcards</a></h3>
-<div class="paragraph">
-<p>The API to search for <code>Locations</code> also accepts typical SQL wildcards in each part of the 5-tuple coordinate. Let&#8217;s assume one searches for
-all Lift <code>Locations</code> in the Flat Good area, this could look like this:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?area=FGIN&amp;aisle=00__&amp;x=LIFT&amp;y=0000&amp;z=%25 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>In this case the Flat Good area has only 2 Lift positions and the server returns both:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 838
-
-[ {
-  "links" : [ {
-    "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/798136030917"
-  } ],
-  "pKey" : "798136030917",
-  "locationId" : "FGIN/0001/LIFT/0000/0000",
-  "accountId" : "D",
-  "plcCode" : "PLC_0012",
-  "erpCode" : "ERP_0012",
-  "sortOrder" : 0,
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0,
-  "type" : "FG",
-  "locationGroupName" : "FGAISLE1LIFT"
-}, {
-  "links" : [ {
-    "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/852306856430"
-  } ],
-  "pKey" : "852306856430",
-  "locationId" : "FGIN/0002/LIFT/0000/0000",
-  "accountId" : "D",
-  "plcCode" : "PLC_0015",
-  "erpCode" : "ERP_0015",
-  "sortOrder" : 0,
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0,
-  "type" : "FG",
-  "locationGroupName" : "FGAISLE2LIFT"
-} ]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the search query did not find any <code>Locations</code> the server responds with:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="location-findbyerpcode"><a class="anchor" href="#location-findbyerpcode"></a><a class="link" href="#location-findbyerpcode">Find Location by ERP code</a></h3>
-<div class="paragraph">
-<p>Send a HTTP GET request with the ERP code as query parameter to find a <code>Location</code> identified by this ERP code.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?erpCode=ERP_0030 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the <code>Location</code> exists the server responds with</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.common.location-opt-v1+json
-Content-Length: 408
-
-{
-  "links" : [ {
-    "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/113646454019"
-  } ],
-  "pKey" : "113646454019",
-  "locationId" : "EXT_/0000/0000/0000/0000",
-  "accountId" : "D",
-  "plcCode" : "PLC_0030",
-  "erpCode" : "ERP_0030",
-  "sortOrder" : 0,
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0,
-  "type" : "FG",
-  "locationGroupName" : "ZILE"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="location-findbyplccode"><a class="anchor" href="#location-findbyplccode"></a><a class="link" href="#location-findbyplccode">Find Location by PLC code</a></h3>
-<div class="paragraph">
-<p>Send a HTTP GET request with the PLC code as query parameter to find a <code>Location</code> identified by this PLC code.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?plcCode=PLC_0030 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the <code>Location</code> exists the server responds with</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.common.location-opt-v1+json
-Content-Length: 408
-
-{
-  "links" : [ {
-    "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/113646454019"
-  } ],
-  "pKey" : "113646454019",
-  "locationId" : "EXT_/0000/0000/0000/0000",
-  "accountId" : "D",
-  "plcCode" : "PLC_0030",
-  "erpCode" : "ERP_0030",
-  "sortOrder" : 0,
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0,
-  "type" : "FG",
-  "locationGroupName" : "ZILE"
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If no <code>Location</code> with the requested PLC code exists, the server responds with</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
-Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 177
-
-{"message":"Location with PLC code [NOT EXISTS] does not exist","messageKey":"owms.common.common.loc.notFoundByPlcCode","obj":["NOT EXISTS"],"httpStatus":"404","class":"String"}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="location-forlocationgroup"><a class="anchor" href="#location-forlocationgroup"></a><a class="link" href="#location-forlocationgroup">Find Locations of a LocationGroup</a></h3>
-<div class="paragraph">
-<p>Send a HTTP GET request with the name of a <code>LocationGroup</code> as query parameter to find all <code>Locations</code> that belong to this group.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationGroupNames=ZILE HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The server responds with the list of all <code>Locations</code> - the name of the <code>LocationGroup</code> is not validated.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 822
-
-[ {
-  "links" : [ {
-    "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/171919359409"
-  } ],
-  "pKey" : "171919359409",
-  "locationId" : "INIT/0000/0000/0000/0000",
-  "accountId" : "D",
-  "plcCode" : "PLC_0029",
-  "erpCode" : "ERP_0029",
-  "sortOrder" : 0,
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0,
-  "type" : "FG",
-  "locationGroupName" : "ZILE"
-}, {
-  "links" : [ {
-    "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/113646454019"
-  } ],
-  "pKey" : "113646454019",
-  "locationId" : "EXT_/0000/0000/0000/0000",
-  "accountId" : "D",
-  "plcCode" : "PLC_0030",
-  "erpCode" : "ERP_0030",
-  "sortOrder" : 0,
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0,
-  "type" : "FG",
-  "locationGroupName" : "ZILE"
-} ]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The server accepts multiple <code>LocationGroup</code> names as request parameter to get a combined list of <code>Locations</code> that belong to group with name
-<code>ZILE</code> and <code>FGRECEIVING</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationGroupNames=ZILE&amp;locationGroupNames=FGRECEIVING HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Wildcards in the <code>LocationGroup</code> name are supported if only one <code>LocationGroup</code> name is provided:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationGroupNames=IP%25 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The response is a list of <code>Locations</code> that belong to a <code>LocationGroup</code> where the name starts with <code>IP</code> (matching the groups <code>IPOINT</code>,
-<code>IPOINT1</code> and <code>IPOINT2</code> in this example:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 828
-
-[ {
-  "links" : [ {
-    "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/439649733836"
-  } ],
-  "pKey" : "439649733836",
-  "locationId" : "FGIN/IPNT/0001/0000/0000",
-  "accountId" : "D",
-  "plcCode" : "PLC_0031",
-  "erpCode" : "ERP_0031",
-  "sortOrder" : 0,
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0,
-  "type" : "FG",
-  "locationGroupName" : "IPOINT1"
-}, {
-  "links" : [ {
-    "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/227916500906"
-  } ],
-  "pKey" : "227916500906",
-  "locationId" : "FGIN/IPNT/0002/0000/0000",
-  "accountId" : "D",
-  "plcCode" : "PLC_0032",
-  "erpCode" : "ERP_0032",
-  "sortOrder" : 0,
-  "incomingActive" : true,
-  "outgoingActive" : true,
-  "plcState" : 0,
-  "type" : "FG",
-  "locationGroupName" : "IPOINT2"
-} ]</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="location-changestate"><a class="anchor" href="#location-changestate"></a><a class="link" href="#location-changestate">Change a Location&#8217;s State</a></h3>
-<div class="paragraph">
-<p>Send a HTTP PATCH request with the persistent identifying key of an existing <code>Location</code> along the new state decoded as <code>ErrorCodeVO</code> request
-parameter.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/location/NOTEXISTS?op=change-state HTTP/1.1
-Content-Type: application/json
-Content-Length: 30
-Host: localhost:8080
-
-{
-  "errorCode" : "******00"
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the <code>Location</code> with the given persistent key does not exist, the server responds with</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 194
-
-{
-  "message" : "Location with ID [NOTEXISTS] does not exist",
-  "messageKey" : "owms.common.common.loc.notFoundByPKey",
-  "obj" : [ "NOTEXISTS" ],
-  "httpStatus" : "404",
-  "class" : "String"
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The <code>ErrorCodeVO</code> contains a ternary error bitmap that decodes all state information. It is expected as 8-digit String with allowed symbols
-<code>*|0|1</code>. Each digit is assigned to one of the state attribute of the <code>Location</code> or <code>LocationGroup</code>:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Digit Position (RtL)</th>
-<th class="tableblock halign-left valign-top">Assigned attribute</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>0</sup></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Location.incomingActive</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>1</sup></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Location.outgoingActive</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>2</sup></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Location.groupStateIn</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>3</sup></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Location.groupStateOut</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>The following table shows all currently accepted decodings of the <code>ErrorCodeVO.errorCode</code> String that is sent with the request body:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">ErrorCode String</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>********</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Content is ignored</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******00</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Release Location for Inbound and Outbound operations</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******01</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Inbound operation to the Location</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******10</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Outbound operation from the Location</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******11</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Inbound and Outbound operation for the Location</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>In this example a <code>Location</code> identified with the given persistent key is locked for Inbound operations with the following request:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/location/113646454019?op=change-state HTTP/1.1
-Content-Type: application/json
-Content-Length: 30
-Host: localhost:8080
-
-{
-  "errorCode" : "*******1"
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the server could lock the <code>Location</code> successfully the response looks like:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Beside locking the <code>Location</code> for Inbound- and Outbound processing it is also possible to change the PLC state of the <code>Location</code> through
-this API. Therefore the <code>ErrorCodeVO</code> data structure contains a property <code>plcState</code> that can be set to a numeric integer value. Usually a
-PLC state of <code>0</code> means the <code>Location</code> is not blocked and available for any operation. A PLC may set the state to a value greater than 0 to
-signal an error occurred on the <code>Location</code>.</p>
-</div>
-<div class="paragraph">
-<p>Set the <code>plcState</code> to <code>31</code> (In terms of <a href="https://interface21-io.gitbook.io/osip">OSIP</a> this means <code>Location unexpected occupied</code>):</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/location/113646454019?op=change-state HTTP/1.1
-Content-Type: application/json
-Content-Length: 49
-Host: localhost:8080
-
-{
-  "errorCode" : "********",
-  "plcState" : 31
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the server could set the state successfully the response is:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="location-create"><a class="anchor" href="#location-create"></a><a class="link" href="#location-create">Create a Location</a></h3>
 <div class="paragraph">
-<p>Usually <code>Locations</code> are created as reference data when the project is setup. It is not intended to create a <code>Location</code>
-during operation. Warehouse locations are fixed and only change when the warehouse is extended, therefore there it makes
-less sense to create <code>Locations</code> on the fly and perhaps also delete them during the usual warehouse processing.</p>
+<p>Usually <code>Locations</code> are created as static reference data when the project is setup. It is not intended to create a <code>Location</code> during normal
+warehouse operation. Warehouse locations are fixed and do only change when the warehouse is extended, therefore it makes less sense to
+create <code>Locations</code> on the fly or delete them in operation.</p>
 </div>
 <div class="paragraph">
-<p>Nevertheless there is an API to create a <code>Location</code> via the REST API.</p>
+<p>Nevertheless there is an API to create a <code>Location</code> via the REST API that might be used for automatic data migration from a legacy system to
+OpenWMS.org.</p>
+</div>
+<div class="paragraph">
+<p>A client sends a <code>POST</code> request with the <code>Location</code> representation in the request body</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1793,21 +1312,21 @@ Host: localhost:8080
 </tbody>
 </table>
 <div class="paragraph">
-<p>If the server has created the <code>Location</code> successfully the response looks like:</p>
+<p>If the server has successfully created the <code>Location</code> the response looks like</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/locations/4282672b-377d-4bb8-99af-48dd19dc0ce5/
+Location: http://localhost:8080/v1/locations/86d9c81d-762a-4875-84e8-9e6d2e154c16/
 Content-Type: application/vnd.openwms.common.location-v1+json
 Content-Length: 422
 
 {
   "links" : [ {
     "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/4282672b-377d-4bb8-99af-48dd19dc0ce5"
+    "href" : "http://localhost:8080/v1/locations/86d9c81d-762a-4875-84e8-9e6d2e154c16"
   } ],
-  "pKey" : "4282672b-377d-4bb8-99af-48dd19dc0ce5",
+  "pKey" : "86d9c81d-762a-4875-84e8-9e6d2e154c16",
   "locationId" : "FGIN/PICK/WORK/0010/0000",
   "plcCode" : "PICK_20",
   "erpCode" : "PICK_10",
@@ -1884,8 +1403,8 @@ Content-Length: 422
 <div class="sect2">
 <h3 id="location-updatelocation"><a class="anchor" href="#location-updatelocation"></a><a class="link" href="#location-updatelocation">Update an existing Location</a></h3>
 <div class="paragraph">
-<p>It&#8217;s also possible to modify and save an existing <code>Location</code>. Therefore the client sends a <code>PUT</code> request with the full required
-representation of the <code>Location</code>, including the necessary ID fields.</p>
+<p>It&#8217;s also possible to modify an existing <code>Location</code>. Therefore the client sends a <code>PUT</code> request with the full representation of the
+<code>Location</code> resource, including the necessary identifier fields.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1989,7 +1508,7 @@ Host: localhost:8080
 </tbody>
 </table>
 <div class="paragraph">
-<p>If the server has saved the <code>Location</code> successfully the response looks like:</p>
+<p>If the server has updated the <code>Location</code> successfully the response looks like</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2094,21 +1613,886 @@ Content-Length: 425
 </tbody>
 </table>
 </div>
+<div class="sect2">
+<h3 id="location-findbypkey"><a class="anchor" href="#location-findbypkey"></a><a class="link" href="#location-findbypkey">Find Location by Persistent Id (pKey)</a></h3>
+<div class="paragraph">
+<p>To lookup a <code>Location</code> identified by it&#8217;s technical persistent identifier, a client needs to have the identifier on hand and must send a
+<code>GET</code> request to the identifying URI:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations/113646454019 HTTP/1.1
+Accept: application/vnd.openwms.common.location-v1+json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> exists the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.location-v1+json
+Content-Length: 408
+
+{
+  "links" : [ {
+    "rel" : "location-findbypkey",
+    "href" : "http://localhost:8080/v1/locations/113646454019"
+  } ],
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "accountId" : "D",
+  "plcCode" : "PLC_0030",
+  "erpCode" : "ERP_0030",
+  "sortOrder" : 0,
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "type" : "FG",
+  "locationGroupName" : "ZILE"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no <code>Location</code> resource with the requested persistent identifier exists, the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/vnd.openwms.common.location-v1+json
+Content-Length: 190
+
+{
+  "message" : "Location with ID [UNKNOWN] does not exist",
+  "messageKey" : "owms.common.common.loc.notFoundByPKey",
+  "obj" : [ "UNKNOWN" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="location-findbycoordinate"><a class="anchor" href="#location-findbycoordinate"></a><a class="link" href="#location-findbycoordinate">Find Location by Coordinate</a></h3>
+<div class="paragraph">
+<p>Send a HTTP <code>GET</code> request with the 5-tuple coordinate as query parameter to find a <code>Location</code> identified by this coordinate.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationId=EXT_/0000/0000/0000/0000 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> exists the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.location-opt-v1+json
+Content-Length: 408
+
+{
+  "links" : [ {
+    "rel" : "location-findbypkey",
+    "href" : "http://localhost:8080/v1/locations/113646454019"
+  } ],
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "accountId" : "D",
+  "plcCode" : "PLC_0030",
+  "erpCode" : "ERP_0030",
+  "sortOrder" : 0,
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "type" : "FG",
+  "locationGroupName" : "ZILE"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> with the requested coordinate does not exist, the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/vnd.openwms.common.location-v1+json
+Content-Length: 224
+
+{
+  "message" : "Location with name [EXT_/9999/9999/9999/9999] does not exist",
+  "messageKey" : "owms.common.common.loc.notFoundById",
+  "obj" : [ "EXT_/9999/9999/9999/9999" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the passed coordinate is not well formatted and rejected by the server the response looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 214
+
+{
+  "message" : "The given Location name [INVALID_COORDINATE] is not valid",
+  "messageKey" : "owms.common.common.loc.invalidName",
+  "obj" : [ "INVALID_COORDINATE" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="location-findbycoordinate-wc"><a class="anchor" href="#location-findbycoordinate-wc"></a><a class="link" href="#location-findbycoordinate-wc">Find Location by Coordinate with Wildcards</a></h3>
+<div class="paragraph">
+<p>The API to search for <code>Locations</code> also accepts typical SQL wildcards in each part of the 5-tuple coordinate. Let&#8217;s assume one searches for
+all elevator <code>Locations</code> in the Flat Good area, a query could look like this</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?area=FGIN&amp;aisle=00__&amp;x=LIFT&amp;y=0000&amp;z=%25 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this case the Flat Good area has only 2 elevator positions and the server returns both</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.location-v1+json
+Content-Length: 838
+
+[ {
+  "links" : [ {
+    "rel" : "location-findbypkey",
+    "href" : "http://localhost:8080/v1/locations/798136030917"
+  } ],
+  "pKey" : "798136030917",
+  "locationId" : "FGIN/0001/LIFT/0000/0000",
+  "accountId" : "D",
+  "plcCode" : "PLC_0012",
+  "erpCode" : "ERP_0012",
+  "sortOrder" : 0,
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "type" : "FG",
+  "locationGroupName" : "FGAISLE1LIFT"
+}, {
+  "links" : [ {
+    "rel" : "location-findbypkey",
+    "href" : "http://localhost:8080/v1/locations/852306856430"
+  } ],
+  "pKey" : "852306856430",
+  "locationId" : "FGIN/0002/LIFT/0000/0000",
+  "accountId" : "D",
+  "plcCode" : "PLC_0015",
+  "erpCode" : "ERP_0015",
+  "sortOrder" : 0,
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "type" : "FG",
+  "locationGroupName" : "FGAISLE2LIFT"
+} ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the search query did not find any <code>Locations</code> the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This wildcard query API can also be used to find and return all existing <code>Locations</code> just by not passing any wildcard at all</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="location-findbyerpcode"><a class="anchor" href="#location-findbyerpcode"></a><a class="link" href="#location-findbyerpcode">Find Location by ERP code</a></h3>
+<div class="paragraph">
+<p>Send a HTTP <code>GET</code> request with the ERP code as query parameter to find a <code>Location</code> identified by this ERP code.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?erpCode=ERP_0030 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> exists the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.location-opt-v1+json
+Content-Length: 408
+
+{
+  "links" : [ {
+    "rel" : "location-findbypkey",
+    "href" : "http://localhost:8080/v1/locations/113646454019"
+  } ],
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "accountId" : "D",
+  "plcCode" : "PLC_0030",
+  "erpCode" : "ERP_0030",
+  "sortOrder" : 0,
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "type" : "FG",
+  "locationGroupName" : "ZILE"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="location-findbyplccode"><a class="anchor" href="#location-findbyplccode"></a><a class="link" href="#location-findbyplccode">Find Location by PLC code</a></h3>
+<div class="paragraph">
+<p>Send a HTTP <code>GET</code> request with the PLC code as query parameter to find a <code>Location</code> identified by this PLC code.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?plcCode=PLC_0030 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> exists the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.location-opt-v1+json
+Content-Length: 408
+
+{
+  "links" : [ {
+    "rel" : "location-findbypkey",
+    "href" : "http://localhost:8080/v1/locations/113646454019"
+  } ],
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "accountId" : "D",
+  "plcCode" : "PLC_0030",
+  "erpCode" : "ERP_0030",
+  "sortOrder" : 0,
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "type" : "FG",
+  "locationGroupName" : "ZILE"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no <code>Location</code> with the requested PLC code exists, the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/vnd.openwms.common.location-v1+json
+Content-Length: 205
+
+{
+  "message" : "Location with PLC code [NOT EXISTS] does not exist",
+  "messageKey" : "owms.common.common.loc.notFoundByPlcCode",
+  "obj" : [ "NOT EXISTS" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="location-forlocationgroup"><a class="anchor" href="#location-forlocationgroup"></a><a class="link" href="#location-forlocationgroup">Find Locations that belong to a LocationGroup</a></h3>
+<div class="paragraph">
+<p>Send a HTTP <code>GET</code> request with the name of a <code>LocationGroup</code> as query parameter to find all <code>Locations</code> that belong to this group.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationGroupNames=ZILE HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with the list of all <code>Locations</code> - the name of the <code>LocationGroup</code> is not validated.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.location-v1+json
+Content-Length: 822
+
+[ {
+  "links" : [ {
+    "rel" : "location-findbypkey",
+    "href" : "http://localhost:8080/v1/locations/171919359409"
+  } ],
+  "pKey" : "171919359409",
+  "locationId" : "INIT/0000/0000/0000/0000",
+  "accountId" : "D",
+  "plcCode" : "PLC_0029",
+  "erpCode" : "ERP_0029",
+  "sortOrder" : 0,
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "type" : "FG",
+  "locationGroupName" : "ZILE"
+}, {
+  "links" : [ {
+    "rel" : "location-findbypkey",
+    "href" : "http://localhost:8080/v1/locations/113646454019"
+  } ],
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "accountId" : "D",
+  "plcCode" : "PLC_0030",
+  "erpCode" : "ERP_0030",
+  "sortOrder" : 0,
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "type" : "FG",
+  "locationGroupName" : "ZILE"
+} ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no <code>Locations</code> exist that belong to the given <code>LocationGroup</code> the server responds:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.location-v1+json
+Content-Length: 3
+
+[ ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server accepts multiple <code>LocationGroup</code> names as request parameter to get a combined list of <code>Locations</code> that belong to groups with name
+<code>ZILE</code> and <code>FGRECEIVING</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationGroupNames=ZILE&amp;locationGroupNames=FGRECEIVING HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Returns</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.location-v1+json
+Content-Length: 1239
+
+[ {
+  "links" : [ {
+    "rel" : "location-findbypkey",
+    "href" : "http://localhost:8080/v1/locations/917262708951"
+  } ],
+  "pKey" : "917262708951",
+  "locationId" : "FGIN/CONV/IN__/0001/0000",
+  "accountId" : "D",
+  "plcCode" : "PLC_0003",
+  "erpCode" : "ERP_0003",
+  "sortOrder" : 0,
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "type" : "FG",
+  "locationGroupName" : "FGRECEIVING"
+}, {
+  "links" : [ {
+    "rel" : "location-findbypkey",
+    "href" : "http://localhost:8080/v1/locations/171919359409"
+  } ],
+  "pKey" : "171919359409",
+  "locationId" : "INIT/0000/0000/0000/0000",
+  "accountId" : "D",
+  "plcCode" : "PLC_0029",
+  "erpCode" : "ERP_0029",
+  "sortOrder" : 0,
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "type" : "FG",
+  "locationGroupName" : "ZILE"
+}, {
+  "links" : [ {
+    "rel" : "location-findbypkey",
+    "href" : "http://localhost:8080/v1/locations/113646454019"
+  } ],
+  "pKey" : "113646454019",
+  "locationId" : "EXT_/0000/0000/0000/0000",
+  "accountId" : "D",
+  "plcCode" : "PLC_0030",
+  "erpCode" : "ERP_0030",
+  "sortOrder" : 0,
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "type" : "FG",
+  "locationGroupName" : "ZILE"
+} ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Wildcards in the <code>LocationGroup</code> name are supported if only one <code>LocationGroup</code> name is provided:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/locations?locationGroupNames=IP%25 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response is a list of <code>Locations</code> that belong to a <code>LocationGroup</code> where the name starts with <code>IP</code> (matching the groups <code>IPOINT</code>,
+<code>IPOINT1</code> and <code>IPOINT2</code> in this example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.location-v1+json
+Content-Length: 828
+
+[ {
+  "links" : [ {
+    "rel" : "location-findbypkey",
+    "href" : "http://localhost:8080/v1/locations/439649733836"
+  } ],
+  "pKey" : "439649733836",
+  "locationId" : "FGIN/IPNT/0001/0000/0000",
+  "accountId" : "D",
+  "plcCode" : "PLC_0031",
+  "erpCode" : "ERP_0031",
+  "sortOrder" : 0,
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "type" : "FG",
+  "locationGroupName" : "IPOINT1"
+}, {
+  "links" : [ {
+    "rel" : "location-findbypkey",
+    "href" : "http://localhost:8080/v1/locations/227916500906"
+  } ],
+  "pKey" : "227916500906",
+  "locationId" : "FGIN/IPNT/0002/0000/0000",
+  "accountId" : "D",
+  "plcCode" : "PLC_0032",
+  "erpCode" : "ERP_0032",
+  "sortOrder" : 0,
+  "incomingActive" : true,
+  "outgoingActive" : true,
+  "plcState" : 0,
+  "type" : "FG",
+  "locationGroupName" : "IPOINT2"
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="location-changestate"><a class="anchor" href="#location-changestate"></a><a class="link" href="#location-changestate">Change a Location&#8217;s State</a></h3>
+<div class="paragraph">
+<p>Send a HTTP <code>PATCH</code> request with the persistent identifying key of the existing <code>Location</code> along with the new state decoded as <code>errorCode</code>
+request parameter.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/location/NOTEXISTS?op=change-state HTTP/1.1
+Content-Type: application/json
+Content-Length: 30
+Host: localhost:8080
+
+{
+  "errorCode" : "******00"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Location</code> with the given persistent key does not exist, the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 194
+
+{
+  "message" : "Location with ID [NOTEXISTS] does not exist",
+  "messageKey" : "owms.common.common.loc.notFoundByPKey",
+  "obj" : [ "NOTEXISTS" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>errorCode</code> contains a ternary error bitmap that decodes all state information. It is expected as 8-digit String with allowed symbols
+<code>*|0|1</code>. Each digit is assigned to one of the state attribute of the <code>Location</code> resp. <code>LocationGroup</code>:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Digit Position (RtL)</th>
+<th class="tableblock halign-left valign-top">Assigned attribute</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>0</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location.incomingActive</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>1</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location.outgoingActive</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>2</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location.groupStateIn</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2<sup>3</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location.groupStateOut</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The following table shows all accepted decodings of the <code>ErrorCodeVO.errorCode</code> String that is sent as part of the request body:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">ErrorCode String</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>********</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Content is ignored</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******00</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release Location for Inbound and Outbound operations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******01</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Inbound operation to the Location</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******10</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Outbound operation from the Location</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>******11</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lock Inbound and Outbound operation for the Location</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In this example a <code>Location</code> identified with the given persistent key is locked for Inbound operations with the following request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/location/113646454019?op=change-state HTTP/1.1
+Content-Type: application/json
+Content-Length: 30
+Host: localhost:8080
+
+{
+  "errorCode" : "*******1"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the server could lock the <code>Location</code> successfully the response looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Beside locking the <code>Location</code> for Inbound- and Outbound processing it is also possible to change the PLC state of the <code>Location</code> through
+this API. Therefore the <code>ErrorCodeVO</code> data structure contains a property <code>plcState</code> that can be set to a numeric integer value. Usually a
+PLC state of <code>0</code> means the <code>Location</code> is not blocked and available for any operation. A PLC may set the state to a value greater than 0 to
+signal an error occurred on the <code>Location</code>.</p>
+</div>
+<div class="paragraph">
+<p>Set the <code>plcState</code> to <code>31</code> (In terms of <a href="https://interface21-io.gitbook.io/osip">OSIP</a> this means <code>Location unexpected occupied</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/location/113646454019?op=change-state HTTP/1.1
+Content-Type: application/json
+Content-Length: 49
+Host: localhost:8080
+
+{
+  "errorCode" : "********",
+  "plcState" : 31
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the server could set the state successfully the response is</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Also both is possible in one request, changing the <code>Locations</code> state and the <code>plcState</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /v1/location/113646454019?op=change-state HTTP/1.1
+Content-Type: application/json
+Content-Length: 49
+Host: localhost:8080
+
+{
+  "errorCode" : "******11",
+  "plcState" : 31
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the server could set both states successfully the response is</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_locationtype"><a class="anchor" href="#_locationtype"></a><a class="link" href="#_locationtype">LocationType</a></h2>
+<h2 id="section-locationtype"><a class="anchor" href="#section-locationtype"></a><a class="link" href="#section-locationtype">LocationType</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A <code>LocationType</code> represents the type of a <code>Location</code>. Each <code>Location</code> must belong to one and only one specific <code>LocationType</code>. This type
-definition basically defined physical dimensions of the kind of <code>Location</code>. Usually <code>LocationTypes</code> are creared statically when a project
-is set up. Types may be changed, but not deleted at runtime, because every <code>Location</code> is assigned to one <code>LocationType</code>.</p>
+<p>A <code>LocationType</code> represents the type of a <code>Location</code>. Each <code>Location</code> must belong to one and only one specific <code>LocationType</code>. The type
+definition basically defines physical dimensions of all <code>Location`s of this type. Usually `LocationTypes</code> are created statically when a
+project is set up. Types may be changed, but not deleted at runtime, because every <code>Location</code> is assigned to one <code>LocationType</code> only.</p>
 </div>
 <div class="sect2">
-<h3 id="_find_all_existing_locationtypes"><a class="anchor" href="#_find_all_existing_locationtypes"></a><a class="link" href="#_find_all_existing_locationtypes">Find all existing LocationTypes</a></h3>
+<h3 id="loctype-index"><a class="anchor" href="#loctype-index"></a><a class="link" href="#loctype-index">LocationType Index</a></h3>
+<div class="paragraph">
+<p>The <code>LocationType</code> Index with all possible operations can be retrieved with the following GET request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/location-types/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response lists all the operations with a name and the corresponding href link:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 345
+
+{
+  "_links" : {
+    "location-types-findbypkey" : {
+      "href" : "http://localhost:8080/v1/location-types/pKey"
+    },
+    "location-types-findbytypename" : {
+      "href" : "http://localhost:8080/v1/location-types?typeName=typeName"
+    },
+    "location-types-findall" : {
+      "href" : "http://localhost:8080/v1/location-types"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="loctype-findbypkey"><a class="anchor" href="#loctype-findbypkey"></a><a class="link" href="#loctype-findbypkey">Find a LocationType by its Persistent Id (pKey)</a></h3>
+<div class="paragraph">
+<p>To query a <code>LocationType</code> by it&#8217;s technical persistent identifier, a <code>GET</code> request is send to the <code>LocationType</code> resource along with the
+<code>pKey</code> as part of the URI.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/location-types/326981811784 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with the existing <code>LocationType</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.location-type-v1+json
+Content-Length: 268
+
+{
+  "links" : [ {
+    "rel" : "location-types-findbypkey",
+    "href" : "http://localhost:8080/v1/location-types/326981811784"
+  } ],
+  "pKey" : "326981811784",
+  "type" : "FG",
+  "description" : "Flat Good Location",
+  "length" : 30,
+  "width" : 50,
+  "height" : 20
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The persistent technical key of the LocationType</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique natural key</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A descriptive text of the LocationType</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>length</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The typical length of a Location belonging to this type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>width</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The typical width of a Location belonging to this type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>height</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The typical height of a Location belonging to this type</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If no <code>LocationType</code> with the given <code>name</code> exists the response looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 193
+
+{
+  "message" : "LocationType with ID [UNKNOWN] does not exist",
+  "messageKey" : "owms.common.common.lt.notFoundByPKey",
+  "obj" : [ "UNKNOWN" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="loctype-findbytypename"><a class="anchor" href="#loctype-findbytypename"></a><a class="link" href="#loctype-findbytypename">Find a LocationType by its name</a></h3>
+<div class="paragraph">
+<p>To query a <code>LocationType</code> by it&#8217;s unique name, a <code>GET</code> request is send to the <code>LocationType</code> resource along with the <code>name</code> as query
+parameter.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/location-types?typeName=FG HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with the existing <code>LocationType</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.location-type-v1+json
+Content-Length: 268
+
+{
+  "links" : [ {
+    "rel" : "location-types-findbypkey",
+    "href" : "http://localhost:8080/v1/location-types/326981811784"
+  } ],
+  "pKey" : "326981811784",
+  "type" : "FG",
+  "description" : "Flat Good Location",
+  "length" : 30,
+  "width" : 50,
+  "height" : 20
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no <code>LocationType</code> with the given <code>name</code> exists the response looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="loctype-findall"><a class="anchor" href="#loctype-findall"></a><a class="link" href="#loctype-findall">Find all existing LocationTypes</a></h3>
 <div class="paragraph">
 <p>If a client wants to get a list of all existing <code>LocationTypes</code>, a simple <code>GET</code> request to the plural resource is required. Notice that no
-paging nor sorting is implemented in the API, because the expected retrieved data is less than hundred entries,</p>
+paging nor sorting is implemented in the API, because the expected retrieved data is less than a hundred entries.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2122,11 +2506,14 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 317
+Content-Type: application/vnd.openwms.common.location-type-v1+json
+Content-Length: 547
 
 [ {
-  "links" : [ ],
+  "links" : [ {
+    "rel" : "location-types-findbypkey",
+    "href" : "http://localhost:8080/v1/location-types/326981811784"
+  } ],
   "pKey" : "326981811784",
   "type" : "FG",
   "description" : "Flat Good Location",
@@ -2134,7 +2521,10 @@ Content-Length: 317
   "width" : 50,
   "height" : 20
 }, {
-  "links" : [ ],
+  "links" : [ {
+    "rel" : "location-types-findbypkey",
+    "href" : "http://localhost:8080/v1/location-types/404376159041"
+  } ],
   "pKey" : "404376159041",
   "type" : "PG",
   "description" : "Pallet Good Location",
@@ -2148,16 +2538,16 @@ Content-Length: 317
 </div>
 </div>
 <div class="sect1">
-<h2 id="_locationgroup"><a class="anchor" href="#_locationgroup"></a><a class="link" href="#_locationgroup">LocationGroup</a></h2>
+<h2 id="section-locationgroup"><a class="anchor" href="#section-locationgroup"></a><a class="link" href="#section-locationgroup">LocationGroup</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>A <code>LocationGroup</code> is used to group <code>Locations</code> with same characteristics or to define a warehouse area that can be seen as one cohesive
 block controlled by one single subsystem.</p>
 </div>
 <div class="sect2">
-<h3 id="_locationgroup_index"><a class="anchor" href="#_locationgroup_index"></a><a class="link" href="#_locationgroup_index">LocationGroup Index</a></h3>
+<h3 id="locationgroups-index"><a class="anchor" href="#locationgroups-index"></a><a class="link" href="#locationgroups-index">LocationGroup Index</a></h3>
 <div class="paragraph">
-<p>The index with all possible operations can be retrieved with the following GET request:</p>
+<p>The index with all possible operations on <code>LocationGroups</code> can be retrieved with a GET request</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2166,30 +2556,30 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The response lists all the operations with a name and the corresponding href link:</p>
+<p>The response lists all the operations with a name and the corresponding link</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 680
+Content-Length: 690
 
 {
   "_links" : {
-    "location-groups-findall" : {
-      "href" : "http://localhost:8080/v1/location-groups"
-    },
     "location-groups-findbyname" : {
       "href" : "http://localhost:8080/v1/location-groups?name=FOO"
     },
     "location-groups-findbynames" : {
       "href" : "http://localhost:8080/v1/location-groups?names=FOO&amp;names=BAR"
     },
-    "location-groups-changestate1" : {
-      "href" : "http://localhost:8080/v1/location-groups?name=FOO&amp;op=change-state&amp;op=change-state"
+    "location-groups-findall" : {
+      "href" : "http://localhost:8080/v1/location-groups"
     },
-    "location-groups-changestate2" : {
+    "location-groups-changestate" : {
       "href" : "http://localhost:8080/v1/location-group/UUID?op=change-state&amp;op=change-state&amp;statein=AVAILABLE&amp;stateout=NOT_AVAILABLE"
+    },
+    "location-groups-changestate-with-bitmap" : {
+      "href" : "http://localhost:8080/v1/location-groups?name=FOO&amp;op=change-state&amp;op=change-state"
     }
   }
 }</code></pre>
@@ -2197,9 +2587,205 @@ Content-Length: 680
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_all_locationgroups"><a class="anchor" href="#_find_all_locationgroups"></a><a class="link" href="#_find_all_locationgroups">Find all LocationGroups</a></h3>
+<h3 id="location-groups-findbyname"><a class="anchor" href="#location-groups-findbyname"></a><a class="link" href="#location-groups-findbyname">Find LocationGroup by Name</a></h3>
 <div class="paragraph">
-<p>To retrieve a list of all existing <code>LocationGroups</code> a client must send a GET request to the server:</p>
+<p>Send a HTTP <code>GET</code> request with the unique name of the <code>LocationGroup</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/location-groups?name=FGRECEIVING HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Request parameters:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The unique name of the LocationGroup</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If the <code>LocationGroup</code> exists the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 333
+
+{
+  "_links" : {
+    "parent" : {
+      "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+    }
+  },
+  "pKey" : "400335177633",
+  "name" : "FGRECEIVING",
+  "accountId" : "D",
+  "parentName" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The persistent technical key of the LocationGroup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique natural key</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>accountId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The Account identifier the LocationGroup is assigned to</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>parentName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the parent LocationGroup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>operationMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupStateIn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">State of infeed, controlled by the subsystem only</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupStateOut</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">State of outfeed, controlled by the subsystem only</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If the <code>LocationGroup</code> with the given name does not exist, the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 202
+
+{
+  "message" : "LocationGroup with name [NOT_EXISTS] does not exist",
+  "messageKey" : "owms.common.common.lg.notFoundByName",
+  "obj" : [ "NOT_EXISTS" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="location-groups-findbynames"><a class="anchor" href="#location-groups-findbynames"></a><a class="link" href="#location-groups-findbynames">Find multiple LocationGroups by Name</a></h3>
+<div class="paragraph">
+<p>Send a HTTP <code>GET</code> request with a list of unique <code>LocationGroup</code> names</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/location-groups?names=FGRECEIVING&amp;names=IPOINT HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Request parameters:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>names</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of unique names to identify the LocationGroups</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The server sends back a list of all <code>LocationGroups</code> or an empty list if no <code>LocationGroups</code> exist.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 653
+
+[ {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ],
+  "pKey" : "400335177633",
+  "name" : "FGRECEIVING",
+  "accountId" : "D",
+  "parentName" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
+  } ],
+  "pKey" : "166982377557",
+  "name" : "IPOINT",
+  "accountId" : "D",
+  "parentName" : "ZILE",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="location-groups-findall"><a class="anchor" href="#location-groups-findall"></a><a class="link" href="#location-groups-findall">Find all LocationGroups</a></h3>
+<div class="paragraph">
+<p>To retrieve a list of all existing <code>LocationGroups</code> a client must send a <code>GET</code> request to the server</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2208,7 +2794,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If no <code>LocationGroups</code> exist the returned array is empty otherwise the response looks like:</p>
+<p>If no <code>LocationGroups</code> exist the returned array is empty otherwise the response looks like</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2719,164 +3305,18 @@ Content-Length: 13716
 </div>
 </div>
 <div class="paragraph">
-<p>Each <code>LocationGroup</code> has a link to its parent <code>LocationGroup</code> except the root <code>LocationGroup</code> that has no parent. Notice the returned
-<code>Content-Type</code> is <code>application/hal+json</code> that enables support for hypermedia links.</p>
+<p>Each <code>LocationGroup</code> has a link to its parent <code>LocationGroup</code> except the root <code>LocationGroup</code> that doesn&#8217;t have that link.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_locationgroup_by_name"><a class="anchor" href="#_find_locationgroup_by_name"></a><a class="link" href="#_find_locationgroup_by_name">Find LocationGroup by Name</a></h3>
-<div class="paragraph">
-<p>Send a HTTP GET request with the unique name of the <code>LocationGroup</code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/location-groups?name=FGRECEIVING HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Request parameters:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The unique name of the LocationGroup</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>If the <code>LocationGroup</code> exists the server responds with</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 333
-
-{
-  "_links" : {
-    "parent" : {
-      "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
-    }
-  },
-  "pKey" : "400335177633",
-  "name" : "FGRECEIVING",
-  "accountId" : "D",
-  "parentName" : "FGAUTOMATIC",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the <code>LocationGroup</code> with the given name does not exist, the server responds with</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 202
-
-{
-  "message" : "LocationGroup with name [NOT_EXISTS] does not exist",
-  "messageKey" : "owms.common.common.lg.notFoundByName",
-  "obj" : [ "NOT_EXISTS" ],
-  "httpStatus" : "404",
-  "class" : "String"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_find_multiple_locationgroups_by_name"><a class="anchor" href="#_find_multiple_locationgroups_by_name"></a><a class="link" href="#_find_multiple_locationgroups_by_name">Find multiple LocationGroups by Name</a></h3>
-<div class="paragraph">
-<p>Send a HTTP GET request with a list of unique <code>LocationGroup</code> names.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/location-groups?names=FGRECEIVING&amp;names=IPOINT HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Request parameters:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>names</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A list of unique names to identiy the LocationGroups</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>The server sends back a list of all <code>LocationGroups</code> or an empty list if no <code>LocationGroups</code> exist.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 653
-
-[ {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
-  } ],
-  "pKey" : "400335177633",
-  "name" : "FGRECEIVING",
-  "accountId" : "D",
-  "parentName" : "FGAUTOMATIC",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
-  } ],
-  "pKey" : "166982377557",
-  "name" : "IPOINT",
-  "accountId" : "D",
-  "parentName" : "ZILE",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-} ]</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_change_a_locationgroups_state"><a class="anchor" href="#_change_a_locationgroups_state"></a><a class="link" href="#_change_a_locationgroups_state">Change a LocationGroup&#8217;s State</a></h3>
+<h3 id="location-groups-changestate"><a class="anchor" href="#location-groups-changestate"></a><a class="link" href="#location-groups-changestate">Change a LocationGroup&#8217;s State</a></h3>
 <div class="paragraph">
 <p>A <code>LocationGroup</code> has an inbound and an outbound state, sometimes also referred as infeed or outfeed state. Both states can be set to
 <code>AVAILABLE</code> or <code>NOT_AVAILABLE</code> independent from each other. Is a <code>LocationGroup</code> not available for infeed, then no transports towards this
 <code>LocationGroup</code> are created, similar is true for the outbound state.</p>
 </div>
 <div class="paragraph">
-<p>To change the state of a <code>LocationGroup</code> a <code>PATCH</code> request on the identified resource is accepted:</p>
+<p>To change the state of a <code>LocationGroup</code> a <code>PATCH</code> request on the identified resource is accepted</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2885,10 +3325,10 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Request path variables:</p>
+<p>Request path variables
+./v1/location-group/{pKey}</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /v1/location-group/{pKey}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2907,7 +3347,7 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <div class="paragraph">
-<p>Request parameters:</p>
+<p>Request parameters</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -2936,7 +3376,7 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <div class="paragraph">
-<p>If the state change operation could be processed successfully, the server responds with:</p>
+<p>If the state change operation could be processed successfully, the server responds with</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2944,27 +3384,13 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If the resource can&#8217;t be identified the server response looks like:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 202
-
-{
-  "message" : "LocationGroup with name [NOT_EXISTS] does not exist",
-  "messageKey" : "owms.common.common.lg.notFoundByName",
-  "obj" : [ "NOT_EXISTS" ],
-  "httpStatus" : "404",
-  "class" : "String"
-}</code></pre>
-</div>
+<p>If the resource can&#8217;t be identified the server response looks like:
+Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg/shall_change_state_pkey_404/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>Instead of passing both state values for inbound and outbound directly as query parameters it is also possible to encode the state into a
-8-digit bitmap field and pass it to the request. This is very handy when the subsystem (aka. PLC) sends an error bitmap to the server that
-can then directly passed to the API.</p>
+8-digit bitmap field and pass it with the request. This is very handy when the subsystem (aka. PLC) sends an error bitmap to the server that
+is directly passed to the API.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3015,7 +3441,7 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect1">
-<h2 id="_target"><a class="anchor" href="#_target"></a><a class="link" href="#_target">Target</a></h2>
+<h2 id="section-target"><a class="anchor" href="#section-target"></a><a class="link" href="#section-target">Target</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>A <code>Target</code> is a <code>Location</code> or a group of <code>Locations</code> (<code>LocationGroup</code>) where a <code>TransportUnit</code> may be sent to.</p>
@@ -3032,10 +3458,10 @@ inbound/outbound.</p>
 no longer process any commands or telegrams.</p>
 </div>
 <div class="sect2">
-<h3 id="_inboundoutbound_locking"><a class="anchor" href="#_inboundoutbound_locking"></a><a class="link" href="#_inboundoutbound_locking">Inbound/Outbound Locking</a></h3>
+<h3 id="targets-inbound-outbound-locking"><a class="anchor" href="#targets-inbound-outbound-locking"></a><a class="link" href="#targets-inbound-outbound-locking">Inbound/Outbound Locking</a></h3>
 <div class="paragraph">
-<p>Locking a <code>Target</code> for Inbound/Outbound operation is controlled with a HTTP POST request against the URI <code>/v1/targets/ALLOCATION_LOCK</code> with
-a set of query parameters.</p>
+<p>Locking a <code>Target</code> for Inbound/Outbound operation is controlled with a HTTP <code>POST</code> request against the URI <code>/v1/targets/ALLOCATION_LOCK</code>
+with a set of query parameters.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -3080,9 +3506,9 @@ a set of query parameters.</p>
 </tbody>
 </table>
 <div class="sect3">
-<h4 id="_lock_inbound_putaway_infeed"><a class="anchor" href="#_lock_inbound_putaway_infeed"></a><a class="link" href="#_lock_inbound_putaway_infeed">Lock Inbound (Putaway, Infeed)</a></h4>
+<h4 id="targets-inbound-lock"><a class="anchor" href="#targets-inbound-lock"></a><a class="link" href="#targets-inbound-lock">Lock Inbound (Putaway, Infeed)</a></h4>
 <div class="paragraph">
-<p>To lock a <code>Target</code> to be not considered in inbound, like Putaway, the server requires a HTTP POST request with the lock type
+<p>To lock a <code>Target</code> to be not considered in inbound, like Putaway, the server expects a HTTP <code>POST</code> request with the lock type
 <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
 </div>
 <div class="listingblock">
@@ -3093,9 +3519,9 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_lock_outbound_dispatching_allocation_outfeed"><a class="anchor" href="#_lock_outbound_dispatching_allocation_outfeed"></a><a class="link" href="#_lock_outbound_dispatching_allocation_outfeed">Lock Outbound (Dispatching, Allocation, Outfeed)</a></h4>
+<h4 id="targets-outbound-lock"><a class="anchor" href="#targets-outbound-lock"></a><a class="link" href="#targets-outbound-lock">Lock Outbound (Dispatching, Allocation, Outfeed)</a></h4>
 <div class="paragraph">
-<p>To lock a <code>Target</code> for outbound, like Allocation and Outfeed, the server requires a HTTP POST request with the lock type
+<p>To lock a <code>Target</code> for outbound, like Allocation and Outfeed, the server expects a HTTP <code>POST</code> request with the lock type
 <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
 </div>
 <div class="listingblock">
@@ -3106,9 +3532,9 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_lock_inbound_outbound"><a class="anchor" href="#_lock_inbound_outbound"></a><a class="link" href="#_lock_inbound_outbound">Lock Inbound &amp; Outbound</a></h4>
+<h4 id="targets-inbound-outbound-lock"><a class="anchor" href="#targets-inbound-outbound-lock"></a><a class="link" href="#targets-inbound-outbound-lock">Lock Inbound &amp; Outbound</a></h4>
 <div class="paragraph">
-<p>To lock a <code>Target</code> for inbound and outbound, like Putaway and Allocation, the server requires a HTTP POST request with the
+<p>To lock a <code>Target</code> for inbound and outbound, like Putaway and Allocation, the server expects a HTTP <code>POST</code> request with the
 lock type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
 </div>
 <div class="listingblock">
@@ -3119,9 +3545,9 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_release_lock"><a class="anchor" href="#_release_lock"></a><a class="link" href="#_release_lock">Release Lock</a></h4>
+<h4 id="targets-release-lock"><a class="anchor" href="#targets-release-lock"></a><a class="link" href="#targets-release-lock">Release Lock</a></h4>
 <div class="paragraph">
-<p>To release all locks on a <code>Target</code> and allow any inbound and outbound operation, the server requires a HTTP POST request with the lock
+<p>To release all locks on a <code>Target</code> and allow any inbound and outbound operation, the server expects a HTTP <code>POST</code> request with the lock
 type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
 </div>
 <div class="listingblock">
@@ -3144,7 +3570,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_locking_operational_processing"><a class="anchor" href="#_locking_operational_processing"></a><a class="link" href="#_locking_operational_processing">Locking Operational Processing</a></h3>
+<h3 id="targets-operational-locking"><a class="anchor" href="#targets-operational-locking"></a><a class="link" href="#targets-operational-locking">Locking Operational Processing</a></h3>
 <div class="paragraph">
 <p>A <code>Target</code> could also be locked for operation only but not for further Allocation. This means, the <code>Target</code> is active and looks available
 in warehouse counting and order allocation but is currently out-of-order and not ready to execute any (physical) operation. This is useful
@@ -3196,9 +3622,9 @@ for planned short term locks, where a <code>Target</code> is taken out of operat
 </tbody>
 </table>
 <div class="sect3">
-<h4 id="_lock_for_inbound_operations"><a class="anchor" href="#_lock_for_inbound_operations"></a><a class="link" href="#_lock_for_inbound_operations">Lock for inbound Operations</a></h4>
+<h4 id="targets-inbound-operational-lock"><a class="anchor" href="#targets-inbound-operational-lock"></a><a class="link" href="#targets-inbound-operational-lock">Lock for inbound Operations</a></h4>
 <div class="paragraph">
-<p>To lock a <code>Target</code> for inbound operations only, the server requires a HTTP POST request with the lock type
+<p>To lock a <code>Target</code> for inbound operations only, the server expects a HTTP <code>POST</code> request with the lock type
 <code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
 </div>
 <div class="listingblock">
@@ -3209,9 +3635,9 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_lock_for_outbound_operations"><a class="anchor" href="#_lock_for_outbound_operations"></a><a class="link" href="#_lock_for_outbound_operations">Lock for outbound Operations</a></h4>
+<h4 id="targets-outbound-operational-lock"><a class="anchor" href="#targets-outbound-operational-lock"></a><a class="link" href="#targets-outbound-operational-lock">Lock for outbound Operations</a></h4>
 <div class="paragraph">
-<p>To lock a <code>Target</code> for outbound operations only, the server requires a HTTP POST request with the lock type
+<p>To lock a <code>Target</code> for outbound operations only, the server expects a HTTP <code>POST</code> request with the lock type
 <code>type=OPERATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
 </div>
 <div class="listingblock">
@@ -3222,9 +3648,9 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_lock_inbound_outbound_operations"><a class="anchor" href="#_lock_inbound_outbound_operations"></a><a class="link" href="#_lock_inbound_outbound_operations">Lock inbound &amp; outbound Operations</a></h4>
+<h4 id="targets-inbound-outbound-operational-lock"><a class="anchor" href="#targets-inbound-outbound-operational-lock"></a><a class="link" href="#targets-inbound-outbound-operational-lock">Lock inbound &amp; outbound Operations</a></h4>
 <div class="paragraph">
-<p>To lock a <code>Target</code> for inbound and outbound operations, the server requires a HTTP POST request with the
+<p>To lock a <code>Target</code> for inbound and outbound operations, the server expects a HTTP <code>POST</code> request with the
 lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
 </div>
 <div class="listingblock">
@@ -3235,9 +3661,9 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_release_lock_2"><a class="anchor" href="#_release_lock_2"></a><a class="link" href="#_release_lock_2">Release Lock</a></h4>
+<h4 id="targets-release-operational-lock"><a class="anchor" href="#targets-release-operational-lock"></a><a class="link" href="#targets-release-operational-lock">Release Lock</a></h4>
 <div class="paragraph">
-<p>To release all operational locks on a <code>Target</code> and allow any inbound and outbound operation, the server requires a HTTP POST request with
+<p>To release all operational locks on a <code>Target</code> and allow any inbound and outbound operation, the server expects a HTTP <code>POST</code> request with
 the lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
 </div>
 <div class="listingblock">
@@ -3260,14 +3686,14 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_locking_unlocking_a_target_for_allocation_and_processing"><a class="anchor" href="#_locking_unlocking_a_target_for_allocation_and_processing"></a><a class="link" href="#_locking_unlocking_a_target_for_allocation_and_processing">Locking / Unlocking a Target for Allocation and Processing</a></h3>
+<h3 id="targets-processing-locking"><a class="anchor" href="#targets-processing-locking"></a><a class="link" href="#targets-processing-locking">Locking / Unlocking a Target for Allocation and Processing</a></h3>
 <div class="paragraph">
-<p>If a <code>Target</code> locked for operation it does not process and requests anymore. In case of a physical <code>Target</code>, like a Crane, no new movements
+<p>If a <code>Target</code> is locked for operation it does not process requests anymore. In case of a physical <code>Target</code>, like a Crane, no new movements
 are accepted and the Crane will stop working. This depends on the implemented Crane strategy. The Crane could stop immediately or after it
-finishes the current operation.</p>
+has finished the current operation.</p>
 </div>
 <div class="paragraph">
-<p>To permanently lock or unlock a <code>Target</code> for allocation <em>and</em> processing send a HTTP POST request with the name of the <code>Target</code> to the
+<p>To permanently lock or unlock a <code>Target</code> for allocation <em>and</em> processing send a HTTP <code>POST</code> request with the name of the <code>Target</code> to the
 server. Locking  the <code>Target</code> allows an optional flag to signal a re-allocation of already assigned movements and orders.</p>
 </div>
 <div class="paragraph">
@@ -3280,6 +3706,35 @@ orders.</p>
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Request parameters:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reallocation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>true</strong> to trigger an order re-allocation, or <strong>false</strong> if not</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The lock type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The operation mode</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>To unlock the same <code>Target</code> with name <code>IPOINT</code>:</p>
 </div>
@@ -3325,16 +3780,16 @@ Content-Length: 188
 </div>
 </div>
 <div class="sect1">
-<h2 id="_transportunit"><a class="anchor" href="#_transportunit"></a><a class="link" href="#_transportunit">TransportUnit</a></h2>
+<h2 id="section-transportunit"><a class="anchor" href="#section-transportunit"></a><a class="link" href="#section-transportunit">TransportUnit</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A TransportUnit is an item like a box, a toad, a bin or a pallet that is moved within a warehouse and can carry goods. Used as container to
-transport items like <code>LoadUnits</code>. It is moved between <code>Locations</code>.</p>
+<p>A TransportUnit is an item like a box, a toad, a bin or a pallet that is moved within a warehouse and can carry goods. It is moved between
+<code>Locations</code>.</p>
 </div>
 <div class="sect2">
-<h3 id="_transportunit_index"><a class="anchor" href="#_transportunit_index"></a><a class="link" href="#_transportunit_index">TransportUnit Index</a></h3>
+<h3 id="transportunits-index"><a class="anchor" href="#transportunits-index"></a><a class="link" href="#transportunits-index">TransportUnit Index</a></h3>
 <div class="paragraph">
-<p>The index with all possible operations can be retrieved with the following GET request:</p>
+<p>The index with all possible operations can be retrieved with the following <code>GET</code> request:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3349,10 +3804,16 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 958
+Content-Length: 1312
 
 {
   "_links" : {
+    "transport-unit-createtuwithbody" : {
+      "href" : "http://localhost:8080/v1/transport-units?bk=%7BtransportUnitBK%7D&amp;strict=true"
+    },
+    "transport-unit-createtuwithparams" : {
+      "href" : "http://localhost:8080/v1/transport-units?bk=%7BtransportUnitBK%7D&amp;actualLocation=%7BactualLocation%7D&amp;tut=%7BtransportUnitType%7D&amp;strict=true"
+    },
     "transport-unit-findbypkey" : {
       "href" : "http://localhost:8080/v1/transport-units/1"
     },
@@ -3380,13 +3841,13 @@ Content-Length: 958
 </div>
 </div>
 <div class="sect2">
-<h3 id="_create_a_transportunit"><a class="anchor" href="#_create_a_transportunit"></a><a class="link" href="#_create_a_transportunit">Create a TransportUnit</a></h3>
+<h3 id="transportunits-create"><a class="anchor" href="#transportunits-create"></a><a class="link" href="#transportunits-create">Create a TransportUnit</a></h3>
 <div class="paragraph">
-<p>Currently the API offers to variants to create a <code>TransportUnit</code>. Both require a HTTP POST request sent to the same context path but with
+<p>Currently the API offers two variants to create a <code>TransportUnit</code>. Both expect a HTTP <code>POST</code> request sent to the same context path but with
 different request parameters.</p>
 </div>
 <div class="paragraph">
-<p>The simplest way to create a <code>TransportUnit</code> is to just pass the mandatory fields of a <code>TransportUnit</code> to the API:</p>
+<p>The simplest way to create a <code>TransportUnit</code> is to just pass the mandatory fields of a <code>TransportUnit</code> to the API</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3425,20 +3886,31 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <div class="paragraph">
-<p>The server stores a <code>TransportUnit</code> instance with the given values and default values for other fields of the <code>TransportUnit</code>. The response
-contains a link to the newly created resource.</p>
+<p>The server stores a <code>TransportUnit</code> instance with the given values and default values for other fields. The response contains a link to the
+newly created resource as HTTP <code>Location</code> header attribute</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/6531889c-ccc9-4697-8adc-912202e96230/
-Content-Type: application/hal+json
-Content-Length: 851
+Location: http://localhost:8080/v1/transport-units/8dd788fe-4893-47f8-94e1-2b436f6e4bbe/
+Content-Type: application/vnd.openwms.transport-unit-v1+json
+Content-Length: 1256
 
 {
-  "pKey" : "6531889c-ccc9-4697-8adc-912202e96230",
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/v1/transport-units/8dd788fe-4893-47f8-94e1-2b436f6e4bbe"
+  }, {
+    "rel" : "transport-unit-type",
+    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+  }, {
+    "rel" : "actual-location",
+    "href" : "http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"
+  } ],
+  "pKey" : "8dd788fe-4893-47f8-94e1-2b436f6e4bbe",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
+    "links" : [ ],
     "pKey" : "113646454019",
     "locationId" : "EXT_/0000/0000/0000/0000",
     "accountId" : "D",
@@ -3453,6 +3925,7 @@ Content-Length: 851
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
+    "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
     "height" : "102",
@@ -3464,19 +3937,19 @@ Content-Length: 851
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2022-05-10T06:55:14Z",
-  "createDate" : "2022-05-10T06:55:14Z"
+  "actualLocationDate" : 1652280786540,
+  "createDate" : 1652280786541
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>In a second approach the client may pass the structure of the <code>TransportUnit</code> to create as request body to the API:</p>
+<p>In a second approach the client may pass the structure of the <code>TransportUnit</code> to create as request body to the API</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/transport-units?bk=00000000000000004710&amp;strict=false HTTP/1.1
 Content-Type: application/json
-Content-Length: 258
+Content-Length: 170
 Host: localhost:8080
 
 {
@@ -3486,11 +3959,7 @@ Host: localhost:8080
     "locationId" : "EXT_/0000/0000/0000/0000"
   },
   "transportUnitType" : {
-    "type" : "PALLET",
-    "description" : null,
-    "height" : null,
-    "width" : null,
-    "length" : null
+    "type" : "PALLET"
   }
 }</code></pre>
 </div>
@@ -3518,19 +3987,19 @@ Host: localhost:8080
 </tbody>
 </table>
 <div class="paragraph">
-<p>Like before the server responds with a link to the newly created resource as far as the operation succeeds.</p>
+<p>Like before the server responds with a link to the newly created resource as soon as the operation succeeds.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/e29dbca0-8a6d-446f-9520-463b65dab342/</code></pre>
+Location: http://localhost:8080/v1/transport-units/5243b635-82b1-49f6-86d2-7b09539428b9/</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Notice the <code>strict</code> attribute. When the client passes <code>true</code> as value for <code>strict</code> the server ensures there is no <code>TransportUnit</code> with the
-given business key. When the attribute is omitted or set to <code>false</code> no such validation happens and the reference to an already existing
-<code>TransportUnit</code> or the newly created is returned. If the API call fails because a <code>TransportUnit</code> with the given <code>Barcode</code> exists, the
-response looks like:</p>
+<p>Notice the <code>strict</code> attribute. When the client passes <code>true</code> as value the server ensures there that no <code>TransportUnit</code> with the given
+business key exists befor. When the attribute is omitted or set to <code>false</code> no such validation happens and the reference to an already
+existing <code>TransportUnit</code> or the newly created one is returned. If the API call fails because a <code>TransportUnit</code> with the given <code>Barcode</code>
+exists, the response looks like</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3548,7 +4017,7 @@ Content-Length: 223
 </div>
 </div>
 <div class="paragraph">
-<p>If the request is invalid or contains invalid fields the server responds with:</p>
+<p>If the request is invalid or contains invalid fields the server responds with</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3557,10 +4026,10 @@ Content-Length: 223
 </div>
 </div>
 <div class="sect2">
-<h3 id="_move_a_transportunit"><a class="anchor" href="#_move_a_transportunit"></a><a class="link" href="#_move_a_transportunit">Move a TransportUnit</a></h3>
+<h3 id="transportunits-move"><a class="anchor" href="#transportunits-move"></a><a class="link" href="#transportunits-move">Move a TransportUnit</a></h3>
 <div class="paragraph">
 <p>To move a <code>TransportUnit</code> from it&#8217;s current Location to a new Location, simply call the API with the identifying Barcode and the new
-Location where the <code>TransportUnit</code> shall be booked on.</p>
+Location where the <code>TransportUnit</code> shall be moved to.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3596,13 +4065,24 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 665
+Content-Type: application/vnd.openwms.transport-unit-v1+json
+Content-Length: 1035
 
 {
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/v1/transport-units/1"
+  }, {
+    "rel" : "transport-unit-type",
+    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+  }, {
+    "rel" : "actual-location",
+    "href" : "http://localhost:8080/v1/locations?locationId=FGIN%2F0001%2FLEFT%2F0000%2F0000"
+  } ],
   "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
+    "links" : [ ],
     "pKey" : "896384899357",
     "locationId" : "FGIN/0001/LEFT/0000/0000",
     "accountId" : "D",
@@ -3617,33 +4097,34 @@ Content-Length: 665
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
+    "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
     "height" : "102",
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-05-10T06:55:15Z",
-  "createDate" : "2022-05-10T06:55:15Z"
+  "actualLocationDate" : 1652280787801,
+  "createDate" : 1652280787728
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_modify_a_transportunit"><a class="anchor" href="#_modify_a_transportunit"></a><a class="link" href="#_modify_a_transportunit">Modify a TransportUnit</a></h3>
+<h3 id="transportunits-modify"><a class="anchor" href="#transportunits-modify"></a><a class="link" href="#transportunits-modify">Modify a TransportUnit</a></h3>
 <div class="paragraph">
 <p>Already existing <code>TransportUnits</code> can be modified by some degree. Not every attribute is allowed to change but most of the non-identifying
 ones can be changed. For example it is not foreseen to change the Barcode of an existing <code>TransportUnit</code>, nor the internal persistent key.
 The date when the <code>TransportUnit</code> has been recently moved is only changed together with the <code>actualLocation</code>.</p>
 </div>
 <div class="paragraph">
-<p>Send a HTTP PUT request to the server together with the <code>TransportUnit</code> as part of the request body.</p>
+<p>Send a HTTP <code>PUT</code> request to the server together with the <code>TransportUnit</code> as part of the request body</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /v1/transport-units?bk=00000000000000004711 HTTP/1.1
 Content-Type: application/json
-Content-Length: 311
+Content-Length: 223
 Host: localhost:8080
 
 {
@@ -3655,11 +4136,7 @@ Host: localhost:8080
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
-    "type" : "PL",
-    "description" : null,
-    "height" : null,
-    "width" : null,
-    "length" : null
+    "type" : "PL"
   }
 }</code></pre>
 </div>
@@ -3683,18 +4160,29 @@ Host: localhost:8080
 </tbody>
 </table>
 <div class="paragraph">
-<p>If the server saved the changes, the response contains the updated representation of the <code>TransportUnit</code>.</p>
+<p>If the server saved the changes, the response contains the updated representation of the <code>TransportUnit</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 665
+Content-Type: application/vnd.openwms.transport-unit-v1+json
+Content-Length: 1035
 
 {
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/v1/transport-units/1"
+  }, {
+    "rel" : "transport-unit-type",
+    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+  }, {
+    "rel" : "actual-location",
+    "href" : "http://localhost:8080/v1/locations?locationId=FGIN%2F0001%2FLEFT%2F0000%2F0000"
+  } ],
   "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
+    "links" : [ ],
     "pKey" : "896384899357",
     "locationId" : "FGIN/0001/LEFT/0000/0000",
     "accountId" : "D",
@@ -3709,19 +4197,20 @@ Content-Length: 665
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
+    "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
     "height" : "102",
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-05-10T06:55:15Z",
-  "createDate" : "2022-05-10T06:55:14Z"
+  "actualLocationDate" : 1652280786992,
+  "createDate" : 1652280786788
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>In case no <code>TransportUnit</code> with the Barcode exists the server returns an error:</p>
+<p>In case no <code>TransportUnit</code> with the Barcode exists the server returns an error</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3742,7 +4231,7 @@ Content-Length: 244
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_by_barcode"><a class="anchor" href="#_find_by_barcode"></a><a class="link" href="#_find_by_barcode">Find by Barcode</a></h3>
+<h3 id="transportunits-findbybarcode"><a class="anchor" href="#transportunits-findbybarcode"></a><a class="link" href="#transportunits-findbybarcode">Find by Barcode</a></h3>
 <div class="paragraph">
 <p>Find a <code>TransportUnit</code> by its unique <code>Barcode</code>.</p>
 </div>
@@ -3771,16 +4260,19 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <div class="paragraph">
-<p>If the <code>TransportUnit</code> has been found the server returns a JSON representation:</p>
+<p>If the <code>TransportUnit</code> has been found the server returns a JSON representation</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 921
+Content-Length: 1027
 
 {
   "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/v1/transport-units/1"
+  }, {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
   }, {
@@ -3805,19 +4297,20 @@ Content-Length: 921
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
+    "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
     "height" : "102",
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : 1652165715717,
-  "createDate" : 1652165715717
+  "actualLocationDate" : 1652280787496,
+  "createDate" : 1652280787496
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>In case a <code>TransportUnit</code> with the requested <code>Barcode</code> == <code>9999</code> does not exist the response looks like:</p>
+<p>In case a <code>TransportUnit</code> with the requested <code>Barcode</code> == <code>9999</code> does not exist the response looks like</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3842,52 +4335,15 @@ style, like it is left or right aligned and padded.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 921
-
-{
-  "links" : [ {
-    "rel" : "transport-unit-type",
-    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
-  }, {
-    "rel" : "actual-location",
-    "href" : "http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"
-  } ],
-  "pKey" : "1",
-  "barcode" : "00000000000000004711",
-  "actualLocation" : {
-    "links" : [ ],
-    "pKey" : "113646454019",
-    "locationId" : "EXT_/0000/0000/0000/0000",
-    "accountId" : "D",
-    "plcCode" : "PLC_0030",
-    "erpCode" : "ERP_0030",
-    "sortOrder" : 0,
-    "incomingActive" : true,
-    "outgoingActive" : true,
-    "plcState" : 0,
-    "type" : "FG",
-    "locationGroupName" : "ZILE"
-  },
-  "state" : "AVAILABLE",
-  "transportUnitType" : {
-    "type" : "PALLET",
-    "description" : "Euro pallet",
-    "height" : "102",
-    "width" : "80",
-    "length" : "120"
-  },
-  "actualLocationDate" : 1652165715313,
-  "createDate" : 1652165715313
-}</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-units?bk=4711 HTTP/1.1
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_by_multiple_barcodes"><a class="anchor" href="#_find_by_multiple_barcodes"></a><a class="link" href="#_find_by_multiple_barcodes">Find by multiple Barcodes</a></h3>
+<h3 id="transportunits-findbybarcodes"><a class="anchor" href="#transportunits-findbybarcodes"></a><a class="link" href="#transportunits-findbybarcodes">Find by multiple Barcodes</a></h3>
 <div class="paragraph">
-<p>Also multiple <code>Barcodes</code> can be passed to the API in order to search for multiple <code>TransportUnits</code>:</p>
+<p>Also multiple <code>Barcodes</code> can be passed to the API in order to search for multiple <code>TransportUnits</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3914,16 +4370,19 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <div class="paragraph">
-<p>This returns an array with the <code>TransportUnits</code> found:</p>
+<p>This returns an array with the <code>TransportUnits</code> found</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1887
+Content-Length: 2099
 
 [ {
   "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/v1/transport-units/1"
+  }, {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
   }, {
@@ -3948,16 +4407,20 @@ Content-Length: 1887
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
+    "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
     "height" : "102",
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-05-10T06:55:14Z",
-  "createDate" : "2022-05-10T06:55:14Z"
+  "actualLocationDate" : "2022-05-11T14:53:06Z",
+  "createDate" : "2022-05-11T14:53:06Z"
 }, {
   "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/v1/transport-units/2"
+  }, {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
   }, {
@@ -3982,20 +4445,21 @@ Content-Length: 1887
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
+    "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
     "height" : "102",
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-05-10T06:55:14Z",
-  "createDate" : "2022-05-10T06:55:14Z"
+  "actualLocationDate" : "2022-05-11T14:53:06Z",
+  "createDate" : "2022-05-11T14:53:06Z"
 } ]</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_transportunits_on_a_location"><a class="anchor" href="#_find_transportunits_on_a_location"></a><a class="link" href="#_find_transportunits_on_a_location">Find TransportUnits on a Location</a></h3>
+<h3 id="transportunits-findonlocation"><a class="anchor" href="#transportunits-findonlocation"></a><a class="link" href="#transportunits-findonlocation">Find TransportUnits on a Location</a></h3>
 <div class="paragraph">
 <p>Search and return all <code>TransportUnits</code> that are currently booked on a given <code>Location</code>.</p>
 </div>
@@ -4024,16 +4488,19 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <div class="paragraph">
-<p>The <code>TransportUnit</code> with <code>Barcode</code> == <code>00000000000000004712</code> is returned:</p>
+<p>The <code>TransportUnit</code> with <code>Barcode</code> == <code>00000000000000004712</code> is returned</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 946
+Content-Length: 1052
 
 [ {
   "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/v1/transport-units/2"
+  }, {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
   }, {
@@ -4058,24 +4525,25 @@ Content-Length: 946
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
+    "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
     "height" : "102",
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2022-05-10T06:55:16Z",
-  "createDate" : "2022-05-10T06:55:16Z"
+  "actualLocationDate" : "2022-05-11T14:53:07Z",
+  "createDate" : "2022-05-11T14:53:07Z"
 } ]</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_add_an_error_to_a_transportunit"><a class="anchor" href="#_add_an_error_to_a_transportunit"></a><a class="link" href="#_add_an_error_to_a_transportunit">Add an Error to a TransportUnit</a></h3>
+<h3 id="transportunits-adderror"><a class="anchor" href="#transportunits-adderror"></a><a class="link" href="#transportunits-adderror">Add an Error to a TransportUnit</a></h3>
 <div class="paragraph">
-<p>During the handling of <code>TransportUnits</code>, errors or failure situations may occur that make it necessary to store some kind of error message
+<p>During the handling of <code>TransportUnits</code>, errors or failure situations may occur that makes it necessary to store some kind of error message
 for further analysis. Therefore each <code>TransportUnit</code> has a history of error messages attached that can be populated with new messages. A
-client simple calls this API to store a new error message for an existing <code>TransportUnit</code>.</p>
+client simple calls an API to add a new error message to an existing <code>TransportUnit</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4106,27 +4574,27 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <div class="paragraph">
-<p>The server acknowledges the request and stores the error message asynchronously.</p>
+<p>The server acknowledges the request and stores the error message asynchronously</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_transportunittype"><a class="anchor" href="#_transportunittype"></a><a class="link" href="#_transportunittype">TransportUnitType</a></h2>
+<h2 id="section-transportunittype"><a class="anchor" href="#section-transportunittype"></a><a class="link" href="#section-transportunittype">TransportUnitType</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>A <code>TransportUnitType</code> is a type of a certain <code>TransportUnit</code>. Typically to store some static attributes of <code>TransportUnits</code>, such as the
-length, the height, or the weight of <code>TransportUnits</code>. It is possible to group and characterize <code>TransportUnits</code>.</p>
+length, the height, or the weight of <code>TransportUnits</code>. This way it is possible to group and characterize <code>TransportUnits</code>.</p>
 </div>
 <div class="sect2">
-<h3 id="_transportunittype_index"><a class="anchor" href="#_transportunittype_index"></a><a class="link" href="#_transportunittype_index">TransportUnitType Index</a></h3>
+<h3 id="transportunittypes-index"><a class="anchor" href="#transportunittypes-index"></a><a class="link" href="#transportunittypes-index">TransportUnitType Index</a></h3>
 <div class="paragraph">
-<p>The index with all possible operations can be retrieved with the following GET request:</p>
+<p>The index with all possible operations can be retrieved with the following <code>GET</code> request</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4135,16 +4603,19 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The response lists all the operations with a name and the corresponding href link:</p>
+<p>The response lists all the operations with a name and the corresponding link</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 265
+Content-Length: 388
 
 {
   "_links" : {
+    "transport-unit-types-findbypkey" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types/%7BpKey%7D"
+    },
     "transport-unit-types-findtransportunittype" : {
       "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
     },
@@ -4157,45 +4628,51 @@ Content-Length: 265
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_all_transportunittypes"><a class="anchor" href="#_find_all_transportunittypes"></a><a class="link" href="#_find_all_transportunittypes">Find all TransportUnitTypes</a></h3>
+<h3 id="transportunittypes-findbypkey"><a class="anchor" href="#transportunittypes-findbypkey"></a><a class="link" href="#transportunittypes-findbypkey">Find a TransportUnitType by Persistent Id (pKey)</a></h3>
 <div class="paragraph">
-<p>To retrieve a list of all existing <code>TransportUnitTypes</code> a client must send a GET request to the server:</p>
+<p>An existing <code>TransportUnitType</code> can be looked up by it&#8217;s persistent key (pKey)</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-unit-types HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-unit-types/1000 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The response contains all existing <code>TransportUnitTypes</code>:</p>
+<p>If the <code>TransportUnitType</code> exists the response is</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 232
+Content-Type: application/vnd.openwms.transport-unit-type-v1+json
+Content-Length: 187
 
-[ {
-  "type" : "PALLET",
-  "description" : "Euro pallet",
-  "height" : "102",
-  "width" : "80",
-  "length" : "120"
-}, {
-  "type" : "BIN",
-  "description" : "Plastic bins",
-  "height" : "102",
-  "width" : "80",
-  "length" : "120"
-} ]</code></pre>
+{"links":[{"rel":"self","href":"http://localhost:8080/v1/transport-unit-types/1000"}],"pKey":"1000","type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no <code>TransportUnitType</code> with the given pKey exist the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 199
+
+{
+  "message" : "TransportUnitType with ID [UNKNOWN] does not exist",
+  "messageKey" : "owms.common.common.tut.notFoundByPKey",
+  "obj" : [ "UNKNOWN" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_a_transportunittype_by_name"><a class="anchor" href="#_find_a_transportunittype_by_name"></a><a class="link" href="#_find_a_transportunittype_by_name">Find a TransportUnitType by Name</a></h3>
+<h3 id="transportunittypes-findbyname"><a class="anchor" href="#transportunittypes-findbyname"></a><a class="link" href="#transportunittypes-findbyname">Find a TransportUnitType by Name</a></h3>
 <div class="paragraph">
-<p>Each <code>TransportUnitType</code> has an unique name by that it can be identified. Query the resource with a <code>type</code> parameter:</p>
+<p>Each <code>TransportUnitType</code> has an unique name with that it can be identified. Query the resource with a <code>type</code> parameter</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4204,25 +4681,19 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If the <code>TransportUnitType</code> exists the response looks like:</p>
+<p>If the <code>TransportUnitType</code> exists the response looks like</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 114
+Content-Type: application/vnd.openwms.transport-unit-type-v1+json
+Content-Length: 187
 
-{
-  "type" : "PALLET",
-  "description" : "Euro pallet",
-  "height" : "102",
-  "width" : "80",
-  "length" : "120"
-}</code></pre>
+{"links":[{"rel":"self","href":"http://localhost:8080/v1/transport-unit-types/1000"}],"pKey":"1000","type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If no <code>TransportUnitType</code> with the given name exist the server sends a 404-NOT FOUND:</p>
+<p>If no <code>TransportUnitType</code> with the given name exist the server sends a <code>404-NOT FOUND</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4238,12 +4709,58 @@ Content-Length: 122
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="transportunittypes-findall"><a class="anchor" href="#transportunittypes-findall"></a><a class="link" href="#transportunittypes-findall">Find all TransportUnitTypes</a></h3>
+<div class="paragraph">
+<p>To retrieve a list of all existing <code>TransportUnitTypes</code> a client must send a <code>GET</code> request to the server</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /v1/transport-unit-types HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response contains all existing <code>TransportUnitTypes</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.transport-unit-type-v1+json
+Content-Length: 488
+
+[ {
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/v1/transport-unit-types/1000"
+  } ],
+  "pKey" : "1000",
+  "type" : "PALLET",
+  "description" : "Euro pallet",
+  "height" : "102",
+  "width" : "80",
+  "length" : "120"
+}, {
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/v1/transport-unit-types/1001"
+  } ],
+  "pKey" : "1001",
+  "type" : "BIN",
+  "description" : "Plastic bins",
+  "height" : "102",
+  "width" : "80",
+  "length" : "120"
+} ]</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-10 06:50:34 UTC
+Last updated 2022-05-11 14:41:15 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

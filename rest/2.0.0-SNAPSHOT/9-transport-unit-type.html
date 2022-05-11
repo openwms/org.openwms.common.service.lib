@@ -440,16 +440,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_transportunittype">TransportUnitType</h2>
+<h2 id="section-transportunittype">TransportUnitType</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>A <code>TransportUnitType</code> is a type of a certain <code>TransportUnit</code>. Typically to store some static attributes of <code>TransportUnits</code>, such as the
-length, the height, or the weight of <code>TransportUnits</code>. It is possible to group and characterize <code>TransportUnits</code>.</p>
+length, the height, or the weight of <code>TransportUnits</code>. This way it is possible to group and characterize <code>TransportUnits</code>.</p>
 </div>
 <div class="sect2">
-<h3 id="_transportunittype_index">TransportUnitType Index</h3>
+<h3 id="transportunittypes-index">TransportUnitType Index</h3>
 <div class="paragraph">
-<p>The index with all possible operations can be retrieved with the following GET request:</p>
+<p>The index with all possible operations can be retrieved with the following <code>GET</code> request</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -458,16 +458,19 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The response lists all the operations with a name and the corresponding href link:</p>
+<p>The response lists all the operations with a name and the corresponding link</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 265
+Content-Length: 388
 
 {
   "_links" : {
+    "transport-unit-types-findbypkey" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types/%7BpKey%7D"
+    },
     "transport-unit-types-findtransportunittype" : {
       "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
     },
@@ -480,45 +483,51 @@ Content-Length: 265
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_all_transportunittypes">Find all TransportUnitTypes</h3>
+<h3 id="transportunittypes-findbypkey">Find a TransportUnitType by Persistent Id (pKey)</h3>
 <div class="paragraph">
-<p>To retrieve a list of all existing <code>TransportUnitTypes</code> a client must send a GET request to the server:</p>
+<p>An existing <code>TransportUnitType</code> can be looked up by it&#8217;s persistent key (pKey)</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/transport-unit-types HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/transport-unit-types/1000 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The response contains all existing <code>TransportUnitTypes</code>:</p>
+<p>If the <code>TransportUnitType</code> exists the response is</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 232
+Content-Type: application/vnd.openwms.transport-unit-type-v1+json
+Content-Length: 187
 
-[ {
-  "type" : "PALLET",
-  "description" : "Euro pallet",
-  "height" : "102",
-  "width" : "80",
-  "length" : "120"
-}, {
-  "type" : "BIN",
-  "description" : "Plastic bins",
-  "height" : "102",
-  "width" : "80",
-  "length" : "120"
-} ]</code></pre>
+{"links":[{"rel":"self","href":"http://localhost:8080/v1/transport-unit-types/1000"}],"pKey":"1000","type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no <code>TransportUnitType</code> with the given pKey exist the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 199
+
+{
+  "message" : "TransportUnitType with ID [UNKNOWN] does not exist",
+  "messageKey" : "owms.common.common.tut.notFoundByPKey",
+  "obj" : [ "UNKNOWN" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_a_transportunittype_by_name">Find a TransportUnitType by Name</h3>
+<h3 id="transportunittypes-findbyname">Find a TransportUnitType by Name</h3>
 <div class="paragraph">
-<p>Each <code>TransportUnitType</code> has an unique name by that it can be identified. Query the resource with a <code>type</code> parameter:</p>
+<p>Each <code>TransportUnitType</code> has an unique name with that it can be identified. Query the resource with a <code>type</code> parameter</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -527,25 +536,19 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If the <code>TransportUnitType</code> exists the response looks like:</p>
+<p>If the <code>TransportUnitType</code> exists the response looks like</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 114
+Content-Type: application/vnd.openwms.transport-unit-type-v1+json
+Content-Length: 187
 
-{
-  "type" : "PALLET",
-  "description" : "Euro pallet",
-  "height" : "102",
-  "width" : "80",
-  "length" : "120"
-}</code></pre>
+{"links":[{"rel":"self","href":"http://localhost:8080/v1/transport-unit-types/1000"}],"pKey":"1000","type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If no <code>TransportUnitType</code> with the given name exist the server sends a 404-NOT FOUND:</p>
+<p>If no <code>TransportUnitType</code> with the given name exist the server sends a <code>404-NOT FOUND</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -561,12 +564,58 @@ Content-Length: 122
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="transportunittypes-findall">Find all TransportUnitTypes</h3>
+<div class="paragraph">
+<p>To retrieve a list of all existing <code>TransportUnitTypes</code> a client must send a <code>GET</code> request to the server</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/transport-unit-types HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response contains all existing <code>TransportUnitTypes</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.transport-unit-type-v1+json
+Content-Length: 488
+
+[ {
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/v1/transport-unit-types/1000"
+  } ],
+  "pKey" : "1000",
+  "type" : "PALLET",
+  "description" : "Euro pallet",
+  "height" : "102",
+  "width" : "80",
+  "length" : "120"
+}, {
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/v1/transport-unit-types/1001"
+  } ],
+  "pKey" : "1001",
+  "type" : "BIN",
+  "description" : "Plastic bins",
+  "height" : "102",
+  "width" : "80",
+  "length" : "120"
+} ]</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-10 06:50:34 UTC
+Last updated 2022-05-11 14:41:15 UTC
 </div>
 </div>
 </body>

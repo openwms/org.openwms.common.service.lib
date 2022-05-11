@@ -440,16 +440,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_locationgroup">LocationGroup</h2>
+<h2 id="section-locationgroup">LocationGroup</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>A <code>LocationGroup</code> is used to group <code>Locations</code> with same characteristics or to define a warehouse area that can be seen as one cohesive
 block controlled by one single subsystem.</p>
 </div>
 <div class="sect2">
-<h3 id="_locationgroup_index">LocationGroup Index</h3>
+<h3 id="locationgroups-index">LocationGroup Index</h3>
 <div class="paragraph">
-<p>The index with all possible operations can be retrieved with the following GET request:</p>
+<p>The index with all possible operations on <code>LocationGroups</code> can be retrieved with a GET request</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -458,30 +458,30 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The response lists all the operations with a name and the corresponding href link:</p>
+<p>The response lists all the operations with a name and the corresponding link</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 680
+Content-Length: 690
 
 {
   "_links" : {
-    "location-groups-findall" : {
-      "href" : "http://localhost:8080/v1/location-groups"
-    },
     "location-groups-findbyname" : {
       "href" : "http://localhost:8080/v1/location-groups?name=FOO"
     },
     "location-groups-findbynames" : {
       "href" : "http://localhost:8080/v1/location-groups?names=FOO&amp;names=BAR"
     },
-    "location-groups-changestate1" : {
-      "href" : "http://localhost:8080/v1/location-groups?name=FOO&amp;op=change-state&amp;op=change-state"
+    "location-groups-findall" : {
+      "href" : "http://localhost:8080/v1/location-groups"
     },
-    "location-groups-changestate2" : {
+    "location-groups-changestate" : {
       "href" : "http://localhost:8080/v1/location-group/UUID?op=change-state&amp;op=change-state&amp;statein=AVAILABLE&amp;stateout=NOT_AVAILABLE"
+    },
+    "location-groups-changestate-with-bitmap" : {
+      "href" : "http://localhost:8080/v1/location-groups?name=FOO&amp;op=change-state&amp;op=change-state"
     }
   }
 }</code></pre>
@@ -489,9 +489,205 @@ Content-Length: 680
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_all_locationgroups">Find all LocationGroups</h3>
+<h3 id="location-groups-findbyname">Find LocationGroup by Name</h3>
 <div class="paragraph">
-<p>To retrieve a list of all existing <code>LocationGroups</code> a client must send a GET request to the server:</p>
+<p>Send a HTTP <code>GET</code> request with the unique name of the <code>LocationGroup</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-groups?name=FGRECEIVING HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Request parameters:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The unique name of the LocationGroup</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If the <code>LocationGroup</code> exists the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 333
+
+{
+  "_links" : {
+    "parent" : {
+      "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+    }
+  },
+  "pKey" : "400335177633",
+  "name" : "FGRECEIVING",
+  "accountId" : "D",
+  "parentName" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The persistent technical key of the LocationGroup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique natural key</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>accountId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The Account identifier the LocationGroup is assigned to</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>parentName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the parent LocationGroup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>operationMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupStateIn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">State of infeed, controlled by the subsystem only</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupStateOut</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">State of outfeed, controlled by the subsystem only</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If the <code>LocationGroup</code> with the given name does not exist, the server responds with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 202
+
+{
+  "message" : "LocationGroup with name [NOT_EXISTS] does not exist",
+  "messageKey" : "owms.common.common.lg.notFoundByName",
+  "obj" : [ "NOT_EXISTS" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="location-groups-findbynames">Find multiple LocationGroups by Name</h3>
+<div class="paragraph">
+<p>Send a HTTP <code>GET</code> request with a list of unique <code>LocationGroup</code> names</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-groups?names=FGRECEIVING&amp;names=IPOINT HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Request parameters:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>names</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of unique names to identify the LocationGroups</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The server sends back a list of all <code>LocationGroups</code> or an empty list if no <code>LocationGroups</code> exist.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 653
+
+[ {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ],
+  "pKey" : "400335177633",
+  "name" : "FGRECEIVING",
+  "accountId" : "D",
+  "parentName" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
+  } ],
+  "pKey" : "166982377557",
+  "name" : "IPOINT",
+  "accountId" : "D",
+  "parentName" : "ZILE",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE"
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="location-groups-findall">Find all LocationGroups</h3>
+<div class="paragraph">
+<p>To retrieve a list of all existing <code>LocationGroups</code> a client must send a <code>GET</code> request to the server</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -500,7 +696,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If no <code>LocationGroups</code> exist the returned array is empty otherwise the response looks like:</p>
+<p>If no <code>LocationGroups</code> exist the returned array is empty otherwise the response looks like</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1011,164 +1207,18 @@ Content-Length: 13716
 </div>
 </div>
 <div class="paragraph">
-<p>Each <code>LocationGroup</code> has a link to its parent <code>LocationGroup</code> except the root <code>LocationGroup</code> that has no parent. Notice the returned
-<code>Content-Type</code> is <code>application/hal+json</code> that enables support for hypermedia links.</p>
+<p>Each <code>LocationGroup</code> has a link to its parent <code>LocationGroup</code> except the root <code>LocationGroup</code> that doesn&#8217;t have that link.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_locationgroup_by_name">Find LocationGroup by Name</h3>
-<div class="paragraph">
-<p>Send a HTTP GET request with the unique name of the <code>LocationGroup</code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-groups?name=FGRECEIVING HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Request parameters:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The unique name of the LocationGroup</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>If the <code>LocationGroup</code> exists the server responds with</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 333
-
-{
-  "_links" : {
-    "parent" : {
-      "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
-    }
-  },
-  "pKey" : "400335177633",
-  "name" : "FGRECEIVING",
-  "accountId" : "D",
-  "parentName" : "FGAUTOMATIC",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the <code>LocationGroup</code> with the given name does not exist, the server responds with</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 202
-
-{
-  "message" : "LocationGroup with name [NOT_EXISTS] does not exist",
-  "messageKey" : "owms.common.common.lg.notFoundByName",
-  "obj" : [ "NOT_EXISTS" ],
-  "httpStatus" : "404",
-  "class" : "String"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_find_multiple_locationgroups_by_name">Find multiple LocationGroups by Name</h3>
-<div class="paragraph">
-<p>Send a HTTP GET request with a list of unique <code>LocationGroup</code> names.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-groups?names=FGRECEIVING&amp;names=IPOINT HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Request parameters:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>names</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A list of unique names to identiy the LocationGroups</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>The server sends back a list of all <code>LocationGroups</code> or an empty list if no <code>LocationGroups</code> exist.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 653
-
-[ {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
-  } ],
-  "pKey" : "400335177633",
-  "name" : "FGRECEIVING",
-  "accountId" : "D",
-  "parentName" : "FGAUTOMATIC",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
-  } ],
-  "pKey" : "166982377557",
-  "name" : "IPOINT",
-  "accountId" : "D",
-  "parentName" : "ZILE",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-} ]</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_change_a_locationgroups_state">Change a LocationGroup&#8217;s State</h3>
+<h3 id="location-groups-changestate">Change a LocationGroup&#8217;s State</h3>
 <div class="paragraph">
 <p>A <code>LocationGroup</code> has an inbound and an outbound state, sometimes also referred as infeed or outfeed state. Both states can be set to
 <code>AVAILABLE</code> or <code>NOT_AVAILABLE</code> independent from each other. Is a <code>LocationGroup</code> not available for infeed, then no transports towards this
 <code>LocationGroup</code> are created, similar is true for the outbound state.</p>
 </div>
 <div class="paragraph">
-<p>To change the state of a <code>LocationGroup</code> a <code>PATCH</code> request on the identified resource is accepted:</p>
+<p>To change the state of a <code>LocationGroup</code> a <code>PATCH</code> request on the identified resource is accepted</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1177,10 +1227,10 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Request path variables:</p>
+<p>Request path variables
+./v1/location-group/{pKey}</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /v1/location-group/{pKey}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1199,7 +1249,7 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <div class="paragraph">
-<p>Request parameters:</p>
+<p>Request parameters</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1228,7 +1278,7 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <div class="paragraph">
-<p>If the state change operation could be processed successfully, the server responds with:</p>
+<p>If the state change operation could be processed successfully, the server responds with</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1236,27 +1286,13 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If the resource can&#8217;t be identified the server response looks like:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 202
-
-{
-  "message" : "LocationGroup with name [NOT_EXISTS] does not exist",
-  "messageKey" : "owms.common.common.lg.notFoundByName",
-  "obj" : [ "NOT_EXISTS" ],
-  "httpStatus" : "404",
-  "class" : "String"
-}</code></pre>
-</div>
+<p>If the resource can&#8217;t be identified the server response looks like:
+Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service/org.openwms.common.service/target/generated-snippets/lg/shall_change_state_pkey_404/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>Instead of passing both state values for inbound and outbound directly as query parameters it is also possible to encode the state into a
-8-digit bitmap field and pass it to the request. This is very handy when the subsystem (aka. PLC) sends an error bitmap to the server that
-can then directly passed to the API.</p>
+8-digit bitmap field and pass it with the request. This is very handy when the subsystem (aka. PLC) sends an error bitmap to the server that
+is directly passed to the API.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1309,7 +1345,7 @@ Host: localhost:8080
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-10 06:50:34 UTC
+Last updated 2022-05-11 14:41:15 UTC
 </div>
 </div>
 </body>
