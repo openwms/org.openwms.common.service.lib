@@ -25,8 +25,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 /**
- * A CommonAsyncConfiguration contains the modules asynchronous configuration that is
- * always active.
+ * A CommonAsyncConfiguration contains the microservice' asynchronous configuration that is activated on Spring Profile
+ * {@link SpringProfiles#ASYNCHRONOUS_PROFILE}.
  *
  * @author Heiko Scherrer
  */

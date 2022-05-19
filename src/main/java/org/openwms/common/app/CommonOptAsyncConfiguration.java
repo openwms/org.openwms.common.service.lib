@@ -61,7 +61,7 @@ import static org.ameba.LoggingCategories.BOOT;
 class CommonOptAsyncConfiguration {
 
     private static final Logger BOOT_LOGGER = LoggerFactory.getLogger(BOOT);
-    private static final String POISON_MESSAGE = "poison-message";
+    public static final String POISON_MESSAGE = "poison-message";
 
     @ConditionalOnExpression("'${owms.common.serialization}'=='json'")
     @Bean
@@ -111,7 +111,7 @@ class CommonOptAsyncConfiguration {
         return new TopicExchange(exchangeName, true, false);
     }
 
-    /*~ ------------ Commands ------------- */
+    /*~ ------------ Queues ------------- */
     @RefreshScope
     @Bean
     Queue commandsQueue(@Value("${owms.commands.common.tu.queue-name}") String queueName,

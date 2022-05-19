@@ -181,6 +181,8 @@ spring:
     discovery:
       enabled: false
   jpa:
+    hibernate:
+      ddl-auto: create
     properties:
       hibernate:
         hbm2ddl:

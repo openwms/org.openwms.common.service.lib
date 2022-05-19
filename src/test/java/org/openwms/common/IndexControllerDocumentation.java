@@ -70,5 +70,4 @@ class IndexControllerDocumentation {
                 .andDo(document("get-index", preprocessResponse(prettyPrint())))
         ;
     }
-
 }

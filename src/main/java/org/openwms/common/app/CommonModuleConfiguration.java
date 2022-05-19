@@ -33,6 +33,7 @@ import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCusto
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.MessageSource;
@@ -68,13 +69,14 @@ import java.util.Properties;
 @RefreshScope
 @EnableAspects(propagateRootCause = true)
 @EnableAspectJAutoProxy(proxyTargetClass = true)
+@EnableCaching
 @EnableConfigurationProperties
 @EnableIdentityAwareness
 @EnableSpringConfigured
 @EnableJpaAuditing
 @EnableJpaRepositories(basePackages = "org.openwms", repositoryFactoryBeanClass = EnversRevisionRepositoryFactoryBean.class)
 @EntityScan(basePackages = "org.openwms")
-@EnableMultiTenancy(enabled = false)
+@EnableMultiTenancy
 @EnableTransactionManagement
 public class CommonModuleConfiguration implements WebMvcConfigurer {
 
