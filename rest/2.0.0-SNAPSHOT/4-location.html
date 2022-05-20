@@ -601,16 +601,17 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/locations/62a58ae3-a27f-4e38-be67-1377fa564987/
+Location: http://localhost:8080/v1/locations/c54c68ee-c906-4309-92a8-88b1c1a526e8/
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 422
+Content-Length: 434
 
 {
   "links" : [ {
     "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/62a58ae3-a27f-4e38-be67-1377fa564987"
+    "href" : "http://localhost:8080/v1/locations/c54c68ee-c906-4309-92a8-88b1c1a526e8"
   } ],
-  "pKey" : "62a58ae3-a27f-4e38-be67-1377fa564987",
+  "ol" : 0,
+  "pKey" : "c54c68ee-c906-4309-92a8-88b1c1a526e8",
   "locationId" : "FGIN/PICK/WORK/0010/0000",
   "plcCode" : "PICK_20",
   "erpCode" : "PICK_10",
@@ -798,13 +799,14 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 425
+Content-Length: 437
 
 {
   "links" : [ {
     "rel" : "location-findbypkey",
     "href" : "http://localhost:8080/v1/locations/1000"
   } ],
+  "ol" : 1,
   "pKey" : "1000",
   "locationId" : "FGIN/CONV/0001/0000/0000",
   "accountId" : "A1",
@@ -917,13 +919,14 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 408
+Content-Length: 421
 
 {
   "links" : [ {
     "rel" : "location-findbypkey",
     "href" : "http://localhost:8080/v1/locations/113646454019"
   } ],
+  "ol" : 29,
   "pKey" : "113646454019",
   "locationId" : "EXT_/0000/0000/0000/0000",
   "accountId" : "D",
@@ -975,13 +978,14 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-opt-v1+json
-Content-Length: 408
+Content-Length: 421
 
 {
   "links" : [ {
     "rel" : "location-findbypkey",
     "href" : "http://localhost:8080/v1/locations/113646454019"
   } ],
+  "ol" : 29,
   "pKey" : "113646454019",
   "locationId" : "EXT_/0000/0000/0000/0000",
   "accountId" : "D",
@@ -1052,13 +1056,14 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 838
+Content-Length: 864
 
 [ {
   "links" : [ {
     "rel" : "location-findbypkey",
     "href" : "http://localhost:8080/v1/locations/798136030917"
   } ],
+  "ol" : 11,
   "pKey" : "798136030917",
   "locationId" : "FGIN/0001/LIFT/0000/0000",
   "accountId" : "D",
@@ -1075,6 +1080,7 @@ Content-Length: 838
     "rel" : "location-findbypkey",
     "href" : "http://localhost:8080/v1/locations/852306856430"
   } ],
+  "ol" : 14,
   "pKey" : "852306856430",
   "locationId" : "FGIN/0002/LIFT/0000/0000",
   "accountId" : "D",
@@ -1125,13 +1131,14 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-opt-v1+json
-Content-Length: 408
+Content-Length: 421
 
 {
   "links" : [ {
     "rel" : "location-findbypkey",
     "href" : "http://localhost:8080/v1/locations/113646454019"
   } ],
+  "ol" : 29,
   "pKey" : "113646454019",
   "locationId" : "EXT_/0000/0000/0000/0000",
   "accountId" : "D",
@@ -1165,13 +1172,14 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-opt-v1+json
-Content-Length: 408
+Content-Length: 421
 
 {
   "links" : [ {
     "rel" : "location-findbypkey",
     "href" : "http://localhost:8080/v1/locations/113646454019"
   } ],
+  "ol" : 29,
   "pKey" : "113646454019",
   "locationId" : "EXT_/0000/0000/0000/0000",
   "accountId" : "D",
@@ -1223,13 +1231,14 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 822
+Content-Length: 848
 
 [ {
   "links" : [ {
     "rel" : "location-findbypkey",
     "href" : "http://localhost:8080/v1/locations/171919359409"
   } ],
+  "ol" : 28,
   "pKey" : "171919359409",
   "locationId" : "INIT/0000/0000/0000/0000",
   "accountId" : "D",
@@ -1246,6 +1255,7 @@ Content-Length: 822
     "rel" : "location-findbypkey",
     "href" : "http://localhost:8080/v1/locations/113646454019"
   } ],
+  "ol" : 29,
   "pKey" : "113646454019",
   "locationId" : "EXT_/0000/0000/0000/0000",
   "accountId" : "D",
@@ -1289,13 +1299,14 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 1239
+Content-Length: 1277
 
 [ {
   "links" : [ {
     "rel" : "location-findbypkey",
     "href" : "http://localhost:8080/v1/locations/917262708951"
   } ],
+  "ol" : 2,
   "pKey" : "917262708951",
   "locationId" : "FGIN/CONV/IN__/0001/0000",
   "accountId" : "D",
@@ -1312,6 +1323,7 @@ Content-Length: 1239
     "rel" : "location-findbypkey",
     "href" : "http://localhost:8080/v1/locations/171919359409"
   } ],
+  "ol" : 28,
   "pKey" : "171919359409",
   "locationId" : "INIT/0000/0000/0000/0000",
   "accountId" : "D",
@@ -1328,6 +1340,7 @@ Content-Length: 1239
     "rel" : "location-findbypkey",
     "href" : "http://localhost:8080/v1/locations/113646454019"
   } ],
+  "ol" : 29,
   "pKey" : "113646454019",
   "locationId" : "EXT_/0000/0000/0000/0000",
   "accountId" : "D",
@@ -1359,13 +1372,14 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 828
+Content-Length: 854
 
 [ {
   "links" : [ {
     "rel" : "location-findbypkey",
     "href" : "http://localhost:8080/v1/locations/439649733836"
   } ],
+  "ol" : 30,
   "pKey" : "439649733836",
   "locationId" : "FGIN/IPNT/0001/0000/0000",
   "accountId" : "D",
@@ -1382,6 +1396,7 @@ Content-Length: 828
     "rel" : "location-findbypkey",
     "href" : "http://localhost:8080/v1/locations/227916500906"
   } ],
+  "ol" : 31,
   "pKey" : "227916500906",
   "locationId" : "FGIN/IPNT/0002/0000/0000",
   "accountId" : "D",
@@ -1587,7 +1602,7 @@ Host: localhost:8080
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-12 06:41:12 UTC
+Last updated 2022-05-20 06:56:56 UTC
 </div>
 </div>
 </body>

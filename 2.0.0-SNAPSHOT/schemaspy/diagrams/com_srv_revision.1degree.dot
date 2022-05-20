@@ -1,4 +1,4 @@
-// dot 2.43.0 on Linux 5.13.0-1022-azure
+// dot 2.43.0 on Linux 5.13.0-1023-azure
 // SchemaSpy rev Unknown
 digraph "oneDegreeRelationshipsDiagram" {
   graph [
@@ -41,6 +41,8 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="c_rev" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_rev</TD></TR>
       <TR><TD PORT="c_rev_type" COLSPAN="3" ALIGN="LEFT">c_rev_type</TD></TR>
       <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
+      <TR><TD PORT="c_created_by" COLSPAN="3" ALIGN="LEFT">c_created_by</TD></TR>
+      <TR><TD PORT="c_updated_by" COLSPAN="3" ALIGN="LEFT">c_updated_by</TD></TR>
       <TR><TD PORT="c_updated" COLSPAN="3" ALIGN="LEFT">c_updated</TD></TR>
       <TR><TD PORT="c_pid" COLSPAN="3" ALIGN="LEFT">c_pid</TD></TR>
       <TR><TD PORT="c_actual_location_date" COLSPAN="3" ALIGN="LEFT">c_actual_location_date</TD></TR>

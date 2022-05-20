@@ -500,9 +500,9 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-type-v1+json
-Content-Length: 187
+Content-Length: 194
 
-{"links":[{"rel":"self","href":"http://localhost:8080/v1/transport-unit-types/1000"}],"pKey":"1000","type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"}</code></pre>
+{"links":[{"rel":"self","href":"http://localhost:8080/v1/transport-unit-types/1000"}],"ol":0,"pKey":"1000","type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -542,9 +542,9 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-type-v1+json
-Content-Length: 187
+Content-Length: 194
 
-{"links":[{"rel":"self","href":"http://localhost:8080/v1/transport-unit-types/1000"}],"pKey":"1000","type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"}</code></pre>
+{"links":[{"rel":"self","href":"http://localhost:8080/v1/transport-unit-types/1000"}],"ol":0,"pKey":"1000","type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -582,13 +582,14 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-type-v1+json
-Content-Length: 488
+Content-Length: 512
 
 [ {
   "links" : [ {
     "rel" : "self",
     "href" : "http://localhost:8080/v1/transport-unit-types/1000"
   } ],
+  "ol" : 0,
   "pKey" : "1000",
   "type" : "PALLET",
   "description" : "Euro pallet",
@@ -600,6 +601,7 @@ Content-Length: 488
     "rel" : "self",
     "href" : "http://localhost:8080/v1/transport-unit-types/1001"
   } ],
+  "ol" : 0,
   "pKey" : "1001",
   "type" : "BIN",
   "description" : "Plastic bins",
@@ -615,7 +617,7 @@ Content-Length: 488
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-12 06:41:12 UTC
+Last updated 2022-05-20 06:56:56 UTC
 </div>
 </div>
 </body>

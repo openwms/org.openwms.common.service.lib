@@ -1,4 +1,4 @@
-// dot 2.43.0 on Linux 5.13.0-1022-azure
+// dot 2.43.0 on Linux 5.13.0-1023-azure
 // SchemaSpy rev Unknown
 digraph "oneDegreeRelationshipsDiagram" {
   graph [
@@ -41,6 +41,8 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="c_rev" COLSPAN="2" BGCOLOR="#bed1b8" ALIGN="LEFT">c_rev</TD><TD PORT="c_rev.type" ALIGN="LEFT">int8[19]</TD></TR>
       <TR><TD PORT="c_rev_type" COLSPAN="2" ALIGN="LEFT">c_rev_type</TD><TD PORT="c_rev_type.type" ALIGN="LEFT">int2[5]</TD></TR>
       <TR><TD PORT="c_created" COLSPAN="2" ALIGN="LEFT">c_created</TD><TD PORT="c_created.type" ALIGN="LEFT">timestamp[29,6]</TD></TR>
+      <TR><TD PORT="c_created_by" COLSPAN="2" ALIGN="LEFT">c_created_by</TD><TD PORT="c_created_by.type" ALIGN="LEFT">varchar[255]</TD></TR>
+      <TR><TD PORT="c_updated_by" COLSPAN="2" ALIGN="LEFT">c_updated_by</TD><TD PORT="c_updated_by.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_updated" COLSPAN="2" ALIGN="LEFT">c_updated</TD><TD PORT="c_updated.type" ALIGN="LEFT">timestamp[29,6]</TD></TR>
       <TR><TD PORT="c_pid" COLSPAN="2" ALIGN="LEFT">c_pid</TD><TD PORT="c_pid.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_actual_location_date" COLSPAN="2" ALIGN="LEFT">c_actual_location_date</TD><TD PORT="c_actual_location_date.type" ALIGN="LEFT">timestamp[29,6]</TD></TR>
