@@ -134,6 +134,7 @@ class LocationControllerDocumentation {
                         ),
                         responseFields(
                                 fieldWithPath("links[].*").ignored(),
+                                fieldWithPath("ol").ignored(),
                                 fieldWithPath("pKey").description("The persistent technical key of the Location"),
                                 fieldWithPath("locationId").description("Unique natural key"),
                                 fieldWithPath("plcCode").description("PLC code of the Location"),
@@ -222,6 +223,7 @@ class LocationControllerDocumentation {
                         ),
                         responseFields(
                                 fieldWithPath("links[].*").ignored(),
+                                fieldWithPath("ol").ignored(),
                                 fieldWithPath("pKey").description("The persistent technical key of the Location"),
                                 fieldWithPath("locationId").description("Unique natural key"),
                                 fieldWithPath("accountId").description("The ID of the Account, the Location is assigned to"),
