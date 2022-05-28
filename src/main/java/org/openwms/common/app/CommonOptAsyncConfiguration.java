@@ -174,7 +174,7 @@ class CommonOptAsyncConfiguration {
             @Value("${spring.application.name}") String applicationName,
             @Value("${owms.dead-letter.exchange-name:}") String exchangeName
     ) {
-        if (exchangeName == null || exchangeName.isEmpty()) {
+        if (exchangeName.isEmpty()) {
             return new DirectExchange("dle." + applicationName);
         }
         return new DirectExchange(exchangeName);
@@ -186,7 +186,7 @@ class CommonOptAsyncConfiguration {
             @Value("${spring.application.name}") String applicationName,
             @Value("${owms.dead-letter.queue-name:}") String queueName
     ) {
-        if (queueName == null || queueName.isEmpty()) {
+        if (queueName.isEmpty()) {
             return QueueBuilder.durable(applicationName + "-dl-queue").build();
         }
         return QueueBuilder.durable(queueName).build();
