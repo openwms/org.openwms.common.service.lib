@@ -114,10 +114,9 @@ class CommonOptAsyncConfiguration {
     /*~ ------------ Queues ------------- */
     @RefreshScope
     @Bean
-    Queue commandsQueue(@Value("${owms.commands.common.tu.queue-name}") String queueName,
-            @Value("${owms.common.dead-letter.exchange-name}") String exchangeName) {
+    Queue commandsQueue(@Value("${owms.commands.common.tu.queue-name}") String queueName, DirectExchange dlExchange) {
         return QueueBuilder.durable(queueName)
-                .withArgument("x-dead-letter-exchange", exchangeName)
+                .withArgument("x-dead-letter-exchange", dlExchange.getName())
                 .withArgument("x-dead-letter-routing-key", POISON_MESSAGE)
                 .build();
     }
@@ -143,10 +142,9 @@ class CommonOptAsyncConfiguration {
 
     @RefreshScope
     @Bean
-    Queue commonLocCommandsQueue(@Value("${owms.commands.common.loc.queue-name}") String queueName,
-                        @Value("${owms.common.dead-letter.exchange-name}") String exchangeName) {
+    Queue commonLocCommandsQueue(@Value("${owms.commands.common.loc.queue-name}") String queueName, DirectExchange dlExchange) {
         return QueueBuilder.durable(queueName)
-                .withArgument("x-dead-letter-exchange", exchangeName)
+                .withArgument("x-dead-letter-exchange", dlExchange.getName())
                 .withArgument("x-dead-letter-routing-key", POISON_MESSAGE)
                 .build();
     }
@@ -172,23 +170,37 @@ class CommonOptAsyncConfiguration {
     /* Dead Letter */
     @RefreshScope
     @Bean
-    DirectExchange dlExchange(@Value("${owms.common.dead-letter.exchange-name}") String exchangeName) {
+    DirectExchange dlExchange(
+            @Value("${spring.application.name}") String applicationName,
+            @Value("${owms.dead-letter.exchange-name:}") String exchangeName
+    ) {
+        if (exchangeName == null || exchangeName.isEmpty()) {
+            return new DirectExchange("dle." + applicationName);
+        }
         return new DirectExchange(exchangeName);
     }
 
     @RefreshScope
     @Bean
-    Queue dlQueue(@Value("${owms.common.dead-letter.queue-name}") String queueName) {
+    Queue dlQueue(
+            @Value("${spring.application.name}") String applicationName,
+            @Value("${owms.dead-letter.queue-name:}") String queueName
+    ) {
+        if (queueName == null || queueName.isEmpty()) {
+            return QueueBuilder.durable(applicationName + "-dl-queue").build();
+        }
         return QueueBuilder.durable(queueName).build();
     }
 
     @RefreshScope
     @Bean Binding dlBinding(
-            @Value("${owms.common.dead-letter.queue-name}") String queueName,
-            @Value("${owms.common.dead-letter.exchange-name}") String exchangeName) {
+            @Value("${spring.application.name}") String applicationName,
+            @Value("${owms.dead-letter.queue-name:}") String queueName,
+            @Value("${owms.dead-letter.exchange-name:}") String exchangeName
+    ) {
         return BindingBuilder
-                .bind(dlQueue(queueName))
-                .to(dlExchange(exchangeName))
+                .bind(dlQueue(applicationName, queueName))
+                .to(dlExchange(applicationName, exchangeName))
                 .with(POISON_MESSAGE);
     }
 }
