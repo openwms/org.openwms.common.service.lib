@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.transport.impl;
+package org.openwms.common.transport;
 
-import org.ameba.i18n.Translator;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -23,7 +22,6 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.openwms.common.location.LocationMapper;
-import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.api.TransportUnitVO;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
@@ -39,10 +37,6 @@ import java.util.List;
 @Mapper(uses = {LocationMapper.class, TransportUnitTypeMapper.class}, builder = @Builder(disableBuilder = true))
 public abstract class TransportUnitMapper {
 
-    @Autowired
-    private Translator translator;
-    @Autowired
-    private TransportUnitTypeRepository repository;
     @Autowired
     protected BarcodeGenerator barcodeGenerator;
 

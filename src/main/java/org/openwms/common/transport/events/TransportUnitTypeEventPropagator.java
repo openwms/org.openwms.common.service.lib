@@ -16,7 +16,7 @@
 package org.openwms.common.transport.events;
 
 import org.openwms.common.transport.TransportUnitType;
-import org.openwms.common.transport.impl.TransportUnitTypeMapper;
+import org.openwms.common.transport.TransportUnitTypeMapper;
 import org.openwms.core.SpringProfiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,17 +55,10 @@ class TransportUnitTypeEventPropagator {
     @TransactionalEventListener(fallbackExecution = true)
     public void onEvent(TransportUnitTypeEvent event) {
         switch (event.getType()) {
-            case CREATED:
-                amqpTemplate.convertAndSend(exchangeName, "tut.event.created", mapper.convertToMO((TransportUnitType) event.getSource()));
-                break;
-            case CHANGED:
-                amqpTemplate.convertAndSend(exchangeName, "tut.event.changed", mapper.convertToMO((TransportUnitType) event.getSource()));
-                break;
-            case DELETED:
-                amqpTemplate.convertAndSend(exchangeName, "tut.event.deleted", mapper.convertToMO((TransportUnitType) event.getSource()));
-                break;
-            default:
-                LOGGER.warn("TransportUnitTypeEvent [{}] not supported", event.getType());
+            case CREATED -> amqpTemplate.convertAndSend(exchangeName, "tut.event.created", mapper.convertToMO((TransportUnitType) event.getSource()));
+            case CHANGED -> amqpTemplate.convertAndSend(exchangeName, "tut.event.changed", mapper.convertToMO((TransportUnitType) event.getSource()));
+            case DELETED -> amqpTemplate.convertAndSend(exchangeName, "tut.event.deleted", mapper.convertToMO((TransportUnitType) event.getSource()));
+            default -> LOGGER.warn("TransportUnitTypeEvent [{}] not supported", event.getType());
         }
     }
 }

@@ -19,7 +19,6 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.http.MeasuredRestController;
 import org.openwms.common.SimpleLink;
 import org.openwms.common.transport.api.TransportUnitTypeVO;
-import org.openwms.common.transport.impl.TransportUnitTypeMapper;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;

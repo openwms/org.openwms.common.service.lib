@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.transport.impl;
+package org.openwms.common.transport;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.api.TransportUnitTypeVO;
 import org.openwms.common.transport.api.messages.TransportUnitTypeMO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ import java.util.List;
 public abstract class TransportUnitTypeMapper {
 
     @Autowired
-    private TransportUnitTypeRepository repository;
+    private TransportUnitTypeService service;
 
     @Mapping(target = "persistentKey", source = "vo.pKey")
     public abstract TransportUnitType convert(TransportUnitTypeVO vo);
@@ -46,6 +45,6 @@ public abstract class TransportUnitTypeMapper {
     public abstract List<TransportUnitTypeVO> convertToVO(List<TransportUnitType> eo);
 
     public TransportUnitType convert(String type) {
-        return repository.findByType(type).orElseGet(() -> TransportUnitType.newBuilder(type).build());
+        return service.findByType(type).orElseGet(() -> TransportUnitType.newBuilder(type).build());
     }
 }

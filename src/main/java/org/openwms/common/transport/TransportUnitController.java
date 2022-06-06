@@ -25,7 +25,6 @@ import org.openwms.common.transport.api.TransportApiConstants;
 import org.openwms.common.transport.api.TransportUnitVO;
 import org.openwms.common.transport.api.ValidationGroups;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
-import org.openwms.common.transport.impl.TransportUnitMapper;
 import org.openwms.core.SpringProfiles;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;

@@ -26,6 +26,7 @@ import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
 import org.openwms.common.transport.TransportUnit;
+import org.openwms.common.transport.TransportUnitMapper;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.TransportUnitState;
 import org.openwms.common.transport.TransportUnitType;
