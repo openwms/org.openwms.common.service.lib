@@ -16,6 +16,7 @@
 
     <logger name="com.github.dozermapper" level="ERROR"/>
     <logger name="com.netflix.discovery" level="OFF"/>
+    <logger name="org.ameba" level="WARN"/>
     <logger name="org.hibernate.boot.internal.InFlightMetadataCollectorImpl" level="ERROR"/>
     <logger name="org.hibernate.SQL" level="OFF"/>
     <logger name="org.hibernate.SQL_SLOW" level="OFF"/>

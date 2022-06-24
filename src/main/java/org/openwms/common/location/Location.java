@@ -107,8 +107,8 @@ public class Location extends Target implements Serializable {
 
     /** A {@code Location} can be assigned to a particular labels. */
     @Column(name="C_LABELS", length = STRING_LIST_LENGTH)
-    @Size(max = STRING_LIST_LENGTH)
     @Convert(converter = StringListConverter.class)
+    @Size(max = STRING_LIST_LENGTH)
     private List<String> labels;
 
     /** Maximum number of {@code TransportUnit}s allowed on the {@code Location}. */
