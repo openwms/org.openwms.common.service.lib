@@ -34,7 +34,7 @@ import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION_
  *
  * @author Heiko Scherrer
  */
-@FeignClient(name = "common-service", decode404 = true)
+@FeignClient(name = "common-service", decode404 = true, qualifiers = "locationGroupApi")
 public interface LocationGroupApi {
 
     /**
