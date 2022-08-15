@@ -26,7 +26,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A LocationType is the type of {@code Location}s with same characteristics.
+ * A LocationType defines a type of {@code Location}s with same characteristics.
  *
  * @author Heiko Scherrer
  * @GlossaryTerm

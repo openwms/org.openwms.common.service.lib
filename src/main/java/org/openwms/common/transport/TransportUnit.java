@@ -60,7 +60,7 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
  * A TransportUnit is a physical item like a box, a toad, a bin, a pallet etc., used as a container that is moved between warehouse
  * {@code Location}s and might carry goods or other items like {@code LoadUnit}s on top. A TransportUnit must have some kind of identifier,
  * like a physical Barcode, an RFID tag or others. There might be projects where TransportUnits are solely identified by virtual identifiers
- * and don't have physical identifiers.
+ * and don't have any physical identifiers. A TransportUnit may even carry other TransportUnits.
  *
  * @author Heiko Scherrer
  * @GlossaryTerm
