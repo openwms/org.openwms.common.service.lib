@@ -122,7 +122,7 @@ public interface LocationApi {
     List<LocationVO> findForLocationGroups(@RequestParam("locationGroupNames") List<String> locationGroupNames);
 
     /**
-     * Change the state of a a {@code Location}.
+     * Change the state of a {@code Location}.
      *
      * @param pKey The persistent key of the Location
      * @param errorCode The decoded state
@@ -132,6 +132,19 @@ public interface LocationApi {
     void changeState(
             @PathVariable(name = "pKey") String pKey,
             @RequestParam(name = "op") String op,
+            @RequestBody ErrorCodeVO errorCode
+    );
+
+    /**
+     * Change the state of a {@code Location}.
+     *
+     * @param locationId The business key of the Location
+     * @param errorCode The decoded state
+     */
+    @PatchMapping(value = API_LOCATION, params = "locationId")
+    @CacheEvict(cacheNames = "locations", allEntries = true)
+    void changeState(
+            @RequestParam(name = "locationId") String locationId,
             @RequestBody ErrorCodeVO errorCode
     );
 

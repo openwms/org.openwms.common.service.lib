@@ -166,6 +166,15 @@ public class LocationController extends AbstractWebController {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping(value = API_LOCATION, params = "locationId")
+    public ResponseEntity<Void> changeState(
+            @RequestParam(name = "locationId") String locationId,
+            @RequestBody ErrorCodeVO errorCode
+    ) {
+        locationService.changeState(LocationPK.fromString(locationId), errorCode);
+        return ResponseEntity.noContent().build();
+    }
+
     /**
      * Change the current {@code mode} a {@code Location}, identified by {@code erpCode}.
      *

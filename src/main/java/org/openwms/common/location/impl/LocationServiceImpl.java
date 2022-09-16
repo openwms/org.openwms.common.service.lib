@@ -115,6 +115,15 @@ class LocationServiceImpl implements LocationService {
         return repository.findByLocationId(locationId);
     }
 
+    private Location findByLocationPkOrThrow(LocationPK locationId) {
+        return repository.findByLocationId(locationId).orElseThrow(() -> new NotFoundException(
+                translator,
+                LOCATION_NOT_FOUND_BY_ID,
+                new Object[]{locationId},
+                locationId
+        ));
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -173,7 +182,10 @@ class LocationServiceImpl implements LocationService {
     @Measured
     public void changeState(@NotBlank String pKey, @NotNull ErrorCodeVO errorCode) {
         var location = findInternal(pKey);
+        changeStateInternal(location, errorCode);
+    }
 
+    private void changeStateInternal(Location location, ErrorCodeVO errorCode) {
         boolean changed = false;
         if (Optional.ofNullable(errorCode.getPlcState()).isPresent() && errorCode.getPlcState() != location.getPlcState()) {
             location.setPlcState(errorCode.getPlcState());
@@ -200,6 +212,16 @@ class LocationServiceImpl implements LocationService {
             // don't send twice only if one has changed
             ctx.publishEvent(LocationEvent.of(location, LocationEvent.LocationEventType.STATE_CHANGE));
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public void changeState(@NotNull LocationPK locationId, @NotNull ErrorCodeVO errorCode) {
+        var location = findByLocationPkOrThrow(locationId);
+        changeStateInternal(location, errorCode);
     }
 
     /**

@@ -115,6 +115,14 @@ public interface LocationService {
     void changeState(@NotBlank String pKey, @NotNull ErrorCodeVO errorCode);
 
     /**
+     * Change the infeed and outfeed state of a {@link Location} in respect of the according {@code LocationGroup}.
+     *
+     * @param bk The business key identifier of the Location to change
+     * @param errorCode Contains the error bitmap to encode the state
+     */
+    void changeState(@NotNull LocationPK bk, @NotNull ErrorCodeVO errorCode);
+
+    /**
      * Modify and update an existing {@link Location}.
      *
      * @param location Modified instance
