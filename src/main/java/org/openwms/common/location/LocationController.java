@@ -27,6 +27,8 @@ import org.openwms.common.location.api.ValidationGroups;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,7 +77,7 @@ public class LocationController extends AbstractWebController {
         this.translator = translator;
     }
 
-    @PostMapping(value = API_LOCATIONS, produces = LocationVO.MEDIA_TYPE)
+    @PostMapping(value = API_LOCATIONS)
     @Validated(ValidationGroups.Create.class)
     public ResponseEntity<LocationVO> createLocation(@Valid @RequestBody LocationVO location, HttpServletRequest req) {
         var created = locationService.create(mapper.convertVO(location));
@@ -83,31 +85,32 @@ public class LocationController extends AbstractWebController {
         addSelfLink(result);
         return ResponseEntity
                 .created(super.getLocationURIForCreatedResource(req, created.getPersistentKey()))
+                .header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE)
                 .body(result);
     }
 
-    @PutMapping(value = API_LOCATIONS, produces = LocationVO.MEDIA_TYPE)
+    @PutMapping(value = API_LOCATIONS)
     @Validated(ValidationGroups.Update.class)
     public ResponseEntity<LocationVO> updateLocation(@Valid @RequestBody LocationVO location) {
         var updated = locationService.save(mapper.convertVO(location));
         var result = mapper.convertToVO(updated);
         addSelfLink(result);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);
     }
 
-    @GetMapping(value = API_LOCATIONS + "/{pKey}", produces = LocationVO.MEDIA_TYPE)
+    @GetMapping(value = API_LOCATIONS + "/{pKey}")
     public ResponseEntity<LocationVO> findByPKey(@PathVariable("pKey") String pKey) {
         var location = locationService.findByPKey(pKey);
         var result = mapper.convertToVO(location);
         addSelfLink(result);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);
     }
 
     private void addSelfLink(LocationVO result) {
         result.add(linkTo(methodOn(LocationController.class).findByPKey(result.getpKey())).withRel("location-findbypkey"));
     }
 
-    @GetMapping(value = API_LOCATIONS, params = {"locationId"}, produces = LocationVO.MEDIA_TYPE)
+    @GetMapping(value = API_LOCATIONS, params = {"locationId"})
     public ResponseEntity<LocationVO> findByCoordinate(@RequestParam("locationId") String locationId) {
         if (!LocationPK.isValid(locationId)) {
             // here we need to throw an NFE because Feign needs to cast it into an Optional. IAE won't work!
@@ -122,18 +125,18 @@ public class LocationController extends AbstractWebController {
                 ));
         var result = mapper.convertToVO(location);
         addSelfLink(result);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);
     }
 
-    @GetMapping(value = API_LOCATIONS, params = {"erpCode"}, produces = LocationVO.MEDIA_TYPE)
+    @GetMapping(value = API_LOCATIONS, params = {"erpCode"})
     public ResponseEntity<LocationVO> findByErpCode(@RequestParam("erpCode") String erpCode) {
         var location = locationService.findByErpCode(erpCode).orElseThrow(() -> locationNotFound(erpCode));
         var result = mapper.convertToVO(location);
         addSelfLink(result);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);
     }
 
-    @GetMapping(value = API_LOCATIONS, params = {"plcCode"}, produces = LocationVO.MEDIA_TYPE)
+    @GetMapping(value = API_LOCATIONS, params = {"plcCode"})
     public ResponseEntity<LocationVO> findByPlcCode(@RequestParam("plcCode") String plcCode) {
         var location = locationService.findByPlcCode(plcCode)
                 .orElseThrow(() -> new NotFoundException(
@@ -144,16 +147,16 @@ public class LocationController extends AbstractWebController {
                 ));
         var result = mapper.convertToVO(location);
         addSelfLink(result);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);
     }
 
-    @GetMapping(value = API_LOCATIONS, params = {"locationGroupNames"}, produces = {LocationVO.MEDIA_TYPE, LocationVO.MEDIA_TYPE_OPT})
+    @GetMapping(value = API_LOCATIONS, params = {"locationGroupNames"})
     public ResponseEntity<List<LocationVO>> findForLocationGroups(
             @RequestParam("locationGroupNames") List<String> locationGroupNames) {
         var locations = locationService.findAllOf(locationGroupNames);
         var result = mapper.convertToVO(locations);
         result.forEach(this::addSelfLink);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);
     }
 
     @PatchMapping(value = API_LOCATION + "/{pKey}", params = "op=change-state")
@@ -166,7 +169,7 @@ public class LocationController extends AbstractWebController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping(value = API_LOCATION, params = "locationId")
+    @PatchMapping(value = API_LOCATION, params = {"locationId", "op=change-state"})
     public ResponseEntity<Void> changeState(
             @RequestParam(name = "locationId") String locationId,
             @RequestBody ErrorCodeVO errorCode
@@ -189,21 +192,21 @@ public class LocationController extends AbstractWebController {
             @RequestParam("mode") LockMode mode,
             @RequestParam(value = "plcState", required = false) Integer plcState
     ) {
-        Location location = locationService.findByErpCode(erpCode).orElseThrow(() -> locationNotFound(erpCode));
-        switch (type) {
-            case ALLOCATION_LOCK -> changeLocation(
+        var location = locationService.findByErpCode(erpCode).orElseThrow(() -> locationNotFound(erpCode));
+        if (type == LockType.ALLOCATION_LOCK) {
+            changeLocation(
                     mode,
                     location,
                     plcState,
                     (l, code) -> locationService.changeState(l.getPersistentKey(), code)
             );
-            case OPERATION_LOCK -> throw new UnsupportedOperationException("Changing the operation mode of Locations is currently not supported in the API");
-            default -> unsupportedOperation(type);
+        } else {
+            unsupportedOperation(type);
         }
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(value = API_LOCATIONS, produces = {LocationVO.MEDIA_TYPE, LocationVO.MEDIA_TYPE_OPT})
+    @GetMapping(API_LOCATIONS)
     public ResponseEntity<List<LocationVO>> findByCoordinate(
             @RequestParam(value = "area", required = false, defaultValue = "%") String area,
             @RequestParam(value = "aisle", required = false, defaultValue = "%") String aisle,
@@ -211,12 +214,12 @@ public class LocationController extends AbstractWebController {
             @RequestParam(value = "y", required = false, defaultValue = "%") String y,
             @RequestParam(value = "z", required = false, defaultValue = "%") String z
     ) {
-        LocationPK pk = LocationPK.of(area, aisle, x, y, z);
+        var pk = LocationPK.of(area, aisle, x, y, z);
         var result = mapper.convertToVO(locationService.findLocations(pk));
         result.forEach(this::addSelfLink);
         return result.isEmpty()
                 ? ResponseEntity.notFound().build()
-                : ResponseEntity.ok(result);
+                : ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);
     }
 
     @GetMapping(API_LOCATIONS + "/index")

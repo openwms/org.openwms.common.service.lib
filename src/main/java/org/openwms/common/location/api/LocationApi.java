@@ -141,7 +141,7 @@ public interface LocationApi {
      * @param locationId The business key of the Location
      * @param errorCode The decoded state
      */
-    @PatchMapping(value = API_LOCATION, params = "locationId")
+    @PatchMapping(value = API_LOCATION, params = {"locationId", "op=change-state"})
     @CacheEvict(cacheNames = "locations", allEntries = true)
     void changeState(
             @RequestParam(name = "locationId") String locationId,

@@ -21,7 +21,6 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
 import org.ameba.i18n.Translator;
 import org.openwms.common.CommonMessageCodes;
-import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationType;
 import org.openwms.common.transport.Rule;
 import org.openwms.common.transport.TransportUnitType;
@@ -42,7 +41,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.lang.String.format;
-import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND_BY_PKEY;
 import static org.openwms.common.CommonMessageCodes.TRANSPORT_UNIT_TYPE_NOT_FOUND_BY_PKEY;
 import static org.openwms.common.transport.events.TransportUnitTypeEvent.TransportUnitTypeEventType.CHANGED;
 import static org.openwms.common.transport.events.TransportUnitTypeEvent.TransportUnitTypeEventType.CREATED;
