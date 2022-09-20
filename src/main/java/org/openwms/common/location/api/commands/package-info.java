@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 /**
- * This package contains types for extension points and hooks (SPI - Service Provider Interface)
+ * This package contains command typed belonging to the public API.
  */
-package org.openwms.common.location.spi;
+package org.openwms.common.location.api.commands;

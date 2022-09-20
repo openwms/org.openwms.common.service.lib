@@ -487,7 +487,7 @@ class LocationControllerDocumentation {
         }
 
         @Test
-        void shall_olock_Location_INOUT() throws Exception {
+        void shall_alock_Location_INOUT() throws Exception {
             mockMvc.perform(post(API_LOCATIONS)
                             .queryParam("erpCode", TestData.LOCATION_ERP_CODE_EXT)
                             .queryParam("type", "ALLOCATION_LOCK")
@@ -497,6 +497,45 @@ class LocationControllerDocumentation {
             Location loc = service.findByErpCode(TestData.LOCATION_ERP_CODE_EXT).orElseThrow(NotFoundException::new);
             assertThat(loc.isInfeedBlocked()).isTrue();
             assertThat(loc.isOutfeedBlocked()).isTrue();
+        }
+
+        @Test
+        void shall_alock_Location_IN() throws Exception {
+            mockMvc.perform(post(API_LOCATIONS)
+                            .queryParam("erpCode", TestData.LOCATION_ERP_CODE_EXT)
+                            .queryParam("type", "ALLOCATION_LOCK")
+                            .queryParam("mode", "IN"))
+                    .andExpect(status().isNoContent())
+                    .andDo(document("loc-erpcode-lock-in"));
+            Location loc = service.findByErpCode(TestData.LOCATION_ERP_CODE_EXT).orElseThrow(NotFoundException::new);
+            assertThat(loc.isInfeedBlocked()).isTrue();
+            assertThat(loc.isOutfeedBlocked()).isFalse();
+        }
+
+        @Test
+        void shall_alock_Location_OUT() throws Exception {
+            mockMvc.perform(post(API_LOCATIONS)
+                            .queryParam("erpCode", TestData.LOCATION_ERP_CODE_EXT)
+                            .queryParam("type", "ALLOCATION_LOCK")
+                            .queryParam("mode", "OUT"))
+                    .andExpect(status().isNoContent())
+                    .andDo(document("loc-erpcode-lock-out"));
+            Location loc = service.findByErpCode(TestData.LOCATION_ERP_CODE_EXT).orElseThrow(NotFoundException::new);
+            assertThat(loc.isInfeedBlocked()).isFalse();
+            assertThat(loc.isOutfeedBlocked()).isTrue();
+        }
+
+        @Test
+        void shall_alock_Location_NONE() throws Exception {
+            mockMvc.perform(post(API_LOCATIONS)
+                            .queryParam("erpCode", TestData.LOCATION_ERP_CODE_EXT)
+                            .queryParam("type", "ALLOCATION_LOCK")
+                            .queryParam("mode", "NONE"))
+                    .andExpect(status().isNoContent())
+                    .andDo(document("loc-erpcode-lock"));
+            Location loc = service.findByErpCode(TestData.LOCATION_ERP_CODE_EXT).orElseThrow(NotFoundException::new);
+            assertThat(loc.isInfeedBlocked()).isFalse();
+            assertThat(loc.isOutfeedBlocked()).isFalse();
         }
 
         @Test
