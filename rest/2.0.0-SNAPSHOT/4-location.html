@@ -462,8 +462,8 @@ used in manual warehouses.</p>
 <div class="paragraph">
 <p>Multiple state properties with different meaning exist for a <code>Location</code>. The <code>plcState</code> is exclusively managed by the PLC in automatic
 warehouses. Any error signaled by the PLC are stored on this field with a value greater than 0. Two other state fields <code>incomingActive</code> and
-<code>outgoindActive</code> are used to control the material flow control of this <code>Location</code>. If <code>incomingActive</code> is set to <code>false</code>, the particular
-<code>Location</code> is not considered in Inbound activities, like Putaway. Whereas the <code>outgoindActive</code> can be set to <code>false</code> to lock Outbound
+<code>outgoingActive</code> are used to control the material flow control of this <code>Location</code>. If <code>incomingActive</code> is set to <code>false</code>, the particular
+<code>Location</code> is not considered in Inbound activities, like Putaway. Whereas the <code>outgoingActive</code> can be set to <code>false</code> to lock Outbound
 operations off this <code>Location</code>.</p>
 </div>
 <div class="paragraph">
@@ -602,17 +602,17 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/locations/5e18cfbb-4c3e-4249-96b2-833b700e08cf/
+Location: http://localhost:8080/v1/locations/41450c43-9565-4e54-a782-b750f2a826c1/
 Content-Type: application/vnd.openwms.common.location-v1+json
 Content-Length: 434
 
 {
   "links" : [ {
     "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/5e18cfbb-4c3e-4249-96b2-833b700e08cf"
+    "href" : "http://localhost:8080/v1/locations/41450c43-9565-4e54-a782-b750f2a826c1"
   } ],
   "ol" : 0,
-  "pKey" : "5e18cfbb-4c3e-4249-96b2-833b700e08cf",
+  "pKey" : "41450c43-9565-4e54-a782-b750f2a826c1",
   "locationId" : "FGIN/PICK/WORK/0010/0000",
   "plcCode" : "PICK_20",
   "erpCode" : "PICK_10",
@@ -1544,6 +1544,22 @@ Host: localhost:8080
 </div>
 </div>
 <div class="paragraph">
+<p>And in addition the <code>Location</code> can be identified by coordinate instead of pKey when the state shall be changed. Then the request could look
+like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /v1/location?locationId=EXT_/0000/0000/0000/0000&amp;op=change-state HTTP/1.1
+Content-Type: application/json
+Content-Length: 30
+Host: localhost:8080
+
+{
+  "errorCode" : "*******1"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
 <p>Beside locking the <code>Location</code> for Inbound- and Outbound processing it is also possible to change the PLC state of the <code>Location</code> through
 this API. Therefore the <code>ErrorCodeVO</code> data structure contains a property <code>plcState</code> that can be set to a numeric integer value. Usually a
 PLC state of <code>0</code> means the <code>Location</code> is not blocked and available for any operation. A PLC may set the state to a value greater than 0 to
@@ -1603,7 +1619,7 @@ Host: localhost:8080
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-09-20 20:47:10 UTC
+Last updated 2022-09-21 16:42:11 UTC
 </div>
 </div>
 </body>
