@@ -14,8 +14,8 @@ A `Location` can be a `Target` to send `TransportUnits` to, i.e. the target of a
 
 Multiple state properties with different meaning exist for a `Location`. The `plcState` is exclusively managed by the PLC in automatic
 warehouses. Any error signaled by the PLC are stored on this field with a value greater than 0. Two other state fields `incomingActive` and
-`outgoindActive` are used to control the material flow control of this `Location`. If `incomingActive` is set to `false`, the particular
-`Location` is not considered in Inbound activities, like Putaway. Whereas the `outgoindActive` can be set to `false` to lock Outbound
+`outgoingActive` are used to control the material flow control of this `Location`. If `incomingActive` is set to `false`, the particular
+`Location` is not considered in Inbound activities, like Putaway. Whereas the `outgoingActive` can be set to `false` to lock Outbound
 operations off this `Location`.
 
 The API allows to search for `Locations` and to mutate the `Locations` state.
@@ -187,6 +187,10 @@ include::{generated}/loc-state-in/http-request.adoc[]
 
 If the server could lock the `Location` successfully the response looks like
 include::{generated}/loc-state-in/http-response.adoc[]
+
+And in addition the `Location` can be identified by coordinate instead of pKey when the state shall be changed. Then the request could look
+like
+include::{generated}/loc-state-in-id/http-request.adoc[]
 
 Beside locking the `Location` for Inbound- and Outbound processing it is also possible to change the PLC state of the `Location` through
 this API. Therefore the `ErrorCodeVO` data structure contains a property `plcState` that can be set to a numeric integer value. Usually a
