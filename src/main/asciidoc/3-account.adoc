@@ -26,7 +26,7 @@ The server responds with the `Account` resource if it exists:
 include::{generated}/acc-find-byPKey/http-response.adoc[]
 include::{generated}/acc-find-byPKey/response-fields.adoc[]
 
-or with a `404-Not Found` if no `Account` with that persistent identifier exists:
+or with a `404-NOT FOUND` if no `Account` with that persistent identifier exists:
 include::{generated}/acc-find-byPKey404/http-response.adoc[]
 
 [[accounts-findbyidentifier]]
@@ -42,7 +42,7 @@ include::{generated}/acc-find-byIdentifier/http-request.adoc[]
 The server responds with the `Account` resource if it exists:
 include::{generated}/acc-find-byName/http-response.adoc[]
 
-or with a `404-Not Found` if no `Account` exists:
+or with a `404-NOT FOUND` if no `Account` exists:
 include::{generated}/acc-find-byName404/http-response.adoc[]
 
 [[accounts-finddefault]]
@@ -54,7 +54,7 @@ include::{generated}/acc-find-default/http-request.adoc[]
 The server sends back the `Account` resource if it exists
 include::{generated}/acc-find-default/http-response.adoc[]
 
-Otherwise a `404-Not Found` if it doesn't exist
+Otherwise a `404-NOT FOUND` if it doesn't exist
 include::{generated}/acc-find-default404/http-response.adoc[]
 
 [[accounts-findall]]
