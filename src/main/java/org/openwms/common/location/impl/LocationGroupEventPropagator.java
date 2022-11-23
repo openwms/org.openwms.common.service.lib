@@ -21,8 +21,9 @@ import org.openwms.common.location.LocationGroupMapper;
 import org.openwms.common.location.LocationMapper;
 import org.openwms.common.location.api.events.LocationEvent;
 import org.openwms.common.location.api.events.LocationGroupEvent;
-import org.openwms.common.location.api.messages.LocationGroupMO;
 import org.openwms.core.SpringProfiles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -46,6 +47,8 @@ import static org.ameba.system.ValidationUtil.validate;
 @Component
 class LocationGroupEventPropagator {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(LocationGroupEventPropagator.class);
+
     private final AmqpTemplate amqpTemplate;
     private final Validator validator;
     private final String exchangeName;
@@ -66,18 +69,28 @@ class LocationGroupEventPropagator {
         try {
             amqpTemplate.convertAndSend(exchangeName, "lg.event.boot", LocationGroupEvent.boot());
         } catch (Exception e) {
-            // Its fine if the event broker is not available on startup
+            // It is fine if the event broker is not available on startup
         }
     }
 
     @TransactionalEventListener(fallbackExecution = true)
     public void onEvent(LocationGroupEvent event) {
         switch (event.getType()) {
-            case CREATED -> amqpTemplate.convertAndSend(exchangeName, "lg.event.created", locationGroupMapper.convertToMO((LocationGroup) event.getSource()));
-            case CHANGED -> amqpTemplate.convertAndSend(exchangeName, "lg.event.changed", locationGroupMapper.convertToMO((LocationGroup) event.getSource()));
-            case DELETED -> amqpTemplate.convertAndSend(exchangeName, "lg.event.deleted", locationGroupMapper.convertToMO((LocationGroup) event.getSource()));
+            case CREATED -> {
+                LOGGER.info("LocationGroup successfully created [{}]", event.getSource());
+                amqpTemplate.convertAndSend(exchangeName, "lg.event.created", locationGroupMapper.convertToMO((LocationGroup) event.getSource()));
+            }
+            case CHANGED -> {
+                LOGGER.info("LocationGroup successfully modified [{}]", event.getSource());
+                amqpTemplate.convertAndSend(exchangeName, "lg.event.changed", locationGroupMapper.convertToMO((LocationGroup) event.getSource()));
+            }
+            case DELETED -> {
+                LOGGER.info("LocationGroup successfully deleted [{}]", event.getSource());
+                amqpTemplate.convertAndSend(exchangeName, "lg.event.deleted", locationGroupMapper.convertToMO((LocationGroup) event.getSource()));
+            }
             case STATE_CHANGE -> {
-                LocationGroupMO msg = locationGroupMapper.convertToMO((LocationGroup) event.getSource());
+                LOGGER.info("LocationGroup changed state [{}]", event.getSource());
+                var msg = locationGroupMapper.convertToMO((LocationGroup) event.getSource());
                 validate(validator, msg);
                 amqpTemplate.convertAndSend(exchangeName, "lg.event.state-changed", msg);
             }
@@ -88,20 +101,23 @@ class LocationGroupEventPropagator {
     @TransactionalEventListener(fallbackExecution = true)
     public void onLocationEvent(LocationEvent event) {
         switch (event.getType()) {
-            case CREATED:
+            case CREATED -> {
+                LOGGER.info("Location successfully created [{}]", event.getSource());
                 amqpTemplate.convertAndSend(exchangeName, "loc.event.created", locationMapper.convertToMO((Location) event.getSource()));
-                break;
-            case CHANGED:
+            }
+            case CHANGED -> {
+                LOGGER.info("Location successfully modified [{}]", event.getSource());
                 amqpTemplate.convertAndSend(exchangeName, "loc.event.changed", locationMapper.convertToMO((Location) event.getSource()));
-                break;
-            case DELETED:
+            }
+            case DELETED -> {
+                LOGGER.info("Location successfully deleted [{}]", event.getSource());
                 amqpTemplate.convertAndSend(exchangeName, "loc.event.deleted", locationMapper.convertToMO((Location) event.getSource()));
-                break;
-            case STATE_CHANGE:
+            }
+            case STATE_CHANGE -> {
+                LOGGER.info("Location changed state [{}]", event.getSource());
                 amqpTemplate.convertAndSend(exchangeName, "loc.event.state-changed", locationMapper.convertToMO((Location) event.getSource()));
-                break;
-            default:
-                throw new UnsupportedOperationException(format("LocationEvent [%s] currently not supported", event.getType()));
+            }
+            default -> throw new UnsupportedOperationException(format("LocationEvent [%s] currently not supported", event.getType()));
         }
     }
 }

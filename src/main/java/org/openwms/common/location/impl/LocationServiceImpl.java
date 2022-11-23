@@ -81,13 +81,15 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public @NotNull Location create(@NotNull @Valid Location location) {
-        Optional<Location> locationOpt = repository.findByLocationId(location.getLocationId());
+        var locationOpt = repository.findByLocationId(location.getLocationId());
         if (location.hasLocationId() && locationOpt.isPresent()) {
             throw new ResourceExistsException(translator, LOCATION_ID_EXISTS,
                     new Serializable[]{location.getLocationId()},
                     location.getLocationId());
         }
-        return repository.save(location);
+        var created = repository.save(location);
+        ctx.publishEvent(LocationEvent.of(created, LocationEvent.LocationEventType.CREATED));
+        return created;
     }
 
     /**
@@ -192,7 +194,7 @@ class LocationServiceImpl implements LocationService {
             LOGGER.info("PLC state of location [{}] has been updated to [{}]", location.getLocationId(), errorCode.getPlcState());
             changed = true;
         }
-        Optional<Boolean> infeedAvailable = stateInTransformer.available(errorCode.getErrorCode());
+        var infeedAvailable = stateInTransformer.available(errorCode.getErrorCode());
         if (infeedAvailable.isPresent() &&
                 //location.getLocationGroup().isInfeedAllowed() &&
                 !infeedAvailable.get().equals(location.isInfeedActive())) {
@@ -200,7 +202,7 @@ class LocationServiceImpl implements LocationService {
             LOGGER.info("Incoming active of location [{}] has been updated to [{}]", location.getLocationId(), infeedAvailable.get());
             changed = true;
         }
-        Optional<Boolean> outfeedAvailable = stateOutTransformer.available(errorCode.getErrorCode());
+        var outfeedAvailable = stateOutTransformer.available(errorCode.getErrorCode());
         if (outfeedAvailable.isPresent() &&
                 //location.getLocationGroup().isOutfeedAllowed() &&
                 !outfeedAvailable.get().equals(location.isOutfeedActive())) {
@@ -230,7 +232,7 @@ class LocationServiceImpl implements LocationService {
     @Override
     @Measured
     public @NotNull List<Location> findLocations(@NotNull LocationPK locationPK) {
-        List<Location> result = repository.findByLocationIdContaining(locationPK);
+        var result = repository.findByLocationIdContaining(locationPK);
         return result == null ? Collections.emptyList() : result;
     }
 
