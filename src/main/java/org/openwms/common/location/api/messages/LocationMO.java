@@ -28,36 +28,36 @@ import java.io.Serializable;
  */
 public record LocationMO (
 
-        /** The persistent key of the {@code Location}. */
+        /* The persistent key of the {@code Location}. */
         @NotEmpty(groups = ValidationGroups.SetLocationEmpty.class)
         @JsonProperty("pKey")
         String pKey,
 
-        /** The accountId the {@code Location} belongs to. */
+        /* The accountId the {@code Location} belongs to. */
         @JsonProperty("accountId")
         String accountId,
 
-        /** The business key of the {@code Location}. */
+        /* The business key of the {@code Location}. */
         @JsonProperty("id")
         String id,
 
-        /** PLC code of the {@code Location}. */
+        /* PLC code of the {@code Location}. */
         @JsonProperty("plcCode")
         String plcCode,
 
-        /** ERP code of the {@code Location}. */
+        /* ERP code of the {@code Location}. */
         @JsonProperty("erpCode")
         String erpCode,
 
-        /** If the {@code Location} is available for inbound operations. */
+        /* If the {@code Location} is available for inbound operations. */
         @JsonProperty("incomingActive")
         Boolean incomingActive,
 
-        /** If the {@code Location} is available for outbound operations. */
+        /* If the {@code Location} is available for outbound operations. */
         @JsonProperty("outgoingActive")
         Boolean outgoingActive,
 
-        /** The PLC state - '0' means not locked for any operation. */
+        /* The PLC state - '0' means not locked for any operation. */
         @JsonProperty("plcState")
         Integer plcState
 
