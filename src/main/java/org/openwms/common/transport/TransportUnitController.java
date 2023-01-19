@@ -48,7 +48,6 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static org.openwms.common.CommonMessageCodes.TU_BARCODE_MISSING;
 import static org.openwms.common.CommonMessageCodes.TU_EXISTS;
-import static org.openwms.common.location.LocationPK.fromString;
 import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPORT_UNIT;
 import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPORT_UNITS;
 import static org.openwms.common.transport.api.TransportUnitVO.MEDIA_TYPE;
@@ -188,7 +187,7 @@ public class TransportUnitController extends AbstractWebController {
             @RequestParam("newLocation") String newLocation
     ) {
         return ResponseEntity.ok(
-                convertAndLinks(service.moveTransportUnit(barcodeGenerator.convert(transportUnitBK), fromString(newLocation)))
+                convertAndLinks(service.moveTransportUnit(barcodeGenerator.convert(transportUnitBK), newLocation))
         );
     }
 

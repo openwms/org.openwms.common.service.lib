@@ -223,18 +223,24 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @SuppressWarnings("javasecurity:S5145")
     @Override
     @Measured
-    public @NotNull TransportUnit moveTransportUnit(@NotNull Barcode barcode, @NotNull LocationPK targetLocationPK) {
+    public @NotNull TransportUnit moveTransportUnit(@NotNull Barcode barcode, @NotBlank String targetLocation) {
         var transportUnit = findByBarcodeInternal(barcode);
         var previousLocation = transportUnit.getActualLocation();
-        if (previousLocation.getLocationId().equals(targetLocationPK)) {
-            LOGGER.debug("TransportUnit [{}] is already booked on Location [{}]", barcode, targetLocationPK);
+
+        var target = LocationPK.isValid(targetLocation)
+                ? locationService.findByLocationPk(LocationPK.fromString(targetLocation))
+                .orElseThrow(() -> new NotFoundException(format("No Location with LocationPk [%s] found", LocationPK.fromString(targetLocation))))
+                : locationService.findByErpCode(targetLocation).orElseGet(() -> locationService.findByPlcCode(targetLocation)
+                .orElseThrow(() -> new NotFoundException(format("No Location with LocationPk [%s] found", LocationPK.fromString(targetLocation)))));
+
+        if (previousLocation.getLocationId().equals(target.getLocationId())) {
+            LOGGER.debug("TransportUnit [{}] is already booked on Location [{}]", barcode, target.getLocationId());
             return transportUnit;
         }
-        transportUnit.setActualLocation(locationService.findByLocationPk(targetLocationPK)
-                .orElseThrow(() -> new NotFoundException(format("No Location with LocationPk [%s] found", targetLocationPK))));
+        transportUnit.setActualLocation(target);
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Moving TransportUnit with barcode [{}] from Location [{}] to Location [{}]", barcode, previousLocation,
-                    targetLocationPK);
+                    target.getLocationId());
         }
         var saved = repository.save(transportUnit);
         publisher.publishEvent(

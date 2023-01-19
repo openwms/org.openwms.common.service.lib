@@ -16,15 +16,14 @@
 package org.openwms.common.transport.commands;
 
 import org.ameba.annotation.TxService;
-import org.openwms.common.location.LocationPK;
 import org.openwms.common.transport.TransportUnit;
+import org.openwms.common.transport.TransportUnitMapper;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.TransportUnitState;
 import org.openwms.common.transport.api.ValidationGroups;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
-import org.openwms.common.transport.TransportUnitMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -70,7 +69,7 @@ class TransportUnitCommandHandler {
                             command.getTransportUnit().getActualLocation());
                 }
                 service.moveTransportUnit(generator.convert(command.getTransportUnit().getBarcode()),
-                        LocationPK.fromString(command.getTransportUnit().getActualLocation().id()));
+                        command.getTransportUnit().getActualLocation().id());
                 break;
             case CHANGE_TARGET:
                 validate(validator, command, ValidationGroups.TransportUnit.ChangeTarget.class);

@@ -101,10 +101,10 @@ public interface TransportUnitService {
      * {@code targetLocationPK}.
      *
      * @param barcode The business identifier of the TransportUnit
-     * @param targetLocationPK Unique identifier of the target Location
+     * @param targetLocation Unique identifier of the target Location, either the LocationID, ERPCode or PLCCode
      * @return The moved instance
      */
-    @NotNull TransportUnit moveTransportUnit(@NotNull Barcode barcode, @NotNull LocationPK targetLocationPK);
+    @NotNull TransportUnit moveTransportUnit(@NotNull Barcode barcode, @NotBlank String targetLocation);
 
     /**
      * Change the target of the {@link TransportUnit} identified with its {@code barcode} to the Location identified by the
