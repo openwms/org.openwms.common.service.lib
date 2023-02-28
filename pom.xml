@@ -373,6 +373,7 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-envers</artifactId>
+            <version>2.7.7</version>
             <optional>true</optional>
         </dependency>
 
