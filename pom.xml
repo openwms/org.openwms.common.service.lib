@@ -73,7 +73,7 @@
         <joda-time.version>2.10.8</joda-time.version>
         <plexus-utils.version>3.2.1</plexus-utils.version>
         <servo-core.version>0.12.21</servo-core.version>
-        <spring-cloud-dependencies.version>2021.0.5</spring-cloud-dependencies.version>
+        <spring-cloud-dependencies.version>2021.0.6</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
         <wagon-provider-api.version>3.3.4</wagon-provider-api.version>
     </properties>
@@ -556,6 +556,9 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
         </repository>
         <repository>
             <id>spring-milestones</id>
@@ -564,6 +567,9 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
         </repository>
     </repositories>
     <pluginRepositories>
@@ -574,11 +580,17 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
         </pluginRepository>
         <pluginRepository>
             <id>sonatype-nexus-snapshots</id>
             <name>Snapshot Repository</name>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
             <releases>
                 <enabled>false</enabled>
             </releases>
