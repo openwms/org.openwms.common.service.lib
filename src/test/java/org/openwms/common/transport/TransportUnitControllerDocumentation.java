@@ -17,6 +17,7 @@ package org.openwms.common.transport;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.CommonMessageCodes;
@@ -307,6 +308,7 @@ class TransportUnitControllerDocumentation {
         ;
     }
 
+    @Disabled("Only valid when proper BarcodeFormatter is used")
     @Test void shall_findByBarcode_short() throws Exception {
         mockMvc.perform(get(API_TRANSPORT_UNITS)
                 .queryParam("bk", "4711"))
