@@ -43,6 +43,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.core.Ordered;
+import org.springframework.data.envers.repository.config.EnableEnversRepositories;
 import org.springframework.data.envers.repository.support.EnversRevisionRepositoryFactoryBean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -74,6 +75,7 @@ import java.util.Properties;
 @EnableIdentityAwareness
 @EnableSpringConfigured
 @EnableJpaAuditing
+@EnableEnversRepositories
 @EnableJpaRepositories(basePackages = "org.openwms", repositoryFactoryBeanClass = EnversRevisionRepositoryFactoryBean.class)
 @EntityScan(basePackages = "org.openwms")
 @EnableMultiTenancy
