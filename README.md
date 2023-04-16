@@ -18,6 +18,12 @@ are managed by this service.
 **Find further Documentation on [Microservice Website](https://openwms.github.io/org.openwms.common.service)**
 
 # Build
+
+The module depends on OpenWMS.org CORE dependencies and one additional optional COMMON dependency that is only used in the enterprise
+version and offers an additional API for the UI.
+
+![MavenDependencies][2]
+
 Build a runnable fat jar with the execution of all unit and in-memory database integration tests, but without a required [RabbitMQ](https://www.rabbitmq.com)
 server to run: 
 
@@ -71,3 +77,4 @@ $ docker run openwms/org.openwms.common.service:latest
 ```
 
 [1]: src/site/resources/images/class-overview.png
+[2]: src/site/resources/images/maven-deps.drawio.png
