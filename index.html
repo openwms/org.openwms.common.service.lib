@@ -37,7 +37,7 @@
         <ul class="dropdown-menu">
             <li><a href="index.html" title="Home">Home</a></li>
             <li><a href="rest/2.0.0-SNAPSHOT/api.html" title="REST API Documentation">REST API Documentation</a></li>
-            <li><a href="https://openwms.atlassian.net/l/c/J5rjZZFK" title="Confluence Wiki">Confluence Wiki</a></li>
+            <li><a href="https://wiki.butan092.startdedicated.de/projects/common-service/wiki" title="Wiki">Wiki</a></li>
             <li><a href="configuration.html" title="Configuration">Configuration</a></li>
             <li><a href="apidocs/index.html" title="Javadoc">Javadoc</a></li>
             <li><a href="2.0.0-SNAPSHOT/schemaspy/relationships.html" title="Database Schema">Database Schema</a></li>
@@ -107,6 +107,9 @@ the ability to move a <code>TransportUnit</code> from a <code>Location</code> A 
 <a class="externalLink" href="https://gitter.im/openwms/org.openwms?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/openwms/org.openwms" /></a></p>
 <p><img src="images/class-overview.png" alt="ClassDiagram" /></p>
 <h1>Build</h1>
+<p>The module depends on OpenWMS.org CORE dependencies and one additional optional COMMON dependency that is only used in the enterprise
+version and offers an additional API for the UI.</p>
+<p><img src="images/maven-deps.drawio.png" alt="MavenDependencies" /></p>
 <p>Build a runnable fat jar with the execution of all unit and in-memory database integration tests, but without a required <a class="externalLink" href="https://www.rabbitmq.com">RabbitMQ</a>
 server to run:</p>
 
