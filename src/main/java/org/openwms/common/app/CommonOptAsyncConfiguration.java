@@ -66,7 +66,7 @@ class CommonOptAsyncConfiguration {
     @ConditionalOnExpression("'${owms.common.serialization}'=='json'")
     @Bean
     MessageConverter messageConverter() {
-        Jackson2JsonMessageConverter messageConverter = new Jackson2JsonMessageConverter();
+        var messageConverter = new Jackson2JsonMessageConverter();
         BOOT_LOGGER.info("Using JSON serialization over AMQP");
         return messageConverter;
     }
@@ -74,7 +74,7 @@ class CommonOptAsyncConfiguration {
     @ConditionalOnExpression("'${owms.common.serialization}'=='barray'")
     @Bean
     MessageConverter serializerMessageConverter() {
-        SerializerMessageConverter messageConverter = new SerializerMessageConverter();
+        var messageConverter = new SerializerMessageConverter();
         BOOT_LOGGER.info("Using byte array serialization over AMQP");
         return messageConverter;
     }

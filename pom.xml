@@ -66,6 +66,7 @@
 
     <properties>
         <commons-configuration.version>1.10</commons-configuration.version>
+        <common.service.ui.version>1.0.0-SNAPSHOT</common.service.ui.version>
         <core.units.version>0.5.0-SNAPSHOT</core.units.version>
         <core.version>2.0.0-SNAPSHOT</core.version>
         <guava.version>30.0-jre</guava.version>
@@ -597,4 +598,57 @@
             </releases>
         </pluginRepository>
     </pluginRepositories>
+
+    <profiles>
+        <profile>
+            <id>enterprise</id>
+            <distributionManagement>
+                <repository>
+                    <id>interface21-releases</id>
+                    <name>OpenWMS.org Release Repository</name>
+                    <url>https://repo.butan092.startdedicated.de/repository/maven-releases</url>
+                </repository>
+                <snapshotRepository>
+                    <id>interface21-snapshots</id>
+                    <name>OpenWMS.org Snapshot Repository</name>
+                    <url>https://repo.butan092.startdedicated.de/repository/maven-snapshots</url>
+                </snapshotRepository>
+                <site>
+                    <id>site</id>
+                    <url>scm:git:git@github.com:interface21-io/${project.artifactId}.git</url>
+                </site>
+            </distributionManagement>
+            <dependencies>
+                <dependency>
+                    <groupId>org.openwms</groupId>
+                    <artifactId>org.openwms.common.service.ui</artifactId>
+                    <version>${common.service.ui.version}</version>
+                </dependency>
+            </dependencies>
+            <repositories>
+                <repository>
+                    <id>interface21-snapshots</id>
+                    <name>Interface21.io Snapshot Repository</name>
+                    <url>https://repo.butan092.startdedicated.de/repository/maven-snapshots</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                </repository>
+                <repository>
+                    <id>interface21-releases</id>
+                    <name>Interface21.io Release Repository</name>
+                    <url>https://repo.butan092.startdedicated.de/repository/maven-releases</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
 </project>
