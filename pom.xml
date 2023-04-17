@@ -113,11 +113,8 @@
                             <version>${org.mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
-                    <showWarnings>true</showWarnings>
+                    <enablePreview>true</enablePreview>
                     <compilerArgs>
-                        <arg>
-                            --enable-preview
-                        </arg>
                         <arg>
                             -Amapstruct.defaultComponentModel=spring
                         </arg>
@@ -134,6 +131,7 @@
                             -Amapstruct.verbose=true
                         </arg>
                     </compilerArgs>
+                    <showWarnings>true</showWarnings>
                 </configuration>
             </plugin>
             <plugin>
