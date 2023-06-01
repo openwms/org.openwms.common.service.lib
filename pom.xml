@@ -74,7 +74,7 @@
         <joda-time.version>2.10.14</joda-time.version>
         <plexus-utils.version>3.2.1</plexus-utils.version>
         <servo-core.version>0.12.21</servo-core.version>
-        <spring-cloud-dependencies.version>2021.0.6</spring-cloud-dependencies.version>
+        <spring-cloud-dependencies.version>2021.0.7</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
         <wagon-provider-api.version>3.3.4</wagon-provider-api.version>
     </properties>
