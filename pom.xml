@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>23</version>
+        <version>24</version>
         <relativePath />
     </parent>
     <artifactId>org.openwms.common.service</artifactId>
@@ -66,8 +66,7 @@
 
     <properties>
         <commons-configuration.version>1.10</commons-configuration.version>
-        <common.service.ui.version>1.0.0-SNAPSHOT</common.service.ui.version>
-        <core.units.version>0.5.0-SNAPSHOT</core.units.version>
+        <core.units.version>0.5.0</core.units.version>
         <core.version>2.0.0-SNAPSHOT</core.version>
         <guava.version>30.0-jre</guava.version>
         <indriya.version>2.0</indriya.version>
@@ -600,6 +599,9 @@
     <profiles>
         <profile>
             <id>enterprise</id>
+            <properties>
+                <common.service.ui.version>1.0.0-SNAPSHOT</common.service.ui.version>
+            </properties>
             <distributionManagement>
                 <repository>
                     <id>interface21-releases</id>
