@@ -67,7 +67,7 @@
     <properties>
         <commons-configuration.version>1.10</commons-configuration.version>
         <core.units.version>0.5.0</core.units.version>
-        <core.version>2.0.0-SNAPSHOT</core.version>
+        <core.version>2.0.0</core.version>
         <guava.version>30.0-jre</guava.version>
         <indriya.version>2.0</indriya.version>
         <joda-time.version>2.10.14</joda-time.version>
