@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransportUnit.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.transport</a> &gt; <span class="el_source">TransportUnit.java</span></div><h1>TransportUnit.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2023 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.transport;
+
+import org.ameba.integration.jpa.ApplicationEntity;
+import org.ameba.integration.jpa.BaseEntity;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+import org.openwms.common.app.Default;
+import org.openwms.common.location.Location;
+import org.openwms.common.transport.barcode.Barcode;
+import org.openwms.core.units.api.Weight;
+import org.openwms.core.values.CoreTypeDefinitions;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.util.Assert;
+
+import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+import java.beans.ConstructorProperties;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
+/**
+ * A TransportUnit is a physical item like a box, a toad, a bin, a pallet etc., used as a container that is moved between warehouse
+ * {@code Location}s and might carry goods or other items like {@code LoadUnit}s on top. A TransportUnit must have some kind of identifier,
+ * like a physical Barcode, an RFID tag or others. There might be projects where TransportUnits are solely identified by virtual identifiers
+ * and don't have any physical identifiers. A TransportUnit may even carry other TransportUnits.
+ *
+ * @author Heiko Scherrer
+ * @GlossaryTerm
+ */
+@Configurable
+@Audited(targetAuditMode = NOT_AUDITED)
+@AuditOverride(forClass = ApplicationEntity.class)
+@AuditOverride(forClass = BaseEntity.class)
+@Entity
+@Table(name = &quot;COM_TRANSPORT_UNIT&quot;, uniqueConstraints = @UniqueConstraint(name = &quot;COM_TRANSPORT_UNIT_BARCODE&quot;, columnNames = {&quot;C_BARCODE&quot;}))
+public class TransportUnit extends ApplicationEntity implements Serializable {
+
+    /** Unique natural key. */
+    @Embedded
+    @AttributeOverride(name = &quot;value&quot;, column = @Column(name = &quot;C_BARCODE&quot;, length = Barcode.BARCODE_LENGTH, nullable = false))
+    @OrderBy
+    private Barcode barcode;
+
+    /** Indicates whether the {@code TransportUnit} is empty or not (nullable). */
+    @Column(name = &quot;C_EMPTY&quot;)
+    private Boolean empty;
+
+    /** A {@code TransportUnit} may belong to a group of {@code TransportUnits}. */
+    @Column(name = &quot;C_GROUP_NAME&quot;)
+    private String groupName;
+
+    /** Date when the {@code TransportUnit} has been moved to the current {@link Location}. */
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = &quot;C_ACTUAL_LOCATION_DATE&quot;)
+    private Date actualLocationDate;
+
+    /** Weight of the {@code TransportUnit}. */
+<span class="pc" id="L96">    @Embedded</span>
+    @AttributeOverride(name = &quot;unitType&quot;, column = @Column(name = &quot;C_WEIGHT_UOM&quot;, length = CoreTypeDefinitions.QUANTITY_LENGTH))
+    @AttributeOverride(name = &quot;magnitude&quot;, column = @Column(name = &quot;C_WEIGHT&quot;))
+    private Weight weight = Weight.ZERO;
+
+    /** State of the {@code TransportUnit}. */
+<span class="pc" id="L102">    @Column(name = &quot;C_STATE&quot;)</span>
+    @Enumerated(EnumType.STRING)
+    private TransportUnitState state = TransportUnitState.AVAILABLE;
+
+    /** The current {@link Location} of the {@code TransportUnit}. */
+    @ManyToOne
+    @JoinColumn(name = &quot;C_ACTUAL_LOCATION&quot;, nullable = false, foreignKey = @ForeignKey(name = &quot;COM_TU_FK_LOC_ACTUAL&quot;))
+    private Location actualLocation;
+
+    /** The target {@link Location} of the {@code TransportUnit}. This property is set when a {@code TransportOrder} is started. */
+    @ManyToOne
+    @JoinColumn(name = &quot;C_TARGET_LOCATION&quot;, foreignKey = @ForeignKey(name = &quot;COM_TU_FK_LOC_TARGET&quot;))
+    private Location targetLocation;
+
+    /** The {@link TransportUnitType} of the {@code TransportUnit}. */
+    @ManyToOne
+    @JoinColumn(name = &quot;C_TRANSPORT_UNIT_TYPE&quot;, nullable = false, foreignKey = @ForeignKey(name = &quot;COM_TU_FK_TUT&quot;))
+    private TransportUnitType transportUnitType;
+
+    /** Owning {@code TransportUnit}. */
+    @ManyToOne
+    @JoinColumn(name = &quot;C_PARENT&quot;, foreignKey = @ForeignKey(name = &quot;COM_TU_FK_TU_PARENT&quot;))
+    private TransportUnit parent;
+
+    /** The {@code User} who performed the last inventory action on the {@code TransportUnit}. */
+    @Column(name = &quot;C_INVENTORY_USER&quot;)
+    private String inventoryUser;
+
+    /** Date of last inventory check. */
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = &quot;C_INVENTORY_DATE&quot;)
+    private Date inventoryDate;
+
+    /** A set of all child {@code TransportUnit}s, ordered by id. */
+<span class="pc" id="L136">    @OneToMany(mappedBy = &quot;parent&quot;, cascade = {CascadeType.MERGE, CascadeType.PERSIST})</span>
+    @OrderBy(&quot;actualLocationDate DESC&quot;)
+    private Set&lt;TransportUnit&gt; children = new HashSet&lt;&gt;();
+
+    /** A List of errors occurred on the {@code TransportUnit}. */
+<span class="pc" id="L141">    @OneToMany(mappedBy = &quot;transportUnit&quot;, cascade = {CascadeType.ALL})</span>
+    @NotAudited
+    private List&lt;UnitError&gt; errors = new ArrayList&lt;&gt;(0);
+
+    /*~ ----------------------------- constructors ------------------- */
+    /** Dear JPA... */
+<span class="fc" id="L147">    protected TransportUnit() { }</span>
+
+    @Default
+    @ConstructorProperties({&quot;barcode&quot;})
+<span class="nc" id="L151">    public TransportUnit(@NotNull Barcode barcode) {</span>
+<span class="nc" id="L152">        Assert.notNull(barcode, &quot;Barcode must not be null&quot;);</span>
+<span class="nc" id="L153">        this.barcode = barcode;</span>
+<span class="nc" id="L154">        initInventory();</span>
+<span class="nc" id="L155">    }</span>
+
+    /**
+     * Create a new {@code TransportUnit} with an unique {@link Barcode}.
+     *
+     * @param barcode The unique identifier of this {@code TransportUnit} is the {@link Barcode} - must not be {@literal null}
+     * @param transportUnitType The {@code TransportUnitType} of this {@code TransportUnit} - must not be {@literal null}
+     * @param actualLocation The current {@code Location} of this {@code TransportUnit} - must not be {@literal null}
+     * @throws IllegalArgumentException when one of the params is {@literal null}
+     */
+    @ConstructorProperties({&quot;barcode&quot;, &quot;transportUnitType&quot;, &quot;actualLocation&quot;})
+<span class="fc" id="L166">    public TransportUnit(@NotNull Barcode barcode, @NotNull TransportUnitType transportUnitType, @NotNull Location actualLocation) {</span>
+<span class="fc" id="L167">        Assert.notNull(barcode, &quot;Barcode must not be null&quot;);</span>
+<span class="fc" id="L168">        Assert.notNull(transportUnitType, &quot;TransportUnitType must not be null&quot;);</span>
+<span class="fc" id="L169">        Assert.notNull(actualLocation, &quot;ActualLocation must not be null&quot;);</span>
+<span class="fc" id="L170">        this.barcode = barcode;</span>
+<span class="fc" id="L171">        setTransportUnitType(transportUnitType);</span>
+<span class="fc" id="L172">        setActualLocation(actualLocation);</span>
+<span class="fc" id="L173">        initInventory();</span>
+<span class="fc" id="L174">    }</span>
+
+    /*~ ----------------------------- methods ------------------- */
+    /** Required for the Mapper. */
+    @Override
+    public void setPersistentKey(String pKey) {
+<span class="nc" id="L180">        super.setPersistentKey(pKey);</span>
+<span class="nc" id="L181">    }</span>
+
+    /**
+     * Get the actual {@link Location} of the {@code TransportUnit}.
+     *
+     * @return The {@link Location} where the {@code TransportUnit} is placed on
+     */
+    public Location getActualLocation() {
+<span class="fc" id="L189">        return actualLocation;</span>
+    }
+
+    /**
+     * Place the {@code TransportUnit} and all its children to a {@link Location}.
+     *
+     * @param actualLocation The new {@link Location} of the {@code TransportUnit} and all its children
+     * @throws IllegalArgumentException when {@code actualLocation} is {@literal null}
+     */
+    public void setActualLocation(Location actualLocation) {
+<span class="fc" id="L199">        Assert.notNull(actualLocation, &quot;ActualLocation must not be null, this: &quot; + this);</span>
+<span class="fc" id="L200">        this.actualLocation = actualLocation;</span>
+<span class="fc" id="L201">        this.actualLocationDate = new Date();</span>
+<span class="fc" id="L202">        this.actualLocation.setLastMovement(this.actualLocationDate);</span>
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">        if (this.getChildren() != null) {</span>
+<span class="pc" id="L204">            this.getChildren().forEach(child -&gt; child.setActualLocation(actualLocation));</span>
+        }
+<span class="fc" id="L206">    }</span>
+
+    /**
+     * Initialize inventory info of the {@code TransportUnit}.
+     */
+    public void initInventory() {
+<span class="fc" id="L212">        setInventoryUser(&quot;init&quot;);</span>
+<span class="fc" id="L213">        setInventoryDate(new Date());</span>
+<span class="fc" id="L214">    }</span>
+
+    /**
+     * Get the target {@link Location} of the {@code TransportUnit}. This property can not be {@literal null} when an active {@code
+     * TransportOrder} exists.
+     *
+     * @return The target location
+     */
+    public Location getTargetLocation() {
+<span class="fc" id="L223">        return this.targetLocation;</span>
+    }
+
+    /**
+     * Set the target {@link Location} of the {@code TransportUnit}. Shall only be set in combination with an active {@code
+     * TransportOrder}.
+     *
+     * @param targetLocation The target {@link Location} where this {@code TransportUnit} shall be transported to
+     */
+    public void setTargetLocation(Location targetLocation) {
+<span class="nc" id="L233">        this.targetLocation = targetLocation;</span>
+<span class="nc" id="L234">    }</span>
+
+    /**
+     * Indicates whether the {@code TransportUnit} is empty or not.
+     *
+     * @return {@literal true} if empty, {@literal false} if not empty, {@literal null} when not defined
+     */
+    public Boolean getEmpty() {
+<span class="fc" id="L242">        return this.empty;</span>
+    }
+
+    /**
+     * Marks the {@code TransportUnit} to be empty.
+     *
+     * @param empty {@literal true} to mark the {@code TransportUnit} as empty, {@literal false} to mark it as not empty and {@literal null}
+     * for no definition
+     */
+    public void setEmpty(Boolean empty) {
+<span class="nc" id="L252">        this.empty = empty;</span>
+<span class="nc" id="L253">    }</span>
+
+    /**
+     * Get the groupId.
+     *
+     * @return The groupId
+     */
+    public String getGroupName() {
+<span class="nc" id="L261">        return groupName;</span>
+    }
+
+    /**
+     * Set the groupId.
+     *
+     * @param groupId The groupId
+     */
+    public void setGroupName(String groupId) {
+<span class="nc" id="L270">        this.groupName = groupId;</span>
+<span class="nc" id="L271">    }</span>
+
+    /**
+     * Returns the username of the User who performed the last inventory action on the {@code TransportUnit}.
+     *
+     * @return The username who did the last inventory check
+     */
+    public String getInventoryUser() {
+<span class="fc" id="L279">        return this.inventoryUser;</span>
+    }
+
+    /**
+     * Set the username who performed the last inventory action on the {@code TransportUnit}.
+     *
+     * @param inventoryUser The username who did the last inventory check
+     */
+    public void setInventoryUser(String inventoryUser) {
+<span class="fc" id="L288">        this.inventoryUser = inventoryUser;</span>
+<span class="fc" id="L289">    }</span>
+
+    /**
+     * Number of {@code TransportUnit}s belonging to the {@code TransportUnit}.
+     *
+     * @return The number of all {@code TransportUnit}s belonging to this one
+     */
+    public int getNoTransportUnits() {
+<span class="fc" id="L297">        return this.children.size();</span>
+    }
+
+    /**
+     * Returns the date when the {@code TransportUnit} moved to the actualLocation.
+     *
+     * @return The timestamp when the {@code TransportUnit} moved the last time
+     */
+    public Date getActualLocationDate() {
+<span class="fc bfc" id="L306" title="All 2 branches covered.">        if (this.actualLocationDate == null) {</span>
+<span class="fc" id="L307">            return null;</span>
+        }
+<span class="fc" id="L309">        return new Date(this.actualLocationDate.getTime());</span>
+    }
+
+    /**
+     * Returns the timestamp of the last inventory check of the {@code TransportUnit}.
+     *
+     * @return The timestamp of the last inventory check of the {@code TransportUnit}.
+     */
+    public Date getInventoryDate() {
+<span class="pc bpc" id="L318" title="1 of 2 branches missed.">        if (this.inventoryDate == null) {</span>
+<span class="nc" id="L319">            return null;</span>
+        }
+<span class="fc" id="L321">        return new Date(this.inventoryDate.getTime());</span>
+    }
+
+    /**
+     * Set the timestamp of the last inventory action of the {@code TransportUnit}.
+     *
+     * @param inventoryDate The timestamp of the last inventory check
+     * @throws IllegalArgumentException when {@code inventoryDate} is {@literal null}
+     */
+    public void setInventoryDate(Date inventoryDate) {
+<span class="fc" id="L331">        Assert.notNull(inventoryDate, () -&gt; &quot;InventoryDate must not be null, this: &quot; + this);</span>
+<span class="fc" id="L332">        this.inventoryDate = new Date(inventoryDate.getTime());</span>
+<span class="fc" id="L333">    }</span>
+
+    /**
+     * Returns the current weight of the {@code TransportUnit}.
+     *
+     * @return The current weight of the {@code TransportUnit}
+     */
+    public Weight getWeight() {
+<span class="fc" id="L341">        return weight;</span>
+    }
+
+    /**
+     * Sets the current weight of the {@code TransportUnit}.
+     *
+     * @param weight The current weight of the {@code TransportUnit}
+     */
+    public void setWeight(Weight weight) {
+<span class="nc" id="L350">        this.weight = weight;</span>
+<span class="nc" id="L351">    }</span>
+
+    public List&lt;UnitError&gt; getErrors() {
+<span class="fc" id="L354">        return this.errors;</span>
+    }
+
+    /**
+     * Add an error to the {@code TransportUnit}.
+     *
+     * @param error An {@link UnitError} to be added
+     * @return The key.
+     * @throws IllegalArgumentException when {@code error} is {@literal null}
+     */
+    public UnitError addError(UnitError error) {
+<span class="fc" id="L365">        Assert.notNull(error, () -&gt; &quot;Error must not be null, this: &quot; + this);</span>
+<span class="fc" id="L366">        error.setTransportUnit(this);</span>
+<span class="fc" id="L367">        this.errors.add(error);</span>
+<span class="fc" id="L368">        return error;</span>
+    }
+
+    /**
+     * Return the state of the {@code TransportUnit}.
+     *
+     * @return The current state of the {@code TransportUnit}
+     */
+    public TransportUnitState getState() {
+<span class="fc" id="L377">        return this.state;</span>
+    }
+
+    /**
+     * Set the state of the {@code TransportUnit}.
+     *
+     * @param state The state to set on the {@code TransportUnit}
+     */
+    public void setState(TransportUnitState state) {
+<span class="nc" id="L386">        this.state = state;</span>
+<span class="nc" id="L387">    }</span>
+
+    /**
+     * Return the {@link TransportUnitType} of the {@code TransportUnit}.
+     *
+     * @return The {@link TransportUnitType} the {@code TransportUnit} belongs to
+     */
+    public TransportUnitType getTransportUnitType() {
+<span class="fc" id="L395">        return this.transportUnitType;</span>
+    }
+
+    /**
+     * Set the {@link TransportUnitType} of the {@code TransportUnit}.
+     *
+     * @param transportUnitType The type of the {@code TransportUnit}
+     */
+    public void setTransportUnitType(TransportUnitType transportUnitType) {
+<span class="fc" id="L404">        Assert.notNull(transportUnitType, () -&gt; &quot;TransportUnitType must not be null, this: &quot; + this);</span>
+<span class="fc" id="L405">        this.transportUnitType = transportUnitType;</span>
+<span class="fc" id="L406">    }</span>
+
+    /**
+     * Return the {@link Barcode} of the {@code TransportUnit}.
+     *
+     * @return The current {@link Barcode}
+     */
+    public Barcode getBarcode() {
+<span class="fc" id="L414">        return barcode;</span>
+    }
+
+    /**
+     * Returns the parent {@code TransportUnit}.
+     *
+     * @return the parent.
+     */
+    public TransportUnit getParent() {
+<span class="fc" id="L423">        return parent;</span>
+    }
+
+    /**
+     * Set a parent {@code TransportUnit}.
+     *
+     * @param parent The parent to set.
+     */
+    public void setParent(TransportUnit parent) {
+<span class="fc" id="L432">        this.parent = parent;</span>
+<span class="fc" id="L433">    }</span>
+
+    /**
+     * Get all child {@code TransportUnit}s.
+     *
+     * @return the transportUnits.
+     */
+    public Set&lt;TransportUnit&gt; getChildren() {
+<span class="fc" id="L441">        return this.children;</span>
+    }
+
+    /**
+     * Add a {@code TransportUnit} to the children.
+     *
+     * @param transportUnit The {@code TransportUnit} to be added to the list of children
+     * @throws IllegalArgumentException when transportUnit is {@literal null}
+     */
+    public void addChild(TransportUnit transportUnit) {
+<span class="fc" id="L451">        Assert.notNull(transportUnit, () -&gt; &quot;TransportUnitType must not be null, this: &quot; + this);</span>
+<span class="fc bfc" id="L452" title="All 2 branches covered.">        if (transportUnit.hasParent()) {</span>
+<span class="fc bfc" id="L453" title="All 2 branches covered.">            if (transportUnit.getParent().equals(this)) {</span>
+
+                // if this instance is already the parent, we just return
+<span class="fc" id="L456">                return;</span>
+            }
+
+            // disconnect post from it's current relationship
+<span class="fc" id="L460">            transportUnit.getParent().removeChild(transportUnit);</span>
+        }
+
+        // make this instance the new parent
+<span class="fc" id="L464">        transportUnit.setParent(this);</span>
+<span class="fc" id="L465">        this.children.add(transportUnit);</span>
+<span class="fc" id="L466">    }</span>
+
+    /**
+     * Checks whether this {@code TransportUnit} has a parent {@code TransportUnit} or not.
+     *
+     * @return {@code true} it has a parent, otherwise {@code false}
+     */
+    public boolean hasParent() {
+<span class="fc bfc" id="L474" title="All 2 branches covered.">        return parent != null;</span>
+    }
+
+    /**
+     * Checks whether this {@code TransportUnit} has child {@code TransportUnit}s or not.
+     *
+     * @return {@code true} it has children, otherwise {@code false}
+     */
+    public boolean hasChildren() {
+<span class="nc bnc" id="L483" title="All 4 branches missed.">        return this.children != null &amp;&amp; !this.children.isEmpty();</span>
+    }
+
+    /**
+     * Remove a {@code TransportUnit} from the list of children.
+     *
+     * @param transportUnit The {@code TransportUnit} to be removed from the list of children
+     * @throws IllegalArgumentException when {@code transportUnit} is {@literal null} or not a child of this instance
+     */
+    public void removeChild(TransportUnit transportUnit) {
+<span class="fc" id="L493">        Assert.notNull(transportUnit, () -&gt; &quot;TransportUnit must not be null, this: &quot; + this);</span>
+        // make sure this is the parent before we break the relationship
+<span class="fc bfc" id="L495" title="All 4 branches covered.">        if (transportUnit.parent == null || !transportUnit.parent.equals(this)) {</span>
+<span class="fc" id="L496">            throw new IllegalArgumentException(&quot;Child TransportUnit not associated with this instance, this: &quot; + this);</span>
+        }
+<span class="fc" id="L498">        transportUnit.setParent(null);</span>
+<span class="fc" id="L499">        this.children.remove(transportUnit);</span>
+<span class="fc" id="L500">    }</span>
+
+    /**
+     * {@inheritDoc}
+     *
+     * Return the {@link Barcode} as String.
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L509">        return barcode.toString();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Uses barcode for comparison.
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="fc bfc" id="L519" title="All 2 branches covered.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L520" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L521">        TransportUnit that = (TransportUnit) o;</span>
+<span class="fc" id="L522">        return barcode.equals(that.barcode);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Uses barcode for calculation.
+     */
+    @Override
+    public int hashCode() {
+<span class="fc" id="L532">        return Objects.hash(barcode);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

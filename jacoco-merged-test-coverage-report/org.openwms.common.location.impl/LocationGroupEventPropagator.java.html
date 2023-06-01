@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocationGroupEventPropagator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.location.impl</a> &gt; <span class="el_source">LocationGroupEventPropagator.java</span></div><h1>LocationGroupEventPropagator.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2023 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.location.impl;
+
+import org.openwms.common.location.Location;
+import org.openwms.common.location.LocationGroup;
+import org.openwms.common.location.LocationGroupMapper;
+import org.openwms.common.location.LocationMapper;
+import org.openwms.common.location.api.events.LocationEvent;
+import org.openwms.common.location.api.events.LocationGroupEvent;
+import org.openwms.core.SpringProfiles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
+
+import javax.annotation.PostConstruct;
+import javax.validation.Validator;
+
+import static java.lang.String.format;
+import static org.ameba.system.ValidationUtil.validate;
+
+/**
+ * A LocationGroupEventPropagator.
+ *
+ * @author Heiko Scherrer
+ */
+@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
+@RefreshScope
+@Component
+class LocationGroupEventPropagator {
+
+<span class="fc" id="L50">    private static final Logger LOGGER = LoggerFactory.getLogger(LocationGroupEventPropagator.class);</span>
+
+    private final AmqpTemplate amqpTemplate;
+    private final Validator validator;
+    private final String exchangeName;
+    private final LocationMapper locationMapper;
+    private final LocationGroupMapper locationGroupMapper;
+
+    LocationGroupEventPropagator(AmqpTemplate amqpTemplate, Validator validator,
+<span class="fc" id="L59">            @Value(&quot;${owms.events.common.lg.exchange-name}&quot;) String exchangeName, LocationMapper locationMapper, LocationGroupMapper locationGroupMapper) {</span>
+<span class="fc" id="L60">        this.amqpTemplate = amqpTemplate;</span>
+<span class="fc" id="L61">        this.validator = validator;</span>
+<span class="fc" id="L62">        this.exchangeName = exchangeName;</span>
+<span class="fc" id="L63">        this.locationMapper = locationMapper;</span>
+<span class="fc" id="L64">        this.locationGroupMapper = locationGroupMapper;</span>
+<span class="fc" id="L65">    }</span>
+
+    @PostConstruct
+    void onStartup() {
+        try {
+<span class="fc" id="L70">            amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.boot&quot;, LocationGroupEvent.boot());</span>
+<span class="nc" id="L71">        } catch (Exception e) {</span>
+            // It is fine if the event broker is not available on startup
+<span class="fc" id="L73">        }</span>
+<span class="fc" id="L74">    }</span>
+
+    @TransactionalEventListener(fallbackExecution = true)
+    public void onEvent(LocationGroupEvent event) {
+<span class="pc bpc" id="L78" title="4 of 5 branches missed.">        switch (event.getType()) {</span>
+            case CREATED -&gt; {
+<span class="nc" id="L80">                LOGGER.info(&quot;LocationGroup successfully created [{}]&quot;, event.getSource());</span>
+<span class="nc" id="L81">                amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.created&quot;, locationGroupMapper.convertToMO((LocationGroup) event.getSource()));</span>
+<span class="nc" id="L82">            }</span>
+            case CHANGED -&gt; {
+<span class="nc" id="L84">                LOGGER.info(&quot;LocationGroup successfully modified [{}]&quot;, event.getSource());</span>
+<span class="nc" id="L85">                amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.changed&quot;, locationGroupMapper.convertToMO((LocationGroup) event.getSource()));</span>
+<span class="nc" id="L86">            }</span>
+            case DELETED -&gt; {
+<span class="nc" id="L88">                LOGGER.info(&quot;LocationGroup successfully deleted [{}]&quot;, event.getSource());</span>
+<span class="nc" id="L89">                amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.deleted&quot;, locationGroupMapper.convertToMO((LocationGroup) event.getSource()));</span>
+<span class="nc" id="L90">            }</span>
+            case STATE_CHANGE -&gt; {
+<span class="fc" id="L92">                LOGGER.info(&quot;LocationGroup changed state [{}]&quot;, event.getSource());</span>
+<span class="fc" id="L93">                var msg = locationGroupMapper.convertToMO((LocationGroup) event.getSource());</span>
+<span class="fc" id="L94">                validate(validator, msg);</span>
+<span class="fc" id="L95">                amqpTemplate.convertAndSend(exchangeName, &quot;lg.event.state-changed&quot;, msg);</span>
+<span class="fc" id="L96">            }</span>
+<span class="nc" id="L97">            default -&gt; throw new UnsupportedOperationException(format(&quot;LocationGroupEvent [%s] currently not supported&quot;, event.getType()));</span>
+        }
+<span class="fc" id="L99">    }</span>
+
+    @TransactionalEventListener(fallbackExecution = true)
+    public void onLocationEvent(LocationEvent event) {
+<span class="pc bpc" id="L103" title="3 of 5 branches missed.">        switch (event.getType()) {</span>
+            case CREATED -&gt; {
+<span class="fc" id="L105">                LOGGER.info(&quot;Location successfully created [{}]&quot;, event.getSource());</span>
+<span class="fc" id="L106">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.created&quot;, locationMapper.convertToMO((Location) event.getSource()));</span>
+<span class="fc" id="L107">            }</span>
+            case CHANGED -&gt; {
+<span class="nc" id="L109">                LOGGER.info(&quot;Location successfully modified [{}]&quot;, event.getSource());</span>
+<span class="nc" id="L110">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.changed&quot;, locationMapper.convertToMO((Location) event.getSource()));</span>
+<span class="nc" id="L111">            }</span>
+            case DELETED -&gt; {
+<span class="nc" id="L113">                LOGGER.info(&quot;Location successfully deleted [{}]&quot;, event.getSource());</span>
+<span class="nc" id="L114">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.deleted&quot;, locationMapper.convertToMO((Location) event.getSource()));</span>
+<span class="nc" id="L115">            }</span>
+            case STATE_CHANGE -&gt; {
+<span class="fc" id="L117">                LOGGER.info(&quot;Location changed state [{}]&quot;, event.getSource());</span>
+<span class="fc" id="L118">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.state-changed&quot;, locationMapper.convertToMO((Location) event.getSource()));</span>
+<span class="fc" id="L119">            }</span>
+<span class="nc" id="L120">            default -&gt; throw new UnsupportedOperationException(format(&quot;LocationEvent [%s] currently not supported&quot;, event.getType()));</span>
+        }
+<span class="fc" id="L122">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TUCommand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.transport.api.commands</a> &gt; <span class="el_source">TUCommand.java</span></div><h1>TUCommand.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2023 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.transport.api.commands;
+
+import org.openwms.common.transport.api.messages.TransportUnitMO;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.beans.ConstructorProperties;
+import java.io.Serializable;
+import java.util.StringJoiner;
+
+/**
+ * A TUCommand.
+ *
+ * @author Heiko Scherrer
+ */
+public class TUCommand implements Command&lt;TUCommand.Type&gt;, Serializable {
+
+    @NotNull
+    private Type type;
+    @NotNull @Valid
+    private final TransportUnitMO transportUnit;
+
+    /*~-------------------- constructors --------------------*/
+    @ConstructorProperties({&quot;type&quot;, &quot;transportUnit&quot;})
+<span class="nc" id="L40">    protected TUCommand(Type type, TransportUnitMO transportUnit) {</span>
+<span class="nc" id="L41">        this.type = type;</span>
+<span class="nc" id="L42">        this.transportUnit = transportUnit;</span>
+<span class="nc" id="L43">    }</span>
+
+<span class="fc" id="L45">    private TUCommand(Builder builder) {</span>
+<span class="fc" id="L46">        this.type = builder.type;</span>
+<span class="fc" id="L47">        this.transportUnit = builder.transportUnit;</span>
+<span class="fc" id="L48">    }</span>
+
+    /*~-------------------- methods --------------------*/
+    public static Builder newBuilder(Type type) {
+<span class="fc" id="L52">        return new Builder(type);</span>
+    }
+
+<span class="fc" id="L55">    public enum Type {</span>
+        /** Command to request and return the current instance of the TransportUnit from the golden source. */
+<span class="fc" id="L57">        REQUEST,</span>
+        /** Response Command to update the foreign cache with the transmitted TransportUnit instance. */
+<span class="fc" id="L59">        UPDATE_CACHE,</span>
+        /** Command to create a new TransportUnit instance. */
+<span class="fc" id="L61">        CREATE,</span>
+        /** Vote whether all voters are fine with removing an instance. */
+<span class="fc" id="L63">        REMOVING,</span>
+        /** Response Command to remove the TransportUnit. */
+<span class="fc" id="L65">        REMOVE,</span>
+        /** Command to change the Target of a TransportUnit. */
+<span class="fc" id="L67">        CHANGE_TARGET,</span>
+        /** Command to change the actual Location of a TransportUnit. */
+<span class="fc" id="L69">        CHANGE_ACTUAL_LOCATION,</span>
+        /** Block the TransportUnit. */
+<span class="fc" id="L71">        BLOCK,</span>
+    }
+
+    /*~-------------------- accessors --------------------*/
+    public Type getType() {
+<span class="fc" id="L76">        return type;</span>
+    }
+
+    public void setType(Type type) {
+<span class="nc" id="L80">        this.type = type;</span>
+<span class="nc" id="L81">    }</span>
+
+    public TransportUnitMO getTransportUnit() {
+<span class="fc" id="L84">        return transportUnit;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L89">        return new StringJoiner(&quot;, &quot;, TUCommand.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(&quot;type=&quot; + type).add(&quot;transportUnit=&quot; + transportUnit).toString();</span>
+    }
+
+
+    public static final class Builder {
+        private final Type type;
+        private TransportUnitMO transportUnit;
+
+<span class="fc" id="L97">        private Builder(@NotNull Type type) {</span>
+<span class="fc" id="L98">            this.type = type;</span>
+<span class="fc" id="L99">        }</span>
+
+        public Builder withTransportUnit(@NotNull TransportUnitMO val) {
+<span class="fc" id="L102">            transportUnit = val;</span>
+<span class="fc" id="L103">            return this;</span>
+        }
+
+        public TUCommand build() {
+<span class="fc" id="L107">            return new TUCommand(this);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

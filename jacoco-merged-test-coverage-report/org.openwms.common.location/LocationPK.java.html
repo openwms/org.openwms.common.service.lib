@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocationPK.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.location</a> &gt; <span class="el_source">LocationPK.java</span></div><h1>LocationPK.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2023 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.location;
+
+import org.springframework.util.Assert;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+
+/**
+ * A LocationPK, is a value type and is used as an unique natural key for {@link Location} entities.
+ *
+ * @author Heiko Scherrer
+ * @see Location
+ */
+@Embeddable
+public class LocationPK implements Serializable {
+
+    public static final short KEY_LENGTH = 4;
+    public static final short NUMBER_OF_KEYS = 5;
+    /**
+     * Returns the complete length of all keys. Currently all keys have the same length, therefore it is the 5 times the length of a single
+     * key (KEY_LENGTH). But since this can change the actual length is encapsulated within this method.
+     */
+    public static final short PK_LENGTH = NUMBER_OF_KEYS * KEY_LENGTH;
+
+    /** Expresses the area the {@link Location} belongs to. */
+    @Column(name = &quot;C_AREA&quot;, nullable = false, length = KEY_LENGTH)
+    @Size(max = KEY_LENGTH)
+    private String area;
+
+    /** Expresses the aisle the {@link Location} belongs to. */
+    @Column(name = &quot;C_AISLE&quot;, nullable = false, length = KEY_LENGTH)
+    @Size(max = KEY_LENGTH)
+    private String aisle;
+
+    /** Expresses the x-dimension the {@link Location} belongs to. */
+    @Column(name = &quot;C_X&quot;, nullable = false, length = KEY_LENGTH)
+    @Size(max = KEY_LENGTH)
+    private String x;
+
+    /** Expresses the y-dimension the {@link Location} belongs to. */
+    @Column(name = &quot;C_Y&quot;, nullable = false, length = KEY_LENGTH)
+    @Size(max = KEY_LENGTH)
+    private String y;
+
+    /** Expresses the z-dimension the {@link Location} belongs to. */
+    @Column(name = &quot;C_Z&quot;, nullable = false, length = KEY_LENGTH)
+    @Size(max = KEY_LENGTH)
+    private String z;
+
+    /*~ ----------------------------- constructors ------------------- */
+
+    /** Dear JPA ... */
+<span class="fc" id="L70">    protected LocationPK() { }</span>
+
+    /**
+     * Create a new LocationPK with all required fields.
+     *
+     * @param area Area where the {@link Location} belongs to
+     * @param aisle Aisle where the {@link Location} belongs to
+     * @param x Dimension x where the {@link Location} belongs to
+     * @param y Dimension y where the {@link Location} belongs to
+     * @param z Dimension z where the {@link Location} belongs to
+     */
+    public static LocationPK of(String area, String aisle, String x, String y, String z) {
+<span class="fc" id="L82">        return new LocationPK(area, aisle, x, y, z);</span>
+    }
+
+    /**
+     * Weak constructor to create a new LocationPK with a couple of keys only.
+     *
+     * @param keys The array of keys, currently expected to be 5
+     * @throws IllegalArgumentException if the number of keys does not match {@link LocationPK#NUMBER_OF_KEYS}
+     */
+<span class="fc" id="L91">    private LocationPK(String... keys) {</span>
+<span class="pc bpc" id="L92" title="2 of 4 branches missed.">        if (keys == null || keys.length != NUMBER_OF_KEYS) {</span>
+<span class="nc" id="L93">            throw new IllegalArgumentException(</span>
+                    &quot;Number of key fields to create a LocationPK does not match the defined number of keys. Expected: &quot; + NUMBER_OF_KEYS);
+        }
+<span class="fc" id="L96">        this.area = keys[0];</span>
+<span class="fc" id="L97">        this.aisle = keys[1];</span>
+<span class="fc" id="L98">        this.x = keys[2];</span>
+<span class="fc" id="L99">        this.y = keys[3];</span>
+<span class="fc" id="L100">        this.z = keys[4];</span>
+<span class="fc" id="L101">    }</span>
+
+    /**
+     * Create a {@link LocationPK} from the given String.
+     *
+     * @param s The String, not {@literal null}
+     * @return An instance
+     */
+    public static LocationPK fromString(String s) {
+<span class="fc" id="L110">        Assert.hasText(s, &quot;Location String must not be null&quot;);</span>
+<span class="fc" id="L111">        return new LocationPK(s.split(&quot;/&quot;));</span>
+    }
+
+    /**
+     * Checks whether the given {@code locationPK} String is in valid format.
+     *
+     * @param locationPk The String to verify
+     * @return {@literal true} if valid
+     */
+    public static boolean isValid(String locationPk) {
+<span class="pc bpc" id="L121" title="1 of 4 branches missed.">        return locationPk != null &amp;&amp; locationPk.split(&quot;/&quot;).length == NUMBER_OF_KEYS;</span>
+    }
+    /*~ ----------------------------- methods ------------------- */
+
+    /**
+     * Get the area region.
+     *
+     * @return The area
+     */
+    public String getArea() {
+<span class="fc" id="L131">        return this.area;</span>
+    }
+
+    /**
+     * Get the aisle region.
+     *
+     * @return The aisle
+     */
+    public String getAisle() {
+<span class="fc" id="L140">        return this.aisle;</span>
+    }
+
+    /**
+     * Get the x-dimension.
+     *
+     * @return The x-dimension
+     */
+    public String getX() {
+<span class="fc" id="L149">        return this.x;</span>
+    }
+
+    /**
+     * Get the y-dimension.
+     *
+     * @return The y-dimension
+     */
+    public String getY() {
+<span class="fc" id="L158">        return this.y;</span>
+    }
+
+    /**
+     * Get the z-dimension.
+     *
+     * @return The z-dimension
+     */
+    public String getZ() {
+<span class="fc" id="L167">        return this.z;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see Object#equals(Object)
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="fc bfc" id="L177" title="All 2 branches covered.">        if (o == this) {</span>
+<span class="fc" id="L178">            return true;</span>
+        }
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">        if (!(o instanceof LocationPK other)) {</span>
+<span class="nc" id="L181">            return false;</span>
+        }
+<span class="pc bpc" id="L183" title="2 of 6 branches missed.">        return this.y.equals(other.y) &amp;&amp; this.x.equals(other.x) &amp;&amp; this.area.equals(other.area)</span>
+<span class="pc bpc" id="L184" title="2 of 4 branches missed.">                &amp;&amp; this.z.equals(other.z) &amp;&amp; this.aisle.equals(other.aisle);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+<span class="fc" id="L194">        return this.y.hashCode() ^ this.x.hashCode() ^ this.area.hashCode() ^ this.z.hashCode() ^ this.aisle.hashCode();</span>
+    }
+
+    /**
+     * Return a String like AREA/AISLE/X/Y/Z.
+     *
+     * @return String
+     * @see Object#toString()
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L205">        return this.area + &quot;/&quot; + this.aisle + &quot;/&quot; + this.x + &quot;/&quot; + this.y + &quot;/&quot; + this.z;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

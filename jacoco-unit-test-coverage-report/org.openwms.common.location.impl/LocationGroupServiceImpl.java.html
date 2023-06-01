@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocationGroupServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.location.impl</a> &gt; <span class="el_source">LocationGroupServiceImpl.java</span></div><h1>LocationGroupServiceImpl.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2023 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.location.impl;
+
+import org.ameba.annotation.Measured;
+import org.ameba.annotation.TxService;
+import org.ameba.exception.NotFoundException;
+import org.ameba.i18n.Translator;
+import org.openwms.common.location.LocationGroup;
+import org.openwms.common.location.LocationGroupService;
+import org.openwms.common.location.api.LocationGroupState;
+import org.openwms.common.location.api.events.LocationGroupEvent;
+import org.springframework.context.ApplicationContext;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.openwms.common.CommonMessageCodes.LOCATION_GROUP_NOT_FOUND;
+import static org.openwms.common.CommonMessageCodes.LOCATION_GROUP_NOT_FOUND_BY_PKEY;
+
+/**
+ * A LocationGroupServiceImpl is a Spring managed transactional Service that operates on {@link LocationGroup} entities and spans the
+ * tx boundary.
+ *
+ * @author Heiko Scherrer
+ */
+@Validated
+@TxService
+class LocationGroupServiceImpl implements LocationGroupService {
+
+    private final LocationGroupRepository repository;
+    private final ApplicationContext ctx;
+    private final Translator translator;
+
+<span class="fc" id="L53">    LocationGroupServiceImpl(LocationGroupRepository repository, ApplicationContext ctx, Translator translator) {</span>
+<span class="fc" id="L54">        this.repository = repository;</span>
+<span class="fc" id="L55">        this.ctx = ctx;</span>
+<span class="fc" id="L56">        this.translator = translator;</span>
+<span class="fc" id="L57">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public void changeGroupState(@NotBlank String pKey, @NotNull LocationGroupState stateIn, @NotNull LocationGroupState stateOut) {
+<span class="nc" id="L65">        var locationGroup = repository.findBypKey(pKey).orElseThrow(() -&gt; new NotFoundException(</span>
+                translator, LOCATION_GROUP_NOT_FOUND_BY_PKEY, new String[]{pKey}, pKey
+        ));
+<span class="nc" id="L68">        locationGroup.changeState(stateIn, stateOut);</span>
+<span class="nc" id="L69">        ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));</span>
+<span class="nc" id="L70">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public void changeGroupStates(@NotBlank String name, Optional&lt;LocationGroupState&gt; stateIn, Optional&lt;LocationGroupState&gt; stateOut) {
+<span class="nc" id="L78">        var locationGroup = findByNameOrThrowInternal(name);</span>
+<span class="nc" id="L79">        stateIn.ifPresent(locationGroup::changeGroupStateIn);</span>
+<span class="nc" id="L80">        stateOut.ifPresent(locationGroup::changeGroupStateOut);</span>
+<span class="nc bnc" id="L81" title="All 4 branches missed.">        if (stateIn.isPresent() || stateOut.isPresent()) {</span>
+<span class="nc" id="L82">            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));</span>
+        }
+<span class="nc" id="L84">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public void changeOperationMode(@NotBlank String name, @NotBlank String mode) {
+<span class="nc" id="L92">        var locationGroup = findByNameOrThrowInternal(name);</span>
+<span class="nc" id="L93">        locationGroup.setOperationMode(mode);</span>
+<span class="nc" id="L94">        repository.save(locationGroup);</span>
+<span class="nc" id="L95">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public Optional&lt;LocationGroup&gt; findByName(@NotBlank String name) {
+<span class="nc" id="L103">        return repository.findByName(name);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public @NotNull LocationGroup findByNameOrThrow(@NotBlank String name) {
+<span class="nc" id="L112">        return findByNameOrThrowInternal(name);</span>
+    }
+
+    private LocationGroup findByNameOrThrowInternal(String name) {
+<span class="nc" id="L116">        return repository.findByName(name).orElseThrow(() -&gt; new NotFoundException(</span>
+                translator, LOCATION_GROUP_NOT_FOUND, new String[]{name}, name
+        ));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public @NotNull List&lt;LocationGroup&gt; findAll() {
+<span class="nc" id="L127">        return repository.findAll();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public @NotNull List&lt;LocationGroup&gt; findByNames(@NotEmpty List&lt;String&gt; locationGroupNames) {
+<span class="nc" id="L136">        var result = repository.findByNameIn(locationGroupNames);</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        return result == null ? new ArrayList&lt;&gt;(0) : result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

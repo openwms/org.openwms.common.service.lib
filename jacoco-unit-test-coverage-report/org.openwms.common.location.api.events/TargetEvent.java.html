@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TargetEvent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.location.api.events</a> &gt; <span class="el_source">TargetEvent.java</span></div><h1>TargetEvent.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2023 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.location.api.events;
+
+import org.openwms.common.location.api.LockMode;
+import org.openwms.common.location.api.LockType;
+import org.openwms.core.event.RootApplicationEvent;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+/**
+ * A TargetEvent signals changes on {@code Target}s, like a {@code Location} or a {@code LocationGroup}.
+ *
+ * @author Heiko Scherrer
+ */
+public class TargetEvent extends RootApplicationEvent implements Serializable {
+
+    private String targetBK;
+    private LockType lockType;
+    private LockMode operationMode;
+    private Boolean reAllocation;
+
+    /*~ ------------------ constructors ----------------------*/
+    /**
+     * Create a new TargetEvent.
+     *
+     * @param source The business key of the Target, can be a {@code LocationPK} in String format or a LocationGroup name
+     */
+    protected TargetEvent(String source) {
+<span class="nc" id="L44">        super(source);</span>
+<span class="nc" id="L45">        this.targetBK = source;</span>
+<span class="nc" id="L46">    }</span>
+
+    private TargetEvent(Builder builder) {
+<span class="nc" id="L49">        super(builder.targetBK);</span>
+<span class="nc" id="L50">        targetBK = builder.targetBK;</span>
+<span class="nc" id="L51">        lockType = builder.lockType;</span>
+<span class="nc" id="L52">        operationMode = builder.operationMode;</span>
+<span class="nc" id="L53">        reAllocation = builder.reAllocation;</span>
+<span class="nc" id="L54">    }</span>
+
+    public static Builder newBuilder() {
+<span class="nc" id="L57">        return new Builder();</span>
+    }
+
+    /*~ ------------------ accessors ----------------------*/
+    public String getTargetBK() {
+<span class="nc" id="L62">        return targetBK;</span>
+    }
+
+    public LockType getLockType() {
+<span class="nc" id="L66">        return lockType;</span>
+    }
+
+    public LockMode getOperationMode() {
+<span class="nc" id="L70">        return operationMode;</span>
+    }
+
+    public Boolean getReAllocation() {
+<span class="nc" id="L74">        return reAllocation;</span>
+    }
+
+    /*~ ------------------ generated ----------------------*/
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (!(o instanceof TargetEvent)) return false;</span>
+<span class="nc" id="L83">        TargetEvent that = (TargetEvent) o;</span>
+<span class="nc bnc" id="L84" title="All 6 branches missed.">        return Objects.equals(targetBK, that.targetBK) &amp;&amp;</span>
+                lockType == that.lockType &amp;&amp;
+                operationMode == that.operationMode;
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L91">        return Objects.hash(targetBK, lockType, operationMode);</span>
+    }
+
+
+<span class="nc" id="L95">    public static final class Builder {</span>
+        private String targetBK;
+        private LockType lockType;
+        private LockMode operationMode;
+        private Boolean reAllocation;
+
+        public Builder targetBK(String val) {
+<span class="nc" id="L102">            targetBK = val;</span>
+<span class="nc" id="L103">            return this;</span>
+        }
+
+        public Builder lockType(LockType val) {
+<span class="nc" id="L107">            lockType = val;</span>
+<span class="nc" id="L108">            return this;</span>
+        }
+
+        public Builder operationMode(LockMode val) {
+<span class="nc" id="L112">            operationMode = val;</span>
+<span class="nc" id="L113">            return this;</span>
+        }
+
+        public Builder reAllocation(Boolean val) {
+<span class="nc" id="L117">            reAllocation = val;</span>
+<span class="nc" id="L118">            return this;</span>
+        }
+
+        public TargetEvent build() {
+<span class="nc bnc" id="L122" title="All 2 branches missed.">            if (this.targetBK == null) {</span>
+<span class="nc" id="L123">                throw new IllegalArgumentException(&quot;The TargetEvent must carry the targetBK of the Target where the event occurred on&quot;);</span>
+            }
+<span class="nc" id="L125">            return new TargetEvent(this);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

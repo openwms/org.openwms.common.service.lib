@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransportUnitController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.transport</a> &gt; <span class="el_source">TransportUnitController.java</span></div><h1>TransportUnitController.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2023 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.transport;
+
+import org.ameba.exception.NotFoundException;
+import org.ameba.exception.ResourceExistsException;
+import org.ameba.http.MeasuredRestController;
+import org.ameba.i18n.Translator;
+import org.openwms.common.SimpleLink;
+import org.openwms.common.location.LocationController;
+import org.openwms.common.transport.api.TransportApiConstants;
+import org.openwms.common.transport.api.TransportUnitVO;
+import org.openwms.common.transport.api.ValidationGroups;
+import org.openwms.common.transport.barcode.BarcodeGenerator;
+import org.openwms.core.SpringProfiles;
+import org.openwms.core.http.AbstractWebController;
+import org.openwms.core.http.Index;
+import org.springframework.context.annotation.Profile;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import java.util.List;
+
+import static java.util.Arrays.asList;
+import static org.openwms.common.CommonMessageCodes.TU_BARCODE_MISSING;
+import static org.openwms.common.CommonMessageCodes.TU_EXISTS;
+import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPORT_UNIT;
+import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPORT_UNITS;
+import static org.openwms.common.transport.api.TransportUnitVO.MEDIA_TYPE;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+/**
+ * A TransportUnitController.
+ *
+ * @author Heiko Scherrer
+ */
+@Profile(&quot;!&quot; + SpringProfiles.IN_MEMORY)
+@Validated
+@MeasuredRestController
+public class TransportUnitController extends AbstractWebController {
+
+    private final TransportUnitMapper mapper;
+    private final Translator translator;
+    private final BarcodeGenerator barcodeGenerator;
+    private final TransportUnitService service;
+
+<span class="fc" id="L72">    TransportUnitController(TransportUnitMapper mapper, Translator translator, BarcodeGenerator barcodeGenerator, TransportUnitService service) {</span>
+<span class="fc" id="L73">        this.mapper = mapper;</span>
+<span class="fc" id="L74">        this.translator = translator;</span>
+<span class="fc" id="L75">        this.barcodeGenerator = barcodeGenerator;</span>
+<span class="fc" id="L76">        this.service = service;</span>
+<span class="fc" id="L77">    }</span>
+
+    @GetMapping(value = API_TRANSPORT_UNITS + &quot;/{pKey}&quot;, produces = MEDIA_TYPE)
+    public ResponseEntity&lt;TransportUnitVO&gt; findTransportUnitByPKey(
+            @PathVariable(&quot;pKey&quot;) String pKey
+    ) {
+<span class="fc" id="L83">        return ResponseEntity.ok(</span>
+<span class="fc" id="L84">                convertAndLinks(service.findByPKey(pKey))</span>
+        );
+    }
+
+    @GetMapping(value = API_TRANSPORT_UNITS, params = {&quot;bk&quot;}, produces = MEDIA_TYPE)
+    public ResponseEntity&lt;TransportUnitVO&gt; findTransportUnit(
+            @RequestParam(&quot;bk&quot;) String transportUnitBK
+    ) {
+<span class="fc" id="L92">        return ResponseEntity.ok(</span>
+<span class="fc" id="L93">                convertAndLinks(service.findByBarcode(transportUnitBK))</span>
+        );
+    }
+
+    @GetMapping(value = API_TRANSPORT_UNITS, produces = MEDIA_TYPE)
+    public ResponseEntity&lt;List&lt;TransportUnitVO&gt;&gt; findAll() {
+<span class="fc" id="L99">        return ResponseEntity.ok(</span>
+<span class="fc" id="L100">                convertAndLinks(service.findAll())</span>
+        );
+    }
+
+    @GetMapping(value = API_TRANSPORT_UNITS, params = {&quot;bks&quot;}, produces = MEDIA_TYPE)
+    public ResponseEntity&lt;List&lt;TransportUnitVO&gt;&gt; findTransportUnits(
+            @RequestParam(&quot;bks&quot;) @NotEmpty List&lt;String&gt; barcodes
+    ) {
+<span class="fc" id="L108">        return ResponseEntity.ok(</span>
+<span class="fc" id="L109">                convertAndLinks(service.findByBarcodes(barcodes.stream().map(barcodeGenerator::convert).toList()))</span>
+        );
+    }
+
+    @GetMapping(value = API_TRANSPORT_UNITS, params = {&quot;actualLocation&quot;}, produces = MEDIA_TYPE)
+    public ResponseEntity&lt;List&lt;TransportUnitVO&gt;&gt; findTransportUnitsOn(
+            @RequestParam(&quot;actualLocation&quot;) String actualLocation
+    ) {
+<span class="fc" id="L117">        return ResponseEntity.ok(</span>
+<span class="fc" id="L118">                convertAndLinks(service.findOnLocation(actualLocation))</span>
+        );
+    }
+
+    @PostMapping(value = API_TRANSPORT_UNITS, params = {&quot;bk&quot;})
+    public ResponseEntity&lt;Void&gt; createTU(
+            @RequestParam(&quot;bk&quot;) String transportUnitBK,
+            @Validated(ValidationGroups.TransportUnit.Create.class) @RequestBody TransportUnitVO tu,
+            @RequestParam(value = &quot;strict&quot;, required = false) Boolean strict,
+            HttpServletRequest req
+    ) {
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        if (Boolean.TRUE.equals(strict)) {</span>
+            // check if already exists ...
+            try {
+<span class="fc" id="L132">                service.findByBarcode(transportUnitBK);</span>
+<span class="fc" id="L133">                throw new ResourceExistsException(translator.translate(TU_EXISTS, transportUnitBK), TU_EXISTS, transportUnitBK);</span>
+<span class="nc" id="L134">            } catch (NotFoundException nfe) {</span>
+                // thats fine we just cast the exception thrown by the service
+            }
+        }
+<span class="fc" id="L138">        var created = service.create(transportUnitBK, tu.getTransportUnitType().getType(), tu.getActualLocation().getLocationId(), strict);</span>
+<span class="fc" id="L139">        return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();</span>
+    }
+
+    @PostMapping(value = API_TRANSPORT_UNITS, params = {&quot;actualLocation&quot;, &quot;tut&quot;}, produces = MEDIA_TYPE)
+    public ResponseEntity&lt;TransportUnitVO&gt; createTU(
+            @RequestParam(value = &quot;bk&quot;, required = false) String transportUnitBK,
+            @RequestParam(&quot;actualLocation&quot;) String actualLocation,
+            @RequestParam(&quot;tut&quot;) String tut,
+            @RequestParam(value = &quot;strict&quot;, required = false) Boolean strict,
+            HttpServletRequest req
+    ) {
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        if (Boolean.TRUE.equals(strict)) {</span>
+
+<span class="pc bpc" id="L152" title="2 of 4 branches missed.">            if (transportUnitBK == null || transportUnitBK.isEmpty()) {</span>
+<span class="nc" id="L153">                throw new IllegalArgumentException(translator.translate(TU_BARCODE_MISSING));</span>
+            }
+
+            // check if already exists ...
+            try {
+<span class="fc" id="L158">                service.findByBarcode(transportUnitBK);</span>
+<span class="fc" id="L159">                throw new ResourceExistsException(translator.translate(TU_EXISTS, transportUnitBK), TU_EXISTS, transportUnitBK);</span>
+<span class="nc" id="L160">            } catch (NotFoundException nfe) {</span>
+                // that's fine we just cast the exception thrown by the service
+            }
+        }
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        var created = transportUnitBK == null</span>
+<span class="fc" id="L165">                ? service.createNew(tut, actualLocation)</span>
+<span class="fc" id="L166">                : service.create(transportUnitBK, tut, actualLocation, strict);</span>
+<span class="fc" id="L167">        return ResponseEntity</span>
+<span class="fc" id="L168">                .created(getLocationURIForCreatedResource(req, created.getPersistentKey()))</span>
+<span class="fc" id="L169">                .body(convertAndLinks(created))</span>
+                ;
+    }
+
+    @Validated(ValidationGroups.TransportUnit.Update.class)
+    @PutMapping(value = API_TRANSPORT_UNITS, params = {&quot;bk&quot;}, produces = MEDIA_TYPE)
+    public ResponseEntity&lt;TransportUnitVO&gt; updateTU(
+            @RequestParam(&quot;bk&quot;) String transportUnitBK,
+            @Valid @RequestBody TransportUnitVO tu
+    ) {
+<span class="fc" id="L179">        return ResponseEntity.ok(</span>
+<span class="fc" id="L180">                convertAndLinks(service.update(barcodeGenerator.convert(transportUnitBK), mapper.convert(tu)))</span>
+        );
+    }
+
+    @PatchMapping(value = API_TRANSPORT_UNITS, params = {&quot;bk&quot;, &quot;newLocation&quot;}, produces = MEDIA_TYPE)
+    public ResponseEntity&lt;TransportUnitVO&gt; moveTU(
+            @RequestParam(&quot;bk&quot;) String transportUnitBK,
+            @RequestParam(&quot;newLocation&quot;) String newLocation
+    ) {
+<span class="fc" id="L189">        return ResponseEntity.ok(</span>
+<span class="fc" id="L190">                convertAndLinks(service.moveTransportUnit(barcodeGenerator.convert(transportUnitBK), newLocation))</span>
+        );
+    }
+
+    @PostMapping(value = API_TRANSPORT_UNIT + &quot;/error&quot;, params = {&quot;bk&quot;, &quot;errorCode&quot;}, produces = MEDIA_TYPE)
+    public ResponseEntity&lt;Void&gt; addErrorToTransportUnit(
+            @RequestParam(&quot;bk&quot;) String transportUnitBK,
+            @RequestParam(value = &quot;errorCode&quot;) String errorCode
+    ) {
+<span class="fc" id="L199">        service.addError(transportUnitBK, UnitError.newBuilder()</span>
+<span class="fc" id="L200">                .errorNo(errorCode)</span>
+<span class="fc" id="L201">                .build()</span>
+        );
+<span class="fc" id="L203">        return ResponseEntity.noContent().build();</span>
+    }
+
+    @GetMapping(API_TRANSPORT_UNITS + &quot;/index&quot;)
+    public ResponseEntity&lt;Index&gt; index() {
+<span class="fc" id="L208">        return ResponseEntity.ok(</span>
+                new Index(
+<span class="fc" id="L210">                        linkTo(methodOn(TransportUnitController.class).createTU(&quot;{transportUnitBK}&quot;, null, true, null)).withRel(&quot;transport-unit-createtuwithbody&quot;),</span>
+<span class="fc" id="L211">                        linkTo(methodOn(TransportUnitController.class).createTU(&quot;{transportUnitBK}&quot;, &quot;{actualLocation}&quot;, &quot;{transportUnitType}&quot;, true, null)).withRel(&quot;transport-unit-createtuwithparams&quot;),</span>
+<span class="fc" id="L212">                        linkTo(methodOn(TransportUnitController.class).findTransportUnitByPKey(&quot;1&quot;)).withRel(&quot;transport-unit-findbypkey&quot;),</span>
+<span class="fc" id="L213">                        linkTo(methodOn(TransportUnitController.class).findTransportUnit(&quot;{transportUnitBK}&quot;)).withRel(&quot;transport-unit-findbybarcode&quot;),</span>
+<span class="fc" id="L214">                        linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList(&quot;{transportUnitBK-1}&quot;, &quot;{transportUnitBK-n}&quot;))).withRel(&quot;transport-unit-findbybarcodes&quot;),</span>
+<span class="fc" id="L215">                        linkTo(methodOn(TransportUnitController.class).findTransportUnitsOn(&quot;{actualLocation.locationId}&quot;)).withRel(&quot;transport-unit-findonlocation&quot;),</span>
+<span class="fc" id="L216">                        linkTo(methodOn(TransportUnitController.class).blockTransportUnit(&quot;{transportUnitBK}&quot;)).withRel(&quot;transport-unit-block&quot;),</span>
+<span class="fc" id="L217">                        linkTo(methodOn(TransportUnitController.class).unblockTransportUnit(&quot;{transportUnitBK}&quot;)).withRel(&quot;transport-unit-unblock&quot;),</span>
+<span class="fc" id="L218">                        linkTo(methodOn(TransportUnitController.class).qcTransportUnit(&quot;{transportUnitBK}&quot;)).withRel(&quot;transport-unit-qc&quot;)</span>
+                )
+        );
+    }
+
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + &quot;/block&quot;, params = {&quot;bk&quot;})
+    public ResponseEntity&lt;Void&gt; blockTransportUnit(@NotBlank @RequestParam(&quot;bk&quot;) String transportUnitBK) {
+<span class="fc" id="L225">        service.setState(transportUnitBK, TransportUnitState.BLOCKED);</span>
+<span class="fc" id="L226">        return ResponseEntity.noContent().build();</span>
+    }
+
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + &quot;/available&quot;, params = {&quot;bk&quot;})
+    public ResponseEntity&lt;Void&gt; unblockTransportUnit(@NotBlank @RequestParam(&quot;bk&quot;) String transportUnitBK) {
+<span class="fc" id="L231">        service.setState(transportUnitBK, TransportUnitState.AVAILABLE);</span>
+<span class="fc" id="L232">        return ResponseEntity.noContent().build();</span>
+    }
+
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + &quot;/quality-check&quot;, params = {&quot;bk&quot;})
+    public ResponseEntity&lt;Void&gt; qcTransportUnit(@NotBlank @RequestParam(&quot;bk&quot;) String transportUnitBK) {
+<span class="fc" id="L237">        service.setState(transportUnitBK, TransportUnitState.QUALITY_CHECK);</span>
+<span class="fc" id="L238">        return ResponseEntity.noContent().build();</span>
+    }
+
+    private TransportUnitVO addLinks(TransportUnitVO result) {
+<span class="fc" id="L242">        result.add(</span>
+<span class="fc" id="L243">                new SimpleLink(linkTo(methodOn(TransportUnitController.class).findTransportUnitByPKey(result.getpKey())).withSelfRel()),</span>
+<span class="fc" id="L244">                new SimpleLink(linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitType(result.getTransportUnitType().getType())).withRel(&quot;transport-unit-type&quot;))</span>
+        );
+<span class="pc bpc" id="L246" title="1 of 2 branches missed.">        if (result.getActualLocation() != null) {</span>
+<span class="fc" id="L247">            result.add(</span>
+<span class="fc" id="L248">                    new SimpleLink(linkTo(methodOn(LocationController.class).findByCoordinate(result.getActualLocation().getLocationId())).withRel(&quot;actual-location&quot;))</span>
+            );
+        }
+<span class="fc" id="L251">        return result;</span>
+    }
+
+    private TransportUnitVO convertAndLinks(TransportUnit entity) {
+<span class="fc" id="L255">        return addLinks(</span>
+<span class="fc" id="L256">                mapper.convertToVO(entity)</span>
+        );
+    }
+
+    private List&lt;TransportUnitVO&gt; convertAndLinks(List&lt;TransportUnit&gt; entities) {
+<span class="fc" id="L261">        return entities.stream()</span>
+<span class="fc" id="L262">                .map(mapper::convertToVO)</span>
+<span class="fc" id="L263">                .map(this::addLinks)</span>
+<span class="fc" id="L264">                .toList();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

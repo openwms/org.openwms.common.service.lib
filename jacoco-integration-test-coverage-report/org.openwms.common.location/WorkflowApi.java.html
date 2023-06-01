@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WorkflowApi.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.location</a> &gt; <span class="el_source">WorkflowApi.java</span></div><h1>WorkflowApi.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2023 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.location;
+
+import org.ameba.exception.NotFoundException;
+import org.ameba.exception.ResourceExistsException;
+import org.ameba.http.MeasuredRestController;
+import org.ameba.i18n.Translator;
+import org.openwms.common.location.api.LocationVO;
+import org.openwms.common.location.api.ValidationGroups;
+import org.openwms.core.http.AbstractWebController;
+import org.springframework.context.annotation.Profile;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.Optional;
+
+import static org.openwms.common.CommonMessageCodes.LOCATION_ID_INVALID;
+import static org.openwms.common.location.api.LocationApiConstants.API_LOCATIONS;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+/**
+ * A WorkflowApi.
+ *
+ * @author Heiko Scherrer
+ */
+@Profile(&quot;!INMEM&quot;)
+@Validated
+@MeasuredRestController
+public class WorkflowApi extends AbstractWebController {
+
+    private final LocationMapper mapper;
+    private final Translator translator;
+    private final LocationService locationService;
+
+<span class="fc" id="L58">    WorkflowApi(LocationService locationService, LocationMapper mapper, Translator translator) {</span>
+<span class="fc" id="L59">        this.locationService = locationService;</span>
+<span class="fc" id="L60">        this.mapper = mapper;</span>
+<span class="fc" id="L61">        this.translator = translator;</span>
+<span class="fc" id="L62">    }</span>
+
+    @PostMapping(value = API_LOCATIONS, produces = LocationVO.MEDIA_TYPE_OPT)
+    @Validated(ValidationGroups.Create.class)
+    public ResponseEntity&lt;Optional&lt;LocationVO&gt;&gt; createLocation(@Valid @RequestBody LocationVO location, HttpServletRequest req) {
+        try {
+<span class="nc" id="L68">            var created = locationService.create(mapper.convertVO(location));</span>
+<span class="nc" id="L69">            var result = mapper.convertToVO(created);</span>
+<span class="nc" id="L70">            addSelfLink(result);</span>
+<span class="nc" id="L71">            return ResponseEntity</span>
+<span class="nc" id="L72">                    .created(super.getLocationURIForCreatedResource(req, created.getPersistentKey()))</span>
+<span class="nc" id="L73">                    .body(Optional.of(result));</span>
+<span class="nc" id="L74">        } catch (ResourceExistsException e) {</span>
+<span class="nc" id="L75">            return ResponseEntity.ok(Optional.empty());</span>
+        }
+    }
+
+    @PutMapping(value = API_LOCATIONS, produces = LocationVO.MEDIA_TYPE_OPT)
+    @Validated(ValidationGroups.Update.class)
+    public ResponseEntity&lt;Optional&lt;LocationVO&gt;&gt; updateLocation(@Valid @RequestBody LocationVO location) {
+        try {
+<span class="nc" id="L83">            var updated = locationService.save(mapper.convertVO(location));</span>
+<span class="nc" id="L84">            var result = mapper.convertToVO(updated);</span>
+<span class="nc" id="L85">            addSelfLink(result);</span>
+<span class="nc" id="L86">            return ResponseEntity.ok(Optional.of(result));</span>
+<span class="nc" id="L87">        } catch (NotFoundException e) {</span>
+<span class="nc" id="L88">            return ResponseEntity.ok(Optional.empty());</span>
+        }
+    }
+
+    @GetMapping(value = API_LOCATIONS + &quot;/{pKey}&quot;, produces = LocationVO.MEDIA_TYPE_OPT)
+    public ResponseEntity&lt;Optional&lt;LocationVO&gt;&gt; findByPKeyOpt(@PathVariable(&quot;pKey&quot;) String pKey) {
+        try {
+<span class="nc" id="L95">            var location = locationService.findByPKey(pKey);</span>
+<span class="nc" id="L96">            var result = mapper.convertToVO(location);</span>
+<span class="nc" id="L97">            addSelfLink(result);</span>
+<span class="nc" id="L98">            return ResponseEntity.ok(Optional.of(result));</span>
+<span class="nc" id="L99">        } catch (NotFoundException e) {</span>
+<span class="nc" id="L100">            return ResponseEntity.ok(Optional.empty());</span>
+        }
+    }
+
+    private void addSelfLink(LocationVO result) {
+<span class="nc" id="L105">        result.add(linkTo(methodOn(WorkflowApi.class).findByPKeyOpt(result.getpKey())).withRel(&quot;location-findbypkey&quot;));</span>
+<span class="nc" id="L106">    }</span>
+
+    @GetMapping(value = API_LOCATIONS, params = {&quot;locationId&quot;}, produces = LocationVO.MEDIA_TYPE_OPT)
+    public ResponseEntity&lt;Optional&lt;LocationVO&gt;&gt; findByIdOpt(@RequestParam(&quot;locationId&quot;) String locationId) {
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        if (!LocationPK.isValid(locationId)) {</span>
+            // here we need to throw an NFE because Feign needs to cast it into an Optional. IAE won't work!
+<span class="nc" id="L112">            throw new NotFoundException(translator, LOCATION_ID_INVALID, new String[]{locationId}, locationId);</span>
+        }
+<span class="nc" id="L114">        var locationOpt = locationService.findByLocationPk(LocationPK.fromString(locationId));</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        if (locationOpt.isPresent()) {</span>
+<span class="nc" id="L116">            var result = mapper.convertToVO(locationOpt.get());</span>
+<span class="nc" id="L117">            addSelfLink(result);</span>
+<span class="nc" id="L118">            return ResponseEntity.ok(Optional.of(result));</span>
+        }
+<span class="nc" id="L120">        return ResponseEntity.ok(Optional.empty());</span>
+    }
+
+    @GetMapping(value = API_LOCATIONS, params = {&quot;erpCode&quot;}, produces = LocationVO.MEDIA_TYPE_OPT)
+    public ResponseEntity&lt;Optional&lt;LocationVO&gt;&gt; findByErpCodeOpt(@RequestParam(&quot;erpCode&quot;) String erpCode) {
+<span class="nc" id="L125">        var locationOpt = locationService.findByErpCode(erpCode);</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        if (locationOpt.isPresent()) {</span>
+<span class="nc" id="L127">            var result = mapper.convertToVO(locationOpt.get());</span>
+<span class="nc" id="L128">            addSelfLink(result);</span>
+<span class="nc" id="L129">            return ResponseEntity.ok(Optional.of(result));</span>
+        }
+<span class="nc" id="L131">        return ResponseEntity.ok(Optional.empty());</span>
+    }
+
+    @GetMapping(value = API_LOCATIONS, params = {&quot;plcCode&quot;}, produces = LocationVO.MEDIA_TYPE_OPT)
+    public ResponseEntity&lt;Optional&lt;LocationVO&gt;&gt; findByPlcCodeOpt(@RequestParam(&quot;plcCode&quot;) String plcCode) {
+<span class="nc" id="L136">        var locationOpt = locationService.findByPlcCode(plcCode);</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        if (locationOpt.isPresent()) {</span>
+<span class="nc" id="L138">            var result = mapper.convertToVO(locationOpt.get());</span>
+<span class="nc" id="L139">            addSelfLink(result);</span>
+<span class="nc" id="L140">            return ResponseEntity.ok(Optional.of(result));</span>
+        }
+<span class="nc" id="L142">        return ResponseEntity.ok(Optional.empty());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
