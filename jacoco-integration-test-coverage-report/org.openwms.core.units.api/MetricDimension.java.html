@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MetricDimension.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: Units</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.units.api</a> &gt; <span class="el_source">MetricDimension.java</span></div><h1>MetricDimension.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2023 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.core.units.api;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+import static org.openwms.core.units.api.MetricDimensionUnit.M;
+
+/**
+ * A MetricDimension represents metric dimensional units, like meters.
+ * 
+ * @author Heiko Scherrer
+ */
+public class MetricDimension implements Measurable&lt;BigDecimal, MetricDimension, MetricDimensionUnit&gt;, Serializable {
+
+    /** The unit of the MetricDimension. */
+    private MetricDimensionUnit unitType;
+    /** The magnitude of the MetricDimensionUnit. */
+    private BigDecimal magnitude;
+    /** Constant for a zero value. */
+<span class="nc" id="L37">    public static final MetricDimension ZERO = MetricDimension.of(0);</span>
+
+    /* ----------------------------- constructors ------------------- */
+    /** Accessed by persistence provider. */
+    protected MetricDimension() {
+<span class="nc" id="L42">        super();</span>
+<span class="nc" id="L43">    }</span>
+
+    /**
+     * Create a new MetricDimension.
+     *
+     * @param magnitude The magnitude
+     * @param unitType The unit of measure
+     */
+<span class="nc" id="L51">    private MetricDimension(BigDecimal magnitude, MetricDimensionUnit unitType) {</span>
+<span class="nc" id="L52">        this.magnitude = magnitude;</span>
+<span class="nc" id="L53">        this.unitType = unitType;</span>
+<span class="nc" id="L54">    }</span>
+
+    /**
+     * Create a new MetricDimension.
+     * 
+     * @param magnitude The magnitude
+     * @param unitType The unit of measure
+     * @return The new instance
+     */
+    public static MetricDimension of(int magnitude, MetricDimensionUnit unitType) {
+<span class="nc" id="L64">        return new MetricDimension(new BigDecimal(magnitude), unitType);</span>
+    }
+
+    /**
+     * Create a new MetricDimension.
+     * 
+     * @param magnitude The magnitude
+     * @return The new instance
+     */
+    public static MetricDimension of(int magnitude) {
+<span class="nc" id="L74">        return new MetricDimension(new BigDecimal(magnitude), M.getBaseUnit());</span>
+    }
+
+    /**
+     * Create a new MetricDimension.
+     * 
+     * @param magnitude The magnitude
+     * @param unitType The unit of measure
+     * @return The new instance
+     */
+    public static MetricDimension of(BigDecimal magnitude, MetricDimensionUnit unitType) {
+<span class="nc" id="L85">        return new MetricDimension(magnitude, unitType);</span>
+    }
+
+    /**
+     * Create a new MetricDimension.
+     * 
+     * @param magnitude The magnitude
+     * @return The new instance
+     */
+    public static MetricDimension of(BigDecimal magnitude) {
+<span class="nc" id="L95">        return new MetricDimension(magnitude, M.getBaseUnit());</span>
+    }
+
+    /* ----------------------------- methods ------------------- */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public BigDecimal getMagnitude() {
+<span class="nc" id="L104">        return magnitude;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MetricDimensionUnit getUnitType() {
+<span class="nc" id="L112">        return unitType;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @JsonIgnore
+    @Override
+    public boolean isZero() {
+<span class="nc" id="L121">        return MetricDimension.ZERO.equals(new MetricDimension(this.getMagnitude(), M));</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @JsonIgnore
+    @Override
+    public boolean isNegative() {
+<span class="nc bnc" id="L130" title="All 4 branches missed.">        return this.getMagnitude() == null || this.getMagnitude().signum() == -1;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @JsonIgnore
+    @Override
+    public MetricDimension convertTo(MetricDimensionUnit unt) {
+<span class="nc" id="L139">        return new MetricDimension(getMagnitude().scaleByPowerOfTen((this.getUnitType().ordinal() - unt.ordinal()) * 1), unt);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @JsonIgnore
+    @Override
+    public Measurable&lt;BigDecimal, MetricDimension, MetricDimensionUnit&gt; add(Measurable&lt;BigDecimal, MetricDimension, MetricDimensionUnit&gt; other) {
+<span class="nc bnc" id="L148" title="All 4 branches missed.">        if (other == null || other == ZERO) {</span>
+<span class="nc" id="L149">            return MetricDimension.of(this.magnitude, this.unitType);</span>
+        }
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        if (this.unitType.ordinal() &gt; other.getUnitType().ordinal()) {</span>
+<span class="nc" id="L152">            int factor = this.unitType.ordinal() - other.getUnitType().ordinal();</span>
+<span class="nc" id="L153">            return MetricDimension.of(this.magnitude.scaleByPowerOfTen(factor * 3).add(other.getMagnitude()), other.getUnitType());</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">        } else if (this.unitType.ordinal() &lt; other.getUnitType().ordinal()) {</span>
+<span class="nc" id="L155">            int factor = other.getUnitType().ordinal() - this.unitType.ordinal();</span>
+<span class="nc" id="L156">            return MetricDimension.of(other.getMagnitude().scaleByPowerOfTen(factor * 3).add(this.magnitude), this.unitType);</span>
+        }
+<span class="nc" id="L158">        return MetricDimension.of(other.getMagnitude().add(this.magnitude), this.unitType);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @JsonIgnore
+    @Override
+    public Measurable&lt;BigDecimal, MetricDimension, MetricDimensionUnit&gt; subtract(Measurable&lt;BigDecimal, MetricDimension, MetricDimensionUnit&gt; subtrahent) {
+<span class="nc bnc" id="L167" title="All 4 branches missed.">        if (subtrahent == null || subtrahent == ZERO) {</span>
+<span class="nc" id="L168">            return MetricDimension.of(this.magnitude, this.unitType);</span>
+        }
+<span class="nc bnc" id="L170" title="All 2 branches missed.">        if (this.unitType.ordinal() &gt; subtrahent.getUnitType().ordinal()) {</span>
+<span class="nc" id="L171">            int factor = this.unitType.ordinal() - subtrahent.getUnitType().ordinal();</span>
+<span class="nc" id="L172">            return MetricDimension.of(this.magnitude.scaleByPowerOfTen(factor * 3).subtract(subtrahent.getMagnitude()), subtrahent.getUnitType());</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">        } else if (this.unitType.ordinal() &lt; subtrahent.getUnitType().ordinal()) {</span>
+<span class="nc" id="L174">            int factor = subtrahent.getUnitType().ordinal() - this.unitType.ordinal();</span>
+<span class="nc" id="L175">            return MetricDimension.of(this.magnitude.subtract(subtrahent.getMagnitude().scaleByPowerOfTen(factor * 3)), this.unitType);</span>
+        }
+<span class="nc" id="L177">        return MetricDimension.of(this.magnitude.subtract(subtrahent.getMagnitude()), this.unitType);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @JsonIgnore
+    @Override
+    public int compareTo(MetricDimension o) {
+<span class="nc bnc" id="L186" title="All 2 branches missed.">        if (o.getUnitType().ordinal() &gt; this.getUnitType().ordinal()) {</span>
+<span class="nc" id="L187">            int factor = o.getUnitType().ordinal() - this.getUnitType().ordinal();</span>
+<span class="nc" id="L188">            return this.magnitude.compareTo(o.magnitude.scaleByPowerOfTen(factor * 3));</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">        } else if (o.getUnitType().ordinal() &lt; this.getUnitType().ordinal()) {</span>
+<span class="nc" id="L190">            int factor = this.getUnitType().ordinal() - o.getUnitType().ordinal();</span>
+<span class="nc" id="L191">            return this.magnitude.scaleByPowerOfTen(factor * 3).compareTo(o.magnitude);</span>
+        } else {
+<span class="nc" id="L193">            return this.magnitude.compareTo(o.magnitude);</span>
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * Uses magnitude and unitType for calculation.
+     */
+    @Override
+    public int hashCode() {
+<span class="nc" id="L204">        final int prime = 31;</span>
+<span class="nc" id="L205">        int result = 1;</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">        result = prime * result + ((magnitude == null) ? 0 : magnitude.hashCode());</span>
+<span class="nc bnc" id="L207" title="All 2 branches missed.">        result = prime * result + ((unitType == null) ? 0 : unitType.hashCode());</span>
+<span class="nc" id="L208">        return result;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * Uses magnitude and unitType for comparison.
+     */
+    @Override
+    public boolean equals(Object obj) {
+<span class="nc bnc" id="L218" title="All 2 branches missed.">        if (this == obj) {</span>
+<span class="nc" id="L219">            return true;</span>
+        }
+<span class="nc bnc" id="L221" title="All 2 branches missed.">        if (obj == null) {</span>
+<span class="nc" id="L222">            return false;</span>
+        }
+<span class="nc bnc" id="L224" title="All 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
+<span class="nc" id="L225">            return false;</span>
+        }
+<span class="nc" id="L227">        MetricDimension other = (MetricDimension) obj;</span>
+<span class="nc bnc" id="L228" title="All 4 branches missed.">        if (magnitude == null &amp;&amp; other.magnitude != null) {</span>
+<span class="nc" id="L229">            return false;</span>
+        }
+<span class="nc bnc" id="L231" title="All 2 branches missed.">        return this.compareTo(other) == 0;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L239">        return asString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
