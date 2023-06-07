@@ -190,10 +190,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <layers>
-                        <configuration>${project.basedir}/src/layers.xml</configuration>
-                        <enabled>true</enabled>
-                    </layers>
 					<excludes>
 						<exclude>
 							<groupId>org.springframework.boot</groupId>
