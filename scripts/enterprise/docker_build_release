@@ -1,2 +1,0 @@
-#!/bin/bash
-docker build -t registry.butan092.startdedicated.de/interface21.io/org.openwms.common.service:$VERSION-$GITHUB_RUN_NUMBER .
