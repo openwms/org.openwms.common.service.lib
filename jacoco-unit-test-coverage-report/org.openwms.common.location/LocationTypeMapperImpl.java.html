@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocationTypeMapperImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.location</a> &gt; <span class="el_source">LocationTypeMapperImpl.java</span></div><h1>LocationTypeMapperImpl.java</h1><pre class="source lang-java linenums">package org.openwms.common.location;
+
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.processing.Generated;
+import org.openwms.common.location.api.LocationTypeVO;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = &quot;org.mapstruct.ap.MappingProcessor&quot;
+)
+@Component
+<span class="fc" id="L13">public class LocationTypeMapperImpl extends LocationTypeMapper {</span>
+
+    @Override
+    public LocationTypeVO convertToVO(LocationType eo) {
+<span class="nc bnc" id="L17" title="All 2 branches missed.">        if ( eo == null ) {</span>
+<span class="nc" id="L18">            return null;</span>
+        }
+
+<span class="nc" id="L21">        String type = null;</span>
+
+<span class="nc" id="L23">        type = eo.getType();</span>
+
+<span class="nc" id="L25">        LocationTypeVO locationTypeVO = new LocationTypeVO( type );</span>
+
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        if ( eo.hasPersistentKey() ) {</span>
+<span class="nc" id="L28">            locationTypeVO.setpKey( eo.getPersistentKey() );</span>
+        }
+<span class="nc" id="L30">        locationTypeVO.setDescription( eo.getDescription() );</span>
+<span class="nc" id="L31">        locationTypeVO.setLength( eo.getLength() );</span>
+<span class="nc" id="L32">        locationTypeVO.setWidth( eo.getWidth() );</span>
+<span class="nc" id="L33">        locationTypeVO.setHeight( eo.getHeight() );</span>
+
+<span class="nc" id="L35">        return locationTypeVO;</span>
+    }
+
+    @Override
+    public List&lt;LocationTypeVO&gt; convertToVO(List&lt;LocationType&gt; eo) {
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if ( eo == null ) {</span>
+<span class="nc" id="L41">            return null;</span>
+        }
+
+<span class="nc" id="L44">        List&lt;LocationTypeVO&gt; list = new ArrayList&lt;LocationTypeVO&gt;( eo.size() );</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        for ( LocationType locationType : eo ) {</span>
+<span class="nc" id="L46">            list.add( convertToVO( locationType ) );</span>
+<span class="nc" id="L47">        }</span>
+
+<span class="nc" id="L49">        return list;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

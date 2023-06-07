@@ -1,0 +1,783 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Location.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.location</a> &gt; <span class="el_source">Location.java</span></div><h1>Location.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2023 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.location;
+
+import org.openwms.common.account.Account;
+import org.openwms.common.app.Default;
+import org.springframework.util.Assert;
+
+import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+import static java.lang.String.format;
+import static org.openwms.common.location.StringListConverter.STRING_LIST_LENGTH;
+
+/**
+ * A Location, represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a conveyor
+ * location. Even error locations can be represented with the Location. Multiple Locations with same characteristics are grouped to a
+ * {@link LocationGroup}.
+ *
+ * @author Heiko Scherrer
+ * @GlossaryTerm
+ * @see org.openwms.common.location.LocationGroup
+ */
+@Entity
+@Table(name = Location.TABLE, uniqueConstraints = {
+        @UniqueConstraint(name = &quot;UC_LOC_ID&quot;, columnNames = {&quot;C_AREA&quot;, &quot;C_AISLE&quot;, &quot;C_X&quot;, &quot;C_Y&quot;, &quot;C_Z&quot;}),
+        @UniqueConstraint(name = &quot;UC_LOC_PLC_CODE&quot;, columnNames = &quot;C_PLC_CODE&quot;),
+        @UniqueConstraint(name = &quot;UC_LOC_ERP_CODE&quot;, columnNames = &quot;C_ERP_CODE&quot;)
+})
+public class Location extends Target implements Serializable {
+
+    /** Table name. */
+    public static final String TABLE = &quot;COM_LOCATION&quot;;
+    private static final String CREATION_OF_LOCATION_WITH_LOCATION_ID_NULL = &quot;Creation of Location with locationId null&quot;;
+
+    /** Unique natural key. */
+    @Embedded
+    @NotNull
+    @AttributeOverride(name = &quot;area&quot;, column = @Column(name = &quot;C_AREA&quot;))
+    @AttributeOverride(name = &quot;aisle&quot;, column = @Column(name = &quot;C_AISLE&quot;))
+    @AttributeOverride(name = &quot;x&quot;, column = @Column(name = &quot;C_X&quot;))
+    @AttributeOverride(name = &quot;y&quot;, column = @Column(name = &quot;C_Y&quot;))
+    @AttributeOverride(name = &quot;z&quot;, column = @Column(name = &quot;C_Z&quot;))
+    private LocationPK locationId;
+
+    /** The {@code Location} might be assigned to an {@link Account}. */
+    @ManyToOne
+    @JoinColumn(name = &quot;C_ACCOUNT&quot;, referencedColumnName = &quot;C_IDENTIFIER&quot;, foreignKey = @ForeignKey(name = &quot;FK_LOC_ACC&quot;))
+    private Account account;
+
+    /** PLC code of the {@code Location}. */
+    @Column(name = &quot;C_PLC_CODE&quot;)
+    private String plcCode;
+
+    /** ERP code of the {@code Location}. */
+    @Column(name = &quot;C_ERP_CODE&quot;, unique = true)
+    private String erpCode;
+
+    /** Description of the {@code Location}. */
+    @Column(name = &quot;C_DESCRIPTION&quot;)
+    @Size(max = 255)
+    private String description;
+
+    /** Sort order index used by strategies for putaway, or picking. */
+    @Column(name = &quot;C_SORT&quot;)
+    private Integer sortOrder;
+
+    /** Might be assigned to a particular zone in stock. */
+    @Column(name = &quot;C_STOCK_ZONE&quot;)
+    private String stockZone;
+
+    /** A {@code Location} can be assigned to a particular labels. */
+    @Column(name=&quot;C_LABELS&quot;, length = STRING_LIST_LENGTH)
+    @Convert(converter = StringListConverter.class)
+    @Size(max = STRING_LIST_LENGTH)
+    private List&lt;String&gt; labels;
+
+    /** Maximum number of {@code TransportUnit}s allowed on the {@code Location}. */
+<span class="fc" id="L115">    @Column(name = &quot;C_NO_MAX_TRANSPORT_UNITS&quot;)</span>
+    private int noMaxTransportUnits = DEF_MAX_TU;
+    /** Default value of {@link #noMaxTransportUnits}. */
+    public static final int DEF_MAX_TU = 1;
+
+    /** Maximum allowed weight on the {@code Location}. */
+    @Column(name = &quot;C_MAXIMUM_WEIGHT&quot;)
+    private BigDecimal maximumWeight;
+
+    /**
+     * Date of last movement. When a {@code TransportUnit} is moving to or away from the {@code Location}, {@code lastMovement} is updated.
+     * This is useful to get the history of {@code TransportUnit}s as well as for inventory calculation.
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = &quot;C_LAST_MOVEMENT&quot;)
+    private Date lastMovement;
+
+    /**
+     * Shall the {@code Location} be included in the calculation of {@code TransportUnit}s of the parent {@link LocationGroup}.
+     * &lt;ul&gt;
+     *     &lt;li&gt;{@literal true} : {@code Location} is included in calculation of {@code TransportUnit}s.&lt;/li&gt;
+     *     &lt;li&gt;{@literal false}: {@code Location} is not included in calculation of {@code TransportUnit}s.&lt;/li&gt;
+     * &lt;/ul&gt;
+     */
+<span class="fc" id="L139">    @Column(name = &quot;C_LG_COUNTING_ACTIVE&quot;)</span>
+<span class="fc" id="L140">    private Boolean locationGroupCountingActive = DEF_LG_COUNTING_ACTIVE;</span>
+    /** Default value of {@link #locationGroupCountingActive}. */
+    public static final boolean DEF_LG_COUNTING_ACTIVE = false;
+
+    /**
+     * Signals the incoming state of the {@code Location}.
+     * {@code Location}s which are blocked for incoming movements do not accept {@code TransportUnit}s.
+     * &lt;ul&gt;
+     *     &lt;li&gt;{@literal true} : {@code Location} is ready to pick up {@code TransportUnit}s.&lt;/li&gt;
+     *     &lt;li&gt;{@literal false}: {@code Location} is locked, and cannot pick up {@code TransportUnit}s.&lt;/li&gt;
+     * &lt;/ul&gt;
+     */
+<span class="fc" id="L152">    @Column(name = &quot;C_INCOMING_ACTIVE&quot;)</span>
+    private boolean incomingActive = DEF_INCOMING_ACTIVE;
+    /** Default value of {@link #incomingActive}. */
+    public static final boolean DEF_INCOMING_ACTIVE = true;
+
+    /**
+     * Signals the outgoing state of the {@code Location}.
+     * {@code Location}s which are blocked for outgoing do not accept to move {@code TransportUnit}s away.
+     * &lt;ul&gt;
+     *     &lt;li&gt;{@literal true} : {@code Location} is enabled for outgoing {@code TransportUnit}s.&lt;/li&gt;
+     *     &lt;li&gt;{@literal false}: {@code Location} is locked, {@code TransportUnit}s can't leave the {@code Location}.&lt;/li&gt;
+     * &lt;/ul&gt;
+     */
+<span class="fc" id="L165">    @Column(name = &quot;C_OUTGOING_ACTIVE&quot;)</span>
+    private boolean outgoingActive = DEF_OUTGOING_ACTIVE;
+    /** Default value of {@link #outgoingActive}. */
+    public static final boolean DEF_OUTGOING_ACTIVE = true;
+
+    /**
+     * The PLC is able to change the state of a {@code Location}. This property stores the last state, received from the PLC.
+     * &lt;ul&gt;
+     *     &lt;li&gt;0 : No PLC error, everything okay&lt;/li&gt;
+     *     &lt;li&gt;&amp;lt; 0: Not defined&lt;/li&gt;
+     *     &lt;li&gt;&amp;gt; 0: Some defined error code&lt;/li&gt;
+     * &lt;/ul&gt;
+     */
+<span class="fc" id="L178">    @Column(name = &quot;C_PLC_STATE&quot;)</span>
+    private int plcState = DEF_PLC_STATE;
+    /** Default value of {@link #plcState}. */
+    public static final int DEF_PLC_STATE = 0;
+
+    /**
+     * Determines whether the {@code Location} is considered in the allocation procedure.
+     * &lt;ul&gt;
+     *     &lt;li&gt;{@literal true} : The {@code Location} is considered in storage calculation by an allocation procedure.&lt;/li&gt;
+     *     &lt;li&gt;{@literal false} : The {@code Location} is not considered in the allocation process.&lt;/li&gt;
+     * &lt;/ul&gt;
+     */
+<span class="fc" id="L190">    @Column(name = &quot;C_CONSIDERED_IN_ALLOCATION&quot;)</span>
+<span class="fc" id="L191">    private Boolean consideredInAllocation = DEF_CONSIDERED_IN_ALLOCATION;</span>
+    /** Default value of {@link #consideredInAllocation}. */
+    public static final boolean DEF_CONSIDERED_IN_ALLOCATION = true;
+
+    /** The {@link LocationType} the {@code Location} belongs to. */
+    @ManyToOne
+    @JoinColumn(name = &quot;C_LOCATION_TYPE&quot;, foreignKey = @ForeignKey(name = &quot;FK_LOC_LT&quot;))
+    private LocationType locationType;
+
+    /** Some group the {@code Location} belongs to. */
+    @Column(name = &quot;C_GROUP&quot;)
+    private String group;
+
+    /** The {@code Location} may be classified, like 'hazardous'. */
+    @Column(name = &quot;C_CLASSIFICATION&quot;)
+    @Size(max = 255)
+    private String classification;
+
+    /** The {@link LocationGroup} the {@code Location} belongs to. */
+    @ManyToOne
+    @JoinColumn(name = &quot;C_LOCATION_GROUP&quot;, foreignKey = @ForeignKey(name = &quot;FK_LOC_LG&quot;))
+    private LocationGroup locationGroup;
+
+    /** Stored {@link Message}s on the {@code Location}. */
+<span class="fc" id="L215">    @OneToMany(cascade = {CascadeType.ALL})</span>
+    @JoinTable(name = &quot;COM_LOCATION_MESSAGE&quot;,
+            uniqueConstraints = @UniqueConstraint(name = &quot;UC_LOCM_ID&quot;, columnNames = &quot;C_MESSAGE_ID&quot;),
+            joinColumns = @JoinColumn(name = &quot;C_LOCATION_ID&quot;, foreignKey = @ForeignKey(name = &quot;FK_LOCM_LOCPK&quot;)),
+            inverseJoinColumns = @JoinColumn(name = &quot;C_MESSAGE_ID&quot;, foreignKey = @ForeignKey(name = &quot;FK_LOCM_MSGPK&quot;))
+    )
+    private Set&lt;Message&gt; messages = new HashSet&lt;&gt;();
+
+    /*~ ----------------------------- constructors ------------------- */
+
+    /**
+     * Create a new Location with the business key.
+     *
+     * @param locationId The unique natural key of the Location
+     */
+<span class="fc" id="L230">    protected Location(LocationPK locationId) {</span>
+<span class="fc" id="L231">        Assert.notNull(locationId, CREATION_OF_LOCATION_WITH_LOCATION_ID_NULL);</span>
+<span class="fc" id="L232">        this.locationId = locationId;</span>
+<span class="fc" id="L233">    }</span>
+
+    /**
+     * Create a new Location.
+     *
+     * @param locationId The unique natural key of the Location
+     * @param locationGroup The LocationGroup the Location belongs to
+     */
+    @Default
+    Location(LocationPK locationId, Account account, LocationGroup locationGroup, LocationType locationType, String erpCode,
+<span class="fc" id="L243">            String plcCode, Integer sortOrder, String stockZone) {</span>
+<span class="fc" id="L244">        Assert.notNull(locationId, CREATION_OF_LOCATION_WITH_LOCATION_ID_NULL);</span>
+<span class="fc" id="L245">        this.locationId = locationId;</span>
+<span class="fc" id="L246">        this.account = account;</span>
+<span class="fc" id="L247">        this.locationGroup = locationGroup;</span>
+<span class="fc" id="L248">        this.locationType = locationType;</span>
+<span class="fc" id="L249">        this.erpCode = erpCode;</span>
+<span class="fc" id="L250">        this.plcCode = plcCode;</span>
+<span class="fc" id="L251">        this.sortOrder = sortOrder;</span>
+<span class="fc" id="L252">        this.stockZone = stockZone;</span>
+<span class="fc" id="L253">    }</span>
+
+    /** Dear JPA... */
+<span class="fc" id="L256">    protected Location() { }</span>
+
+    /**
+     * Create a new Location with the business key.
+     *
+     * @param locationId The unique natural key of the Location
+     * @return The Location
+     */
+    public static Location create(LocationPK locationId) {
+<span class="fc" id="L265">        return new Location(locationId);</span>
+    }
+    /*~ ----------------------------- methods ------------------- */
+    /** Required for the Mapper. */
+    @Override
+    public void setPersistentKey(String pKey) {
+<span class="fc" id="L271">        super.setPersistentKey(pKey);</span>
+<span class="fc" id="L272">    }</span>
+
+    /**
+     * Check if the Location has a {@code locationId} set.
+     * @return {@literal true} if so
+     */
+    public boolean hasLocationId() {
+<span class="pc bpc" id="L279" title="1 of 2 branches missed.">        return locationId != null;</span>
+    }
+
+    /**
+     * Return the {@link Account} this {@code Location} is assigned to.
+     *
+     * @return The Account
+     */
+    public Account getAccount() {
+<span class="fc" id="L288">        return account;</span>
+    }
+
+    /**
+     * Get the ERP Code of the Location.
+     *
+     * @return The ERP code
+     */
+    public String getErpCode() {
+<span class="fc" id="L297">        return erpCode;</span>
+    }
+
+    /**
+     * Get the PLC Code of the Location.
+     *
+     * @return The PLC code
+     */
+    public String getPlcCode() {
+<span class="fc" id="L306">        return plcCode;</span>
+    }
+
+    /**
+     * Add a new {@link Message} to this Location.
+     *
+     * @param message The {@link Message} to be added
+     * @return {@literal true} if the {@link Message} is new in the collection of messages, otherwise {@literal false}
+     */
+    public boolean addMessage(Message message) {
+<span class="fc" id="L316">        Assert.notNull(message, &quot;null passed to addMessage, this: &quot; + this);</span>
+<span class="fc" id="L317">        return this.messages.add(message);</span>
+    }
+
+    /**
+     * Determine whether the Location is considered during allocation.
+     *
+     * @return {@literal true} when considered in allocation, otherwise {@literal false}
+     */
+    public boolean isConsideredInAllocation() {
+<span class="fc" id="L326">        return this.consideredInAllocation;</span>
+    }
+
+    /**
+     * Returns the description of the Location.
+     *
+     * @return The description text
+     */
+    public String getDescription() {
+<span class="fc" id="L335">        return this.description;</span>
+    }
+
+    /**
+     * Set the description text of the Location.
+     *
+     * @param description The description text
+     */
+    public void setDescription(String description) {
+<span class="fc" id="L344">        this.description = description;</span>
+<span class="fc" id="L345">    }</span>
+
+    /**
+     * Get the sortOrder.
+     *
+     * @return A sequence number
+     */
+    public Integer getSortOrder() {
+<span class="fc" id="L353">        return sortOrder;</span>
+    }
+
+    /**
+     * Returns the stockZone.
+     *
+     * @return As string
+     */
+    public String getStockZone() {
+<span class="fc" id="L362">        return stockZone;</span>
+    }
+
+    /**
+     * Returns the list of Strings set as labels for the Location.
+     *
+     * @return A list of Strings or an empty list
+     */
+    public List&lt;String&gt; getLabels() {
+<span class="fc" id="L371">        return labels;</span>
+    }
+
+    /**
+     * Set a list of labels to the Location.
+     *
+     * @param labels A comma-separated list of labels
+     */
+    public void setLabels(List&lt;String&gt; labels) {
+<span class="fc" id="L380">        this.labels = labels;</span>
+<span class="fc" id="L381">    }</span>
+
+    /**
+     * Determine whether incoming mode is activated and {@code TransportUnit}s can be put on this Location.
+     *
+     * @return {@literal true} when incoming mode is activated, otherwise {@literal false}
+     */
+    public boolean isInfeedActive() {
+<span class="fc" id="L389">        return this.incomingActive;</span>
+    }
+
+    /**
+     * Set the incoming mode of this Location.
+     *
+     * @param infeedActive {@literal true} means Infeed movements are possible, {@literal false} means Infeed movements are blocked
+     */
+    public void setInfeed(boolean infeedActive) {
+<span class="fc" id="L398">        this.incomingActive = infeedActive;</span>
+<span class="fc" id="L399">    }</span>
+
+    /**
+     * Check whether infeed is blocked and moving {@code TransportUnit}s to here is forbidden.
+     *
+     * @return {@literal true} is blocked, otherwise {@literal false}
+     */
+    public boolean isInfeedBlocked() {
+<span class="fc bfc" id="L407" title="All 2 branches covered.">        return !this.incomingActive;</span>
+    }
+
+    /**
+     * Return the date when the Location was updated the last time.
+     *
+     * @return Timestamp of the last update
+     */
+    public Date getLastMovement() {
+<span class="fc" id="L416">        return this.lastMovement;</span>
+    }
+
+    /**
+     * Change the date when a TransportUnit was put or left the Location the last time.
+     *
+     * @param lastMovement The date of change.
+     */
+    public void setLastMovement(Date lastMovement) {
+<span class="fc" id="L425">        this.lastMovement = lastMovement;</span>
+<span class="fc" id="L426">    }</span>
+
+    /**
+     * Return the {@link LocationGroup} where the Location belongs to.
+     *
+     * @return The {@link LocationGroup} of the Location
+     */
+    public LocationGroup getLocationGroup() {
+<span class="fc" id="L434">        return this.locationGroup;</span>
+    }
+
+    /**
+     * Determine whether the Location is part of the parent {@link LocationGroup}s calculation procedure of {@code TransportUnit}s.
+     *
+     * @return {@literal true} if calculation is activated, otherwise {@literal false}
+     */
+    public boolean isLocationGroupCountingActive() {
+<span class="fc" id="L443">        return this.locationGroupCountingActive;</span>
+    }
+
+    /**
+     * Returns the locationId (natural key) of the Location.
+     *
+     * @return The locationId
+     */
+    public LocationPK getLocationId() {
+<span class="fc" id="L452">        return this.locationId;</span>
+    }
+
+    /**
+     * Returns the type of Location.
+     *
+     * @return The type
+     */
+    public LocationType getLocationType() {
+<span class="fc" id="L461">        return this.locationType;</span>
+    }
+
+    public void setLocationType(LocationType locationType) {
+<span class="pc bpc" id="L465" title="3 of 4 branches missed.">        if (this.locationType != null &amp;&amp; !this.locationType.equals(locationType)) {</span>
+<span class="nc" id="L466">            throw new IllegalArgumentException(format(&quot;LocationType of Location [%s] is already defined and can't be changed&quot;, locationType));</span>
+        }
+<span class="fc" id="L468">        this.locationType = locationType;</span>
+<span class="fc" id="L469">    }</span>
+
+    /**
+     * Returns the group the Location belongs to.
+     *
+     * @return The group as String
+     */
+    public String getGroup() {
+<span class="fc" id="L477">        return group;</span>
+    }
+
+    /**
+     * Returns the classification of the Location.
+     *
+     * @return As a String
+     */
+    public String getClassification() {
+<span class="fc" id="L486">        return classification;</span>
+    }
+
+    /**
+     * Set the classification.
+     *
+     * @param classification As an arbitrary String
+     */
+    public void setClassification(String classification) {
+<span class="nc" id="L495">        this.classification = classification;</span>
+<span class="nc" id="L496">    }</span>
+
+    /**
+     * Return the maximum allowed weight on the Location.
+     *
+     * @return The maximum allowed weight
+     */
+    public BigDecimal getMaximumWeight() {
+<span class="fc" id="L504">        return this.maximumWeight;</span>
+    }
+
+    /**
+     * Returns an unmodifiable Set of {@link Message}s stored for the Location.
+     *
+     * @return An unmodifiable Set
+     */
+    public Set&lt;Message&gt; getMessages() {
+<span class="fc" id="L513">        return new HashSet&lt;&gt;(messages);</span>
+    }
+
+    /**
+     * Returns the maximum number of {@code TransportUnit}s allowed on the Location.
+     *
+     * @return The maximum number of {@code TransportUnit}s
+     */
+    public int getNoMaxTransportUnits() {
+<span class="fc" id="L522">        return noMaxTransportUnits;</span>
+    }
+
+    /**
+     * Determine whether outgoing mode is activated and {@code TransportUnit}s can leave this Location.
+     *
+     * @return {@literal true} when outgoing mode is activated, otherwise {@literal false}
+     */
+    public boolean isOutfeedActive() {
+<span class="fc" id="L531">        return this.outgoingActive;</span>
+    }
+
+    /**
+     * Check whether outfeed is blocked and moving {@code TransportUnit}s from here is forbidden.
+     *
+     * @return {@literal true} is blocked, otherwise {@literal false}
+     */
+    public boolean isOutfeedBlocked() {
+<span class="fc bfc" id="L540" title="All 2 branches covered.">        return !this.outgoingActive;</span>
+    }
+
+    /**
+     * Set the outfeed mode of this Location.
+     *
+     * @param outfeedActive {@literal true} means Outfeed movements are possible, {@literal false} means Outfeed movements are blocked
+     */
+    public void setOutfeed(boolean outfeedActive) {
+<span class="fc" id="L549">        this.outgoingActive = outfeedActive;</span>
+<span class="fc" id="L550">    }</span>
+
+
+    /**
+     * Return the current set plc state.
+     *
+     * @return the plc state
+     */
+    public int getPlcState() {
+<span class="fc" id="L559">        return plcState;</span>
+    }
+
+    /**
+     * Set the plc state.
+     *
+     * @param plcState the plc state
+     */
+    public void setPlcState(int plcState) {
+<span class="fc" id="L568">        this.plcState = plcState;</span>
+<span class="fc" id="L569">    }</span>
+
+    /**
+     * Remove one or more {@link Message}s from this Location.
+     *
+     * @param msgs An array of {@link Message}s to be removed
+     * @return {@literal true} if the {@link Message}s were found and removed, otherwise {@literal false}
+     * @throws IllegalArgumentException when messages is {@literal null}
+     */
+    public boolean removeMessages(Message... msgs) {
+<span class="fc" id="L579">        Assert.notNull(msgs, () -&gt; &quot;null passed to removeMessages, this: &quot; + this);</span>
+<span class="fc" id="L580">        return this.messages.removeAll(Arrays.asList(msgs));</span>
+    }
+
+    /**
+     * Add this {@code Location} to the {@literal locationGroup}. When the argument is {@literal null} an existing {@link LocationGroup} is
+     * removed from the {@code Location}.
+     *
+     * @param locationGroup The {@link LocationGroup} to be assigned
+     */
+    void setLocationGroup(LocationGroup locationGroup) {
+<span class="fc" id="L590">        Assert.notNull(locationGroup, () -&gt; &quot;Not allowed to call location#setLocationGroup with null argument, this: &quot; + this);</span>
+<span class="fc bfc" id="L591" title="All 2 branches covered.">        if (this.locationGroup != null) {</span>
+<span class="fc" id="L592">            this.locationGroup.removeLocation(this);</span>
+        }
+<span class="fc" id="L594">        this.setLocationGroupCountingActive(locationGroup.isLocationGroupCountingActive());</span>
+<span class="fc" id="L595">        this.locationGroup = locationGroup;</span>
+<span class="fc" id="L596">    }</span>
+
+    /**
+     * Define whether or not the Location shall be considered in counting {@code TransportUnit}s of the parent {@link LocationGroup}.
+     *
+     * @param locationGroupCountingActive {@literal true} if considered, otherwise {@literal false}
+     */
+    public void setLocationGroupCountingActive(boolean locationGroupCountingActive) {
+<span class="fc" id="L604">        this.locationGroupCountingActive = locationGroupCountingActive;</span>
+<span class="fc" id="L605">    }</span>
+
+    /**
+     * Checks whether this {@code Location} belongs to a {@code LocationGroup}.
+     *
+     * @return {@literal true} if it belongs to a {@code LocationGroup}, otherwise {@literal false}
+     */
+    public boolean belongsToLocationGroup() {
+<span class="fc bfc" id="L613" title="All 2 branches covered.">        return locationGroup != null;</span>
+    }
+
+    /**
+     * Checks whether this {@code Location} belongs NOT to a {@code LocationGroup}.
+     *
+     * @return {@literal true} if it does not belong to a {@code LocationGroup}, otherwise {@literal false}
+     */
+    public boolean belongsNotToLocationGroup() {
+<span class="pc bpc" id="L622" title="1 of 2 branches missed.">        return !belongsToLocationGroup();</span>
+    }
+
+    /**
+     * Set the locationGroup to {@literal null}.
+     */
+    void unsetLocationGroup() {
+<span class="fc" id="L629">        this.locationGroup = null;</span>
+<span class="fc" id="L630">    }</span>
+
+    /**
+     * {@inheritDoc}
+     * &lt;p&gt;
+     * Only use the unique natural key for comparison.
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L639" title="1 of 2 branches missed.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L640" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L641">        Location location = (Location) o;</span>
+<span class="fc" id="L642">        return Objects.equals(locationId, location.locationId);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     * &lt;p&gt;
+     * Only use the unique natural key for hashCode calculation.
+     */
+    @Override
+    public int hashCode() {
+<span class="fc" id="L652">        return Objects.hash(locationId);</span>
+    }
+
+    /**
+     * Return the {@link LocationPK} as String.
+     *
+     * @return String locationId
+     * @see LocationPK#toString()
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L663">        return locationId.toString();</span>
+    }
+
+
+    public static final class LocationBuilder {
+        private final Location target;
+
+<span class="fc" id="L670">        private LocationBuilder(Location target) {</span>
+<span class="fc" id="L671">            this.target = target;</span>
+<span class="fc" id="L672">        }</span>
+
+        public static LocationBuilder aLocation(Location target) {
+<span class="fc" id="L675">            return new LocationBuilder(target);</span>
+        }
+
+        public LocationBuilder withAccount(Account account) {
+<span class="fc" id="L679">            this.target.account = account;</span>
+<span class="fc" id="L680">            return this;</span>
+        }
+
+        public LocationBuilder withPlcCode(String plcCode) {
+<span class="fc" id="L684">            this.target.plcCode = plcCode;</span>
+<span class="fc" id="L685">            return this;</span>
+        }
+
+        public LocationBuilder withErpCode(String erpCode) {
+<span class="fc" id="L689">            this.target.erpCode = erpCode;</span>
+<span class="fc" id="L690">            return this;</span>
+        }
+
+        public LocationBuilder withDescription(String description) {
+<span class="fc" id="L694">            this.target.description = description;</span>
+<span class="fc" id="L695">            return this;</span>
+        }
+
+        public LocationBuilder withSortOrder(Integer sortOrder) {
+<span class="fc" id="L699">            this.target.sortOrder = sortOrder;</span>
+<span class="fc" id="L700">            return this;</span>
+        }
+
+        public LocationBuilder withStockZone(String stockZone) {
+<span class="fc" id="L704">            this.target.stockZone = stockZone;</span>
+<span class="fc" id="L705">            return this;</span>
+        }
+
+        public LocationBuilder withLabels(List&lt;String&gt; labels) {
+<span class="fc" id="L709">            this.target.labels = labels;</span>
+<span class="fc" id="L710">            return this;</span>
+        }
+
+        public LocationBuilder withNoMaxTransportUnits(int noMaxTransportUnits) {
+<span class="fc" id="L714">            this.target.noMaxTransportUnits = noMaxTransportUnits;</span>
+<span class="fc" id="L715">            return this;</span>
+        }
+
+        public LocationBuilder withMaximumWeight(BigDecimal maximumWeight) {
+<span class="fc" id="L719">            this.target.maximumWeight = maximumWeight;</span>
+<span class="fc" id="L720">            return this;</span>
+        }
+
+        public LocationBuilder withLastMovement(Date lastMovement) {
+<span class="fc" id="L724">            this.target.lastMovement = lastMovement;</span>
+<span class="fc" id="L725">            return this;</span>
+        }
+
+        public LocationBuilder withLocationGroupCountingActive(boolean locationGroupCountingActive) {
+<span class="fc" id="L729">            this.target.locationGroupCountingActive = locationGroupCountingActive;</span>
+<span class="fc" id="L730">            return this;</span>
+        }
+
+        public LocationBuilder withIncomingActive(boolean incomingActive) {
+<span class="nc" id="L734">            this.target.incomingActive = incomingActive;</span>
+<span class="nc" id="L735">            return this;</span>
+        }
+
+        public LocationBuilder withOutgoingActive(boolean outgoingActive) {
+<span class="nc" id="L739">            this.target.outgoingActive = outgoingActive;</span>
+<span class="nc" id="L740">            return this;</span>
+        }
+
+        public LocationBuilder withPlcState(int plcState) {
+<span class="nc" id="L744">            this.target.plcState = plcState;</span>
+<span class="nc" id="L745">            return this;</span>
+        }
+
+        public LocationBuilder withConsideredInAllocation(boolean consideredInAllocation) {
+<span class="fc" id="L749">            this.target.consideredInAllocation = consideredInAllocation;</span>
+<span class="fc" id="L750">            return this;</span>
+        }
+
+        public LocationBuilder withLocationType(LocationType locationType) {
+<span class="fc" id="L754">            this.target.locationType = locationType;</span>
+<span class="fc" id="L755">            return this;</span>
+        }
+
+        public LocationBuilder withGroup(String group) {
+<span class="fc" id="L759">            this.target.group = group;</span>
+<span class="fc" id="L760">            return this;</span>
+        }
+
+        public LocationBuilder withClassification(String classification) {
+<span class="fc" id="L764">            this.target.classification = classification;</span>
+<span class="fc" id="L765">            return this;</span>
+        }
+
+        public LocationBuilder withLocationGroup(LocationGroup locationGroup) {
+<span class="fc" id="L769">            this.target.locationGroup = locationGroup;</span>
+<span class="fc" id="L770">            return this;</span>
+        }
+
+        public LocationBuilder withMessages(Set&lt;Message&gt; messages) {
+<span class="fc" id="L774">            this.target.messages = messages;</span>
+<span class="fc" id="L775">            return this;</span>
+        }
+
+        public Location build() {
+<span class="fc" id="L779">            return target;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

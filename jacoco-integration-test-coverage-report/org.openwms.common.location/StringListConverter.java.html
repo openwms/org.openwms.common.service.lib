@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StringListConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.location</a> &gt; <span class="el_source">StringListConverter.java</span></div><h1>StringListConverter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2023 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.location;
+
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
+import javax.persistence.PersistenceException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static java.lang.String.format;
+
+/**
+ * A StringListConverter is a JPA {@link AttributeConverter} that is able to convert a {@code String} into a {@code List} of strings and
+ * vice-versa.
+ *
+ * @author Heiko Scherrer
+ */
+@Converter
+<span class="fc" id="L34">public class StringListConverter implements AttributeConverter&lt;List&lt;String&gt;, String&gt; {</span>
+
+    /** Default length of the string list. */
+    public static final int STRING_LIST_LENGTH = 1024;
+    /** Default separator sign of a string list. */
+    public static final String SEPARATOR = &quot;,&quot;;
+
+    /**
+     * Return the maximum list length.
+     *
+     * @see #STRING_LIST_LENGTH
+     * @return The maximum list length
+     */
+    protected int getListLength() {
+<span class="fc" id="L48">        return STRING_LIST_LENGTH;</span>
+    }
+
+    /**
+     * Return the separator that is used to separate the String into a List of Strings.
+     *
+     * @see #SEPARATOR
+     * @return The separator as String
+     */
+    protected String getSeparator() {
+<span class="fc" id="L58">        return SEPARATOR;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String convertToDatabaseColumn(List&lt;String&gt; attribute) {
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (attribute == null) {</span>
+<span class="fc" id="L67">            return null;</span>
+        }
+<span class="fc" id="L69">        var join = String.join(getSeparator(), attribute);</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">        if (join.length() &gt; getListLength()) {</span>
+<span class="nc" id="L71">            throw new PersistenceException(format(&quot;Length of column exceeded, actual length is [%d], allowed is [%d]&quot;, join.length(),</span>
+<span class="nc" id="L72">                    getListLength()));</span>
+        }
+<span class="fc" id="L74">        return join;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List&lt;String&gt; convertToEntityAttribute(String dbData) {
+<span class="pc bpc" id="L82" title="1 of 4 branches missed.">        if (dbData == null || dbData.isEmpty()) {</span>
+<span class="fc" id="L83">            return new ArrayList&lt;&gt;();</span>
+        }
+<span class="nc" id="L85">        return new ArrayList&lt;&gt;(Arrays.asList(dbData.split(getSeparator())));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

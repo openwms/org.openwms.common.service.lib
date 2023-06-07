@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransportUnitTypeVO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.transport.api</a> &gt; <span class="el_source">TransportUnitTypeVO.java</span></div><h1>TransportUnitTypeVO.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2023 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.transport.api;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.ameba.http.AbstractBase;
+
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.StringJoiner;
+
+/**
+ * A TransportUnitTypeVO.
+ *
+ * @author Heiko Scherrer
+ */
+public class TransportUnitTypeVO extends AbstractBase&lt;TransportUnitTypeVO&gt; implements Serializable {
+
+    /** HTTP media type representation. */
+    public static final String MEDIA_TYPE = &quot;application/vnd.openwms.transport-unit-type-v1+json&quot;;
+
+    /** The persistent key. */
+    @NotBlank
+    @JsonProperty(&quot;pKey&quot;)
+    private String pKey;
+
+    /** Unique natural key. */
+    @NotBlank
+    @JsonProperty(&quot;type&quot;)
+    private String type;
+
+    /** Description for the TransportUnitType. */
+    @JsonProperty(&quot;description&quot;)
+    private String description;
+
+    /** Height of the TransportUnitType. */
+    @NotBlank
+    @JsonProperty(&quot;height&quot;)
+    private String height;
+
+    /** Width of the TransportUnitType. */
+    @NotBlank
+    @JsonProperty(&quot;width&quot;)
+    private String width;
+
+    /** Length of the TransportUnitType. */
+    @NotBlank
+    @JsonProperty(&quot;length&quot;)
+    private String length;
+
+    /*~-------------------- constructors --------------------*/
+    @JsonCreator
+<span class="nc" id="L68">    protected TransportUnitTypeVO() {</span>
+<span class="nc" id="L69">    }</span>
+
+<span class="nc" id="L71">    public TransportUnitTypeVO(String type) {</span>
+<span class="nc" id="L72">        this.type = type;</span>
+<span class="nc" id="L73">    }</span>
+
+    /*~-------------------- accessors --------------------*/
+    public String getpKey() {
+<span class="nc" id="L77">        return pKey;</span>
+    }
+
+    public void setpKey(String pKey) {
+<span class="nc" id="L81">        this.pKey = pKey;</span>
+<span class="nc" id="L82">    }</span>
+
+    public String getType() {
+<span class="nc" id="L85">        return type;</span>
+    }
+
+    public void setType(String type) {
+<span class="nc" id="L89">        this.type = type;</span>
+<span class="nc" id="L90">    }</span>
+
+    public String getDescription() {
+<span class="nc" id="L93">        return description;</span>
+    }
+
+    public void setDescription(String description) {
+<span class="nc" id="L97">        this.description = description;</span>
+<span class="nc" id="L98">    }</span>
+
+    public String getHeight() {
+<span class="nc" id="L101">        return height;</span>
+    }
+
+    public void setHeight(String height) {
+<span class="nc" id="L105">        this.height = height;</span>
+<span class="nc" id="L106">    }</span>
+
+    public String getWidth() {
+<span class="nc" id="L109">        return width;</span>
+    }
+
+    public void setWidth(String width) {
+<span class="nc" id="L113">        this.width = width;</span>
+<span class="nc" id="L114">    }</span>
+
+    public String getLength() {
+<span class="nc" id="L117">        return length;</span>
+    }
+
+    public void setLength(String length) {
+<span class="nc" id="L121">        this.length = length;</span>
+<span class="nc" id="L122">    }</span>
+
+    /**
+     * All fields.
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (!(o instanceof TransportUnitTypeVO)) return false;</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
+<span class="nc" id="L132">        TransportUnitTypeVO that = (TransportUnitTypeVO) o;</span>
+<span class="nc bnc" id="L133" title="All 12 branches missed.">        return Objects.equals(pKey, that.pKey) &amp;&amp; Objects.equals(type, that.type) &amp;&amp; Objects.equals(description, that.description) &amp;&amp; Objects.equals(height, that.height) &amp;&amp; Objects.equals(width, that.width) &amp;&amp; Objects.equals(length, that.length);</span>
+    }
+
+    /**
+     * All fields.
+     */
+    @Override
+    public int hashCode() {
+<span class="nc" id="L141">        return Objects.hash(super.hashCode(), pKey, type, description, height, width, length);</span>
+    }
+
+    /**
+     * All fields.
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L149">        return new StringJoiner(&quot;, &quot;, TransportUnitTypeVO.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L150">                .add(&quot;pKey='&quot; + pKey + &quot;'&quot;)</span>
+<span class="nc" id="L151">                .add(&quot;type='&quot; + type + &quot;'&quot;)</span>
+<span class="nc" id="L152">                .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
+<span class="nc" id="L153">                .add(&quot;height='&quot; + height + &quot;'&quot;)</span>
+<span class="nc" id="L154">                .add(&quot;width='&quot; + width + &quot;'&quot;)</span>
+<span class="nc" id="L155">                .add(&quot;length='&quot; + length + &quot;'&quot;)</span>
+<span class="nc" id="L156">                .toString();</span>
+    }
+
+    public static final class Builder {
+        private String type;
+        private String description;
+        private String height;
+        private String width;
+        private String length;
+
+        private Builder() {
+        }
+
+        public static Builder aTransportUnitTypeVO() {
+<span class="nc" id="L170">            return new Builder();</span>
+        }
+
+        public Builder withType(String type) {
+<span class="nc" id="L174">            this.type = type;</span>
+<span class="nc" id="L175">            return this;</span>
+        }
+
+        public Builder withDescription(String description) {
+<span class="nc" id="L179">            this.description = description;</span>
+<span class="nc" id="L180">            return this;</span>
+        }
+
+        public Builder withHeight(String height) {
+<span class="nc" id="L184">            this.height = height;</span>
+<span class="nc" id="L185">            return this;</span>
+        }
+
+        public Builder withWidth(String width) {
+<span class="nc" id="L189">            this.width = width;</span>
+<span class="nc" id="L190">            return this;</span>
+        }
+
+        public Builder withLength(String length) {
+<span class="nc" id="L194">            this.length = length;</span>
+<span class="nc" id="L195">            return this;</span>
+        }
+
+        public TransportUnitTypeVO build() {
+<span class="nc" id="L199">            TransportUnitTypeVO transportUnitTypeVO = new TransportUnitTypeVO();</span>
+<span class="nc" id="L200">            transportUnitTypeVO.setType(type);</span>
+<span class="nc" id="L201">            transportUnitTypeVO.setDescription(description);</span>
+<span class="nc" id="L202">            transportUnitTypeVO.setHeight(height);</span>
+<span class="nc" id="L203">            transportUnitTypeVO.setWidth(width);</span>
+<span class="nc" id="L204">            transportUnitTypeVO.setLength(length);</span>
+<span class="nc" id="L205">            return transportUnitTypeVO;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

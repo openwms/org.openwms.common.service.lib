@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocationGroupEvent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Services</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.location.api.events</a> &gt; <span class="el_source">LocationGroupEvent.java</span></div><h1>LocationGroupEvent.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2023 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.location.api.events;
+
+import org.openwms.core.event.RootApplicationEvent;
+import org.springframework.util.Assert;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+
+/**
+ * A LocationGroupEvent.
+ *
+ * @author Heiko Scherrer
+ */
+public class LocationGroupEvent extends RootApplicationEvent implements Serializable {
+
+    private LocationGroupEventType type;
+
+    /**
+     * Create a new RootApplicationEvent.
+     *
+     * @param source The event sender
+     * @param type The event type
+     */
+    public LocationGroupEvent(@NotNull Object source, @NotNull LocationGroupEventType type) {
+<span class="fc" id="L40">        super(assertThis(source, type));</span>
+<span class="fc" id="L41">        this.type = type;</span>
+<span class="fc" id="L42">    }</span>
+
+    private static Object assertThis(Object source, LocationGroupEventType type) {
+<span class="fc" id="L45">        Assert.notNull(source, &quot;source is null&quot;);</span>
+<span class="fc" id="L46">        Assert.notNull(type, &quot;type is null&quot;);</span>
+<span class="fc" id="L47">        return source;</span>
+    }
+
+    public static LocationGroupEvent boot() {
+<span class="fc" id="L51">        return new LocationGroupEvent(&quot;BOOT&quot;, LocationGroupEventType.BOOT);</span>
+    }
+
+    public LocationGroupEventType getType() {
+<span class="fc" id="L55">        return type;</span>
+    }
+
+    public static LocationGroupEvent of(Object obj, LocationGroupEventType type) {
+<span class="fc" id="L59">        return new LocationGroupEvent(obj, type);</span>
+    }
+
+<span class="fc" id="L62">    public enum LocationGroupEventType {</span>
+<span class="fc" id="L63">        BOOT, CREATED, CHANGED, DELETED, STATE_CHANGE;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
