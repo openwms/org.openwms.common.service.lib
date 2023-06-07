@@ -7,7 +7,7 @@
         <version>24</version>
         <relativePath />
     </parent>
-    <artifactId>org.openwms.common.service</artifactId>
+    <artifactId>org.openwms.common.service.lib</artifactId>
     <version>2.1.0-SNAPSHOT</version>
     <name>OpenWMS.org COMMON: Base Services</name>
     <description>Essential services on common resources like Locations, LocationGroups and TransportUnits</description>
@@ -29,8 +29,8 @@
         <url>https://github.com/openwms/${project.artifactId}</url>
         <connection>scm:git:https://${scmuser}github.com/openwms/${project.artifactId}.git</connection>
         <developerConnection>scm:git:https://${scmuser}github.com/openwms/${project.artifactId}.git</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <developers>
         <developer>
@@ -350,12 +350,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <optional>true</optional>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-io</groupId>
-                    <artifactId>commons-io</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -370,7 +364,6 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-envers</artifactId>
-            <version>2.7.8</version>
             <optional>true</optional>
         </dependency>
 
