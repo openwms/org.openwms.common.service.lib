@@ -7,8 +7,8 @@ com_transport_unit_log
 com_transport_unit
 com_location
 com_location_group
-cor_message
 com_srv_revision
+com_message
 com_location_type
 com_account
 com_transport_unit_type

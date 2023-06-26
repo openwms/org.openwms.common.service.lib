@@ -1,4 +1,4 @@
-// dot 2.43.0 on Linux 5.15.0-1039-azure
+// dot 2.43.0 on Linux 5.15.0-1040-azure
 // SchemaSpy rev Unknown
 digraph "twoDegreesRelationshipsDiagram" {
   graph [
@@ -24,7 +24,7 @@ digraph "twoDegreesRelationshipsDiagram" {
   "com_location":"c_location_type":w -> "com_location_type":"elipses":e [arrowhead=none dir=back arrowtail=crowodot];
   "com_location_group":"elipses":w -> "com_account":"elipses":e [arrowhead=none dir=back arrowtail=crowodot];
   "com_location_message":"c_location_id":w -> "com_location":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
-  "com_location_message":"c_message_id":w -> "cor_message":"c_pk":e [arrowhead=none dir=back arrowtail=teeodot];
+  "com_location_message":"c_message_id":w -> "com_message":"c_pk":e [arrowhead=none dir=back arrowtail=teeodot];
   "com_transport_unit":"elipses":w -> "com_location":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
   "com_transport_unit":"elipses":w -> "com_location":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
   "com_account" [
@@ -108,20 +108,10 @@ digraph "twoDegreesRelationshipsDiagram" {
     URL="com_location_type.html"
     tooltip="com_location_type"
   ];
-  "com_transport_unit" [
+  "com_message" [
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">com_transport_unit</TD></TR>
-      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 4</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 &gt;</TD></TR>
-    </TABLE>>
-    URL="com_transport_unit.html"
-    tooltip="com_transport_unit"
-  ];
-  "cor_message" [
-    label=<
-    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">cor_message</TD></TR>
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">com_message</TD></TR>
       <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
       <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
       <TR><TD PORT="c_created_by" COLSPAN="3" ALIGN="LEFT">c_created_by</TD></TR>
@@ -132,7 +122,17 @@ digraph "twoDegreesRelationshipsDiagram" {
       <TR><TD PORT="c_message_text" COLSPAN="3" ALIGN="LEFT">c_message_text</TD></TR>
       <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
     </TABLE>>
-    URL="cor_message.html"
-    tooltip="cor_message"
+    URL="com_message.html"
+    tooltip="com_message"
+  ];
+  "com_transport_unit" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">com_transport_unit</TD></TR>
+      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 4</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 &gt;</TD></TR>
+    </TABLE>>
+    URL="com_transport_unit.html"
+    tooltip="com_transport_unit"
   ];
 }

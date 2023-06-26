@@ -56,6 +56,7 @@ import static org.openwms.common.CommonMessageCodes.LOCATION_GROUP_NOT_FOUND;
     @Mapping(target = &quot;parent&quot;, source = &quot;eo.parent.name&quot;)
     @Mapping(target = &quot;groupStateIn&quot;, source = &quot;eo.groupStateIn&quot;)
     @Mapping(target = &quot;groupStateOut&quot;, source = &quot;eo.groupStateOut&quot;)
+    @Mapping(target = &quot;children&quot;, source = &quot;eo.locationGroups&quot;)
     public abstract LocationGroupVO convertToVO(LocationGroup eo);
 
     @Mapping(target = &quot;accountId&quot;, source = &quot;eo.account.identifier&quot;)

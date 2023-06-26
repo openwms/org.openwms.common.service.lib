@@ -655,7 +655,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 653
+Content-Length: 1130
 
 [ {
   "links" : [ {
@@ -680,7 +680,24 @@ Content-Length: 653
   "parentName" : "ZILE",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "childLocationGroups" : [ {
+    "pKey" : "24417670340",
+    "name" : "IPOINT2",
+    "accountId" : "D",
+    "parentName" : "IPOINT",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "782120388022",
+    "name" : "IPOINT1",
+    "accountId" : "D",
+    "parentName" : "IPOINT",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  } ]
 } ]</code></pre>
 </div>
 </div>
@@ -703,7 +720,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 13716
+Content-Length: 53724
 
 [ {
   "pKey" : "412130127821",
@@ -711,7 +728,349 @@ Content-Length: 13716
   "accountId" : "D",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "childLocationGroups" : [ {
+    "pKey" : "623275915496",
+    "name" : "Flatgood_AREA",
+    "accountId" : "D",
+    "parentName" : "ZILE",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE",
+    "childLocationGroups" : [ {
+      "pKey" : "264924505336",
+      "name" : "FGMANUAL",
+      "accountId" : "D",
+      "parentName" : "Flatgood_AREA",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "281343921750",
+      "name" : "FGCANBAN",
+      "accountId" : "D",
+      "parentName" : "Flatgood_AREA",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "709819670512",
+      "name" : "FGAUTOMATIC",
+      "accountId" : "D",
+      "parentName" : "Flatgood_AREA",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE",
+      "childLocationGroups" : [ {
+        "pKey" : "400335177633",
+        "name" : "FGRECEIVING",
+        "accountId" : "D",
+        "parentName" : "FGAUTOMATIC",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      }, {
+        "pKey" : "585607846471",
+        "name" : "FGSHIPPING",
+        "accountId" : "D",
+        "parentName" : "FGAUTOMATIC",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE",
+        "childLocationGroups" : [ {
+          "pKey" : "881973001220",
+          "name" : "FGSHIPPING1",
+          "accountId" : "D",
+          "parentName" : "FGSHIPPING",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE",
+          "childLocationGroups" : [ {
+            "pKey" : "18642707784",
+            "name" : "FGWORKPLACE1",
+            "accountId" : "D",
+            "parentName" : "FGSHIPPING1",
+            "operationMode" : "INFEED_AND_OUTFEED",
+            "groupStateIn" : "AVAILABLE",
+            "groupStateOut" : "AVAILABLE"
+          }, {
+            "pKey" : "346661868774",
+            "name" : "FGWORKPLACE3",
+            "accountId" : "D",
+            "parentName" : "FGSHIPPING1",
+            "operationMode" : "INFEED_AND_OUTFEED",
+            "groupStateIn" : "AVAILABLE",
+            "groupStateOut" : "AVAILABLE"
+          }, {
+            "pKey" : "925145263549",
+            "name" : "FGWORKPLACE2",
+            "accountId" : "D",
+            "parentName" : "FGSHIPPING1",
+            "operationMode" : "INFEED_AND_OUTFEED",
+            "groupStateIn" : "AVAILABLE",
+            "groupStateOut" : "AVAILABLE"
+          } ]
+        }, {
+          "pKey" : "753422186594",
+          "name" : "FGSHIPPING2",
+          "accountId" : "D",
+          "parentName" : "FGSHIPPING",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE",
+          "childLocationGroups" : [ {
+            "pKey" : "424924693864",
+            "name" : "FGWORKPLACE5",
+            "accountId" : "D",
+            "parentName" : "FGSHIPPING2",
+            "operationMode" : "INFEED_AND_OUTFEED",
+            "groupStateIn" : "AVAILABLE",
+            "groupStateOut" : "AVAILABLE"
+          }, {
+            "pKey" : "258953718288",
+            "name" : "FGWORKPLACE4",
+            "accountId" : "D",
+            "parentName" : "FGSHIPPING2",
+            "operationMode" : "INFEED_AND_OUTFEED",
+            "groupStateIn" : "AVAILABLE",
+            "groupStateOut" : "AVAILABLE"
+          }, {
+            "pKey" : "687300567810",
+            "name" : "FGWORKPLACE7",
+            "accountId" : "D",
+            "parentName" : "FGSHIPPING2",
+            "operationMode" : "INFEED_AND_OUTFEED",
+            "groupStateIn" : "AVAILABLE",
+            "groupStateOut" : "AVAILABLE"
+          }, {
+            "pKey" : "909419439040",
+            "name" : "FGWORKPLACE6",
+            "accountId" : "D",
+            "parentName" : "FGSHIPPING2",
+            "operationMode" : "INFEED_AND_OUTFEED",
+            "groupStateIn" : "AVAILABLE",
+            "groupStateOut" : "AVAILABLE"
+          }, {
+            "pKey" : "224868263942",
+            "name" : "FGWORKPLACE9",
+            "accountId" : "D",
+            "parentName" : "FGSHIPPING2",
+            "operationMode" : "INFEED_AND_OUTFEED",
+            "groupStateIn" : "AVAILABLE",
+            "groupStateOut" : "AVAILABLE"
+          }, {
+            "pKey" : "860334844801",
+            "name" : "FGWORKPLACE8",
+            "accountId" : "D",
+            "parentName" : "FGSHIPPING2",
+            "operationMode" : "INFEED_AND_OUTFEED",
+            "groupStateIn" : "AVAILABLE",
+            "groupStateOut" : "AVAILABLE"
+          } ]
+        } ]
+      }, {
+        "pKey" : "212290962584",
+        "name" : "FGSTOCK",
+        "accountId" : "D",
+        "parentName" : "FGAUTOMATIC",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE",
+        "childLocationGroups" : [ {
+          "pKey" : "101671979671",
+          "name" : "FGAISLE2",
+          "accountId" : "D",
+          "parentName" : "FGSTOCK",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE",
+          "childLocationGroups" : [ {
+            "pKey" : "379640903941",
+            "name" : "FGAISLE2LEFT",
+            "accountId" : "D",
+            "parentName" : "FGAISLE2",
+            "operationMode" : "INFEED_AND_OUTFEED",
+            "groupStateIn" : "AVAILABLE",
+            "groupStateOut" : "AVAILABLE"
+          }, {
+            "pKey" : "209483120518",
+            "name" : "FGAISLE2RIGHT",
+            "accountId" : "D",
+            "parentName" : "FGAISLE2",
+            "operationMode" : "INFEED_AND_OUTFEED",
+            "groupStateIn" : "AVAILABLE",
+            "groupStateOut" : "AVAILABLE"
+          }, {
+            "pKey" : "730288310794",
+            "name" : "FGAISLE2LIFT",
+            "accountId" : "D",
+            "parentName" : "FGAISLE2",
+            "operationMode" : "INFEED_AND_OUTFEED",
+            "groupStateIn" : "AVAILABLE",
+            "groupStateOut" : "AVAILABLE"
+          } ]
+        }, {
+          "pKey" : "53242834266",
+          "name" : "FGAISLE1",
+          "accountId" : "D",
+          "parentName" : "FGSTOCK",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE",
+          "childLocationGroups" : [ {
+            "pKey" : "688238147532",
+            "name" : "FGAISLE1LIFT",
+            "accountId" : "D",
+            "parentName" : "FGAISLE1",
+            "operationMode" : "INFEED_AND_OUTFEED",
+            "groupStateIn" : "AVAILABLE",
+            "groupStateOut" : "AVAILABLE"
+          }, {
+            "pKey" : "108758840458",
+            "name" : "FGAISLE1RIGHT",
+            "accountId" : "D",
+            "parentName" : "FGAISLE1",
+            "operationMode" : "INFEED_AND_OUTFEED",
+            "groupStateIn" : "AVAILABLE",
+            "groupStateOut" : "AVAILABLE"
+          }, {
+            "pKey" : "154549927614",
+            "name" : "FGAISLE1LEFT",
+            "accountId" : "D",
+            "parentName" : "FGAISLE1",
+            "operationMode" : "INFEED_AND_OUTFEED",
+            "groupStateIn" : "AVAILABLE",
+            "groupStateOut" : "AVAILABLE"
+          } ]
+        } ]
+      }, {
+        "pKey" : "811754978035",
+        "name" : "FGCONV",
+        "accountId" : "D",
+        "parentName" : "FGAUTOMATIC",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      } ]
+    } ]
+  }, {
+    "pKey" : "166982377557",
+    "name" : "IPOINT",
+    "accountId" : "D",
+    "parentName" : "ZILE",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE",
+    "childLocationGroups" : [ {
+      "pKey" : "24417670340",
+      "name" : "IPOINT2",
+      "accountId" : "D",
+      "parentName" : "IPOINT",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "782120388022",
+      "name" : "IPOINT1",
+      "accountId" : "D",
+      "parentName" : "IPOINT",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    } ]
+  }, {
+    "pKey" : "878177817968",
+    "name" : "PALLET_AREA",
+    "accountId" : "D",
+    "parentName" : "ZILE",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE",
+    "childLocationGroups" : [ {
+      "pKey" : "43608343999",
+      "name" : "PHIGHBAY",
+      "accountId" : "D",
+      "parentName" : "PALLET_AREA",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE",
+      "childLocationGroups" : [ {
+        "pKey" : "999057994469",
+        "name" : "PAISLE2",
+        "accountId" : "D",
+        "parentName" : "PHIGHBAY",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE",
+        "childLocationGroups" : [ {
+          "pKey" : "995126472754",
+          "name" : "PAISLE2LIFT",
+          "accountId" : "D",
+          "parentName" : "PAISLE2",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        }, {
+          "pKey" : "48562833846",
+          "name" : "PAISLE2LEFT",
+          "accountId" : "D",
+          "parentName" : "PAISLE2",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        }, {
+          "pKey" : "673781181265",
+          "name" : "PAISLE2RIGHT",
+          "accountId" : "D",
+          "parentName" : "PAISLE2",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        } ]
+      }, {
+        "pKey" : "500576747031",
+        "name" : "PAISLE1",
+        "accountId" : "D",
+        "parentName" : "PHIGHBAY",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE",
+        "childLocationGroups" : [ {
+          "pKey" : "332530824417",
+          "name" : "PAISLE1RIGHT",
+          "accountId" : "D",
+          "parentName" : "PAISLE1",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        }, {
+          "pKey" : "443011357014",
+          "name" : "PAISLE1LEFT",
+          "accountId" : "D",
+          "parentName" : "PAISLE1",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        }, {
+          "pKey" : "483875811636",
+          "name" : "PAISLE1LIFT",
+          "accountId" : "D",
+          "parentName" : "PAISLE1",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        } ]
+      } ]
+    }, {
+      "pKey" : "306784420810",
+      "name" : "PPICKING",
+      "accountId" : "D",
+      "parentName" : "PALLET_AREA",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    } ]
+  } ]
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -723,7 +1082,223 @@ Content-Length: 13716
   "parentName" : "ZILE",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "childLocationGroups" : [ {
+    "pKey" : "264924505336",
+    "name" : "FGMANUAL",
+    "accountId" : "D",
+    "parentName" : "Flatgood_AREA",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "281343921750",
+    "name" : "FGCANBAN",
+    "accountId" : "D",
+    "parentName" : "Flatgood_AREA",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "709819670512",
+    "name" : "FGAUTOMATIC",
+    "accountId" : "D",
+    "parentName" : "Flatgood_AREA",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE",
+    "childLocationGroups" : [ {
+      "pKey" : "400335177633",
+      "name" : "FGRECEIVING",
+      "accountId" : "D",
+      "parentName" : "FGAUTOMATIC",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "585607846471",
+      "name" : "FGSHIPPING",
+      "accountId" : "D",
+      "parentName" : "FGAUTOMATIC",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE",
+      "childLocationGroups" : [ {
+        "pKey" : "881973001220",
+        "name" : "FGSHIPPING1",
+        "accountId" : "D",
+        "parentName" : "FGSHIPPING",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE",
+        "childLocationGroups" : [ {
+          "pKey" : "18642707784",
+          "name" : "FGWORKPLACE1",
+          "accountId" : "D",
+          "parentName" : "FGSHIPPING1",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        }, {
+          "pKey" : "346661868774",
+          "name" : "FGWORKPLACE3",
+          "accountId" : "D",
+          "parentName" : "FGSHIPPING1",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        }, {
+          "pKey" : "925145263549",
+          "name" : "FGWORKPLACE2",
+          "accountId" : "D",
+          "parentName" : "FGSHIPPING1",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        } ]
+      }, {
+        "pKey" : "753422186594",
+        "name" : "FGSHIPPING2",
+        "accountId" : "D",
+        "parentName" : "FGSHIPPING",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE",
+        "childLocationGroups" : [ {
+          "pKey" : "424924693864",
+          "name" : "FGWORKPLACE5",
+          "accountId" : "D",
+          "parentName" : "FGSHIPPING2",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        }, {
+          "pKey" : "258953718288",
+          "name" : "FGWORKPLACE4",
+          "accountId" : "D",
+          "parentName" : "FGSHIPPING2",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        }, {
+          "pKey" : "687300567810",
+          "name" : "FGWORKPLACE7",
+          "accountId" : "D",
+          "parentName" : "FGSHIPPING2",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        }, {
+          "pKey" : "909419439040",
+          "name" : "FGWORKPLACE6",
+          "accountId" : "D",
+          "parentName" : "FGSHIPPING2",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        }, {
+          "pKey" : "224868263942",
+          "name" : "FGWORKPLACE9",
+          "accountId" : "D",
+          "parentName" : "FGSHIPPING2",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        }, {
+          "pKey" : "860334844801",
+          "name" : "FGWORKPLACE8",
+          "accountId" : "D",
+          "parentName" : "FGSHIPPING2",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        } ]
+      } ]
+    }, {
+      "pKey" : "212290962584",
+      "name" : "FGSTOCK",
+      "accountId" : "D",
+      "parentName" : "FGAUTOMATIC",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE",
+      "childLocationGroups" : [ {
+        "pKey" : "101671979671",
+        "name" : "FGAISLE2",
+        "accountId" : "D",
+        "parentName" : "FGSTOCK",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE",
+        "childLocationGroups" : [ {
+          "pKey" : "379640903941",
+          "name" : "FGAISLE2LEFT",
+          "accountId" : "D",
+          "parentName" : "FGAISLE2",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        }, {
+          "pKey" : "209483120518",
+          "name" : "FGAISLE2RIGHT",
+          "accountId" : "D",
+          "parentName" : "FGAISLE2",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        }, {
+          "pKey" : "730288310794",
+          "name" : "FGAISLE2LIFT",
+          "accountId" : "D",
+          "parentName" : "FGAISLE2",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        } ]
+      }, {
+        "pKey" : "53242834266",
+        "name" : "FGAISLE1",
+        "accountId" : "D",
+        "parentName" : "FGSTOCK",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE",
+        "childLocationGroups" : [ {
+          "pKey" : "688238147532",
+          "name" : "FGAISLE1LIFT",
+          "accountId" : "D",
+          "parentName" : "FGAISLE1",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        }, {
+          "pKey" : "108758840458",
+          "name" : "FGAISLE1RIGHT",
+          "accountId" : "D",
+          "parentName" : "FGAISLE1",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        }, {
+          "pKey" : "154549927614",
+          "name" : "FGAISLE1LEFT",
+          "accountId" : "D",
+          "parentName" : "FGAISLE1",
+          "operationMode" : "INFEED_AND_OUTFEED",
+          "groupStateIn" : "AVAILABLE",
+          "groupStateOut" : "AVAILABLE"
+        } ]
+      } ]
+    }, {
+      "pKey" : "811754978035",
+      "name" : "FGCONV",
+      "accountId" : "D",
+      "parentName" : "FGAUTOMATIC",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    } ]
+  } ]
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -735,7 +1310,198 @@ Content-Length: 13716
   "parentName" : "Flatgood_AREA",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "childLocationGroups" : [ {
+    "pKey" : "400335177633",
+    "name" : "FGRECEIVING",
+    "accountId" : "D",
+    "parentName" : "FGAUTOMATIC",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "585607846471",
+    "name" : "FGSHIPPING",
+    "accountId" : "D",
+    "parentName" : "FGAUTOMATIC",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE",
+    "childLocationGroups" : [ {
+      "pKey" : "881973001220",
+      "name" : "FGSHIPPING1",
+      "accountId" : "D",
+      "parentName" : "FGSHIPPING",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE",
+      "childLocationGroups" : [ {
+        "pKey" : "18642707784",
+        "name" : "FGWORKPLACE1",
+        "accountId" : "D",
+        "parentName" : "FGSHIPPING1",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      }, {
+        "pKey" : "346661868774",
+        "name" : "FGWORKPLACE3",
+        "accountId" : "D",
+        "parentName" : "FGSHIPPING1",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      }, {
+        "pKey" : "925145263549",
+        "name" : "FGWORKPLACE2",
+        "accountId" : "D",
+        "parentName" : "FGSHIPPING1",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      } ]
+    }, {
+      "pKey" : "753422186594",
+      "name" : "FGSHIPPING2",
+      "accountId" : "D",
+      "parentName" : "FGSHIPPING",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE",
+      "childLocationGroups" : [ {
+        "pKey" : "424924693864",
+        "name" : "FGWORKPLACE5",
+        "accountId" : "D",
+        "parentName" : "FGSHIPPING2",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      }, {
+        "pKey" : "258953718288",
+        "name" : "FGWORKPLACE4",
+        "accountId" : "D",
+        "parentName" : "FGSHIPPING2",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      }, {
+        "pKey" : "687300567810",
+        "name" : "FGWORKPLACE7",
+        "accountId" : "D",
+        "parentName" : "FGSHIPPING2",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      }, {
+        "pKey" : "909419439040",
+        "name" : "FGWORKPLACE6",
+        "accountId" : "D",
+        "parentName" : "FGSHIPPING2",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      }, {
+        "pKey" : "224868263942",
+        "name" : "FGWORKPLACE9",
+        "accountId" : "D",
+        "parentName" : "FGSHIPPING2",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      }, {
+        "pKey" : "860334844801",
+        "name" : "FGWORKPLACE8",
+        "accountId" : "D",
+        "parentName" : "FGSHIPPING2",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      } ]
+    } ]
+  }, {
+    "pKey" : "212290962584",
+    "name" : "FGSTOCK",
+    "accountId" : "D",
+    "parentName" : "FGAUTOMATIC",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE",
+    "childLocationGroups" : [ {
+      "pKey" : "101671979671",
+      "name" : "FGAISLE2",
+      "accountId" : "D",
+      "parentName" : "FGSTOCK",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE",
+      "childLocationGroups" : [ {
+        "pKey" : "379640903941",
+        "name" : "FGAISLE2LEFT",
+        "accountId" : "D",
+        "parentName" : "FGAISLE2",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      }, {
+        "pKey" : "209483120518",
+        "name" : "FGAISLE2RIGHT",
+        "accountId" : "D",
+        "parentName" : "FGAISLE2",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      }, {
+        "pKey" : "730288310794",
+        "name" : "FGAISLE2LIFT",
+        "accountId" : "D",
+        "parentName" : "FGAISLE2",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      } ]
+    }, {
+      "pKey" : "53242834266",
+      "name" : "FGAISLE1",
+      "accountId" : "D",
+      "parentName" : "FGSTOCK",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE",
+      "childLocationGroups" : [ {
+        "pKey" : "688238147532",
+        "name" : "FGAISLE1LIFT",
+        "accountId" : "D",
+        "parentName" : "FGAISLE1",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      }, {
+        "pKey" : "108758840458",
+        "name" : "FGAISLE1RIGHT",
+        "accountId" : "D",
+        "parentName" : "FGAISLE1",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      }, {
+        "pKey" : "154549927614",
+        "name" : "FGAISLE1LEFT",
+        "accountId" : "D",
+        "parentName" : "FGAISLE1",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      } ]
+    } ]
+  }, {
+    "pKey" : "811754978035",
+    "name" : "FGCONV",
+    "accountId" : "D",
+    "parentName" : "FGAUTOMATIC",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  } ]
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -771,7 +1537,74 @@ Content-Length: 13716
   "parentName" : "FGAUTOMATIC",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "childLocationGroups" : [ {
+    "pKey" : "101671979671",
+    "name" : "FGAISLE2",
+    "accountId" : "D",
+    "parentName" : "FGSTOCK",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE",
+    "childLocationGroups" : [ {
+      "pKey" : "379640903941",
+      "name" : "FGAISLE2LEFT",
+      "accountId" : "D",
+      "parentName" : "FGAISLE2",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "209483120518",
+      "name" : "FGAISLE2RIGHT",
+      "accountId" : "D",
+      "parentName" : "FGAISLE2",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "730288310794",
+      "name" : "FGAISLE2LIFT",
+      "accountId" : "D",
+      "parentName" : "FGAISLE2",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    } ]
+  }, {
+    "pKey" : "53242834266",
+    "name" : "FGAISLE1",
+    "accountId" : "D",
+    "parentName" : "FGSTOCK",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE",
+    "childLocationGroups" : [ {
+      "pKey" : "688238147532",
+      "name" : "FGAISLE1LIFT",
+      "accountId" : "D",
+      "parentName" : "FGAISLE1",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "108758840458",
+      "name" : "FGAISLE1RIGHT",
+      "accountId" : "D",
+      "parentName" : "FGAISLE1",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "154549927614",
+      "name" : "FGAISLE1LEFT",
+      "accountId" : "D",
+      "parentName" : "FGAISLE1",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    } ]
+  } ]
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -783,7 +1616,32 @@ Content-Length: 13716
   "parentName" : "FGSTOCK",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "childLocationGroups" : [ {
+    "pKey" : "688238147532",
+    "name" : "FGAISLE1LIFT",
+    "accountId" : "D",
+    "parentName" : "FGAISLE1",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "108758840458",
+    "name" : "FGAISLE1RIGHT",
+    "accountId" : "D",
+    "parentName" : "FGAISLE1",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "154549927614",
+    "name" : "FGAISLE1LEFT",
+    "accountId" : "D",
+    "parentName" : "FGAISLE1",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  } ]
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -831,7 +1689,32 @@ Content-Length: 13716
   "parentName" : "FGSTOCK",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "childLocationGroups" : [ {
+    "pKey" : "379640903941",
+    "name" : "FGAISLE2LEFT",
+    "accountId" : "D",
+    "parentName" : "FGAISLE2",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "209483120518",
+    "name" : "FGAISLE2RIGHT",
+    "accountId" : "D",
+    "parentName" : "FGAISLE2",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "730288310794",
+    "name" : "FGAISLE2LIFT",
+    "accountId" : "D",
+    "parentName" : "FGAISLE2",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  } ]
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -879,7 +1762,98 @@ Content-Length: 13716
   "parentName" : "FGAUTOMATIC",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "childLocationGroups" : [ {
+    "pKey" : "881973001220",
+    "name" : "FGSHIPPING1",
+    "accountId" : "D",
+    "parentName" : "FGSHIPPING",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE",
+    "childLocationGroups" : [ {
+      "pKey" : "18642707784",
+      "name" : "FGWORKPLACE1",
+      "accountId" : "D",
+      "parentName" : "FGSHIPPING1",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "346661868774",
+      "name" : "FGWORKPLACE3",
+      "accountId" : "D",
+      "parentName" : "FGSHIPPING1",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "925145263549",
+      "name" : "FGWORKPLACE2",
+      "accountId" : "D",
+      "parentName" : "FGSHIPPING1",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    } ]
+  }, {
+    "pKey" : "753422186594",
+    "name" : "FGSHIPPING2",
+    "accountId" : "D",
+    "parentName" : "FGSHIPPING",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE",
+    "childLocationGroups" : [ {
+      "pKey" : "424924693864",
+      "name" : "FGWORKPLACE5",
+      "accountId" : "D",
+      "parentName" : "FGSHIPPING2",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "258953718288",
+      "name" : "FGWORKPLACE4",
+      "accountId" : "D",
+      "parentName" : "FGSHIPPING2",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "687300567810",
+      "name" : "FGWORKPLACE7",
+      "accountId" : "D",
+      "parentName" : "FGSHIPPING2",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "909419439040",
+      "name" : "FGWORKPLACE6",
+      "accountId" : "D",
+      "parentName" : "FGSHIPPING2",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "224868263942",
+      "name" : "FGWORKPLACE9",
+      "accountId" : "D",
+      "parentName" : "FGSHIPPING2",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "860334844801",
+      "name" : "FGWORKPLACE8",
+      "accountId" : "D",
+      "parentName" : "FGSHIPPING2",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    } ]
+  } ]
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -891,7 +1865,32 @@ Content-Length: 13716
   "parentName" : "FGSHIPPING",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "childLocationGroups" : [ {
+    "pKey" : "18642707784",
+    "name" : "FGWORKPLACE1",
+    "accountId" : "D",
+    "parentName" : "FGSHIPPING1",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "346661868774",
+    "name" : "FGWORKPLACE3",
+    "accountId" : "D",
+    "parentName" : "FGSHIPPING1",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "925145263549",
+    "name" : "FGWORKPLACE2",
+    "accountId" : "D",
+    "parentName" : "FGSHIPPING1",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  } ]
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -939,7 +1938,56 @@ Content-Length: 13716
   "parentName" : "FGSHIPPING",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "childLocationGroups" : [ {
+    "pKey" : "424924693864",
+    "name" : "FGWORKPLACE5",
+    "accountId" : "D",
+    "parentName" : "FGSHIPPING2",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "258953718288",
+    "name" : "FGWORKPLACE4",
+    "accountId" : "D",
+    "parentName" : "FGSHIPPING2",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "687300567810",
+    "name" : "FGWORKPLACE7",
+    "accountId" : "D",
+    "parentName" : "FGSHIPPING2",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "909419439040",
+    "name" : "FGWORKPLACE6",
+    "accountId" : "D",
+    "parentName" : "FGSHIPPING2",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "224868263942",
+    "name" : "FGWORKPLACE9",
+    "accountId" : "D",
+    "parentName" : "FGSHIPPING2",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "860334844801",
+    "name" : "FGWORKPLACE8",
+    "accountId" : "D",
+    "parentName" : "FGSHIPPING2",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  } ]
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -1047,7 +2095,24 @@ Content-Length: 13716
   "parentName" : "ZILE",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "childLocationGroups" : [ {
+    "pKey" : "24417670340",
+    "name" : "IPOINT2",
+    "accountId" : "D",
+    "parentName" : "IPOINT",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "782120388022",
+    "name" : "IPOINT1",
+    "accountId" : "D",
+    "parentName" : "IPOINT",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  } ]
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -1083,7 +2148,91 @@ Content-Length: 13716
   "parentName" : "ZILE",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "childLocationGroups" : [ {
+    "pKey" : "43608343999",
+    "name" : "PHIGHBAY",
+    "accountId" : "D",
+    "parentName" : "PALLET_AREA",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE",
+    "childLocationGroups" : [ {
+      "pKey" : "999057994469",
+      "name" : "PAISLE2",
+      "accountId" : "D",
+      "parentName" : "PHIGHBAY",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE",
+      "childLocationGroups" : [ {
+        "pKey" : "995126472754",
+        "name" : "PAISLE2LIFT",
+        "accountId" : "D",
+        "parentName" : "PAISLE2",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      }, {
+        "pKey" : "48562833846",
+        "name" : "PAISLE2LEFT",
+        "accountId" : "D",
+        "parentName" : "PAISLE2",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      }, {
+        "pKey" : "673781181265",
+        "name" : "PAISLE2RIGHT",
+        "accountId" : "D",
+        "parentName" : "PAISLE2",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      } ]
+    }, {
+      "pKey" : "500576747031",
+      "name" : "PAISLE1",
+      "accountId" : "D",
+      "parentName" : "PHIGHBAY",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE",
+      "childLocationGroups" : [ {
+        "pKey" : "332530824417",
+        "name" : "PAISLE1RIGHT",
+        "accountId" : "D",
+        "parentName" : "PAISLE1",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      }, {
+        "pKey" : "443011357014",
+        "name" : "PAISLE1LEFT",
+        "accountId" : "D",
+        "parentName" : "PAISLE1",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      }, {
+        "pKey" : "483875811636",
+        "name" : "PAISLE1LIFT",
+        "accountId" : "D",
+        "parentName" : "PAISLE1",
+        "operationMode" : "INFEED_AND_OUTFEED",
+        "groupStateIn" : "AVAILABLE",
+        "groupStateOut" : "AVAILABLE"
+      } ]
+    } ]
+  }, {
+    "pKey" : "306784420810",
+    "name" : "PPICKING",
+    "accountId" : "D",
+    "parentName" : "PALLET_AREA",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  } ]
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -1107,7 +2256,74 @@ Content-Length: 13716
   "parentName" : "PALLET_AREA",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "childLocationGroups" : [ {
+    "pKey" : "999057994469",
+    "name" : "PAISLE2",
+    "accountId" : "D",
+    "parentName" : "PHIGHBAY",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE",
+    "childLocationGroups" : [ {
+      "pKey" : "995126472754",
+      "name" : "PAISLE2LIFT",
+      "accountId" : "D",
+      "parentName" : "PAISLE2",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "48562833846",
+      "name" : "PAISLE2LEFT",
+      "accountId" : "D",
+      "parentName" : "PAISLE2",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "673781181265",
+      "name" : "PAISLE2RIGHT",
+      "accountId" : "D",
+      "parentName" : "PAISLE2",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    } ]
+  }, {
+    "pKey" : "500576747031",
+    "name" : "PAISLE1",
+    "accountId" : "D",
+    "parentName" : "PHIGHBAY",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE",
+    "childLocationGroups" : [ {
+      "pKey" : "332530824417",
+      "name" : "PAISLE1RIGHT",
+      "accountId" : "D",
+      "parentName" : "PAISLE1",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "443011357014",
+      "name" : "PAISLE1LEFT",
+      "accountId" : "D",
+      "parentName" : "PAISLE1",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    }, {
+      "pKey" : "483875811636",
+      "name" : "PAISLE1LIFT",
+      "accountId" : "D",
+      "parentName" : "PAISLE1",
+      "operationMode" : "INFEED_AND_OUTFEED",
+      "groupStateIn" : "AVAILABLE",
+      "groupStateOut" : "AVAILABLE"
+    } ]
+  } ]
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -1119,7 +2335,32 @@ Content-Length: 13716
   "parentName" : "PHIGHBAY",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "childLocationGroups" : [ {
+    "pKey" : "332530824417",
+    "name" : "PAISLE1RIGHT",
+    "accountId" : "D",
+    "parentName" : "PAISLE1",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "443011357014",
+    "name" : "PAISLE1LEFT",
+    "accountId" : "D",
+    "parentName" : "PAISLE1",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "483875811636",
+    "name" : "PAISLE1LIFT",
+    "accountId" : "D",
+    "parentName" : "PAISLE1",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  } ]
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -1167,7 +2408,32 @@ Content-Length: 13716
   "parentName" : "PHIGHBAY",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "childLocationGroups" : [ {
+    "pKey" : "995126472754",
+    "name" : "PAISLE2LIFT",
+    "accountId" : "D",
+    "parentName" : "PAISLE2",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "48562833846",
+    "name" : "PAISLE2LEFT",
+    "accountId" : "D",
+    "parentName" : "PAISLE2",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "673781181265",
+    "name" : "PAISLE2RIGHT",
+    "accountId" : "D",
+    "parentName" : "PAISLE2",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  } ]
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -1346,7 +2612,7 @@ Host: localhost:8080
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-06-20 22:17:54 UTC
+Last updated 2023-06-26 15:21:38 UTC
 </div>
 </div>
 </body>
