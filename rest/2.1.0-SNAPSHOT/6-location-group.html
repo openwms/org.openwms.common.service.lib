@@ -496,7 +496,7 @@ Content-Length: 690
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-groups?name=FGRECEIVING HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-groups?name=IPOINT HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -528,21 +528,38 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 333
+Content-Length: 791
 
 {
   "_links" : {
     "parent" : {
-      "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+      "href" : "http://localhost:8080/v1/location-groups?name=ZILE"
     }
   },
-  "pKey" : "400335177633",
-  "name" : "FGRECEIVING",
+  "pKey" : "166982377557",
+  "name" : "IPOINT",
   "accountId" : "D",
-  "parentName" : "FGAUTOMATIC",
+  "parentName" : "ZILE",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "childLocationGroups" : [ {
+    "pKey" : "24417670340",
+    "name" : "IPOINT2",
+    "accountId" : "D",
+    "parentName" : "IPOINT",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  }, {
+    "pKey" : "782120388022",
+    "name" : "IPOINT1",
+    "accountId" : "D",
+    "parentName" : "IPOINT",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE"
+  } ]
 }</code></pre>
 </div>
 </div>
@@ -2612,7 +2629,7 @@ Host: localhost:8080
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-06-26 15:21:38 UTC
+Last updated 2023-06-26 22:08:18 UTC
 </div>
 </div>
 </body>
