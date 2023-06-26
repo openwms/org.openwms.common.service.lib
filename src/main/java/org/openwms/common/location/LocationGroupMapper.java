@@ -56,6 +56,7 @@ public abstract class LocationGroupMapper {
     @Mapping(target = "parent", source = "eo.parent.name")
     @Mapping(target = "groupStateIn", source = "eo.groupStateIn")
     @Mapping(target = "groupStateOut", source = "eo.groupStateOut")
+    @Mapping(target = "children", source = "eo.locationGroups")
     public abstract LocationGroupVO convertToVO(LocationGroup eo);
 
     @Mapping(target = "accountId", source = "eo.account.identifier")
