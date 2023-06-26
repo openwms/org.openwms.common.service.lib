@@ -37,6 +37,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.anyOf;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION_GROUP;
@@ -107,12 +108,13 @@ class LocationGroupControllerDocumentation {
         @Test
         void shall_findby_name() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATION_GROUPS)
-                    .queryParam("name", TestData.LOCATION_GROUP_NAME_LG2))
+                    .queryParam("name", TestData.LOCATION_GROUP_NAME_LG3))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("pKey").exists())
-                    .andExpect(jsonPath("name", is(TestData.LOCATION_GROUP_NAME_LG2)))
+                    .andExpect(jsonPath("name", is(TestData.LOCATION_GROUP_NAME_LG3)))
                     .andExpect(jsonPath("parentName").exists())
                     .andExpect(jsonPath("accountId").exists())
+                    .andExpect(jsonPath("childLocationGroups", hasItems()))
                     .andExpect(jsonPath("operationMode", is(LocationGroupMode.INFEED_AND_OUTFEED)))
                     .andExpect(jsonPath("groupStateIn", is(LocationGroupState.AVAILABLE.toString())))
                     .andExpect(jsonPath("groupStateOut", is(LocationGroupState.AVAILABLE.toString())))
@@ -129,6 +131,14 @@ class LocationGroupControllerDocumentation {
                                             fieldWithPath("pKey").description("The persistent technical key of the LocationGroup"),
                                             fieldWithPath("name").description("Unique natural key"),
                                             fieldWithPath("accountId").description("The Account identifier the LocationGroup is assigned to"),
+                                            fieldWithPath("childLocationGroups[]").ignored(),
+                                            fieldWithPath("childLocationGroups[].pKey").ignored(),
+                                            fieldWithPath("childLocationGroups[].name").ignored(),
+                                            fieldWithPath("childLocationGroups[].accountId").ignored(),
+                                            fieldWithPath("childLocationGroups[].parentName").ignored(),
+                                            fieldWithPath("childLocationGroups[].operationMode").ignored(),
+                                            fieldWithPath("childLocationGroups[].groupStateIn").ignored(),
+                                            fieldWithPath("childLocationGroups[].groupStateOut").ignored(),
                                             fieldWithPath("parentName").description("Name of the parent LocationGroup"),
                                             fieldWithPath("operationMode").description("The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in"),
                                             fieldWithPath("groupStateIn").description("State of infeed, controlled by the subsystem only"),
