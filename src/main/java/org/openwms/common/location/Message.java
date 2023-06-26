@@ -29,7 +29,7 @@ import java.util.Objects;
  * @author Heiko Scherrer
  */
 @Entity
-@Table(name = "COR_MESSAGE")
+@Table(name = "COM_MESSAGE")
 public class Message extends BaseEntity implements Serializable {
 
     /** String used to separate messageNo and messageText in toString. */
@@ -44,11 +44,8 @@ public class Message extends BaseEntity implements Serializable {
 
     /*~ ----------------------------- constructors ------------------- */
 
-    /**
-     * Dear JPA...
-     */
-    protected Message() {
-    }
+    /** Dear JPA... */
+    protected Message() {}
 
     /**
      * Create a new {@code Message} with message number and message text.

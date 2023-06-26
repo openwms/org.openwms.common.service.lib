@@ -12,6 +12,11 @@
         <sequence-generator name="generator" sequence-name="com_account_seq" allocation-size="1" />
     </entity>
 
+    <!-- Barcode Package -->
+    <entity class="org.openwms.common.transport.barcode.NextBarcode" name="NextBarcode" access="FIELD">
+        <sequence-generator name="generator" sequence-name="com_next_barcode_seq" allocation-size="1" />
+    </entity>
+
     <!-- Transport Package -->
     <entity class="org.openwms.common.transport.TransportUnit" name="TransportUnit" access="FIELD">
         <sequence-generator name="generator" sequence-name="com_transport_unit_seq" allocation-size="1" />
@@ -25,6 +30,9 @@
     <entity class="org.openwms.common.transport.TypeStackingRule" name="TypeStackingRule" access="FIELD">
         <sequence-generator name="generator" sequence-name="com_type_stacking_rule_seq" allocation-size="1" />
     </entity>
+    <entity class="org.openwms.common.transport.UnitError" name="UnitError" access="FIELD">
+        <sequence-generator name="generator" sequence-name="com_unit_error_seq" allocation-size="1" />
+    </entity>
 
     <!-- Location Package -->
     <entity class="org.openwms.common.location.Location" name="Location" access="FIELD">
@@ -34,7 +42,7 @@
         <sequence-generator name="generator" sequence-name="com_location_type_seq" allocation-size="1" />
     </entity>
     <entity class="org.openwms.common.location.Message" name="Message" access="FIELD">
-        <sequence-generator name="generator" sequence-name="cor_message_seq" allocation-size="1" />
+        <sequence-generator name="generator" sequence-name="com_message_seq" allocation-size="1" />
     </entity>
     <entity class="org.openwms.common.location.LocationGroup" name="LocationGroup" access="FIELD">
         <sequence-generator name="generator" sequence-name="com_location_group_seq" allocation-size="1" />

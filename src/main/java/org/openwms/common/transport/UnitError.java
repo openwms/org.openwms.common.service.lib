@@ -53,11 +53,8 @@ public class UnitError extends ApplicationEntity implements Serializable {
 
     /*~ ----------------------------- constructors ------------------- */
 
-    /**
-     * Dear JPA...
-     */
-    UnitError() {
-    }
+    /** Dear JPA... */
+    protected UnitError() {}
 
     private UnitError(Builder builder) {
         this.errorNo = builder.errorNo;
