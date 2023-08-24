@@ -1,8 +1,7 @@
 # Purpose
-The OpenWMS.org Common Service provides essential functionality to deal with `Locations`, `LocationGroups` and `TransportUnits`. An example
-often referred to is the ability to move a `TransportUnit` from a `Location` A to a `Location` B. Beside this also other secondary resources
-like `TransportUnitTypes` or rulesets like the `PlacingRule` to define what kind of `TransportUnit` can be put on what type of `Location` 
-are managed by this service. 
+The OpenWMS.org Common Service provides essential functionality to deal with `Locations`, `LocationGroups` and `TransportUnits`. For a
+simple example, it offers an API to move a `TransportUnit` from a `Location` A to a `Location` B. Besides that, also other secondary
+resources exist, like `TransportUnitTypes` or rule sets to define what type of `TransportUnit` can be put on what type of `Location`. 
 
 ![ClassDiagram][1]
 
