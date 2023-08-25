@@ -6,7 +6,6 @@ resources exist, like `TransportUnitTypes` or rule sets to define what type of `
 ![ClassDiagram][1]
 
 # Resources
-
 [![Build status](https://github.com/openwms/org.openwms.common.service/actions/workflows/master-build.yml/badge.svg)](https://github.com/openwms/org.openwms.common.service/actions/workflows/master-build.yml)
 [![Quality](https://sonarcloud.io/api/project_badges/measure?project=org.openwms:org.openwms.common.service&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.openwms:org.openwms.common.service)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
@@ -17,7 +16,6 @@ resources exist, like `TransportUnitTypes` or rule sets to define what type of `
 **Find further Documentation on [Microservice Website](https://openwms.github.io/org.openwms.common.service)**
 
 # Build
-
 The module depends on OpenWMS.org CORE dependencies and one additional optional COMMON dependency that is only used in the enterprise
 version and offers an additional API for the UI.
 
