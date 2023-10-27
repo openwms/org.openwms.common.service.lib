@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.RepresentationModel;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -37,6 +38,7 @@ public class LocationTypeVO extends RepresentationModel<LocationTypeVO> implemen
 
     @JsonProperty("pKey")
     private String pKey;
+    @NotBlank
     @JsonProperty("type")
     private String type;
     @JsonProperty("description")

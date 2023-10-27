@@ -36,7 +36,5 @@ public class LocationGroupMode {
     /** The subsystem connected to the {@code LocationGroup} is blocked for any operations. */
     public static final String NO_OPERATION = "NO_OPERATION";
 
-    // Not meant to be instantiated
-    private LocationGroupMode() {
-    }
+    private LocationGroupMode() {}
 }

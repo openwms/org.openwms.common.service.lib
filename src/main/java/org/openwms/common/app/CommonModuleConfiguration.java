@@ -28,6 +28,7 @@ import org.ameba.http.identity.EnableIdentityAwareness;
 import org.ameba.i18n.AbstractSpringTranslator;
 import org.ameba.i18n.Translator;
 import org.ameba.system.NestedReloadableResourceBundleMessageSource;
+import org.openwms.core.app.JSONConfiguration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -40,6 +41,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.core.Ordered;
@@ -80,6 +82,7 @@ import java.util.Properties;
 @EntityScan(basePackages = "org.openwms")
 @EnableMultiTenancy
 @EnableTransactionManagement
+@Import(JSONConfiguration.class)
 public class CommonModuleConfiguration implements WebMvcConfigurer {
 
     @Override
@@ -95,19 +98,19 @@ public class CommonModuleConfiguration implements WebMvcConfigurer {
     @LoadBalanced
     @Bean
     RestTemplate aLoadBalanced(List<BaseClientHttpRequestInterceptor> baseInterceptors) {
-        RestTemplate restTemplate = new RestTemplate();
+        var restTemplate = new RestTemplate();
         restTemplate.getInterceptors().addAll(baseInterceptors);
         return restTemplate;
     }
 
     public @Bean LocaleResolver localeResolver() {
-        SessionLocaleResolver slr = new SessionLocaleResolver();
+        var slr = new SessionLocaleResolver();
         slr.setDefaultLocale(Locale.US);
         return slr;
     }
 
     public @Bean LocaleChangeInterceptor localeChangeInterceptor() {
-        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+        var lci = new LocaleChangeInterceptor();
         lci.setParamName("lang");
         return lci;
     }

@@ -65,8 +65,7 @@ public class TransportUnitTypeVO extends AbstractBase<TransportUnitTypeVO> imple
 
     /*~-------------------- constructors --------------------*/
     @JsonCreator
-    protected TransportUnitTypeVO() {
-    }
+    protected TransportUnitTypeVO() { }
 
     public TransportUnitTypeVO(String type) {
         this.type = type;

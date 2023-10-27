@@ -25,8 +25,6 @@ spring:
             audit_strategy_validity_revend_timestamp_field_name: C_REVEND_TSTMP
             store_data_at_delete: true
     show-sql: false
-  jackson:
-    date-format: "yyyy-MM-dd'T'HH:mm:ssXXX" # Only matches Dates no Instants!
   main:
     allow-bean-definition-overriding: true
   mvc:

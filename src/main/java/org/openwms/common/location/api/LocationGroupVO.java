@@ -21,8 +21,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.RepresentationModel;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +40,7 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
 
     @JsonProperty("pKey")
     private String pKey;
-    @NotEmpty
+    @NotBlank
     @JsonProperty("name")
     private String name;
     @JsonProperty("accountId")
@@ -56,6 +57,16 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
     private LocationGroupState groupStateOut;
     @JsonProperty("childLocationGroups")
     private List<LocationGroupVO> children;
+
+    private LocalDateTime createDt;
+
+    public LocalDateTime getCreateDt() {
+        return createDt;
+    }
+
+    public void setCreateDt(LocalDateTime createDt) {
+        this.createDt = createDt;
+    }
 
     /*~ ------------------ constructors ----------------------*/
     public LocationGroupVO() {}

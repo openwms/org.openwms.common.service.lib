@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.RepresentationModel;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -40,12 +40,12 @@ public class AccountVO extends RepresentationModel<AccountVO> implements Seriali
     private String pKey;
 
     /** Unique identifier. */
-    @NotEmpty
+    @NotBlank
     @JsonProperty("identifier")
     private String identifier;
 
     /** Name. */
-    @NotEmpty
+    @NotBlank
     @JsonProperty("name")
     private String name;
 
@@ -83,7 +83,7 @@ public class AccountVO extends RepresentationModel<AccountVO> implements Seriali
         if (this == o) return true;
         if (!(o instanceof AccountVO)) return false;
         if (!super.equals(o)) return false;
-        AccountVO accountVO = (AccountVO) o;
+        var accountVO = (AccountVO) o;
         return Objects.equals(pKey, accountVO.pKey) && Objects.equals(identifier, accountVO.identifier) && Objects.equals(name, accountVO.name);
     }
 
