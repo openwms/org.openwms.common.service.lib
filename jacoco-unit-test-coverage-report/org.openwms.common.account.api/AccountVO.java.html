@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.RepresentationModel;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -40,12 +40,12 @@ import java.util.StringJoiner;
     private String pKey;
 
     /** Unique identifier. */
-    @NotEmpty
+    @NotBlank
     @JsonProperty(&quot;identifier&quot;)
     private String identifier;
 
     /** Name. */
-    @NotEmpty
+    @NotBlank
     @JsonProperty(&quot;name&quot;)
     private String name;
 
@@ -83,7 +83,7 @@ import java.util.StringJoiner;
 <span class="nc bnc" id="L83" title="All 2 branches missed.">        if (this == o) return true;</span>
 <span class="nc bnc" id="L84" title="All 2 branches missed.">        if (!(o instanceof AccountVO)) return false;</span>
 <span class="nc bnc" id="L85" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
-<span class="nc" id="L86">        AccountVO accountVO = (AccountVO) o;</span>
+<span class="nc" id="L86">        var accountVO = (AccountVO) o;</span>
 <span class="nc bnc" id="L87" title="All 6 branches missed.">        return Objects.equals(pKey, accountVO.pKey) &amp;&amp; Objects.equals(identifier, accountVO.identifier) &amp;&amp; Objects.equals(name, accountVO.name);</span>
     }
 
