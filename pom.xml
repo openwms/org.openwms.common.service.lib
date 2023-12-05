@@ -68,7 +68,7 @@
     <properties>
         <core.units.version>0.5.1-SNAPSHOT</core.units.version>
         <core.version>2.1.0-SNAPSHOT</core.version>
-        <guava.version>30.0-jre</guava.version>
+        <guava.version>32.0.0-jre</guava.version>
         <indriya.version>2.0</indriya.version>
         <joda-time.version>2.10.14</joda-time.version>
         <plexus-utils.version>3.2.1</plexus-utils.version>
