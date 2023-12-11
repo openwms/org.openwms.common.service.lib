@@ -16,6 +16,7 @@
 package org.openwms.common.transport.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.ameba.http.AbstractBase;
@@ -78,10 +79,12 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
 
     /** Date when the {@code TransportUnit} has been moved to the current {@code Location}. */
     @JsonProperty("actualLocationDate")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date actualLocationDate;
 
     /** Timestamp when the record was created the first time. */
     @JsonProperty("createDate")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
     /*~-------------------- constructors --------------------*/
