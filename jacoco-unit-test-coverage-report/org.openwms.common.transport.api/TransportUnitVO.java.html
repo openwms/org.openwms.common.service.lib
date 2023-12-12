@@ -16,6 +16,7 @@
 package org.openwms.common.transport.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.ameba.http.AbstractBase;
@@ -78,124 +79,126 @@ public class TransportUnitVO extends AbstractBase&lt;TransportUnitVO&gt; impleme
 
     /** Date when the {@code TransportUnit} has been moved to the current {@code Location}. */
     @JsonProperty(&quot;actualLocationDate&quot;)
+    @JsonFormat(pattern=&quot;yyyy-MM-dd HH:mm:ss&quot;)
     private Date actualLocationDate;
 
     /** Timestamp when the record was created the first time. */
     @JsonProperty(&quot;createDate&quot;)
+    @JsonFormat(pattern=&quot;yyyy-MM-dd HH:mm:ss&quot;)
     private Date createDate;
 
     /*~-------------------- constructors --------------------*/
     @JsonCreator
-<span class="nc" id="L89">    public TransportUnitVO() {}</span>
+<span class="nc" id="L92">    public TransportUnitVO() {}</span>
 
     //@ConstructorProperties({&quot;barcode&quot;})
-<span class="nc" id="L92">    public TransportUnitVO(String barcode) {</span>
-<span class="nc" id="L93">        this.barcode = barcode;</span>
-<span class="nc" id="L94">    }</span>
+<span class="nc" id="L95">    public TransportUnitVO(String barcode) {</span>
+<span class="nc" id="L96">        this.barcode = barcode;</span>
+<span class="nc" id="L97">    }</span>
 
     //@ConstructorProperties({&quot;barcode&quot;, &quot;transportUnitType&quot;, &quot;actualLocation&quot;})
-<span class="nc" id="L97">    public TransportUnitVO(String barcode, TransportUnitTypeVO transportUnitType, LocationVO actualLocation) {</span>
-<span class="nc" id="L98">        this.barcode = barcode;</span>
-<span class="nc" id="L99">        this.transportUnitType = transportUnitType;</span>
-<span class="nc" id="L100">        this.actualLocation = actualLocation;</span>
-<span class="nc" id="L101">    }</span>
+<span class="nc" id="L100">    public TransportUnitVO(String barcode, TransportUnitTypeVO transportUnitType, LocationVO actualLocation) {</span>
+<span class="nc" id="L101">        this.barcode = barcode;</span>
+<span class="nc" id="L102">        this.transportUnitType = transportUnitType;</span>
+<span class="nc" id="L103">        this.actualLocation = actualLocation;</span>
+<span class="nc" id="L104">    }</span>
 
-<span class="nc" id="L103">    private TransportUnitVO(Builder builder) {</span>
-<span class="nc" id="L104">        barcode = builder.barcode;</span>
-<span class="nc" id="L105">        actualLocation = builder.actualLocation;</span>
-<span class="nc" id="L106">        transportUnitType = builder.transportUnitType;</span>
-<span class="nc" id="L107">        actualLocationDate = builder.actualLocationDate;</span>
-<span class="nc" id="L108">        createDate = builder.createDate;</span>
-<span class="nc" id="L109">    }</span>
+<span class="nc" id="L106">    private TransportUnitVO(Builder builder) {</span>
+<span class="nc" id="L107">        barcode = builder.barcode;</span>
+<span class="nc" id="L108">        actualLocation = builder.actualLocation;</span>
+<span class="nc" id="L109">        transportUnitType = builder.transportUnitType;</span>
+<span class="nc" id="L110">        actualLocationDate = builder.actualLocationDate;</span>
+<span class="nc" id="L111">        createDate = builder.createDate;</span>
+<span class="nc" id="L112">    }</span>
 
     public static Builder newBuilder() {
-<span class="nc" id="L112">        return new Builder();</span>
+<span class="nc" id="L115">        return new Builder();</span>
     }
 
     public static Builder builder() {
-<span class="nc" id="L116">        return new Builder();</span>
+<span class="nc" id="L119">        return new Builder();</span>
     }
 
     /*~-------------------- accessors --------------------*/
     public String getpKey() {
-<span class="nc" id="L121">        return pKey;</span>
+<span class="nc" id="L124">        return pKey;</span>
     }
 
     public void setpKey(String pKey) {
-<span class="nc" id="L125">        this.pKey = pKey;</span>
-<span class="nc" id="L126">    }</span>
+<span class="nc" id="L128">        this.pKey = pKey;</span>
+<span class="nc" id="L129">    }</span>
 
     public String getBarcode() {
-<span class="nc" id="L129">        return barcode;</span>
+<span class="nc" id="L132">        return barcode;</span>
     }
 
     public void setBarcode(String barcode) {
-<span class="nc" id="L133">        this.barcode = barcode;</span>
-<span class="nc" id="L134">    }</span>
+<span class="nc" id="L136">        this.barcode = barcode;</span>
+<span class="nc" id="L137">    }</span>
 
     public String getGroupId() {
-<span class="nc" id="L137">        return groupId;</span>
+<span class="nc" id="L140">        return groupId;</span>
     }
 
     public void setGroupId(String groupId) {
-<span class="nc" id="L141">        this.groupId = groupId;</span>
-<span class="nc" id="L142">    }</span>
+<span class="nc" id="L144">        this.groupId = groupId;</span>
+<span class="nc" id="L145">    }</span>
 
     public LocationVO getActualLocation() {
-<span class="nc" id="L145">        return actualLocation;</span>
+<span class="nc" id="L148">        return actualLocation;</span>
     }
 
     public void setActualLocation(LocationVO actualLocation) {
-<span class="nc" id="L149">        this.actualLocation = actualLocation;</span>
-<span class="nc" id="L150">    }</span>
+<span class="nc" id="L152">        this.actualLocation = actualLocation;</span>
+<span class="nc" id="L153">    }</span>
 
     public LocationVO getTargetLocation() {
-<span class="nc" id="L153">        return targetLocation;</span>
+<span class="nc" id="L156">        return targetLocation;</span>
     }
 
     public void setTargetLocation(LocationVO targetLocation) {
-<span class="nc" id="L157">        this.targetLocation = targetLocation;</span>
-<span class="nc" id="L158">    }</span>
+<span class="nc" id="L160">        this.targetLocation = targetLocation;</span>
+<span class="nc" id="L161">    }</span>
 
     public String getState() {
-<span class="nc" id="L161">        return state;</span>
+<span class="nc" id="L164">        return state;</span>
     }
 
     public void setState(String state) {
-<span class="nc" id="L165">        this.state = state;</span>
-<span class="nc" id="L166">    }</span>
+<span class="nc" id="L168">        this.state = state;</span>
+<span class="nc" id="L169">    }</span>
 
     public TransportUnitTypeVO getTransportUnitType() {
-<span class="nc" id="L169">        return transportUnitType;</span>
+<span class="nc" id="L172">        return transportUnitType;</span>
     }
 
     public void setTransportUnitType(TransportUnitTypeVO transportUnitType) {
-<span class="nc" id="L173">        this.transportUnitType = transportUnitType;</span>
-<span class="nc" id="L174">    }</span>
+<span class="nc" id="L176">        this.transportUnitType = transportUnitType;</span>
+<span class="nc" id="L177">    }</span>
 
     public Weight getWeight() {
-<span class="nc" id="L177">        return weight;</span>
+<span class="nc" id="L180">        return weight;</span>
     }
 
     public void setWeight(Weight weight) {
-<span class="nc" id="L181">        this.weight = weight;</span>
-<span class="nc" id="L182">    }</span>
+<span class="nc" id="L184">        this.weight = weight;</span>
+<span class="nc" id="L185">    }</span>
 
     public Date getActualLocationDate() {
-<span class="nc" id="L185">        return actualLocationDate;</span>
+<span class="nc" id="L188">        return actualLocationDate;</span>
     }
 
     public void setActualLocationDate(Date actualLocationDate) {
-<span class="nc" id="L189">        this.actualLocationDate = actualLocationDate;</span>
-<span class="nc" id="L190">    }</span>
+<span class="nc" id="L192">        this.actualLocationDate = actualLocationDate;</span>
+<span class="nc" id="L193">    }</span>
 
     public Date getCreateDate() {
-<span class="nc" id="L193">        return createDate;</span>
+<span class="nc" id="L196">        return createDate;</span>
     }
 
     public void setCreateDate(Date createDate) {
-<span class="nc" id="L197">        this.createDate = createDate;</span>
-<span class="nc" id="L198">    }</span>
+<span class="nc" id="L200">        this.createDate = createDate;</span>
+<span class="nc" id="L201">    }</span>
 
 
     /**
@@ -205,11 +208,11 @@ public class TransportUnitVO extends AbstractBase&lt;TransportUnitVO&gt; impleme
      */
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L208" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L209" title="All 2 branches missed.">        if (!(o instanceof TransportUnitVO)) return false;</span>
-<span class="nc bnc" id="L210" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
-<span class="nc" id="L211">        TransportUnitVO that = (TransportUnitVO) o;</span>
-<span class="nc bnc" id="L212" title="All 20 branches missed.">        return Objects.equals(pKey, that.pKey) &amp;&amp; Objects.equals(barcode, that.barcode) &amp;&amp; Objects.equals(groupId, that.groupId) &amp;&amp; Objects.equals(actualLocation, that.actualLocation) &amp;&amp; Objects.equals(targetLocation, that.targetLocation) &amp;&amp; Objects.equals(state, that.state) &amp;&amp; Objects.equals(transportUnitType, that.transportUnitType) &amp;&amp; Objects.equals(weight, that.weight) &amp;&amp; Objects.equals(actualLocationDate, that.actualLocationDate) &amp;&amp; Objects.equals(createDate, that.createDate);</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L212" title="All 2 branches missed.">        if (!(o instanceof TransportUnitVO)) return false;</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
+<span class="nc" id="L214">        TransportUnitVO that = (TransportUnitVO) o;</span>
+<span class="nc bnc" id="L215" title="All 20 branches missed.">        return Objects.equals(pKey, that.pKey) &amp;&amp; Objects.equals(barcode, that.barcode) &amp;&amp; Objects.equals(groupId, that.groupId) &amp;&amp; Objects.equals(actualLocation, that.actualLocation) &amp;&amp; Objects.equals(targetLocation, that.targetLocation) &amp;&amp; Objects.equals(state, that.state) &amp;&amp; Objects.equals(transportUnitType, that.transportUnitType) &amp;&amp; Objects.equals(weight, that.weight) &amp;&amp; Objects.equals(actualLocationDate, that.actualLocationDate) &amp;&amp; Objects.equals(createDate, that.createDate);</span>
     }
 
     /**
@@ -219,7 +222,7 @@ public class TransportUnitVO extends AbstractBase&lt;TransportUnitVO&gt; impleme
      */
     @Override
     public int hashCode() {
-<span class="nc" id="L222">        return Objects.hash(super.hashCode(), pKey, barcode, groupId, actualLocation, targetLocation, state, transportUnitType, weight, actualLocationDate, createDate);</span>
+<span class="nc" id="L225">        return Objects.hash(super.hashCode(), pKey, barcode, groupId, actualLocation, targetLocation, state, transportUnitType, weight, actualLocationDate, createDate);</span>
     }
 
     /*~-------------------- Builder --------------------*/
@@ -234,32 +237,32 @@ public class TransportUnitVO extends AbstractBase&lt;TransportUnitVO&gt; impleme
         }
 
         public Builder barcode(String val) {
-<span class="nc" id="L237">            barcode = val;</span>
-<span class="nc" id="L238">            return this;</span>
+<span class="nc" id="L240">            barcode = val;</span>
+<span class="nc" id="L241">            return this;</span>
         }
 
         public Builder actualLocation(LocationVO val) {
-<span class="nc" id="L242">            actualLocation = val;</span>
-<span class="nc" id="L243">            return this;</span>
+<span class="nc" id="L245">            actualLocation = val;</span>
+<span class="nc" id="L246">            return this;</span>
         }
 
         public Builder transportUnitType(TransportUnitTypeVO val) {
-<span class="nc" id="L247">            transportUnitType = val;</span>
-<span class="nc" id="L248">            return this;</span>
+<span class="nc" id="L250">            transportUnitType = val;</span>
+<span class="nc" id="L251">            return this;</span>
         }
 
         public Builder actualLocationDate(Date val) {
-<span class="nc" id="L252">            actualLocationDate = val;</span>
-<span class="nc" id="L253">            return this;</span>
+<span class="nc" id="L255">            actualLocationDate = val;</span>
+<span class="nc" id="L256">            return this;</span>
         }
 
         public Builder createDate(Date val) {
-<span class="nc" id="L257">            createDate = val;</span>
-<span class="nc" id="L258">            return this;</span>
+<span class="nc" id="L260">            createDate = val;</span>
+<span class="nc" id="L261">            return this;</span>
         }
 
         public TransportUnitVO build() {
-<span class="nc" id="L262">            return new TransportUnitVO(this);</span>
+<span class="nc" id="L265">            return new TransportUnitVO(this);</span>
         }
     }
 }
