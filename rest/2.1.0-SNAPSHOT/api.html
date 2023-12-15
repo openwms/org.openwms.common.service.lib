@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<meta name="author" content="(2.1.0-SNAPSHOT-196)">
+<meta name="author" content="(2.1.0-SNAPSHOT-197)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -443,7 +443,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(2.1.0-SNAPSHOT-196)</span><br>
+<span id="author" class="author">(2.1.0-SNAPSHOT-197)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -1318,17 +1318,17 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/locations/f4820005-8d26-4e51-8758-f6453f30ba39/
+Location: http://localhost:8080/v1/locations/fce99416-a910-4a6a-857f-db1b80271b5c/
 Content-Type: application/vnd.openwms.common.location-v1+json
 Content-Length: 434
 
 {
   "links" : [ {
     "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/f4820005-8d26-4e51-8758-f6453f30ba39"
+    "href" : "http://localhost:8080/v1/locations/fce99416-a910-4a6a-857f-db1b80271b5c"
   } ],
   "ol" : 0,
-  "pKey" : "f4820005-8d26-4e51-8758-f6453f30ba39",
+  "pKey" : "fce99416-a910-4a6a-857f-db1b80271b5c",
   "locationId" : "FGIN/PICK/WORK/0010/0000",
   "plcCode" : "PICK_20",
   "erpCode" : "PICK_10",
@@ -5207,14 +5207,14 @@ newly created resource as HTTP <code>Location</code> header attribute</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/9f0b6e51-cbf3-451c-a0e1-a3de1c0c1898/
+Location: http://localhost:8080/v1/transport-units/46abdcfd-1d9e-41c1-a8a3-e2fb93ba0456/
 Content-Type: application/vnd.openwms.transport-unit-v1+json
 Content-Length: 1313
 
 {
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/v1/transport-units/9f0b6e51-cbf3-451c-a0e1-a3de1c0c1898"
+    "href" : "http://localhost:8080/v1/transport-units/46abdcfd-1d9e-41c1-a8a3-e2fb93ba0456"
   }, {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -5223,7 +5223,7 @@ Content-Length: 1313
     "href" : "http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"
   } ],
   "ol" : 0,
-  "pKey" : "9f0b6e51-cbf3-451c-a0e1-a3de1c0c1898",
+  "pKey" : "46abdcfd-1d9e-41c1-a8a3-e2fb93ba0456",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "links" : [ ],
@@ -5255,8 +5255,8 @@ Content-Length: 1313
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2023-12-15 07:36:49",
-  "createDate" : "2023-12-15 07:36:49"
+  "actualLocationDate" : "2023-12-15 09:02:32",
+  "createDate" : "2023-12-15 09:02:32"
 }</code></pre>
 </div>
 </div>
@@ -5310,7 +5310,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/016ca6cb-f255-4c99-a68e-95cb7a987796/</code></pre>
+Location: http://localhost:8080/v1/transport-units/147be895-5afa-4faa-a248-b2e51e5b98d1/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -5425,8 +5425,8 @@ Content-Length: 1092
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2023-12-15 07:36:50",
-  "createDate" : "2023-12-15 07:36:50"
+  "actualLocationDate" : "2023-12-15 09:02:33",
+  "createDate" : "2023-12-15 09:02:33"
 }</code></pre>
 </div>
 </div>
@@ -5528,8 +5528,8 @@ Content-Length: 1092
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2023-12-15 07:36:49",
-  "createDate" : "2023-12-15 07:36:49"
+  "actualLocationDate" : "2023-12-15 09:02:32",
+  "createDate" : "2023-12-15 09:02:32"
 }</code></pre>
 </div>
 </div>
@@ -5631,8 +5631,8 @@ Content-Length: 1084
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2023-12-15 07:36:50",
-  "createDate" : "2023-12-15 07:36:50"
+  "actualLocationDate" : "2023-12-15 09:02:33",
+  "createDate" : "2023-12-15 09:02:33"
 }</code></pre>
 </div>
 </div>
@@ -5739,8 +5739,8 @@ Content-Length: 2177
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2023-12-15 07:36:48",
-  "createDate" : "2023-12-15 07:36:48"
+  "actualLocationDate" : "2023-12-15 09:02:31",
+  "createDate" : "2023-12-15 09:02:31"
 }, {
   "links" : [ {
     "rel" : "self",
@@ -5780,8 +5780,8 @@ Content-Length: 2177
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2023-12-15 07:36:48",
-  "createDate" : "2023-12-15 07:36:48"
+  "actualLocationDate" : "2023-12-15 09:02:31",
+  "createDate" : "2023-12-15 09:02:31"
 } ]</code></pre>
 </div>
 </div>
@@ -5863,8 +5863,8 @@ Content-Length: 1091
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2023-12-15 07:36:50",
-  "createDate" : "2023-12-15 07:36:50"
+  "actualLocationDate" : "2023-12-15 09:02:33",
+  "createDate" : "2023-12-15 09:02:33"
 } ]</code></pre>
 </div>
 </div>
@@ -6093,7 +6093,7 @@ Content-Length: 512
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-12-15 07:34:08 UTC
+Last updated 2023-12-15 08:58:09 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

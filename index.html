@@ -97,13 +97,13 @@
 <h1>Purpose</h1>
 <p>This service provides essential functionality to deal with <code>Locations</code>, <code>LocationGroups</code> and <code>TransportUnits</code>. An often referred example is
 the ability to move a <code>TransportUnit</code> from a <code>Location</code> A to a <code>Location</code> B.</p>
-<p><a href="https://github.com/openwms/org.openwms.common.service/actions/workflows/master-build.yml" class="externalLink"><img src="https://github.com/openwms/org.openwms.common.service/actions/workflows/master-build.yml/badge.svg" alt="Build status" /></a>
-<a href="https://sonarcloud.io/dashboard?id=org.openwms:org.openwms.common.service" class="externalLink"><img src="https://sonarcloud.io/api/project_badges/measure?project=org.openwms:org.openwms.common.service&amp;metric=alert_status" alt="Quality" /></a>
-<a href="../../../LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License" /></a>
-<a href="https://search.maven.org/search?q=a:org.openwms.common.service" class="externalLink"><img src="https://img.shields.io/maven-central/v/org.openwms/org.openwms.common.service" alt="Maven central" /></a>
-<a href="https://hub.docker.com/r/openwms/org.openwms.common.service" class="externalLink"><img src="https://img.shields.io/docker/pulls/openwms/org.openwms.common.service" alt="Docker pulls" /></a>
-<a href="https://gitter.im/openwms/org.openwms?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge" class="externalLink"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/openwms/org.openwms" /></a></p>
 <p><img src="images/class-overview.png" alt="ClassDiagram" /></p></section><section>
+<h1>Resources</h1>
+<p><a href="https://github.com/openwms/org.openwms.common.service.lib/actions/workflows/master-build.yml" class="externalLink"><img src="https://github.com/openwms/org.openwms.common.service.lib/actions/workflows/master-build.yml/badge.svg" alt="Build status" /></a>
+<a href="https://sonarcloud.io/dashboard?id=org.openwms:org.openwms.common.service.lib" class="externalLink"><img src="https://sonarcloud.io/api/project_badges/measure?project=org.openwms:org.openwms.common.service.lib&amp;metric=alert_status" alt="Quality" /></a>
+<a href="../../../LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License" /></a>
+<a href="https://search.maven.org/search?q=a:org.openwms.common.service.lib" class="externalLink"><img src="https://img.shields.io/maven-central/v/org.openwms/org.openwms.common.service.lib" alt="Maven central" /></a>
+<a href="https://gitter.im/openwms/org.openwms?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge" class="externalLink"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/openwms/org.openwms" /></a></p></section><section>
 <h1>Build</h1>
 <p>The module depends on OpenWMS.org CORE dependencies and one additional optional COMMON dependency that is only used in the enterprise
 version and offers an additional API for the UI.</p>
@@ -120,28 +120,11 @@ server to run:</p>
 <pre><code>$ ./mvnw package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
 </code></pre></div>
 <p>This requires a <a href="https://www.rabbitmq.com" class="externalLink">RabbitMQ</a> server running locally with default settings.</p></section><section>
-<h1>Run</h1><section>
-<h2>Run On Command Line</h2>
-<p>After the binary has been built it can be started from command line. By default no other infrastructure services are required to run this
-service.</p>
-
-<div class="verbatim">
-<pre><code>$ java -jar target/openwms-common-service-exec.jar
-</code></pre></div>
-<p>In a distributed environment the service configuration is fetched from the central <a href="https://github.com/spring-labs/org.openwms.configuration" class="externalLink">OpenWMS.org Configuration Service</a>.
-This behavior can be enabled by activating the Spring Profile <code>DISTRIBUTED</code>. Additionally it makes sense to enable asynchronous
-communication that requires a running <a href="https://www.rabbitmq.com" class="externalLink">RabbitMQ</a> instance - just add another profile <code>ASYNCHRONOUS</code>. If the latter
-is not applied all asynchronous AMQP endpoints are disabled and the service does not send any events nor does it receive application events
-from remote services. The AMQP protocol with the <a href="https://www.rabbitmq.com" class="externalLink">RabbitMQ</a> is currently the only supported message broker. But
-switching to others, like <a href="https://www.hivemq.com" class="externalLink">HiveMQ (MQTT)</a> or <a href="https://kafka.apache.org/" class="externalLink">Apacha Kafka</a>, is not rocket science.</p>
-
-<div class="verbatim">
-<pre><code>$ java -jar target/openwms-common-service-exec.jar --spring.profiles.active=DISTRIBUTED,ASYNCHRONOUS
-</code></pre></div>
-<p>With these profiles applied the OpenWMS.org Configuration Service is tried to be discovered at service startup. The service fails to start
-if no instance of the configuration service is available after a configured amount of retries.</p></section><section>
+<h1>Run</h1>
+<p>This is a library not a standalone microservice that runs on the JVM. This library is part of the OpenWMS.org Common Service, that is
+distributed as Docker image and can be instantiated as Docker container.</p><section>
 <h2>Run as Docker Container</h2>
-<p>Instead of building the software from the sources and run it as Java program on the JVM it can also be fetched as a Docker image from
+<p>Instead of building the software from the sources and run it as Java program on the JVM it must be fetched as a Docker image from
 <a href="https://hub.docker.com/repository/docker/openwms/org.openwms.common.service" class="externalLink">Docker Hub</a> and started as a Docker container.</p>
 
 <div class="verbatim">
