@@ -3,7 +3,7 @@ OpenWMS.org defines additional configuration parameters beside the standard Spri
 `owms` property namespace.
 
 |Parameter|Type|Default profile value|Description|
-|---------|----|-----------|
+|---------|----|---------------------|-----------|
 |owms.eureka.url|string|http://user:sa@localhost:8761|The base URL of the running Eureka service discovery server, inclusive schema and port|
 |owms.eureka.zone|string|http://user:sa@localhost:8761/eureka/|The full Eureka registration endpoint URL|
 |owms.service.protocol|string|http|The protocol the service' is accessible from Eureka clients|  
