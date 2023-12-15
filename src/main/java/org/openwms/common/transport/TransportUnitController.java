@@ -139,6 +139,11 @@ public class TransportUnitController extends AbstractWebController {
         return ResponseEntity.created(getLocationURIForCreatedResource(req, created.getPersistentKey())).build();
     }
 
+    @PostMapping(API_TRANSPORT_UNITS + "/synchronize")
+    public void synchronizeTU() {
+        service.synchronizeTransportUnits();
+    }
+
     @PostMapping(value = API_TRANSPORT_UNITS, params = {"actualLocation", "tut"}, produces = MEDIA_TYPE)
     public ResponseEntity<TransportUnitVO> createTU(
             @RequestParam(value = "bk", required = false) String transportUnitBK,

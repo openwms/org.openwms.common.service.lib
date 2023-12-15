@@ -412,4 +412,19 @@ class TransportUnitServiceImpl implements TransportUnitService {
         );
         repository.save(transportUnit);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public void synchronizeTransportUnits() {
+        var all = repository.findAll();
+        all.forEach(tu -> publisher.publishEvent(
+                TransportUnitEvent.newBuilder()
+                        .tu(tu)
+                        .type(TransportUnitEvent.TransportUnitEventType.CREATED)
+                        .build()
+        ));
+    }
 }

@@ -182,4 +182,9 @@ public interface TransportUnitService {
      * @throws org.openwms.common.StateChangeException if change is not allowed
      */
     void setState(@NotBlank String transportUnitBK, @NotNull TransportUnitState state);
+
+    /**
+     * Trigger a synchronization of TransportUnits.
+     */
+    void synchronizeTransportUnits();
 }
