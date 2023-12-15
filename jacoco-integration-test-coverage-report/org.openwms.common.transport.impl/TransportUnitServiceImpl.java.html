@@ -412,5 +412,20 @@ class TransportUnitServiceImpl implements TransportUnitService {
         );
 <span class="fc" id="L413">        repository.save(transportUnit);</span>
 <span class="fc" id="L414">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public void synchronizeTransportUnits() {
+<span class="nc" id="L422">        var all = repository.findAll();</span>
+<span class="nc" id="L423">        all.forEach(tu -&gt; publisher.publishEvent(</span>
+<span class="nc" id="L424">                TransportUnitEvent.newBuilder()</span>
+<span class="nc" id="L425">                        .tu(tu)</span>
+<span class="nc" id="L426">                        .type(TransportUnitEvent.TransportUnitEventType.CREATED)</span>
+<span class="nc" id="L427">                        .build()</span>
+        ));
+<span class="nc" id="L429">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
