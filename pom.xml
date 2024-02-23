@@ -68,14 +68,10 @@
     <properties>
         <core.units.version>0.5.1-SNAPSHOT</core.units.version>
         <core.version>2.1.0-SNAPSHOT</core.version>
-        <guava.version>30.0-jre</guava.version>
+        <guava.version>32.0.0-jre</guava.version>
         <indriya.version>2.0</indriya.version>
-        <joda-time.version>2.10.14</joda-time.version>
-        <plexus-utils.version>3.2.1</plexus-utils.version>
-        <servo-core.version>0.12.21</servo-core.version>
         <spring-cloud-dependencies.version>2021.0.8</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
-        <wagon-provider-api.version>3.3.4</wagon-provider-api.version>
     </properties>
 
     <reporting>
@@ -186,30 +182,6 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
-            </dependency>
-            <dependency>
-                <!-- Clash in org.springframework.cloud:spring-cloud-starter-netflix-eureka-client -->
-                <groupId>com.netflix.servo</groupId>
-                <artifactId>servo-core</artifactId>
-                <version>${servo-core.version}</version>
-            </dependency>
-            <dependency>
-                <!-- Mismatch between Eureka Client and Envers -->
-                <groupId>joda-time</groupId>
-                <artifactId>joda-time</artifactId>
-                <version>${joda-time.version}</version>
-            </dependency>
-            <dependency>
-                <!-- Clash in org.springframework.cloud:spring-cloud-starter-stream-rabbit -->
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-provider-api</artifactId>
-                <version>${wagon-provider-api.version}</version>
-            </dependency>
-            <dependency>
-                <!-- Clash in org.springframework.cloud:spring-cloud-starter-stream-rabbit -->
-                <groupId>org.codehaus.plexus</groupId>
-                <artifactId>plexus-utils</artifactId>
-                <version>${plexus-utils.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openwms</groupId>
@@ -420,11 +392,6 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency> <!-- Internal conflict in spring-cloud-starter-bus-amqp -->
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-utils</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
