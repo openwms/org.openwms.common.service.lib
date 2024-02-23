@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<meta name="author" content="(2.1.0-SNAPSHOT-197)">
+<meta name="author" content="(2.1.0-SNAPSHOT-198)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -443,7 +443,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(2.1.0-SNAPSHOT-197)</span><br>
+<span id="author" class="author">(2.1.0-SNAPSHOT-198)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -1318,17 +1318,17 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/locations/fce99416-a910-4a6a-857f-db1b80271b5c/
+Location: http://localhost:8080/v1/locations/36c7cd46-5e8f-4874-814e-e41ff633a3c6/
 Content-Type: application/vnd.openwms.common.location-v1+json
 Content-Length: 434
 
 {
   "links" : [ {
     "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/fce99416-a910-4a6a-857f-db1b80271b5c"
+    "href" : "http://localhost:8080/v1/locations/36c7cd46-5e8f-4874-814e-e41ff633a3c6"
   } ],
   "ol" : 0,
-  "pKey" : "fce99416-a910-4a6a-857f-db1b80271b5c",
+  "pKey" : "36c7cd46-5e8f-4874-814e-e41ff633a3c6",
   "locationId" : "FGIN/PICK/WORK/0010/0000",
   "plcCode" : "PICK_20",
   "erpCode" : "PICK_10",
@@ -4699,8 +4699,22 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If the resource can&#8217;t be identified the server response looks like:
-Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service.lib/org.openwms.common.service.lib/target/generated-snippets/lg/shall_change_state_pkey_404/http-response.adoc[]</p>
+<p>If the resource can&#8217;t be identified the server response looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 202
+
+{
+  "message" : "LocationGroup with name [NOT_EXISTS] does not exist",
+  "messageKey" : "owms.common.common.lg.notFoundByName",
+  "obj" : [ "NOT_EXISTS" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Instead of passing both state values for inbound and outbound directly as query parameters it is also possible to encode the state into a
@@ -5207,14 +5221,14 @@ newly created resource as HTTP <code>Location</code> header attribute</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/46abdcfd-1d9e-41c1-a8a3-e2fb93ba0456/
+Location: http://localhost:8080/v1/transport-units/36b976f5-3fc5-4423-b795-c640adc92094/
 Content-Type: application/vnd.openwms.transport-unit-v1+json
 Content-Length: 1313
 
 {
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/v1/transport-units/46abdcfd-1d9e-41c1-a8a3-e2fb93ba0456"
+    "href" : "http://localhost:8080/v1/transport-units/36b976f5-3fc5-4423-b795-c640adc92094"
   }, {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -5223,7 +5237,7 @@ Content-Length: 1313
     "href" : "http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"
   } ],
   "ol" : 0,
-  "pKey" : "46abdcfd-1d9e-41c1-a8a3-e2fb93ba0456",
+  "pKey" : "36b976f5-3fc5-4423-b795-c640adc92094",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "links" : [ ],
@@ -5255,8 +5269,8 @@ Content-Length: 1313
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2023-12-15 09:02:32",
-  "createDate" : "2023-12-15 09:02:32"
+  "actualLocationDate" : "2024-02-23 20:20:52",
+  "createDate" : "2024-02-23 20:20:52"
 }</code></pre>
 </div>
 </div>
@@ -5310,7 +5324,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/147be895-5afa-4faa-a248-b2e51e5b98d1/</code></pre>
+Location: http://localhost:8080/v1/transport-units/8db1f1de-3768-475e-9181-596de3801631/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -5425,8 +5439,8 @@ Content-Length: 1092
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2023-12-15 09:02:33",
-  "createDate" : "2023-12-15 09:02:33"
+  "actualLocationDate" : "2024-02-23 20:20:53",
+  "createDate" : "2024-02-23 20:20:53"
 }</code></pre>
 </div>
 </div>
@@ -5528,8 +5542,8 @@ Content-Length: 1092
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2023-12-15 09:02:32",
-  "createDate" : "2023-12-15 09:02:32"
+  "actualLocationDate" : "2024-02-23 20:20:52",
+  "createDate" : "2024-02-23 20:20:52"
 }</code></pre>
 </div>
 </div>
@@ -5631,8 +5645,8 @@ Content-Length: 1084
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2023-12-15 09:02:33",
-  "createDate" : "2023-12-15 09:02:33"
+  "actualLocationDate" : "2024-02-23 20:20:53",
+  "createDate" : "2024-02-23 20:20:53"
 }</code></pre>
 </div>
 </div>
@@ -5739,8 +5753,8 @@ Content-Length: 2177
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2023-12-15 09:02:31",
-  "createDate" : "2023-12-15 09:02:31"
+  "actualLocationDate" : "2024-02-23 20:20:52",
+  "createDate" : "2024-02-23 20:20:52"
 }, {
   "links" : [ {
     "rel" : "self",
@@ -5780,8 +5794,8 @@ Content-Length: 2177
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2023-12-15 09:02:31",
-  "createDate" : "2023-12-15 09:02:31"
+  "actualLocationDate" : "2024-02-23 20:20:52",
+  "createDate" : "2024-02-23 20:20:52"
 } ]</code></pre>
 </div>
 </div>
@@ -5863,8 +5877,8 @@ Content-Length: 1091
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2023-12-15 09:02:33",
-  "createDate" : "2023-12-15 09:02:33"
+  "actualLocationDate" : "2024-02-23 20:20:53",
+  "createDate" : "2024-02-23 20:20:53"
 } ]</code></pre>
 </div>
 </div>
@@ -6093,7 +6107,7 @@ Content-Length: 512
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-12-15 08:58:09 UTC
+Last updated 2024-02-23 20:17:39 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

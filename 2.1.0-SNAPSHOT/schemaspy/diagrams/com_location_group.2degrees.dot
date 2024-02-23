@@ -1,4 +1,4 @@
-// dot 2.43.0 on Linux 6.2.0-1018-azure
+// dot 2.43.0 on Linux 6.2.0-1019-azure
 // SchemaSpy rev Unknown
 digraph "twoDegreesRelationshipsDiagram" {
   graph [
@@ -105,7 +105,7 @@ digraph "twoDegreesRelationshipsDiagram" {
       <TR><TD PORT="c_group_type" COLSPAN="2" ALIGN="LEFT">c_group_type</TD><TD PORT="c_group_type.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_group_counting_active" COLSPAN="2" ALIGN="LEFT">c_group_counting_active</TD><TD PORT="c_group_counting_active.type" ALIGN="LEFT">bool[1]</TD></TR>
       <TR><TD PORT="c_max_fill_level" COLSPAN="2" ALIGN="LEFT">c_max_fill_level</TD><TD PORT="c_max_fill_level.type" ALIGN="LEFT">float4[8,8]</TD></TR>
-      <TR><TD PORT="c_name" COLSPAN="2" BGCOLOR="#f4f7da" ALIGN="LEFT">c_name</TD><TD PORT="c_name.type" ALIGN="LEFT">varchar[20]</TD></TR>
+      <TR><TD PORT="c_name" COLSPAN="2" BGCOLOR="#f4f7da" ALIGN="LEFT">c_name</TD><TD PORT="c_name.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_op_mode" COLSPAN="2" ALIGN="LEFT">c_op_mode</TD><TD PORT="c_op_mode.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_system_code" COLSPAN="2" ALIGN="LEFT">c_system_code</TD><TD PORT="c_system_code.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_system_name" COLSPAN="2" ALIGN="LEFT">c_system_name</TD><TD PORT="c_system_name.type" ALIGN="LEFT">varchar[255]</TD></TR>

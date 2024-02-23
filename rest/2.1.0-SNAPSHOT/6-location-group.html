@@ -2570,8 +2570,22 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If the resource can&#8217;t be identified the server response looks like:
-Unresolved directive in 6-location-group.adoc - include::/home/runner/work/org.openwms.common.service.lib/org.openwms.common.service.lib/target/generated-snippets/lg/shall_change_state_pkey_404/http-response.adoc[]</p>
+<p>If the resource can&#8217;t be identified the server response looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 202
+
+{
+  "message" : "LocationGroup with name [NOT_EXISTS] does not exist",
+  "messageKey" : "owms.common.common.lg.notFoundByName",
+  "obj" : [ "NOT_EXISTS" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Instead of passing both state values for inbound and outbound directly as query parameters it is also possible to encode the state into a
@@ -2629,7 +2643,7 @@ Host: localhost:8080
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-12-15 08:58:09 UTC
+Last updated 2024-02-23 20:17:39 UTC
 </div>
 </div>
 </body>
