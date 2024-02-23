@@ -66,7 +66,7 @@ If the state change operation could be processed successfully, the server respon
 include::{generated}/lg/shall_change_state_p-key/http-response.adoc[]
 
 If the resource can't be identified the server response looks like:
-include::{generated}/lg/shall_change_state_pkey_404/http-response.adoc[]
+include::{generated}/lg/shall_change_state_p-key_404/http-response.adoc[]
 
 Instead of passing both state values for inbound and outbound directly as query parameters it is also possible to encode the state into a
 8-digit bitmap field and pass it with the request. This is very handy when the subsystem (aka. PLC) sends an error bitmap to the server that

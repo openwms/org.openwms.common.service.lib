@@ -5,7 +5,6 @@ the ability to move a `TransportUnit` from a `Location` A to a `Location` B.
 ![ClassDiagram][1]
 
 # Resources
-
 [![Build status](https://github.com/openwms/org.openwms.common.service.lib/actions/workflows/master-build.yml/badge.svg)](https://github.com/openwms/org.openwms.common.service.lib/actions/workflows/master-build.yml)
 [![Quality](https://sonarcloud.io/api/project_badges/measure?project=org.openwms:org.openwms.common.service.lib&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.openwms:org.openwms.common.service.lib)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](../../../LICENSE)

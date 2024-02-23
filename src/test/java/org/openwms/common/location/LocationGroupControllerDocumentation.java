@@ -202,7 +202,7 @@ class LocationGroupControllerDocumentation {
     class StateChangeTests {
 
      */
-        @Test void shall_changeState_pkey_404() throws Exception {
+        @Test void shall_change_state_pKey_404() throws Exception {
             mockMvc.perform(patch(LocationApiConstants.API_LOCATION_GROUPS)
                     .queryParam("name", "NOT_EXISTS")
                     .queryParam("op","change-state")
