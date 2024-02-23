@@ -34,8 +34,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -55,9 +56,11 @@ public class LocationGroup extends Target implements Serializable {
 
     /** Unique identifier of a {@code LocationGroup}. */
     @Column(name = "C_NAME", nullable = false, length = LENGTH_NAME)
+    @NotBlank
+    @Size(min = 1, max = LENGTH_NAME)
     private String name;
     /** Length of the name field; used for telegram mapping and for column definition. */
-    public static final int LENGTH_NAME = 20;
+    public static final int LENGTH_NAME = 255;
 
     /** The LocationGroup might be assigned to an {@link Account}. */
     @ManyToOne
@@ -78,11 +81,13 @@ public class LocationGroup extends Target implements Serializable {
 
     /** The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in. */
     @Column(name = "C_OP_MODE")
+    @NotBlank
     private String operationMode = LocationGroupMode.INFEED_AND_OUTFEED;
 
     /** State of infeed, controlled by the subsystem only. */
     @Column(name = "C_GROUP_STATE_IN")
     @Enumerated(EnumType.STRING)
+    @NotNull
     private LocationGroupState groupStateIn = LocationGroupState.AVAILABLE;
 
     /** References the {@code LocationGroup} that locked this {@code LocationGroup} for infeed. */
@@ -93,6 +98,7 @@ public class LocationGroup extends Target implements Serializable {
     /** State of outfeed. */
     @Column(name = "C_GROUP_STATE_OUT")
     @Enumerated(EnumType.STRING)
+    @NotNull
     private LocationGroupState groupStateOut = LocationGroupState.AVAILABLE;
 
     /** References the {@code LocationGroup} that locked this {@code LocationGroup} for outfeed. */
@@ -131,7 +137,7 @@ public class LocationGroup extends Target implements Serializable {
      *
      * @param name The name of the {@code LocationGroup} must not be {@literal null}
      */
-    public LocationGroup(@NotEmpty String name) {
+    public LocationGroup(@NotBlank String name) {
         Assert.hasText(name, "Creation of LocationGroup with name null");
         this.name = name;
     }
@@ -207,7 +213,7 @@ public class LocationGroup extends Target implements Serializable {
      * @param operationMode The mode as an extensible String
      * @see LocationGroupMode
      */
-    public void setOperationMode(String operationMode) {
+    public void setOperationMode(@NotBlank String operationMode) {
         this.operationMode = operationMode;
         this.locationGroups.forEach(lg -> lg.setOperationMode(operationMode));
     }
