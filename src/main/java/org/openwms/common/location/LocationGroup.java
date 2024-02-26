@@ -79,7 +79,7 @@ public class LocationGroup extends Target implements Serializable {
     @Column(name = "C_GROUP_COUNTING_ACTIVE")
     private boolean locationGroupCountingActive = true;
 
-    /** The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in. */
+    /** The operation mode is controlled by the subsystem and defines the physical mode a {@code LocationGroup} is currently able to operate in. */
     @Column(name = "C_OP_MODE")
     @NotBlank
     private String operationMode = LocationGroupMode.INFEED_AND_OUTFEED;
@@ -133,7 +133,7 @@ public class LocationGroup extends Target implements Serializable {
     protected LocationGroup() { }
 
     /**
-     * Create a new {@code LocationGroup} with an unique name.
+     * Create a new {@code LocationGroup} with a unique name.
      *
      * @param name The name of the {@code LocationGroup} must not be {@literal null}
      */
@@ -156,10 +156,19 @@ public class LocationGroup extends Target implements Serializable {
     /**
      * Return the {@link Account} this {@code LocationGroup} is assigned to.
      *
-     * @return The Account
+     * @return The {@link Account}
      */
     public Account getAccount() {
         return account;
+    }
+
+    /**
+     * Sets the {@link Account} for this {@code LocationGroup}.
+     *
+     * @param account The {@link Account} to set for this {@code LocationGroup}
+     */
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     /**
@@ -199,7 +208,7 @@ public class LocationGroup extends Target implements Serializable {
     }
 
     /**
-     * Get the current operation mode this LocationGroup operates in.
+     * Get the current operation mode this {@code LocationGroup} operates in.
      *
      * @return The operational mode
      */
@@ -208,7 +217,7 @@ public class LocationGroup extends Target implements Serializable {
     }
 
     /**
-     * Set the current operation mode this LocationGroup can operate in.
+     * Set the current operation mode this {@code LocationGroup} can operate in.
      *
      * @param operationMode The mode as an extensible String
      * @see LocationGroupMode
@@ -382,12 +391,30 @@ public class LocationGroup extends Target implements Serializable {
     }
 
     /**
+     * Sets the parent {@code LocationGroup} of this {@code LocationGroup}.
+     *
+     * @param parent The parent {@code LocationGroup} to set
+     */
+    public void setParent(LocationGroup parent) {
+        this.parent = parent;
+    }
+
+    /**
      * Return all child {@code LocationGroup}.
      *
      * @return A set of all {@code LocationGroup} having this one as parent
      */
     public Set<LocationGroup> getLocationGroups() {
         return locationGroups;
+    }
+
+    /**
+     * Sets the child {@code LocationGroup}.
+     *
+     * @param locationGroups the set of LocationGroups to set
+     */
+    public void setLocationGroups(Set<LocationGroup> locationGroups) {
+        this.locationGroups = locationGroups;
     }
 
     /**

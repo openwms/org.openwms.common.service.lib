@@ -23,18 +23,23 @@ import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.LocationGroupVO;
+import org.openwms.common.location.api.ValidationGroups;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -50,6 +55,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  * @author Heiko Scherrer
  */
 @Profile("!INMEM")
+@Validated
 @RefreshScope
 @MeasuredRestController
 public class LocationGroupController extends AbstractWebController {
@@ -69,6 +75,21 @@ public class LocationGroupController extends AbstractWebController {
         this.mapper = mapper;
         this.groupStateIn = groupStateIn;
         this.groupStateOut = groupStateOut;
+    }
+
+    /**
+     * Creates a new location group.
+     *
+     * @param vo The LocationGroupVO object containing the data for the new location group. The object must be
+     *           validated using the annotated constraints specified in the ValidationGroups.Create interface.
+     * @return A ResponseEntity object containing the LocationGroupVO of the newly created location group,
+     *         or an empty ResponseEntity if the creation failed.
+     */
+    @PostMapping(API_LOCATION_GROUPS)
+    public ResponseEntity<LocationGroupVO> create(@Validated(ValidationGroups.Create.class) @Valid @RequestBody LocationGroupVO vo, HttpServletRequest req) {
+        var result = locationGroupService.create(vo);
+        var location = getLocationURIForCreatedResource(req, result.getPersistentKey());
+        return ResponseEntity.created(location).body(mapper.convertToVO(result));
     }
 
     @Transactional(readOnly = true)
@@ -144,6 +165,7 @@ public class LocationGroupController extends AbstractWebController {
     public ResponseEntity<Index> index() {
         return ResponseEntity.ok(
                 new Index(
+                        linkTo(methodOn(LocationGroupController.class).create(LocationGroupVO.create("FOO", "INFEED_AND_OUTFEED"), null)).withRel("location-groups-create"),
                         linkTo(methodOn(LocationGroupController.class).findByName("FOO")).withRel("location-groups-findbyname"),
                         linkTo(methodOn(LocationGroupController.class).findByNames(asList("FOO", "BAR"))).withRel("location-groups-findbynames"),
                         linkTo(methodOn(LocationGroupController.class).findAll()).withRel("location-groups-findall"),

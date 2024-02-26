@@ -18,21 +18,31 @@ package org.openwms.common.location.impl;
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
+import org.ameba.exception.ResourceExistsException;
 import org.ameba.i18n.Translator;
+import org.openwms.common.CommonMessageCodes;
+import org.openwms.common.account.AccountService;
 import org.openwms.common.location.LocationGroup;
 import org.openwms.common.location.LocationGroupService;
 import org.openwms.common.location.api.LocationGroupState;
+import org.openwms.common.location.api.LocationGroupVO;
+import org.openwms.common.location.api.ValidationGroups;
 import org.openwms.common.location.api.events.LocationGroupEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import static org.openwms.common.CommonMessageCodes.LOCATION_GROUP_EXISTS;
 import static org.openwms.common.CommonMessageCodes.LOCATION_GROUP_NOT_FOUND;
 import static org.openwms.common.CommonMessageCodes.LOCATION_GROUP_NOT_FOUND_BY_PKEY;
 
@@ -46,14 +56,71 @@ import static org.openwms.common.CommonMessageCodes.LOCATION_GROUP_NOT_FOUND_BY_
 @TxService
 class LocationGroupServiceImpl implements LocationGroupService {
 
-    private final LocationGroupRepository repository;
+    private static final Logger LOGGER = LoggerFactory.getLogger(LocationGroupServiceImpl.class);
     private final ApplicationContext ctx;
     private final Translator translator;
+    private final LocationGroupRepository repository;
+    private final AccountService accountService;
 
-    LocationGroupServiceImpl(LocationGroupRepository repository, ApplicationContext ctx, Translator translator) {
-        this.repository = repository;
+    LocationGroupServiceImpl(ApplicationContext ctx, Translator translator, LocationGroupRepository repository, AccountService accountService) {
         this.ctx = ctx;
         this.translator = translator;
+        this.repository = repository;
+        this.accountService = accountService;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public @NotNull LocationGroup create(@NotNull @Validated(ValidationGroups.Create.class) @Valid LocationGroupVO vo) {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Create a LocationGroup with the VO [{}]", vo.allFieldsToString());
+        }
+        var eo = createLocationGroup(vo);
+        var savedEo = repository.save(eo);
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Request to create a new LocationGroup [{}]", savedEo);
+        }
+        ctx.publishEvent(LocationGroupEvent.of(savedEo, LocationGroupEvent.LocationGroupEventType.CREATED));
+        return savedEo;
+    }
+
+    private LocationGroup createLocationGroup(LocationGroupVO vo) {
+        var eoOpt = repository.findByName(vo.getName());
+        if (eoOpt.isPresent()) {
+            throw new ResourceExistsException(translator, LOCATION_GROUP_EXISTS, new String[]{vo.getName()}, vo.getName());
+        }
+        var eo = new LocationGroup(vo.getName());
+        if (vo.getAccountId() != null && !vo.getAccountId().isEmpty()) {
+            var accountOpt = accountService.findByIdentifier(vo.getAccountId());
+            if (accountOpt.isEmpty()) {
+                throw new NotFoundException(translator, CommonMessageCodes.ACCOUNT_NOT_FOUND_BY_ID, new String[]{vo.getAccountId()}, vo.getAccountId());
+            }
+            eo.setAccount(accountOpt.get());
+        }
+        eo.setGroupType(vo.getGroupType());
+        if (vo.getParent() != null && !vo.getParent().isEmpty()) {
+            var parentOpt = repository.findByName(vo.getParent());
+            if (parentOpt.isEmpty()) {
+                throw new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{vo.getParent()}, vo.getParent());
+            }
+            eo.setParent(parentOpt.get());
+        }
+        eo.setOperationMode(vo.getOperationMode());
+
+        if (vo.getGroupStateIn() != null) {
+            eo.changeGroupStateIn(vo.getGroupStateIn());
+        }
+
+        if (vo.getGroupStateOut() != null) {
+            eo.changeGroupStateOut(vo.getGroupStateOut());
+        }
+        if (vo.getChildren() != null && !vo.getChildren().isEmpty()) {
+            eo.setLocationGroups(vo.getChildren().stream().map(this::createLocationGroup).collect(Collectors.toSet()));
+        }
+        return eo;
     }
 
     /**

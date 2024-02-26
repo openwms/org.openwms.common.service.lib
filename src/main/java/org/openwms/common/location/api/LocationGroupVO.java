@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.stream.Stream;
 
 /**
@@ -49,6 +50,7 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
     private String groupType;
     @JsonProperty("parentName")
     private String parent;
+    @NotBlank(groups = ValidationGroups.Create.class)
     @JsonProperty("operationMode")
     private String operationMode;
     @JsonProperty("groupStateIn")
@@ -57,7 +59,7 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
     private LocationGroupState groupStateOut;
     @JsonProperty("childLocationGroups")
     private List<LocationGroupVO> children;
-
+    @JsonProperty("createDt")
     private LocalDateTime createDt;
 
     public LocalDateTime getCreateDt() {
@@ -82,6 +84,19 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
     }
 
     /*~ ------------------ methods ----------------------*/
+
+    /**
+     * Creates a new LocationGroupVO object with the given name and operation mode.
+     *
+     * @param name The name of the location group.
+     * @param operationMode The operation mode of the location group.
+     * @return The created LocationGroupVO object.
+     */
+    public static LocationGroupVO create(String name, String operationMode) {
+        var result = new LocationGroupVO(name);
+        result.setOperationMode(operationMode);
+        return result;
+    }
 
     public Stream<LocationGroupVO> streamLocationGroups() {
         return Stream.concat(
@@ -161,6 +176,14 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
 
     public void setOperationMode(String operationMode) {
         this.operationMode = operationMode;
+    }
+
+    public LocationGroupState getGroupStateIn() {
+        return groupStateIn;
+    }
+
+    public LocationGroupState getGroupStateOut() {
+        return groupStateOut;
     }
 
     public String getpKey() {
@@ -261,5 +284,26 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
     @Override
     public String toString() {
         return name;
+    }
+
+    /**
+     * Returns a string representation of the LocationGroupVO object, including all its fields.
+     * Fields are concatenated using a delimiter ", ".
+     *
+     * @return A string representation of the LocationGroupVO object.
+     */
+    public String allFieldsToString() {
+        return new StringJoiner(", ", LocationGroupVO.class.getSimpleName() + "[", "]")
+                .add("pKey='" + pKey + "'")
+                .add("name='" + name + "'")
+                .add("accountId='" + accountId + "'")
+                .add("groupType='" + groupType + "'")
+                .add("parent='" + parent + "'")
+                .add("operationMode='" + operationMode + "'")
+                .add("groupStateIn=" + groupStateIn)
+                .add("groupStateOut=" + groupStateOut)
+                .add("children=" + children)
+                .add("createDt=" + createDt)
+                .toString();
     }
 }

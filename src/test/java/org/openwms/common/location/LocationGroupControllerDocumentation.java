@@ -25,6 +25,7 @@ import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationApiConstants;
 import org.openwms.common.location.api.LocationGroupMode;
 import org.openwms.common.location.api.LocationGroupState;
+import org.openwms.common.location.api.LocationGroupVO;
 import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -35,6 +36,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.hasItems;
@@ -50,11 +52,13 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -92,10 +96,13 @@ class LocationGroupControllerDocumentation {
                         get(LocationApiConstants.API_LOCATION_GROUPS + "/index")
                 )
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$._links.location-groups-create").exists())
                 .andExpect(jsonPath("$._links.location-groups-findbyname").exists())
                 .andExpect(jsonPath("$._links.location-groups-findbynames").exists())
                 .andExpect(jsonPath("$._links.location-groups-findall").exists())
-                .andExpect(jsonPath("$._links.length()", is(5)))
+                .andExpect(jsonPath("$._links.location-groups-changestate").exists())
+                .andExpect(jsonPath("$._links.location-groups-changestate-with-bitmap").exists())
+                .andExpect(jsonPath("$._links.length()", is(6)))
                 .andDo(documentationResultHandler.document(httpRequest(), httpResponse()))
         ;
     }
@@ -148,6 +155,90 @@ class LocationGroupControllerDocumentation {
                             )
                     );
         }
+
+        @Test
+        void shall_create_LocationGroup() throws Exception {
+            var lg = LocationGroupVO.create("TEST_LG", "INFEED_AND_OUTFEED");
+            mockMvc.perform(
+                    post(LocationApiConstants.API_LOCATION_GROUPS)
+                            .content(mapper.writeValueAsString(lg))
+                            .contentType(MediaType.APPLICATION_JSON)
+            ).andExpect(status().isCreated())
+                    .andExpect(jsonPath("$.pKey").exists())
+                    .andExpect(jsonPath("$.name", is(lg.getName())))
+                    .andExpect(jsonPath("$.accountId").doesNotExist())
+                    .andExpect(jsonPath("$.operationMode", is("INFEED_AND_OUTFEED")))
+                    .andExpect(jsonPath("$.groupStateIn", is("AVAILABLE")))
+                    .andExpect(jsonPath("$.groupStateOut", is("AVAILABLE")))
+                    .andExpect(jsonPath("$.createDt").exists())
+                    .andDo(document("lg/lg-created",
+                            preprocessResponse(prettyPrint()),
+                            requestFields(
+                                    fieldWithPath("name").description("Unique identifier"),
+                                    fieldWithPath("operationMode").description("The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in")
+                            ),
+                            responseFields(
+                                    fieldWithPath("pKey").description("The persistent technical key of the LocationGroup"),
+                                    fieldWithPath("name").description("Unique identifier"),
+                                    fieldWithPath("operationMode").description("The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in"),
+                                    fieldWithPath("groupStateIn").description("State of infeed, controlled by the subsystem only"),
+                                    fieldWithPath("groupStateOut").description("State of outfeed"),
+                                    fieldWithPath("createDt").description("Timestamp when the LocationGroup has been created")
+                            )
+                    ));
+        }
+
+    @Test
+    void shall_create_LocationGroup_full() throws Exception {
+        var lg = LocationGroupVO.create("TEST_LG", "INFEED_AND_OUTFEED");
+        lg.setGroupType("Group1");
+        lg.setGroupStateIn(LocationGroupState.NOT_AVAILABLE);
+        lg.setGroupStateOut(LocationGroupState.NOT_AVAILABLE);
+        lg.setAccountId("A1");
+        lg.setIncomingActive(false);
+        lg.setOutgoingActive(false);
+        lg.setParent("ZILE");
+        lg.setChildren(asList(LocationGroupVO.create("TEST_LG_CHILD", "INFEED_AND_OUTFEED")));
+        mockMvc.perform(
+                        post(LocationApiConstants.API_LOCATION_GROUPS)
+                                .content(mapper.writeValueAsString(lg))
+                                .contentType(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isCreated())
+                .andExpect(jsonPath("$.pKey").exists())
+                .andExpect(jsonPath("$.name", is(lg.getName())))
+                .andExpect(jsonPath("$.accountId", is("A1")))
+                .andExpect(jsonPath("$.operationMode", is("INFEED_AND_OUTFEED")))
+                .andExpect(jsonPath("$.groupStateIn", is("NOT_AVAILABLE")))
+                .andExpect(jsonPath("$.groupStateOut", is("NOT_AVAILABLE")))
+                .andExpect(jsonPath("$.createDt").exists())
+                .andDo(document("lg/lg-created-full",
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("name").description("Unique identifier"),
+                                fieldWithPath("accountId").optional().description("(optional) Unique identifier of the referenced and existing Account"),
+                                fieldWithPath("groupType").optional().description("(optional) Some type can be assigned to a LocationGroup"),
+                                fieldWithPath("operationMode").description("The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in"),
+                                fieldWithPath("groupStateIn").optional().description("(optional) State of infeed, controlled by the subsystem only"),
+                                fieldWithPath("groupStateOut").optional().description("(optional) State of outfeed"),
+                                fieldWithPath("parentName").optional().description("(optional) Name of the parent LocationGroup"),
+                                fieldWithPath("childLocationGroups[]").optional().description("(optional) Child LocationGroups"),
+                                fieldWithPath("childLocationGroups[].*").ignored()
+                        ),
+                        responseFields(
+                                fieldWithPath("pKey").description("The persistent technical key of the LocationGroup"),
+                                fieldWithPath("name").description("Unique identifier"),
+                                fieldWithPath("accountId").optional().description("Unique identifier of the referenced and existing Account"),
+                                fieldWithPath("groupType").optional().description("Some type can be assigned to a LocationGroup"),
+                                fieldWithPath("parentName").optional().description("Name of the parent LocationGroup"),
+                                fieldWithPath("operationMode").description("The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in"),
+                                fieldWithPath("groupStateIn").description("State of infeed, controlled by the subsystem only"),
+                                fieldWithPath("groupStateOut").description("State of outfeed"),
+                                fieldWithPath("createDt").description("Timestamp when the LocationGroup has been created"),
+                                fieldWithPath("childLocationGroups[]").optional().description("Child LocationGroups"),
+                                fieldWithPath("childLocationGroups[].*").ignored()
+                        )
+                ));
+    }
 
         @Test
         void shall_findby_name_404() throws Exception {

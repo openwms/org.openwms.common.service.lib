@@ -11,6 +11,28 @@ include::{generated}/lg/shall_return_index/http-request.adoc[]
 The response lists all the operations with a name and the corresponding link
 include::{generated}/lg/shall_return_index/http-response.adoc[]
 
+[[location-groups-create]]
+=== Create a LocationGroup
+The API allows also to create a `LocationGroup`. In former releases this was only possible with the data loader mechanism. The client must
+pass the minimum required fields of a `LocationGroup` in the request body of a `POST` request to the primary `LocationGroup` resource:
+
+include::{generated}/lg/lg-created/http-request.adoc[]
+include::{generated}/lg/lg-created/request-fields.adoc[]
+
+If the resource has been created successfully, the server responds with:
+include::{generated}/lg/lg-created/http-response.adoc[]
+include::{generated}/lg/lg-created/response-fields.adoc[]
+
+A request with all accepted fields to create a `LocationGroup` is shown in the next example. Child `LocationGroups` must not exist and are
+created along the parent. The references parent `LocationGroup` must already exist.
+
+include::{generated}/lg/lg-created-full/http-request.adoc[]
+include::{generated}/lg/lg-created-full/request-fields.adoc[]
+
+If the resource has been created successfully, the server responds with:
+include::{generated}/lg/lg-created-full/http-response.adoc[]
+include::{generated}/lg/lg-created-full/response-fields.adoc[]
+
 [[location-groups-findbyname]]
 === Find LocationGroup by Name
 Send a HTTP `GET` request with the unique name of the `LocationGroup`

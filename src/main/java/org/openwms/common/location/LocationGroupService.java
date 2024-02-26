@@ -16,7 +16,11 @@
 package org.openwms.common.location;
 
 import org.openwms.common.location.api.LocationGroupState;
+import org.openwms.common.location.api.LocationGroupVO;
+import org.openwms.common.location.api.ValidationGroups;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -30,6 +34,14 @@ import java.util.Optional;
  * @author Heiko Scherrer
  */
 public interface LocationGroupService {
+
+    /**
+     * Creates a new {@link LocationGroup} based on the provided {@link LocationGroupVO} representation.
+     *
+     * @param vo The {@link LocationGroupVO} containing the information for the new LocationGroup
+     * @return The created LocationGroup
+     */
+    @NotNull LocationGroup create(@NotNull @Validated(ValidationGroups.Create.class) @Valid LocationGroupVO vo);
 
     /**
      * Change the infeed and outfeed state of a {@link LocationGroup}.

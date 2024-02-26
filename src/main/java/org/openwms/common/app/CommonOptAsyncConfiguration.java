@@ -89,7 +89,7 @@ class CommonOptAsyncConfiguration {
         backOffPolicy.setMultiplier(2);
         backOffPolicy.setMaxInterval(15000);
         backOffPolicy.setInitialInterval(500);
-        RetryTemplate retryTemplate = new RetryTemplate();
+        var retryTemplate = new RetryTemplate();
         retryTemplate.setBackOffPolicy(backOffPolicy);
         rabbitTemplate.setRetryTemplate(retryTemplate);
         rabbitTemplate.setMessageConverter(Objects.requireNonNull(messageConverter.getIfUnique()));

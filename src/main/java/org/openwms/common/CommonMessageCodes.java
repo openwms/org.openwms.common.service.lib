@@ -29,6 +29,7 @@ public final class CommonMessageCodes {
 
     public static final String LOCATION_GROUP_NOT_FOUND_BY_PKEY = "owms.common.common.lg.notFoundByPKey";
     public static final String LOCATION_GROUP_NOT_FOUND = "owms.common.common.lg.notFoundByName";
+    public static final String LOCATION_GROUP_EXISTS = "owms.common.common.lg.exists";
 
     public static final String LOCATION_TYPE_NOT_FOUND = "owms.common.common.lt.notFoundByType";
     public static final String LOCATION_TYPE_NOT_FOUND_BY_PKEY = "owms.common.common.lt.notFoundByPKey";
