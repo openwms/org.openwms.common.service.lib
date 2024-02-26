@@ -503,19 +503,20 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-type-v1+json
-Content-Length: 268
+Content-Length: 321
 
 {
+  "type" : "FG",
   "links" : [ {
     "rel" : "location-types-findbypkey",
     "href" : "http://localhost:8080/v1/location-types/326981811784"
   } ],
   "pKey" : "326981811784",
-  "type" : "FG",
   "description" : "Flat Good Location",
   "length" : 30,
   "width" : 50,
-  "height" : 20
+  "height" : 20,
+  "createDt" : [ 2024, 2, 26, 14, 27, 8, 50984000 ]
 }</code></pre>
 </div>
 </div>
@@ -563,6 +564,11 @@ Content-Length: 268
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The typical height of a Location belonging to this type</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createDt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timestamp when the LocationType has been created</p></td>
+</tr>
 </tbody>
 </table>
 <div class="paragraph">
@@ -603,19 +609,20 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-type-v1+json
-Content-Length: 268
+Content-Length: 322
 
 {
+  "type" : "FG",
   "links" : [ {
     "rel" : "location-types-findbypkey",
     "href" : "http://localhost:8080/v1/location-types/326981811784"
   } ],
   "pKey" : "326981811784",
-  "type" : "FG",
   "description" : "Flat Good Location",
   "length" : 30,
   "width" : 50,
-  "height" : 20
+  "height" : 20,
+  "createDt" : [ 2024, 2, 26, 14, 27, 7, 998396000 ]
 }</code></pre>
 </div>
 </div>
@@ -647,30 +654,32 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-type-v1+json
-Content-Length: 547
+Content-Length: 631
 
 [ {
+  "type" : "FG",
   "links" : [ {
     "rel" : "location-types-findbypkey",
     "href" : "http://localhost:8080/v1/location-types/326981811784"
   } ],
   "pKey" : "326981811784",
-  "type" : "FG",
   "description" : "Flat Good Location",
   "length" : 30,
   "width" : 50,
-  "height" : 20
+  "height" : 20,
+  "createDt" : "2024-02-26 14:27:07.828"
 }, {
+  "type" : "PG",
   "links" : [ {
     "rel" : "location-types-findbypkey",
     "href" : "http://localhost:8080/v1/location-types/404376159041"
   } ],
   "pKey" : "404376159041",
-  "type" : "PG",
   "description" : "Pallet Good Location",
   "length" : 120,
   "width" : 120,
-  "height" : 250
+  "height" : 250,
+  "createDt" : "2024-02-26 14:27:07.828"
 } ]</code></pre>
 </div>
 </div>
@@ -680,7 +689,7 @@ Content-Length: 547
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-02-26 13:34:22 UTC
+Last updated 2024-02-26 14:24:02 UTC
 </div>
 </div>
 </body>

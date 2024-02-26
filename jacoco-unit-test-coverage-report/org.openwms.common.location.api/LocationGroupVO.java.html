@@ -39,49 +39,60 @@ import java.util.stream.Stream;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PUBLIC_ONLY)
 public class LocationGroupVO extends RepresentationModel&lt;LocationGroupVO&gt; implements TargetVO, Serializable {
 
+    /** The persistent technical key of the {@code LocationGroup}. */
     @JsonProperty(&quot;pKey&quot;)
     private String pKey;
+
+    /** Unique identifier of the {@code LocationGroup}. */
     @NotBlank
     @JsonProperty(&quot;name&quot;)
     private String name;
+
+    /** The {@code LocationGroup} might be assigned to an {@code Account}. */
     @JsonProperty(&quot;accountId&quot;)
     private String accountId;
+
+    /** A type can be assigned to a {@code LocationGroup}. */
     @JsonProperty(&quot;groupType&quot;)
     private String groupType;
+
+    /** Parent {@code LocationGroup}. */
     @JsonProperty(&quot;parentName&quot;)
     private String parent;
+
+    /** The operation mode is controlled by the subsystem and defines the physical mode a {@code LocationGroup} is currently able to operate in. */
     @NotBlank(groups = ValidationGroups.Create.class)
     @JsonProperty(&quot;operationMode&quot;)
     private String operationMode;
+
+    /** State of infeed, controlled by the subsystem only. */
     @JsonProperty(&quot;groupStateIn&quot;)
     private LocationGroupState groupStateIn;
+
+    /** State of outfeed. */
     @JsonProperty(&quot;groupStateOut&quot;)
     private LocationGroupState groupStateOut;
+
+    /** Child {@code LocationGroup}s. */
     @JsonProperty(&quot;childLocationGroups&quot;)
     private List&lt;LocationGroupVO&gt; children;
+
+    /** Timestamp when the {@code Location} has been created. */
     @JsonProperty(&quot;createDt&quot;)
     private LocalDateTime createDt;
 
-    public LocalDateTime getCreateDt() {
-<span class="nc" id="L66">        return createDt;</span>
-    }
-
-    public void setCreateDt(LocalDateTime createDt) {
-<span class="nc" id="L70">        this.createDt = createDt;</span>
-<span class="nc" id="L71">    }</span>
-
     /*~ ------------------ constructors ----------------------*/
-<span class="nc" id="L74">    public LocationGroupVO() {}</span>
+<span class="nc" id="L85">    public LocationGroupVO() {}</span>
 
-<span class="fc" id="L76">    public LocationGroupVO(String name) {</span>
-<span class="fc" id="L77">        this.name = name;</span>
-<span class="fc" id="L78">    }</span>
+<span class="fc" id="L87">    public LocationGroupVO(String name) {</span>
+<span class="fc" id="L88">        this.name = name;</span>
+<span class="fc" id="L89">    }</span>
 
-<span class="nc" id="L80">    public LocationGroupVO(String name, LocationGroupState groupStateIn, LocationGroupState groupStateOut) {</span>
-<span class="nc" id="L81">        this.name = name;</span>
-<span class="nc" id="L82">        this.groupStateIn = groupStateIn;</span>
-<span class="nc" id="L83">        this.groupStateOut = groupStateOut;</span>
-<span class="nc" id="L84">    }</span>
+<span class="nc" id="L91">    public LocationGroupVO(String name, LocationGroupState groupStateIn, LocationGroupState groupStateOut) {</span>
+<span class="nc" id="L92">        this.name = name;</span>
+<span class="nc" id="L93">        this.groupStateIn = groupStateIn;</span>
+<span class="nc" id="L94">        this.groupStateOut = groupStateOut;</span>
+<span class="nc" id="L95">    }</span>
 
     /*~ ------------------ methods ----------------------*/
 
@@ -93,15 +104,15 @@ public class LocationGroupVO extends RepresentationModel&lt;LocationGroupVO&gt; 
      * @return The created LocationGroupVO object.
      */
     public static LocationGroupVO create(String name, String operationMode) {
-<span class="nc" id="L96">        var result = new LocationGroupVO(name);</span>
-<span class="nc" id="L97">        result.setOperationMode(operationMode);</span>
-<span class="nc" id="L98">        return result;</span>
+<span class="nc" id="L107">        var result = new LocationGroupVO(name);</span>
+<span class="nc" id="L108">        result.setOperationMode(operationMode);</span>
+<span class="nc" id="L109">        return result;</span>
     }
 
     public Stream&lt;LocationGroupVO&gt; streamLocationGroups() {
-<span class="fc" id="L102">        return Stream.concat(</span>
-<span class="fc" id="L103">                Stream.of(this),</span>
-<span class="fc bfc" id="L104" title="All 2 branches covered.">                children == null ? Stream.empty() : children.stream().flatMap(LocationGroupVO::streamLocationGroups));</span>
+<span class="fc" id="L113">        return Stream.concat(</span>
+<span class="fc" id="L114">                Stream.of(this),</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">                children == null ? Stream.empty() : children.stream().flatMap(LocationGroupVO::streamLocationGroups));</span>
     }
 
     /**
@@ -110,7 +121,7 @@ public class LocationGroupVO extends RepresentationModel&lt;LocationGroupVO&gt; 
      * @return {@literal true} if it has a parent, otherwise {@literal false}
      */
     public boolean hasParent() {
-<span class="nc bnc" id="L113" title="All 4 branches missed.">        return parent != null &amp;&amp; !parent.isEmpty();</span>
+<span class="nc bnc" id="L124" title="All 4 branches missed.">        return parent != null &amp;&amp; !parent.isEmpty();</span>
     }
 
     /**
@@ -120,7 +131,7 @@ public class LocationGroupVO extends RepresentationModel&lt;LocationGroupVO&gt; 
      */
     @JsonIgnore
     public boolean isInfeedBlocked() {
-<span class="nc bnc" id="L123" title="All 2 branches missed.">        return !isIncomingActive();</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        return !isIncomingActive();</span>
     }
 
     /**
@@ -130,7 +141,7 @@ public class LocationGroupVO extends RepresentationModel&lt;LocationGroupVO&gt; 
      */
     @JsonIgnore
     public boolean isIncomingActive() {
-<span class="nc bnc" id="L133" title="All 2 branches missed.">        return this.groupStateIn == LocationGroupState.AVAILABLE;</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        return this.groupStateIn == LocationGroupState.AVAILABLE;</span>
     }
 
     /**
@@ -139,12 +150,12 @@ public class LocationGroupVO extends RepresentationModel&lt;LocationGroupVO&gt; 
      * @param incomingActive {@literal true} if available for infeed otherwise {@literal false}
      */
     public void setIncomingActive(boolean incomingActive) {
-<span class="nc bnc" id="L142" title="All 2 branches missed.">        this.groupStateIn = incomingActive ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;</span>
-<span class="nc" id="L143">    }</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">        this.groupStateIn = incomingActive ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;</span>
+<span class="nc" id="L154">    }</span>
 
     public void setGroupStateIn(LocationGroupState groupStateIn) {
-<span class="nc" id="L146">        this.groupStateIn = groupStateIn;</span>
-<span class="nc" id="L147">    }</span>
+<span class="nc" id="L157">        this.groupStateIn = groupStateIn;</span>
+<span class="nc" id="L158">    }</span>
 
     /**
      * Checks whether the LocationGroup is available for outfeed.
@@ -153,7 +164,7 @@ public class LocationGroupVO extends RepresentationModel&lt;LocationGroupVO&gt; 
      */
     @JsonIgnore
     public boolean isOutgoingActive() {
-<span class="nc bnc" id="L156" title="All 2 branches missed.">        return this.groupStateOut == LocationGroupState.AVAILABLE;</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">        return this.groupStateOut == LocationGroupState.AVAILABLE;</span>
     }
 
     /**
@@ -162,88 +173,96 @@ public class LocationGroupVO extends RepresentationModel&lt;LocationGroupVO&gt; 
      * @param outgoingActive {@literal true} if available for outfeed otherwise {@literal false}
      */
     public void setOutgoingActive(boolean outgoingActive) {
-<span class="nc bnc" id="L165" title="All 2 branches missed.">        this.groupStateIn = outgoingActive ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;</span>
-<span class="nc" id="L166">    }</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        this.groupStateIn = outgoingActive ? LocationGroupState.AVAILABLE : LocationGroupState.NOT_AVAILABLE;</span>
+<span class="nc" id="L177">    }</span>
 
     public void setGroupStateOut(LocationGroupState groupStateOut) {
-<span class="nc" id="L169">        this.groupStateOut = groupStateOut;</span>
-<span class="nc" id="L170">    }</span>
+<span class="nc" id="L180">        this.groupStateOut = groupStateOut;</span>
+<span class="nc" id="L181">    }</span>
 
     /*~ ------------------ accessors ----------------------*/
     public String getOperationMode() {
-<span class="nc bnc" id="L174" title="All 2 branches missed.">        return operationMode == null ? &quot;&quot; : operationMode;</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">        return operationMode == null ? &quot;&quot; : operationMode;</span>
     }
 
     public void setOperationMode(String operationMode) {
-<span class="nc" id="L178">        this.operationMode = operationMode;</span>
-<span class="nc" id="L179">    }</span>
+<span class="nc" id="L189">        this.operationMode = operationMode;</span>
+<span class="nc" id="L190">    }</span>
 
     public LocationGroupState getGroupStateIn() {
-<span class="nc" id="L182">        return groupStateIn;</span>
+<span class="nc" id="L193">        return groupStateIn;</span>
     }
 
     public LocationGroupState getGroupStateOut() {
-<span class="nc" id="L186">        return groupStateOut;</span>
+<span class="nc" id="L197">        return groupStateOut;</span>
     }
 
     public String getpKey() {
-<span class="nc" id="L190">        return pKey;</span>
+<span class="nc" id="L201">        return pKey;</span>
     }
 
     public void setpKey(String pKey) {
-<span class="nc" id="L194">        this.pKey = pKey;</span>
-<span class="nc" id="L195">    }</span>
+<span class="nc" id="L205">        this.pKey = pKey;</span>
+<span class="nc" id="L206">    }</span>
 
     public String getName() {
-<span class="fc" id="L198">        return name;</span>
+<span class="fc" id="L209">        return name;</span>
     }
 
     public void setName(String name) {
-<span class="nc" id="L202">        this.name = name;</span>
-<span class="nc" id="L203">    }</span>
+<span class="nc" id="L213">        this.name = name;</span>
+<span class="nc" id="L214">    }</span>
 
     public String getAccountId() {
-<span class="nc" id="L206">        return accountId;</span>
+<span class="nc" id="L217">        return accountId;</span>
     }
 
     public void setAccountId(String accountId) {
-<span class="nc" id="L210">        this.accountId = accountId;</span>
-<span class="nc" id="L211">    }</span>
+<span class="nc" id="L221">        this.accountId = accountId;</span>
+<span class="nc" id="L222">    }</span>
 
     public String getGroupType() {
-<span class="nc" id="L214">        return groupType;</span>
+<span class="nc" id="L225">        return groupType;</span>
     }
 
     public void setGroupType(String groupType) {
-<span class="nc" id="L218">        this.groupType = groupType;</span>
-<span class="nc" id="L219">    }</span>
+<span class="nc" id="L229">        this.groupType = groupType;</span>
+<span class="nc" id="L230">    }</span>
 
     public String getParent() {
-<span class="nc" id="L222">        return parent;</span>
+<span class="nc" id="L233">        return parent;</span>
     }
 
     public void setParent(String parent) {
-<span class="nc" id="L226">        this.parent = parent;</span>
-<span class="nc" id="L227">    }</span>
+<span class="nc" id="L237">        this.parent = parent;</span>
+<span class="nc" id="L238">    }</span>
 
     public List&lt;LocationGroupVO&gt; getChildren() {
-<span class="nc" id="L230">        return children;</span>
+<span class="nc" id="L241">        return children;</span>
     }
 
     public LocationGroupVO addChild(LocationGroupVO child) {
-<span class="pc bpc" id="L234" title="1 of 2 branches missed.">        if (child == null) {</span>
-<span class="nc" id="L235">            throw new IllegalArgumentException(&quot;Child to add must not be null&quot;);</span>
+<span class="pc bpc" id="L245" title="1 of 2 branches missed.">        if (child == null) {</span>
+<span class="nc" id="L246">            throw new IllegalArgumentException(&quot;Child to add must not be null&quot;);</span>
         }
-<span class="fc bfc" id="L237" title="All 2 branches covered.">        if (children == null) {</span>
-<span class="fc" id="L238">            children = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L248" title="All 2 branches covered.">        if (children == null) {</span>
+<span class="fc" id="L249">            children = new ArrayList&lt;&gt;();</span>
         }
-<span class="fc" id="L240">        children.add(child);</span>
-<span class="fc" id="L241">        return this;</span>
+<span class="fc" id="L251">        children.add(child);</span>
+<span class="fc" id="L252">        return this;</span>
     }
 
     public void setChildren(List&lt;LocationGroupVO&gt; children) {
-<span class="nc" id="L245">        this.children = children;</span>
-<span class="nc" id="L246">    }</span>
+<span class="nc" id="L256">        this.children = children;</span>
+<span class="nc" id="L257">    }</span>
+
+    public LocalDateTime getCreateDt() {
+<span class="nc" id="L260">        return createDt;</span>
+    }
+
+    public void setCreateDt(LocalDateTime createDt) {
+<span class="nc" id="L264">        this.createDt = createDt;</span>
+<span class="nc" id="L265">    }</span>
 
     /*~ ------------------ overrides ----------------------*/
     /**
@@ -251,7 +270,7 @@ public class LocationGroupVO extends RepresentationModel&lt;LocationGroupVO&gt; 
      */
     @Override
     public String asString() {
-<span class="nc" id="L254">        return name;</span>
+<span class="nc" id="L273">        return name;</span>
     }
 
     /**
@@ -261,11 +280,10 @@ public class LocationGroupVO extends RepresentationModel&lt;LocationGroupVO&gt; 
      */
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L264" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L265" title="All 2 branches missed.">        if (!(o instanceof LocationGroupVO)) return false;</span>
-<span class="nc bnc" id="L266" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
-<span class="nc" id="L267">        LocationGroupVO that = (LocationGroupVO) o;</span>
-<span class="nc bnc" id="L268" title="All 18 branches missed.">        return Objects.equals(pKey, that.pKey) &amp;&amp; Objects.equals(name, that.name) &amp;&amp; Objects.equals(accountId, that.accountId) &amp;&amp; Objects.equals(groupType, that.groupType) &amp;&amp; Objects.equals(parent, that.parent) &amp;&amp; Objects.equals(operationMode, that.operationMode) &amp;&amp; groupStateIn == that.groupStateIn &amp;&amp; groupStateOut == that.groupStateOut &amp;&amp; Objects.equals(children, that.children);</span>
+<span class="nc bnc" id="L283" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L284" title="All 2 branches missed.">        if (!(o instanceof LocationGroupVO that)) return false;</span>
+<span class="nc bnc" id="L285" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
+<span class="nc bnc" id="L286" title="All 20 branches missed.">        return Objects.equals(pKey, that.pKey) &amp;&amp; Objects.equals(name, that.name) &amp;&amp; Objects.equals(accountId, that.accountId) &amp;&amp; Objects.equals(groupType, that.groupType) &amp;&amp; Objects.equals(parent, that.parent) &amp;&amp; Objects.equals(operationMode, that.operationMode) &amp;&amp; groupStateIn == that.groupStateIn &amp;&amp; groupStateOut == that.groupStateOut &amp;&amp; Objects.equals(children, that.children) &amp;&amp; Objects.equals(createDt, that.createDt);</span>
     }
 
     /**
@@ -275,15 +293,17 @@ public class LocationGroupVO extends RepresentationModel&lt;LocationGroupVO&gt; 
      */
     @Override
     public int hashCode() {
-<span class="nc" id="L278">        return Objects.hash(super.hashCode(), pKey, name, accountId, groupType, parent, operationMode, groupStateIn, groupStateOut, children);</span>
+<span class="nc" id="L296">        return Objects.hash(super.hashCode(), pKey, name, accountId, groupType, parent, operationMode, groupStateIn, groupStateOut, children, createDt);</span>
     }
 
     /**
      * {@inheritDoc}
+     *
+     * Only the name.
      */
     @Override
     public String toString() {
-<span class="nc" id="L286">        return name;</span>
+<span class="nc" id="L306">        return name;</span>
     }
 
     /**
@@ -293,18 +313,18 @@ public class LocationGroupVO extends RepresentationModel&lt;LocationGroupVO&gt; 
      * @return A string representation of the LocationGroupVO object.
      */
     public String allFieldsToString() {
-<span class="nc" id="L296">        return new StringJoiner(&quot;, &quot;, LocationGroupVO.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L297">                .add(&quot;pKey='&quot; + pKey + &quot;'&quot;)</span>
-<span class="nc" id="L298">                .add(&quot;name='&quot; + name + &quot;'&quot;)</span>
-<span class="nc" id="L299">                .add(&quot;accountId='&quot; + accountId + &quot;'&quot;)</span>
-<span class="nc" id="L300">                .add(&quot;groupType='&quot; + groupType + &quot;'&quot;)</span>
-<span class="nc" id="L301">                .add(&quot;parent='&quot; + parent + &quot;'&quot;)</span>
-<span class="nc" id="L302">                .add(&quot;operationMode='&quot; + operationMode + &quot;'&quot;)</span>
-<span class="nc" id="L303">                .add(&quot;groupStateIn=&quot; + groupStateIn)</span>
-<span class="nc" id="L304">                .add(&quot;groupStateOut=&quot; + groupStateOut)</span>
-<span class="nc" id="L305">                .add(&quot;children=&quot; + children)</span>
-<span class="nc" id="L306">                .add(&quot;createDt=&quot; + createDt)</span>
-<span class="nc" id="L307">                .toString();</span>
+<span class="nc" id="L316">        return new StringJoiner(&quot;, &quot;, LocationGroupVO.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L317">                .add(&quot;pKey='&quot; + pKey + &quot;'&quot;)</span>
+<span class="nc" id="L318">                .add(&quot;name='&quot; + name + &quot;'&quot;)</span>
+<span class="nc" id="L319">                .add(&quot;accountId='&quot; + accountId + &quot;'&quot;)</span>
+<span class="nc" id="L320">                .add(&quot;groupType='&quot; + groupType + &quot;'&quot;)</span>
+<span class="nc" id="L321">                .add(&quot;parent='&quot; + parent + &quot;'&quot;)</span>
+<span class="nc" id="L322">                .add(&quot;operationMode='&quot; + operationMode + &quot;'&quot;)</span>
+<span class="nc" id="L323">                .add(&quot;groupStateIn=&quot; + groupStateIn)</span>
+<span class="nc" id="L324">                .add(&quot;groupStateOut=&quot; + groupStateOut)</span>
+<span class="nc" id="L325">                .add(&quot;children=&quot; + children)</span>
+<span class="nc" id="L326">                .add(&quot;createDt=&quot; + createDt)</span>
+<span class="nc" id="L327">                .toString();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<meta name="author" content="(2.1.0-SNAPSHOT-199)">
+<meta name="author" content="(2.1.0-SNAPSHOT-200)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -443,7 +443,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(2.1.0-SNAPSHOT-199)</span><br>
+<span id="author" class="author">(2.1.0-SNAPSHOT-200)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -1319,17 +1319,17 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/locations/1ae6028f-0b32-4398-8428-9e2dc1a3b12b/
+Location: http://localhost:8080/v1/locations/45ad6380-b928-4c74-a5a2-1708def7e2b6/
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 434
+Content-Length: 489
 
 {
   "links" : [ {
     "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/1ae6028f-0b32-4398-8428-9e2dc1a3b12b"
+    "href" : "http://localhost:8080/v1/locations/45ad6380-b928-4c74-a5a2-1708def7e2b6"
   } ],
   "ol" : 0,
-  "pKey" : "1ae6028f-0b32-4398-8428-9e2dc1a3b12b",
+  "pKey" : "45ad6380-b928-4c74-a5a2-1708def7e2b6",
   "locationId" : "FGIN/PICK/WORK/0010/0000",
   "plcCode" : "PICK_20",
   "erpCode" : "PICK_10",
@@ -1337,7 +1337,8 @@ Content-Length: 434
   "outgoingActive" : true,
   "plcState" : 0,
   "type" : "PG",
-  "locationGroupName" : "FGWORKPLACE9"
+  "locationGroupName" : "FGWORKPLACE9",
+  "createDt" : [ 2024, 2, 26, 14, 26, 59, 630000000 ]
 }</code></pre>
 </div>
 </div>
@@ -1399,6 +1400,11 @@ Content-Length: 434
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>locationGroupName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The LocationGroup the Location belongs to</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createDt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timestamp when the Location has been created</p></td>
 </tr>
 </tbody>
 </table>
@@ -1517,7 +1523,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 437
+Content-Length: 492
 
 {
   "links" : [ {
@@ -1536,7 +1542,8 @@ Content-Length: 437
   "outgoingActive" : true,
   "plcState" : 0,
   "type" : "FG",
-  "locationGroupName" : "FGWORKPLACE9"
+  "locationGroupName" : "FGWORKPLACE9",
+  "createDt" : [ 2024, 2, 26, 14, 26, 59, 429161000 ]
 }</code></pre>
 </div>
 </div>
@@ -1614,6 +1621,11 @@ Content-Length: 437
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The LocationGroup the Location belongs to</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createDt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timestamp when the Location has been created</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1637,7 +1649,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 421
+Content-Length: 475
 
 {
   "links" : [ {
@@ -1655,7 +1667,8 @@ Content-Length: 421
   "outgoingActive" : true,
   "plcState" : 0,
   "type" : "FG",
-  "locationGroupName" : "ZILE"
+  "locationGroupName" : "ZILE",
+  "createDt" : [ 2024, 2, 26, 14, 27, 1, 195951000 ]
 }</code></pre>
 </div>
 </div>
@@ -1696,7 +1709,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 421
+Content-Length: 475
 
 {
   "links" : [ {
@@ -1714,7 +1727,8 @@ Content-Length: 421
   "outgoingActive" : true,
   "plcState" : 0,
   "type" : "FG",
-  "locationGroupName" : "ZILE"
+  "locationGroupName" : "ZILE",
+  "createDt" : [ 2024, 2, 26, 14, 27, 0, 889473000 ]
 }</code></pre>
 </div>
 </div>
@@ -1774,7 +1788,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 864
+Content-Length: 948
 
 [ {
   "links" : [ {
@@ -1792,7 +1806,8 @@ Content-Length: 864
   "outgoingActive" : true,
   "plcState" : 0,
   "type" : "FG",
-  "locationGroupName" : "FGAISLE1LIFT"
+  "locationGroupName" : "FGAISLE1LIFT",
+  "createDt" : "2024-02-26 14:27:00.829"
 }, {
   "links" : [ {
     "rel" : "location-findbypkey",
@@ -1809,7 +1824,8 @@ Content-Length: 864
   "outgoingActive" : true,
   "plcState" : 0,
   "type" : "FG",
-  "locationGroupName" : "FGAISLE2LIFT"
+  "locationGroupName" : "FGAISLE2LIFT",
+  "createDt" : "2024-02-26 14:27:00.829"
 } ]</code></pre>
 </div>
 </div>
@@ -1849,7 +1865,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 421
+Content-Length: 475
 
 {
   "links" : [ {
@@ -1867,7 +1883,8 @@ Content-Length: 421
   "outgoingActive" : true,
   "plcState" : 0,
   "type" : "FG",
-  "locationGroupName" : "ZILE"
+  "locationGroupName" : "ZILE",
+  "createDt" : [ 2024, 2, 26, 14, 27, 1, 132095000 ]
 }</code></pre>
 </div>
 </div>
@@ -1890,7 +1907,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 421
+Content-Length: 474
 
 {
   "links" : [ {
@@ -1908,7 +1925,8 @@ Content-Length: 421
   "outgoingActive" : true,
   "plcState" : 0,
   "type" : "FG",
-  "locationGroupName" : "ZILE"
+  "locationGroupName" : "ZILE",
+  "createDt" : [ 2024, 2, 26, 14, 27, 1, 14155000 ]
 }</code></pre>
 </div>
 </div>
@@ -1949,7 +1967,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 848
+Content-Length: 932
 
 [ {
   "links" : [ {
@@ -1967,7 +1985,8 @@ Content-Length: 848
   "outgoingActive" : true,
   "plcState" : 0,
   "type" : "FG",
-  "locationGroupName" : "ZILE"
+  "locationGroupName" : "ZILE",
+  "createDt" : "2024-02-26 14:27:00.303"
 }, {
   "links" : [ {
     "rel" : "location-findbypkey",
@@ -1984,7 +2003,8 @@ Content-Length: 848
   "outgoingActive" : true,
   "plcState" : 0,
   "type" : "FG",
-  "locationGroupName" : "ZILE"
+  "locationGroupName" : "ZILE",
+  "createDt" : "2024-02-26 14:27:00.303"
 } ]</code></pre>
 </div>
 </div>
@@ -2017,7 +2037,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 1277
+Content-Length: 1403
 
 [ {
   "links" : [ {
@@ -2035,7 +2055,8 @@ Content-Length: 1277
   "outgoingActive" : true,
   "plcState" : 0,
   "type" : "FG",
-  "locationGroupName" : "FGRECEIVING"
+  "locationGroupName" : "FGRECEIVING",
+  "createDt" : "2024-02-26 14:27:00.470"
 }, {
   "links" : [ {
     "rel" : "location-findbypkey",
@@ -2052,7 +2073,8 @@ Content-Length: 1277
   "outgoingActive" : true,
   "plcState" : 0,
   "type" : "FG",
-  "locationGroupName" : "ZILE"
+  "locationGroupName" : "ZILE",
+  "createDt" : "2024-02-26 14:27:00.470"
 }, {
   "links" : [ {
     "rel" : "location-findbypkey",
@@ -2069,7 +2091,8 @@ Content-Length: 1277
   "outgoingActive" : true,
   "plcState" : 0,
   "type" : "FG",
-  "locationGroupName" : "ZILE"
+  "locationGroupName" : "ZILE",
+  "createDt" : "2024-02-26 14:27:00.470"
 } ]</code></pre>
 </div>
 </div>
@@ -2090,7 +2113,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 854
+Content-Length: 938
 
 [ {
   "links" : [ {
@@ -2108,7 +2131,8 @@ Content-Length: 854
   "outgoingActive" : true,
   "plcState" : 0,
   "type" : "FG",
-  "locationGroupName" : "IPOINT1"
+  "locationGroupName" : "IPOINT1",
+  "createDt" : "2024-02-26 14:27:00.363"
 }, {
   "links" : [ {
     "rel" : "location-findbypkey",
@@ -2125,7 +2149,8 @@ Content-Length: 854
   "outgoingActive" : true,
   "plcState" : 0,
   "type" : "FG",
-  "locationGroupName" : "IPOINT2"
+  "locationGroupName" : "IPOINT2",
+  "createDt" : "2024-02-26 14:27:00.363"
 } ]</code></pre>
 </div>
 </div>
@@ -2396,19 +2421,20 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-type-v1+json
-Content-Length: 268
+Content-Length: 321
 
 {
+  "type" : "FG",
   "links" : [ {
     "rel" : "location-types-findbypkey",
     "href" : "http://localhost:8080/v1/location-types/326981811784"
   } ],
   "pKey" : "326981811784",
-  "type" : "FG",
   "description" : "Flat Good Location",
   "length" : 30,
   "width" : 50,
-  "height" : 20
+  "height" : 20,
+  "createDt" : [ 2024, 2, 26, 14, 27, 8, 50984000 ]
 }</code></pre>
 </div>
 </div>
@@ -2456,6 +2482,11 @@ Content-Length: 268
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The typical height of a Location belonging to this type</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createDt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timestamp when the LocationType has been created</p></td>
+</tr>
 </tbody>
 </table>
 <div class="paragraph">
@@ -2496,19 +2527,20 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-type-v1+json
-Content-Length: 268
+Content-Length: 322
 
 {
+  "type" : "FG",
   "links" : [ {
     "rel" : "location-types-findbypkey",
     "href" : "http://localhost:8080/v1/location-types/326981811784"
   } ],
   "pKey" : "326981811784",
-  "type" : "FG",
   "description" : "Flat Good Location",
   "length" : 30,
   "width" : 50,
-  "height" : 20
+  "height" : 20,
+  "createDt" : [ 2024, 2, 26, 14, 27, 7, 998396000 ]
 }</code></pre>
 </div>
 </div>
@@ -2540,30 +2572,32 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-type-v1+json
-Content-Length: 547
+Content-Length: 631
 
 [ {
+  "type" : "FG",
   "links" : [ {
     "rel" : "location-types-findbypkey",
     "href" : "http://localhost:8080/v1/location-types/326981811784"
   } ],
   "pKey" : "326981811784",
-  "type" : "FG",
   "description" : "Flat Good Location",
   "length" : 30,
   "width" : 50,
-  "height" : 20
+  "height" : 20,
+  "createDt" : "2024-02-26 14:27:07.828"
 }, {
+  "type" : "PG",
   "links" : [ {
     "rel" : "location-types-findbypkey",
     "href" : "http://localhost:8080/v1/location-types/404376159041"
   } ],
   "pKey" : "404376159041",
-  "type" : "PG",
   "description" : "Pallet Good Location",
   "length" : 120,
   "width" : 120,
-  "height" : 250
+  "height" : 250,
+  "createDt" : "2024-02-26 14:27:07.828"
 } ]</code></pre>
 </div>
 </div>
@@ -2673,17 +2707,17 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/location-groups/8df2db6e-e75f-4797-b510-cd513d5c895a/
+Location: http://localhost:8080/v1/location-groups/cabf2ffa-c8fe-4316-992b-1141b4f52d87/
 Content-Type: application/hal+json
 Content-Length: 224
 
 {
-  "pKey" : "8df2db6e-e75f-4797-b510-cd513d5c895a",
+  "pKey" : "cabf2ffa-c8fe-4316-992b-1141b4f52d87",
   "name" : "TEST_LG",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-02-26 13:39:41.463"
+  "createDt" : "2024-02-26 14:27:01.899"
 }</code></pre>
 </div>
 </div>
@@ -2821,12 +2855,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/location-groups/79a446c8-eb2a-4475-9f06-4bd632c041fc/
+Location: http://localhost:8080/v1/location-groups/56ddf0bb-d036-49e2-948b-77ee885eee8e/
 Content-Type: application/hal+json
 Content-Length: 581
 
 {
-  "pKey" : "79a446c8-eb2a-4475-9f06-4bd632c041fc",
+  "pKey" : "56ddf0bb-d036-49e2-948b-77ee885eee8e",
   "name" : "TEST_LG",
   "accountId" : "A1",
   "groupType" : "Group1",
@@ -2835,14 +2869,14 @@ Content-Length: 581
   "groupStateIn" : "NOT_AVAILABLE",
   "groupStateOut" : "NOT_AVAILABLE",
   "childLocationGroups" : [ {
-    "pKey" : "6103975f-5ccf-46be-b9eb-299cb0719310",
+    "pKey" : "5b0d3cf3-deab-45c7-879f-a3bf068ddb25",
     "name" : "TEST_LG_CHILD",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-02-26 13:39:41.077"
+    "createDt" : "2024-02-26 14:27:01.532"
   } ],
-  "createDt" : "2024-02-26 13:39:41.074"
+  "createDt" : "2024-02-26 14:27:01.528"
 }</code></pre>
 </div>
 </div>
@@ -5516,14 +5550,14 @@ newly created resource as HTTP <code>Location</code> header attribute</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/9b1d7f95-bdf5-4a2a-ad75-14bf5a6e1660/
+Location: http://localhost:8080/v1/transport-units/abfa0465-c02f-4213-a4e7-28a841281ef7/
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1313
+Content-Length: 1368
 
 {
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/v1/transport-units/9b1d7f95-bdf5-4a2a-ad75-14bf5a6e1660"
+    "href" : "http://localhost:8080/v1/transport-units/abfa0465-c02f-4213-a4e7-28a841281ef7"
   }, {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -5532,7 +5566,7 @@ Content-Length: 1313
     "href" : "http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"
   } ],
   "ol" : 0,
-  "pKey" : "9b1d7f95-bdf5-4a2a-ad75-14bf5a6e1660",
+  "pKey" : "abfa0465-c02f-4213-a4e7-28a841281ef7",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "links" : [ ],
@@ -5547,7 +5581,8 @@ Content-Length: 1313
     "outgoingActive" : true,
     "plcState" : 0,
     "type" : "FG",
-    "locationGroupName" : "ZILE"
+    "locationGroupName" : "ZILE",
+    "createDt" : [ 2024, 2, 26, 14, 26, 58, 8395000 ]
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -5564,8 +5599,8 @@ Content-Length: 1313
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2024-02-26 13:39:37",
-  "createDate" : "2024-02-26 13:39:37"
+  "actualLocationDate" : "2024-02-26 14:26:58",
+  "createDate" : "2024-02-26 14:26:58"
 }</code></pre>
 </div>
 </div>
@@ -5619,7 +5654,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/e5fa0a95-f70b-4b5a-b8ef-d4074c5f02c0/</code></pre>
+Location: http://localhost:8080/v1/transport-units/b1bbf470-c06f-4594-a9ea-eeb666d6856c/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -5693,7 +5728,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1092
+Content-Length: 1149
 
 {
   "links" : [ {
@@ -5722,7 +5757,8 @@ Content-Length: 1092
     "outgoingActive" : true,
     "plcState" : 0,
     "type" : "FG",
-    "locationGroupName" : "FGAISLE1LEFT"
+    "locationGroupName" : "FGAISLE1LEFT",
+    "createDt" : [ 2024, 2, 26, 14, 26, 58, 933104000 ]
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -5734,8 +5770,8 @@ Content-Length: 1092
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-02-26 13:39:38",
-  "createDate" : "2024-02-26 13:39:38"
+  "actualLocationDate" : "2024-02-26 14:26:58",
+  "createDate" : "2024-02-26 14:26:58"
 }</code></pre>
 </div>
 </div>
@@ -5796,7 +5832,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1092
+Content-Length: 1149
 
 {
   "links" : [ {
@@ -5825,7 +5861,8 @@ Content-Length: 1092
     "outgoingActive" : true,
     "plcState" : 0,
     "type" : "FG",
-    "locationGroupName" : "FGAISLE1LEFT"
+    "locationGroupName" : "FGAISLE1LEFT",
+    "createDt" : [ 2024, 2, 26, 14, 26, 58, 288513000 ]
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -5837,8 +5874,8 @@ Content-Length: 1092
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-02-26 13:39:37",
-  "createDate" : "2024-02-26 13:39:37"
+  "actualLocationDate" : "2024-02-26 14:26:58",
+  "createDate" : "2024-02-26 14:26:58"
 }</code></pre>
 </div>
 </div>
@@ -5899,7 +5936,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1084
+Content-Length: 1141
 
 {
   "links" : [ {
@@ -5928,7 +5965,8 @@ Content-Length: 1084
     "outgoingActive" : true,
     "plcState" : 0,
     "type" : "FG",
-    "locationGroupName" : "ZILE"
+    "locationGroupName" : "ZILE",
+    "createDt" : [ 2024, 2, 26, 14, 26, 58, 748404000 ]
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -5940,8 +5978,8 @@ Content-Length: 1084
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-02-26 13:39:38",
-  "createDate" : "2024-02-26 13:39:38"
+  "actualLocationDate" : "2024-02-26 14:26:58",
+  "createDate" : "2024-02-26 14:26:58"
 }</code></pre>
 </div>
 </div>
@@ -6007,7 +6045,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 2177
+Content-Length: 2265
 
 [ {
   "links" : [ {
@@ -6036,7 +6074,8 @@ Content-Length: 2177
     "outgoingActive" : true,
     "plcState" : 0,
     "type" : "FG",
-    "locationGroupName" : "ZILE"
+    "locationGroupName" : "ZILE",
+    "createDt" : "2024-02-26 14:26:57.846"
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -6048,8 +6087,8 @@ Content-Length: 2177
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-02-26 13:39:37",
-  "createDate" : "2024-02-26 13:39:37"
+  "actualLocationDate" : "2024-02-26 14:26:57",
+  "createDate" : "2024-02-26 14:26:57"
 }, {
   "links" : [ {
     "rel" : "self",
@@ -6077,7 +6116,8 @@ Content-Length: 2177
     "outgoingActive" : true,
     "plcState" : 0,
     "type" : "FG",
-    "locationGroupName" : "IPOINT1"
+    "locationGroupName" : "IPOINT1",
+    "createDt" : "2024-02-26 14:26:57.846"
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -6089,8 +6129,8 @@ Content-Length: 2177
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-02-26 13:39:37",
-  "createDate" : "2024-02-26 13:39:37"
+  "actualLocationDate" : "2024-02-26 14:26:57",
+  "createDate" : "2024-02-26 14:26:57"
 } ]</code></pre>
 </div>
 </div>
@@ -6131,7 +6171,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1091
+Content-Length: 1135
 
 [ {
   "links" : [ {
@@ -6160,7 +6200,8 @@ Content-Length: 1091
     "outgoingActive" : true,
     "plcState" : 0,
     "type" : "FG",
-    "locationGroupName" : "IPOINT1"
+    "locationGroupName" : "IPOINT1",
+    "createDt" : "2024-02-26 14:26:59.081"
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -6172,8 +6213,8 @@ Content-Length: 1091
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-02-26 13:39:38",
-  "createDate" : "2024-02-26 13:39:38"
+  "actualLocationDate" : "2024-02-26 14:26:59",
+  "createDate" : "2024-02-26 14:26:59"
 } ]</code></pre>
 </div>
 </div>
@@ -6402,7 +6443,7 @@ Content-Length: 512
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-02-26 13:34:22 UTC
+Last updated 2024-02-26 14:24:02 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

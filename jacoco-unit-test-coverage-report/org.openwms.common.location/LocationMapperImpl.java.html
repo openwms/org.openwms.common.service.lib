@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocationMapperImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Service Library</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.location</a> &gt; <span class="el_source">LocationMapperImpl.java</span></div><h1>LocationMapperImpl.java</h1><pre class="source lang-java linenums">package org.openwms.common.location;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -21,168 +23,171 @@ public class LocationMapperImpl implements LocationMapper {
     private final LocationGroupMapper locationGroupMapper;
 
     @Autowired
-<span class="fc" id="L24">    public LocationMapperImpl(AccountMapper accountMapper, LocationTypeMapper locationTypeMapper, LocationGroupMapper locationGroupMapper) {</span>
+<span class="fc" id="L26">    public LocationMapperImpl(AccountMapper accountMapper, LocationTypeMapper locationTypeMapper, LocationGroupMapper locationGroupMapper) {</span>
 
-<span class="fc" id="L26">        this.accountMapper = accountMapper;</span>
-<span class="fc" id="L27">        this.locationTypeMapper = locationTypeMapper;</span>
-<span class="fc" id="L28">        this.locationGroupMapper = locationGroupMapper;</span>
-<span class="fc" id="L29">    }</span>
+<span class="fc" id="L28">        this.accountMapper = accountMapper;</span>
+<span class="fc" id="L29">        this.locationTypeMapper = locationTypeMapper;</span>
+<span class="fc" id="L30">        this.locationGroupMapper = locationGroupMapper;</span>
+<span class="fc" id="L31">    }</span>
 
     @Override
     public Location convertVO(LocationVO vo) {
-<span class="nc bnc" id="L33" title="All 2 branches missed.">        if ( vo == null ) {</span>
-<span class="nc" id="L34">            return null;</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if ( vo == null ) {</span>
+<span class="nc" id="L36">            return null;</span>
         }
 
-<span class="nc" id="L37">        LocationType locationType = null;</span>
-<span class="nc" id="L38">        Account account = null;</span>
-<span class="nc" id="L39">        LocationGroup locationGroup = null;</span>
-<span class="nc" id="L40">        String erpCode = null;</span>
-<span class="nc" id="L41">        String plcCode = null;</span>
-<span class="nc" id="L42">        Integer sortOrder = null;</span>
-<span class="nc" id="L43">        String stockZone = null;</span>
+<span class="nc" id="L39">        LocationType locationType = null;</span>
+<span class="nc" id="L40">        Account account = null;</span>
+<span class="nc" id="L41">        LocationGroup locationGroup = null;</span>
+<span class="nc" id="L42">        String erpCode = null;</span>
+<span class="nc" id="L43">        String plcCode = null;</span>
+<span class="nc" id="L44">        Integer sortOrder = null;</span>
+<span class="nc" id="L45">        String stockZone = null;</span>
 
-<span class="nc" id="L45">        locationType = locationTypeMapper.convertFromString( vo.getType() );</span>
-<span class="nc bnc" id="L46" title="All 2 branches missed.">        if ( vo.getAccountId() != null ) {</span>
-<span class="nc" id="L47">            account = accountMapper.convertFromId( vo.getAccountId() );</span>
+<span class="nc" id="L47">        locationType = locationTypeMapper.convertFromString( vo.getType() );</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        if ( vo.getAccountId() != null ) {</span>
+<span class="nc" id="L49">            account = accountMapper.convertFromId( vo.getAccountId() );</span>
         }
-<span class="nc" id="L49">        locationGroup = locationGroupMapper.convertFromName( vo.getLocationGroupName() );</span>
-<span class="nc" id="L50">        erpCode = vo.getErpCode();</span>
-<span class="nc" id="L51">        plcCode = vo.getPlcCode();</span>
-<span class="nc" id="L52">        sortOrder = vo.getSortOrder();</span>
-<span class="nc" id="L53">        stockZone = vo.getStockZone();</span>
+<span class="nc" id="L51">        locationGroup = locationGroupMapper.convertFromName( vo.getLocationGroupName() );</span>
+<span class="nc" id="L52">        erpCode = vo.getErpCode();</span>
+<span class="nc" id="L53">        plcCode = vo.getPlcCode();</span>
+<span class="nc" id="L54">        sortOrder = vo.getSortOrder();</span>
+<span class="nc" id="L55">        stockZone = vo.getStockZone();</span>
 
-<span class="nc" id="L55">        LocationPK locationId = org.openwms.common.location.LocationPK.fromString(vo.getLocationId());</span>
+<span class="nc" id="L57">        LocationPK locationId = org.openwms.common.location.LocationPK.fromString(vo.getLocationId());</span>
 
-<span class="nc" id="L57">        Location location = new Location( locationId, account, locationGroup, locationType, erpCode, plcCode, sortOrder, stockZone );</span>
+<span class="nc" id="L59">        Location location = new Location( locationId, account, locationGroup, locationType, erpCode, plcCode, sortOrder, stockZone );</span>
 
-<span class="nc" id="L59">        location.setPersistentKey( vo.getpKey() );</span>
-<span class="nc bnc" id="L60" title="All 2 branches missed.">        if ( vo.getPlcState() != null ) {</span>
-<span class="nc" id="L61">            location.setPlcState( vo.getPlcState() );</span>
+<span class="nc" id="L61">        location.setPersistentKey( vo.getpKey() );</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if ( vo.getPlcState() != null ) {</span>
+<span class="nc" id="L63">            location.setPlcState( vo.getPlcState() );</span>
         }
-<span class="nc bnc" id="L63" title="All 2 branches missed.">        if ( vo.getOl() != null ) {</span>
-<span class="nc" id="L64">            location.setOl( vo.getOl() );</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if ( vo.getOl() != null ) {</span>
+<span class="nc" id="L66">            location.setOl( vo.getOl() );</span>
         }
 
-<span class="nc" id="L67">        return location;</span>
+<span class="nc" id="L69">        return location;</span>
     }
 
     @Override
     public LocationVO convertToVO(Location eo) {
-<span class="nc bnc" id="L72" title="All 2 branches missed.">        if ( eo == null ) {</span>
-<span class="nc" id="L73">            return null;</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if ( eo == null ) {</span>
+<span class="nc" id="L75">            return null;</span>
         }
 
-<span class="nc" id="L76">        String locationId = eo.getLocationId().toString();</span>
+<span class="nc" id="L78">        String locationId = eo.getLocationId().toString();</span>
 
-<span class="nc" id="L78">        LocationVO locationVO = new LocationVO( locationId );</span>
+<span class="nc" id="L80">        LocationVO locationVO = new LocationVO( locationId );</span>
 
-<span class="nc bnc" id="L80" title="All 2 branches missed.">        if ( eo.hasPersistentKey() ) {</span>
-<span class="nc" id="L81">            locationVO.setpKey( eo.getPersistentKey() );</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        if ( eo.hasPersistentKey() ) {</span>
+<span class="nc" id="L83">            locationVO.setpKey( eo.getPersistentKey() );</span>
         }
-<span class="nc" id="L83">        locationVO.setAccountId( eoAccountIdentifier( eo ) );</span>
-<span class="nc" id="L84">        locationVO.setType( eoLocationTypeType( eo ) );</span>
-<span class="nc" id="L85">        locationVO.setLocationGroupName( eoLocationGroupName( eo ) );</span>
-<span class="nc" id="L86">        locationVO.setIncomingActive( eo.isInfeedActive() );</span>
-<span class="nc" id="L87">        locationVO.setOutgoingActive( eo.isOutfeedActive() );</span>
-<span class="nc" id="L88">        locationVO.setOl( eo.getOl() );</span>
-<span class="nc" id="L89">        locationVO.setErpCode( eo.getErpCode() );</span>
-<span class="nc" id="L90">        locationVO.setPlcCode( eo.getPlcCode() );</span>
-<span class="nc" id="L91">        locationVO.setSortOrder( eo.getSortOrder() );</span>
-<span class="nc" id="L92">        locationVO.setPlcState( eo.getPlcState() );</span>
-<span class="nc" id="L93">        locationVO.setStockZone( eo.getStockZone() );</span>
+<span class="nc" id="L85">        locationVO.setAccountId( eoAccountIdentifier( eo ) );</span>
+<span class="nc" id="L86">        locationVO.setType( eoLocationTypeType( eo ) );</span>
+<span class="nc" id="L87">        locationVO.setLocationGroupName( eoLocationGroupName( eo ) );</span>
+<span class="nc" id="L88">        locationVO.setIncomingActive( eo.isInfeedActive() );</span>
+<span class="nc" id="L89">        locationVO.setOutgoingActive( eo.isOutfeedActive() );</span>
+<span class="nc" id="L90">        locationVO.setOl( eo.getOl() );</span>
+<span class="nc" id="L91">        locationVO.setErpCode( eo.getErpCode() );</span>
+<span class="nc" id="L92">        locationVO.setPlcCode( eo.getPlcCode() );</span>
+<span class="nc" id="L93">        locationVO.setSortOrder( eo.getSortOrder() );</span>
+<span class="nc" id="L94">        locationVO.setPlcState( eo.getPlcState() );</span>
+<span class="nc" id="L95">        locationVO.setStockZone( eo.getStockZone() );</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if ( eo.getCreateDt() != null ) {</span>
+<span class="nc" id="L97">            locationVO.setCreateDt( LocalDateTime.ofInstant( eo.getCreateDt().toInstant(), ZoneId.of( &quot;UTC&quot; ) ) );</span>
+        }
 
-<span class="nc" id="L95">        return locationVO;</span>
+<span class="nc" id="L100">        return locationVO;</span>
     }
 
     @Override
     public List&lt;LocationVO&gt; convertToVO(List&lt;Location&gt; eo) {
-<span class="nc bnc" id="L100" title="All 2 branches missed.">        if ( eo == null ) {</span>
-<span class="nc" id="L101">            return null;</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        if ( eo == null ) {</span>
+<span class="nc" id="L106">            return null;</span>
         }
 
-<span class="nc" id="L104">        List&lt;LocationVO&gt; list = new ArrayList&lt;LocationVO&gt;( eo.size() );</span>
-<span class="nc bnc" id="L105" title="All 2 branches missed.">        for ( Location location : eo ) {</span>
-<span class="nc" id="L106">            list.add( convertToVO( location ) );</span>
-<span class="nc" id="L107">        }</span>
+<span class="nc" id="L109">        List&lt;LocationVO&gt; list = new ArrayList&lt;LocationVO&gt;( eo.size() );</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        for ( Location location : eo ) {</span>
+<span class="nc" id="L111">            list.add( convertToVO( location ) );</span>
+<span class="nc" id="L112">        }</span>
 
-<span class="nc" id="L109">        return list;</span>
+<span class="nc" id="L114">        return list;</span>
     }
 
     @Override
     public LocationMO convertToMO(Location eo) {
-<span class="nc bnc" id="L114" title="All 2 branches missed.">        if ( eo == null ) {</span>
-<span class="nc" id="L115">            return null;</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        if ( eo == null ) {</span>
+<span class="nc" id="L120">            return null;</span>
         }
 
-<span class="nc" id="L118">        String pKey = null;</span>
-<span class="nc" id="L119">        String accountId = null;</span>
-<span class="nc" id="L120">        Boolean incomingActive = null;</span>
-<span class="nc" id="L121">        Boolean outgoingActive = null;</span>
-<span class="nc" id="L122">        String plcCode = null;</span>
-<span class="nc" id="L123">        String erpCode = null;</span>
-<span class="nc" id="L124">        Integer plcState = null;</span>
+<span class="nc" id="L123">        String pKey = null;</span>
+<span class="nc" id="L124">        String accountId = null;</span>
+<span class="nc" id="L125">        Boolean incomingActive = null;</span>
+<span class="nc" id="L126">        Boolean outgoingActive = null;</span>
+<span class="nc" id="L127">        String plcCode = null;</span>
+<span class="nc" id="L128">        String erpCode = null;</span>
+<span class="nc" id="L129">        Integer plcState = null;</span>
 
-<span class="nc bnc" id="L126" title="All 2 branches missed.">        if ( eo.hasPersistentKey() ) {</span>
-<span class="nc" id="L127">            pKey = eo.getPersistentKey();</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        if ( eo.hasPersistentKey() ) {</span>
+<span class="nc" id="L132">            pKey = eo.getPersistentKey();</span>
         }
-<span class="nc" id="L129">        accountId = eoAccountIdentifier( eo );</span>
-<span class="nc" id="L130">        incomingActive = eo.isInfeedActive();</span>
-<span class="nc" id="L131">        outgoingActive = eo.isOutfeedActive();</span>
-<span class="nc" id="L132">        plcCode = eo.getPlcCode();</span>
-<span class="nc" id="L133">        erpCode = eo.getErpCode();</span>
-<span class="nc" id="L134">        plcState = eo.getPlcState();</span>
+<span class="nc" id="L134">        accountId = eoAccountIdentifier( eo );</span>
+<span class="nc" id="L135">        incomingActive = eo.isInfeedActive();</span>
+<span class="nc" id="L136">        outgoingActive = eo.isOutfeedActive();</span>
+<span class="nc" id="L137">        plcCode = eo.getPlcCode();</span>
+<span class="nc" id="L138">        erpCode = eo.getErpCode();</span>
+<span class="nc" id="L139">        plcState = eo.getPlcState();</span>
 
-<span class="nc" id="L136">        String id = eo.getLocationId().toString();</span>
+<span class="nc" id="L141">        String id = eo.getLocationId().toString();</span>
 
-<span class="nc" id="L138">        LocationMO locationMO = new LocationMO( pKey, accountId, id, plcCode, erpCode, incomingActive, outgoingActive, plcState );</span>
+<span class="nc" id="L143">        LocationMO locationMO = new LocationMO( pKey, accountId, id, plcCode, erpCode, incomingActive, outgoingActive, plcState );</span>
 
-<span class="nc" id="L140">        return locationMO;</span>
+<span class="nc" id="L145">        return locationMO;</span>
     }
 
     private String eoAccountIdentifier(Location location) {
-<span class="nc bnc" id="L144" title="All 2 branches missed.">        if ( location == null ) {</span>
-<span class="nc" id="L145">            return null;</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">        if ( location == null ) {</span>
+<span class="nc" id="L150">            return null;</span>
         }
-<span class="nc" id="L147">        Account account = location.getAccount();</span>
-<span class="nc bnc" id="L148" title="All 2 branches missed.">        if ( account == null ) {</span>
-<span class="nc" id="L149">            return null;</span>
+<span class="nc" id="L152">        Account account = location.getAccount();</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">        if ( account == null ) {</span>
+<span class="nc" id="L154">            return null;</span>
         }
-<span class="nc" id="L151">        String identifier = account.getIdentifier();</span>
-<span class="nc bnc" id="L152" title="All 2 branches missed.">        if ( identifier == null ) {</span>
-<span class="nc" id="L153">            return null;</span>
+<span class="nc" id="L156">        String identifier = account.getIdentifier();</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">        if ( identifier == null ) {</span>
+<span class="nc" id="L158">            return null;</span>
         }
-<span class="nc" id="L155">        return identifier;</span>
+<span class="nc" id="L160">        return identifier;</span>
     }
 
     private String eoLocationTypeType(Location location) {
-<span class="nc bnc" id="L159" title="All 2 branches missed.">        if ( location == null ) {</span>
-<span class="nc" id="L160">            return null;</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">        if ( location == null ) {</span>
+<span class="nc" id="L165">            return null;</span>
         }
-<span class="nc" id="L162">        LocationType locationType = location.getLocationType();</span>
-<span class="nc bnc" id="L163" title="All 2 branches missed.">        if ( locationType == null ) {</span>
-<span class="nc" id="L164">            return null;</span>
+<span class="nc" id="L167">        LocationType locationType = location.getLocationType();</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        if ( locationType == null ) {</span>
+<span class="nc" id="L169">            return null;</span>
         }
-<span class="nc" id="L166">        String type = locationType.getType();</span>
-<span class="nc bnc" id="L167" title="All 2 branches missed.">        if ( type == null ) {</span>
-<span class="nc" id="L168">            return null;</span>
+<span class="nc" id="L171">        String type = locationType.getType();</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">        if ( type == null ) {</span>
+<span class="nc" id="L173">            return null;</span>
         }
-<span class="nc" id="L170">        return type;</span>
+<span class="nc" id="L175">        return type;</span>
     }
 
     private String eoLocationGroupName(Location location) {
-<span class="nc bnc" id="L174" title="All 2 branches missed.">        if ( location == null ) {</span>
-<span class="nc" id="L175">            return null;</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">        if ( location == null ) {</span>
+<span class="nc" id="L180">            return null;</span>
         }
-<span class="nc" id="L177">        LocationGroup locationGroup = location.getLocationGroup();</span>
-<span class="nc bnc" id="L178" title="All 2 branches missed.">        if ( locationGroup == null ) {</span>
-<span class="nc" id="L179">            return null;</span>
+<span class="nc" id="L182">        LocationGroup locationGroup = location.getLocationGroup();</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">        if ( locationGroup == null ) {</span>
+<span class="nc" id="L184">            return null;</span>
         }
-<span class="nc" id="L181">        String name = locationGroup.getName();</span>
-<span class="nc bnc" id="L182" title="All 2 branches missed.">        if ( name == null ) {</span>
-<span class="nc" id="L183">            return null;</span>
+<span class="nc" id="L186">        String name = locationGroup.getName();</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">        if ( name == null ) {</span>
+<span class="nc" id="L188">            return null;</span>
         }
-<span class="nc" id="L185">        return name;</span>
+<span class="nc" id="L190">        return name;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
