@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<meta name="author" content="(2.1.0-SNAPSHOT-198)">
+<meta name="author" content="(2.1.0-SNAPSHOT-199)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -443,7 +443,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(2.1.0-SNAPSHOT-198)</span><br>
+<span id="author" class="author">(2.1.0-SNAPSHOT-199)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -500,6 +500,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#section-locationgroup">LocationGroup</a>
 <ul class="sectlevel2">
 <li><a href="#locationgroups-index">LocationGroup Index</a></li>
+<li><a href="#location-groups-create">Create a LocationGroup</a></li>
 <li><a href="#location-groups-findbyname">Find LocationGroup by Name</a></li>
 <li><a href="#location-groups-findbynames">Find multiple LocationGroups by Name</a></li>
 <li><a href="#location-groups-findall">Find all LocationGroups</a></li>
@@ -563,7 +564,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Copyright © 2005-2023</p>
+<p>Copyright © 2005-2024</p>
 </div>
 <div class="paragraph">
 <p>Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any fee for such copies
@@ -1318,17 +1319,17 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/locations/36c7cd46-5e8f-4874-814e-e41ff633a3c6/
+Location: http://localhost:8080/v1/locations/1ae6028f-0b32-4398-8428-9e2dc1a3b12b/
 Content-Type: application/vnd.openwms.common.location-v1+json
 Content-Length: 434
 
 {
   "links" : [ {
     "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/36c7cd46-5e8f-4874-814e-e41ff633a3c6"
+    "href" : "http://localhost:8080/v1/locations/1ae6028f-0b32-4398-8428-9e2dc1a3b12b"
   } ],
   "ol" : 0,
-  "pKey" : "36c7cd46-5e8f-4874-814e-e41ff633a3c6",
+  "pKey" : "1ae6028f-0b32-4398-8428-9e2dc1a3b12b",
   "locationId" : "FGIN/PICK/WORK/0010/0000",
   "plcCode" : "PICK_20",
   "erpCode" : "PICK_10",
@@ -2594,10 +2595,13 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 690
+Content-Length: 788
 
 {
   "_links" : {
+    "location-groups-create" : {
+      "href" : "http://localhost:8080/v1/location-groups"
+    },
     "location-groups-findbyname" : {
       "href" : "http://localhost:8080/v1/location-groups?name=FOO"
     },
@@ -2617,6 +2621,297 @@ Content-Length: 690
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="location-groups-create"><a class="anchor" href="#location-groups-create"></a><a class="link" href="#location-groups-create">Create a LocationGroup</a></h3>
+<div class="paragraph">
+<p>The API allows also to create a <code>LocationGroup</code>. In former releases this was only possible with the data loader mechanism. The client must
+pass the minimum required fields of a <code>LocationGroup</code> in the request body of a <code>POST</code> request to the primary <code>LocationGroup</code> resource:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/location-groups HTTP/1.1
+Content-Type: application/json
+Content-Length: 66
+Host: localhost:8080
+
+{
+  "name" : "TEST_LG",
+  "operationMode" : "INFEED_AND_OUTFEED"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique identifier</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>operationMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If the resource has been created successfully, the server responds with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
+Location: http://localhost:8080/v1/location-groups/8df2db6e-e75f-4797-b510-cd513d5c895a/
+Content-Type: application/hal+json
+Content-Length: 224
+
+{
+  "pKey" : "8df2db6e-e75f-4797-b510-cd513d5c895a",
+  "name" : "TEST_LG",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-02-26 13:39:41.463"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The persistent technical key of the LocationGroup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique identifier</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>operationMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupStateIn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">State of infeed, controlled by the subsystem only</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupStateOut</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">State of outfeed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createDt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timestamp when the LocationGroup has been created</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>A request with all accepted fields to create a <code>LocationGroup</code> is shown in the next example. Child <code>LocationGroups</code> must not exist and are
+created along the parent. The references parent <code>LocationGroup</code> must already exist.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /v1/location-groups HTTP/1.1
+Content-Type: application/json
+Content-Length: 322
+Host: localhost:8080
+
+{
+  "name" : "TEST_LG",
+  "accountId" : "A1",
+  "groupType" : "Group1",
+  "parentName" : "ZILE",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "NOT_AVAILABLE",
+  "groupStateOut" : "NOT_AVAILABLE",
+  "childLocationGroups" : [ {
+    "name" : "TEST_LG_CHILD",
+    "operationMode" : "INFEED_AND_OUTFEED"
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique identifier</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>accountId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(optional) Unique identifier of the referenced and existing Account</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(optional) Some type can be assigned to a LocationGroup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>operationMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupStateIn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(optional) State of infeed, controlled by the subsystem only</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupStateOut</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(optional) State of outfeed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>parentName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(optional) Name of the parent LocationGroup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>childLocationGroups[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(optional) Child LocationGroups</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If the resource has been created successfully, the server responds with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
+Location: http://localhost:8080/v1/location-groups/79a446c8-eb2a-4475-9f06-4bd632c041fc/
+Content-Type: application/hal+json
+Content-Length: 581
+
+{
+  "pKey" : "79a446c8-eb2a-4475-9f06-4bd632c041fc",
+  "name" : "TEST_LG",
+  "accountId" : "A1",
+  "groupType" : "Group1",
+  "parentName" : "ZILE",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "NOT_AVAILABLE",
+  "groupStateOut" : "NOT_AVAILABLE",
+  "childLocationGroups" : [ {
+    "pKey" : "6103975f-5ccf-46be-b9eb-299cb0719310",
+    "name" : "TEST_LG_CHILD",
+    "operationMode" : "INFEED_AND_OUTFEED",
+    "groupStateIn" : "AVAILABLE",
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-02-26 13:39:41.077"
+  } ],
+  "createDt" : "2024-02-26 13:39:41.074"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The persistent technical key of the LocationGroup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique identifier</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>accountId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique identifier of the referenced and existing Account</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some type can be assigned to a LocationGroup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>parentName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the parent LocationGroup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>operationMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupStateIn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">State of infeed, controlled by the subsystem only</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupStateOut</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">State of outfeed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createDt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timestamp when the LocationGroup has been created</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>childLocationGroups[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Child LocationGroups</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="location-groups-findbyname"><a class="anchor" href="#location-groups-findbyname"></a><a class="link" href="#location-groups-findbyname">Find LocationGroup by Name</a></h3>
@@ -5221,14 +5516,14 @@ newly created resource as HTTP <code>Location</code> header attribute</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/36b976f5-3fc5-4423-b795-c640adc92094/
+Location: http://localhost:8080/v1/transport-units/9b1d7f95-bdf5-4a2a-ad75-14bf5a6e1660/
 Content-Type: application/vnd.openwms.transport-unit-v1+json
 Content-Length: 1313
 
 {
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/v1/transport-units/36b976f5-3fc5-4423-b795-c640adc92094"
+    "href" : "http://localhost:8080/v1/transport-units/9b1d7f95-bdf5-4a2a-ad75-14bf5a6e1660"
   }, {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -5237,7 +5532,7 @@ Content-Length: 1313
     "href" : "http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"
   } ],
   "ol" : 0,
-  "pKey" : "36b976f5-3fc5-4423-b795-c640adc92094",
+  "pKey" : "9b1d7f95-bdf5-4a2a-ad75-14bf5a6e1660",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "links" : [ ],
@@ -5269,8 +5564,8 @@ Content-Length: 1313
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2024-02-23 20:20:52",
-  "createDate" : "2024-02-23 20:20:52"
+  "actualLocationDate" : "2024-02-26 13:39:37",
+  "createDate" : "2024-02-26 13:39:37"
 }</code></pre>
 </div>
 </div>
@@ -5324,7 +5619,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/8db1f1de-3768-475e-9181-596de3801631/</code></pre>
+Location: http://localhost:8080/v1/transport-units/e5fa0a95-f70b-4b5a-b8ef-d4074c5f02c0/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -5439,8 +5734,8 @@ Content-Length: 1092
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-02-23 20:20:53",
-  "createDate" : "2024-02-23 20:20:53"
+  "actualLocationDate" : "2024-02-26 13:39:38",
+  "createDate" : "2024-02-26 13:39:38"
 }</code></pre>
 </div>
 </div>
@@ -5542,8 +5837,8 @@ Content-Length: 1092
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-02-23 20:20:52",
-  "createDate" : "2024-02-23 20:20:52"
+  "actualLocationDate" : "2024-02-26 13:39:37",
+  "createDate" : "2024-02-26 13:39:37"
 }</code></pre>
 </div>
 </div>
@@ -5645,8 +5940,8 @@ Content-Length: 1084
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-02-23 20:20:53",
-  "createDate" : "2024-02-23 20:20:53"
+  "actualLocationDate" : "2024-02-26 13:39:38",
+  "createDate" : "2024-02-26 13:39:38"
 }</code></pre>
 </div>
 </div>
@@ -5753,8 +6048,8 @@ Content-Length: 2177
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-02-23 20:20:52",
-  "createDate" : "2024-02-23 20:20:52"
+  "actualLocationDate" : "2024-02-26 13:39:37",
+  "createDate" : "2024-02-26 13:39:37"
 }, {
   "links" : [ {
     "rel" : "self",
@@ -5794,8 +6089,8 @@ Content-Length: 2177
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-02-23 20:20:52",
-  "createDate" : "2024-02-23 20:20:52"
+  "actualLocationDate" : "2024-02-26 13:39:37",
+  "createDate" : "2024-02-26 13:39:37"
 } ]</code></pre>
 </div>
 </div>
@@ -5877,8 +6172,8 @@ Content-Length: 1091
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-02-23 20:20:53",
-  "createDate" : "2024-02-23 20:20:53"
+  "actualLocationDate" : "2024-02-26 13:39:38",
+  "createDate" : "2024-02-26 13:39:38"
 } ]</code></pre>
 </div>
 </div>
@@ -6107,7 +6402,7 @@ Content-Length: 512
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-02-23 20:17:39 UTC
+Last updated 2024-02-26 13:34:22 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

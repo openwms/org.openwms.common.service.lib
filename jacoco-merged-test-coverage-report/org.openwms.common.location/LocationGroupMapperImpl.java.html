@@ -36,8 +36,8 @@ import org.springframework.stereotype.Component;
 <span class="fc" id="L36">        locationGroupVO.setGroupStateIn( eo.getGroupStateIn() );</span>
 <span class="fc" id="L37">        locationGroupVO.setGroupStateOut( eo.getGroupStateOut() );</span>
 <span class="fc" id="L38">        locationGroupVO.setChildren( locationGroupSetToLocationGroupVOList( eo.getLocationGroups() ) );</span>
-<span class="pc bpc" id="L39" title="1 of 2 branches missed.">        if ( eo.getCreateDt() != null ) {</span>
-<span class="nc" id="L40">            locationGroupVO.setCreateDt( LocalDateTime.ofInstant( eo.getCreateDt().toInstant(), ZoneId.of( &quot;UTC&quot; ) ) );</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if ( eo.getCreateDt() != null ) {</span>
+<span class="fc" id="L40">            locationGroupVO.setCreateDt( LocalDateTime.ofInstant( eo.getCreateDt().toInstant(), ZoneId.of( &quot;UTC&quot; ) ) );</span>
         }
 <span class="fc" id="L42">        locationGroupVO.setOperationMode( eo.getOperationMode() );</span>
 <span class="fc" id="L43">        locationGroupVO.setName( eo.getName() );</span>
@@ -56,7 +56,7 @@ import org.springframework.stereotype.Component;
 
 <span class="fc" id="L57">        locationGroupMO.setAccountId( eoAccountIdentifier( eo ) );</span>
 <span class="fc" id="L58">        String name = eoParentName( eo );</span>
-<span class="pc bpc" id="L59" title="1 of 2 branches missed.">        if ( eo.hasParent() ) {</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if ( eo.hasParent() ) {</span>
 <span class="fc" id="L60">            locationGroupMO.setParent( name );</span>
         }
 <span class="fc" id="L62">        locationGroupMO.setOperationMode( eo.getOperationMode() );</span>
@@ -87,8 +87,8 @@ import org.springframework.stereotype.Component;
 <span class="nc" id="L87">            return null;</span>
         }
 <span class="fc" id="L89">        Account account = locationGroup.getAccount();</span>
-<span class="pc bpc" id="L90" title="1 of 2 branches missed.">        if ( account == null ) {</span>
-<span class="nc" id="L91">            return null;</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if ( account == null ) {</span>
+<span class="fc" id="L91">            return null;</span>
         }
 <span class="fc" id="L93">        String identifier = account.getIdentifier();</span>
 <span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if ( identifier == null ) {</span>
