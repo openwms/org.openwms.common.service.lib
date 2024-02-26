@@ -39,36 +39,47 @@ import java.util.stream.Stream;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PUBLIC_ONLY)
 public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implements TargetVO, Serializable {
 
+    /** The persistent technical key of the {@code LocationGroup}. */
     @JsonProperty("pKey")
     private String pKey;
+
+    /** Unique identifier of the {@code LocationGroup}. */
     @NotBlank
     @JsonProperty("name")
     private String name;
+
+    /** The {@code LocationGroup} might be assigned to an {@code Account}. */
     @JsonProperty("accountId")
     private String accountId;
+
+    /** A type can be assigned to a {@code LocationGroup}. */
     @JsonProperty("groupType")
     private String groupType;
+
+    /** Parent {@code LocationGroup}. */
     @JsonProperty("parentName")
     private String parent;
+
+    /** The operation mode is controlled by the subsystem and defines the physical mode a {@code LocationGroup} is currently able to operate in. */
     @NotBlank(groups = ValidationGroups.Create.class)
     @JsonProperty("operationMode")
     private String operationMode;
+
+    /** State of infeed, controlled by the subsystem only. */
     @JsonProperty("groupStateIn")
     private LocationGroupState groupStateIn;
+
+    /** State of outfeed. */
     @JsonProperty("groupStateOut")
     private LocationGroupState groupStateOut;
+
+    /** Child {@code LocationGroup}s. */
     @JsonProperty("childLocationGroups")
     private List<LocationGroupVO> children;
+
+    /** Timestamp when the {@code Location} has been created. */
     @JsonProperty("createDt")
     private LocalDateTime createDt;
-
-    public LocalDateTime getCreateDt() {
-        return createDt;
-    }
-
-    public void setCreateDt(LocalDateTime createDt) {
-        this.createDt = createDt;
-    }
 
     /*~ ------------------ constructors ----------------------*/
     public LocationGroupVO() {}
@@ -245,6 +256,14 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
         this.children = children;
     }
 
+    public LocalDateTime getCreateDt() {
+        return createDt;
+    }
+
+    public void setCreateDt(LocalDateTime createDt) {
+        this.createDt = createDt;
+    }
+
     /*~ ------------------ overrides ----------------------*/
     /**
      * {@inheritDoc}
@@ -262,10 +281,9 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof LocationGroupVO)) return false;
+        if (!(o instanceof LocationGroupVO that)) return false;
         if (!super.equals(o)) return false;
-        LocationGroupVO that = (LocationGroupVO) o;
-        return Objects.equals(pKey, that.pKey) && Objects.equals(name, that.name) && Objects.equals(accountId, that.accountId) && Objects.equals(groupType, that.groupType) && Objects.equals(parent, that.parent) && Objects.equals(operationMode, that.operationMode) && groupStateIn == that.groupStateIn && groupStateOut == that.groupStateOut && Objects.equals(children, that.children);
+        return Objects.equals(pKey, that.pKey) && Objects.equals(name, that.name) && Objects.equals(accountId, that.accountId) && Objects.equals(groupType, that.groupType) && Objects.equals(parent, that.parent) && Objects.equals(operationMode, that.operationMode) && groupStateIn == that.groupStateIn && groupStateOut == that.groupStateOut && Objects.equals(children, that.children) && Objects.equals(createDt, that.createDt);
     }
 
     /**
@@ -275,11 +293,13 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), pKey, name, accountId, groupType, parent, operationMode, groupStateIn, groupStateOut, children);
+        return Objects.hash(super.hashCode(), pKey, name, accountId, groupType, parent, operationMode, groupStateIn, groupStateOut, children, createDt);
     }
 
     /**
      * {@inheritDoc}
+     *
+     * Only the name.
      */
     @Override
     public String toString() {

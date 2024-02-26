@@ -124,6 +124,7 @@ class LocationControllerDocumentation {
                 .andExpect(jsonPath("$.plcState", is(0)))
                 .andExpect(jsonPath("$.type", is("PG")))
                 .andExpect(jsonPath("$.locationGroupName", is("FGWORKPLACE9")))
+                .andExpect(jsonPath("$.locationGroupName").exists())
                 .andExpect(header().exists(HttpHeaders.LOCATION))
                 .andDo(document("loc-created",
                         preprocessResponse(prettyPrint()),
@@ -146,7 +147,8 @@ class LocationControllerDocumentation {
                                 fieldWithPath("outgoingActive").description("Whether the Location is enabled for outgoing movements (read-only)"),
                                 fieldWithPath("plcState").description("The current state, set by the PLC system (read-only)"),
                                 fieldWithPath("type").description("The name of the LocationType the Location belongs to"),
-                                fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to")
+                                fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to"),
+                                fieldWithPath("createDt").description("Timestamp when the Location has been created")
                         )
                 ));
     }
@@ -213,6 +215,7 @@ class LocationControllerDocumentation {
                 .andExpect(jsonPath("$.plcState", is(0))) // not allowed to change this here
                 .andExpect(jsonPath("$.type", is("FG")))
                 .andExpect(jsonPath("$.locationGroupName", is("FGWORKPLACE9")))
+                .andExpect(jsonPath("$.createDt").exists())
                 .andDo(document("loc-updated",
                         preprocessResponse(prettyPrint()),
                         requestFields(
@@ -244,7 +247,8 @@ class LocationControllerDocumentation {
                                 fieldWithPath("outgoingActive").description("Whether the Location is enabled for outgoing movements (read-only)"),
                                 fieldWithPath("plcState").description("The current state, set by the PLC system (read-only)"),
                                 fieldWithPath("type").description("The name of the LocationType the Location belongs to"),
-                                fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to")
+                                fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to"),
+                                fieldWithPath("createDt").description("Timestamp when the Location has been created")
                         )
                 ));
     }

@@ -21,11 +21,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotBlank;
+import java.beans.ConstructorProperties;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
- * A LocationTypeVO represents a {@code LocationType}.
+ * A LocationTypeVO defines a type of {@code Location}s with same characteristics.
  *
  * @author Heiko Scherrer
  */
@@ -36,25 +38,39 @@ public class LocationTypeVO extends RepresentationModel<LocationTypeVO> implemen
     /** HTTP media type representation. */
     public static final String MEDIA_TYPE = "application/vnd.openwms.common.location-type-v1+json";
 
+    /** The persistent technical key of the {@code LocationType}. */
     @JsonProperty("pKey")
     private String pKey;
+
+    /** Unique identifier. */
     @NotBlank
     @JsonProperty("type")
     private String type;
+
+    /** A descriptive text. */
     @JsonProperty("description")
     private String description;
+
+    /** Length. */
     @JsonProperty("length")
     private int length;
+
+    /** Width. */
     @JsonProperty("width")
     private int width;
+
+    /** Height. */
     @JsonProperty("height")
     private int height;
 
-    /*~-------------------- constructors --------------------*/
-    protected LocationTypeVO() {
-        super();
-    }
+    /** Timestamp when the {@code LocationType} has been created. */
+    @JsonProperty("createDt")
+    private LocalDateTime createDt;
 
+    /*~-------------------- constructors --------------------*/
+    protected LocationTypeVO() { }
+
+    @ConstructorProperties("type")
     public LocationTypeVO(String type) {
         super();
         this.type = type;
@@ -109,9 +125,19 @@ public class LocationTypeVO extends RepresentationModel<LocationTypeVO> implemen
         this.height = height;
     }
 
+    public LocalDateTime getCreateDt() {
+        return createDt;
+    }
+
+    public void setCreateDt(LocalDateTime createDt) {
+        this.createDt = createDt;
+    }
+
     /*~-------------------- overrides --------------------*/
     /**
      * {@inheritDoc}
+     *
+     * The type only.
      */
     @Override
     public String toString() {
@@ -120,6 +146,8 @@ public class LocationTypeVO extends RepresentationModel<LocationTypeVO> implemen
 
     /**
      * {@inheritDoc}
+     *
+     * All fields.
      */
     @Override
     public boolean equals(Object o) {
@@ -127,14 +155,16 @@ public class LocationTypeVO extends RepresentationModel<LocationTypeVO> implemen
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         LocationTypeVO that = (LocationTypeVO) o;
-        return length == that.length && width == that.width && height == that.height && Objects.equals(pKey, that.pKey) && Objects.equals(type, that.type) && Objects.equals(description, that.description);
+        return length == that.length && width == that.width && height == that.height && Objects.equals(pKey, that.pKey) && Objects.equals(type, that.type) && Objects.equals(description, that.description) && Objects.equals(createDt, that.createDt);
     }
 
     /**
      * {@inheritDoc}
+     *
+     * All fields.
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), pKey, type, description, length, width, height);
+        return Objects.hash(super.hashCode(), pKey, type, description, length, width, height, createDt);
     }
 }

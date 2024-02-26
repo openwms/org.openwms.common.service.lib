@@ -93,7 +93,8 @@ class LocationTypeControllerDocumentation {
                                 fieldWithPath("description").description("A descriptive text of the LocationType"),
                                 fieldWithPath("length").description("The typical length of a Location belonging to this type"),
                                 fieldWithPath("width").description("The typical width of a Location belonging to this type"),
-                                fieldWithPath("height").description("The typical height of a Location belonging to this type")
+                                fieldWithPath("height").description("The typical height of a Location belonging to this type"),
+                                fieldWithPath("createDt").description("Timestamp when the LocationType has been created")
                         )
                 ))
                 ;

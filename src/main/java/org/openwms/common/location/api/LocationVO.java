@@ -22,11 +22,13 @@ import org.ameba.http.AbstractBase;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.StringJoiner;
 
 /**
- * A LocationVO.
+ * A LocationVO represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a conveyor
+ * location. Even error locations can be represented with the LocationVO. Multiple locations with same characteristics are grouped in
+ * {@code LocationGroupVO}s.
  *
  * @author Heiko Scherrer
  */
@@ -90,6 +92,10 @@ public class LocationVO extends AbstractBase<LocationVO> implements TargetVO, Se
     @NotBlank(groups = ValidationGroups.Create.class)
     @JsonProperty("locationGroupName")
     private String locationGroupName;
+
+    /** Timestamp when the {@code Location} has been created. */
+    @JsonProperty("createDt")
+    private LocalDateTime createDt;
 
     /*~-------------------- constructors --------------------*/
     protected LocationVO() {
@@ -219,6 +225,14 @@ public class LocationVO extends AbstractBase<LocationVO> implements TargetVO, Se
         this.stockZone = stockZone;
     }
 
+    public LocalDateTime getCreateDt() {
+        return createDt;
+    }
+
+    public void setCreateDt(LocalDateTime createDt) {
+        this.createDt = createDt;
+    }
+
     /*~-------------------- overrides --------------------*/
     /**
      * {@inheritDoc}
@@ -230,10 +244,12 @@ public class LocationVO extends AbstractBase<LocationVO> implements TargetVO, Se
 
     /**
      * {@inheritDoc}
+     *
+     * Only the locationId.
      */
     @Override
     public String toString() {
-        return new StringJoiner(", ", LocationVO.class.getSimpleName() + "[", "]").add("pKey='" + pKey + "'").add("locationId='" + locationId + "'").add("locationGroupName='" + locationGroupName + "'").add("plcCode='" + plcCode + "'").add("erpCode='" + erpCode + "'").add("incomingActive=" + incomingActive).add("outgoingActive=" + outgoingActive).toString();
+        return locationId;
     }
 
     /**
@@ -256,7 +272,8 @@ public class LocationVO extends AbstractBase<LocationVO> implements TargetVO, Se
                 Objects.equals(incomingActive, that.incomingActive) &&
                 Objects.equals(outgoingActive, that.outgoingActive) &&
                 Objects.equals(plcState, that.plcState) &&
-                Objects.equals(stockZone, that.stockZone) ;
+                Objects.equals(stockZone, that.stockZone)  &&
+                Objects.equals(createDt, that.createDt);
     }
 
     /**
@@ -266,6 +283,6 @@ public class LocationVO extends AbstractBase<LocationVO> implements TargetVO, Se
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), pKey, locationId, accountId, locationGroupName, erpCode, plcCode, incomingActive, outgoingActive, plcState, stockZone);
+        return Objects.hash(super.hashCode(), pKey, locationId, accountId, locationGroupName, erpCode, plcCode, incomingActive, outgoingActive, plcState, stockZone, createDt);
     }
 }
