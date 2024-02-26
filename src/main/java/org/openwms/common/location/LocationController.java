@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2023 the original author or authors.
+ * Copyright 2005-2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,8 +47,8 @@ import java.util.function.BiConsumer;
 
 import static java.util.Arrays.asList;
 import static org.openwms.common.CommonMessageCodes.LOCATION_ID_INVALID;
-import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND_BY_ID;
 import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND_BY_ERP_CODE;
+import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND_BY_ID;
 import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND_BY_PLC_CODE;
 import static org.openwms.common.CommonMessageCodes.LOCK_MODE_UNSUPPORTED;
 import static org.openwms.common.CommonMessageCodes.LOCK_TYPE_UNSUPPORTED;

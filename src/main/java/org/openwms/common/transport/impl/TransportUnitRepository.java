@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2023 the original author or authors.
+ * Copyright 2005-2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 package org.openwms.common.transport.impl;
 
 import org.openwms.common.location.Location;
-import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.common.transport.TransportUnit;
+import org.openwms.common.transport.barcode.Barcode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.history.RevisionRepository;
