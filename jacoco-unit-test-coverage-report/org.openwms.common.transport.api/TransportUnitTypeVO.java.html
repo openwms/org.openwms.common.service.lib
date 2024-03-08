@@ -16,13 +16,17 @@
 package org.openwms.common.transport.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.ameba.http.AbstractBase;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.StringJoiner;
+
+import static org.openwms.common.transport.api.TransportApiConstants.DATETIME_FORMAT_ZULU;
 
 /**
  * A TransportUnitTypeVO.
@@ -63,73 +67,86 @@ public class TransportUnitTypeVO extends AbstractBase&lt;TransportUnitTypeVO&gt;
     @JsonProperty(&quot;length&quot;)
     private String length;
 
+    /** Timestamp when the {@code TransportUnitType} has been created. */
+    @JsonProperty(&quot;createDt&quot;)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATETIME_FORMAT_ZULU) // required
+    private LocalDateTime createDt;
+
     /*~-------------------- constructors --------------------*/
     @JsonCreator
-<span class="nc" id="L68">    protected TransportUnitTypeVO() { }</span>
+<span class="nc" id="L77">    protected TransportUnitTypeVO() { }</span>
 
-<span class="nc" id="L70">    public TransportUnitTypeVO(String type) {</span>
-<span class="nc" id="L71">        this.type = type;</span>
-<span class="nc" id="L72">    }</span>
+<span class="nc" id="L79">    public TransportUnitTypeVO(String type) {</span>
+<span class="nc" id="L80">        this.type = type;</span>
+<span class="nc" id="L81">    }</span>
 
     /*~-------------------- accessors --------------------*/
     public String getpKey() {
-<span class="nc" id="L76">        return pKey;</span>
+<span class="nc" id="L85">        return pKey;</span>
     }
 
     public void setpKey(String pKey) {
-<span class="nc" id="L80">        this.pKey = pKey;</span>
-<span class="nc" id="L81">    }</span>
+<span class="nc" id="L89">        this.pKey = pKey;</span>
+<span class="nc" id="L90">    }</span>
 
     public String getType() {
-<span class="nc" id="L84">        return type;</span>
+<span class="nc" id="L93">        return type;</span>
     }
 
     public void setType(String type) {
-<span class="nc" id="L88">        this.type = type;</span>
-<span class="nc" id="L89">    }</span>
+<span class="nc" id="L97">        this.type = type;</span>
+<span class="nc" id="L98">    }</span>
 
     public String getDescription() {
-<span class="nc" id="L92">        return description;</span>
+<span class="nc" id="L101">        return description;</span>
     }
 
     public void setDescription(String description) {
-<span class="nc" id="L96">        this.description = description;</span>
-<span class="nc" id="L97">    }</span>
+<span class="nc" id="L105">        this.description = description;</span>
+<span class="nc" id="L106">    }</span>
 
     public String getHeight() {
-<span class="nc" id="L100">        return height;</span>
+<span class="nc" id="L109">        return height;</span>
     }
 
     public void setHeight(String height) {
-<span class="nc" id="L104">        this.height = height;</span>
-<span class="nc" id="L105">    }</span>
+<span class="nc" id="L113">        this.height = height;</span>
+<span class="nc" id="L114">    }</span>
 
     public String getWidth() {
-<span class="nc" id="L108">        return width;</span>
+<span class="nc" id="L117">        return width;</span>
     }
 
     public void setWidth(String width) {
-<span class="nc" id="L112">        this.width = width;</span>
-<span class="nc" id="L113">    }</span>
+<span class="nc" id="L121">        this.width = width;</span>
+<span class="nc" id="L122">    }</span>
 
     public String getLength() {
-<span class="nc" id="L116">        return length;</span>
+<span class="nc" id="L125">        return length;</span>
     }
 
     public void setLength(String length) {
-<span class="nc" id="L120">        this.length = length;</span>
-<span class="nc" id="L121">    }</span>
+<span class="nc" id="L129">        this.length = length;</span>
+<span class="nc" id="L130">    }</span>
+
+    public LocalDateTime getCreateDt() {
+<span class="nc" id="L133">        return createDt;</span>
+    }
+
+    public void setCreateDt(LocalDateTime createDt) {
+<span class="nc" id="L137">        this.createDt = createDt;</span>
+<span class="nc" id="L138">    }</span>
 
     /**
      * All fields.
      */
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L128" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (!(o instanceof TransportUnitTypeVO)) return false;</span>
-<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
-<span class="nc" id="L131">        TransportUnitTypeVO that = (TransportUnitTypeVO) o;</span>
-<span class="nc bnc" id="L132" title="All 12 branches missed.">        return Objects.equals(pKey, that.pKey) &amp;&amp; Objects.equals(type, that.type) &amp;&amp; Objects.equals(description, that.description) &amp;&amp; Objects.equals(height, that.height) &amp;&amp; Objects.equals(width, that.width) &amp;&amp; Objects.equals(length, that.length);</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">        if (!(o instanceof TransportUnitTypeVO)) return false;</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
+<span class="nc" id="L148">        TransportUnitTypeVO that = (TransportUnitTypeVO) o;</span>
+<span class="nc bnc" id="L149" title="All 14 branches missed.">        return Objects.equals(pKey, that.pKey) &amp;&amp; Objects.equals(type, that.type) &amp;&amp; Objects.equals(description, that.description) &amp;&amp; Objects.equals(height, that.height) &amp;&amp; Objects.equals(width, that.width) &amp;&amp; Objects.equals(length, that.length) &amp;&amp; Objects.equals(createDt, that.createDt);</span>
     }
 
     /**
@@ -137,7 +154,7 @@ public class TransportUnitTypeVO extends AbstractBase&lt;TransportUnitTypeVO&gt;
      */
     @Override
     public int hashCode() {
-<span class="nc" id="L140">        return Objects.hash(super.hashCode(), pKey, type, description, height, width, length);</span>
+<span class="nc" id="L157">        return Objects.hash(super.hashCode(), pKey, type, description, height, width, length, createDt);</span>
     }
 
     /**
@@ -145,14 +162,15 @@ public class TransportUnitTypeVO extends AbstractBase&lt;TransportUnitTypeVO&gt;
      */
     @Override
     public String toString() {
-<span class="nc" id="L148">        return new StringJoiner(&quot;, &quot;, TransportUnitTypeVO.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L149">                .add(&quot;pKey='&quot; + pKey + &quot;'&quot;)</span>
-<span class="nc" id="L150">                .add(&quot;type='&quot; + type + &quot;'&quot;)</span>
-<span class="nc" id="L151">                .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
-<span class="nc" id="L152">                .add(&quot;height='&quot; + height + &quot;'&quot;)</span>
-<span class="nc" id="L153">                .add(&quot;width='&quot; + width + &quot;'&quot;)</span>
-<span class="nc" id="L154">                .add(&quot;length='&quot; + length + &quot;'&quot;)</span>
-<span class="nc" id="L155">                .toString();</span>
+<span class="nc" id="L165">        return new StringJoiner(&quot;, &quot;, TransportUnitTypeVO.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L166">                .add(&quot;pKey='&quot; + pKey + &quot;'&quot;)</span>
+<span class="nc" id="L167">                .add(&quot;type='&quot; + type + &quot;'&quot;)</span>
+<span class="nc" id="L168">                .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
+<span class="nc" id="L169">                .add(&quot;height='&quot; + height + &quot;'&quot;)</span>
+<span class="nc" id="L170">                .add(&quot;width='&quot; + width + &quot;'&quot;)</span>
+<span class="nc" id="L171">                .add(&quot;length='&quot; + length + &quot;'&quot;)</span>
+<span class="nc" id="L172">                .add(&quot;createDt='&quot; + createDt + &quot;'&quot;)</span>
+<span class="nc" id="L173">                .toString();</span>
     }
 
     public static final class Builder {
@@ -166,42 +184,42 @@ public class TransportUnitTypeVO extends AbstractBase&lt;TransportUnitTypeVO&gt;
         }
 
         public static Builder aTransportUnitTypeVO() {
-<span class="nc" id="L169">            return new Builder();</span>
+<span class="nc" id="L187">            return new Builder();</span>
         }
 
         public Builder withType(String type) {
-<span class="nc" id="L173">            this.type = type;</span>
-<span class="nc" id="L174">            return this;</span>
+<span class="nc" id="L191">            this.type = type;</span>
+<span class="nc" id="L192">            return this;</span>
         }
 
         public Builder withDescription(String description) {
-<span class="nc" id="L178">            this.description = description;</span>
-<span class="nc" id="L179">            return this;</span>
+<span class="nc" id="L196">            this.description = description;</span>
+<span class="nc" id="L197">            return this;</span>
         }
 
         public Builder withHeight(String height) {
-<span class="nc" id="L183">            this.height = height;</span>
-<span class="nc" id="L184">            return this;</span>
+<span class="nc" id="L201">            this.height = height;</span>
+<span class="nc" id="L202">            return this;</span>
         }
 
         public Builder withWidth(String width) {
-<span class="nc" id="L188">            this.width = width;</span>
-<span class="nc" id="L189">            return this;</span>
+<span class="nc" id="L206">            this.width = width;</span>
+<span class="nc" id="L207">            return this;</span>
         }
 
         public Builder withLength(String length) {
-<span class="nc" id="L193">            this.length = length;</span>
-<span class="nc" id="L194">            return this;</span>
+<span class="nc" id="L211">            this.length = length;</span>
+<span class="nc" id="L212">            return this;</span>
         }
 
         public TransportUnitTypeVO build() {
-<span class="nc" id="L198">            TransportUnitTypeVO transportUnitTypeVO = new TransportUnitTypeVO();</span>
-<span class="nc" id="L199">            transportUnitTypeVO.setType(type);</span>
-<span class="nc" id="L200">            transportUnitTypeVO.setDescription(description);</span>
-<span class="nc" id="L201">            transportUnitTypeVO.setHeight(height);</span>
-<span class="nc" id="L202">            transportUnitTypeVO.setWidth(width);</span>
-<span class="nc" id="L203">            transportUnitTypeVO.setLength(length);</span>
-<span class="nc" id="L204">            return transportUnitTypeVO;</span>
+<span class="nc" id="L216">            var transportUnitTypeVO = new TransportUnitTypeVO();</span>
+<span class="nc" id="L217">            transportUnitTypeVO.setType(type);</span>
+<span class="nc" id="L218">            transportUnitTypeVO.setDescription(description);</span>
+<span class="nc" id="L219">            transportUnitTypeVO.setHeight(height);</span>
+<span class="nc" id="L220">            transportUnitTypeVO.setWidth(width);</span>
+<span class="nc" id="L221">            transportUnitTypeVO.setLength(length);</span>
+<span class="nc" id="L222">            return transportUnitTypeVO;</span>
         }
     }
 }

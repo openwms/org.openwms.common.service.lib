@@ -125,7 +125,7 @@ import java.util.Properties;
     }
 
     public @Bean MessageSource messageSource() {
-<span class="fc" id="L128">        NestedReloadableResourceBundleMessageSource nrrbm = new NestedReloadableResourceBundleMessageSource();</span>
+<span class="fc" id="L128">        var nrrbm = new NestedReloadableResourceBundleMessageSource();</span>
 <span class="fc" id="L129">        nrrbm.setBasenames(</span>
                 &quot;classpath:META-INF/i18n/common&quot;,
                 &quot;classpath:META-INF/i18n/common-val&quot;

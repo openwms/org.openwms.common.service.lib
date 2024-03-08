@@ -15,14 +15,18 @@
  */
 package org.openwms.common.account.api;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.StringJoiner;
+
+import static org.openwms.common.account.api.AccountApiConstants.DATETIME_FORMAT_ZULU;
 
 /**
  * A AccountVO is the representation object that encapsulates identifying information about the actual cost center.
@@ -30,7 +34,7 @@ import java.util.StringJoiner;
  * @author Heiko Scherrer
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-<span class="fc" id="L33">public class AccountVO extends RepresentationModel&lt;AccountVO&gt; implements Serializable {</span>
+<span class="fc" id="L37">public class AccountVO extends RepresentationModel&lt;AccountVO&gt; implements Serializable {</span>
 
     /** HTTP media type representation. */
     public static final String MEDIA_TYPE = &quot;application/vnd.openwms.common.account-v1+json&quot;;
@@ -49,30 +53,37 @@ import java.util.StringJoiner;
     @JsonProperty(&quot;name&quot;)
     private String name;
 
+    /** Timestamp when the {@code Account} has been created. */
+    @JsonProperty(&quot;createDt&quot;)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATETIME_FORMAT_ZULU) // required
+    private LocalDateTime createDt;
+
+    /*~-------------------- accessors --------------------*/
     public String getpKey() {
-<span class="fc" id="L53">        return pKey;</span>
+<span class="fc" id="L63">        return pKey;</span>
     }
 
     public void setpKey(String pKey) {
-<span class="fc" id="L57">        this.pKey = pKey;</span>
-<span class="fc" id="L58">    }</span>
+<span class="fc" id="L67">        this.pKey = pKey;</span>
+<span class="fc" id="L68">    }</span>
 
     public String getIdentifier() {
-<span class="fc" id="L61">        return identifier;</span>
+<span class="fc" id="L71">        return identifier;</span>
     }
 
     public void setIdentifier(String identifier) {
-<span class="fc" id="L65">        this.identifier = identifier;</span>
-<span class="fc" id="L66">    }</span>
+<span class="fc" id="L75">        this.identifier = identifier;</span>
+<span class="fc" id="L76">    }</span>
 
     public String getName() {
-<span class="fc" id="L69">        return name;</span>
+<span class="fc" id="L79">        return name;</span>
     }
 
     public void setName(String name) {
-<span class="fc" id="L73">        this.name = name;</span>
-<span class="fc" id="L74">    }</span>
+<span class="fc" id="L83">        this.name = name;</span>
+<span class="fc" id="L84">    }</span>
 
+    /*~-------------------- overrides --------------------*/
     /**
      * {@inheritDoc}
      *
@@ -80,11 +91,11 @@ import java.util.StringJoiner;
      */
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L83" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (!(o instanceof AccountVO)) return false;</span>
-<span class="nc bnc" id="L85" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
-<span class="nc" id="L86">        var accountVO = (AccountVO) o;</span>
-<span class="nc bnc" id="L87" title="All 6 branches missed.">        return Objects.equals(pKey, accountVO.pKey) &amp;&amp; Objects.equals(identifier, accountVO.identifier) &amp;&amp; Objects.equals(name, accountVO.name);</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (!(o instanceof AccountVO)) return false;</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
+<span class="nc" id="L97">        var accountVO = (AccountVO) o;</span>
+<span class="nc bnc" id="L98" title="All 8 branches missed.">        return Objects.equals(pKey, accountVO.pKey) &amp;&amp; Objects.equals(identifier, accountVO.identifier) &amp;&amp; Objects.equals(name, accountVO.name) &amp;&amp; Objects.equals(createDt, accountVO.createDt);</span>
     }
 
     /**
@@ -94,7 +105,7 @@ import java.util.StringJoiner;
      */
     @Override
     public int hashCode() {
-<span class="nc" id="L97">        return Objects.hash(super.hashCode(), pKey, identifier, name);</span>
+<span class="nc" id="L108">        return Objects.hash(super.hashCode(), pKey, identifier, name, createDt);</span>
     }
 
     /**
@@ -104,11 +115,12 @@ import java.util.StringJoiner;
      */
     @Override
     public String toString() {
-<span class="nc" id="L107">        return new StringJoiner(&quot;, &quot;, AccountVO.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L108">                .add(&quot;pKey='&quot; + pKey + &quot;'&quot;)</span>
-<span class="nc" id="L109">                .add(&quot;identifier='&quot; + identifier + &quot;'&quot;)</span>
-<span class="nc" id="L110">                .add(&quot;name='&quot; + name + &quot;'&quot;)</span>
-<span class="nc" id="L111">                .toString();</span>
+<span class="nc" id="L118">        return new StringJoiner(&quot;, &quot;, AccountVO.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L119">                .add(&quot;pKey='&quot; + pKey + &quot;'&quot;)</span>
+<span class="nc" id="L120">                .add(&quot;identifier='&quot; + identifier + &quot;'&quot;)</span>
+<span class="nc" id="L121">                .add(&quot;name='&quot; + name + &quot;'&quot;)</span>
+<span class="nc" id="L122">                .add(&quot;createDt='&quot; + createDt + &quot;'&quot;)</span>
+<span class="nc" id="L123">                .toString();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

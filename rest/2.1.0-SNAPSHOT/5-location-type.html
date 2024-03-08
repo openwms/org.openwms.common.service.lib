@@ -503,7 +503,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-type-v1+json
-Content-Length: 321
+Content-Length: 317
 
 {
   "type" : "FG",
@@ -516,7 +516,7 @@ Content-Length: 321
   "length" : 30,
   "width" : 50,
   "height" : 20,
-  "createDt" : [ 2024, 2, 26, 14, 27, 8, 50984000 ]
+  "createDt" : "2024-03-08T23:14:13.315302000Z"
 }</code></pre>
 </div>
 </div>
@@ -566,7 +566,7 @@ Content-Length: 321
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>createDt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Timestamp when the LocationType has been created</p></td>
 </tr>
 </tbody>
@@ -593,7 +593,7 @@ Content-Length: 193
 <div class="sect2">
 <h3 id="loctype-findbytypename">Find a LocationType by its name</h3>
 <div class="paragraph">
-<p>To query a <code>LocationType</code> by it&#8217;s unique name, a <code>GET</code> request is send to the <code>LocationType</code> resource along with the <code>name</code> as query
+<p>To query a <code>LocationType</code> by it&#8217;s unique name, a <code>GET</code> request is sent to the <code>LocationType</code> resource along with the <code>name</code> as query
 parameter.</p>
 </div>
 <div class="listingblock">
@@ -609,7 +609,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-type-v1+json
-Content-Length: 322
+Content-Length: 317
 
 {
   "type" : "FG",
@@ -622,7 +622,7 @@ Content-Length: 322
   "length" : 30,
   "width" : 50,
   "height" : 20,
-  "createDt" : [ 2024, 2, 26, 14, 27, 7, 998396000 ]
+  "createDt" : "2024-03-08T23:14:13.269283000Z"
 }</code></pre>
 </div>
 </div>
@@ -654,7 +654,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-type-v1+json
-Content-Length: 631
+Content-Length: 645
 
 [ {
   "type" : "FG",
@@ -667,7 +667,7 @@ Content-Length: 631
   "length" : 30,
   "width" : 50,
   "height" : 20,
-  "createDt" : "2024-02-26 14:27:07.828"
+  "createDt" : "2024-03-08T23:14:13.103950000Z"
 }, {
   "type" : "PG",
   "links" : [ {
@@ -679,7 +679,7 @@ Content-Length: 631
   "length" : 120,
   "width" : 120,
   "height" : 250,
-  "createDt" : "2024-02-26 14:27:07.828"
+  "createDt" : "2024-03-08T23:14:13.103950000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -689,7 +689,7 @@ Content-Length: 631
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-02-26 14:24:02 UTC
+Last updated 2024-03-08 23:06:20 UTC
 </div>
 </div>
 </body>

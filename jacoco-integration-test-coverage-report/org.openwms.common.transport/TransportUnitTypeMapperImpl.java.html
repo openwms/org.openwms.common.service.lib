@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransportUnitTypeMapperImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Service Library</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.transport</a> &gt; <span class="el_source">TransportUnitTypeMapperImpl.java</span></div><h1>TransportUnitTypeMapperImpl.java</h1><pre class="source lang-java linenums">package org.openwms.common.transport;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -11,94 +13,97 @@ import org.springframework.stereotype.Component;
     value = &quot;org.mapstruct.ap.MappingProcessor&quot;
 )
 @Component
-<span class="fc" id="L14">public class TransportUnitTypeMapperImpl extends TransportUnitTypeMapper {</span>
+<span class="fc" id="L16">public class TransportUnitTypeMapperImpl extends TransportUnitTypeMapper {</span>
 
     @Override
     public TransportUnitType convert(TransportUnitTypeVO vo) {
-<span class="pc bpc" id="L18" title="1 of 2 branches missed.">        if ( vo == null ) {</span>
-<span class="nc" id="L19">            return null;</span>
+<span class="pc bpc" id="L20" title="1 of 2 branches missed.">        if ( vo == null ) {</span>
+<span class="nc" id="L21">            return null;</span>
         }
 
-<span class="fc" id="L22">        String type = null;</span>
+<span class="fc" id="L24">        String type = null;</span>
 
-<span class="fc" id="L24">        type = vo.getType();</span>
+<span class="fc" id="L26">        type = vo.getType();</span>
 
-<span class="fc" id="L26">        TransportUnitType transportUnitType = new TransportUnitType( type );</span>
+<span class="fc" id="L28">        TransportUnitType transportUnitType = new TransportUnitType( type );</span>
 
-<span class="fc" id="L28">        transportUnitType.setPersistentKey( vo.getpKey() );</span>
-<span class="pc bpc" id="L29" title="1 of 2 branches missed.">        if ( vo.getOl() != null ) {</span>
-<span class="nc" id="L30">            transportUnitType.setOl( vo.getOl() );</span>
+<span class="fc" id="L30">        transportUnitType.setPersistentKey( vo.getpKey() );</span>
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">        if ( vo.getOl() != null ) {</span>
+<span class="nc" id="L32">            transportUnitType.setOl( vo.getOl() );</span>
         }
-<span class="pc bpc" id="L32" title="1 of 2 branches missed.">        if ( vo.getWidth() != null ) {</span>
-<span class="nc" id="L33">            transportUnitType.setWidth( Integer.parseInt( vo.getWidth() ) );</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        if ( vo.getWidth() != null ) {</span>
+<span class="nc" id="L35">            transportUnitType.setWidth( Integer.parseInt( vo.getWidth() ) );</span>
         }
-<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        if ( vo.getHeight() != null ) {</span>
-<span class="nc" id="L36">            transportUnitType.setHeight( Integer.parseInt( vo.getHeight() ) );</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        if ( vo.getHeight() != null ) {</span>
+<span class="nc" id="L38">            transportUnitType.setHeight( Integer.parseInt( vo.getHeight() ) );</span>
         }
-<span class="pc bpc" id="L38" title="1 of 2 branches missed.">        if ( vo.getLength() != null ) {</span>
-<span class="nc" id="L39">            transportUnitType.setLength( Integer.parseInt( vo.getLength() ) );</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">        if ( vo.getLength() != null ) {</span>
+<span class="nc" id="L41">            transportUnitType.setLength( Integer.parseInt( vo.getLength() ) );</span>
         }
-<span class="fc" id="L41">        transportUnitType.setDescription( vo.getDescription() );</span>
+<span class="fc" id="L43">        transportUnitType.setDescription( vo.getDescription() );</span>
 
-<span class="fc" id="L43">        return transportUnitType;</span>
+<span class="fc" id="L45">        return transportUnitType;</span>
     }
 
     @Override
     public TransportUnitTypeMO convertToMO(TransportUnitType eo) {
-<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if ( eo == null ) {</span>
-<span class="nc" id="L49">            return null;</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        if ( eo == null ) {</span>
+<span class="nc" id="L51">            return null;</span>
         }
 
-<span class="fc" id="L52">        TransportUnitTypeMO.Builder transportUnitTypeMO = TransportUnitTypeMO.newBuilder();</span>
+<span class="fc" id="L54">        TransportUnitTypeMO.Builder transportUnitTypeMO = TransportUnitTypeMO.newBuilder();</span>
 
-<span class="fc" id="L54">        transportUnitTypeMO.type( eo.getType() );</span>
-<span class="fc" id="L55">        transportUnitTypeMO.length( eo.getLength() );</span>
-<span class="fc" id="L56">        transportUnitTypeMO.width( eo.getWidth() );</span>
-<span class="fc" id="L57">        transportUnitTypeMO.height( eo.getHeight() );</span>
-<span class="fc" id="L58">        transportUnitTypeMO.weightTare( eo.getWeightTare() );</span>
-<span class="fc" id="L59">        transportUnitTypeMO.weightMax( eo.getWeightMax() );</span>
-<span class="fc" id="L60">        transportUnitTypeMO.payload( eo.getPayload() );</span>
-<span class="fc" id="L61">        transportUnitTypeMO.compatibility( eo.getCompatibility() );</span>
+<span class="fc" id="L56">        transportUnitTypeMO.type( eo.getType() );</span>
+<span class="fc" id="L57">        transportUnitTypeMO.length( eo.getLength() );</span>
+<span class="fc" id="L58">        transportUnitTypeMO.width( eo.getWidth() );</span>
+<span class="fc" id="L59">        transportUnitTypeMO.height( eo.getHeight() );</span>
+<span class="fc" id="L60">        transportUnitTypeMO.weightTare( eo.getWeightTare() );</span>
+<span class="fc" id="L61">        transportUnitTypeMO.weightMax( eo.getWeightMax() );</span>
+<span class="fc" id="L62">        transportUnitTypeMO.payload( eo.getPayload() );</span>
+<span class="fc" id="L63">        transportUnitTypeMO.compatibility( eo.getCompatibility() );</span>
 
-<span class="fc" id="L63">        return transportUnitTypeMO.build();</span>
+<span class="fc" id="L65">        return transportUnitTypeMO.build();</span>
     }
 
     @Override
     public TransportUnitTypeVO convertToVO(TransportUnitType eo) {
-<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if ( eo == null ) {</span>
-<span class="nc" id="L69">            return null;</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">        if ( eo == null ) {</span>
+<span class="nc" id="L71">            return null;</span>
         }
 
-<span class="fc" id="L72">        String type = null;</span>
+<span class="fc" id="L74">        String type = null;</span>
 
-<span class="fc" id="L74">        type = eo.getType();</span>
+<span class="fc" id="L76">        type = eo.getType();</span>
 
-<span class="fc" id="L76">        TransportUnitTypeVO transportUnitTypeVO = new TransportUnitTypeVO( type );</span>
+<span class="fc" id="L78">        TransportUnitTypeVO transportUnitTypeVO = new TransportUnitTypeVO( type );</span>
 
-<span class="pc bpc" id="L78" title="1 of 2 branches missed.">        if ( eo.hasPersistentKey() ) {</span>
-<span class="fc" id="L79">            transportUnitTypeVO.setpKey( eo.getPersistentKey() );</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        if ( eo.hasPersistentKey() ) {</span>
+<span class="fc" id="L81">            transportUnitTypeVO.setpKey( eo.getPersistentKey() );</span>
         }
-<span class="fc" id="L81">        transportUnitTypeVO.setOl( eo.getOl() );</span>
-<span class="fc" id="L82">        transportUnitTypeVO.setDescription( eo.getDescription() );</span>
-<span class="fc" id="L83">        transportUnitTypeVO.setHeight( String.valueOf( eo.getHeight() ) );</span>
-<span class="fc" id="L84">        transportUnitTypeVO.setWidth( String.valueOf( eo.getWidth() ) );</span>
-<span class="fc" id="L85">        transportUnitTypeVO.setLength( String.valueOf( eo.getLength() ) );</span>
+<span class="fc" id="L83">        transportUnitTypeVO.setOl( eo.getOl() );</span>
+<span class="fc" id="L84">        transportUnitTypeVO.setDescription( eo.getDescription() );</span>
+<span class="fc" id="L85">        transportUnitTypeVO.setHeight( String.valueOf( eo.getHeight() ) );</span>
+<span class="fc" id="L86">        transportUnitTypeVO.setWidth( String.valueOf( eo.getWidth() ) );</span>
+<span class="fc" id="L87">        transportUnitTypeVO.setLength( String.valueOf( eo.getLength() ) );</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        if ( eo.getCreateDt() != null ) {</span>
+<span class="fc" id="L89">            transportUnitTypeVO.setCreateDt( LocalDateTime.ofInstant( eo.getCreateDt().toInstant(), ZoneId.of( &quot;UTC&quot; ) ) );</span>
+        }
 
-<span class="fc" id="L87">        return transportUnitTypeVO;</span>
+<span class="fc" id="L92">        return transportUnitTypeVO;</span>
     }
 
     @Override
     public List&lt;TransportUnitTypeVO&gt; convertToVO(List&lt;TransportUnitType&gt; eo) {
-<span class="nc bnc" id="L92" title="All 2 branches missed.">        if ( eo == null ) {</span>
-<span class="nc" id="L93">            return null;</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        if ( eo == null ) {</span>
+<span class="nc" id="L98">            return null;</span>
         }
 
-<span class="nc" id="L96">        List&lt;TransportUnitTypeVO&gt; list = new ArrayList&lt;TransportUnitTypeVO&gt;( eo.size() );</span>
-<span class="nc bnc" id="L97" title="All 2 branches missed.">        for ( TransportUnitType transportUnitType : eo ) {</span>
-<span class="nc" id="L98">            list.add( convertToVO( transportUnitType ) );</span>
-<span class="nc" id="L99">        }</span>
+<span class="nc" id="L101">        List&lt;TransportUnitTypeVO&gt; list = new ArrayList&lt;TransportUnitTypeVO&gt;( eo.size() );</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        for ( TransportUnitType transportUnitType : eo ) {</span>
+<span class="nc" id="L103">            list.add( convertToVO( transportUnitType ) );</span>
+<span class="nc" id="L104">        }</span>
 
-<span class="nc" id="L101">        return list;</span>
+<span class="nc" id="L106">        return list;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

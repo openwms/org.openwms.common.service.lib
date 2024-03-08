@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<meta name="author" content="(2.1.0-SNAPSHOT-200)">
+<meta name="author" content="(2.1.0-SNAPSHOT-201)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -443,7 +443,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(2.1.0-SNAPSHOT-200)</span><br>
+<span id="author" class="author">(2.1.0-SNAPSHOT-201)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -1319,17 +1319,17 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/locations/45ad6380-b928-4c74-a5a2-1708def7e2b6/
+Location: http://localhost:8080/v1/locations/cbe8e223-7702-4e58-9434-922ae7fe08b2/
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 489
+Content-Length: 483
 
 {
   "links" : [ {
     "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/45ad6380-b928-4c74-a5a2-1708def7e2b6"
+    "href" : "http://localhost:8080/v1/locations/cbe8e223-7702-4e58-9434-922ae7fe08b2"
   } ],
   "ol" : 0,
-  "pKey" : "45ad6380-b928-4c74-a5a2-1708def7e2b6",
+  "pKey" : "cbe8e223-7702-4e58-9434-922ae7fe08b2",
   "locationId" : "FGIN/PICK/WORK/0010/0000",
   "plcCode" : "PICK_20",
   "erpCode" : "PICK_10",
@@ -1338,7 +1338,7 @@ Content-Length: 489
   "plcState" : 0,
   "type" : "PG",
   "locationGroupName" : "FGWORKPLACE9",
-  "createDt" : [ 2024, 2, 26, 14, 26, 59, 630000000 ]
+  "createDt" : "2024-03-08T23:14:13.640000000Z"
 }</code></pre>
 </div>
 </div>
@@ -1403,7 +1403,7 @@ Content-Length: 489
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>createDt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Timestamp when the Location has been created</p></td>
 </tr>
 </tbody>
@@ -1523,7 +1523,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 492
+Content-Length: 486
 
 {
   "links" : [ {
@@ -1543,7 +1543,7 @@ Content-Length: 492
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "FGWORKPLACE9",
-  "createDt" : [ 2024, 2, 26, 14, 26, 59, 429161000 ]
+  "createDt" : "2024-03-08T23:14:13.447089000Z"
 }</code></pre>
 </div>
 </div>
@@ -1623,7 +1623,7 @@ Content-Length: 492
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>createDt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Timestamp when the Location has been created</p></td>
 </tr>
 </tbody>
@@ -1649,7 +1649,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 475
+Content-Length: 470
 
 {
   "links" : [ {
@@ -1668,7 +1668,7 @@ Content-Length: 475
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "ZILE",
-  "createDt" : [ 2024, 2, 26, 14, 27, 1, 195951000 ]
+  "createDt" : "2024-03-08T23:14:15.166024000Z"
 }</code></pre>
 </div>
 </div>
@@ -1709,7 +1709,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 475
+Content-Length: 470
 
 {
   "links" : [ {
@@ -1728,7 +1728,7 @@ Content-Length: 475
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "ZILE",
-  "createDt" : [ 2024, 2, 26, 14, 27, 0, 889473000 ]
+  "createDt" : "2024-03-08T23:14:14.864151000Z"
 }</code></pre>
 </div>
 </div>
@@ -1788,7 +1788,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 948
+Content-Length: 962
 
 [ {
   "links" : [ {
@@ -1807,7 +1807,7 @@ Content-Length: 948
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "FGAISLE1LIFT",
-  "createDt" : "2024-02-26 14:27:00.829"
+  "createDt" : "2024-03-08T23:14:14.806603000Z"
 }, {
   "links" : [ {
     "rel" : "location-findbypkey",
@@ -1825,7 +1825,7 @@ Content-Length: 948
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "FGAISLE2LIFT",
-  "createDt" : "2024-02-26 14:27:00.829"
+  "createDt" : "2024-03-08T23:14:14.806603000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -1865,7 +1865,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 475
+Content-Length: 470
 
 {
   "links" : [ {
@@ -1884,7 +1884,7 @@ Content-Length: 475
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "ZILE",
-  "createDt" : [ 2024, 2, 26, 14, 27, 1, 132095000 ]
+  "createDt" : "2024-03-08T23:14:15.105783000Z"
 }</code></pre>
 </div>
 </div>
@@ -1907,7 +1907,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 474
+Content-Length: 470
 
 {
   "links" : [ {
@@ -1926,7 +1926,7 @@ Content-Length: 474
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "ZILE",
-  "createDt" : [ 2024, 2, 26, 14, 27, 1, 14155000 ]
+  "createDt" : "2024-03-08T23:14:14.992103000Z"
 }</code></pre>
 </div>
 </div>
@@ -1967,7 +1967,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 932
+Content-Length: 946
 
 [ {
   "links" : [ {
@@ -1986,7 +1986,7 @@ Content-Length: 932
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "ZILE",
-  "createDt" : "2024-02-26 14:27:00.303"
+  "createDt" : "2024-03-08T23:14:14.314771000Z"
 }, {
   "links" : [ {
     "rel" : "location-findbypkey",
@@ -2004,7 +2004,7 @@ Content-Length: 932
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "ZILE",
-  "createDt" : "2024-02-26 14:27:00.303"
+  "createDt" : "2024-03-08T23:14:14.314771000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -2037,7 +2037,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 1403
+Content-Length: 1424
 
 [ {
   "links" : [ {
@@ -2056,7 +2056,7 @@ Content-Length: 1403
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "FGRECEIVING",
-  "createDt" : "2024-02-26 14:27:00.470"
+  "createDt" : "2024-03-08T23:14:14.475010000Z"
 }, {
   "links" : [ {
     "rel" : "location-findbypkey",
@@ -2074,7 +2074,7 @@ Content-Length: 1403
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "ZILE",
-  "createDt" : "2024-02-26 14:27:00.470"
+  "createDt" : "2024-03-08T23:14:14.475010000Z"
 }, {
   "links" : [ {
     "rel" : "location-findbypkey",
@@ -2092,7 +2092,7 @@ Content-Length: 1403
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "ZILE",
-  "createDt" : "2024-02-26 14:27:00.470"
+  "createDt" : "2024-03-08T23:14:14.475010000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -2113,7 +2113,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-v1+json
-Content-Length: 938
+Content-Length: 952
 
 [ {
   "links" : [ {
@@ -2132,7 +2132,7 @@ Content-Length: 938
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "IPOINT1",
-  "createDt" : "2024-02-26 14:27:00.363"
+  "createDt" : "2024-03-08T23:14:14.375151000Z"
 }, {
   "links" : [ {
     "rel" : "location-findbypkey",
@@ -2150,7 +2150,7 @@ Content-Length: 938
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "IPOINT2",
-  "createDt" : "2024-02-26 14:27:00.363"
+  "createDt" : "2024-03-08T23:14:14.375151000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -2421,7 +2421,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-type-v1+json
-Content-Length: 321
+Content-Length: 317
 
 {
   "type" : "FG",
@@ -2434,7 +2434,7 @@ Content-Length: 321
   "length" : 30,
   "width" : 50,
   "height" : 20,
-  "createDt" : [ 2024, 2, 26, 14, 27, 8, 50984000 ]
+  "createDt" : "2024-03-08T23:14:13.315302000Z"
 }</code></pre>
 </div>
 </div>
@@ -2484,7 +2484,7 @@ Content-Length: 321
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>createDt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Timestamp when the LocationType has been created</p></td>
 </tr>
 </tbody>
@@ -2511,7 +2511,7 @@ Content-Length: 193
 <div class="sect2">
 <h3 id="loctype-findbytypename"><a class="anchor" href="#loctype-findbytypename"></a><a class="link" href="#loctype-findbytypename">Find a LocationType by its name</a></h3>
 <div class="paragraph">
-<p>To query a <code>LocationType</code> by it&#8217;s unique name, a <code>GET</code> request is send to the <code>LocationType</code> resource along with the <code>name</code> as query
+<p>To query a <code>LocationType</code> by it&#8217;s unique name, a <code>GET</code> request is sent to the <code>LocationType</code> resource along with the <code>name</code> as query
 parameter.</p>
 </div>
 <div class="listingblock">
@@ -2527,7 +2527,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-type-v1+json
-Content-Length: 322
+Content-Length: 317
 
 {
   "type" : "FG",
@@ -2540,7 +2540,7 @@ Content-Length: 322
   "length" : 30,
   "width" : 50,
   "height" : 20,
-  "createDt" : [ 2024, 2, 26, 14, 27, 7, 998396000 ]
+  "createDt" : "2024-03-08T23:14:13.269283000Z"
 }</code></pre>
 </div>
 </div>
@@ -2572,7 +2572,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.common.location-type-v1+json
-Content-Length: 631
+Content-Length: 645
 
 [ {
   "type" : "FG",
@@ -2585,7 +2585,7 @@ Content-Length: 631
   "length" : 30,
   "width" : 50,
   "height" : 20,
-  "createDt" : "2024-02-26 14:27:07.828"
+  "createDt" : "2024-03-08T23:14:13.103950000Z"
 }, {
   "type" : "PG",
   "links" : [ {
@@ -2597,7 +2597,7 @@ Content-Length: 631
   "length" : 120,
   "width" : 120,
   "height" : 250,
-  "createDt" : "2024-02-26 14:27:07.828"
+  "createDt" : "2024-03-08T23:14:13.103950000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -2707,17 +2707,17 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/location-groups/cabf2ffa-c8fe-4316-992b-1141b4f52d87/
+Location: http://localhost:8080/v1/location-groups/9f964a7a-44a6-4e5d-a367-99d50eb9a79a/
 Content-Type: application/hal+json
-Content-Length: 224
+Content-Length: 231
 
 {
-  "pKey" : "cabf2ffa-c8fe-4316-992b-1141b4f52d87",
+  "pKey" : "9f964a7a-44a6-4e5d-a367-99d50eb9a79a",
   "name" : "TEST_LG",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-02-26 14:27:01.899"
+  "createDt" : "2024-03-08T23:14:12.847000000Z"
 }</code></pre>
 </div>
 </div>
@@ -2855,12 +2855,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/location-groups/56ddf0bb-d036-49e2-948b-77ee885eee8e/
+Location: http://localhost:8080/v1/location-groups/4b55a46b-870b-44ce-9e2e-668896acdb5d/
 Content-Type: application/hal+json
-Content-Length: 581
+Content-Length: 595
 
 {
-  "pKey" : "56ddf0bb-d036-49e2-948b-77ee885eee8e",
+  "pKey" : "4b55a46b-870b-44ce-9e2e-668896acdb5d",
   "name" : "TEST_LG",
   "accountId" : "A1",
   "groupType" : "Group1",
@@ -2869,14 +2869,14 @@ Content-Length: 581
   "groupStateIn" : "NOT_AVAILABLE",
   "groupStateOut" : "NOT_AVAILABLE",
   "childLocationGroups" : [ {
-    "pKey" : "5b0d3cf3-deab-45c7-879f-a3bf068ddb25",
+    "pKey" : "3c392087-be16-4646-bc0e-3073b9fd4afa",
     "name" : "TEST_LG_CHILD",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-02-26 14:27:01.532"
+    "createDt" : "2024-03-08T23:14:12.411000000Z"
   } ],
-  "createDt" : "2024-02-26 14:27:01.528"
+  "createDt" : "2024-03-08T23:14:12.406000000Z"
 }</code></pre>
 </div>
 </div>
@@ -2986,7 +2986,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 791
+Content-Length: 942
 
 {
   "_links" : {
@@ -3008,7 +3008,8 @@ Content-Length: 791
     "parentName" : "IPOINT",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.147849000Z"
   }, {
     "pKey" : "782120388022",
     "name" : "IPOINT1",
@@ -3016,8 +3017,10 @@ Content-Length: 791
     "parentName" : "IPOINT",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.147849000Z"
+  } ],
+  "createDt" : "2024-03-08T23:14:12.147849000Z"
 }</code></pre>
 </div>
 </div>
@@ -3056,19 +3059,24 @@ Content-Length: 791
 <td class="tableblock halign-left valign-top"><p class="tableblock">Name of the parent LocationGroup</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupStateIn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Infeed state, controlled by the subsystem only</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupStateOut</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Outfeed state</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>operationMode</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupStateIn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createDt</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">State of infeed, controlled by the subsystem only</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupStateOut</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">State of outfeed, controlled by the subsystem only</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timestamp when the LocationGroup has been created</p></td>
 </tr>
 </tbody>
 </table>
@@ -3130,7 +3138,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 1130
+Content-Length: 1330
 
 [ {
   "links" : [ {
@@ -3143,7 +3151,8 @@ Content-Length: 1130
   "parentName" : "FGAUTOMATIC",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.615036000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -3163,7 +3172,8 @@ Content-Length: 1130
     "parentName" : "IPOINT",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.615036000Z"
   }, {
     "pKey" : "782120388022",
     "name" : "IPOINT1",
@@ -3171,8 +3181,10 @@ Content-Length: 1130
     "parentName" : "IPOINT",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.615036000Z"
+  } ],
+  "createDt" : "2024-03-08T23:14:12.615036000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -3195,7 +3207,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 53724
+Content-Length: 63902
 
 [ {
   "pKey" : "412130127821",
@@ -3219,7 +3231,8 @@ Content-Length: 53724
       "parentName" : "Flatgood_AREA",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "281343921750",
       "name" : "FGCANBAN",
@@ -3227,7 +3240,8 @@ Content-Length: 53724
       "parentName" : "Flatgood_AREA",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "709819670512",
       "name" : "FGAUTOMATIC",
@@ -3243,7 +3257,8 @@ Content-Length: 53724
         "parentName" : "FGAUTOMATIC",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "585607846471",
         "name" : "FGSHIPPING",
@@ -3267,7 +3282,8 @@ Content-Length: 53724
             "parentName" : "FGSHIPPING1",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
+            "groupStateOut" : "AVAILABLE",
+            "createDt" : "2024-03-08T23:14:12.462862000Z"
           }, {
             "pKey" : "346661868774",
             "name" : "FGWORKPLACE3",
@@ -3275,7 +3291,8 @@ Content-Length: 53724
             "parentName" : "FGSHIPPING1",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
+            "groupStateOut" : "AVAILABLE",
+            "createDt" : "2024-03-08T23:14:12.462862000Z"
           }, {
             "pKey" : "925145263549",
             "name" : "FGWORKPLACE2",
@@ -3283,8 +3300,10 @@ Content-Length: 53724
             "parentName" : "FGSHIPPING1",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          } ]
+            "groupStateOut" : "AVAILABLE",
+            "createDt" : "2024-03-08T23:14:12.462862000Z"
+          } ],
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
         }, {
           "pKey" : "753422186594",
           "name" : "FGSHIPPING2",
@@ -3300,7 +3319,8 @@ Content-Length: 53724
             "parentName" : "FGSHIPPING2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
+            "groupStateOut" : "AVAILABLE",
+            "createDt" : "2024-03-08T23:14:12.462862000Z"
           }, {
             "pKey" : "258953718288",
             "name" : "FGWORKPLACE4",
@@ -3308,7 +3328,8 @@ Content-Length: 53724
             "parentName" : "FGSHIPPING2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
+            "groupStateOut" : "AVAILABLE",
+            "createDt" : "2024-03-08T23:14:12.462862000Z"
           }, {
             "pKey" : "687300567810",
             "name" : "FGWORKPLACE7",
@@ -3316,7 +3337,8 @@ Content-Length: 53724
             "parentName" : "FGSHIPPING2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
+            "groupStateOut" : "AVAILABLE",
+            "createDt" : "2024-03-08T23:14:12.462862000Z"
           }, {
             "pKey" : "909419439040",
             "name" : "FGWORKPLACE6",
@@ -3324,7 +3346,8 @@ Content-Length: 53724
             "parentName" : "FGSHIPPING2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
+            "groupStateOut" : "AVAILABLE",
+            "createDt" : "2024-03-08T23:14:12.462862000Z"
           }, {
             "pKey" : "224868263942",
             "name" : "FGWORKPLACE9",
@@ -3332,7 +3355,8 @@ Content-Length: 53724
             "parentName" : "FGSHIPPING2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
+            "groupStateOut" : "AVAILABLE",
+            "createDt" : "2024-03-08T23:14:12.462862000Z"
           }, {
             "pKey" : "860334844801",
             "name" : "FGWORKPLACE8",
@@ -3340,9 +3364,12 @@ Content-Length: 53724
             "parentName" : "FGSHIPPING2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          } ]
-        } ]
+            "groupStateOut" : "AVAILABLE",
+            "createDt" : "2024-03-08T23:14:12.462862000Z"
+          } ],
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
+        } ],
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "212290962584",
         "name" : "FGSTOCK",
@@ -3366,7 +3393,8 @@ Content-Length: 53724
             "parentName" : "FGAISLE2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
+            "groupStateOut" : "AVAILABLE",
+            "createDt" : "2024-03-08T23:14:12.462862000Z"
           }, {
             "pKey" : "209483120518",
             "name" : "FGAISLE2RIGHT",
@@ -3374,7 +3402,8 @@ Content-Length: 53724
             "parentName" : "FGAISLE2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
+            "groupStateOut" : "AVAILABLE",
+            "createDt" : "2024-03-08T23:14:12.462862000Z"
           }, {
             "pKey" : "730288310794",
             "name" : "FGAISLE2LIFT",
@@ -3382,8 +3411,10 @@ Content-Length: 53724
             "parentName" : "FGAISLE2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          } ]
+            "groupStateOut" : "AVAILABLE",
+            "createDt" : "2024-03-08T23:14:12.462862000Z"
+          } ],
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
         }, {
           "pKey" : "53242834266",
           "name" : "FGAISLE1",
@@ -3399,7 +3430,8 @@ Content-Length: 53724
             "parentName" : "FGAISLE1",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
+            "groupStateOut" : "AVAILABLE",
+            "createDt" : "2024-03-08T23:14:12.462862000Z"
           }, {
             "pKey" : "108758840458",
             "name" : "FGAISLE1RIGHT",
@@ -3407,7 +3439,8 @@ Content-Length: 53724
             "parentName" : "FGAISLE1",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
+            "groupStateOut" : "AVAILABLE",
+            "createDt" : "2024-03-08T23:14:12.462862000Z"
           }, {
             "pKey" : "154549927614",
             "name" : "FGAISLE1LEFT",
@@ -3415,9 +3448,12 @@ Content-Length: 53724
             "parentName" : "FGAISLE1",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
-            "groupStateOut" : "AVAILABLE"
-          } ]
-        } ]
+            "groupStateOut" : "AVAILABLE",
+            "createDt" : "2024-03-08T23:14:12.462862000Z"
+          } ],
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
+        } ],
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "811754978035",
         "name" : "FGCONV",
@@ -3425,9 +3461,12 @@ Content-Length: 53724
         "parentName" : "FGAUTOMATIC",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      } ]
-    } ]
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
+      } ],
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
+    } ],
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "166982377557",
     "name" : "IPOINT",
@@ -3443,7 +3482,8 @@ Content-Length: 53724
       "parentName" : "IPOINT",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "782120388022",
       "name" : "IPOINT1",
@@ -3451,8 +3491,10 @@ Content-Length: 53724
       "parentName" : "IPOINT",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
+    } ],
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "878177817968",
     "name" : "PALLET_AREA",
@@ -3484,7 +3526,8 @@ Content-Length: 53724
           "parentName" : "PAISLE2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
         }, {
           "pKey" : "48562833846",
           "name" : "PAISLE2LEFT",
@@ -3492,7 +3535,8 @@ Content-Length: 53724
           "parentName" : "PAISLE2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
         }, {
           "pKey" : "673781181265",
           "name" : "PAISLE2RIGHT",
@@ -3500,8 +3544,10 @@ Content-Length: 53724
           "parentName" : "PAISLE2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        } ]
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
+        } ],
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "500576747031",
         "name" : "PAISLE1",
@@ -3517,7 +3563,8 @@ Content-Length: 53724
           "parentName" : "PAISLE1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
         }, {
           "pKey" : "443011357014",
           "name" : "PAISLE1LEFT",
@@ -3525,7 +3572,8 @@ Content-Length: 53724
           "parentName" : "PAISLE1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
         }, {
           "pKey" : "483875811636",
           "name" : "PAISLE1LIFT",
@@ -3533,9 +3581,12 @@ Content-Length: 53724
           "parentName" : "PAISLE1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        } ]
-      } ]
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
+        } ],
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
+      } ],
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "306784420810",
       "name" : "PPICKING",
@@ -3543,9 +3594,12 @@ Content-Length: 53724
       "parentName" : "PALLET_AREA",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
-  } ]
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
+    } ],
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
+  } ],
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -3565,7 +3619,8 @@ Content-Length: 53724
     "parentName" : "Flatgood_AREA",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "281343921750",
     "name" : "FGCANBAN",
@@ -3573,7 +3628,8 @@ Content-Length: 53724
     "parentName" : "Flatgood_AREA",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "709819670512",
     "name" : "FGAUTOMATIC",
@@ -3589,7 +3645,8 @@ Content-Length: 53724
       "parentName" : "FGAUTOMATIC",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "585607846471",
       "name" : "FGSHIPPING",
@@ -3613,7 +3670,8 @@ Content-Length: 53724
           "parentName" : "FGSHIPPING1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
         }, {
           "pKey" : "346661868774",
           "name" : "FGWORKPLACE3",
@@ -3621,7 +3679,8 @@ Content-Length: 53724
           "parentName" : "FGSHIPPING1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
         }, {
           "pKey" : "925145263549",
           "name" : "FGWORKPLACE2",
@@ -3629,8 +3688,10 @@ Content-Length: 53724
           "parentName" : "FGSHIPPING1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        } ]
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
+        } ],
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "753422186594",
         "name" : "FGSHIPPING2",
@@ -3646,7 +3707,8 @@ Content-Length: 53724
           "parentName" : "FGSHIPPING2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
         }, {
           "pKey" : "258953718288",
           "name" : "FGWORKPLACE4",
@@ -3654,7 +3716,8 @@ Content-Length: 53724
           "parentName" : "FGSHIPPING2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
         }, {
           "pKey" : "687300567810",
           "name" : "FGWORKPLACE7",
@@ -3662,7 +3725,8 @@ Content-Length: 53724
           "parentName" : "FGSHIPPING2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
         }, {
           "pKey" : "909419439040",
           "name" : "FGWORKPLACE6",
@@ -3670,7 +3734,8 @@ Content-Length: 53724
           "parentName" : "FGSHIPPING2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
         }, {
           "pKey" : "224868263942",
           "name" : "FGWORKPLACE9",
@@ -3678,7 +3743,8 @@ Content-Length: 53724
           "parentName" : "FGSHIPPING2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
         }, {
           "pKey" : "860334844801",
           "name" : "FGWORKPLACE8",
@@ -3686,9 +3752,12 @@ Content-Length: 53724
           "parentName" : "FGSHIPPING2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        } ]
-      } ]
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
+        } ],
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
+      } ],
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "212290962584",
       "name" : "FGSTOCK",
@@ -3712,7 +3781,8 @@ Content-Length: 53724
           "parentName" : "FGAISLE2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
         }, {
           "pKey" : "209483120518",
           "name" : "FGAISLE2RIGHT",
@@ -3720,7 +3790,8 @@ Content-Length: 53724
           "parentName" : "FGAISLE2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
         }, {
           "pKey" : "730288310794",
           "name" : "FGAISLE2LIFT",
@@ -3728,8 +3799,10 @@ Content-Length: 53724
           "parentName" : "FGAISLE2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        } ]
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
+        } ],
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "53242834266",
         "name" : "FGAISLE1",
@@ -3745,7 +3818,8 @@ Content-Length: 53724
           "parentName" : "FGAISLE1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
         }, {
           "pKey" : "108758840458",
           "name" : "FGAISLE1RIGHT",
@@ -3753,7 +3827,8 @@ Content-Length: 53724
           "parentName" : "FGAISLE1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
         }, {
           "pKey" : "154549927614",
           "name" : "FGAISLE1LEFT",
@@ -3761,9 +3836,12 @@ Content-Length: 53724
           "parentName" : "FGAISLE1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
-          "groupStateOut" : "AVAILABLE"
-        } ]
-      } ]
+          "groupStateOut" : "AVAILABLE",
+          "createDt" : "2024-03-08T23:14:12.462862000Z"
+        } ],
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
+      } ],
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "811754978035",
       "name" : "FGCONV",
@@ -3771,9 +3849,12 @@ Content-Length: 53724
       "parentName" : "FGAUTOMATIC",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
-  } ]
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
+    } ],
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
+  } ],
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -3793,7 +3874,8 @@ Content-Length: 53724
     "parentName" : "FGAUTOMATIC",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "585607846471",
     "name" : "FGSHIPPING",
@@ -3817,7 +3899,8 @@ Content-Length: 53724
         "parentName" : "FGSHIPPING1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "346661868774",
         "name" : "FGWORKPLACE3",
@@ -3825,7 +3908,8 @@ Content-Length: 53724
         "parentName" : "FGSHIPPING1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "925145263549",
         "name" : "FGWORKPLACE2",
@@ -3833,8 +3917,10 @@ Content-Length: 53724
         "parentName" : "FGSHIPPING1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      } ]
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
+      } ],
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "753422186594",
       "name" : "FGSHIPPING2",
@@ -3850,7 +3936,8 @@ Content-Length: 53724
         "parentName" : "FGSHIPPING2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "258953718288",
         "name" : "FGWORKPLACE4",
@@ -3858,7 +3945,8 @@ Content-Length: 53724
         "parentName" : "FGSHIPPING2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "687300567810",
         "name" : "FGWORKPLACE7",
@@ -3866,7 +3954,8 @@ Content-Length: 53724
         "parentName" : "FGSHIPPING2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "909419439040",
         "name" : "FGWORKPLACE6",
@@ -3874,7 +3963,8 @@ Content-Length: 53724
         "parentName" : "FGSHIPPING2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "224868263942",
         "name" : "FGWORKPLACE9",
@@ -3882,7 +3972,8 @@ Content-Length: 53724
         "parentName" : "FGSHIPPING2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "860334844801",
         "name" : "FGWORKPLACE8",
@@ -3890,9 +3981,12 @@ Content-Length: 53724
         "parentName" : "FGSHIPPING2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      } ]
-    } ]
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
+      } ],
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
+    } ],
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "212290962584",
     "name" : "FGSTOCK",
@@ -3916,7 +4010,8 @@ Content-Length: 53724
         "parentName" : "FGAISLE2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "209483120518",
         "name" : "FGAISLE2RIGHT",
@@ -3924,7 +4019,8 @@ Content-Length: 53724
         "parentName" : "FGAISLE2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "730288310794",
         "name" : "FGAISLE2LIFT",
@@ -3932,8 +4028,10 @@ Content-Length: 53724
         "parentName" : "FGAISLE2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      } ]
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
+      } ],
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "53242834266",
       "name" : "FGAISLE1",
@@ -3949,7 +4047,8 @@ Content-Length: 53724
         "parentName" : "FGAISLE1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "108758840458",
         "name" : "FGAISLE1RIGHT",
@@ -3957,7 +4056,8 @@ Content-Length: 53724
         "parentName" : "FGAISLE1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "154549927614",
         "name" : "FGAISLE1LEFT",
@@ -3965,9 +4065,12 @@ Content-Length: 53724
         "parentName" : "FGAISLE1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      } ]
-    } ]
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
+      } ],
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
+    } ],
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "811754978035",
     "name" : "FGCONV",
@@ -3975,32 +4078,10 @@ Content-Length: 53724
     "parentName" : "FGAUTOMATIC",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   } ],
-  "pKey" : "400335177633",
-  "name" : "FGRECEIVING",
-  "accountId" : "D",
-  "parentName" : "FGAUTOMATIC",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
-  } ],
-  "pKey" : "811754978035",
-  "name" : "FGCONV",
-  "accountId" : "D",
-  "parentName" : "FGAUTOMATIC",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4028,7 +4109,8 @@ Content-Length: 53724
       "parentName" : "FGAISLE2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "209483120518",
       "name" : "FGAISLE2RIGHT",
@@ -4036,7 +4118,8 @@ Content-Length: 53724
       "parentName" : "FGAISLE2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "730288310794",
       "name" : "FGAISLE2LIFT",
@@ -4044,8 +4127,10 @@ Content-Length: 53724
       "parentName" : "FGAISLE2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
+    } ],
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "53242834266",
     "name" : "FGAISLE1",
@@ -4061,7 +4146,8 @@ Content-Length: 53724
       "parentName" : "FGAISLE1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "108758840458",
       "name" : "FGAISLE1RIGHT",
@@ -4069,7 +4155,8 @@ Content-Length: 53724
       "parentName" : "FGAISLE1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "154549927614",
       "name" : "FGAISLE1LEFT",
@@ -4077,9 +4164,12 @@ Content-Length: 53724
       "parentName" : "FGAISLE1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
-  } ]
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
+    } ],
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
+  } ],
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4099,7 +4189,8 @@ Content-Length: 53724
     "parentName" : "FGAISLE1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "108758840458",
     "name" : "FGAISLE1RIGHT",
@@ -4107,7 +4198,8 @@ Content-Length: 53724
     "parentName" : "FGAISLE1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "154549927614",
     "name" : "FGAISLE1LEFT",
@@ -4115,44 +4207,10 @@ Content-Length: 53724
     "parentName" : "FGAISLE1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   } ],
-  "pKey" : "688238147532",
-  "name" : "FGAISLE1LIFT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
-  } ],
-  "pKey" : "154549927614",
-  "name" : "FGAISLE1LEFT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
-  } ],
-  "pKey" : "108758840458",
-  "name" : "FGAISLE1RIGHT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4172,7 +4230,8 @@ Content-Length: 53724
     "parentName" : "FGAISLE2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "209483120518",
     "name" : "FGAISLE2RIGHT",
@@ -4180,7 +4239,8 @@ Content-Length: 53724
     "parentName" : "FGAISLE2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "730288310794",
     "name" : "FGAISLE2LIFT",
@@ -4188,44 +4248,10 @@ Content-Length: 53724
     "parentName" : "FGAISLE2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   } ],
-  "pKey" : "730288310794",
-  "name" : "FGAISLE2LIFT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
-  } ],
-  "pKey" : "379640903941",
-  "name" : "FGAISLE2LEFT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
-  } ],
-  "pKey" : "209483120518",
-  "name" : "FGAISLE2RIGHT",
-  "accountId" : "D",
-  "parentName" : "FGAISLE2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4253,7 +4279,8 @@ Content-Length: 53724
       "parentName" : "FGSHIPPING1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "346661868774",
       "name" : "FGWORKPLACE3",
@@ -4261,7 +4288,8 @@ Content-Length: 53724
       "parentName" : "FGSHIPPING1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "925145263549",
       "name" : "FGWORKPLACE2",
@@ -4269,8 +4297,10 @@ Content-Length: 53724
       "parentName" : "FGSHIPPING1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
+    } ],
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "753422186594",
     "name" : "FGSHIPPING2",
@@ -4286,7 +4316,8 @@ Content-Length: 53724
       "parentName" : "FGSHIPPING2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "258953718288",
       "name" : "FGWORKPLACE4",
@@ -4294,7 +4325,8 @@ Content-Length: 53724
       "parentName" : "FGSHIPPING2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "687300567810",
       "name" : "FGWORKPLACE7",
@@ -4302,7 +4334,8 @@ Content-Length: 53724
       "parentName" : "FGSHIPPING2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "909419439040",
       "name" : "FGWORKPLACE6",
@@ -4310,7 +4343,8 @@ Content-Length: 53724
       "parentName" : "FGSHIPPING2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "224868263942",
       "name" : "FGWORKPLACE9",
@@ -4318,7 +4352,8 @@ Content-Length: 53724
       "parentName" : "FGSHIPPING2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "860334844801",
       "name" : "FGWORKPLACE8",
@@ -4326,9 +4361,12 @@ Content-Length: 53724
       "parentName" : "FGSHIPPING2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
-  } ]
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
+    } ],
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
+  } ],
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4348,7 +4386,8 @@ Content-Length: 53724
     "parentName" : "FGSHIPPING1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "346661868774",
     "name" : "FGWORKPLACE3",
@@ -4356,7 +4395,8 @@ Content-Length: 53724
     "parentName" : "FGSHIPPING1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "925145263549",
     "name" : "FGWORKPLACE2",
@@ -4364,44 +4404,10 @@ Content-Length: 53724
     "parentName" : "FGSHIPPING1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   } ],
-  "pKey" : "18642707784",
-  "name" : "FGWORKPLACE1",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
-  } ],
-  "pKey" : "925145263549",
-  "name" : "FGWORKPLACE2",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
-  } ],
-  "pKey" : "346661868774",
-  "name" : "FGWORKPLACE3",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4421,7 +4427,8 @@ Content-Length: 53724
     "parentName" : "FGSHIPPING2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "258953718288",
     "name" : "FGWORKPLACE4",
@@ -4429,7 +4436,8 @@ Content-Length: 53724
     "parentName" : "FGSHIPPING2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "687300567810",
     "name" : "FGWORKPLACE7",
@@ -4437,7 +4445,8 @@ Content-Length: 53724
     "parentName" : "FGSHIPPING2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "909419439040",
     "name" : "FGWORKPLACE6",
@@ -4445,7 +4454,8 @@ Content-Length: 53724
     "parentName" : "FGSHIPPING2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "224868263942",
     "name" : "FGWORKPLACE9",
@@ -4453,7 +4463,8 @@ Content-Length: 53724
     "parentName" : "FGSHIPPING2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "860334844801",
     "name" : "FGWORKPLACE8",
@@ -4461,104 +4472,10 @@ Content-Length: 53724
     "parentName" : "FGSHIPPING2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   } ],
-  "pKey" : "258953718288",
-  "name" : "FGWORKPLACE4",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
-  } ],
-  "pKey" : "424924693864",
-  "name" : "FGWORKPLACE5",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
-  } ],
-  "pKey" : "909419439040",
-  "name" : "FGWORKPLACE6",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
-  } ],
-  "pKey" : "687300567810",
-  "name" : "FGWORKPLACE7",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
-  } ],
-  "pKey" : "860334844801",
-  "name" : "FGWORKPLACE8",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
-  } ],
-  "pKey" : "224868263942",
-  "name" : "FGWORKPLACE9",
-  "accountId" : "D",
-  "parentName" : "FGSHIPPING2",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=Flatgood_AREA"
-  } ],
-  "pKey" : "264924505336",
-  "name" : "FGMANUAL",
-  "accountId" : "D",
-  "parentName" : "Flatgood_AREA",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=Flatgood_AREA"
-  } ],
-  "pKey" : "281343921750",
-  "name" : "FGCANBAN",
-  "accountId" : "D",
-  "parentName" : "Flatgood_AREA",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4578,7 +4495,8 @@ Content-Length: 53724
     "parentName" : "IPOINT",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "782120388022",
     "name" : "IPOINT1",
@@ -4586,32 +4504,10 @@ Content-Length: 53724
     "parentName" : "IPOINT",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=IPOINT"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   } ],
-  "pKey" : "782120388022",
-  "name" : "IPOINT1",
-  "accountId" : "D",
-  "parentName" : "IPOINT",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=IPOINT"
-  } ],
-  "pKey" : "24417670340",
-  "name" : "IPOINT2",
-  "accountId" : "D",
-  "parentName" : "IPOINT",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4647,7 +4543,8 @@ Content-Length: 53724
         "parentName" : "PAISLE2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "48562833846",
         "name" : "PAISLE2LEFT",
@@ -4655,7 +4552,8 @@ Content-Length: 53724
         "parentName" : "PAISLE2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "673781181265",
         "name" : "PAISLE2RIGHT",
@@ -4663,8 +4561,10 @@ Content-Length: 53724
         "parentName" : "PAISLE2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      } ]
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
+      } ],
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "500576747031",
       "name" : "PAISLE1",
@@ -4680,7 +4580,8 @@ Content-Length: 53724
         "parentName" : "PAISLE1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "443011357014",
         "name" : "PAISLE1LEFT",
@@ -4688,7 +4589,8 @@ Content-Length: 53724
         "parentName" : "PAISLE1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
       }, {
         "pKey" : "483875811636",
         "name" : "PAISLE1LIFT",
@@ -4696,9 +4598,12 @@ Content-Length: 53724
         "parentName" : "PAISLE1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
-        "groupStateOut" : "AVAILABLE"
-      } ]
-    } ]
+        "groupStateOut" : "AVAILABLE",
+        "createDt" : "2024-03-08T23:14:12.462862000Z"
+      } ],
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
+    } ],
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "306784420810",
     "name" : "PPICKING",
@@ -4706,20 +4611,10 @@ Content-Length: 53724
     "parentName" : "PALLET_AREA",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=PALLET_AREA"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   } ],
-  "pKey" : "306784420810",
-  "name" : "PPICKING",
-  "accountId" : "D",
-  "parentName" : "PALLET_AREA",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4747,7 +4642,8 @@ Content-Length: 53724
       "parentName" : "PAISLE2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "48562833846",
       "name" : "PAISLE2LEFT",
@@ -4755,7 +4651,8 @@ Content-Length: 53724
       "parentName" : "PAISLE2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "673781181265",
       "name" : "PAISLE2RIGHT",
@@ -4763,8 +4660,10 @@ Content-Length: 53724
       "parentName" : "PAISLE2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
+    } ],
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "500576747031",
     "name" : "PAISLE1",
@@ -4780,7 +4679,8 @@ Content-Length: 53724
       "parentName" : "PAISLE1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "443011357014",
       "name" : "PAISLE1LEFT",
@@ -4788,7 +4688,8 @@ Content-Length: 53724
       "parentName" : "PAISLE1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
     }, {
       "pKey" : "483875811636",
       "name" : "PAISLE1LIFT",
@@ -4796,9 +4697,12 @@ Content-Length: 53724
       "parentName" : "PAISLE1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
-      "groupStateOut" : "AVAILABLE"
-    } ]
-  } ]
+      "groupStateOut" : "AVAILABLE",
+      "createDt" : "2024-03-08T23:14:12.462862000Z"
+    } ],
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
+  } ],
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4818,7 +4722,8 @@ Content-Length: 53724
     "parentName" : "PAISLE1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "443011357014",
     "name" : "PAISLE1LEFT",
@@ -4826,7 +4731,8 @@ Content-Length: 53724
     "parentName" : "PAISLE1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "483875811636",
     "name" : "PAISLE1LIFT",
@@ -4834,44 +4740,10 @@ Content-Length: 53724
     "parentName" : "PAISLE1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE1"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   } ],
-  "pKey" : "483875811636",
-  "name" : "PAISLE1LIFT",
-  "accountId" : "D",
-  "parentName" : "PAISLE1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE1"
-  } ],
-  "pKey" : "443011357014",
-  "name" : "PAISLE1LEFT",
-  "accountId" : "D",
-  "parentName" : "PAISLE1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
-}, {
-  "links" : [ {
-    "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE1"
-  } ],
-  "pKey" : "332530824417",
-  "name" : "PAISLE1RIGHT",
-  "accountId" : "D",
-  "parentName" : "PAISLE1",
-  "operationMode" : "INFEED_AND_OUTFEED",
-  "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4891,7 +4763,8 @@ Content-Length: 53724
     "parentName" : "PAISLE2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "48562833846",
     "name" : "PAISLE2LEFT",
@@ -4899,7 +4772,8 @@ Content-Length: 53724
     "parentName" : "PAISLE2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
   }, {
     "pKey" : "673781181265",
     "name" : "PAISLE2RIGHT",
@@ -4907,20 +4781,127 @@ Content-Length: 53724
     "parentName" : "PAISLE2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
-    "groupStateOut" : "AVAILABLE"
-  } ]
+    "groupStateOut" : "AVAILABLE",
+    "createDt" : "2024-03-08T23:14:12.462862000Z"
+  } ],
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
-    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE2"
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
   } ],
-  "pKey" : "995126472754",
-  "name" : "PAISLE2LIFT",
+  "pKey" : "860334844801",
+  "name" : "FGWORKPLACE8",
   "accountId" : "D",
-  "parentName" : "PAISLE2",
+  "parentName" : "FGSHIPPING2",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE1"
+  } ],
+  "pKey" : "483875811636",
+  "name" : "PAISLE1LIFT",
+  "accountId" : "D",
+  "parentName" : "PAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
+  } ],
+  "pKey" : "688238147532",
+  "name" : "FGAISLE1LIFT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+  } ],
+  "pKey" : "424924693864",
+  "name" : "FGWORKPLACE5",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=IPOINT"
+  } ],
+  "pKey" : "782120388022",
+  "name" : "IPOINT1",
+  "accountId" : "D",
+  "parentName" : "IPOINT",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+  } ],
+  "pKey" : "687300567810",
+  "name" : "FGWORKPLACE7",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
+  } ],
+  "pKey" : "108758840458",
+  "name" : "FGAISLE1RIGHT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ],
+  "pKey" : "400335177633",
+  "name" : "FGRECEIVING",
+  "accountId" : "D",
+  "parentName" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+  } ],
+  "pKey" : "224868263942",
+  "name" : "FGWORKPLACE9",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4932,7 +4913,203 @@ Content-Length: 53724
   "parentName" : "PAISLE2",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE1"
+  } ],
+  "pKey" : "154549927614",
+  "name" : "FGAISLE1LEFT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE1"
+  } ],
+  "pKey" : "443011357014",
+  "name" : "PAISLE1LEFT",
+  "accountId" : "D",
+  "parentName" : "PAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=Flatgood_AREA"
+  } ],
+  "pKey" : "281343921750",
+  "name" : "FGCANBAN",
+  "accountId" : "D",
+  "parentName" : "Flatgood_AREA",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=Flatgood_AREA"
+  } ],
+  "pKey" : "264924505336",
+  "name" : "FGMANUAL",
+  "accountId" : "D",
+  "parentName" : "Flatgood_AREA",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=IPOINT"
+  } ],
+  "pKey" : "24417670340",
+  "name" : "IPOINT2",
+  "accountId" : "D",
+  "parentName" : "IPOINT",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
+  } ],
+  "pKey" : "730288310794",
+  "name" : "FGAISLE2LIFT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+  } ],
+  "pKey" : "909419439040",
+  "name" : "FGWORKPLACE6",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING2"
+  } ],
+  "pKey" : "258953718288",
+  "name" : "FGWORKPLACE4",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE2"
+  } ],
+  "pKey" : "995126472754",
+  "name" : "PAISLE2LIFT",
+  "accountId" : "D",
+  "parentName" : "PAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PALLET_AREA"
+  } ],
+  "pKey" : "306784420810",
+  "name" : "PPICKING",
+  "accountId" : "D",
+  "parentName" : "PALLET_AREA",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
+  } ],
+  "pKey" : "209483120518",
+  "name" : "FGAISLE2RIGHT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAUTOMATIC"
+  } ],
+  "pKey" : "811754978035",
+  "name" : "FGCONV",
+  "accountId" : "D",
+  "parentName" : "FGAUTOMATIC",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=PAISLE1"
+  } ],
+  "pKey" : "332530824417",
+  "name" : "PAISLE1RIGHT",
+  "accountId" : "D",
+  "parentName" : "PAISLE1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
+  } ],
+  "pKey" : "925145263549",
+  "name" : "FGWORKPLACE2",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
+  } ],
+  "pKey" : "346661868774",
+  "name" : "FGWORKPLACE3",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4944,7 +5121,34 @@ Content-Length: 53724
   "parentName" : "PAISLE2",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
-  "groupStateOut" : "AVAILABLE"
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGSHIPPING1"
+  } ],
+  "pKey" : "18642707784",
+  "name" : "FGWORKPLACE1",
+  "accountId" : "D",
+  "parentName" : "FGSHIPPING1",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
+}, {
+  "links" : [ {
+    "rel" : "parent",
+    "href" : "http://localhost:8080/v1/location-groups?name=FGAISLE2"
+  } ],
+  "pKey" : "379640903941",
+  "name" : "FGAISLE2LEFT",
+  "accountId" : "D",
+  "parentName" : "FGAISLE2",
+  "operationMode" : "INFEED_AND_OUTFEED",
+  "groupStateIn" : "AVAILABLE",
+  "groupStateOut" : "AVAILABLE",
+  "createDt" : "2024-03-08T23:14:12.462862000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -5550,14 +5754,14 @@ newly created resource as HTTP <code>Location</code> header attribute</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/abfa0465-c02f-4213-a4e7-28a841281ef7/
+Location: http://localhost:8080/v1/transport-units/a465b1bf-8448-4ae7-94f7-f6a7add7f6c3/
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1368
+Content-Length: 1435
 
 {
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/v1/transport-units/abfa0465-c02f-4213-a4e7-28a841281ef7"
+    "href" : "http://localhost:8080/v1/transport-units/a465b1bf-8448-4ae7-94f7-f6a7add7f6c3"
   }, {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -5566,7 +5770,7 @@ Content-Length: 1368
     "href" : "http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"
   } ],
   "ol" : 0,
-  "pKey" : "abfa0465-c02f-4213-a4e7-28a841281ef7",
+  "pKey" : "a465b1bf-8448-4ae7-94f7-f6a7add7f6c3",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "links" : [ ],
@@ -5582,7 +5786,7 @@ Content-Length: 1368
     "plcState" : 0,
     "type" : "FG",
     "locationGroupName" : "ZILE",
-    "createDt" : [ 2024, 2, 26, 14, 26, 58, 8395000 ]
+    "createDt" : "2024-03-08T23:14:24.341304000Z"
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -5592,15 +5796,16 @@ Content-Length: 1368
     "description" : "Euro pallet",
     "height" : "102",
     "width" : "80",
-    "length" : "120"
+    "length" : "120",
+    "createDt" : "2024-03-08T23:14:24.341304000Z"
   },
   "weight" : {
     "@class" : "org.openwms.core.units.api.Weight",
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2024-02-26 14:26:58",
-  "createDate" : "2024-02-26 14:26:58"
+  "actualLocationDate" : "2024-03-08T23:14:24.399000000Z",
+  "createDt" : "2024-03-08T23:14:24.399000000Z"
 }</code></pre>
 </div>
 </div>
@@ -5654,7 +5859,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/b1bbf470-c06f-4594-a9ea-eeb666d6856c/</code></pre>
+Location: http://localhost:8080/v1/transport-units/9e8f5a0c-1b99-4ba9-9405-35ba48de7d97/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -5728,7 +5933,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1149
+Content-Length: 1214
 
 {
   "links" : [ {
@@ -5758,7 +5963,7 @@ Content-Length: 1149
     "plcState" : 0,
     "type" : "FG",
     "locationGroupName" : "FGAISLE1LEFT",
-    "createDt" : [ 2024, 2, 26, 14, 26, 58, 933104000 ]
+    "createDt" : "2024-03-08T23:14:25.105846000Z"
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -5768,10 +5973,11 @@ Content-Length: 1149
     "description" : "Euro pallet",
     "height" : "102",
     "width" : "80",
-    "length" : "120"
+    "length" : "120",
+    "createDt" : "2024-03-08T23:14:25.105846000Z"
   },
-  "actualLocationDate" : "2024-02-26 14:26:58",
-  "createDate" : "2024-02-26 14:26:58"
+  "actualLocationDate" : "2024-03-08T23:14:25.158000000Z",
+  "createDt" : "2024-03-08T23:14:25.105846000Z"
 }</code></pre>
 </div>
 </div>
@@ -5832,7 +6038,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1149
+Content-Length: 1214
 
 {
   "links" : [ {
@@ -5862,7 +6068,7 @@ Content-Length: 1149
     "plcState" : 0,
     "type" : "FG",
     "locationGroupName" : "FGAISLE1LEFT",
-    "createDt" : [ 2024, 2, 26, 14, 26, 58, 288513000 ]
+    "createDt" : "2024-03-08T23:14:24.612393000Z"
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -5872,10 +6078,11 @@ Content-Length: 1149
     "description" : "Euro pallet",
     "height" : "102",
     "width" : "80",
-    "length" : "120"
+    "length" : "120",
+    "createDt" : "2024-03-08T23:14:24.612393000Z"
   },
-  "actualLocationDate" : "2024-02-26 14:26:58",
-  "createDate" : "2024-02-26 14:26:58"
+  "actualLocationDate" : "2024-03-08T23:14:24.684000000Z",
+  "createDt" : "2024-03-08T23:14:24.612393000Z"
 }</code></pre>
 </div>
 </div>
@@ -5936,7 +6143,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1141
+Content-Length: 1206
 
 {
   "links" : [ {
@@ -5966,7 +6173,7 @@ Content-Length: 1141
     "plcState" : 0,
     "type" : "FG",
     "locationGroupName" : "ZILE",
-    "createDt" : [ 2024, 2, 26, 14, 26, 58, 748404000 ]
+    "createDt" : "2024-03-08T23:14:24.941824000Z"
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -5976,10 +6183,11 @@ Content-Length: 1141
     "description" : "Euro pallet",
     "height" : "102",
     "width" : "80",
-    "length" : "120"
+    "length" : "120",
+    "createDt" : "2024-03-08T23:14:24.941824000Z"
   },
-  "actualLocationDate" : "2024-02-26 14:26:58",
-  "createDate" : "2024-02-26 14:26:58"
+  "actualLocationDate" : "2024-03-08T23:14:24.941000000Z",
+  "createDt" : "2024-03-08T23:14:24.941824000Z"
 }</code></pre>
 </div>
 </div>
@@ -6045,7 +6253,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 2265
+Content-Length: 2421
 
 [ {
   "links" : [ {
@@ -6075,7 +6283,7 @@ Content-Length: 2265
     "plcState" : 0,
     "type" : "FG",
     "locationGroupName" : "ZILE",
-    "createDt" : "2024-02-26 14:26:57.846"
+    "createDt" : "2024-03-08T23:14:24.165065000Z"
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -6085,10 +6293,11 @@ Content-Length: 2265
     "description" : "Euro pallet",
     "height" : "102",
     "width" : "80",
-    "length" : "120"
+    "length" : "120",
+    "createDt" : "2024-03-08T23:14:24.165065000Z"
   },
-  "actualLocationDate" : "2024-02-26 14:26:57",
-  "createDate" : "2024-02-26 14:26:57"
+  "actualLocationDate" : "2024-03-08T23:14:24.165000000Z",
+  "createDt" : "2024-03-08T23:14:24.165065000Z"
 }, {
   "links" : [ {
     "rel" : "self",
@@ -6117,7 +6326,7 @@ Content-Length: 2265
     "plcState" : 0,
     "type" : "FG",
     "locationGroupName" : "IPOINT1",
-    "createDt" : "2024-02-26 14:26:57.846"
+    "createDt" : "2024-03-08T23:14:24.165065000Z"
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -6127,10 +6336,11 @@ Content-Length: 2265
     "description" : "Euro pallet",
     "height" : "102",
     "width" : "80",
-    "length" : "120"
+    "length" : "120",
+    "createDt" : "2024-03-08T23:14:24.165065000Z"
   },
-  "actualLocationDate" : "2024-02-26 14:26:57",
-  "createDate" : "2024-02-26 14:26:57"
+  "actualLocationDate" : "2024-03-08T23:14:24.165000000Z",
+  "createDt" : "2024-03-08T23:14:24.165065000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -6171,7 +6381,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1135
+Content-Length: 1213
 
 [ {
   "links" : [ {
@@ -6201,7 +6411,7 @@ Content-Length: 1135
     "plcState" : 0,
     "type" : "FG",
     "locationGroupName" : "IPOINT1",
-    "createDt" : "2024-02-26 14:26:59.081"
+    "createDt" : "2024-03-08T23:14:25.247243000Z"
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -6211,10 +6421,11 @@ Content-Length: 1135
     "description" : "Euro pallet",
     "height" : "102",
     "width" : "80",
-    "length" : "120"
+    "length" : "120",
+    "createDt" : "2024-03-08T23:14:25.247243000Z"
   },
-  "actualLocationDate" : "2024-02-26 14:26:59",
-  "createDate" : "2024-02-26 14:26:59"
+  "actualLocationDate" : "2024-03-08T23:14:25.247000000Z",
+  "createDt" : "2024-03-08T23:14:25.247243000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -6326,9 +6537,9 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-type-v1+json
-Content-Length: 194
+Content-Length: 238
 
-{"links":[{"rel":"self","href":"http://localhost:8080/v1/transport-unit-types/1000"}],"ol":0,"pKey":"1000","type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"}</code></pre>
+{"links":[{"rel":"self","href":"http://localhost:8080/v1/transport-unit-types/1000"}],"ol":0,"pKey":"1000","type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120","createDt":"2024-03-08T23:14:17.045773000Z"}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -6368,9 +6579,9 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-type-v1+json
-Content-Length: 194
+Content-Length: 238
 
-{"links":[{"rel":"self","href":"http://localhost:8080/v1/transport-unit-types/1000"}],"ol":0,"pKey":"1000","type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120"}</code></pre>
+{"links":[{"rel":"self","href":"http://localhost:8080/v1/transport-unit-types/1000"}],"ol":0,"pKey":"1000","type":"PALLET","description":"Euro pallet","height":"102","width":"80","length":"120","createDt":"2024-03-08T23:14:16.767900000Z"}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -6408,7 +6619,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-type-v1+json
-Content-Length: 512
+Content-Length: 610
 
 [ {
   "links" : [ {
@@ -6421,7 +6632,8 @@ Content-Length: 512
   "description" : "Euro pallet",
   "height" : "102",
   "width" : "80",
-  "length" : "120"
+  "length" : "120",
+  "createDt" : "2024-03-08T23:14:16.951264000Z"
 }, {
   "links" : [ {
     "rel" : "self",
@@ -6433,7 +6645,8 @@ Content-Length: 512
   "description" : "Plastic bins",
   "height" : "102",
   "width" : "80",
-  "length" : "120"
+  "length" : "120",
+  "createDt" : "2024-03-08T23:14:16.951264000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -6443,7 +6656,7 @@ Content-Length: 512
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-02-26 14:24:02 UTC
+Last updated 2024-03-08 23:06:20 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

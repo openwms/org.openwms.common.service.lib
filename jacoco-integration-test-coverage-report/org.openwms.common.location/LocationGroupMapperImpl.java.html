@@ -36,7 +36,7 @@ import org.springframework.stereotype.Component;
 <span class="fc" id="L36">        locationGroupVO.setGroupStateIn( eo.getGroupStateIn() );</span>
 <span class="fc" id="L37">        locationGroupVO.setGroupStateOut( eo.getGroupStateOut() );</span>
 <span class="fc" id="L38">        locationGroupVO.setChildren( locationGroupSetToLocationGroupVOList( eo.getLocationGroups() ) );</span>
-<span class="fc bfc" id="L39" title="All 2 branches covered.">        if ( eo.getCreateDt() != null ) {</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">        if ( eo.getCreateDt() != null ) {</span>
 <span class="fc" id="L40">            locationGroupVO.setCreateDt( LocalDateTime.ofInstant( eo.getCreateDt().toInstant(), ZoneId.of( &quot;UTC&quot; ) ) );</span>
         }
 <span class="fc" id="L42">        locationGroupVO.setOperationMode( eo.getOperationMode() );</span>

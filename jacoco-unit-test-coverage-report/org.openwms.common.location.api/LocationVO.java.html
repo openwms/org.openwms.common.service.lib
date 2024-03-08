@@ -15,6 +15,7 @@
  */
 package org.openwms.common.location.api;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,6 +25,8 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+
+import static org.openwms.common.location.api.LocationApiConstants.DATETIME_FORMAT_ZULU;
 
 /**
  * A LocationVO represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a conveyor
@@ -88,24 +91,25 @@ public class LocationVO extends AbstractBase&lt;LocationVO&gt; implements Target
     @JsonProperty(&quot;type&quot;)
     private String type;
 
-    /** The {@code LocationGroup} the {@code Location} belongs to. */
+    /** The name of {@code LocationGroup} the {@code Location} belongs to. */
     @NotBlank(groups = ValidationGroups.Create.class)
     @JsonProperty(&quot;locationGroupName&quot;)
     private String locationGroupName;
 
     /** Timestamp when the {@code Location} has been created. */
     @JsonProperty(&quot;createDt&quot;)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATETIME_FORMAT_ZULU) // required
     private LocalDateTime createDt;
 
     /*~-------------------- constructors --------------------*/
     protected LocationVO() {
-<span class="nc" id="L102">        super();</span>
-<span class="nc" id="L103">    }</span>
+<span class="nc" id="L106">        super();</span>
+<span class="nc" id="L107">    }</span>
 
     public LocationVO(String locationId) {
-<span class="nc" id="L106">        super();</span>
-<span class="nc" id="L107">        this.locationId = locationId;</span>
-<span class="nc" id="L108">    }</span>
+<span class="nc" id="L110">        super();</span>
+<span class="nc" id="L111">        this.locationId = locationId;</span>
+<span class="nc" id="L112">    }</span>
 
     /*~-------------------- methods --------------------*/
     /**
@@ -115,7 +119,7 @@ public class LocationVO extends AbstractBase&lt;LocationVO&gt; implements Target
      */
     @JsonIgnore
     public boolean isInfeedBlocked() {
-<span class="nc bnc" id="L118" title="All 2 branches missed.">        return !incomingActive;</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        return !incomingActive;</span>
     }
 
     /**
@@ -125,113 +129,113 @@ public class LocationVO extends AbstractBase&lt;LocationVO&gt; implements Target
      */
     @JsonIgnore
     public boolean isOutfeedBlocked() {
-<span class="nc bnc" id="L128" title="All 2 branches missed.">        return !outgoingActive;</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        return !outgoingActive;</span>
     }
 
     /*~-------------------- accessors --------------------*/
     public String getAccountId() {
-<span class="nc" id="L133">        return accountId;</span>
+<span class="nc" id="L137">        return accountId;</span>
     }
 
     public void setAccountId(String accountId) {
-<span class="nc" id="L137">        this.accountId = accountId;</span>
-<span class="nc" id="L138">    }</span>
+<span class="nc" id="L141">        this.accountId = accountId;</span>
+<span class="nc" id="L142">    }</span>
 
     public String getLocationGroupName() {
-<span class="nc" id="L141">        return locationGroupName;</span>
+<span class="nc" id="L145">        return locationGroupName;</span>
     }
 
     public void setLocationGroupName(String locationGroupName) {
-<span class="nc" id="L145">        this.locationGroupName = locationGroupName;</span>
-<span class="nc" id="L146">    }</span>
+<span class="nc" id="L149">        this.locationGroupName = locationGroupName;</span>
+<span class="nc" id="L150">    }</span>
 
     public String getpKey() {
-<span class="nc" id="L149">        return pKey;</span>
+<span class="nc" id="L153">        return pKey;</span>
     }
 
     public void setpKey(String pKey) {
-<span class="nc" id="L153">        this.pKey = pKey;</span>
-<span class="nc" id="L154">    }</span>
+<span class="nc" id="L157">        this.pKey = pKey;</span>
+<span class="nc" id="L158">    }</span>
 
     public String getLocationId() {
-<span class="nc" id="L157">        return locationId;</span>
+<span class="nc" id="L161">        return locationId;</span>
     }
 
     public void setLocationId(String locationId) {
-<span class="nc" id="L161">        this.locationId = locationId;</span>
-<span class="nc" id="L162">    }</span>
+<span class="nc" id="L165">        this.locationId = locationId;</span>
+<span class="nc" id="L166">    }</span>
 
     public String getType() {
-<span class="nc" id="L165">        return type;</span>
+<span class="nc" id="L169">        return type;</span>
     }
 
     public void setType(String type) {
-<span class="nc" id="L169">        this.type = type;</span>
-<span class="nc" id="L170">    }</span>
+<span class="nc" id="L173">        this.type = type;</span>
+<span class="nc" id="L174">    }</span>
 
     public String getErpCode() {
-<span class="nc" id="L173">        return erpCode;</span>
+<span class="nc" id="L177">        return erpCode;</span>
     }
 
     public void setErpCode(String erpCode) {
-<span class="nc" id="L177">        this.erpCode = erpCode;</span>
-<span class="nc" id="L178">    }</span>
+<span class="nc" id="L181">        this.erpCode = erpCode;</span>
+<span class="nc" id="L182">    }</span>
 
     public String getPlcCode() {
-<span class="nc" id="L181">        return plcCode;</span>
+<span class="nc" id="L185">        return plcCode;</span>
     }
 
     public void setPlcCode(String plcCode) {
-<span class="nc" id="L185">        this.plcCode = plcCode;</span>
-<span class="nc" id="L186">    }</span>
+<span class="nc" id="L189">        this.plcCode = plcCode;</span>
+<span class="nc" id="L190">    }</span>
 
     public Integer getSortOrder() {
-<span class="nc" id="L189">        return sortOrder;</span>
+<span class="nc" id="L193">        return sortOrder;</span>
     }
 
     public void setSortOrder(Integer sortOrder) {
-<span class="nc" id="L193">        this.sortOrder = sortOrder;</span>
-<span class="nc" id="L194">    }</span>
+<span class="nc" id="L197">        this.sortOrder = sortOrder;</span>
+<span class="nc" id="L198">    }</span>
 
     public Boolean getIncomingActive() {
-<span class="nc" id="L197">        return incomingActive;</span>
+<span class="nc" id="L201">        return incomingActive;</span>
     }
 
     public void setIncomingActive(Boolean incomingActive) {
-<span class="nc" id="L201">        this.incomingActive = incomingActive;</span>
-<span class="nc" id="L202">    }</span>
+<span class="nc" id="L205">        this.incomingActive = incomingActive;</span>
+<span class="nc" id="L206">    }</span>
 
     public Boolean getOutgoingActive() {
-<span class="nc" id="L205">        return outgoingActive;</span>
+<span class="nc" id="L209">        return outgoingActive;</span>
     }
 
     public void setOutgoingActive(Boolean outgoingActive) {
-<span class="nc" id="L209">        this.outgoingActive = outgoingActive;</span>
-<span class="nc" id="L210">    }</span>
+<span class="nc" id="L213">        this.outgoingActive = outgoingActive;</span>
+<span class="nc" id="L214">    }</span>
 
     public Integer getPlcState() {
-<span class="nc" id="L213">        return plcState;</span>
+<span class="nc" id="L217">        return plcState;</span>
     }
 
     public void setPlcState(Integer plcState) {
-<span class="nc" id="L217">        this.plcState = plcState;</span>
-<span class="nc" id="L218">    }</span>
+<span class="nc" id="L221">        this.plcState = plcState;</span>
+<span class="nc" id="L222">    }</span>
 
     public String getStockZone() {
-<span class="nc" id="L221">        return stockZone;</span>
+<span class="nc" id="L225">        return stockZone;</span>
     }
 
     public void setStockZone(String stockZone) {
-<span class="nc" id="L225">        this.stockZone = stockZone;</span>
-<span class="nc" id="L226">    }</span>
+<span class="nc" id="L229">        this.stockZone = stockZone;</span>
+<span class="nc" id="L230">    }</span>
 
     public LocalDateTime getCreateDt() {
-<span class="nc" id="L229">        return createDt;</span>
+<span class="nc" id="L233">        return createDt;</span>
     }
 
     public void setCreateDt(LocalDateTime createDt) {
-<span class="nc" id="L233">        this.createDt = createDt;</span>
-<span class="nc" id="L234">    }</span>
+<span class="nc" id="L237">        this.createDt = createDt;</span>
+<span class="nc" id="L238">    }</span>
 
     /*~-------------------- overrides --------------------*/
     /**
@@ -239,7 +243,7 @@ public class LocationVO extends AbstractBase&lt;LocationVO&gt; implements Target
      */
     @Override
     public String asString() {
-<span class="nc" id="L242">        return locationId;</span>
+<span class="nc" id="L246">        return locationId;</span>
     }
 
     /**
@@ -249,7 +253,7 @@ public class LocationVO extends AbstractBase&lt;LocationVO&gt; implements Target
      */
     @Override
     public String toString() {
-<span class="nc" id="L252">        return locationId;</span>
+<span class="nc" id="L256">        return locationId;</span>
     }
 
     /**
@@ -259,21 +263,21 @@ public class LocationVO extends AbstractBase&lt;LocationVO&gt; implements Target
      */
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L262" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L263" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc bnc" id="L264" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
-<span class="nc" id="L265">        LocationVO that = (LocationVO) o;</span>
-<span class="nc bnc" id="L266" title="All 2 branches missed.">        return Objects.equals(pKey, that.pKey) &amp;&amp;</span>
-<span class="nc bnc" id="L267" title="All 2 branches missed.">                Objects.equals(locationId, that.locationId) &amp;&amp;</span>
-<span class="nc bnc" id="L268" title="All 2 branches missed.">                Objects.equals(accountId, that.accountId) &amp;&amp;</span>
-<span class="nc bnc" id="L269" title="All 2 branches missed.">                Objects.equals(locationGroupName, that.locationGroupName) &amp;&amp;</span>
-<span class="nc bnc" id="L270" title="All 2 branches missed.">                Objects.equals(erpCode, that.erpCode) &amp;&amp;</span>
-<span class="nc bnc" id="L271" title="All 2 branches missed.">                Objects.equals(plcCode, that.plcCode) &amp;&amp;</span>
-<span class="nc bnc" id="L272" title="All 2 branches missed.">                Objects.equals(incomingActive, that.incomingActive) &amp;&amp;</span>
-<span class="nc bnc" id="L273" title="All 2 branches missed.">                Objects.equals(outgoingActive, that.outgoingActive) &amp;&amp;</span>
-<span class="nc bnc" id="L274" title="All 2 branches missed.">                Objects.equals(plcState, that.plcState) &amp;&amp;</span>
-<span class="nc bnc" id="L275" title="All 2 branches missed.">                Objects.equals(stockZone, that.stockZone)  &amp;&amp;</span>
-<span class="nc bnc" id="L276" title="All 2 branches missed.">                Objects.equals(createDt, that.createDt);</span>
+<span class="nc bnc" id="L266" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L267" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc bnc" id="L268" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
+<span class="nc" id="L269">        LocationVO that = (LocationVO) o;</span>
+<span class="nc bnc" id="L270" title="All 2 branches missed.">        return Objects.equals(pKey, that.pKey) &amp;&amp;</span>
+<span class="nc bnc" id="L271" title="All 2 branches missed.">                Objects.equals(locationId, that.locationId) &amp;&amp;</span>
+<span class="nc bnc" id="L272" title="All 2 branches missed.">                Objects.equals(accountId, that.accountId) &amp;&amp;</span>
+<span class="nc bnc" id="L273" title="All 2 branches missed.">                Objects.equals(locationGroupName, that.locationGroupName) &amp;&amp;</span>
+<span class="nc bnc" id="L274" title="All 2 branches missed.">                Objects.equals(erpCode, that.erpCode) &amp;&amp;</span>
+<span class="nc bnc" id="L275" title="All 2 branches missed.">                Objects.equals(plcCode, that.plcCode) &amp;&amp;</span>
+<span class="nc bnc" id="L276" title="All 2 branches missed.">                Objects.equals(incomingActive, that.incomingActive) &amp;&amp;</span>
+<span class="nc bnc" id="L277" title="All 2 branches missed.">                Objects.equals(outgoingActive, that.outgoingActive) &amp;&amp;</span>
+<span class="nc bnc" id="L278" title="All 2 branches missed.">                Objects.equals(plcState, that.plcState) &amp;&amp;</span>
+<span class="nc bnc" id="L279" title="All 2 branches missed.">                Objects.equals(stockZone, that.stockZone)  &amp;&amp;</span>
+<span class="nc bnc" id="L280" title="All 2 branches missed.">                Objects.equals(createDt, that.createDt);</span>
     }
 
     /**
@@ -283,7 +287,7 @@ public class LocationVO extends AbstractBase&lt;LocationVO&gt; implements Target
      */
     @Override
     public int hashCode() {
-<span class="nc" id="L286">        return Objects.hash(super.hashCode(), pKey, locationId, accountId, locationGroupName, erpCode, plcCode, incomingActive, outgoingActive, plcState, stockZone, createDt);</span>
+<span class="nc" id="L290">        return Objects.hash(super.hashCode(), pKey, locationId, accountId, locationGroupName, erpCode, plcCode, incomingActive, outgoingActive, plcState, stockZone, createDt);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

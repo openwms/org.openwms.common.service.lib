@@ -28,6 +28,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -63,7 +64,7 @@ public class LocationGroup extends Target implements Serializable {
     public static final int LENGTH_NAME = 255;
 
     /** The LocationGroup might be assigned to an {@link Account}. */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = &quot;C_ACCOUNT&quot;, referencedColumnName = &quot;C_IDENTIFIER&quot;, foreignKey = @ForeignKey(name = &quot;FK_LG_ACC&quot;))
     private Account account;
 
@@ -76,38 +77,38 @@ public class LocationGroup extends Target implements Serializable {
     private String groupType;
 
     /** Is the {@code LocationGroup} included in the calculation of {@code TransportUnit}s. */
-<span class="fc" id="L79">    @Column(name = &quot;C_GROUP_COUNTING_ACTIVE&quot;)</span>
+<span class="fc" id="L80">    @Column(name = &quot;C_GROUP_COUNTING_ACTIVE&quot;)</span>
     private boolean locationGroupCountingActive = true;
 
     /** The operation mode is controlled by the subsystem and defines the physical mode a {@code LocationGroup} is currently able to operate in. */
-<span class="fc" id="L83">    @Column(name = &quot;C_OP_MODE&quot;)</span>
+<span class="fc" id="L84">    @Column(name = &quot;C_OP_MODE&quot;)</span>
     @NotBlank
     private String operationMode = LocationGroupMode.INFEED_AND_OUTFEED;
 
     /** State of infeed, controlled by the subsystem only. */
-<span class="fc" id="L88">    @Column(name = &quot;C_GROUP_STATE_IN&quot;)</span>
+<span class="fc" id="L89">    @Column(name = &quot;C_GROUP_STATE_IN&quot;)</span>
     @Enumerated(EnumType.STRING)
     @NotNull
     private LocationGroupState groupStateIn = LocationGroupState.AVAILABLE;
 
     /** References the {@code LocationGroup} that locked this {@code LocationGroup} for infeed. */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = &quot;C_IN_LOCKER&quot;, foreignKey = @ForeignKey(name = &quot;FK_LG_LG_INLOCKER&quot;))
     private LocationGroup stateInLocker;
 
     /** State of outfeed. */
-<span class="fc" id="L99">    @Column(name = &quot;C_GROUP_STATE_OUT&quot;)</span>
+<span class="fc" id="L100">    @Column(name = &quot;C_GROUP_STATE_OUT&quot;)</span>
     @Enumerated(EnumType.STRING)
     @NotNull
     private LocationGroupState groupStateOut = LocationGroupState.AVAILABLE;
 
     /** References the {@code LocationGroup} that locked this {@code LocationGroup} for outfeed. */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = &quot;C_OUT_LOCKER&quot;, foreignKey = @ForeignKey(name = &quot;FK_LG_LG_OUTLOCKER&quot;))
     private LocationGroup stateOutLocker;
 
     /** Maximum fill level of the {@code LocationGroup}. */
-<span class="fc" id="L110">    @Column(name = &quot;C_MAX_FILL_LEVEL&quot;)</span>
+<span class="fc" id="L111">    @Column(name = &quot;C_MAX_FILL_LEVEL&quot;)</span>
     private float maxFillLevel = 0;
 
     /** The subsystem like a PLC, that manages this {@code LocationGroup}. */
@@ -116,31 +117,31 @@ public class LocationGroup extends Target implements Serializable {
 
     /* ------------------- collection mapping ------------------- */
     /** Parent {@code LocationGroup}. */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = &quot;C_PARENT&quot;, foreignKey = @ForeignKey(name = &quot;FK_LG_LG_PARENT&quot;))
     private LocationGroup parent;
 
     /** Child {@code LocationGroup}s. */
-<span class="fc" id="L124">    @OneToMany(mappedBy = &quot;parent&quot;, cascade = {CascadeType.ALL})</span>
+<span class="fc" id="L125">    @OneToMany(mappedBy = &quot;parent&quot;, cascade = {CascadeType.ALL})</span>
     private Set&lt;LocationGroup&gt; locationGroups = new HashSet&lt;&gt;();
 
     /** Child {@link Location}s. */
-<span class="fc" id="L128">    @OneToMany(mappedBy = &quot;locationGroup&quot;)</span>
+<span class="fc" id="L129">    @OneToMany(mappedBy = &quot;locationGroup&quot;)</span>
     private Set&lt;Location&gt; locations = new HashSet&lt;&gt;();
 
     /*~ ----------------------------- constructors ------------------- */
     /** Dear JPA... */
-<span class="fc" id="L133">    protected LocationGroup() { }</span>
+<span class="fc" id="L134">    protected LocationGroup() { }</span>
 
     /**
      * Create a new {@code LocationGroup} with a unique name.
      *
      * @param name The name of the {@code LocationGroup} must not be {@literal null}
      */
-<span class="fc" id="L140">    public LocationGroup(@NotBlank String name) {</span>
-<span class="fc" id="L141">        Assert.hasText(name, &quot;Creation of LocationGroup with name null&quot;);</span>
-<span class="fc" id="L142">        this.name = name;</span>
-<span class="fc" id="L143">    }</span>
+<span class="fc" id="L141">    public LocationGroup(@NotBlank String name) {</span>
+<span class="fc" id="L142">        Assert.hasText(name, &quot;Creation of LocationGroup with name null&quot;);</span>
+<span class="fc" id="L143">        this.name = name;</span>
+<span class="fc" id="L144">    }</span>
 
     /*~ ----------------------------- methods ------------------- */
 
@@ -150,7 +151,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return The name of the {@code LocationGroup}
      */
     public String getName() {
-<span class="fc" id="L153">        return name;</span>
+<span class="fc" id="L154">        return name;</span>
     }
 
     /**
@@ -159,7 +160,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return The {@link Account}
      */
     public Account getAccount() {
-<span class="nc" id="L162">        return account;</span>
+<span class="nc" id="L163">        return account;</span>
     }
 
     /**
@@ -168,8 +169,8 @@ public class LocationGroup extends Target implements Serializable {
      * @param account The {@link Account} to set for this {@code LocationGroup}
      */
     public void setAccount(Account account) {
-<span class="nc" id="L171">        this.account = account;</span>
-<span class="nc" id="L172">    }</span>
+<span class="nc" id="L172">        this.account = account;</span>
+<span class="nc" id="L173">    }</span>
 
     /**
      * Check whether infeed is allowed for the {@code LocationGroup}.
@@ -177,7 +178,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return {@literal true} if allowed, otherwise {@literal false}.
      */
     public boolean isInfeedAllowed() {
-<span class="pc bpc" id="L180" title="1 of 2 branches missed.">        return (getGroupStateIn() == LocationGroupState.AVAILABLE);</span>
+<span class="pc bpc" id="L181" title="1 of 2 branches missed.">        return (getGroupStateIn() == LocationGroupState.AVAILABLE);</span>
     }
 
     /**
@@ -186,7 +187,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return {@literal true} if blocked, otherwise {@literal false}.
      */
     public boolean isInfeedBlocked() {
-<span class="pc bpc" id="L189" title="1 of 2 branches missed.">        return !isInfeedAllowed();</span>
+<span class="pc bpc" id="L190" title="1 of 2 branches missed.">        return !isInfeedAllowed();</span>
     }
 
     /**
@@ -195,7 +196,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return {@literal true} if allowed, otherwise {@literal false}.
      */
     public boolean isOutfeedAllowed() {
-<span class="pc bpc" id="L198" title="1 of 2 branches missed.">        return (getGroupStateOut() == LocationGroupState.AVAILABLE);</span>
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">        return (getGroupStateOut() == LocationGroupState.AVAILABLE);</span>
     }
 
     /**
@@ -204,7 +205,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return {@literal true} if blocked, otherwise {@literal false}.
      */
     public boolean isOutfeedBlocked() {
-<span class="pc bpc" id="L207" title="1 of 2 branches missed.">        return !isOutfeedAllowed();</span>
+<span class="pc bpc" id="L208" title="1 of 2 branches missed.">        return !isOutfeedAllowed();</span>
     }
 
     /**
@@ -213,7 +214,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return The operational mode
      */
     public String getOperationMode() {
-<span class="fc" id="L216">        return operationMode;</span>
+<span class="fc" id="L217">        return operationMode;</span>
     }
 
     /**
@@ -223,9 +224,9 @@ public class LocationGroup extends Target implements Serializable {
      * @see LocationGroupMode
      */
     public void setOperationMode(@NotBlank String operationMode) {
-<span class="nc" id="L226">        this.operationMode = operationMode;</span>
-<span class="nc" id="L227">        this.locationGroups.forEach(lg -&gt; lg.setOperationMode(operationMode));</span>
-<span class="nc" id="L228">    }</span>
+<span class="nc" id="L227">        this.operationMode = operationMode;</span>
+<span class="nc" id="L228">        this.locationGroups.forEach(lg -&gt; lg.setOperationMode(operationMode));</span>
+<span class="nc" id="L229">    }</span>
 
     /**
      * Returns the infeed state of the {@code LocationGroup}.
@@ -233,7 +234,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return The state of infeed
      */
     public LocationGroupState getGroupStateIn() {
-<span class="fc" id="L236">        return this.groupStateIn;</span>
+<span class="fc" id="L237">        return this.groupStateIn;</span>
     }
 
     /**
@@ -242,12 +243,12 @@ public class LocationGroup extends Target implements Serializable {
      * @param newGroupStateIn The state to set
      */
     public void changeGroupStateIn(LocationGroupState newGroupStateIn) {
-<span class="pc bpc" id="L245" title="1 of 4 branches missed.">        if (stateInLocker != null &amp;&amp; stateInLocker != this) {</span>
-<span class="fc" id="L246">            throw new StateChangeException(&quot;The LocationGroup's state is blocked by any other LocationGroup and cannot be changed&quot;);</span>
+<span class="pc bpc" id="L246" title="1 of 4 branches missed.">        if (stateInLocker != null &amp;&amp; stateInLocker != this) {</span>
+<span class="fc" id="L247">            throw new StateChangeException(&quot;The LocationGroup's state is blocked by any other LocationGroup and cannot be changed&quot;);</span>
         }
-<span class="fc" id="L248">        groupStateIn = newGroupStateIn;</span>
-<span class="fc" id="L249">        locationGroups.forEach(lg -&gt; lg.changeGroupStateIn(newGroupStateIn, this));</span>
-<span class="fc" id="L250">    }</span>
+<span class="fc" id="L249">        groupStateIn = newGroupStateIn;</span>
+<span class="fc" id="L250">        locationGroups.forEach(lg -&gt; lg.changeGroupStateIn(newGroupStateIn, this));</span>
+<span class="fc" id="L251">    }</span>
 
     /**
      * Change the infeed state of the {@code LocationGroup}.
@@ -256,19 +257,19 @@ public class LocationGroup extends Target implements Serializable {
      * @param lockLG The {@code LocationGroup} that wants to lock/unlock this {@code LocationGroup}.
      */
     private void changeGroupStateIn(LocationGroupState newGroupStateIn, LocationGroup lockLG) {
-<span class="pc bpc" id="L259" title="1 of 4 branches missed.">        if (groupStateIn == LocationGroupState.NOT_AVAILABLE &amp;&amp; newGroupStateIn == LocationGroupState.AVAILABLE) {</span>
+<span class="pc bpc" id="L260" title="1 of 4 branches missed.">        if (groupStateIn == LocationGroupState.NOT_AVAILABLE &amp;&amp; newGroupStateIn == LocationGroupState.AVAILABLE) {</span>
 
             // unlock
-<span class="fc" id="L262">            stateInLocker = null;</span>
+<span class="fc" id="L263">            stateInLocker = null;</span>
         }
-<span class="fc bfc" id="L264" title="All 4 branches covered.">        if (groupStateIn == LocationGroupState.AVAILABLE &amp;&amp; newGroupStateIn == LocationGroupState.NOT_AVAILABLE) {</span>
+<span class="fc bfc" id="L265" title="All 4 branches covered.">        if (groupStateIn == LocationGroupState.AVAILABLE &amp;&amp; newGroupStateIn == LocationGroupState.NOT_AVAILABLE) {</span>
 
             // lock
-<span class="fc" id="L267">            stateInLocker = lockLG;</span>
+<span class="fc" id="L268">            stateInLocker = lockLG;</span>
         }
-<span class="fc" id="L269">        groupStateIn = newGroupStateIn;</span>
-<span class="pc" id="L270">        locationGroups.forEach(lg -&gt; lg.changeGroupStateIn(newGroupStateIn, lockLG));</span>
-<span class="fc" id="L271">    }</span>
+<span class="fc" id="L270">        groupStateIn = newGroupStateIn;</span>
+<span class="pc" id="L271">        locationGroups.forEach(lg -&gt; lg.changeGroupStateIn(newGroupStateIn, lockLG));</span>
+<span class="fc" id="L272">    }</span>
 
     /**
      * Return the outfeed state of the {@code LocationGroup}.
@@ -276,7 +277,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return The state of outfeed
      */
     public LocationGroupState getGroupStateOut() {
-<span class="fc" id="L279">        return groupStateOut;</span>
+<span class="fc" id="L280">        return groupStateOut;</span>
     }
 
     /**
@@ -285,12 +286,12 @@ public class LocationGroup extends Target implements Serializable {
      * @param newGroupStateOut The state to set
      */
     public void changeGroupStateOut(LocationGroupState newGroupStateOut) {
-<span class="nc bnc" id="L288" title="All 4 branches missed.">        if (stateOutLocker != null &amp;&amp; stateOutLocker != this) {</span>
-<span class="nc" id="L289">            throw new StateChangeException(&quot;The LocationGroup's state is blocked by any other LocationGroup and cannot be changed&quot;);</span>
+<span class="nc bnc" id="L289" title="All 4 branches missed.">        if (stateOutLocker != null &amp;&amp; stateOutLocker != this) {</span>
+<span class="nc" id="L290">            throw new StateChangeException(&quot;The LocationGroup's state is blocked by any other LocationGroup and cannot be changed&quot;);</span>
         }
-<span class="nc" id="L291">        groupStateOut = newGroupStateOut;</span>
-<span class="nc" id="L292">        locationGroups.forEach(lg -&gt; lg.changeGroupStateOut(newGroupStateOut, this));</span>
-<span class="nc" id="L293">    }</span>
+<span class="nc" id="L292">        groupStateOut = newGroupStateOut;</span>
+<span class="nc" id="L293">        locationGroups.forEach(lg -&gt; lg.changeGroupStateOut(newGroupStateOut, this));</span>
+<span class="nc" id="L294">    }</span>
 
     /**
      * Set the outfeed state of the {@code LocationGroup}.
@@ -299,21 +300,21 @@ public class LocationGroup extends Target implements Serializable {
      * @param lockLg The {@code LocationGroup} that wants to lock/unlock this {@code LocationGroup}.
      */
     void changeGroupStateOut(LocationGroupState gStateOut, LocationGroup lockLg) {
-<span class="pc bpc" id="L302" title="3 of 8 branches missed.">        if (this.groupStateOut == LocationGroupState.NOT_AVAILABLE &amp;&amp; gStateOut == LocationGroupState.AVAILABLE &amp;&amp; (this.stateOutLocker == null || this.stateOutLocker.equals(lockLg))) {</span>
-<span class="fc" id="L303">            this.groupStateOut = gStateOut;</span>
-<span class="fc" id="L304">            this.stateOutLocker = null;</span>
-<span class="fc bfc" id="L305" title="All 2 branches covered.">            for (LocationGroup child : locationGroups) {</span>
-<span class="fc" id="L306">                child.changeGroupStateOut(gStateOut, lockLg);</span>
-<span class="fc" id="L307">            }</span>
+<span class="pc bpc" id="L303" title="3 of 8 branches missed.">        if (this.groupStateOut == LocationGroupState.NOT_AVAILABLE &amp;&amp; gStateOut == LocationGroupState.AVAILABLE &amp;&amp; (this.stateOutLocker == null || this.stateOutLocker.equals(lockLg))) {</span>
+<span class="fc" id="L304">            this.groupStateOut = gStateOut;</span>
+<span class="fc" id="L305">            this.stateOutLocker = null;</span>
+<span class="fc bfc" id="L306" title="All 2 branches covered.">            for (LocationGroup child : locationGroups) {</span>
+<span class="fc" id="L307">                child.changeGroupStateOut(gStateOut, lockLg);</span>
+<span class="fc" id="L308">            }</span>
         }
-<span class="pc bpc" id="L309" title="4 of 8 branches missed.">        if (this.groupStateOut == LocationGroupState.AVAILABLE &amp;&amp; gStateOut == LocationGroupState.NOT_AVAILABLE &amp;&amp; (this.stateOutLocker == null || this.stateOutLocker.equals(lockLg))) {</span>
-<span class="fc" id="L310">            this.groupStateOut = gStateOut;</span>
-<span class="fc" id="L311">            this.stateOutLocker = lockLg;</span>
-<span class="fc bfc" id="L312" title="All 2 branches covered.">            for (LocationGroup child : locationGroups) {</span>
-<span class="fc" id="L313">                child.changeGroupStateOut(gStateOut, lockLg);</span>
-<span class="fc" id="L314">            }</span>
+<span class="pc bpc" id="L310" title="4 of 8 branches missed.">        if (this.groupStateOut == LocationGroupState.AVAILABLE &amp;&amp; gStateOut == LocationGroupState.NOT_AVAILABLE &amp;&amp; (this.stateOutLocker == null || this.stateOutLocker.equals(lockLg))) {</span>
+<span class="fc" id="L311">            this.groupStateOut = gStateOut;</span>
+<span class="fc" id="L312">            this.stateOutLocker = lockLg;</span>
+<span class="fc bfc" id="L313" title="All 2 branches covered.">            for (LocationGroup child : locationGroups) {</span>
+<span class="fc" id="L314">                child.changeGroupStateOut(gStateOut, lockLg);</span>
+<span class="fc" id="L315">            }</span>
         }
-<span class="fc" id="L316">    }</span>
+<span class="fc" id="L317">    }</span>
 
     /**
      * Returns the count of all sub {@link Location}s.
@@ -321,7 +322,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return The count of {@link Location}s belonging to this {@code LocationGroup}
      */
     public int getNoLocations() {
-<span class="pc bpc" id="L324" title="1 of 2 branches missed.">        return this.locations != null ? this.locations.size() : 0;</span>
+<span class="pc bpc" id="L325" title="1 of 2 branches missed.">        return this.locations != null ? this.locations.size() : 0;</span>
     }
 
     /**
@@ -332,7 +333,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return The maximum fill level
      */
     public float getMaxFillLevel() {
-<span class="fc" id="L335">        return this.maxFillLevel;</span>
+<span class="fc" id="L336">        return this.maxFillLevel;</span>
     }
 
     /**
@@ -342,8 +343,8 @@ public class LocationGroup extends Target implements Serializable {
      * @param maxFillLevel The maximum fill level
      */
     public void setMaxFillLevel(float maxFillLevel) {
-<span class="nc" id="L345">        this.maxFillLevel = maxFillLevel;</span>
-<span class="nc" id="L346">    }</span>
+<span class="nc" id="L346">        this.maxFillLevel = maxFillLevel;</span>
+<span class="nc" id="L347">    }</span>
 
     /**
      * Returns the type of the {@code LocationGroup}.
@@ -351,7 +352,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return The type of the {@code LocationGroup}
      */
     public String getGroupType() {
-<span class="nc" id="L354">        return this.groupType;</span>
+<span class="nc" id="L355">        return this.groupType;</span>
     }
 
     /**
@@ -360,8 +361,8 @@ public class LocationGroup extends Target implements Serializable {
      * @param groupType The type of the {@code LocationGroup}
      */
     public void setGroupType(String groupType) {
-<span class="nc" id="L363">        this.groupType = groupType;</span>
-<span class="nc" id="L364">    }</span>
+<span class="nc" id="L364">        this.groupType = groupType;</span>
+<span class="nc" id="L365">    }</span>
 
     /**
      * Returns the description text.
@@ -369,7 +370,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return The Description as String
      */
     public String getDescription() {
-<span class="nc" id="L372">        return this.description;</span>
+<span class="nc" id="L373">        return this.description;</span>
     }
 
     /**
@@ -378,8 +379,8 @@ public class LocationGroup extends Target implements Serializable {
      * @param description The String to set as description text
      */
     public void setDescription(String description) {
-<span class="nc" id="L381">        this.description = description;</span>
-<span class="nc" id="L382">    }</span>
+<span class="nc" id="L382">        this.description = description;</span>
+<span class="nc" id="L383">    }</span>
 
     /**
      * Returns the parent {@code LocationGroup}.
@@ -387,7 +388,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return The parent {@code LocationGroup}
      */
     public LocationGroup getParent() {
-<span class="fc" id="L390">        return this.parent;</span>
+<span class="fc" id="L391">        return this.parent;</span>
     }
 
     /**
@@ -396,8 +397,8 @@ public class LocationGroup extends Target implements Serializable {
      * @param parent The parent {@code LocationGroup} to set
      */
     public void setParent(LocationGroup parent) {
-<span class="nc" id="L399">        this.parent = parent;</span>
-<span class="nc" id="L400">    }</span>
+<span class="nc" id="L400">        this.parent = parent;</span>
+<span class="nc" id="L401">    }</span>
 
     /**
      * Return all child {@code LocationGroup}.
@@ -405,7 +406,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return A set of all {@code LocationGroup} having this one as parent
      */
     public Set&lt;LocationGroup&gt; getLocationGroups() {
-<span class="fc" id="L408">        return locationGroups;</span>
+<span class="fc" id="L409">        return locationGroups;</span>
     }
 
     /**
@@ -414,8 +415,8 @@ public class LocationGroup extends Target implements Serializable {
      * @param locationGroups the set of LocationGroups to set
      */
     public void setLocationGroups(Set&lt;LocationGroup&gt; locationGroups) {
-<span class="nc" id="L417">        this.locationGroups = locationGroups;</span>
-<span class="nc" id="L418">    }</span>
+<span class="nc" id="L418">        this.locationGroups = locationGroups;</span>
+<span class="nc" id="L419">    }</span>
 
     /**
      * Add a {@code LocationGroup} to the list of children.
@@ -424,16 +425,16 @@ public class LocationGroup extends Target implements Serializable {
      * @return {@literal true} if the {@code LocationGroup} was new in the collection of {@code LocationGroup}s, otherwise {@literal false}
      */
     public boolean addLocationGroup(LocationGroup locationGroup) {
-<span class="fc bfc" id="L427" title="All 2 branches covered.">        if (locationGroup == null) {</span>
-<span class="fc" id="L428">            throw new IllegalArgumentException(&quot;LocationGroup to be added is null&quot;);</span>
+<span class="fc bfc" id="L428" title="All 2 branches covered.">        if (locationGroup == null) {</span>
+<span class="fc" id="L429">            throw new IllegalArgumentException(&quot;LocationGroup to be added is null&quot;);</span>
         }
-<span class="fc bfc" id="L430" title="All 2 branches covered.">        if (locationGroup.parent != null) {</span>
-<span class="fc" id="L431">            locationGroup.parent.removeLocationGroup(locationGroup);</span>
+<span class="fc bfc" id="L431" title="All 2 branches covered.">        if (locationGroup.parent != null) {</span>
+<span class="fc" id="L432">            locationGroup.parent.removeLocationGroup(locationGroup);</span>
         }
-<span class="fc" id="L433">        locationGroup.parent = this;</span>
-<span class="fc" id="L434">        locationGroup.changeGroupStateIn(groupStateIn, this);</span>
-<span class="fc" id="L435">        locationGroup.changeGroupStateOut(groupStateOut, this);</span>
-<span class="fc" id="L436">        return locationGroups.add(locationGroup);</span>
+<span class="fc" id="L434">        locationGroup.parent = this;</span>
+<span class="fc" id="L435">        locationGroup.changeGroupStateIn(groupStateIn, this);</span>
+<span class="fc" id="L436">        locationGroup.changeGroupStateOut(groupStateOut, this);</span>
+<span class="fc" id="L437">        return locationGroups.add(locationGroup);</span>
     }
 
     /**
@@ -443,9 +444,9 @@ public class LocationGroup extends Target implements Serializable {
      * @return {@literal true} if the {@code LocationGroup} was found and could be removed, otherwise {@literal false}
      */
     public boolean removeLocationGroup(@NotNull LocationGroup locationGroup) {
-<span class="pc" id="L446">        Assert.notNull(locationGroup, () -&gt; &quot;LocationGroup to remove is null. this: &quot; + this);</span>
-<span class="fc" id="L447">        locationGroup.parent = null;</span>
-<span class="fc" id="L448">        return locationGroups.remove(locationGroup);</span>
+<span class="pc" id="L447">        Assert.notNull(locationGroup, () -&gt; &quot;LocationGroup to remove is null. this: &quot; + this);</span>
+<span class="fc" id="L448">        locationGroup.parent = null;</span>
+<span class="fc" id="L449">        return locationGroups.remove(locationGroup);</span>
     }
 
     /**
@@ -454,7 +455,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return {@link Location}s
      */
     public Set&lt;Location&gt; getLocations() {
-<span class="fc" id="L457">        return locations;</span>
+<span class="fc" id="L458">        return locations;</span>
     }
 
     /**
@@ -463,7 +464,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return {@literal true} if {@code Location}s are assigned, otherwise {@literal false}
      */
     public boolean hasLocations() {
-<span class="pc bpc" id="L466" title="1 of 4 branches missed.">        return locations != null &amp;&amp; !locations.isEmpty();</span>
+<span class="pc bpc" id="L467" title="1 of 4 branches missed.">        return locations != null &amp;&amp; !locations.isEmpty();</span>
     }
 
     /**
@@ -473,9 +474,9 @@ public class LocationGroup extends Target implements Serializable {
      * @return {@literal true} if the {@link Location} was new in the collection of {@link Location}s, otherwise {@literal false}
      */
     public boolean addLocation(Location location) {
-<span class="fc" id="L476">        Assert.notNull(location, () -&gt; &quot;Location to be added to LocationGroup is null. this: &quot; + this);</span>
-<span class="fc" id="L477">        location.setLocationGroup(this);</span>
-<span class="fc" id="L478">        return locations.add(location);</span>
+<span class="fc" id="L477">        Assert.notNull(location, () -&gt; &quot;Location to be added to LocationGroup is null. this: &quot; + this);</span>
+<span class="fc" id="L478">        location.setLocationGroup(this);</span>
+<span class="fc" id="L479">        return locations.add(location);</span>
     }
 
     /**
@@ -485,9 +486,9 @@ public class LocationGroup extends Target implements Serializable {
      * @return {@literal true} if the {@link Location} was found and could be removed, otherwise {@literal false}
      */
     public boolean removeLocation(Location location) {
-<span class="fc" id="L488">        Assert.notNull(location, () -&gt; &quot;Location to remove from LocationGroup is null. this: &quot; + this);</span>
-<span class="fc" id="L489">        location.unsetLocationGroup();</span>
-<span class="fc" id="L490">        return locations.remove(location);</span>
+<span class="fc" id="L489">        Assert.notNull(location, () -&gt; &quot;Location to remove from LocationGroup is null. this: &quot; + this);</span>
+<span class="fc" id="L490">        location.unsetLocationGroup();</span>
+<span class="fc" id="L491">        return locations.remove(location);</span>
     }
 
     /**
@@ -496,7 +497,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return The locationGroupCountingActive
      */
     public boolean isLocationGroupCountingActive() {
-<span class="fc" id="L499">        return locationGroupCountingActive;</span>
+<span class="fc" id="L500">        return locationGroupCountingActive;</span>
     }
 
     /**
@@ -505,8 +506,8 @@ public class LocationGroup extends Target implements Serializable {
      * @param locationGroupCountingActive The locationGroupCountingActive to set
      */
     public void setLocationGroupCountingActive(boolean locationGroupCountingActive) {
-<span class="fc" id="L508">        this.locationGroupCountingActive = locationGroupCountingActive;</span>
-<span class="fc" id="L509">    }</span>
+<span class="fc" id="L509">        this.locationGroupCountingActive = locationGroupCountingActive;</span>
+<span class="fc" id="L510">    }</span>
 
     /**
      * {@inheritDoc}
@@ -515,10 +516,10 @@ public class LocationGroup extends Target implements Serializable {
      */
     @Override
     public int hashCode() {
-<span class="fc" id="L518">        final int prime = 31;</span>
-<span class="fc" id="L519">        int result = 111;</span>
-<span class="pc bpc" id="L520" title="1 of 2 branches missed.">        result = prime * result + ((name == null) ? 0 : name.hashCode());</span>
-<span class="fc" id="L521">        return result;</span>
+<span class="fc" id="L519">        final int prime = 31;</span>
+<span class="fc" id="L520">        int result = 111;</span>
+<span class="pc bpc" id="L521" title="1 of 2 branches missed.">        result = prime * result + ((name == null) ? 0 : name.hashCode());</span>
+<span class="fc" id="L522">        return result;</span>
     }
 
     /**
@@ -528,21 +529,21 @@ public class LocationGroup extends Target implements Serializable {
      */
     @Override
     public boolean equals(Object obj) {
-<span class="fc bfc" id="L531" title="All 2 branches covered.">        if (this == obj) {</span>
-<span class="fc" id="L532">            return true;</span>
+<span class="fc bfc" id="L532" title="All 2 branches covered.">        if (this == obj) {</span>
+<span class="fc" id="L533">            return true;</span>
         }
-<span class="pc bpc" id="L534" title="1 of 2 branches missed.">        if (!(obj instanceof LocationGroup)) {</span>
-<span class="nc" id="L535">            return false;</span>
+<span class="pc bpc" id="L535" title="1 of 2 branches missed.">        if (!(obj instanceof LocationGroup)) {</span>
+<span class="nc" id="L536">            return false;</span>
         }
-<span class="fc" id="L537">        LocationGroup other = (LocationGroup) obj;</span>
-<span class="pc bpc" id="L538" title="1 of 2 branches missed.">        if (name == null) {</span>
-<span class="nc bnc" id="L539" title="All 2 branches missed.">            if (other.name != null) {</span>
-<span class="nc" id="L540">                return false;</span>
+<span class="fc" id="L538">        LocationGroup other = (LocationGroup) obj;</span>
+<span class="pc bpc" id="L539" title="1 of 2 branches missed.">        if (name == null) {</span>
+<span class="nc bnc" id="L540" title="All 2 branches missed.">            if (other.name != null) {</span>
+<span class="nc" id="L541">                return false;</span>
             }
-<span class="fc bfc" id="L542" title="All 2 branches covered.">        } else if (!name.equals(other.name)) {</span>
-<span class="fc" id="L543">            return false;</span>
+<span class="fc bfc" id="L543" title="All 2 branches covered.">        } else if (!name.equals(other.name)) {</span>
+<span class="fc" id="L544">            return false;</span>
         }
-<span class="fc" id="L545">        return true;</span>
+<span class="fc" id="L546">        return true;</span>
     }
 
     /**
@@ -552,7 +553,7 @@ public class LocationGroup extends Target implements Serializable {
      */
     @Override
     public String toString() {
-<span class="fc" id="L555">        return getName();</span>
+<span class="fc" id="L556">        return getName();</span>
     }
 
     /**
@@ -563,21 +564,21 @@ public class LocationGroup extends Target implements Serializable {
      * @param stateOut The new groupStateOut to set, or {@literal null}
      */
     public void changeState(LocationGroupState stateIn, LocationGroupState stateOut) {
-<span class="nc bnc" id="L566" title="All 4 branches missed.">        if (groupStateIn != stateIn &amp;&amp; stateIn != null) {</span>
+<span class="nc bnc" id="L567" title="All 4 branches missed.">        if (groupStateIn != stateIn &amp;&amp; stateIn != null) {</span>
             // GroupStateIn changed
-<span class="nc bnc" id="L568" title="All 6 branches missed.">            if (parent != null &amp;&amp; parent.getGroupStateIn() == LocationGroupState.NOT_AVAILABLE &amp;&amp; groupStateIn == LocationGroupState.AVAILABLE) {</span>
-<span class="nc" id="L569">                throw new ServiceLayerException(&quot;Not allowed to change GroupStateIn, parent locationGroup is not available&quot;);</span>
+<span class="nc bnc" id="L569" title="All 6 branches missed.">            if (parent != null &amp;&amp; parent.getGroupStateIn() == LocationGroupState.NOT_AVAILABLE &amp;&amp; groupStateIn == LocationGroupState.AVAILABLE) {</span>
+<span class="nc" id="L570">                throw new ServiceLayerException(&quot;Not allowed to change GroupStateIn, parent locationGroup is not available&quot;);</span>
             }
-<span class="nc" id="L571">            changeGroupStateIn(stateIn, this);</span>
+<span class="nc" id="L572">            changeGroupStateIn(stateIn, this);</span>
         }
-<span class="nc bnc" id="L573" title="All 4 branches missed.">        if (groupStateOut != stateOut &amp;&amp; stateOut != null) {</span>
+<span class="nc bnc" id="L574" title="All 4 branches missed.">        if (groupStateOut != stateOut &amp;&amp; stateOut != null) {</span>
             // GroupStateOut changed
-<span class="nc bnc" id="L575" title="All 6 branches missed.">            if (parent != null &amp;&amp; parent.getGroupStateOut() == LocationGroupState.NOT_AVAILABLE &amp;&amp; groupStateOut == LocationGroupState.AVAILABLE) {</span>
-<span class="nc" id="L576">                throw new ServiceLayerException(&quot;Not allowed to change GroupStateOut, parent locationGroup is not available&quot;);</span>
+<span class="nc bnc" id="L576" title="All 6 branches missed.">            if (parent != null &amp;&amp; parent.getGroupStateOut() == LocationGroupState.NOT_AVAILABLE &amp;&amp; groupStateOut == LocationGroupState.AVAILABLE) {</span>
+<span class="nc" id="L577">                throw new ServiceLayerException(&quot;Not allowed to change GroupStateOut, parent locationGroup is not available&quot;);</span>
             }
-<span class="nc" id="L578">            changeGroupStateOut(stateOut, this);</span>
+<span class="nc" id="L579">            changeGroupStateOut(stateOut, this);</span>
         }
-<span class="nc" id="L580">    }</span>
+<span class="nc" id="L581">    }</span>
 
     /**
      * Whether this LocationGroup has a parent LocationGroup or not.
@@ -585,7 +586,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return {@literal true} If it has a parent
      */
     public boolean hasParent() {
-<span class="nc bnc" id="L588" title="All 2 branches missed.">        return parent != null;</span>
+<span class="nc bnc" id="L589" title="All 2 branches missed.">        return parent != null;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
