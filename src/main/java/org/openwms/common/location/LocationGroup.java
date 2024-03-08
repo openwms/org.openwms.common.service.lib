@@ -28,6 +28,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -63,7 +64,7 @@ public class LocationGroup extends Target implements Serializable {
     public static final int LENGTH_NAME = 255;
 
     /** The LocationGroup might be assigned to an {@link Account}. */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "C_ACCOUNT", referencedColumnName = "C_IDENTIFIER", foreignKey = @ForeignKey(name = "FK_LG_ACC"))
     private Account account;
 
@@ -91,7 +92,7 @@ public class LocationGroup extends Target implements Serializable {
     private LocationGroupState groupStateIn = LocationGroupState.AVAILABLE;
 
     /** References the {@code LocationGroup} that locked this {@code LocationGroup} for infeed. */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "C_IN_LOCKER", foreignKey = @ForeignKey(name = "FK_LG_LG_INLOCKER"))
     private LocationGroup stateInLocker;
 
@@ -102,7 +103,7 @@ public class LocationGroup extends Target implements Serializable {
     private LocationGroupState groupStateOut = LocationGroupState.AVAILABLE;
 
     /** References the {@code LocationGroup} that locked this {@code LocationGroup} for outfeed. */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "C_OUT_LOCKER", foreignKey = @ForeignKey(name = "FK_LG_LG_OUTLOCKER"))
     private LocationGroup stateOutLocker;
 
@@ -116,7 +117,7 @@ public class LocationGroup extends Target implements Serializable {
 
     /* ------------------- collection mapping ------------------- */
     /** Parent {@code LocationGroup}. */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "C_PARENT", foreignKey = @ForeignKey(name = "FK_LG_LG_PARENT"))
     private LocationGroup parent;
 

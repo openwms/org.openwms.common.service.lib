@@ -32,6 +32,8 @@ public final class TransportApiConstants {
     public static final String API_TRANSPORT_UNIT_TYPE = "/" + API_VERSION + "/transport-unit-type";
     /** API root to hit TransportUnitTypes (plural). */
     public static final String API_TRANSPORT_UNIT_TYPES = "/" + API_VERSION + "/transport-unit-types";
+    /** The ISO format for DateTimes with nine-digits nanoseconds in UTC timezone. */
+    public static final String DATETIME_FORMAT_ZULU = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS'Z'";
 
     private TransportApiConstants() {}
 }

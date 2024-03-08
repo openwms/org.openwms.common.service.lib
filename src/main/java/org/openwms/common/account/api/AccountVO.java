@@ -15,14 +15,18 @@
  */
 package org.openwms.common.account.api;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.StringJoiner;
+
+import static org.openwms.common.account.api.AccountApiConstants.DATETIME_FORMAT_ZULU;
 
 /**
  * A AccountVO is the representation object that encapsulates identifying information about the actual cost center.
@@ -49,6 +53,12 @@ public class AccountVO extends RepresentationModel<AccountVO> implements Seriali
     @JsonProperty("name")
     private String name;
 
+    /** Timestamp when the {@code Account} has been created. */
+    @JsonProperty("createDt")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATETIME_FORMAT_ZULU) // required
+    private LocalDateTime createDt;
+
+    /*~-------------------- accessors --------------------*/
     public String getpKey() {
         return pKey;
     }
@@ -73,6 +83,7 @@ public class AccountVO extends RepresentationModel<AccountVO> implements Seriali
         this.name = name;
     }
 
+    /*~-------------------- overrides --------------------*/
     /**
      * {@inheritDoc}
      *
@@ -84,7 +95,7 @@ public class AccountVO extends RepresentationModel<AccountVO> implements Seriali
         if (!(o instanceof AccountVO)) return false;
         if (!super.equals(o)) return false;
         var accountVO = (AccountVO) o;
-        return Objects.equals(pKey, accountVO.pKey) && Objects.equals(identifier, accountVO.identifier) && Objects.equals(name, accountVO.name);
+        return Objects.equals(pKey, accountVO.pKey) && Objects.equals(identifier, accountVO.identifier) && Objects.equals(name, accountVO.name) && Objects.equals(createDt, accountVO.createDt);
     }
 
     /**
@@ -94,7 +105,7 @@ public class AccountVO extends RepresentationModel<AccountVO> implements Seriali
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), pKey, identifier, name);
+        return Objects.hash(super.hashCode(), pKey, identifier, name, createDt);
     }
 
     /**
@@ -108,6 +119,7 @@ public class AccountVO extends RepresentationModel<AccountVO> implements Seriali
                 .add("pKey='" + pKey + "'")
                 .add("identifier='" + identifier + "'")
                 .add("name='" + name + "'")
+                .add("createDt='" + createDt + "'")
                 .toString();
     }
 }

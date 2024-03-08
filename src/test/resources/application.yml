@@ -9,6 +9,10 @@ spring:
     date-format: "yyyy-MM-dd'T'HH:mm:ssXXX" # Only matches Dates no Instants!
     deserialization:
       read-date-timestamps-as-nanoseconds: false
+    serialization:
+      write-dates-as-timestamps: false
+      write-date-timestamps-as-nanoseconds: false
+      write-durations-as-timestamps: false
   jpa:
     mapping-resources:
       - META-INF/common-orm.xml
@@ -49,6 +53,10 @@ ribbon:
   ReadTimeout: 30000
 
 owms:
+  common:
+    # strict: TransportUnits are directly deleted without
+    # on-accept: TransportUnits are only deleted when at least one participant accepted deletion
+    delete-transport-unit-mode: strict
   eureka:
     url: http://user:sa@localhost:8761
     zone: ${owms.eureka.url}/eureka/

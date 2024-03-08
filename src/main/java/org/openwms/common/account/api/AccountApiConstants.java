@@ -26,6 +26,8 @@ public final class AccountApiConstants {
     public static final String API_VERSION = "v1";
     /** API root to hit Accounts (plural). */
     public static final String API_ACCOUNTS = "/" + API_VERSION + "/accounts";
+    /** The ISO format for DateTimes with nine-digits nanoseconds in UTC timezone. */
+    public static final String DATETIME_FORMAT_ZULU = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS'Z'";
 
     private AccountApiConstants() {
     }

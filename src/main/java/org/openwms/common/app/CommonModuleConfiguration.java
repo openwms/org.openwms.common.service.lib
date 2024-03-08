@@ -125,7 +125,7 @@ public class CommonModuleConfiguration implements WebMvcConfigurer {
     }
 
     public @Bean MessageSource messageSource() {
-        NestedReloadableResourceBundleMessageSource nrrbm = new NestedReloadableResourceBundleMessageSource();
+        var nrrbm = new NestedReloadableResourceBundleMessageSource();
         nrrbm.setBasenames(
                 "classpath:META-INF/i18n/common",
                 "classpath:META-INF/i18n/common-val"

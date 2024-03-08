@@ -126,6 +126,7 @@ class LocationGroupControllerDocumentation {
                     .andExpect(jsonPath("groupStateIn", is(LocationGroupState.AVAILABLE.toString())))
                     .andExpect(jsonPath("groupStateOut", is(LocationGroupState.AVAILABLE.toString())))
                     .andExpect(jsonPath("_links.parent.href").exists())
+                    .andExpect(jsonPath("createDt").exists())
                     .andDo(
                             documentationResultHandler.document(
                                     requestParameters(
@@ -146,10 +147,12 @@ class LocationGroupControllerDocumentation {
                                             fieldWithPath("childLocationGroups[].operationMode").ignored(),
                                             fieldWithPath("childLocationGroups[].groupStateIn").ignored(),
                                             fieldWithPath("childLocationGroups[].groupStateOut").ignored(),
+                                            fieldWithPath("childLocationGroups[].createDt").ignored(),
                                             fieldWithPath("parentName").description("Name of the parent LocationGroup"),
+                                            fieldWithPath("groupStateIn").description("Infeed state, controlled by the subsystem only"),
+                                            fieldWithPath("groupStateOut").description("Outfeed state"),
                                             fieldWithPath("operationMode").description("The operation mode is controlled by the subsystem and defines the physical mode a LocationGroup is currently able to operate in"),
-                                            fieldWithPath("groupStateIn").description("State of infeed, controlled by the subsystem only"),
-                                            fieldWithPath("groupStateOut").description("State of outfeed, controlled by the subsystem only")
+                                            fieldWithPath("createDt").description("Timestamp when the LocationGroup has been created")
                                     ),
                                     httpRequest(), httpResponse()
                             )

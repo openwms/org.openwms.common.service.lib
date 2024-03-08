@@ -29,7 +29,7 @@ include::{generated}/loctype-findbypkey-404/http-response.adoc[]
 
 [[loctype-findbytypename]]
 === Find a LocationType by its name
-To query a `LocationType` by it's unique name, a `GET` request is send to the `LocationType` resource along with the `name` as query
+To query a `LocationType` by it's unique name, a `GET` request is sent to the `LocationType` resource along with the `name` as query
 parameter.
 
 include::{generated}/loctype-findbytypename/http-request.adoc[]

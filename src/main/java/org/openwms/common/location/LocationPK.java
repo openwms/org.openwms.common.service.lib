@@ -34,7 +34,7 @@ public class LocationPK implements Serializable {
     public static final short KEY_LENGTH = 4;
     public static final short NUMBER_OF_KEYS = 5;
     /**
-     * Returns the complete length of all keys. Currently all keys have the same length, therefore it is the 5 times the length of a single
+     * Returns the complete length of all keys. Currently, all keys have the same length, therefore it is the 5 times the length of a single
      * key (KEY_LENGTH). But since this can change the actual length is encapsulated within this method.
      */
     public static final short PK_LENGTH = NUMBER_OF_KEYS * KEY_LENGTH;

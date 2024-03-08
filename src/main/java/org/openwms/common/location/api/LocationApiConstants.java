@@ -41,6 +41,8 @@ public final class LocationApiConstants {
     public static final String API_LOCATION_GROUPS = "/" + API_VERSION + "/location-groups";
     /** API root to hit Targets (plural). */
     public static final String API_TARGETS = "/" + API_VERSION + "/targets";
+    /** The ISO format for DateTimes with nine-digits nanoseconds in UTC timezone. */
+    public static final String DATETIME_FORMAT_ZULU = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS'Z'";
 
     private LocationApiConstants() {}
 }

@@ -26,8 +26,10 @@ import org.openwms.core.units.api.Weight;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
+
+import static org.openwms.common.transport.api.TransportApiConstants.DATETIME_FORMAT_ZULU;
 
 /**
  * A TransportUnitVO.
@@ -79,13 +81,13 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
 
     /** Date when the {@code TransportUnit} has been moved to the current {@code Location}. */
     @JsonProperty("actualLocationDate")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date actualLocationDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATETIME_FORMAT_ZULU) // required
+    private LocalDateTime actualLocationDate;
 
-    /** Timestamp when the record was created the first time. */
-    @JsonProperty("createDate")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date createDate;
+    /** Timestamp when the {@code TransportUnit} has been created. */
+    @JsonProperty("createDt")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATETIME_FORMAT_ZULU) // required
+    private LocalDateTime createDate;
 
     /*~-------------------- constructors --------------------*/
     @JsonCreator
@@ -184,19 +186,19 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
         this.weight = weight;
     }
 
-    public Date getActualLocationDate() {
+    public LocalDateTime getActualLocationDate() {
         return actualLocationDate;
     }
 
-    public void setActualLocationDate(Date actualLocationDate) {
+    public void setActualLocationDate(LocalDateTime actualLocationDate) {
         this.actualLocationDate = actualLocationDate;
     }
 
-    public Date getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 
@@ -230,8 +232,8 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
         private String barcode;
         private LocationVO actualLocation;
         private TransportUnitTypeVO transportUnitType;
-        private Date actualLocationDate;
-        private Date createDate;
+        private LocalDateTime actualLocationDate;
+        private LocalDateTime createDate;
 
         private Builder() {
         }
@@ -251,12 +253,12 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
             return this;
         }
 
-        public Builder actualLocationDate(Date val) {
+        public Builder actualLocationDate(LocalDateTime val) {
             actualLocationDate = val;
             return this;
         }
 
-        public Builder createDate(Date val) {
+        public Builder createDate(LocalDateTime val) {
             createDate = val;
             return this;
         }

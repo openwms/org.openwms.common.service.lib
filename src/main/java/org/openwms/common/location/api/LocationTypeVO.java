@@ -16,6 +16,7 @@
 package org.openwms.common.location.api;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.RepresentationModel;
@@ -25,6 +26,8 @@ import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+
+import static org.openwms.common.location.api.LocationApiConstants.DATETIME_FORMAT_ZULU;
 
 /**
  * A LocationTypeVO defines a type of {@code Location}s with same characteristics.
@@ -65,6 +68,7 @@ public class LocationTypeVO extends RepresentationModel<LocationTypeVO> implemen
 
     /** Timestamp when the {@code LocationType} has been created. */
     @JsonProperty("createDt")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATETIME_FORMAT_ZULU) // required
     private LocalDateTime createDt;
 
     /*~-------------------- constructors --------------------*/

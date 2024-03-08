@@ -136,7 +136,9 @@ class LocationTypeControllerDocumentation {
         mockMvc.perform(get(LocationApiConstants.API_LOCATION_TYPES))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", is(2)))
-                .andDo(document("loctype-findall"));
+                .andDo(document("loctype-findall",
+                        preprocessResponse(prettyPrint()))
+                );
     }
 }
 

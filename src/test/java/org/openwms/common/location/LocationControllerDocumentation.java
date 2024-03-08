@@ -124,6 +124,7 @@ class LocationControllerDocumentation {
                 .andExpect(jsonPath("$.plcState", is(0)))
                 .andExpect(jsonPath("$.type", is("PG")))
                 .andExpect(jsonPath("$.locationGroupName", is("FGWORKPLACE9")))
+                .andExpect(jsonPath("$.createDt").exists())
                 .andExpect(jsonPath("$.locationGroupName").exists())
                 .andExpect(header().exists(HttpHeaders.LOCATION))
                 .andDo(document("loc-created",

@@ -50,17 +50,14 @@ public class LocationTypeController extends AbstractWebController {
 
     @GetMapping(value = API_LOCATION_TYPES + "/{pKey}", produces = LocationTypeVO.MEDIA_TYPE)
     public ResponseEntity<LocationTypeVO> findByPKey(@PathVariable("pKey") String pKey) {
-        var locationType = locationTypeService.findByPKey(pKey);
-        return ResponseEntity.ok(convertAndLinks(locationType));
+        return ResponseEntity.ok(convertAndLinks(locationTypeService.findByPKey(pKey)));
     }
 
     @GetMapping(value = API_LOCATION_TYPES, params = "typeName", produces = LocationTypeVO.MEDIA_TYPE)
     public ResponseEntity<LocationTypeVO> findByName(@RequestParam("typeName") String typeName) {
-        var locationTypeOpt = locationTypeService.findByTypeName(typeName);
-        if (locationTypeOpt.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(convertAndLinks(locationTypeOpt.get()));
+        return locationTypeService.findByTypeName(typeName)
+                .map(locationType -> ResponseEntity.ok(convertAndLinks(locationType)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping(value = API_LOCATION_TYPES, produces = LocationTypeVO.MEDIA_TYPE)
@@ -80,9 +77,7 @@ public class LocationTypeController extends AbstractWebController {
     }
 
     private LocationTypeVO convertAndLinks(LocationType resource) {
-        return addSelfLink(
-                mapper.convertToVO(resource)
-        );
+        return addSelfLink(mapper.convertToVO(resource));
     }
 
     private List<LocationTypeVO> convertAndLinks(List<LocationType> resources) {

@@ -15,6 +15,7 @@
  */
 package org.openwms.common.location.api;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,6 +25,8 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+
+import static org.openwms.common.location.api.LocationApiConstants.DATETIME_FORMAT_ZULU;
 
 /**
  * A LocationVO represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a conveyor
@@ -88,13 +91,14 @@ public class LocationVO extends AbstractBase<LocationVO> implements TargetVO, Se
     @JsonProperty("type")
     private String type;
 
-    /** The {@code LocationGroup} the {@code Location} belongs to. */
+    /** The name of {@code LocationGroup} the {@code Location} belongs to. */
     @NotBlank(groups = ValidationGroups.Create.class)
     @JsonProperty("locationGroupName")
     private String locationGroupName;
 
     /** Timestamp when the {@code Location} has been created. */
     @JsonProperty("createDt")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATETIME_FORMAT_ZULU) // required
     private LocalDateTime createDt;
 
     /*~-------------------- constructors --------------------*/

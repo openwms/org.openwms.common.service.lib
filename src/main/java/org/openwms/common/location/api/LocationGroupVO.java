@@ -16,6 +16,7 @@
 package org.openwms.common.location.api;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -29,6 +30,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.stream.Stream;
+
+import static org.openwms.common.location.api.LocationApiConstants.DATETIME_FORMAT_ZULU;
 
 /**
  * A LocationGroupVO represents a {@code LocationGroup}.
@@ -65,11 +68,11 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
     @JsonProperty("operationMode")
     private String operationMode;
 
-    /** State of infeed, controlled by the subsystem only. */
+    /** Infeed state, controlled by the subsystem only. */
     @JsonProperty("groupStateIn")
     private LocationGroupState groupStateIn;
 
-    /** State of outfeed. */
+    /** Outfeed state. */
     @JsonProperty("groupStateOut")
     private LocationGroupState groupStateOut;
 
@@ -77,8 +80,9 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
     @JsonProperty("childLocationGroups")
     private List<LocationGroupVO> children;
 
-    /** Timestamp when the {@code Location} has been created. */
+    /** Timestamp when the {@code LocationGroup} has been created. */
     @JsonProperty("createDt")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATETIME_FORMAT_ZULU) // required
     private LocalDateTime createDt;
 
     /*~ ------------------ constructors ----------------------*/

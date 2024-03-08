@@ -16,6 +16,7 @@
 package org.openwms.common.location.impl;
 
 import org.openwms.common.location.LocationGroup;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -27,6 +28,10 @@ import java.util.Optional;
  * @author Heiko Scherrer
  */
 interface LocationGroupRepository extends JpaRepository<LocationGroup, Long> {
+
+    @EntityGraph(attributePaths = {"locationGroups"})
+    @Override
+    List<LocationGroup> findAll();
 
     Optional<LocationGroup> findByName(String name);
 
