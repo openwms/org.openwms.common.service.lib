@@ -213,7 +213,7 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
         if (this == o) return true;
         if (!(o instanceof TransportUnitVO)) return false;
         if (!super.equals(o)) return false;
-        TransportUnitVO that = (TransportUnitVO) o;
+        var that = (TransportUnitVO) o;
         return Objects.equals(pKey, that.pKey) && Objects.equals(barcode, that.barcode) && Objects.equals(groupId, that.groupId) && Objects.equals(actualLocation, that.actualLocation) && Objects.equals(targetLocation, that.targetLocation) && Objects.equals(state, that.state) && Objects.equals(transportUnitType, that.transportUnitType) && Objects.equals(weight, that.weight) && Objects.equals(actualLocationDate, that.actualLocationDate) && Objects.equals(createDate, that.createDate);
     }
 

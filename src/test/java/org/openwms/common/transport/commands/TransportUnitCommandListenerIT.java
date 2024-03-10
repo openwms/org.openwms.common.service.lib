@@ -41,7 +41,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 
 import javax.transaction.Transactional;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -162,7 +162,7 @@ class TransportUnitCommandListenerIT {
                         .withTransportUnitId(TestData.TU_1_ID)
                         .withMessageNumber("999")
                         .withMessageText("TEXT")
-                        .withMessageOccurred(new Date()).build()
+                        .withMessageOccurred(LocalDateTime.now()).build()
         );
         TransportUnit tu = service.findByBarcode(TestData.TU_1_ID);
         assertThat(tu.getErrors()).hasSize(1);

@@ -9,10 +9,6 @@ spring:
     date-format: "yyyy-MM-dd'T'HH:mm:ssXXX" # Only matches Dates no Instants!
     deserialization:
       read-date-timestamps-as-nanoseconds: false
-    serialization:
-      write-dates-as-timestamps: false
-      write-date-timestamps-as-nanoseconds: false
-      write-durations-as-timestamps: false
   jpa:
     mapping-resources:
       - META-INF/common-orm.xml

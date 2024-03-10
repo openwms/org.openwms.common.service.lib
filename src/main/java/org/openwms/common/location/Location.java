@@ -31,15 +31,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -125,9 +123,8 @@ public class Location extends Target implements Serializable {
      * Date of last movement. When a {@code TransportUnit} is moving to or away from the {@code Location}, {@code lastMovement} is updated.
      * This is useful to get the history of {@code TransportUnit}s as well as for inventory calculation.
      */
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "C_LAST_MOVEMENT")
-    private Date lastMovement;
+    private LocalDateTime lastMovement;
 
     /**
      * Shall the {@code Location} be included in the calculation of {@code TransportUnit}s of the parent {@link LocationGroup}.
@@ -412,7 +409,7 @@ public class Location extends Target implements Serializable {
      *
      * @return Timestamp of the last update
      */
-    public Date getLastMovement() {
+    public LocalDateTime getLastMovement() {
         return this.lastMovement;
     }
 
@@ -421,7 +418,7 @@ public class Location extends Target implements Serializable {
      *
      * @param lastMovement The date of change.
      */
-    public void setLastMovement(Date lastMovement) {
+    public void setLastMovement(LocalDateTime lastMovement) {
         this.lastMovement = lastMovement;
     }
 
@@ -720,7 +717,7 @@ public class Location extends Target implements Serializable {
             return this;
         }
 
-        public LocationBuilder withLastMovement(Date lastMovement) {
+        public LocationBuilder withLastMovement(LocalDateTime lastMovement) {
             this.target.lastMovement = lastMovement;
             return this;
         }

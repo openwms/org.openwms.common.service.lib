@@ -23,7 +23,7 @@ import org.openwms.common.location.LocationPK;
 import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.core.units.api.Weight;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -40,34 +40,34 @@ class TransportUnitTest {
     class CreationalTests {
 
         @Test void shall_fail_with_null_Barcode() {
-            TransportUnitType tut = new TransportUnitType("KNOWN");
-            Location actualLocation = Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000"));
+            var tut = new TransportUnitType("KNOWN");
+            var actualLocation = Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000"));
             assertThatThrownBy(
                     () -> new TransportUnit(null, tut, actualLocation))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test void shall_fail_with_null_TUT() {
-            Location actualLocation = Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000"));
-            Barcode barcode = Barcode.of("4711");
+            var actualLocation = Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000"));
+            var barcode = Barcode.of("4711");
             assertThatThrownBy(
                     () -> new TransportUnit(barcode, null, actualLocation))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test void shall_fail_with_null_Location() {
-            Barcode barcode = Barcode.of("4711");
-            TransportUnitType tut = new TransportUnitType("KNOWN");
+            var barcode = Barcode.of("4711");
+            var tut = new TransportUnitType("KNOWN");
             assertThatThrownBy(
                     () -> new TransportUnit(barcode, tut, null))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test void shall_create_with_defaults() {
-            TransportUnit tu1 = new TransportUnit();// for JPA
+            var tu1 = new TransportUnit();// for JPA
             assertThat(tu1.getActualLocationDate()).isNull();
 
-            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
             assertThat(tu.getBarcode()).isEqualTo(Barcode.of("4711"));
             assertThat(tu.getTransportUnitType()).isEqualTo(new TransportUnitType("KNOWN"));
             assertThat(tu.getActualLocation()).isEqualTo(Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
@@ -84,9 +84,9 @@ class TransportUnitTest {
         }
 
         @Test void testEqualityLight() {
-            TransportUnit tu1 = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
-            TransportUnit tu2 = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0001/0001/0001/0001")));
-            TransportUnit tu3 = new TransportUnit(Barcode.of("4712"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var tu1 = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var tu2 = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0001/0001/0001/0001")));
+            var tu3 = new TransportUnit(Barcode.of("4712"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
 
             assertThat(tu1).isEqualTo(tu2);
             assertThat(tu2).isEqualTo(tu1);
@@ -100,7 +100,7 @@ class TransportUnitTest {
     class LifecycleTests {
 
         @Test void shall_fail_by_setting_null_for_TUT() {
-            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
             tu.setTransportUnitType(new TransportUnitType("KNOWN2"));
             assertThat(tu.getTransportUnitType()).isEqualTo(new TransportUnitType("KNOWN2"));
             assertThatThrownBy(
@@ -109,7 +109,7 @@ class TransportUnitTest {
         }
 
         @Test void shall_fail_by_setting_null_for_ActualLocation() {
-            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
             tu.setActualLocation(Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0001")));
             assertThat(tu.getActualLocation()).isEqualTo(Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0001")));
             assertThatThrownBy(
@@ -118,8 +118,8 @@ class TransportUnitTest {
         }
 
         @Test void shall_fail_by_setting_null_for_InventoryDate() {
-            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
-            tu.setInventoryDate(new Date());
+            var tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            tu.setInventoryDate(LocalDateTime.now());
             assertThat(tu.getInventoryDate()).isNotNull();
             assertThatThrownBy(
                     () -> tu.setInventoryDate(null))
@@ -127,19 +127,19 @@ class TransportUnitTest {
         }
 
         @Test void shall_fail_with_add_null_as_error() {
-            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
             assertThatThrownBy(
                     () -> tu.addError(null))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test void shall_add_an_error() {
-            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
             assertThat(tu.addError(UnitError.newBuilder().build())).isNotNull();
         }
 
         @Test void shall_fail_with_remove_null_as_child() {
-            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
             assertThatThrownBy(
                     () -> tu.addChild(null))
                     .isInstanceOf(IllegalArgumentException.class);
@@ -151,7 +151,7 @@ class TransportUnitTest {
     class ChildrenHandling {
 
         @Test void shall_throw_with_null_remove() {
-            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
             assertThatThrownBy(
                     () -> tu.removeChild(null))
                     .isInstanceOf(IllegalArgumentException.class)
@@ -160,7 +160,7 @@ class TransportUnitTest {
         }
 
         @Test void shall_throw_with_null_add() {
-            TransportUnit tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var tu = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
             assertThatThrownBy(
                     () -> tu.addChild(null))
                     .isInstanceOf(IllegalArgumentException.class)
@@ -169,8 +169,8 @@ class TransportUnitTest {
         }
 
         @Test void shall_add_and_remove_a_child_TU() {
-            TransportUnit parent = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
-            TransportUnit child1 = new TransportUnit(Barcode.of("4712"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var parent = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var child1 = new TransportUnit(Barcode.of("4712"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
 
             parent.addChild(child1);
             assertThat(parent.getChildren()).hasSize(1).contains(child1);
@@ -189,10 +189,10 @@ class TransportUnitTest {
         }
 
         @Test void shall_fail_when_TU_is_not_a_child() {
-            TransportUnit parent1 = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
-            TransportUnit parent2 = new TransportUnit(Barcode.of("4712"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
-            TransportUnit child1 = new TransportUnit(Barcode.of("4713"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
-            TransportUnit child2 = new TransportUnit(Barcode.of("4714"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var parent1 = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var parent2 = new TransportUnit(Barcode.of("4712"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var child1 = new TransportUnit(Barcode.of("4713"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var child2 = new TransportUnit(Barcode.of("4714"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
 
             parent1.addChild(child1);
 
@@ -213,10 +213,10 @@ class TransportUnitTest {
         }
 
         @Test void shall_change_parent() {
-            TransportUnit parent1 = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
-            TransportUnit parent2 = new TransportUnit(Barcode.of("4712"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
-            TransportUnit child1 = new TransportUnit(Barcode.of("4713"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
-            TransportUnit child2 = new TransportUnit(Barcode.of("4714"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var parent1 = new TransportUnit(Barcode.of("4711"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var parent2 = new TransportUnit(Barcode.of("4712"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var child1 = new TransportUnit(Barcode.of("4713"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
+            var child2 = new TransportUnit(Barcode.of("4714"), new TransportUnitType("KNOWN"), Location.create(LocationPK.fromString("EXT_/0000/0000/0000/0000")));
 
             parent1.addChild(child1);
             parent2.addChild(child2);

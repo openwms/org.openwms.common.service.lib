@@ -22,7 +22,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.StringJoiner;
 
 /**
@@ -43,7 +43,7 @@ public class TransportUnitMO implements Serializable {
     })
     private String barcode;
     /** The actualLocationDate of the TransportUnit. */
-    private Date actualLocationDate;
+    private LocalDateTime actualLocationDate;
     /** The state of the TransportUnit. */
     private String state;
     /** The actualLocation of the TransportUnit. */
@@ -104,11 +104,11 @@ public class TransportUnitMO implements Serializable {
         this.barcode = barcode;
     }
 
-    public Date getActualLocationDate() {
+    public LocalDateTime getActualLocationDate() {
         return actualLocationDate;
     }
 
-    public void setActualLocationDate(Date actualLocationDate) {
+    public void setActualLocationDate(LocalDateTime actualLocationDate) {
         this.actualLocationDate = actualLocationDate;
     }
 
@@ -174,7 +174,7 @@ public class TransportUnitMO implements Serializable {
     public static final class Builder {
         private String pKey;
         private String barcode;
-        private Date actualLocationDate;
+        private LocalDateTime actualLocationDate;
         private String state;
         private LocationMO actualLocation;
         private LocationMO targetLocation;
@@ -194,7 +194,7 @@ public class TransportUnitMO implements Serializable {
             return this;
         }
 
-        public Builder withActualLocationDate(Date val) {
+        public Builder withActualLocationDate(LocalDateTime val) {
             actualLocationDate = val;
             return this;
         }

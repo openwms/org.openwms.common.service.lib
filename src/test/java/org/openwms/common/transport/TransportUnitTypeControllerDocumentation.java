@@ -77,13 +77,13 @@ class TransportUnitTypeControllerDocumentation {
         mockMvc.perform(get(API_TRANSPORT_UNIT_TYPES + "/1000"))
                 .andExpect(jsonPath("$.pKey", is("1000")))
                 .andExpect(status().isOk())
-                .andDo(document("tut-find-bypkey"));
+                .andDo(document("tut-find-bypkey", preprocessResponse(prettyPrint())));
     }
 
     @Test void shall_findByPKey_404() throws Exception {
         mockMvc.perform(get(API_TRANSPORT_UNIT_TYPES + "/UNKNOWN"))
                 .andExpect(status().isNotFound())
-                .andDo(document("tut-find-bypkey-404"));
+                .andDo(document("tut-find-bypkey-404", preprocessResponse(prettyPrint())));
     }
 
     @Test void shall_findall() throws Exception {
@@ -91,7 +91,7 @@ class TransportUnitTypeControllerDocumentation {
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()", is(2)))
                 .andExpect(status().isOk())
-                .andDo(document("tut-find-all"));
+                .andDo(document("tut-find-all", preprocessResponse(prettyPrint())));
     }
 
     @Test void shall_findby_name() throws Exception {
@@ -103,7 +103,7 @@ class TransportUnitTypeControllerDocumentation {
                 .andExpect(jsonPath("$.width", is("80")))
                 .andExpect(jsonPath("$.length", is("120")))
                 .andExpect(status().isOk())
-                .andDo(document("tut-find-type"));
+                .andDo(document("tut-find-type", preprocessResponse(prettyPrint())));
     }
 
     @Test void shall_findby_name_404() throws Exception {
@@ -111,6 +111,6 @@ class TransportUnitTypeControllerDocumentation {
                 .queryParam("type", "NOT_EXISTS"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("messageKey", is(Messages.NOT_FOUND)))
-                .andDo(document("tut-find-type-404"));
+                .andDo(document("tut-find-type-404", preprocessResponse(prettyPrint())));
     }
 }

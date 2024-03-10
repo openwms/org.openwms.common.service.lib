@@ -41,14 +41,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -88,9 +86,8 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     private String groupName;
 
     /** Date when the {@code TransportUnit} has been moved to the current {@link Location}. */
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "C_ACTUAL_LOCATION_DATE")
-    private Date actualLocationDate;
+    private LocalDateTime actualLocationDate;
 
     /** Weight of the {@code TransportUnit}. */
     @Embedded
@@ -128,9 +125,8 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     private String inventoryUser;
 
     /** Date of last inventory check. */
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "C_INVENTORY_DATE")
-    private Date inventoryDate;
+    private LocalDateTime inventoryDate;
 
     /** A set of all child {@code TransportUnit}s, ordered by id. */
     @OneToMany(mappedBy = "parent", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
@@ -198,7 +194,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     public void setActualLocation(Location actualLocation) {
         Assert.notNull(actualLocation, "ActualLocation must not be null, this: " + this);
         this.actualLocation = actualLocation;
-        this.actualLocationDate = new Date();
+        this.actualLocationDate = LocalDateTime.now();
         this.actualLocation.setLastMovement(this.actualLocationDate);
         if (this.getChildren() != null) {
             this.getChildren().forEach(child -> child.setActualLocation(actualLocation));
@@ -210,7 +206,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      */
     public void initInventory() {
         setInventoryUser("init");
-        setInventoryDate(new Date());
+        setInventoryDate(LocalDateTime.now());
     }
 
     /**
@@ -302,11 +298,8 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      *
      * @return The timestamp when the {@code TransportUnit} moved the last time
      */
-    public Date getActualLocationDate() {
-        if (this.actualLocationDate == null) {
-            return null;
-        }
-        return new Date(this.actualLocationDate.getTime());
+    public LocalDateTime getActualLocationDate() {
+        return actualLocationDate;
     }
 
     /**
@@ -314,11 +307,8 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      *
      * @return The timestamp of the last inventory check of the {@code TransportUnit}.
      */
-    public Date getInventoryDate() {
-        if (this.inventoryDate == null) {
-            return null;
-        }
-        return new Date(this.inventoryDate.getTime());
+    public LocalDateTime getInventoryDate() {
+        return inventoryDate;
     }
 
     /**
@@ -327,9 +317,9 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @param inventoryDate The timestamp of the last inventory check
      * @throws IllegalArgumentException when {@code inventoryDate} is {@literal null}
      */
-    public void setInventoryDate(Date inventoryDate) {
+    public void setInventoryDate(LocalDateTime inventoryDate) {
         Assert.notNull(inventoryDate, () -> "InventoryDate must not be null, this: " + this);
-        this.inventoryDate = new Date(inventoryDate.getTime());
+        this.inventoryDate = inventoryDate;
     }
 
     /**

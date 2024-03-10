@@ -19,7 +19,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * A MessageCommand is used to attach Messages.
@@ -40,7 +40,7 @@ public class MessageCommand implements Command<MessageCommand.Type>, Serializabl
     @NotEmpty
     private String messageText;
     private String messageNumber;
-    private Date messageOccurred;
+    private LocalDateTime messageOccurred;
 
     /*~-------------------- constructors --------------------*/
     @ConstructorProperties({"type", "messageText"})
@@ -95,11 +95,11 @@ public class MessageCommand implements Command<MessageCommand.Type>, Serializabl
         this.messageNumber = messageNumber;
     }
 
-    public Date getMessageOccurred() {
+    public LocalDateTime getMessageOccurred() {
         return messageOccurred;
     }
 
-    public void setMessageOccurred(Date messageOccurred) {
+    public void setMessageOccurred(LocalDateTime messageOccurred) {
         this.messageOccurred = messageOccurred;
     }
 
@@ -108,7 +108,7 @@ public class MessageCommand implements Command<MessageCommand.Type>, Serializabl
         private String transportUnitId;
         private String messageText;
         private String messageNumber;
-        private Date messageOccurred;
+        private LocalDateTime messageOccurred;
 
         private Builder(Type type) {
             this.type = type;
@@ -129,7 +129,7 @@ public class MessageCommand implements Command<MessageCommand.Type>, Serializabl
             return this;
         }
 
-        public Builder withMessageOccurred(Date val) {
+        public Builder withMessageOccurred(LocalDateTime val) {
             messageOccurred = val;
             return this;
         }
