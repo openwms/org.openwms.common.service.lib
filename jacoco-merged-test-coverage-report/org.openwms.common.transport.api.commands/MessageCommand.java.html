@@ -19,7 +19,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * A MessageCommand is used to attach Messages.
@@ -40,7 +40,7 @@ public class MessageCommand implements Command&lt;MessageCommand.Type&gt;, Seria
     @NotEmpty
     private String messageText;
     private String messageNumber;
-    private Date messageOccurred;
+    private LocalDateTime messageOccurred;
 
     /*~-------------------- constructors --------------------*/
     @ConstructorProperties({&quot;type&quot;, &quot;messageText&quot;})
@@ -95,11 +95,11 @@ public class MessageCommand implements Command&lt;MessageCommand.Type&gt;, Seria
 <span class="nc" id="L95">        this.messageNumber = messageNumber;</span>
 <span class="nc" id="L96">    }</span>
 
-    public Date getMessageOccurred() {
+    public LocalDateTime getMessageOccurred() {
 <span class="nc" id="L99">        return messageOccurred;</span>
     }
 
-    public void setMessageOccurred(Date messageOccurred) {
+    public void setMessageOccurred(LocalDateTime messageOccurred) {
 <span class="nc" id="L103">        this.messageOccurred = messageOccurred;</span>
 <span class="nc" id="L104">    }</span>
 
@@ -108,7 +108,7 @@ public class MessageCommand implements Command&lt;MessageCommand.Type&gt;, Seria
         private String transportUnitId;
         private String messageText;
         private String messageNumber;
-        private Date messageOccurred;
+        private LocalDateTime messageOccurred;
 
 <span class="nc" id="L113">        private Builder(Type type) {</span>
 <span class="nc" id="L114">            this.type = type;</span>
@@ -129,7 +129,7 @@ public class MessageCommand implements Command&lt;MessageCommand.Type&gt;, Seria
 <span class="nc" id="L129">            return this;</span>
         }
 
-        public Builder withMessageOccurred(Date val) {
+        public Builder withMessageOccurred(LocalDateTime val) {
 <span class="nc" id="L133">            messageOccurred = val;</span>
 <span class="nc" id="L134">            return this;</span>
         }

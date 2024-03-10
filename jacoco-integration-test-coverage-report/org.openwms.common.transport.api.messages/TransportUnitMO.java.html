@@ -22,7 +22,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.StringJoiner;
 
 /**
@@ -43,7 +43,7 @@ public class TransportUnitMO implements Serializable {
     })
     private String barcode;
     /** The actualLocationDate of the TransportUnit. */
-    private Date actualLocationDate;
+    private LocalDateTime actualLocationDate;
     /** The state of the TransportUnit. */
     private String state;
     /** The actualLocation of the TransportUnit. */
@@ -104,16 +104,16 @@ public class TransportUnitMO implements Serializable {
 <span class="fc" id="L104">        this.barcode = barcode;</span>
 <span class="fc" id="L105">    }</span>
 
-    public Date getActualLocationDate() {
+    public LocalDateTime getActualLocationDate() {
 <span class="fc" id="L108">        return actualLocationDate;</span>
     }
 
-    public void setActualLocationDate(Date actualLocationDate) {
+    public void setActualLocationDate(LocalDateTime actualLocationDate) {
 <span class="fc" id="L112">        this.actualLocationDate = actualLocationDate;</span>
 <span class="fc" id="L113">    }</span>
 
     public String getState() {
-<span class="fc" id="L116">        return state;</span>
+<span class="nc" id="L116">        return state;</span>
     }
 
     public void setState(String state) {
@@ -121,7 +121,7 @@ public class TransportUnitMO implements Serializable {
 <span class="fc" id="L121">    }</span>
 
     public LocationMO getActualLocation() {
-<span class="fc" id="L124">        return actualLocation;</span>
+<span class="nc" id="L124">        return actualLocation;</span>
     }
 
     public void setActualLocation(LocationMO actualLocation) {
@@ -129,7 +129,7 @@ public class TransportUnitMO implements Serializable {
 <span class="fc" id="L129">    }</span>
 
     public LocationMO getTargetLocation() {
-<span class="fc" id="L132">        return targetLocation;</span>
+<span class="nc" id="L132">        return targetLocation;</span>
     }
 
     public void setTargetLocation(LocationMO targetLocation) {
@@ -137,7 +137,7 @@ public class TransportUnitMO implements Serializable {
 <span class="fc" id="L137">    }</span>
 
     public TransportUnitTypeMO getTransportUnitType() {
-<span class="fc" id="L140">        return transportUnitType;</span>
+<span class="nc" id="L140">        return transportUnitType;</span>
     }
 
     public void setTransportUnitType(TransportUnitTypeMO transportUnitType) {
@@ -145,7 +145,7 @@ public class TransportUnitMO implements Serializable {
 <span class="fc" id="L145">    }</span>
 
     public String getParent() {
-<span class="fc" id="L148">        return parent;</span>
+<span class="nc" id="L148">        return parent;</span>
     }
 
     public void setParent(String parent) {
@@ -174,7 +174,7 @@ public class TransportUnitMO implements Serializable {
     public static final class Builder {
         private String pKey;
         private String barcode;
-        private Date actualLocationDate;
+        private LocalDateTime actualLocationDate;
         private String state;
         private LocationMO actualLocation;
         private LocationMO targetLocation;
@@ -194,7 +194,7 @@ public class TransportUnitMO implements Serializable {
 <span class="nc" id="L194">            return this;</span>
         }
 
-        public Builder withActualLocationDate(Date val) {
+        public Builder withActualLocationDate(LocalDateTime val) {
 <span class="nc" id="L198">            actualLocationDate = val;</span>
 <span class="nc" id="L199">            return this;</span>
         }

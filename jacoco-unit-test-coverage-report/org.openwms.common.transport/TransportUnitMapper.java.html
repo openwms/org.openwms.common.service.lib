@@ -37,8 +37,12 @@ import java.util.List;
 @Mapper(uses = {LocationMapper.class, TransportUnitTypeMapper.class}, builder = @Builder(disableBuilder = true))
 <span class="fc" id="L38">public abstract class TransportUnitMapper {</span>
 
-    @Autowired
     protected BarcodeGenerator barcodeGenerator;
+
+    @Autowired
+    public void setBarcodeGenerator(BarcodeGenerator barcodeGenerator) {
+<span class="fc" id="L44">        this.barcodeGenerator = barcodeGenerator;</span>
+<span class="fc" id="L45">    }</span>
 
     @Mapping(target = &quot;parent&quot;, source = &quot;source.parent&quot;, ignore = true)
     @Mapping(target = &quot;inventoryDate&quot;, source = &quot;source.inventoryDate&quot;, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

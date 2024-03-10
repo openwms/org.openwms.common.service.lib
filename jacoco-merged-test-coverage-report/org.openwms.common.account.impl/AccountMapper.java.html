@@ -17,6 +17,7 @@ package org.openwms.common.account.impl;
 
 import org.ameba.exception.NotFoundException;
 import org.ameba.i18n.Translator;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.openwms.common.account.Account;
@@ -33,23 +34,31 @@ import static org.openwms.common.CommonMessageCodes.ACCOUNT_NOT_FOUND_BY_ID;
  *
  * @author Heiko Scherrer
  */
-@Mapper
-<span class="fc" id="L37">public abstract class AccountMapper {</span>
+@Mapper(uses = {Translator.class, AccountService.class}, componentModel = &quot;spring&quot;, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+<span class="fc" id="L38">public abstract class AccountMapper {</span>
 
-    @Autowired
     private Translator translator;
-    @Autowired
     private AccountService accountService;
 
+    @Autowired
+    public void setTranslator(Translator translator) {
+<span class="fc" id="L45">        this.translator = translator;</span>
+<span class="fc" id="L46">    }</span>
+
+    @Autowired
+    public void setAccountService(AccountService accountService) {
+<span class="fc" id="L50">        this.accountService = accountService;</span>
+<span class="fc" id="L51">    }</span>
+
     public Account convertFromId(String id) {
-<span class="pc bpc" id="L45" title="1 of 2 branches missed.">        if (id == null) {</span>
-<span class="nc" id="L46">            return null;</span>
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">        if (id == null) {</span>
+<span class="nc" id="L55">            return null;</span>
         }
-<span class="fc" id="L48">        var accountOpt = accountService.findByIdentifier(id);</span>
-<span class="pc bpc" id="L49" title="1 of 2 branches missed.">        if (accountOpt.isEmpty()) {</span>
-<span class="nc" id="L50">            throw new NotFoundException(translator, ACCOUNT_NOT_FOUND_BY_ID, new String[]{id}, id);</span>
+<span class="fc" id="L57">        var accountOpt = accountService.findByIdentifier(id);</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if (accountOpt.isEmpty()) {</span>
+<span class="nc" id="L59">            throw new NotFoundException(translator, ACCOUNT_NOT_FOUND_BY_ID, new String[]{id}, id);</span>
         }
-<span class="fc" id="L52">        return accountOpt.get();</span>
+<span class="fc" id="L61">        return accountOpt.get();</span>
     }
 
     @Mapping(target = &quot;pKey&quot;, source = &quot;eo.persistentKey&quot;)

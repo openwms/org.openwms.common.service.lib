@@ -31,8 +31,12 @@ import java.util.List;
 @Mapper
 <span class="fc" id="L32">public abstract class TransportUnitTypeMapper {</span>
 
-    @Autowired
     private TransportUnitTypeService service;
+
+    @Autowired
+    public void setService(TransportUnitTypeService service) {
+<span class="fc" id="L38">        this.service = service;</span>
+<span class="fc" id="L39">    }</span>
 
     @Mapping(target = &quot;persistentKey&quot;, source = &quot;vo.pKey&quot;)
     public abstract TransportUnitType convert(TransportUnitTypeVO vo);
@@ -45,7 +49,7 @@ import java.util.List;
     public abstract List&lt;TransportUnitTypeVO&gt; convertToVO(List&lt;TransportUnitType&gt; eo);
 
     public TransportUnitType convert(String type) {
-<span class="nc" id="L48">        return service.findByType(type).orElseGet(() -&gt; TransportUnitType.newBuilder(type).build());</span>
+<span class="nc" id="L52">        return service.findByType(type).orElseGet(() -&gt; TransportUnitType.newBuilder(type).build());</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -52,14 +52,14 @@ class TransportUnitEventPropagator {
 
     @TransactionalEventListener(fallbackExecution = true)
     public void onEvent(TransportUnitEvent event) {
-<span class="pc bpc" id="L55" title="2 of 6 branches missed.">        switch (event.getType()) {</span>
-<span class="fc" id="L56">            case CREATED -&gt; amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.created&quot;, mapper.convertToMO((TransportUnit) event.getSource()));</span>
-<span class="fc" id="L57">            case CHANGED -&gt; amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.changed&quot;, mapper.convertToMO((TransportUnit) event.getSource()));</span>
+<span class="nc bnc" id="L55" title="All 6 branches missed.">        switch (event.getType()) {</span>
+<span class="nc" id="L56">            case CREATED -&gt; amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.created&quot;, mapper.convertToMO((TransportUnit) event.getSource()));</span>
+<span class="nc" id="L57">            case CHANGED -&gt; amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.changed&quot;, mapper.convertToMO((TransportUnit) event.getSource()));</span>
 <span class="nc" id="L58">            case DELETED -&gt; amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.deleted&quot;, mapper.convertToMO((TransportUnit) event.getSource()));</span>
-<span class="fc" id="L59">            case STATE_CHANGE -&gt; amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.state-changed&quot;, mapper.convertToMO((TransportUnit) event.getSource()));</span>
-<span class="fc" id="L60">            case MOVED -&gt; amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.moved.&quot; + event.getActualLocation().getLocationId(), mapper.convertToMO((TransportUnit) event.getSource()));</span>
+<span class="nc" id="L59">            case STATE_CHANGE -&gt; amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.state-changed&quot;, mapper.convertToMO((TransportUnit) event.getSource()));</span>
+<span class="nc" id="L60">            case MOVED -&gt; amqpTemplate.convertAndSend(exchangeName, &quot;tu.event.moved.&quot; + event.getActualLocation().getLocationId(), mapper.convertToMO((TransportUnit) event.getSource()));</span>
 <span class="nc" id="L61">            default -&gt; throw new UnsupportedOperationException(format(&quot;TransportUnitEvent [%s] not supported&quot;, event.getType()));</span>
         }
-<span class="fc" id="L63">    }</span>
+<span class="nc" id="L63">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

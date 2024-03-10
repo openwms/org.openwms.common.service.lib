@@ -35,20 +35,28 @@ import static org.openwms.common.CommonMessageCodes.LOCATION_GROUP_NOT_FOUND;
 @Mapper
 <span class="fc" id="L36">public abstract class LocationGroupMapper {</span>
 
-    @Autowired
     private Translator translator;
-    @Autowired
     private LocationGroupService locationGroupService;
 
+    @Autowired
+    public void setTranslator(Translator translator) {
+<span class="fc" id="L43">        this.translator = translator;</span>
+<span class="fc" id="L44">    }</span>
+
+    @Autowired
+    public void setLocationGroupService(LocationGroupService locationGroupService) {
+<span class="fc" id="L48">        this.locationGroupService = locationGroupService;</span>
+<span class="fc" id="L49">    }</span>
+
     public LocationGroup convertFromName(String name) {
-<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (name == null) {</span>
-<span class="fc" id="L45">            return null;</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (name == null) {</span>
+<span class="fc" id="L53">            return null;</span>
         }
-<span class="fc" id="L47">        var locationGroupOpt = locationGroupService.findByName(name);</span>
-<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if (locationGroupOpt.isEmpty()) {</span>
-<span class="nc" id="L49">            throw new NotFoundException(translator, LOCATION_GROUP_NOT_FOUND, new String[]{name}, name);</span>
+<span class="fc" id="L55">        var locationGroupOpt = locationGroupService.findByName(name);</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        if (locationGroupOpt.isEmpty()) {</span>
+<span class="nc" id="L57">            throw new NotFoundException(translator, LOCATION_GROUP_NOT_FOUND, new String[]{name}, name);</span>
         }
-<span class="fc" id="L51">        return locationGroupOpt.get();</span>
+<span class="fc" id="L59">        return locationGroupOpt.get();</span>
     }
 
     @Mapping(target = &quot;pKey&quot;, source = &quot;eo.persistentKey&quot;)

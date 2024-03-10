@@ -35,20 +35,28 @@ import static org.openwms.common.CommonMessageCodes.LOCATION_TYPE_NOT_FOUND;
 @Mapper(uses = {AccountMapper.class})
 <span class="fc" id="L36">public abstract class LocationTypeMapper {</span>
 
-    @Autowired
-    private LocationTypeService locationTypeService;
-    @Autowired
     private Translator translator;
+    private LocationTypeService locationTypeService;
+
+    @Autowired
+    public void setTranslator(Translator translator) {
+<span class="fc" id="L43">        this.translator = translator;</span>
+<span class="fc" id="L44">    }</span>
+
+    @Autowired
+    public void setLocationTypeService(LocationTypeService locationTypeService) {
+<span class="fc" id="L48">        this.locationTypeService = locationTypeService;</span>
+<span class="fc" id="L49">    }</span>
 
     public LocationType convertFromString(String type) {
-<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (type == null) {</span>
-<span class="fc" id="L45">            return null;</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (type == null) {</span>
+<span class="fc" id="L53">            return null;</span>
         }
-<span class="fc" id="L47">        var locationTypeOpt = locationTypeService.findByTypeName(type);</span>
-<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if (locationTypeOpt.isEmpty()) {</span>
-<span class="nc" id="L49">            throw new NotFoundException(translator, LOCATION_TYPE_NOT_FOUND, new String[]{type}, type);</span>
+<span class="fc" id="L55">        var locationTypeOpt = locationTypeService.findByTypeName(type);</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        if (locationTypeOpt.isEmpty()) {</span>
+<span class="nc" id="L57">            throw new NotFoundException(translator, LOCATION_TYPE_NOT_FOUND, new String[]{type}, type);</span>
         }
-<span class="fc" id="L51">        return locationTypeOpt.get();</span>
+<span class="fc" id="L59">        return locationTypeOpt.get();</span>
     }
 
     @Mapping(target = &quot;pKey&quot;, source = &quot;eo.persistentKey&quot;)
