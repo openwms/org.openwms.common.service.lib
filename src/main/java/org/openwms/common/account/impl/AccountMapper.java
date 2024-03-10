@@ -17,6 +17,7 @@ package org.openwms.common.account.impl;
 
 import org.ameba.exception.NotFoundException;
 import org.ameba.i18n.Translator;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.openwms.common.account.Account;
@@ -33,13 +34,21 @@ import static org.openwms.common.CommonMessageCodes.ACCOUNT_NOT_FOUND_BY_ID;
  *
  * @author Heiko Scherrer
  */
-@Mapper
+@Mapper(uses = {Translator.class, AccountService.class}, componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public abstract class AccountMapper {
 
-    @Autowired
     private Translator translator;
-    @Autowired
     private AccountService accountService;
+
+    @Autowired
+    public void setTranslator(Translator translator) {
+        this.translator = translator;
+    }
+
+    @Autowired
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     public Account convertFromId(String id) {
         if (id == null) {

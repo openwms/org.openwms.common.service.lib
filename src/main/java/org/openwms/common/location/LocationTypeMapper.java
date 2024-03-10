@@ -35,10 +35,18 @@ import static org.openwms.common.CommonMessageCodes.LOCATION_TYPE_NOT_FOUND;
 @Mapper(uses = {AccountMapper.class})
 public abstract class LocationTypeMapper {
 
-    @Autowired
-    private LocationTypeService locationTypeService;
-    @Autowired
     private Translator translator;
+    private LocationTypeService locationTypeService;
+
+    @Autowired
+    public void setTranslator(Translator translator) {
+        this.translator = translator;
+    }
+
+    @Autowired
+    public void setLocationTypeService(LocationTypeService locationTypeService) {
+        this.locationTypeService = locationTypeService;
+    }
 
     public LocationType convertFromString(String type) {
         if (type == null) {

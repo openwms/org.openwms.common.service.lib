@@ -35,10 +35,18 @@ import static org.openwms.common.CommonMessageCodes.LOCATION_GROUP_NOT_FOUND;
 @Mapper
 public abstract class LocationGroupMapper {
 
-    @Autowired
     private Translator translator;
-    @Autowired
     private LocationGroupService locationGroupService;
+
+    @Autowired
+    public void setTranslator(Translator translator) {
+        this.translator = translator;
+    }
+
+    @Autowired
+    public void setLocationGroupService(LocationGroupService locationGroupService) {
+        this.locationGroupService = locationGroupService;
+    }
 
     public LocationGroup convertFromName(String name) {
         if (name == null) {

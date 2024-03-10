@@ -31,8 +31,12 @@ import java.util.List;
 @Mapper
 public abstract class TransportUnitTypeMapper {
 
-    @Autowired
     private TransportUnitTypeService service;
+
+    @Autowired
+    public void setService(TransportUnitTypeService service) {
+        this.service = service;
+    }
 
     @Mapping(target = "persistentKey", source = "vo.pKey")
     public abstract TransportUnitType convert(TransportUnitTypeVO vo);
