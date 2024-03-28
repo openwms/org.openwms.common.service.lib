@@ -20,6 +20,8 @@ import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.ameba.i18n.Translator;
 import org.openwms.common.location.LocationRemovalManager;
+import org.openwms.common.location.api.commands.RevokeLocationRemoveCommand;
+import org.openwms.common.location.api.events.LocationEvent;
 import org.openwms.common.location.impl.registration.RegistrationService;
 import org.openwms.common.location.impl.registration.ReplicaRegistry;
 import org.openwms.core.listener.RemovalNotAllowedException;
@@ -78,32 +80,26 @@ class LocationRemovalManagerImpl implements LocationRemovalManager {
         var registeredServices = registrationService.getAllRegistered();
 
         // first ask all services and call the requestRemovalEndpoint
-        try {
-            for (var srv : registeredServices) {
-                var si = dc.getInstances(srv.getApplicationName());
-                askForRemoval(si, srv, pKey);
-            }
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            throw e;
+        // might throw RemovalNotAllowedException and exit
+        for (var srv : registeredServices) {
+            var si = dc.getInstances(srv.getApplicationName());
+            askForRemoval(si, srv, pKey);
         }
 
         // if all are fine then call the removeEndpoint to mark the Location as deleted and not be visible in the foreign service
         try {
             for (var srv : registeredServices) {
-                removeLocation(si, srv, pkey);
+                var si = dc.getInstances(srv.getApplicationName());
+               removeLocation(si, srv, pKey);
             }
-            // if ALL still agree, then send a persistent async message to commit the deletion
-            for (var srv : registeredServices) {
-
-                eventPublisher.publishEvent(new CommitLocationRemoveCmmand(pKey));
-            }
+            // if ALL still agree, then send a persistent async message to commit the deletion after the transaction
+            eventPublisher.publishEvent(LocationEvent.of(locationOpt.get(), LocationEvent.LocationEventType.DELETED));
+            // and finally delete the Location
+            repository.delete(locationOpt.get());
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             // if any failure occurs, send a persistent async message to release the deletion for everyone
-            for (var srv : registeredServices) {
-
-            }
+            eventPublisher.publishEvent(new RevokeLocationRemoveCommand(pKey));
         }
     }
 
@@ -112,21 +108,48 @@ class LocationRemovalManagerImpl implements LocationRemovalManager {
             boolean result;
             var endpoint = si.getMetadata().get("protocol") + "://" + si.getServiceId() + srv.getRequestRemovalEndpoint();
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Asking for removal the service with API [{}]", endpoint);
+                LOGGER.debug("Request for removal to the service with API [{}]", endpoint);
             }
             try {
-                result = aLoadBalanced.exchange(
+                var response = aLoadBalanced.exchange(
                         endpoint,
                         HttpMethod.GET,
                         null,
                         Boolean.class,
                         Map.of("pKey", pKey)
-                ).getBody();
+                );
+                result = response.getBody() != null && response.getBody();
+                if (result) {
+                    LOGGER.info("Service [{}] allows to remove the Location with pKey [{}]", si.getServiceId(), pKey);
+                } else {
+                    LOGGER.info("Service [{}] does not allow to remove the Location with pKey [{}]", si.getServiceId(), pKey);
+                }
             } catch (Exception e) {
-                throw new RemovalNotAllowedException(format("Exception. So removal of Location with pKey [%s] is declined by service [%s]", pKey, si.getServiceId()));
+                throw new RemovalNotAllowedException(format("Exception. Removal of Location with pKey [%s] is declined by service [%s]", pKey, si.getServiceId()));
             }
             if (!result) {
                 throw new RemovalNotAllowedException(format("Removal of Location with pKey [%s] has been declined by service [%s]", pKey, si.getServiceId()));
+            }
+        }
+    }
+
+    private void removeLocation(List<ServiceInstance> sis, ReplicaRegistry srv, String pKey) {
+        for (var si : sis) {
+            var endpoint = si.getMetadata().get("protocol") + "://" + si.getServiceId() + srv.getRemovalEndpoint();
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Ask for removal the service with API [{}]", endpoint);
+            }
+            try {
+                aLoadBalanced.exchange(
+                        endpoint,
+                        HttpMethod.DELETE,
+                        null,
+                        Void.class,
+                        Map.of("pKey", pKey)
+                );
+                LOGGER.info("Service [{}] removed Location with pKey [{}]", si.getServiceId(), pKey);
+            } catch (Exception e) {
+                throw new RemovalNotAllowedException(format("Exception. Removal of Location with pKey [%s] is declined by service [%s]", pKey, si.getServiceId()));
             }
         }
     }

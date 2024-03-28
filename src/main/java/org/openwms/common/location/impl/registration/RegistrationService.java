@@ -21,13 +21,31 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * A RegistrationService.
+ * A RegistrationService is responsible to manage registrations of foreign services that participate in the lifecycle of Locations and
+ * LocationGroups.
  *
  * @author Heiko Scherrer
  */
 public interface RegistrationService {
 
+    /**
+     * Registers a new service instance with their particular lifecycle endpoints.
+     *
+     * @param registration Contains all required registration information
+     */
     void register(@NotNull LocationReplicaRegistration registration);
 
-    List<ReplicaRegistry> getAllRegistered();
+    /**
+     * Unregisters a service instance.
+     *
+     * @param registration Contains all required information to unregister
+     */
+    void unregister(@NotNull LocationReplicaRegistration registration);
+
+    /**
+     * Get all currently registered service instances.
+     *
+     * @return A list of registrations
+     */
+    @NotNull List<ReplicaRegistry> getAllRegistered();
 }

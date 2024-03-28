@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport.api.messages;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.openwms.common.location.api.messages.LocationMO;
 import org.openwms.common.transport.api.ValidationGroups;
 
@@ -24,6 +25,8 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.StringJoiner;
+
+import static org.openwms.common.transport.api.TransportApiConstants.DATETIME_FORMAT_ZULU;
 
 /**
  * A TransportUnitMO is a Message Object (MO) that represents a {@code TransportUnit}.
@@ -43,6 +46,7 @@ public class TransportUnitMO implements Serializable {
     })
     private String barcode;
     /** The actualLocationDate of the TransportUnit. */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATETIME_FORMAT_ZULU) // required
     private LocalDateTime actualLocationDate;
     /** The state of the TransportUnit. */
     private String state;

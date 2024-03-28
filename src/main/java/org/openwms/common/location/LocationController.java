@@ -24,6 +24,8 @@ import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.location.api.LockMode;
 import org.openwms.common.location.api.LockType;
 import org.openwms.common.location.api.ValidationGroups;
+import org.openwms.common.location.api.commands.LocationReplicaRegistration;
+import org.openwms.common.location.impl.registration.RegistrationService;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;
@@ -71,12 +73,14 @@ public class LocationController extends AbstractWebController {
     private final LocationMapper mapper;
     private final Translator translator;
     private final LocationService locationService;
+    private final RegistrationService registrationService;
     private final LocationRemovalManager locationRemovalManager;
 
-    LocationController(LocationService locationService, LocationMapper mapper, Translator translator, LocationRemovalManager locationRemovalManager) {
+    LocationController(LocationService locationService, LocationMapper mapper, Translator translator, RegistrationService registrationService, LocationRemovalManager locationRemovalManager) {
         this.locationService = locationService;
         this.mapper = mapper;
         this.translator = translator;
+        this.registrationService = registrationService;
         this.locationRemovalManager = locationRemovalManager;
     }
 
@@ -92,6 +96,12 @@ public class LocationController extends AbstractWebController {
                 .body(result);
     }
 
+    @PostMapping(value = API_LOCATIONS + "/register")
+    public ResponseEntity<Void> registerReplica(@RequestBody LocationReplicaRegistration registration, HttpServletRequest req) {
+        registrationService.register(registration);
+        return ResponseEntity.ok().build();
+    }
+
     @PutMapping(value = API_LOCATIONS)
     @Validated(ValidationGroups.Update.class)
     public ResponseEntity<LocationVO> updateLocation(@Valid @RequestBody LocationVO location) {
@@ -102,7 +112,6 @@ public class LocationController extends AbstractWebController {
     }
 
     @DeleteMapping(value = API_LOCATIONS + "/{pKey}")
-    @Validated(ValidationGroups.Update.class)
     public ResponseEntity<Void> deleteLocation(@PathVariable("pKey") String pKey) {
         locationRemovalManager.delete(pKey);
         return ResponseEntity.noContent().build();

@@ -18,14 +18,18 @@ package org.openwms.common.location.impl.registration;
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.openwms.common.location.api.commands.LocationReplicaRegistration;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * A RegistrationServiceImpl.
  *
  * @author Heiko Scherrer
  */
+@Validated
 @TxService
 class RegistrationServiceImpl implements RegistrationService {
 
@@ -40,7 +44,7 @@ class RegistrationServiceImpl implements RegistrationService {
      */
     @Override
     @Measured
-    public void register(LocationReplicaRegistration registration) {
+    public void register(@NotNull LocationReplicaRegistration registration) {
         var replicaOpt = repository.findByApplicationName(registration.applicationName());
         ReplicaRegistry eo;
         if (replicaOpt.isEmpty()) {
@@ -53,9 +57,42 @@ class RegistrationServiceImpl implements RegistrationService {
             // update existing one
             eo = replicaOpt.get();
         }
-        eo.setDeleteEndpoint(registration.deleteEndpoint());
+        eo.setRequestRemovalEndpoint(registration.requestRemovalEndpoint());
+        eo.setRemovalEndpoint(registration.removeEndpoint());
         eo.setRegisteredAt(LocalDateTime.now());
         eo.setState("REGISTERED");
         repository.save(eo);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public void unregister(@NotNull LocationReplicaRegistration registration) {
+        var replicaOpt = repository.findByApplicationName(registration.applicationName());
+        ReplicaRegistry eo;
+        if (replicaOpt.isEmpty()) {
+
+            // create new entry
+            eo = new ReplicaRegistry();
+            eo.setApplicationName(registration.applicationName());
+        } else {
+
+            // update existing one
+            eo = replicaOpt.get();
+        }
+        eo.setUnRegisteredAt(LocalDateTime.now());
+        eo.setState("UNREGISTERED");
+        repository.save(eo);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public @NotNull List<ReplicaRegistry> getAllRegistered() {
+        return repository.findAll();
     }
 }
