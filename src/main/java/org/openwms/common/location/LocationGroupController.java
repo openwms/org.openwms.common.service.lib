@@ -31,6 +31,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -161,11 +162,18 @@ public class LocationGroupController extends AbstractWebController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping(value = API_LOCATION_GROUPS + "/{pKey}")
+    public ResponseEntity<Void> deleteLocationGroup(@PathVariable("pKey") String pKey) {
+        locationGroupService.delete(pKey);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping(API_LOCATION_GROUPS + "/index")
     public ResponseEntity<Index> index() {
         return ResponseEntity.ok(
                 new Index(
                         linkTo(methodOn(LocationGroupController.class).create(LocationGroupVO.create("FOO", "INFEED_AND_OUTFEED"), null)).withRel("location-groups-create"),
+                        linkTo(methodOn(LocationGroupController.class).deleteLocationGroup("UUID")).withRel("location-groups-delete"),
                         linkTo(methodOn(LocationGroupController.class).findByName("FOO")).withRel("location-groups-findbyname"),
                         linkTo(methodOn(LocationGroupController.class).findByNames(asList("FOO", "BAR"))).withRel("location-groups-findbynames"),
                         linkTo(methodOn(LocationGroupController.class).findAll()).withRel("location-groups-findall"),

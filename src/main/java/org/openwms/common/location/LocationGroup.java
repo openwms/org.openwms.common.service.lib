@@ -410,6 +410,15 @@ public class LocationGroup extends Target implements Serializable {
     }
 
     /**
+     * Check whether this {@code LocationGroup} has {@code LocationGroup}s as children.
+     *
+     * @return {@literal true} if {@code LocationGroup}s are assigned, otherwise {@literal false}
+     */
+    public boolean hasLocationGroups() {
+        return locationGroups != null && !locationGroups.isEmpty();
+    }
+
+    /**
      * Sets the child {@code LocationGroup}.
      *
      * @param locationGroups the set of LocationGroups to set
