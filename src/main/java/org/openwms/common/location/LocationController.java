@@ -24,7 +24,6 @@ import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.location.api.LockMode;
 import org.openwms.common.location.api.LockType;
 import org.openwms.common.location.api.ValidationGroups;
-import org.openwms.common.location.api.commands.LocationReplicaRegistration;
 import org.openwms.common.location.impl.registration.RegistrationService;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
@@ -96,12 +95,6 @@ public class LocationController extends AbstractWebController {
                 .body(result);
     }
 
-    @PostMapping(value = API_LOCATIONS + "/register")
-    public ResponseEntity<Void> registerReplica(@RequestBody LocationReplicaRegistration registration, HttpServletRequest req) {
-        registrationService.register(registration);
-        return ResponseEntity.ok().build();
-    }
-
     @PutMapping(value = API_LOCATIONS)
     @Validated(ValidationGroups.Update.class)
     public ResponseEntity<LocationVO> updateLocation(@Valid @RequestBody LocationVO location) {
@@ -113,7 +106,7 @@ public class LocationController extends AbstractWebController {
 
     @DeleteMapping(value = API_LOCATIONS + "/{pKey}")
     public ResponseEntity<Void> deleteLocation(@PathVariable("pKey") String pKey) {
-        locationRemovalManager.delete(pKey);
+        locationRemovalManager.tryDelete(pKey);
         return ResponseEntity.noContent().build();
     }
 
@@ -247,6 +240,7 @@ public class LocationController extends AbstractWebController {
                 new Index(
                         linkTo(methodOn(LocationController.class).createLocation(new LocationVO("locationId"), null)).withRel("location-create"),
                         linkTo(methodOn(LocationController.class).updateLocation(new LocationVO("locationId"))).withRel("location-updatelocation"),
+                        linkTo(methodOn(LocationController.class).deleteLocation("pKey")).withRel("location-deletelocation"),
                         linkTo(methodOn(LocationController.class).findByPKey("pKey")).withRel("location-findbypkey"),
                         linkTo(methodOn(LocationController.class).findByCoordinate("AREA/AISLE/X/Y/Z")).withRel("location-findbycoordinate"),
                         linkTo(methodOn(LocationController.class).findByCoordinate("area", "aisle", "x", "y", "z")).withRel("location-findbycoordinate-wc"),
