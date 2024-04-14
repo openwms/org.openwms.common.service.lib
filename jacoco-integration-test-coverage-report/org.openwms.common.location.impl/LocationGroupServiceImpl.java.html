@@ -129,12 +129,10 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public void changeGroupState(@NotBlank String pKey, @NotNull LocationGroupState stateIn, @NotNull LocationGroupState stateOut) {
-<span class="pc" id="L132">        var locationGroup = repository.findBypKey(pKey).orElseThrow(() -&gt; new NotFoundException(</span>
-                translator, LOCATION_GROUP_NOT_FOUND_BY_PKEY, new String[]{pKey}, pKey
-        ));
-<span class="fc" id="L135">        locationGroup.changeState(stateIn, stateOut);</span>
-<span class="fc" id="L136">        ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));</span>
-<span class="fc" id="L137">    }</span>
+<span class="fc" id="L132">        var locationGroup = findInternalByPKey(pKey);</span>
+<span class="fc" id="L133">        locationGroup.changeState(stateIn, stateOut);</span>
+<span class="fc" id="L134">        ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));</span>
+<span class="fc" id="L135">    }</span>
 
     /**
      * {@inheritDoc}
@@ -142,13 +140,13 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public void changeGroupStates(@NotBlank String name, Optional&lt;LocationGroupState&gt; stateIn, Optional&lt;LocationGroupState&gt; stateOut) {
-<span class="fc" id="L145">        var locationGroup = findByNameOrThrowInternal(name);</span>
-<span class="fc" id="L146">        stateIn.ifPresent(locationGroup::changeGroupStateIn);</span>
-<span class="fc" id="L147">        stateOut.ifPresent(locationGroup::changeGroupStateOut);</span>
-<span class="pc bpc" id="L148" title="3 of 4 branches missed.">        if (stateIn.isPresent() || stateOut.isPresent()) {</span>
-<span class="fc" id="L149">            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));</span>
+<span class="fc" id="L143">        var locationGroup = findByNameOrThrowInternal(name);</span>
+<span class="fc" id="L144">        stateIn.ifPresent(locationGroup::changeGroupStateIn);</span>
+<span class="fc" id="L145">        stateOut.ifPresent(locationGroup::changeGroupStateOut);</span>
+<span class="pc bpc" id="L146" title="3 of 4 branches missed.">        if (stateIn.isPresent() || stateOut.isPresent()) {</span>
+<span class="fc" id="L147">            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));</span>
         }
-<span class="fc" id="L151">    }</span>
+<span class="fc" id="L149">    }</span>
 
     /**
      * {@inheritDoc}
@@ -156,10 +154,10 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public void changeOperationMode(@NotBlank String name, @NotBlank String mode) {
-<span class="fc" id="L159">        var locationGroup = findByNameOrThrowInternal(name);</span>
-<span class="fc" id="L160">        locationGroup.setOperationMode(mode);</span>
-<span class="fc" id="L161">        repository.save(locationGroup);</span>
-<span class="fc" id="L162">    }</span>
+<span class="fc" id="L157">        var locationGroup = findByNameOrThrowInternal(name);</span>
+<span class="fc" id="L158">        locationGroup.setOperationMode(mode);</span>
+<span class="fc" id="L159">        repository.save(locationGroup);</span>
+<span class="fc" id="L160">    }</span>
 
     /**
      * {@inheritDoc}
@@ -167,7 +165,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public Optional&lt;LocationGroup&gt; findByName(@NotBlank String name) {
-<span class="fc" id="L170">        return repository.findByName(name);</span>
+<span class="fc" id="L168">        return repository.findByName(name);</span>
     }
 
     /**
@@ -176,11 +174,11 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public @NotNull LocationGroup findByNameOrThrow(@NotBlank String name) {
-<span class="fc" id="L179">        return findByNameOrThrowInternal(name);</span>
+<span class="fc" id="L177">        return findByNameOrThrowInternal(name);</span>
     }
 
     private LocationGroup findByNameOrThrowInternal(String name) {
-<span class="fc" id="L183">        return repository.findByName(name).orElseThrow(() -&gt; new NotFoundException(</span>
+<span class="fc" id="L181">        return repository.findByName(name).orElseThrow(() -&gt; new NotFoundException(</span>
                 translator, LOCATION_GROUP_NOT_FOUND, new String[]{name}, name
         ));
     }
@@ -191,7 +189,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public @NotNull List&lt;LocationGroup&gt; findAll() {
-<span class="fc" id="L194">        return repository.findAll();</span>
+<span class="fc" id="L192">        return repository.findAll();</span>
     }
 
     /**
@@ -200,8 +198,27 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public @NotNull List&lt;LocationGroup&gt; findByNames(@NotEmpty List&lt;String&gt; locationGroupNames) {
-<span class="fc" id="L203">        var result = repository.findByNameIn(locationGroupNames);</span>
-<span class="pc bpc" id="L204" title="1 of 2 branches missed.">        return result == null ? new ArrayList&lt;&gt;(0) : result;</span>
+<span class="fc" id="L201">        var result = repository.findByNameIn(locationGroupNames);</span>
+<span class="pc bpc" id="L202" title="1 of 2 branches missed.">        return result == null ? new ArrayList&lt;&gt;(0) : result;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public @NotNull LocationGroup update(@NotBlank String pKey, @NotNull LocationGroupVO locationGroupVO) {
+<span class="fc" id="L211">        var locationGroup = findInternalByPKey(pKey);</span>
+<span class="pc bpc" id="L212" title="2 of 4 branches missed.">        if (locationGroupVO.getDescription() != null &amp;&amp; !locationGroupVO.getDescription().equals(locationGroup.getDescription())) {</span>
+<span class="fc" id="L213">            locationGroup.setDescription(locationGroupVO.getDescription());</span>
+        }
+<span class="fc" id="L215">        return repository.save(locationGroup);</span>
+    }
+
+    private LocationGroup findInternalByPKey(String pKey) {
+<span class="pc" id="L219">        return repository.findBypKey(pKey).orElseThrow(() -&gt; new NotFoundException(</span>
+                translator, LOCATION_GROUP_NOT_FOUND_BY_PKEY, new String[]{pKey}, pKey
+        ));
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

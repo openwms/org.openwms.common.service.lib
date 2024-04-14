@@ -68,7 +68,7 @@ public class LocationGroup extends Target implements Serializable {
     @JoinColumn(name = &quot;C_ACCOUNT&quot;, referencedColumnName = &quot;C_IDENTIFIER&quot;, foreignKey = @ForeignKey(name = &quot;FK_LG_ACC&quot;))
     private Account account;
 
-    /** Description for the {@code LocationGroup}. */
+    /** Description of the {@code LocationGroup}. */
     @Column(name = &quot;C_DESCRIPTION&quot;)
     private String description;
 

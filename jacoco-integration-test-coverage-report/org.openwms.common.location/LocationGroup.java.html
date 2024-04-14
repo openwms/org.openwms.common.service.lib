@@ -68,7 +68,7 @@ public class LocationGroup extends Target implements Serializable {
     @JoinColumn(name = &quot;C_ACCOUNT&quot;, referencedColumnName = &quot;C_IDENTIFIER&quot;, foreignKey = @ForeignKey(name = &quot;FK_LG_ACC&quot;))
     private Account account;
 
-    /** Description for the {@code LocationGroup}. */
+    /** Description of the {@code LocationGroup}. */
     @Column(name = &quot;C_DESCRIPTION&quot;)
     private String description;
 
@@ -370,7 +370,7 @@ public class LocationGroup extends Target implements Serializable {
      * @return The Description as String
      */
     public String getDescription() {
-<span class="nc" id="L373">        return this.description;</span>
+<span class="fc" id="L373">        return this.description;</span>
     }
 
     /**
@@ -379,8 +379,8 @@ public class LocationGroup extends Target implements Serializable {
      * @param description The String to set as description text
      */
     public void setDescription(String description) {
-<span class="nc" id="L382">        this.description = description;</span>
-<span class="nc" id="L383">    }</span>
+<span class="fc" id="L382">        this.description = description;</span>
+<span class="fc" id="L383">    }</span>
 
     /**
      * Returns the parent {@code LocationGroup}.

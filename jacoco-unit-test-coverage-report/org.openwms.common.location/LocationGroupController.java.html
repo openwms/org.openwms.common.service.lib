@@ -161,16 +161,26 @@ public class LocationGroupController extends AbstractWebController {
 <span class="nc" id="L161">        return ResponseEntity.ok().build();</span>
     }
 
+    @PatchMapping(value = API_LOCATION_GROUPS + &quot;/{pKey}&quot;)
+    public ResponseEntity&lt;Void&gt; modifyLocationGroup(
+            @PathVariable String pKey,
+            @RequestBody LocationGroupVO locationGroupVO
+    ) {
+<span class="nc" id="L169">        locationGroupService.update(pKey, locationGroupVO);</span>
+<span class="nc" id="L170">        return ResponseEntity.ok().build();</span>
+    }
+
     @GetMapping(API_LOCATION_GROUPS + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="nc" id="L166">        return ResponseEntity.ok(</span>
+<span class="nc" id="L175">        return ResponseEntity.ok(</span>
                 new Index(
-<span class="nc" id="L168">                        linkTo(methodOn(LocationGroupController.class).create(LocationGroupVO.create(&quot;FOO&quot;, &quot;INFEED_AND_OUTFEED&quot;), null)).withRel(&quot;location-groups-create&quot;),</span>
-<span class="nc" id="L169">                        linkTo(methodOn(LocationGroupController.class).findByName(&quot;FOO&quot;)).withRel(&quot;location-groups-findbyname&quot;),</span>
-<span class="nc" id="L170">                        linkTo(methodOn(LocationGroupController.class).findByNames(asList(&quot;FOO&quot;, &quot;BAR&quot;))).withRel(&quot;location-groups-findbynames&quot;),</span>
-<span class="nc" id="L171">                        linkTo(methodOn(LocationGroupController.class).findAll()).withRel(&quot;location-groups-findall&quot;),</span>
-<span class="nc" id="L172">                        linkTo(methodOn(LocationGroupController.class).changeGroupState(&quot;UUID&quot;, &quot;change-state&quot;, LocationGroupState.AVAILABLE, LocationGroupState.NOT_AVAILABLE)).withRel(&quot;location-groups-changestate&quot;),</span>
-<span class="nc" id="L173">                        linkTo(methodOn(LocationGroupController.class).changeGroupState(&quot;FOO&quot;, &quot;change-state&quot;, ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel(&quot;location-groups-changestate-with-bitmap&quot;)</span>
+<span class="nc" id="L177">                        linkTo(methodOn(LocationGroupController.class).create(LocationGroupVO.create(&quot;FOO&quot;, &quot;INFEED_AND_OUTFEED&quot;), null)).withRel(&quot;location-groups-create&quot;),</span>
+<span class="nc" id="L178">                        linkTo(methodOn(LocationGroupController.class).findByName(&quot;FOO&quot;)).withRel(&quot;location-groups-findbyname&quot;),</span>
+<span class="nc" id="L179">                        linkTo(methodOn(LocationGroupController.class).findByNames(asList(&quot;FOO&quot;, &quot;BAR&quot;))).withRel(&quot;location-groups-findbynames&quot;),</span>
+<span class="nc" id="L180">                        linkTo(methodOn(LocationGroupController.class).findAll()).withRel(&quot;location-groups-findall&quot;),</span>
+<span class="nc" id="L181">                        linkTo(methodOn(LocationGroupController.class).changeGroupState(&quot;UUID&quot;, &quot;change-state&quot;, LocationGroupState.AVAILABLE, LocationGroupState.NOT_AVAILABLE)).withRel(&quot;location-groups-changestate&quot;),</span>
+<span class="nc" id="L182">                        linkTo(methodOn(LocationGroupController.class).changeGroupState(&quot;FOO&quot;, &quot;change-state&quot;, ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel(&quot;location-groups-changestate-with-bitmap&quot;),</span>
+<span class="nc" id="L183">                        linkTo(methodOn(LocationGroupController.class).modifyLocationGroup(&quot;FOO&quot;, null)).withRel(&quot;location-groups-modify&quot;)</span>
                 )
         );
     }

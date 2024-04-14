@@ -41,88 +41,89 @@ import org.springframework.stereotype.Component;
         }
 <span class="fc" id="L42">        locationGroupVO.setOperationMode( eo.getOperationMode() );</span>
 <span class="fc" id="L43">        locationGroupVO.setName( eo.getName() );</span>
-<span class="fc" id="L44">        locationGroupVO.setGroupType( eo.getGroupType() );</span>
+<span class="fc" id="L44">        locationGroupVO.setDescription( eo.getDescription() );</span>
+<span class="fc" id="L45">        locationGroupVO.setGroupType( eo.getGroupType() );</span>
 
-<span class="fc" id="L46">        return locationGroupVO;</span>
+<span class="fc" id="L47">        return locationGroupVO;</span>
     }
 
     @Override
     public LocationGroupMO convertToMO(LocationGroup eo) {
-<span class="pc bpc" id="L51" title="1 of 2 branches missed.">        if ( eo == null ) {</span>
-<span class="nc" id="L52">            return null;</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        if ( eo == null ) {</span>
+<span class="nc" id="L53">            return null;</span>
         }
 
-<span class="fc" id="L55">        LocationGroupMO locationGroupMO = new LocationGroupMO();</span>
+<span class="fc" id="L56">        LocationGroupMO locationGroupMO = new LocationGroupMO();</span>
 
-<span class="fc" id="L57">        locationGroupMO.setAccountId( eoAccountIdentifier( eo ) );</span>
-<span class="fc" id="L58">        String name = eoParentName( eo );</span>
-<span class="fc bfc" id="L59" title="All 2 branches covered.">        if ( eo.hasParent() ) {</span>
-<span class="fc" id="L60">            locationGroupMO.setParent( name );</span>
+<span class="fc" id="L58">        locationGroupMO.setAccountId( eoAccountIdentifier( eo ) );</span>
+<span class="fc" id="L59">        String name = eoParentName( eo );</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if ( eo.hasParent() ) {</span>
+<span class="fc" id="L61">            locationGroupMO.setParent( name );</span>
         }
-<span class="fc" id="L62">        locationGroupMO.setOperationMode( eo.getOperationMode() );</span>
-<span class="fc" id="L63">        locationGroupMO.setName( eo.getName() );</span>
+<span class="fc" id="L63">        locationGroupMO.setOperationMode( eo.getOperationMode() );</span>
+<span class="fc" id="L64">        locationGroupMO.setName( eo.getName() );</span>
 
-<span class="fc" id="L65">        locationGroupMO.setIncomingActive( eo.isInfeedAllowed() );</span>
-<span class="fc" id="L66">        locationGroupMO.setOutgoingActive( eo.isOutfeedAllowed() );</span>
+<span class="fc" id="L66">        locationGroupMO.setIncomingActive( eo.isInfeedAllowed() );</span>
+<span class="fc" id="L67">        locationGroupMO.setOutgoingActive( eo.isOutfeedAllowed() );</span>
 
-<span class="fc" id="L68">        return locationGroupMO;</span>
+<span class="fc" id="L69">        return locationGroupMO;</span>
     }
 
     @Override
     public List&lt;LocationGroupVO&gt; convertToVO(List&lt;LocationGroup&gt; eo) {
-<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        if ( eo == null ) {</span>
-<span class="nc" id="L74">            return null;</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        if ( eo == null ) {</span>
+<span class="nc" id="L75">            return null;</span>
         }
 
-<span class="fc" id="L77">        List&lt;LocationGroupVO&gt; list = new ArrayList&lt;LocationGroupVO&gt;( eo.size() );</span>
-<span class="fc bfc" id="L78" title="All 2 branches covered.">        for ( LocationGroup locationGroup : eo ) {</span>
-<span class="fc" id="L79">            list.add( convertToVO( locationGroup ) );</span>
-<span class="fc" id="L80">        }</span>
+<span class="fc" id="L78">        List&lt;LocationGroupVO&gt; list = new ArrayList&lt;LocationGroupVO&gt;( eo.size() );</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        for ( LocationGroup locationGroup : eo ) {</span>
+<span class="fc" id="L80">            list.add( convertToVO( locationGroup ) );</span>
+<span class="fc" id="L81">        }</span>
 
-<span class="fc" id="L82">        return list;</span>
+<span class="fc" id="L83">        return list;</span>
     }
 
     private String eoAccountIdentifier(LocationGroup locationGroup) {
-<span class="pc bpc" id="L86" title="1 of 2 branches missed.">        if ( locationGroup == null ) {</span>
-<span class="nc" id="L87">            return null;</span>
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        if ( locationGroup == null ) {</span>
+<span class="nc" id="L88">            return null;</span>
         }
-<span class="fc" id="L89">        Account account = locationGroup.getAccount();</span>
-<span class="fc bfc" id="L90" title="All 2 branches covered.">        if ( account == null ) {</span>
-<span class="fc" id="L91">            return null;</span>
+<span class="fc" id="L90">        Account account = locationGroup.getAccount();</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        if ( account == null ) {</span>
+<span class="fc" id="L92">            return null;</span>
         }
-<span class="fc" id="L93">        String identifier = account.getIdentifier();</span>
-<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if ( identifier == null ) {</span>
-<span class="nc" id="L95">            return null;</span>
+<span class="fc" id="L94">        String identifier = account.getIdentifier();</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        if ( identifier == null ) {</span>
+<span class="nc" id="L96">            return null;</span>
         }
-<span class="fc" id="L97">        return identifier;</span>
+<span class="fc" id="L98">        return identifier;</span>
     }
 
     private String eoParentName(LocationGroup locationGroup) {
-<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        if ( locationGroup == null ) {</span>
-<span class="nc" id="L102">            return null;</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if ( locationGroup == null ) {</span>
+<span class="nc" id="L103">            return null;</span>
         }
-<span class="fc bfc" id="L104" title="All 2 branches covered.">        if ( !locationGroup.hasParent() ) {</span>
-<span class="fc" id="L105">            return null;</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        if ( !locationGroup.hasParent() ) {</span>
+<span class="fc" id="L106">            return null;</span>
         }
-<span class="fc" id="L107">        LocationGroup parent = locationGroup.getParent();</span>
-<span class="fc" id="L108">        String name = parent.getName();</span>
-<span class="pc bpc" id="L109" title="1 of 2 branches missed.">        if ( name == null ) {</span>
-<span class="nc" id="L110">            return null;</span>
+<span class="fc" id="L108">        LocationGroup parent = locationGroup.getParent();</span>
+<span class="fc" id="L109">        String name = parent.getName();</span>
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">        if ( name == null ) {</span>
+<span class="nc" id="L111">            return null;</span>
         }
-<span class="fc" id="L112">        return name;</span>
+<span class="fc" id="L113">        return name;</span>
     }
 
     protected List&lt;LocationGroupVO&gt; locationGroupSetToLocationGroupVOList(Set&lt;LocationGroup&gt; set) {
-<span class="pc bpc" id="L116" title="1 of 2 branches missed.">        if ( set == null ) {</span>
-<span class="nc" id="L117">            return null;</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">        if ( set == null ) {</span>
+<span class="nc" id="L118">            return null;</span>
         }
 
-<span class="fc" id="L120">        List&lt;LocationGroupVO&gt; list = new ArrayList&lt;LocationGroupVO&gt;( set.size() );</span>
-<span class="fc bfc" id="L121" title="All 2 branches covered.">        for ( LocationGroup locationGroup : set ) {</span>
-<span class="fc" id="L122">            list.add( convertToVO( locationGroup ) );</span>
-<span class="fc" id="L123">        }</span>
+<span class="fc" id="L121">        List&lt;LocationGroupVO&gt; list = new ArrayList&lt;LocationGroupVO&gt;( set.size() );</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        for ( LocationGroup locationGroup : set ) {</span>
+<span class="fc" id="L123">            list.add( convertToVO( locationGroup ) );</span>
+<span class="fc" id="L124">        }</span>
 
-<span class="fc" id="L125">        return list;</span>
+<span class="fc" id="L126">        return list;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

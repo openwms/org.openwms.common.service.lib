@@ -465,7 +465,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 788
+Content-Length: 890
 
 {
   "_links" : {
@@ -486,6 +486,9 @@ Content-Length: 788
     },
     "location-groups-changestate-with-bitmap" : {
       "href" : "http://localhost:8080/v1/location-groups?name=FOO&amp;op=change-state&amp;op=change-state"
+    },
+    "location-groups-modify" : {
+      "href" : "http://localhost:8080/v1/location-groups/FOO"
     }
   }
 }</code></pre>
@@ -543,17 +546,17 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/location-groups/9be8279f-5e97-4480-9883-d4fe9caa5098/
+Location: http://localhost:8080/v1/location-groups/183137e3-0ea6-468d-abb4-07e501cbeef7/
 Content-Type: application/hal+json
 Content-Length: 231
 
 {
-  "pKey" : "9be8279f-5e97-4480-9883-d4fe9caa5098",
+  "pKey" : "183137e3-0ea6-468d-abb4-07e501cbeef7",
   "name" : "TEST_LG",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.972000000Z"
+  "createDt" : "2024-04-14T23:01:47.078000000Z"
 }</code></pre>
 </div>
 </div>
@@ -691,12 +694,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/location-groups/ee83e429-6d02-4e8a-b2f7-44e492cf67da/
+Location: http://localhost:8080/v1/location-groups/b2647731-66fe-411c-9e87-66a401e66839/
 Content-Type: application/hal+json
 Content-Length: 595
 
 {
-  "pKey" : "ee83e429-6d02-4e8a-b2f7-44e492cf67da",
+  "pKey" : "b2647731-66fe-411c-9e87-66a401e66839",
   "name" : "TEST_LG",
   "accountId" : "A1",
   "groupType" : "Group1",
@@ -705,14 +708,14 @@ Content-Length: 595
   "groupStateIn" : "NOT_AVAILABLE",
   "groupStateOut" : "NOT_AVAILABLE",
   "childLocationGroups" : [ {
-    "pKey" : "5b64cbf9-a71c-40ce-ba9e-7c21c9861946",
+    "pKey" : "30b2289f-c265-42fc-9962-f4e4baa80b22",
     "name" : "TEST_LG_CHILD",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.538000000Z"
+    "createDt" : "2024-04-14T23:01:46.481000000Z"
   } ],
-  "createDt" : "2024-03-10T21:55:42.533000000Z"
+  "createDt" : "2024-04-14T23:01:46.475000000Z"
 }</code></pre>
 </div>
 </div>
@@ -822,7 +825,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 942
+Content-Length: 1043
 
 {
   "_links" : {
@@ -833,6 +836,7 @@ Content-Length: 942
   "pKey" : "166982377557",
   "name" : "IPOINT",
   "accountId" : "D",
+  "description" : "I-Point group",
   "parentName" : "ZILE",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
@@ -841,22 +845,24 @@ Content-Length: 942
     "pKey" : "24417670340",
     "name" : "IPOINT2",
     "accountId" : "D",
+    "description" : "I-Point 2",
     "parentName" : "IPOINT",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.304587000Z"
+    "createDt" : "2024-04-14T23:01:46.198796000Z"
   }, {
     "pKey" : "782120388022",
     "name" : "IPOINT1",
     "accountId" : "D",
+    "description" : "I-Point 1",
     "parentName" : "IPOINT",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.304587000Z"
+    "createDt" : "2024-04-14T23:01:46.198796000Z"
   } ],
-  "createDt" : "2024-03-10T21:55:42.304587000Z"
+  "createDt" : "2024-04-14T23:01:46.198796000Z"
 }</code></pre>
 </div>
 </div>
@@ -888,6 +894,11 @@ Content-Length: 942
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>accountId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The Account identifier the LocationGroup is assigned to</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description of the LocationGroup</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>parentName</code></p></td>
@@ -974,7 +985,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 1330
+Content-Length: 1467
 
 [ {
   "links" : [ {
@@ -984,11 +995,12 @@ Content-Length: 1330
   "pKey" : "400335177633",
   "name" : "FGRECEIVING",
   "accountId" : "D",
+  "description" : "Receiving area",
   "parentName" : "FGAUTOMATIC",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.725874000Z"
+  "createDt" : "2024-04-14T23:01:46.695900000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -997,6 +1009,7 @@ Content-Length: 1330
   "pKey" : "166982377557",
   "name" : "IPOINT",
   "accountId" : "D",
+  "description" : "I-Point group",
   "parentName" : "ZILE",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
@@ -1005,22 +1018,24 @@ Content-Length: 1330
     "pKey" : "24417670340",
     "name" : "IPOINT2",
     "accountId" : "D",
+    "description" : "I-Point 2",
     "parentName" : "IPOINT",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.725874000Z"
+    "createDt" : "2024-04-14T23:01:46.695900000Z"
   }, {
     "pKey" : "782120388022",
     "name" : "IPOINT1",
     "accountId" : "D",
+    "description" : "I-Point 1",
     "parentName" : "IPOINT",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.725874000Z"
+    "createDt" : "2024-04-14T23:01:46.695900000Z"
   } ],
-  "createDt" : "2024-03-10T21:55:42.725874000Z"
+  "createDt" : "2024-04-14T23:01:46.695900000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -1043,12 +1058,13 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 63902
+Content-Length: 75424
 
 [ {
   "pKey" : "412130127821",
   "name" : "ZILE",
   "accountId" : "D",
+  "description" : "Company Zile.ch",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
@@ -1056,6 +1072,7 @@ Content-Length: 63902
     "pKey" : "623275915496",
     "name" : "Flatgood_AREA",
     "accountId" : "D",
+    "description" : "Flat Goods in common",
     "parentName" : "ZILE",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
@@ -1064,24 +1081,27 @@ Content-Length: 63902
       "pKey" : "264924505336",
       "name" : "FGMANUAL",
       "accountId" : "D",
+      "description" : "Flat Goods manual area",
       "parentName" : "Flatgood_AREA",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "281343921750",
       "name" : "FGCANBAN",
       "accountId" : "D",
+      "description" : "Flat Goods canban storage",
       "parentName" : "Flatgood_AREA",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "709819670512",
       "name" : "FGAUTOMATIC",
       "accountId" : "D",
+      "description" : "Flat Goods automated area",
       "parentName" : "Flatgood_AREA",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
@@ -1090,15 +1110,17 @@ Content-Length: 63902
         "pKey" : "400335177633",
         "name" : "FGRECEIVING",
         "accountId" : "D",
+        "description" : "Receiving area",
         "parentName" : "FGAUTOMATIC",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "585607846471",
         "name" : "FGSHIPPING",
         "accountId" : "D",
+        "description" : "Flat Goods Shipping area",
         "parentName" : "FGAUTOMATIC",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
@@ -1107,6 +1129,7 @@ Content-Length: 63902
           "pKey" : "881973001220",
           "name" : "FGSHIPPING1",
           "accountId" : "D",
+          "description" : "Flat Goods Commissioning area 1",
           "parentName" : "FGSHIPPING",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
@@ -1115,35 +1138,39 @@ Content-Length: 63902
             "pKey" : "18642707784",
             "name" : "FGWORKPLACE1",
             "accountId" : "D",
+            "description" : "Commissioning workplace 1",
             "parentName" : "FGSHIPPING1",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-03-10T21:55:42.584151000Z"
+            "createDt" : "2024-04-14T23:01:46.532503000Z"
           }, {
             "pKey" : "346661868774",
             "name" : "FGWORKPLACE3",
             "accountId" : "D",
+            "description" : "Commissioning workplace 3",
             "parentName" : "FGSHIPPING1",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-03-10T21:55:42.584151000Z"
+            "createDt" : "2024-04-14T23:01:46.532503000Z"
           }, {
             "pKey" : "925145263549",
             "name" : "FGWORKPLACE2",
             "accountId" : "D",
+            "description" : "Commissioning workplace 2",
             "parentName" : "FGSHIPPING1",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-03-10T21:55:42.584151000Z"
+            "createDt" : "2024-04-14T23:01:46.532503000Z"
           } ],
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         }, {
           "pKey" : "753422186594",
           "name" : "FGSHIPPING2",
           "accountId" : "D",
+          "description" : "Flat Goods Commissioning area 2",
           "parentName" : "FGSHIPPING",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
@@ -1152,64 +1179,71 @@ Content-Length: 63902
             "pKey" : "424924693864",
             "name" : "FGWORKPLACE5",
             "accountId" : "D",
+            "description" : "Commissioning workplace 6",
             "parentName" : "FGSHIPPING2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-03-10T21:55:42.584151000Z"
+            "createDt" : "2024-04-14T23:01:46.532503000Z"
           }, {
             "pKey" : "258953718288",
             "name" : "FGWORKPLACE4",
             "accountId" : "D",
+            "description" : "Commissioning workplace 5",
             "parentName" : "FGSHIPPING2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-03-10T21:55:42.584151000Z"
+            "createDt" : "2024-04-14T23:01:46.532503000Z"
           }, {
             "pKey" : "687300567810",
             "name" : "FGWORKPLACE7",
             "accountId" : "D",
+            "description" : "Commissioning workplace 8",
             "parentName" : "FGSHIPPING2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-03-10T21:55:42.584151000Z"
+            "createDt" : "2024-04-14T23:01:46.532503000Z"
           }, {
             "pKey" : "909419439040",
             "name" : "FGWORKPLACE6",
             "accountId" : "D",
+            "description" : "Commissioning workplace 7",
             "parentName" : "FGSHIPPING2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-03-10T21:55:42.584151000Z"
+            "createDt" : "2024-04-14T23:01:46.532503000Z"
           }, {
             "pKey" : "224868263942",
             "name" : "FGWORKPLACE9",
             "accountId" : "D",
+            "description" : "Commissioning workplace 10",
             "parentName" : "FGSHIPPING2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-03-10T21:55:42.584151000Z"
+            "createDt" : "2024-04-14T23:01:46.532503000Z"
           }, {
             "pKey" : "860334844801",
             "name" : "FGWORKPLACE8",
             "accountId" : "D",
+            "description" : "Commissioning workplace 9",
             "parentName" : "FGSHIPPING2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-03-10T21:55:42.584151000Z"
+            "createDt" : "2024-04-14T23:01:46.532503000Z"
           } ],
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         } ],
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "212290962584",
         "name" : "FGSTOCK",
         "accountId" : "D",
+        "description" : "Highbay area for flat goods",
         "parentName" : "FGAUTOMATIC",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
@@ -1218,6 +1252,7 @@ Content-Length: 63902
           "pKey" : "101671979671",
           "name" : "FGAISLE2",
           "accountId" : "D",
+          "description" : "Aisle 2 of the flat goods highbay",
           "parentName" : "FGSTOCK",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
@@ -1226,35 +1261,39 @@ Content-Length: 63902
             "pKey" : "379640903941",
             "name" : "FGAISLE2LEFT",
             "accountId" : "D",
+            "description" : "Highbay flat good locations on the left side in aisle 2",
             "parentName" : "FGAISLE2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-03-10T21:55:42.584151000Z"
+            "createDt" : "2024-04-14T23:01:46.532503000Z"
           }, {
             "pKey" : "209483120518",
             "name" : "FGAISLE2RIGHT",
             "accountId" : "D",
+            "description" : "Highbay flat good locations on the right side in aisle 2",
             "parentName" : "FGAISLE2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-03-10T21:55:42.584151000Z"
+            "createDt" : "2024-04-14T23:01:46.532503000Z"
           }, {
             "pKey" : "730288310794",
             "name" : "FGAISLE2LIFT",
             "accountId" : "D",
+            "description" : "Lift position of craine 2 in the flat goods highbay",
             "parentName" : "FGAISLE2",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-03-10T21:55:42.584151000Z"
+            "createDt" : "2024-04-14T23:01:46.532503000Z"
           } ],
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         }, {
           "pKey" : "53242834266",
           "name" : "FGAISLE1",
           "accountId" : "D",
+          "description" : "Aisle 1 of the flat goods highbay",
           "parentName" : "FGSTOCK",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
@@ -1263,50 +1302,55 @@ Content-Length: 63902
             "pKey" : "688238147532",
             "name" : "FGAISLE1LIFT",
             "accountId" : "D",
+            "description" : "Lift position of craine 1 in the flat goods highbay",
             "parentName" : "FGAISLE1",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-03-10T21:55:42.584151000Z"
+            "createDt" : "2024-04-14T23:01:46.532503000Z"
           }, {
             "pKey" : "108758840458",
             "name" : "FGAISLE1RIGHT",
             "accountId" : "D",
+            "description" : "Highbay flat good locations on the right side in aisle 1",
             "parentName" : "FGAISLE1",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-03-10T21:55:42.584151000Z"
+            "createDt" : "2024-04-14T23:01:46.532503000Z"
           }, {
             "pKey" : "154549927614",
             "name" : "FGAISLE1LEFT",
             "accountId" : "D",
+            "description" : "Highbay flat good locations on the left side in aisle 1",
             "parentName" : "FGAISLE1",
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-03-10T21:55:42.584151000Z"
+            "createDt" : "2024-04-14T23:01:46.532503000Z"
           } ],
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         } ],
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "811754978035",
         "name" : "FGCONV",
         "accountId" : "D",
+        "description" : "Flat goods conveyor system",
         "parentName" : "FGAUTOMATIC",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       } ],
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     } ],
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "166982377557",
     "name" : "IPOINT",
     "accountId" : "D",
+    "description" : "I-Point group",
     "parentName" : "ZILE",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
@@ -1315,26 +1359,29 @@ Content-Length: 63902
       "pKey" : "24417670340",
       "name" : "IPOINT2",
       "accountId" : "D",
+      "description" : "I-Point 2",
       "parentName" : "IPOINT",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "782120388022",
       "name" : "IPOINT1",
       "accountId" : "D",
+      "description" : "I-Point 1",
       "parentName" : "IPOINT",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     } ],
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "878177817968",
     "name" : "PALLET_AREA",
     "accountId" : "D",
+    "description" : "Pallet area",
     "parentName" : "ZILE",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
@@ -1343,6 +1390,7 @@ Content-Length: 63902
       "pKey" : "43608343999",
       "name" : "PHIGHBAY",
       "accountId" : "D",
+      "description" : "Pallet highbay",
       "parentName" : "PALLET_AREA",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
@@ -1351,6 +1399,7 @@ Content-Length: 63902
         "pKey" : "999057994469",
         "name" : "PAISLE2",
         "accountId" : "D",
+        "description" : "Aisle 2 of the pallet highbay",
         "parentName" : "PHIGHBAY",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
@@ -1359,35 +1408,39 @@ Content-Length: 63902
           "pKey" : "995126472754",
           "name" : "PAISLE2LIFT",
           "accountId" : "D",
+          "description" : "Lift position of craine 2 in the pallet highbay",
           "parentName" : "PAISLE2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         }, {
           "pKey" : "48562833846",
           "name" : "PAISLE2LEFT",
           "accountId" : "D",
+          "description" : "Highbay pallet locations on the left side in aisle 2",
           "parentName" : "PAISLE2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         }, {
           "pKey" : "673781181265",
           "name" : "PAISLE2RIGHT",
           "accountId" : "D",
+          "description" : "Highbay pallet locations on the right side in aisle 2",
           "parentName" : "PAISLE2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         } ],
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "500576747031",
         "name" : "PAISLE1",
         "accountId" : "D",
+        "description" : "Aisle 1 of the pallet highbay",
         "parentName" : "PHIGHBAY",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
@@ -1396,46 +1449,50 @@ Content-Length: 63902
           "pKey" : "332530824417",
           "name" : "PAISLE1RIGHT",
           "accountId" : "D",
+          "description" : "Highbay pallet locations on the right side in aisle 1",
           "parentName" : "PAISLE1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         }, {
           "pKey" : "443011357014",
           "name" : "PAISLE1LEFT",
           "accountId" : "D",
+          "description" : "Highbay pallet locations on the left side in aisle 1",
           "parentName" : "PAISLE1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         }, {
           "pKey" : "483875811636",
           "name" : "PAISLE1LIFT",
           "accountId" : "D",
+          "description" : "Lift position of craine 1 in the pallet highbay",
           "parentName" : "PAISLE1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         } ],
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       } ],
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "306784420810",
       "name" : "PPICKING",
       "accountId" : "D",
+      "description" : "Pallet picking area",
       "parentName" : "PALLET_AREA",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     } ],
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   } ],
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -1444,6 +1501,7 @@ Content-Length: 63902
   "pKey" : "623275915496",
   "name" : "Flatgood_AREA",
   "accountId" : "D",
+  "description" : "Flat Goods in common",
   "parentName" : "ZILE",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
@@ -1452,24 +1510,27 @@ Content-Length: 63902
     "pKey" : "264924505336",
     "name" : "FGMANUAL",
     "accountId" : "D",
+    "description" : "Flat Goods manual area",
     "parentName" : "Flatgood_AREA",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "281343921750",
     "name" : "FGCANBAN",
     "accountId" : "D",
+    "description" : "Flat Goods canban storage",
     "parentName" : "Flatgood_AREA",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "709819670512",
     "name" : "FGAUTOMATIC",
     "accountId" : "D",
+    "description" : "Flat Goods automated area",
     "parentName" : "Flatgood_AREA",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
@@ -1478,15 +1539,17 @@ Content-Length: 63902
       "pKey" : "400335177633",
       "name" : "FGRECEIVING",
       "accountId" : "D",
+      "description" : "Receiving area",
       "parentName" : "FGAUTOMATIC",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "585607846471",
       "name" : "FGSHIPPING",
       "accountId" : "D",
+      "description" : "Flat Goods Shipping area",
       "parentName" : "FGAUTOMATIC",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
@@ -1495,6 +1558,7 @@ Content-Length: 63902
         "pKey" : "881973001220",
         "name" : "FGSHIPPING1",
         "accountId" : "D",
+        "description" : "Flat Goods Commissioning area 1",
         "parentName" : "FGSHIPPING",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
@@ -1503,35 +1567,39 @@ Content-Length: 63902
           "pKey" : "18642707784",
           "name" : "FGWORKPLACE1",
           "accountId" : "D",
+          "description" : "Commissioning workplace 1",
           "parentName" : "FGSHIPPING1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         }, {
           "pKey" : "346661868774",
           "name" : "FGWORKPLACE3",
           "accountId" : "D",
+          "description" : "Commissioning workplace 3",
           "parentName" : "FGSHIPPING1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         }, {
           "pKey" : "925145263549",
           "name" : "FGWORKPLACE2",
           "accountId" : "D",
+          "description" : "Commissioning workplace 2",
           "parentName" : "FGSHIPPING1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         } ],
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "753422186594",
         "name" : "FGSHIPPING2",
         "accountId" : "D",
+        "description" : "Flat Goods Commissioning area 2",
         "parentName" : "FGSHIPPING",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
@@ -1540,64 +1608,71 @@ Content-Length: 63902
           "pKey" : "424924693864",
           "name" : "FGWORKPLACE5",
           "accountId" : "D",
+          "description" : "Commissioning workplace 6",
           "parentName" : "FGSHIPPING2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         }, {
           "pKey" : "258953718288",
           "name" : "FGWORKPLACE4",
           "accountId" : "D",
+          "description" : "Commissioning workplace 5",
           "parentName" : "FGSHIPPING2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         }, {
           "pKey" : "687300567810",
           "name" : "FGWORKPLACE7",
           "accountId" : "D",
+          "description" : "Commissioning workplace 8",
           "parentName" : "FGSHIPPING2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         }, {
           "pKey" : "909419439040",
           "name" : "FGWORKPLACE6",
           "accountId" : "D",
+          "description" : "Commissioning workplace 7",
           "parentName" : "FGSHIPPING2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         }, {
           "pKey" : "224868263942",
           "name" : "FGWORKPLACE9",
           "accountId" : "D",
+          "description" : "Commissioning workplace 10",
           "parentName" : "FGSHIPPING2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         }, {
           "pKey" : "860334844801",
           "name" : "FGWORKPLACE8",
           "accountId" : "D",
+          "description" : "Commissioning workplace 9",
           "parentName" : "FGSHIPPING2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         } ],
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       } ],
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "212290962584",
       "name" : "FGSTOCK",
       "accountId" : "D",
+      "description" : "Highbay area for flat goods",
       "parentName" : "FGAUTOMATIC",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
@@ -1606,6 +1681,7 @@ Content-Length: 63902
         "pKey" : "101671979671",
         "name" : "FGAISLE2",
         "accountId" : "D",
+        "description" : "Aisle 2 of the flat goods highbay",
         "parentName" : "FGSTOCK",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
@@ -1614,35 +1690,39 @@ Content-Length: 63902
           "pKey" : "379640903941",
           "name" : "FGAISLE2LEFT",
           "accountId" : "D",
+          "description" : "Highbay flat good locations on the left side in aisle 2",
           "parentName" : "FGAISLE2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         }, {
           "pKey" : "209483120518",
           "name" : "FGAISLE2RIGHT",
           "accountId" : "D",
+          "description" : "Highbay flat good locations on the right side in aisle 2",
           "parentName" : "FGAISLE2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         }, {
           "pKey" : "730288310794",
           "name" : "FGAISLE2LIFT",
           "accountId" : "D",
+          "description" : "Lift position of craine 2 in the flat goods highbay",
           "parentName" : "FGAISLE2",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         } ],
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "53242834266",
         "name" : "FGAISLE1",
         "accountId" : "D",
+        "description" : "Aisle 1 of the flat goods highbay",
         "parentName" : "FGSTOCK",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
@@ -1651,46 +1731,50 @@ Content-Length: 63902
           "pKey" : "688238147532",
           "name" : "FGAISLE1LIFT",
           "accountId" : "D",
+          "description" : "Lift position of craine 1 in the flat goods highbay",
           "parentName" : "FGAISLE1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         }, {
           "pKey" : "108758840458",
           "name" : "FGAISLE1RIGHT",
           "accountId" : "D",
+          "description" : "Highbay flat good locations on the right side in aisle 1",
           "parentName" : "FGAISLE1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         }, {
           "pKey" : "154549927614",
           "name" : "FGAISLE1LEFT",
           "accountId" : "D",
+          "description" : "Highbay flat good locations on the left side in aisle 1",
           "parentName" : "FGAISLE1",
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-03-10T21:55:42.584151000Z"
+          "createDt" : "2024-04-14T23:01:46.532503000Z"
         } ],
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       } ],
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "811754978035",
       "name" : "FGCONV",
       "accountId" : "D",
+      "description" : "Flat goods conveyor system",
       "parentName" : "FGAUTOMATIC",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     } ],
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   } ],
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -1699,6 +1783,7 @@ Content-Length: 63902
   "pKey" : "709819670512",
   "name" : "FGAUTOMATIC",
   "accountId" : "D",
+  "description" : "Flat Goods automated area",
   "parentName" : "Flatgood_AREA",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
@@ -1707,15 +1792,17 @@ Content-Length: 63902
     "pKey" : "400335177633",
     "name" : "FGRECEIVING",
     "accountId" : "D",
+    "description" : "Receiving area",
     "parentName" : "FGAUTOMATIC",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "585607846471",
     "name" : "FGSHIPPING",
     "accountId" : "D",
+    "description" : "Flat Goods Shipping area",
     "parentName" : "FGAUTOMATIC",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
@@ -1724,6 +1811,7 @@ Content-Length: 63902
       "pKey" : "881973001220",
       "name" : "FGSHIPPING1",
       "accountId" : "D",
+      "description" : "Flat Goods Commissioning area 1",
       "parentName" : "FGSHIPPING",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
@@ -1732,35 +1820,39 @@ Content-Length: 63902
         "pKey" : "18642707784",
         "name" : "FGWORKPLACE1",
         "accountId" : "D",
+        "description" : "Commissioning workplace 1",
         "parentName" : "FGSHIPPING1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "346661868774",
         "name" : "FGWORKPLACE3",
         "accountId" : "D",
+        "description" : "Commissioning workplace 3",
         "parentName" : "FGSHIPPING1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "925145263549",
         "name" : "FGWORKPLACE2",
         "accountId" : "D",
+        "description" : "Commissioning workplace 2",
         "parentName" : "FGSHIPPING1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       } ],
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "753422186594",
       "name" : "FGSHIPPING2",
       "accountId" : "D",
+      "description" : "Flat Goods Commissioning area 2",
       "parentName" : "FGSHIPPING",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
@@ -1769,64 +1861,71 @@ Content-Length: 63902
         "pKey" : "424924693864",
         "name" : "FGWORKPLACE5",
         "accountId" : "D",
+        "description" : "Commissioning workplace 6",
         "parentName" : "FGSHIPPING2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "258953718288",
         "name" : "FGWORKPLACE4",
         "accountId" : "D",
+        "description" : "Commissioning workplace 5",
         "parentName" : "FGSHIPPING2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "687300567810",
         "name" : "FGWORKPLACE7",
         "accountId" : "D",
+        "description" : "Commissioning workplace 8",
         "parentName" : "FGSHIPPING2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "909419439040",
         "name" : "FGWORKPLACE6",
         "accountId" : "D",
+        "description" : "Commissioning workplace 7",
         "parentName" : "FGSHIPPING2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "224868263942",
         "name" : "FGWORKPLACE9",
         "accountId" : "D",
+        "description" : "Commissioning workplace 10",
         "parentName" : "FGSHIPPING2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "860334844801",
         "name" : "FGWORKPLACE8",
         "accountId" : "D",
+        "description" : "Commissioning workplace 9",
         "parentName" : "FGSHIPPING2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       } ],
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     } ],
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "212290962584",
     "name" : "FGSTOCK",
     "accountId" : "D",
+    "description" : "Highbay area for flat goods",
     "parentName" : "FGAUTOMATIC",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
@@ -1835,6 +1934,7 @@ Content-Length: 63902
       "pKey" : "101671979671",
       "name" : "FGAISLE2",
       "accountId" : "D",
+      "description" : "Aisle 2 of the flat goods highbay",
       "parentName" : "FGSTOCK",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
@@ -1843,35 +1943,39 @@ Content-Length: 63902
         "pKey" : "379640903941",
         "name" : "FGAISLE2LEFT",
         "accountId" : "D",
+        "description" : "Highbay flat good locations on the left side in aisle 2",
         "parentName" : "FGAISLE2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "209483120518",
         "name" : "FGAISLE2RIGHT",
         "accountId" : "D",
+        "description" : "Highbay flat good locations on the right side in aisle 2",
         "parentName" : "FGAISLE2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "730288310794",
         "name" : "FGAISLE2LIFT",
         "accountId" : "D",
+        "description" : "Lift position of craine 2 in the flat goods highbay",
         "parentName" : "FGAISLE2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       } ],
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "53242834266",
       "name" : "FGAISLE1",
       "accountId" : "D",
+      "description" : "Aisle 1 of the flat goods highbay",
       "parentName" : "FGSTOCK",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
@@ -1880,44 +1984,48 @@ Content-Length: 63902
         "pKey" : "688238147532",
         "name" : "FGAISLE1LIFT",
         "accountId" : "D",
+        "description" : "Lift position of craine 1 in the flat goods highbay",
         "parentName" : "FGAISLE1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "108758840458",
         "name" : "FGAISLE1RIGHT",
         "accountId" : "D",
+        "description" : "Highbay flat good locations on the right side in aisle 1",
         "parentName" : "FGAISLE1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "154549927614",
         "name" : "FGAISLE1LEFT",
         "accountId" : "D",
+        "description" : "Highbay flat good locations on the left side in aisle 1",
         "parentName" : "FGAISLE1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       } ],
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     } ],
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "811754978035",
     "name" : "FGCONV",
     "accountId" : "D",
+    "description" : "Flat goods conveyor system",
     "parentName" : "FGAUTOMATIC",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   } ],
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -1926,6 +2034,7 @@ Content-Length: 63902
   "pKey" : "212290962584",
   "name" : "FGSTOCK",
   "accountId" : "D",
+  "description" : "Highbay area for flat goods",
   "parentName" : "FGAUTOMATIC",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
@@ -1934,6 +2043,7 @@ Content-Length: 63902
     "pKey" : "101671979671",
     "name" : "FGAISLE2",
     "accountId" : "D",
+    "description" : "Aisle 2 of the flat goods highbay",
     "parentName" : "FGSTOCK",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
@@ -1942,35 +2052,39 @@ Content-Length: 63902
       "pKey" : "379640903941",
       "name" : "FGAISLE2LEFT",
       "accountId" : "D",
+      "description" : "Highbay flat good locations on the left side in aisle 2",
       "parentName" : "FGAISLE2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "209483120518",
       "name" : "FGAISLE2RIGHT",
       "accountId" : "D",
+      "description" : "Highbay flat good locations on the right side in aisle 2",
       "parentName" : "FGAISLE2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "730288310794",
       "name" : "FGAISLE2LIFT",
       "accountId" : "D",
+      "description" : "Lift position of craine 2 in the flat goods highbay",
       "parentName" : "FGAISLE2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     } ],
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "53242834266",
     "name" : "FGAISLE1",
     "accountId" : "D",
+    "description" : "Aisle 1 of the flat goods highbay",
     "parentName" : "FGSTOCK",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
@@ -1979,33 +2093,36 @@ Content-Length: 63902
       "pKey" : "688238147532",
       "name" : "FGAISLE1LIFT",
       "accountId" : "D",
+      "description" : "Lift position of craine 1 in the flat goods highbay",
       "parentName" : "FGAISLE1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "108758840458",
       "name" : "FGAISLE1RIGHT",
       "accountId" : "D",
+      "description" : "Highbay flat good locations on the right side in aisle 1",
       "parentName" : "FGAISLE1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "154549927614",
       "name" : "FGAISLE1LEFT",
       "accountId" : "D",
+      "description" : "Highbay flat good locations on the left side in aisle 1",
       "parentName" : "FGAISLE1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     } ],
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   } ],
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2014,6 +2131,7 @@ Content-Length: 63902
   "pKey" : "53242834266",
   "name" : "FGAISLE1",
   "accountId" : "D",
+  "description" : "Aisle 1 of the flat goods highbay",
   "parentName" : "FGSTOCK",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
@@ -2022,31 +2140,34 @@ Content-Length: 63902
     "pKey" : "688238147532",
     "name" : "FGAISLE1LIFT",
     "accountId" : "D",
+    "description" : "Lift position of craine 1 in the flat goods highbay",
     "parentName" : "FGAISLE1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "108758840458",
     "name" : "FGAISLE1RIGHT",
     "accountId" : "D",
+    "description" : "Highbay flat good locations on the right side in aisle 1",
     "parentName" : "FGAISLE1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "154549927614",
     "name" : "FGAISLE1LEFT",
     "accountId" : "D",
+    "description" : "Highbay flat good locations on the left side in aisle 1",
     "parentName" : "FGAISLE1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   } ],
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2055,6 +2176,7 @@ Content-Length: 63902
   "pKey" : "101671979671",
   "name" : "FGAISLE2",
   "accountId" : "D",
+  "description" : "Aisle 2 of the flat goods highbay",
   "parentName" : "FGSTOCK",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
@@ -2063,31 +2185,34 @@ Content-Length: 63902
     "pKey" : "379640903941",
     "name" : "FGAISLE2LEFT",
     "accountId" : "D",
+    "description" : "Highbay flat good locations on the left side in aisle 2",
     "parentName" : "FGAISLE2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "209483120518",
     "name" : "FGAISLE2RIGHT",
     "accountId" : "D",
+    "description" : "Highbay flat good locations on the right side in aisle 2",
     "parentName" : "FGAISLE2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "730288310794",
     "name" : "FGAISLE2LIFT",
     "accountId" : "D",
+    "description" : "Lift position of craine 2 in the flat goods highbay",
     "parentName" : "FGAISLE2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   } ],
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2096,6 +2221,7 @@ Content-Length: 63902
   "pKey" : "585607846471",
   "name" : "FGSHIPPING",
   "accountId" : "D",
+  "description" : "Flat Goods Shipping area",
   "parentName" : "FGAUTOMATIC",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
@@ -2104,6 +2230,7 @@ Content-Length: 63902
     "pKey" : "881973001220",
     "name" : "FGSHIPPING1",
     "accountId" : "D",
+    "description" : "Flat Goods Commissioning area 1",
     "parentName" : "FGSHIPPING",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
@@ -2112,35 +2239,39 @@ Content-Length: 63902
       "pKey" : "18642707784",
       "name" : "FGWORKPLACE1",
       "accountId" : "D",
+      "description" : "Commissioning workplace 1",
       "parentName" : "FGSHIPPING1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "346661868774",
       "name" : "FGWORKPLACE3",
       "accountId" : "D",
+      "description" : "Commissioning workplace 3",
       "parentName" : "FGSHIPPING1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "925145263549",
       "name" : "FGWORKPLACE2",
       "accountId" : "D",
+      "description" : "Commissioning workplace 2",
       "parentName" : "FGSHIPPING1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     } ],
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "753422186594",
     "name" : "FGSHIPPING2",
     "accountId" : "D",
+    "description" : "Flat Goods Commissioning area 2",
     "parentName" : "FGSHIPPING",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
@@ -2149,60 +2280,66 @@ Content-Length: 63902
       "pKey" : "424924693864",
       "name" : "FGWORKPLACE5",
       "accountId" : "D",
+      "description" : "Commissioning workplace 6",
       "parentName" : "FGSHIPPING2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "258953718288",
       "name" : "FGWORKPLACE4",
       "accountId" : "D",
+      "description" : "Commissioning workplace 5",
       "parentName" : "FGSHIPPING2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "687300567810",
       "name" : "FGWORKPLACE7",
       "accountId" : "D",
+      "description" : "Commissioning workplace 8",
       "parentName" : "FGSHIPPING2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "909419439040",
       "name" : "FGWORKPLACE6",
       "accountId" : "D",
+      "description" : "Commissioning workplace 7",
       "parentName" : "FGSHIPPING2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "224868263942",
       "name" : "FGWORKPLACE9",
       "accountId" : "D",
+      "description" : "Commissioning workplace 10",
       "parentName" : "FGSHIPPING2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "860334844801",
       "name" : "FGWORKPLACE8",
       "accountId" : "D",
+      "description" : "Commissioning workplace 9",
       "parentName" : "FGSHIPPING2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     } ],
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   } ],
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2211,6 +2348,7 @@ Content-Length: 63902
   "pKey" : "881973001220",
   "name" : "FGSHIPPING1",
   "accountId" : "D",
+  "description" : "Flat Goods Commissioning area 1",
   "parentName" : "FGSHIPPING",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
@@ -2219,31 +2357,34 @@ Content-Length: 63902
     "pKey" : "18642707784",
     "name" : "FGWORKPLACE1",
     "accountId" : "D",
+    "description" : "Commissioning workplace 1",
     "parentName" : "FGSHIPPING1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "346661868774",
     "name" : "FGWORKPLACE3",
     "accountId" : "D",
+    "description" : "Commissioning workplace 3",
     "parentName" : "FGSHIPPING1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "925145263549",
     "name" : "FGWORKPLACE2",
     "accountId" : "D",
+    "description" : "Commissioning workplace 2",
     "parentName" : "FGSHIPPING1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   } ],
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2252,6 +2393,7 @@ Content-Length: 63902
   "pKey" : "753422186594",
   "name" : "FGSHIPPING2",
   "accountId" : "D",
+  "description" : "Flat Goods Commissioning area 2",
   "parentName" : "FGSHIPPING",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
@@ -2260,58 +2402,64 @@ Content-Length: 63902
     "pKey" : "424924693864",
     "name" : "FGWORKPLACE5",
     "accountId" : "D",
+    "description" : "Commissioning workplace 6",
     "parentName" : "FGSHIPPING2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "258953718288",
     "name" : "FGWORKPLACE4",
     "accountId" : "D",
+    "description" : "Commissioning workplace 5",
     "parentName" : "FGSHIPPING2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "687300567810",
     "name" : "FGWORKPLACE7",
     "accountId" : "D",
+    "description" : "Commissioning workplace 8",
     "parentName" : "FGSHIPPING2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "909419439040",
     "name" : "FGWORKPLACE6",
     "accountId" : "D",
+    "description" : "Commissioning workplace 7",
     "parentName" : "FGSHIPPING2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "224868263942",
     "name" : "FGWORKPLACE9",
     "accountId" : "D",
+    "description" : "Commissioning workplace 10",
     "parentName" : "FGSHIPPING2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "860334844801",
     "name" : "FGWORKPLACE8",
     "accountId" : "D",
+    "description" : "Commissioning workplace 9",
     "parentName" : "FGSHIPPING2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   } ],
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2320,6 +2468,7 @@ Content-Length: 63902
   "pKey" : "166982377557",
   "name" : "IPOINT",
   "accountId" : "D",
+  "description" : "I-Point group",
   "parentName" : "ZILE",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
@@ -2328,22 +2477,24 @@ Content-Length: 63902
     "pKey" : "24417670340",
     "name" : "IPOINT2",
     "accountId" : "D",
+    "description" : "I-Point 2",
     "parentName" : "IPOINT",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "782120388022",
     "name" : "IPOINT1",
     "accountId" : "D",
+    "description" : "I-Point 1",
     "parentName" : "IPOINT",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   } ],
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2352,6 +2503,7 @@ Content-Length: 63902
   "pKey" : "878177817968",
   "name" : "PALLET_AREA",
   "accountId" : "D",
+  "description" : "Pallet area",
   "parentName" : "ZILE",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
@@ -2360,6 +2512,7 @@ Content-Length: 63902
     "pKey" : "43608343999",
     "name" : "PHIGHBAY",
     "accountId" : "D",
+    "description" : "Pallet highbay",
     "parentName" : "PALLET_AREA",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
@@ -2368,6 +2521,7 @@ Content-Length: 63902
       "pKey" : "999057994469",
       "name" : "PAISLE2",
       "accountId" : "D",
+      "description" : "Aisle 2 of the pallet highbay",
       "parentName" : "PHIGHBAY",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
@@ -2376,35 +2530,39 @@ Content-Length: 63902
         "pKey" : "995126472754",
         "name" : "PAISLE2LIFT",
         "accountId" : "D",
+        "description" : "Lift position of craine 2 in the pallet highbay",
         "parentName" : "PAISLE2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "48562833846",
         "name" : "PAISLE2LEFT",
         "accountId" : "D",
+        "description" : "Highbay pallet locations on the left side in aisle 2",
         "parentName" : "PAISLE2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "673781181265",
         "name" : "PAISLE2RIGHT",
         "accountId" : "D",
+        "description" : "Highbay pallet locations on the right side in aisle 2",
         "parentName" : "PAISLE2",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       } ],
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "500576747031",
       "name" : "PAISLE1",
       "accountId" : "D",
+      "description" : "Aisle 1 of the pallet highbay",
       "parentName" : "PHIGHBAY",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
@@ -2413,44 +2571,48 @@ Content-Length: 63902
         "pKey" : "332530824417",
         "name" : "PAISLE1RIGHT",
         "accountId" : "D",
+        "description" : "Highbay pallet locations on the right side in aisle 1",
         "parentName" : "PAISLE1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "443011357014",
         "name" : "PAISLE1LEFT",
         "accountId" : "D",
+        "description" : "Highbay pallet locations on the left side in aisle 1",
         "parentName" : "PAISLE1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       }, {
         "pKey" : "483875811636",
         "name" : "PAISLE1LIFT",
         "accountId" : "D",
+        "description" : "Lift position of craine 1 in the pallet highbay",
         "parentName" : "PAISLE1",
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-03-10T21:55:42.584151000Z"
+        "createDt" : "2024-04-14T23:01:46.532503000Z"
       } ],
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     } ],
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "306784420810",
     "name" : "PPICKING",
     "accountId" : "D",
+    "description" : "Pallet picking area",
     "parentName" : "PALLET_AREA",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   } ],
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2459,6 +2621,7 @@ Content-Length: 63902
   "pKey" : "43608343999",
   "name" : "PHIGHBAY",
   "accountId" : "D",
+  "description" : "Pallet highbay",
   "parentName" : "PALLET_AREA",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
@@ -2467,6 +2630,7 @@ Content-Length: 63902
     "pKey" : "999057994469",
     "name" : "PAISLE2",
     "accountId" : "D",
+    "description" : "Aisle 2 of the pallet highbay",
     "parentName" : "PHIGHBAY",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
@@ -2475,35 +2639,39 @@ Content-Length: 63902
       "pKey" : "995126472754",
       "name" : "PAISLE2LIFT",
       "accountId" : "D",
+      "description" : "Lift position of craine 2 in the pallet highbay",
       "parentName" : "PAISLE2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "48562833846",
       "name" : "PAISLE2LEFT",
       "accountId" : "D",
+      "description" : "Highbay pallet locations on the left side in aisle 2",
       "parentName" : "PAISLE2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "673781181265",
       "name" : "PAISLE2RIGHT",
       "accountId" : "D",
+      "description" : "Highbay pallet locations on the right side in aisle 2",
       "parentName" : "PAISLE2",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     } ],
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "500576747031",
     "name" : "PAISLE1",
     "accountId" : "D",
+    "description" : "Aisle 1 of the pallet highbay",
     "parentName" : "PHIGHBAY",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
@@ -2512,33 +2680,36 @@ Content-Length: 63902
       "pKey" : "332530824417",
       "name" : "PAISLE1RIGHT",
       "accountId" : "D",
+      "description" : "Highbay pallet locations on the right side in aisle 1",
       "parentName" : "PAISLE1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "443011357014",
       "name" : "PAISLE1LEFT",
       "accountId" : "D",
+      "description" : "Highbay pallet locations on the left side in aisle 1",
       "parentName" : "PAISLE1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     }, {
       "pKey" : "483875811636",
       "name" : "PAISLE1LIFT",
       "accountId" : "D",
+      "description" : "Lift position of craine 1 in the pallet highbay",
       "parentName" : "PAISLE1",
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-03-10T21:55:42.584151000Z"
+      "createDt" : "2024-04-14T23:01:46.532503000Z"
     } ],
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   } ],
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2547,6 +2718,7 @@ Content-Length: 63902
   "pKey" : "500576747031",
   "name" : "PAISLE1",
   "accountId" : "D",
+  "description" : "Aisle 1 of the pallet highbay",
   "parentName" : "PHIGHBAY",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
@@ -2555,31 +2727,34 @@ Content-Length: 63902
     "pKey" : "332530824417",
     "name" : "PAISLE1RIGHT",
     "accountId" : "D",
+    "description" : "Highbay pallet locations on the right side in aisle 1",
     "parentName" : "PAISLE1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "443011357014",
     "name" : "PAISLE1LEFT",
     "accountId" : "D",
+    "description" : "Highbay pallet locations on the left side in aisle 1",
     "parentName" : "PAISLE1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "483875811636",
     "name" : "PAISLE1LIFT",
     "accountId" : "D",
+    "description" : "Lift position of craine 1 in the pallet highbay",
     "parentName" : "PAISLE1",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   } ],
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2588,6 +2763,7 @@ Content-Length: 63902
   "pKey" : "999057994469",
   "name" : "PAISLE2",
   "accountId" : "D",
+  "description" : "Aisle 2 of the pallet highbay",
   "parentName" : "PHIGHBAY",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
@@ -2596,31 +2772,34 @@ Content-Length: 63902
     "pKey" : "995126472754",
     "name" : "PAISLE2LIFT",
     "accountId" : "D",
+    "description" : "Lift position of craine 2 in the pallet highbay",
     "parentName" : "PAISLE2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "48562833846",
     "name" : "PAISLE2LEFT",
     "accountId" : "D",
+    "description" : "Highbay pallet locations on the left side in aisle 2",
     "parentName" : "PAISLE2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   }, {
     "pKey" : "673781181265",
     "name" : "PAISLE2RIGHT",
     "accountId" : "D",
+    "description" : "Highbay pallet locations on the right side in aisle 2",
     "parentName" : "PAISLE2",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-03-10T21:55:42.584151000Z"
+    "createDt" : "2024-04-14T23:01:46.532503000Z"
   } ],
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2629,11 +2808,12 @@ Content-Length: 63902
   "pKey" : "860334844801",
   "name" : "FGWORKPLACE8",
   "accountId" : "D",
+  "description" : "Commissioning workplace 9",
   "parentName" : "FGSHIPPING2",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2642,11 +2822,12 @@ Content-Length: 63902
   "pKey" : "483875811636",
   "name" : "PAISLE1LIFT",
   "accountId" : "D",
+  "description" : "Lift position of craine 1 in the pallet highbay",
   "parentName" : "PAISLE1",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2655,11 +2836,12 @@ Content-Length: 63902
   "pKey" : "688238147532",
   "name" : "FGAISLE1LIFT",
   "accountId" : "D",
+  "description" : "Lift position of craine 1 in the flat goods highbay",
   "parentName" : "FGAISLE1",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2668,11 +2850,12 @@ Content-Length: 63902
   "pKey" : "424924693864",
   "name" : "FGWORKPLACE5",
   "accountId" : "D",
+  "description" : "Commissioning workplace 6",
   "parentName" : "FGSHIPPING2",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2681,11 +2864,12 @@ Content-Length: 63902
   "pKey" : "782120388022",
   "name" : "IPOINT1",
   "accountId" : "D",
+  "description" : "I-Point 1",
   "parentName" : "IPOINT",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2694,11 +2878,12 @@ Content-Length: 63902
   "pKey" : "687300567810",
   "name" : "FGWORKPLACE7",
   "accountId" : "D",
+  "description" : "Commissioning workplace 8",
   "parentName" : "FGSHIPPING2",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2707,11 +2892,12 @@ Content-Length: 63902
   "pKey" : "108758840458",
   "name" : "FGAISLE1RIGHT",
   "accountId" : "D",
+  "description" : "Highbay flat good locations on the right side in aisle 1",
   "parentName" : "FGAISLE1",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2720,11 +2906,12 @@ Content-Length: 63902
   "pKey" : "400335177633",
   "name" : "FGRECEIVING",
   "accountId" : "D",
+  "description" : "Receiving area",
   "parentName" : "FGAUTOMATIC",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2733,11 +2920,12 @@ Content-Length: 63902
   "pKey" : "224868263942",
   "name" : "FGWORKPLACE9",
   "accountId" : "D",
+  "description" : "Commissioning workplace 10",
   "parentName" : "FGSHIPPING2",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2746,11 +2934,12 @@ Content-Length: 63902
   "pKey" : "48562833846",
   "name" : "PAISLE2LEFT",
   "accountId" : "D",
+  "description" : "Highbay pallet locations on the left side in aisle 2",
   "parentName" : "PAISLE2",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2759,11 +2948,12 @@ Content-Length: 63902
   "pKey" : "154549927614",
   "name" : "FGAISLE1LEFT",
   "accountId" : "D",
+  "description" : "Highbay flat good locations on the left side in aisle 1",
   "parentName" : "FGAISLE1",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2772,11 +2962,12 @@ Content-Length: 63902
   "pKey" : "443011357014",
   "name" : "PAISLE1LEFT",
   "accountId" : "D",
+  "description" : "Highbay pallet locations on the left side in aisle 1",
   "parentName" : "PAISLE1",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2785,11 +2976,12 @@ Content-Length: 63902
   "pKey" : "281343921750",
   "name" : "FGCANBAN",
   "accountId" : "D",
+  "description" : "Flat Goods canban storage",
   "parentName" : "Flatgood_AREA",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2798,11 +2990,12 @@ Content-Length: 63902
   "pKey" : "264924505336",
   "name" : "FGMANUAL",
   "accountId" : "D",
+  "description" : "Flat Goods manual area",
   "parentName" : "Flatgood_AREA",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2811,11 +3004,12 @@ Content-Length: 63902
   "pKey" : "24417670340",
   "name" : "IPOINT2",
   "accountId" : "D",
+  "description" : "I-Point 2",
   "parentName" : "IPOINT",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2824,11 +3018,12 @@ Content-Length: 63902
   "pKey" : "730288310794",
   "name" : "FGAISLE2LIFT",
   "accountId" : "D",
+  "description" : "Lift position of craine 2 in the flat goods highbay",
   "parentName" : "FGAISLE2",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2837,11 +3032,12 @@ Content-Length: 63902
   "pKey" : "909419439040",
   "name" : "FGWORKPLACE6",
   "accountId" : "D",
+  "description" : "Commissioning workplace 7",
   "parentName" : "FGSHIPPING2",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2850,11 +3046,12 @@ Content-Length: 63902
   "pKey" : "258953718288",
   "name" : "FGWORKPLACE4",
   "accountId" : "D",
+  "description" : "Commissioning workplace 5",
   "parentName" : "FGSHIPPING2",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2863,11 +3060,12 @@ Content-Length: 63902
   "pKey" : "995126472754",
   "name" : "PAISLE2LIFT",
   "accountId" : "D",
+  "description" : "Lift position of craine 2 in the pallet highbay",
   "parentName" : "PAISLE2",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2876,11 +3074,12 @@ Content-Length: 63902
   "pKey" : "306784420810",
   "name" : "PPICKING",
   "accountId" : "D",
+  "description" : "Pallet picking area",
   "parentName" : "PALLET_AREA",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2889,11 +3088,12 @@ Content-Length: 63902
   "pKey" : "209483120518",
   "name" : "FGAISLE2RIGHT",
   "accountId" : "D",
+  "description" : "Highbay flat good locations on the right side in aisle 2",
   "parentName" : "FGAISLE2",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2902,11 +3102,12 @@ Content-Length: 63902
   "pKey" : "811754978035",
   "name" : "FGCONV",
   "accountId" : "D",
+  "description" : "Flat goods conveyor system",
   "parentName" : "FGAUTOMATIC",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2915,11 +3116,12 @@ Content-Length: 63902
   "pKey" : "332530824417",
   "name" : "PAISLE1RIGHT",
   "accountId" : "D",
+  "description" : "Highbay pallet locations on the right side in aisle 1",
   "parentName" : "PAISLE1",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2928,11 +3130,12 @@ Content-Length: 63902
   "pKey" : "925145263549",
   "name" : "FGWORKPLACE2",
   "accountId" : "D",
+  "description" : "Commissioning workplace 2",
   "parentName" : "FGSHIPPING1",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2941,11 +3144,12 @@ Content-Length: 63902
   "pKey" : "346661868774",
   "name" : "FGWORKPLACE3",
   "accountId" : "D",
+  "description" : "Commissioning workplace 3",
   "parentName" : "FGSHIPPING1",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2954,11 +3158,12 @@ Content-Length: 63902
   "pKey" : "673781181265",
   "name" : "PAISLE2RIGHT",
   "accountId" : "D",
+  "description" : "Highbay pallet locations on the right side in aisle 2",
   "parentName" : "PAISLE2",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2967,11 +3172,12 @@ Content-Length: 63902
   "pKey" : "18642707784",
   "name" : "FGWORKPLACE1",
   "accountId" : "D",
+  "description" : "Commissioning workplace 1",
   "parentName" : "FGSHIPPING1",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -2980,11 +3186,12 @@ Content-Length: 63902
   "pKey" : "379640903941",
   "name" : "FGAISLE2LEFT",
   "accountId" : "D",
+  "description" : "Highbay flat good locations on the left side in aisle 2",
   "parentName" : "FGAISLE2",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-03-10T21:55:42.584151000Z"
+  "createDt" : "2024-04-14T23:01:46.532503000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -3141,7 +3348,7 @@ Host: localhost:8080
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-10 21:48:19 UTC
+Last updated 2024-04-14 22:59:21 UTC
 </div>
 </div>
 </body>
