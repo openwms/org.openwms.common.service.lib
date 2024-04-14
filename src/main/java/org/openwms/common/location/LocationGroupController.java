@@ -161,6 +161,15 @@ public class LocationGroupController extends AbstractWebController {
         return ResponseEntity.ok().build();
     }
 
+    @PatchMapping(value = API_LOCATION_GROUPS + "/{pKey}")
+    public ResponseEntity<Void> modifyLocationGroup(
+            @PathVariable String pKey,
+            @RequestBody LocationGroupVO locationGroupVO
+    ) {
+        locationGroupService.update(pKey, locationGroupVO);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping(API_LOCATION_GROUPS + "/index")
     public ResponseEntity<Index> index() {
         return ResponseEntity.ok(
@@ -170,7 +179,8 @@ public class LocationGroupController extends AbstractWebController {
                         linkTo(methodOn(LocationGroupController.class).findByNames(asList("FOO", "BAR"))).withRel("location-groups-findbynames"),
                         linkTo(methodOn(LocationGroupController.class).findAll()).withRel("location-groups-findall"),
                         linkTo(methodOn(LocationGroupController.class).changeGroupState("UUID", "change-state", LocationGroupState.AVAILABLE, LocationGroupState.NOT_AVAILABLE)).withRel("location-groups-changestate"),
-                        linkTo(methodOn(LocationGroupController.class).changeGroupState("FOO", "change-state", ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel("location-groups-changestate-with-bitmap")
+                        linkTo(methodOn(LocationGroupController.class).changeGroupState("FOO", "change-state", ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel("location-groups-changestate-with-bitmap"),
+                        linkTo(methodOn(LocationGroupController.class).modifyLocationGroup("FOO", null)).withRel("location-groups-modify")
                 )
         );
     }

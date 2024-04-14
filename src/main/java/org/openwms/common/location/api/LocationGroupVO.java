@@ -55,6 +55,10 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
     @JsonProperty("accountId")
     private String accountId;
 
+    /** Description of the {@code LocationGroup}. */
+    @JsonProperty("description")
+    private String description;
+
     /** A type can be assigned to a {@code LocationGroup}. */
     @JsonProperty("groupType")
     private String groupType;
@@ -225,6 +229,14 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
         this.accountId = accountId;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getGroupType() {
         return groupType;
     }
@@ -287,7 +299,7 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
         if (this == o) return true;
         if (!(o instanceof LocationGroupVO that)) return false;
         if (!super.equals(o)) return false;
-        return Objects.equals(pKey, that.pKey) && Objects.equals(name, that.name) && Objects.equals(accountId, that.accountId) && Objects.equals(groupType, that.groupType) && Objects.equals(parent, that.parent) && Objects.equals(operationMode, that.operationMode) && groupStateIn == that.groupStateIn && groupStateOut == that.groupStateOut && Objects.equals(children, that.children) && Objects.equals(createDt, that.createDt);
+        return Objects.equals(pKey, that.pKey) && Objects.equals(name, that.name) && Objects.equals(accountId, that.accountId) && Objects.equals(description, that.description) && Objects.equals(groupType, that.groupType) && Objects.equals(parent, that.parent) && Objects.equals(operationMode, that.operationMode) && groupStateIn == that.groupStateIn && groupStateOut == that.groupStateOut && Objects.equals(children, that.children) && Objects.equals(createDt, that.createDt);
     }
 
     /**
@@ -297,7 +309,7 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), pKey, name, accountId, groupType, parent, operationMode, groupStateIn, groupStateOut, children, createDt);
+        return Objects.hash(super.hashCode(), pKey, name, accountId, description, groupType, parent, operationMode, groupStateIn, groupStateOut, children, createDt);
     }
 
     /**
@@ -321,6 +333,7 @@ public class LocationGroupVO extends RepresentationModel<LocationGroupVO> implem
                 .add("pKey='" + pKey + "'")
                 .add("name='" + name + "'")
                 .add("accountId='" + accountId + "'")
+                .add("description='" + description + "'")
                 .add("groupType='" + groupType + "'")
                 .add("parent='" + parent + "'")
                 .add("operationMode='" + operationMode + "'")
