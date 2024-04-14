@@ -15,9 +15,9 @@
  */
 package org.openwms.common.location;
 
-import org.openwms.common.location.Location;
-
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Collection;
 
 /**
  * A LocationRemovalManager.
@@ -27,9 +27,31 @@ import javax.validation.constraints.NotBlank;
 public interface LocationRemovalManager {
 
     /**
-     * Deletes a {@link Location}.
+     * Try to delete a {@link Location}.
      *
      * @param pKey The persistent key of the Location to be deleted.
      */
-    void delete(@NotBlank String pKey);
+    void tryDelete(@NotBlank String pKey);
+
+    /**
+     * Delete {@link Location}s.
+     *
+     * @param locations The Locations to be deleted.
+     */
+    void deleteAll(@NotNull Collection<Location> locations);
+
+    /**
+     * Checks if the {@link Location}s with the given {@code pKey}s are allowed to be deleted.
+     *
+     * @param pKeys The persistent keys of the Locations to be checked.
+     * @return {@literal true} if the Locations are allowed to be deleted, otherwise {@literal false}.
+     */
+    boolean allowedToDelete(@NotNull Collection<String> pKeys);
+
+    /**
+     * Mark {@link Location}s for upcoming deletion.
+     *
+     * @param pKeys The persistent keys of the Locations to be marked for deletion.
+     */
+    void markForDeletion(@NotNull Collection<String> pKeys);
 }

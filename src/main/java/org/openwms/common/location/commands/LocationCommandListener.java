@@ -69,6 +69,5 @@ public class LocationCommandListener {
             LOGGER.error("Processing command rejected [{}]", command);
             throw new AmqpRejectAndDontRequeueException(e.getMessage(), e);
         }
-
     }
 }

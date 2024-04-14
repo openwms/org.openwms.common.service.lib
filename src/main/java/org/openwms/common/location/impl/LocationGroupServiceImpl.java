@@ -22,12 +22,16 @@ import org.ameba.exception.ResourceExistsException;
 import org.ameba.i18n.Translator;
 import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.account.AccountService;
+import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationGroup;
 import org.openwms.common.location.LocationGroupService;
+import org.openwms.common.location.LocationRemovalManager;
 import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.LocationGroupVO;
 import org.openwms.common.location.api.ValidationGroups;
 import org.openwms.common.location.api.events.LocationGroupEvent;
+import org.openwms.common.location.events.DeletionFailedEvent;
+import org.openwms.core.listener.RemovalNotAllowedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -41,6 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openwms.common.CommonMessageCodes.LOCATION_GROUP_EXISTS;
 import static org.openwms.common.CommonMessageCodes.LOCATION_GROUP_NOT_FOUND;
@@ -61,12 +66,14 @@ class LocationGroupServiceImpl implements LocationGroupService {
     private final Translator translator;
     private final LocationGroupRepository repository;
     private final AccountService accountService;
+    private final LocationRemovalManager locationRemovalManager;
 
-    LocationGroupServiceImpl(ApplicationContext ctx, Translator translator, LocationGroupRepository repository, AccountService accountService) {
+    LocationGroupServiceImpl(ApplicationContext ctx, Translator translator, LocationGroupRepository repository, AccountService accountService, LocationRemovalManager locationRemovalManager) {
         this.ctx = ctx;
         this.translator = translator;
         this.repository = repository;
         this.accountService = accountService;
+        this.locationRemovalManager = locationRemovalManager;
     }
 
     /**
@@ -202,5 +209,68 @@ class LocationGroupServiceImpl implements LocationGroupService {
     public @NotNull List<LocationGroup> findByNames(@NotEmpty List<String> locationGroupNames) {
         var result = repository.findByNameIn(locationGroupNames);
         return result == null ? new ArrayList<>(0) : result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public void delete(@NotBlank String pKey) {
+        var locationGroup = repository.findBypKey(pKey).orElseThrow(() -> new NotFoundException(
+                translator, LOCATION_GROUP_NOT_FOUND_BY_PKEY, new String[]{pKey}, pKey
+        ));
+        delete(locationGroup);
+    }
+
+    private Stream<String> getLocationKeys(LocationGroup locationGroup) {
+        var result = locationGroup.getLocations().stream().map(Location::getPersistentKey);
+        if (locationGroup.hasLocationGroups()) {
+            for (var group : locationGroup.getLocationGroups()) {
+                result = Stream.concat(result, getLocationKeys(group));
+            }
+        }
+        return result;
+    }
+
+    private void delete(LocationGroup locationGroup) {
+        LOGGER.info("Going to delete LocationGroup [{}]", locationGroup.getName());
+        var allLocationKeys = getLocationKeys(locationGroup).toList();
+
+        // first check all Locations of all LocationGroups if they're allowed to be deleted.
+        // Check within the service if any TU is booked on the Locations and then ask foreign services if deletion is okay
+        var allowedToDelete = locationRemovalManager.allowedToDelete(allLocationKeys);
+
+        if (!allowedToDelete) {
+           throw new RemovalNotAllowedException("At least one Location is not allowed to be deleted, therefore the LocationGroup [%s] cannot be deleted".formatted(locationGroup.getName()));
+        }
+
+        // Go and mark all for deletion...
+        locationRemovalManager.markForDeletion(allLocationKeys);
+
+        // Finally delete the LocationGroups...
+        try {
+            deleteOnlyGroups(locationGroup);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            LOGGER.debug("Deletion of LocationGroup [{}] went wrong, rolling back Location deletion", locationGroup.getPersistentKey());
+            // if any failure occurs, send a persistent async message to release the deletion for everyone
+            for (var pKey : allLocationKeys) {
+                ctx.publishEvent(new DeletionFailedEvent(pKey));
+            }
+        }
+    }
+
+    private void deleteOnlyGroups(LocationGroup locationGroup) {
+        if (locationGroup.hasLocationGroups()) {
+            for (var group : locationGroup.getLocationGroups()) {
+                deleteOnlyGroups(group);
+            }
+        }
+        if (locationGroup.hasLocations()) {
+            locationRemovalManager.deleteAll(locationGroup.getLocations());
+        }
+        repository.delete(locationGroup);
+        LOGGER.debug("LocationGroup deleted [{}]", locationGroup.getPersistentKey());
     }
 }

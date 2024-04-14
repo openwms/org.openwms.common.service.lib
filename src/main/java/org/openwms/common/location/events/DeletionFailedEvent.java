@@ -13,28 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.location.api.commands;
+package org.openwms.common.location.events;
 
+import org.springframework.context.ApplicationEvent;
+
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
- * A RevokeLocationRemoveCommand.
+ * A DeletionFailedEvent.
  *
  * @author Heiko Scherrer
  */
-public class RevokeLocationRemoveCommand implements Serializable {
+public class DeletionFailedEvent extends ApplicationEvent implements Serializable {
 
-    private String pKey;
-
-    public RevokeLocationRemoveCommand(String pKey) {
-        this.pKey = pKey;
+    public DeletionFailedEvent(@NotBlank String pKey) {
+        super(pKey);
     }
 
-    public String getpKey() {
-        return pKey;
-    }
-
-    public void setpKey(String pKey) {
-        this.pKey = pKey;
+    @Override
+    public String getSource() {
+        return (String) super.getSource();
     }
 }

@@ -224,7 +224,7 @@ class LocationGroupControllerDocumentation {
         }
 
         @Test
-        void shall_delete_LocationGroup_successU() throws Exception {
+        void shall_delete_LocationGroup_success() throws Exception {
             mockMvc.perform(
                             delete(LocationApiConstants.API_LOCATION_GROUPS + "/332530824417")
                     ).andExpect(status().isNoContent())
