@@ -129,9 +129,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public void changeGroupState(@NotBlank String pKey, @NotNull LocationGroupState stateIn, @NotNull LocationGroupState stateOut) {
-        var locationGroup = repository.findBypKey(pKey).orElseThrow(() -> new NotFoundException(
-                translator, LOCATION_GROUP_NOT_FOUND_BY_PKEY, new String[]{pKey}, pKey
-        ));
+        var locationGroup = findInternalByPKey(pKey);
         locationGroup.changeState(stateIn, stateOut);
         ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));
     }
@@ -202,5 +200,24 @@ class LocationGroupServiceImpl implements LocationGroupService {
     public @NotNull List<LocationGroup> findByNames(@NotEmpty List<String> locationGroupNames) {
         var result = repository.findByNameIn(locationGroupNames);
         return result == null ? new ArrayList<>(0) : result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public @NotNull LocationGroup update(@NotBlank String pKey, @NotNull LocationGroupVO locationGroupVO) {
+        var locationGroup = findInternalByPKey(pKey);
+        if (locationGroupVO.getDescription() != null && !locationGroupVO.getDescription().equals(locationGroup.getDescription())) {
+            locationGroup.setDescription(locationGroupVO.getDescription());
+        }
+        return repository.save(locationGroup);
+    }
+
+    private LocationGroup findInternalByPKey(String pKey) {
+        return repository.findBypKey(pKey).orElseThrow(() -> new NotFoundException(
+                translator, LOCATION_GROUP_NOT_FOUND_BY_PKEY, new String[]{pKey}, pKey
+        ));
     }
 }

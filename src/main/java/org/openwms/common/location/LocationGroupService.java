@@ -103,4 +103,13 @@ public interface LocationGroupService {
      * @return Always an list instance, never {@literal null}
      */
     @NotNull List<LocationGroup> findByNames(@NotEmpty List<String> locationGroupNames);
+
+    /**
+     * Updates a LocationGroup based on the provided persisted key and {@link LocationGroupVO} representation.
+     *
+     * @param pKey The persisted key of the LocationGroup to update (must not be blank)
+     * @param locationGroupVO The updated information for the LocationGroup (must not be null)
+     * @return The updated LocationGroup
+     */
+    @NotNull LocationGroup update(@NotBlank String pKey, @NotNull LocationGroupVO locationGroupVO);
 }
