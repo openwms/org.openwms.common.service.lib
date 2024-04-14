@@ -110,4 +110,13 @@ public interface LocationGroupService {
      * @param pKey The persisted key of the LocationGroup to change
      */
     void delete(@NotBlank String pKey);
+
+    /**
+     * Updates a LocationGroup based on the provided persisted key and {@link LocationGroupVO} representation.
+     *
+     * @param pKey The persisted key of the LocationGroup to update (must not be blank)
+     * @param locationGroupVO The updated information for the LocationGroup (must not be null)
+     * @return The updated LocationGroup
+     */
+    @NotNull LocationGroup update(@NotBlank String pKey, @NotNull LocationGroupVO locationGroupVO);
 }

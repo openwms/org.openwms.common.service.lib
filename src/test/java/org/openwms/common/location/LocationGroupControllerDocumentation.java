@@ -46,6 +46,7 @@ import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION_GROUP;
+import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION_GROUPS;
 import static org.springframework.restdocs.http.HttpDocumentation.httpRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -107,7 +108,8 @@ class LocationGroupControllerDocumentation {
                 .andExpect(jsonPath("$._links.location-groups-findall").exists())
                 .andExpect(jsonPath("$._links.location-groups-changestate").exists())
                 .andExpect(jsonPath("$._links.location-groups-changestate-with-bitmap").exists())
-                .andExpect(jsonPath("$._links.length()", is(7)))
+                .andExpect(jsonPath("$._links.location-groups-modify").exists())
+                .andExpect(jsonPath("$._links.length()", is(8)))
                 .andDo(documentationResultHandler.document(httpRequest(), httpResponse()))
         ;
     }
@@ -143,10 +145,12 @@ class LocationGroupControllerDocumentation {
                                             fieldWithPath("pKey").description("The persistent technical key of the LocationGroup"),
                                             fieldWithPath("name").description("Unique natural key"),
                                             fieldWithPath("accountId").description("The Account identifier the LocationGroup is assigned to"),
+                                            fieldWithPath("description").description("Description of the LocationGroup"),
                                             fieldWithPath("childLocationGroups[]").ignored(),
                                             fieldWithPath("childLocationGroups[].pKey").ignored(),
                                             fieldWithPath("childLocationGroups[].name").ignored(),
                                             fieldWithPath("childLocationGroups[].accountId").ignored(),
+                                            fieldWithPath("childLocationGroups[].description").ignored(),
                                             fieldWithPath("childLocationGroups[].parentName").ignored(),
                                             fieldWithPath("childLocationGroups[].operationMode").ignored(),
                                             fieldWithPath("childLocationGroups[].groupStateIn").ignored(),
@@ -388,5 +392,23 @@ class LocationGroupControllerDocumentation {
             assertThat(lg.getGroupStateOut()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
         }
 
+        @Test void shall_change_description() throws Exception {
+            var lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
+            mockMvc.perform(
+                            patch(API_LOCATION_GROUPS + "/{pKey}", lg.getPersistentKey())
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .content("{\"name\":\""+lg.getName()+"\",\"description\":\"foo\"}"))
+                    .andExpect(status().isOk())
+                    .andDo(
+                            documentationResultHandler.document(
+                                    pathParameters(
+                                            parameterWithName("pKey").description("The persistent key of the LocationGroup")
+                                    ),
+                                    httpRequest(), httpResponse()
+                            )
+                    );
+            lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
+            assertThat(lg.getDescription()).isEqualTo("foo");
+        }
     }
 }
