@@ -32,7 +32,7 @@ OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,Locati
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,LocationTypeServiceImpl,26,51,0,0,6,10,4,6,4,6
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,LocationGroupStateConverter,24,0,8,0,6,0,6,0,2,0
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,LocationGroupEventPropagator,99,126,6,4,15,29,6,7,0,5
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,LocationGroupServiceImpl,90,291,14,22,3,60,14,20,1,15
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,LocationGroupServiceImpl,90,309,14,26,3,63,14,22,1,15
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,LocationServiceImpl,24,353,4,22,0,66,5,29,1,20
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.api.messages,TransportUnitTypeMO.Builder,0,45,0,0,0,17,0,9,0,9
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.api.messages,TransportUnitTypeMO,3,95,0,0,1,35,1,18,1,18
