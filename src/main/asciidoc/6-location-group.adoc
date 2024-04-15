@@ -109,7 +109,7 @@ If the description shall be changed, the request looks like:
 include::{generated}/lg/shall_change_description/http-request.adoc[]
 
 If the parent `LocationGroup` shall be changed the request looks like:
-include::{generated}/lg/shall_change_state/http-request.adoc[]
+include::{generated}/lg/shall_change_parent/http-request.adoc[]
 
 In case the operation goes well, the server responds with:
 include::{generated}/lg/shall_change_description/http-response.adoc[]
