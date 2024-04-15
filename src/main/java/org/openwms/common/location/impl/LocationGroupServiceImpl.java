@@ -211,12 +211,16 @@ class LocationGroupServiceImpl implements LocationGroupService {
         var locationGroup = findInternalByPKey(pKey);
         if (locationGroupVO.getDescription() != null && !locationGroupVO.getDescription().equals(locationGroup.getDescription())) {
             locationGroup.setDescription(locationGroupVO.getDescription());
+            locationGroup = repository.save(locationGroup);
+            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.CHANGED));
         }
         if (locationGroupVO.hasParent() && !locationGroupVO.getParent().equals(locationGroup.getParent().getName())) {
             var newParent = findByNameOrThrowInternal(locationGroupVO.getParent());
             locationGroup.setParent(newParent);
+            locationGroup = repository.save(locationGroup);
+            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.CHANGED));
         }
-        return repository.save(locationGroup);
+        return locationGroup;
     }
 
     private LocationGroup findInternalByPKey(String pKey) {
