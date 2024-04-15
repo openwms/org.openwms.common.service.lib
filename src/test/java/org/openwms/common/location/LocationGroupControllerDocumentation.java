@@ -36,12 +36,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.persistence.EntityManager;
+
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.openwms.common.TestData.LOCATION_GROUP_NAME_LG2;
 import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION_GROUP;
 import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION_GROUPS;
 import static org.springframework.restdocs.http.HttpDocumentation.httpRequest;
@@ -76,6 +79,8 @@ class LocationGroupControllerDocumentation {
     private WebApplicationContext context;
     @Autowired
     private ObjectMapper mapper;
+    @Autowired
+    private EntityManager em;
     @Autowired
     private LocationGroupService service;
     @MockBean
@@ -259,13 +264,13 @@ class LocationGroupControllerDocumentation {
         @Test
         void shall_findby_names() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATION_GROUPS)
-                    .queryParam("names", TestData.LOCATION_GROUP_NAME_LG2)
+                    .queryParam("names", LOCATION_GROUP_NAME_LG2)
                     .queryParam("names", TestData.LOCATION_GROUP_NAME_LG3))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$").isArray())
                     .andExpect(jsonPath("$.length()", is(2)))
                     .andExpect(jsonPath("$[1].pKey").exists())
-                    .andExpect(jsonPath("$[1].name", anyOf(is(TestData.LOCATION_GROUP_NAME_LG2), is(TestData.LOCATION_GROUP_NAME_LG3))))
+                    .andExpect(jsonPath("$[1].name", anyOf(is(LOCATION_GROUP_NAME_LG2), is(TestData.LOCATION_GROUP_NAME_LG3))))
                     .andExpect(jsonPath("$[1].accountId").exists())
                     .andExpect(jsonPath("$[1].parentName").exists())
                     .andExpect(jsonPath("$[1].operationMode", notNullValue()))
@@ -333,7 +338,7 @@ class LocationGroupControllerDocumentation {
         }
 
         @Test void shall_change_state_pKey() throws Exception {
-            var lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
+            var lg = service.findByName(LOCATION_GROUP_NAME_LG2).get();
             mockMvc.perform(
                     patch(API_LOCATION_GROUP + "/{pKey}", lg.getPersistentKey())
                     .queryParam("statein", LocationGroupState.NOT_AVAILABLE.toString())
@@ -353,13 +358,13 @@ class LocationGroupControllerDocumentation {
                                     httpRequest(), httpResponse()
                             )
                     );
-            lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
+            lg = service.findByName(LOCATION_GROUP_NAME_LG2).get();
             assertThat(lg.getGroupStateIn()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
             assertThat(lg.getGroupStateOut()).isEqualTo(LocationGroupState.NOT_AVAILABLE);
         }
 
     @Test void shall_change_description() throws Exception {
-        var lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
+        var lg = service.findByName(LOCATION_GROUP_NAME_LG2).get();
         mockMvc.perform(
                         patch(API_LOCATION_GROUPS + "/{pKey}", lg.getPersistentKey())
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -373,16 +378,16 @@ class LocationGroupControllerDocumentation {
                                 httpRequest(), httpResponse()
                         )
                 );
-        lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
+        lg = service.findByName(LOCATION_GROUP_NAME_LG2).get();
         assertThat(lg.getDescription()).isEqualTo("foo");
     }
 
     @Test void shall_change_parent() throws Exception {
-        var lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
+        var lg = service.findByName(LOCATION_GROUP_NAME_LG2).get();
         mockMvc.perform(
                         patch(API_LOCATION_GROUPS + "/{pKey}", lg.getPersistentKey())
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content("{\"name\":\""+lg.getName()+"\",\"parent\":\"IPOINT\"}"))
+                                .content("{\"name\":\""+lg.getName()+"\",\"parentName\":\"IPOINT\"}"))
                 .andExpect(status().isOk())
                 .andDo(
                         documentationResultHandler.document(
@@ -392,8 +397,9 @@ class LocationGroupControllerDocumentation {
                                 httpRequest(), httpResponse()
                         )
                 );
-        lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
-        assertThat(lg.getParent().getName()).isEqualTo("IPOINT");
+        var parentName = em.createQuery("select lg.parent.name from LocationGroup lg where lg.name = :name", String.class)
+                .setParameter("name", LOCATION_GROUP_NAME_LG2).getSingleResult();
+        assertThat(parentName).isEqualTo("IPOINT");
     }
         /*
     }
