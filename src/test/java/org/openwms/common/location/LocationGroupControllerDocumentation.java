@@ -376,6 +376,25 @@ class LocationGroupControllerDocumentation {
         lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
         assertThat(lg.getDescription()).isEqualTo("foo");
     }
+
+    @Test void shall_change_parent() throws Exception {
+        var lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
+        mockMvc.perform(
+                        patch(API_LOCATION_GROUPS + "/{pKey}", lg.getPersistentKey())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{\"name\":\""+lg.getName()+"\",\"parent\":\"IPOINT\"}"))
+                .andExpect(status().isOk())
+                .andDo(
+                        documentationResultHandler.document(
+                                pathParameters(
+                                        parameterWithName("pKey").description("The persistent key of the LocationGroup")
+                                ),
+                                httpRequest(), httpResponse()
+                        )
+                );
+        lg = service.findByName(TestData.LOCATION_GROUP_NAME_LG2).get();
+        assertThat(lg.getParent().getName()).isEqualTo("IPOINT");
+    }
         /*
     }
 

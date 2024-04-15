@@ -212,6 +212,10 @@ class LocationGroupServiceImpl implements LocationGroupService {
         if (locationGroupVO.getDescription() != null && !locationGroupVO.getDescription().equals(locationGroup.getDescription())) {
             locationGroup.setDescription(locationGroupVO.getDescription());
         }
+        if (locationGroupVO.hasParent() && !locationGroupVO.getParent().equals(locationGroup.getParent().getName())) {
+            var newParent = findByNameOrThrowInternal(locationGroupVO.getParent());
+            locationGroup.setParent(newParent);
+        }
         return repository.save(locationGroup);
     }
 
