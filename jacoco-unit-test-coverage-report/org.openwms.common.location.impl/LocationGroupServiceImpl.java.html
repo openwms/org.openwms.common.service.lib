@@ -211,16 +211,20 @@ class LocationGroupServiceImpl implements LocationGroupService {
 <span class="nc" id="L211">        var locationGroup = findInternalByPKey(pKey);</span>
 <span class="nc bnc" id="L212" title="All 4 branches missed.">        if (locationGroupVO.getDescription() != null &amp;&amp; !locationGroupVO.getDescription().equals(locationGroup.getDescription())) {</span>
 <span class="nc" id="L213">            locationGroup.setDescription(locationGroupVO.getDescription());</span>
+<span class="nc" id="L214">            locationGroup = repository.save(locationGroup);</span>
+<span class="nc" id="L215">            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.CHANGED));</span>
         }
-<span class="nc bnc" id="L215" title="All 4 branches missed.">        if (locationGroupVO.hasParent() &amp;&amp; !locationGroupVO.getParent().equals(locationGroup.getParent().getName())) {</span>
-<span class="nc" id="L216">            var newParent = findByNameOrThrowInternal(locationGroupVO.getParent());</span>
-<span class="nc" id="L217">            locationGroup.setParent(newParent);</span>
+<span class="nc bnc" id="L217" title="All 4 branches missed.">        if (locationGroupVO.hasParent() &amp;&amp; !locationGroupVO.getParent().equals(locationGroup.getParent().getName())) {</span>
+<span class="nc" id="L218">            var newParent = findByNameOrThrowInternal(locationGroupVO.getParent());</span>
+<span class="nc" id="L219">            locationGroup.setParent(newParent);</span>
+<span class="nc" id="L220">            locationGroup = repository.save(locationGroup);</span>
+<span class="nc" id="L221">            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.CHANGED));</span>
         }
-<span class="nc" id="L219">        return repository.save(locationGroup);</span>
+<span class="nc" id="L223">        return locationGroup;</span>
     }
 
     private LocationGroup findInternalByPKey(String pKey) {
-<span class="nc" id="L223">        return repository.findBypKey(pKey).orElseThrow(() -&gt; new NotFoundException(</span>
+<span class="nc" id="L227">        return repository.findBypKey(pKey).orElseThrow(() -&gt; new NotFoundException(</span>
                 translator, LOCATION_GROUP_NOT_FOUND_BY_PKEY, new String[]{pKey}, pKey
         ));
     }
