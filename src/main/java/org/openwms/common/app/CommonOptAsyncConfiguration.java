@@ -154,6 +154,7 @@ class CommonOptAsyncConfiguration {
     TopicExchange commonLocCommandsExchange(@Value("${owms.commands.common.loc.exchange-name}") String exchangeName) {
         return new TopicExchange(exchangeName, true, false);
     }
+
     @RefreshScope
     @Bean
     Binding locCommandsBinding(
@@ -164,6 +165,34 @@ class CommonOptAsyncConfiguration {
         return BindingBuilder
                 .bind(commonLocCommandsQueue)
                 .to(commonLocCommandsExchange)
+                .with(routingKey);
+    }
+
+    @RefreshScope
+    @Bean
+    Queue commonLocRegistrationCommandsQueue(@Value("${owms.commands.common.registration.queue-name}") String queueName, DirectExchange dlExchange) {
+        return QueueBuilder.durable(queueName)
+                .withArgument("x-dead-letter-exchange", dlExchange.getName())
+                .withArgument("x-dead-letter-routing-key", POISON_MESSAGE)
+                .build();
+    }
+
+    @RefreshScope
+    @Bean
+    TopicExchange commonLocRegistrationCommandsExchange(@Value("${owms.commands.common.registration.exchange-name}") String exchangeName) {
+        return new TopicExchange(exchangeName, true, false);
+    }
+
+    @RefreshScope
+    @Bean
+    Binding locRegistrationCommandsBinding(
+            @Qualifier("commonLocRegistrationCommandsExchange") TopicExchange commonLocRegistrationCommandsExchange,
+            @Qualifier("commonLocRegistrationCommandsQueue") Queue commonLocRegistrationCommandsQueue,
+            @Value("${owms.commands.common.registration.routing-key}") String routingKey
+    ) {
+        return BindingBuilder
+                .bind(commonLocRegistrationCommandsQueue)
+                .to(commonLocRegistrationCommandsExchange)
                 .with(routingKey);
     }
 

@@ -100,9 +100,16 @@ public interface LocationGroupService {
      * Find and return all {@link LocationGroup}s with the given {@code locationGroupNames}.
      *
      * @param locationGroupNames The names of the LocationGroups to search for
-     * @return Always an list instance, never {@literal null}
+     * @return Always a list instance, never {@literal null}
      */
     @NotNull List<LocationGroup> findByNames(@NotEmpty List<String> locationGroupNames);
+
+    /**
+     * Delete a {@link LocationGroup} with all attached sub-groups and {@code Location}s.
+     *
+     * @param pKey The persisted key of the LocationGroup to change
+     */
+    void delete(@NotBlank String pKey);
 
     /**
      * Updates a LocationGroup based on the provided persisted key and {@link LocationGroupVO} representation.

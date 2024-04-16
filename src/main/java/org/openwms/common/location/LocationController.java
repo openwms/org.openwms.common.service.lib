@@ -24,6 +24,7 @@ import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.location.api.LockMode;
 import org.openwms.common.location.api.LockType;
 import org.openwms.common.location.api.ValidationGroups;
+import org.openwms.common.location.impl.registration.RegistrationService;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;
@@ -31,6 +32,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,11 +72,15 @@ public class LocationController extends AbstractWebController {
     private final LocationMapper mapper;
     private final Translator translator;
     private final LocationService locationService;
+    private final RegistrationService registrationService;
+    private final LocationRemovalManager locationRemovalManager;
 
-    LocationController(LocationService locationService, LocationMapper mapper, Translator translator) {
+    LocationController(LocationService locationService, LocationMapper mapper, Translator translator, RegistrationService registrationService, LocationRemovalManager locationRemovalManager) {
         this.locationService = locationService;
         this.mapper = mapper;
         this.translator = translator;
+        this.registrationService = registrationService;
+        this.locationRemovalManager = locationRemovalManager;
     }
 
     @PostMapping(value = API_LOCATIONS)
@@ -96,6 +102,12 @@ public class LocationController extends AbstractWebController {
         var result = mapper.convertToVO(updated);
         addSelfLink(result);
         return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);
+    }
+
+    @DeleteMapping(value = API_LOCATIONS + "/{pKey}")
+    public ResponseEntity<Void> deleteLocation(@PathVariable("pKey") String pKey) {
+        locationRemovalManager.tryDelete(pKey);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(value = API_LOCATIONS + "/{pKey}")
@@ -228,6 +240,7 @@ public class LocationController extends AbstractWebController {
                 new Index(
                         linkTo(methodOn(LocationController.class).createLocation(new LocationVO("locationId"), null)).withRel("location-create"),
                         linkTo(methodOn(LocationController.class).updateLocation(new LocationVO("locationId"))).withRel("location-updatelocation"),
+                        linkTo(methodOn(LocationController.class).deleteLocation("pKey")).withRel("location-deletelocation"),
                         linkTo(methodOn(LocationController.class).findByPKey("pKey")).withRel("location-findbypkey"),
                         linkTo(methodOn(LocationController.class).findByCoordinate("AREA/AISLE/X/Y/Z")).withRel("location-findbycoordinate"),
                         linkTo(methodOn(LocationController.class).findByCoordinate("area", "aisle", "x", "y", "z")).withRel("location-findbycoordinate-wc"),

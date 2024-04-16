@@ -73,7 +73,7 @@ class LocationGroupEventPropagator {
         }
     }
 
-    @TransactionalEventListener(fallbackExecution = true)
+    @TransactionalEventListener
     public void onEvent(LocationGroupEvent event) {
         switch (event.getType()) {
             case CREATED -> {
@@ -98,7 +98,7 @@ class LocationGroupEventPropagator {
         }
     }
 
-    @TransactionalEventListener(fallbackExecution = true)
+    @TransactionalEventListener
     public void onLocationEvent(LocationEvent event) {
         switch (event.getType()) {
             case CREATED -> {

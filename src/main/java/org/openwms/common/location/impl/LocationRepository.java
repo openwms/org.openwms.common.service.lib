@@ -21,6 +21,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +46,20 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
 
     Optional<Location> findByErpCode(String erpCode);
 
+    @Query("""
+        select count(tu)>0
+          from TransportUnit tu
+         where tu.actualLocation.pk = :pk
+    """)
+    boolean doesTUonLocationExists(Long pk);
+
+    @Query("""
+        select count(tu)>0
+          from TransportUnit tu
+         where tu.actualLocation.pKey in (:pKeys)
+    """)
+    boolean doesTUonLocationExists(@Param("pKeys") Collection<String> pKeys);
+
     @Query("select l from Location l " +
             "where l.locationId.area like :#{#locationPK.area} " +
             "and l.locationId.aisle like :#{#locationPK.aisle} " +
@@ -52,5 +67,5 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
             "and l.locationId.y like :#{#locationPK.y} " +
             "and l.locationId.z like :#{#locationPK.z} ")
     List<Location> findByLocationIdContaining(@Param("locationPK") LocationPK locationPK);
-//SONAR:ON
+    //SONAR:ON
 }

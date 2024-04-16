@@ -147,6 +147,10 @@ owms:
         exchange-name: common.loc.commands
         routing-key: common.loc.command.in.*
         queue-name: common-loc-commands-queue
+      registration:
+        exchange-name: common.registration.commands
+        routing-key: common.registration.command.in.#.#
+        queue-name: common-registration-commands-queue
       tu:
         exchange-name: common.tu.commands
         routing-key: common.tu.command.in.*
