@@ -16,11 +16,12 @@
 package org.openwms.common.transport.api.messages;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.openwms.common.location.api.messages.LocationMO;
 import org.openwms.common.transport.api.ValidationGroups;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -36,37 +37,48 @@ import static org.openwms.common.transport.api.TransportApiConstants.DATETIME_FO
 public class TransportUnitMO implements Serializable {
 
     /** The persistent key of TransportUnit. */
-    @NotEmpty(groups = {ValidationGroups.TransportUnit.Request.class, ValidationGroups.TransportUnit.Remove.class})
+    @NotBlank(groups = {
+            ValidationGroups.TransportUnit.Request.class,
+            ValidationGroups.TransportUnit.Remove.class
+    })
     private String pKey;
+
     /** The business key of the TransportUnit. */
-    @NotEmpty(groups = {
+    @NotBlank(groups = {
             ValidationGroups.TransportUnit.ChangeTarget.class,
             ValidationGroups.TransportUnit.Create.class,
             ValidationGroups.TransportUnit.Modified.class
     })
     private String barcode;
+
     /** The actualLocationDate of the TransportUnit. */
+    @JsonProperty("actualLocationDate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATETIME_FORMAT_ZULU) // required
     private LocalDateTime actualLocationDate;
+
     /** The state of the TransportUnit. */
     private String state;
+
     /** The actualLocation of the TransportUnit. */
     @NotNull(groups = {
             ValidationGroups.TransportUnit.Create.class,
             ValidationGroups.TransportUnit.Modified.class
     })
     private LocationMO actualLocation;
+
     /** The targetLocation of the TransportUnit. */
-    @NotEmpty(groups = {
+    @NotNull(groups = {
             ValidationGroups.TransportUnit.ChangeTarget.class
     })
     private LocationMO targetLocation;
+
     /** The transportUnitType of the TransportUnit. */
     @Valid
     @NotNull(groups = {
             ValidationGroups.TransportUnit.Modified.class
     })
     private TransportUnitTypeMO transportUnitType;
+
     /** The business key of the parent TransportUnit. */
     private String parent;
 
