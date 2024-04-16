@@ -12,3 +12,4 @@ com_location_message
 com_type_placing_rule
 com_type_stacking_rule
 com_barcode
+com_replica_registry

@@ -10,7 +10,9 @@ org.openwms.common.location.api.commands
 org.openwms.common.location.api.events
 org.openwms.common.location.api.messages
 org.openwms.common.location.commands
+org.openwms.common.location.events
 org.openwms.common.location.impl
+org.openwms.common.location.impl.registration
 org.openwms.common.location.spi
 org.openwms.common.spi.transactions
 org.openwms.common.spi.transactions.commands

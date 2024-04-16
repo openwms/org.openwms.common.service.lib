@@ -82,7 +82,7 @@
 </tr>
 </thead>
 <tbody valign='top'>
-<tr class='odd'>
+<tr class='even'>
  <td class='primaryKey' title='Primary Key'>c_pk</td>
  <td class='detail'>int8</td>
  <td class='detail' align='right'>19</td>
@@ -91,25 +91,25 @@
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="com_location.c_location_group refs com_location_group.c_pk via fk_loc_lg"><a href='com_location.html'>com_location</a><span class='relatedKey'>.c_location_group</span>
     </td>
     <td class='constraint detail'>fk_loc_lg<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="com_location_group.c_in_locker refs com_location_group.c_pk via fk_lg_lg_inlocker"><a href='com_location_group.html'>com_location_group</a><span class='relatedKey'>.c_in_locker</span>
     </td>
     <td class='constraint detail'>fk_lg_lg_inlocker<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="com_location_group.c_out_locker refs com_location_group.c_pk via fk_lg_lg_outlocker"><a href='com_location_group.html'>com_location_group</a><span class='relatedKey'>.c_out_locker</span>
     </td>
     <td class='constraint detail'>fk_lg_lg_outlocker<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="com_location_group.c_parent refs com_location_group.c_pk via fk_lg_lg_parent"><a href='com_location_group.html'>com_location_group</a><span class='relatedKey'>.c_parent</span>
     </td>
     <td class='constraint detail'>fk_lg_lg_parent<span title='Restrict delete:
@@ -120,7 +120,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>c_created</td>
  <td class='detail'>timestamp</td>
  <td class='detail' align='right'>29,6</td>
@@ -131,7 +131,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>c_created_by</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -142,7 +142,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>c_updated_by</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -153,7 +153,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>c_updated</td>
  <td class='detail'>timestamp</td>
  <td class='detail' align='right'>29,6</td>
@@ -164,7 +164,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>c_ol</td>
  <td class='detail'>int8</td>
  <td class='detail' align='right'>19</td>
@@ -175,7 +175,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='indexedColumn' title='Indexed'>c_pid</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -186,7 +186,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>c_description</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -197,7 +197,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>c_group_state_in</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -208,7 +208,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>c_group_state_out</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -219,7 +219,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>c_group_type</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -230,7 +230,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>c_group_counting_active</td>
  <td class='detail'>bool</td>
  <td class='detail' align='right'>1</td>
@@ -241,7 +241,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>c_max_fill_level</td>
  <td class='detail'>float4</td>
  <td class='detail' align='right'>8,8</td>
@@ -252,7 +252,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='indexedColumn' title='Indexed'>c_name</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -263,7 +263,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>c_op_mode</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -274,7 +274,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>c_system_code</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -285,7 +285,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>c_system_name</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -296,7 +296,7 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>c_account</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -306,7 +306,7 @@
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="com_location_group.c_account refs com_account.c_identifier via fk_lg_acc"><a href='com_account.html'>com_account</a><span class='relatedKey'>.c_identifier</span>
     </td>
     <td class='constraint detail'>fk_lg_acc<span title='Restrict delete:
@@ -316,7 +316,7 @@
  </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>c_parent</td>
  <td class='detail'>int8</td>
  <td class='detail' align='right'>19</td>
@@ -326,7 +326,7 @@
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="com_location_group.c_parent refs com_location_group.c_pk via fk_lg_lg_parent"><a href='com_location_group.html'>com_location_group</a><span class='relatedKey'>.c_pk</span>
     </td>
     <td class='constraint detail'>fk_lg_lg_parent<span title='Restrict delete:
@@ -336,7 +336,7 @@
  </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>c_in_locker</td>
  <td class='detail'>int8</td>
  <td class='detail' align='right'>19</td>
@@ -346,7 +346,7 @@
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="com_location_group.c_in_locker refs com_location_group.c_pk via fk_lg_lg_inlocker"><a href='com_location_group.html'>com_location_group</a><span class='relatedKey'>.c_pk</span>
     </td>
     <td class='constraint detail'>fk_lg_lg_inlocker<span title='Restrict delete:
@@ -356,7 +356,7 @@
  </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>c_out_locker</td>
  <td class='detail'>int8</td>
  <td class='detail' align='right'>19</td>
@@ -366,7 +366,7 @@
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="com_location_group.c_out_locker refs com_location_group.c_pk via fk_lg_lg_outlocker"><a href='com_location_group.html'>com_location_group</a><span class='relatedKey'>.c_pk</span>
     </td>
     <td class='constraint detail'>fk_lg_lg_outlocker<span title='Restrict delete:
@@ -377,7 +377,7 @@
  <td class='comment detail'></td>
 </tr>
 </table>
-<p title='21 columns'>Table contained 42 rows at Mon Apr 15 15:35 UTC 2024<p/>
+<p title='21 columns'>Table contained 42 rows at Tue Apr 16 13:14 UTC 2024<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>

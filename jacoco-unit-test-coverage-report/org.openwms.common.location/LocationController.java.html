@@ -24,6 +24,7 @@ import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.location.api.LockMode;
 import org.openwms.common.location.api.LockType;
 import org.openwms.common.location.api.ValidationGroups;
+import org.openwms.common.location.impl.registration.RegistrationService;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;
@@ -31,6 +32,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,93 +72,103 @@ public class LocationController extends AbstractWebController {
     private final LocationMapper mapper;
     private final Translator translator;
     private final LocationService locationService;
+    private final RegistrationService registrationService;
+    private final LocationRemovalManager locationRemovalManager;
 
-<span class="fc" id="L74">    LocationController(LocationService locationService, LocationMapper mapper, Translator translator) {</span>
-<span class="fc" id="L75">        this.locationService = locationService;</span>
-<span class="fc" id="L76">        this.mapper = mapper;</span>
-<span class="fc" id="L77">        this.translator = translator;</span>
-<span class="fc" id="L78">    }</span>
+<span class="fc" id="L78">    LocationController(LocationService locationService, LocationMapper mapper, Translator translator, RegistrationService registrationService, LocationRemovalManager locationRemovalManager) {</span>
+<span class="fc" id="L79">        this.locationService = locationService;</span>
+<span class="fc" id="L80">        this.mapper = mapper;</span>
+<span class="fc" id="L81">        this.translator = translator;</span>
+<span class="fc" id="L82">        this.registrationService = registrationService;</span>
+<span class="fc" id="L83">        this.locationRemovalManager = locationRemovalManager;</span>
+<span class="fc" id="L84">    }</span>
 
     @PostMapping(value = API_LOCATIONS)
     @Validated(ValidationGroups.Create.class)
     public ResponseEntity&lt;LocationVO&gt; createLocation(@Valid @RequestBody LocationVO location, HttpServletRequest req) {
-<span class="nc" id="L83">        var created = locationService.create(mapper.convertVO(location));</span>
-<span class="nc" id="L84">        var result = mapper.convertToVO(created);</span>
-<span class="nc" id="L85">        addSelfLink(result);</span>
-<span class="nc" id="L86">        return ResponseEntity</span>
-<span class="nc" id="L87">                .created(super.getLocationURIForCreatedResource(req, created.getPersistentKey()))</span>
-<span class="nc" id="L88">                .header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE)</span>
-<span class="nc" id="L89">                .body(result);</span>
+<span class="nc" id="L89">        var created = locationService.create(mapper.convertVO(location));</span>
+<span class="nc" id="L90">        var result = mapper.convertToVO(created);</span>
+<span class="nc" id="L91">        addSelfLink(result);</span>
+<span class="nc" id="L92">        return ResponseEntity</span>
+<span class="nc" id="L93">                .created(super.getLocationURIForCreatedResource(req, created.getPersistentKey()))</span>
+<span class="nc" id="L94">                .header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE)</span>
+<span class="nc" id="L95">                .body(result);</span>
     }
 
     @PutMapping(value = API_LOCATIONS)
     @Validated(ValidationGroups.Update.class)
     public ResponseEntity&lt;LocationVO&gt; updateLocation(@Valid @RequestBody LocationVO location) {
-<span class="nc" id="L95">        var updated = locationService.save(mapper.convertVO(location));</span>
-<span class="nc" id="L96">        var result = mapper.convertToVO(updated);</span>
-<span class="nc" id="L97">        addSelfLink(result);</span>
-<span class="nc" id="L98">        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);</span>
+<span class="nc" id="L101">        var updated = locationService.save(mapper.convertVO(location));</span>
+<span class="nc" id="L102">        var result = mapper.convertToVO(updated);</span>
+<span class="nc" id="L103">        addSelfLink(result);</span>
+<span class="nc" id="L104">        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);</span>
+    }
+
+    @DeleteMapping(value = API_LOCATIONS + &quot;/{pKey}&quot;)
+    public ResponseEntity&lt;Void&gt; deleteLocation(@PathVariable(&quot;pKey&quot;) String pKey) {
+<span class="nc" id="L109">        locationRemovalManager.tryDelete(pKey);</span>
+<span class="nc" id="L110">        return ResponseEntity.noContent().build();</span>
     }
 
     @GetMapping(value = API_LOCATIONS + &quot;/{pKey}&quot;)
     public ResponseEntity&lt;LocationVO&gt; findByPKey(@PathVariable(&quot;pKey&quot;) String pKey) {
-<span class="nc" id="L103">        var location = locationService.findByPKey(pKey);</span>
-<span class="nc" id="L104">        var result = mapper.convertToVO(location);</span>
-<span class="nc" id="L105">        addSelfLink(result);</span>
-<span class="nc" id="L106">        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);</span>
+<span class="nc" id="L115">        var location = locationService.findByPKey(pKey);</span>
+<span class="nc" id="L116">        var result = mapper.convertToVO(location);</span>
+<span class="nc" id="L117">        addSelfLink(result);</span>
+<span class="nc" id="L118">        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);</span>
     }
 
     private void addSelfLink(LocationVO result) {
-<span class="nc" id="L110">        result.add(linkTo(methodOn(LocationController.class).findByPKey(result.getpKey())).withRel(&quot;location-findbypkey&quot;));</span>
-<span class="nc" id="L111">    }</span>
+<span class="nc" id="L122">        result.add(linkTo(methodOn(LocationController.class).findByPKey(result.getpKey())).withRel(&quot;location-findbypkey&quot;));</span>
+<span class="nc" id="L123">    }</span>
 
     @GetMapping(value = API_LOCATIONS, params = {&quot;locationId&quot;})
     public ResponseEntity&lt;LocationVO&gt; findByCoordinate(@RequestParam(&quot;locationId&quot;) String locationId) {
-<span class="nc bnc" id="L115" title="All 2 branches missed.">        if (!LocationPK.isValid(locationId)) {</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        if (!LocationPK.isValid(locationId)) {</span>
             // here we need to throw an NFE because Feign needs to cast it into an Optional. IAE won't work!
-<span class="nc" id="L117">            throw new NotFoundException(translator, LOCATION_ID_INVALID, new String[]{locationId}, locationId);</span>
+<span class="nc" id="L129">            throw new NotFoundException(translator, LOCATION_ID_INVALID, new String[]{locationId}, locationId);</span>
         }
-<span class="nc" id="L119">        var location = locationService.findByLocationPk(LocationPK.fromString(locationId))</span>
-<span class="nc" id="L120">                .orElseThrow(() -&gt; new NotFoundException(</span>
+<span class="nc" id="L131">        var location = locationService.findByLocationPk(LocationPK.fromString(locationId))</span>
+<span class="nc" id="L132">                .orElseThrow(() -&gt; new NotFoundException(</span>
                         translator,
                         LOCATION_NOT_FOUND_BY_ID,
                         new String[]{locationId},
                         locationId
                 ));
-<span class="nc" id="L126">        var result = mapper.convertToVO(location);</span>
-<span class="nc" id="L127">        addSelfLink(result);</span>
-<span class="nc" id="L128">        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);</span>
+<span class="nc" id="L138">        var result = mapper.convertToVO(location);</span>
+<span class="nc" id="L139">        addSelfLink(result);</span>
+<span class="nc" id="L140">        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);</span>
     }
 
     @GetMapping(value = API_LOCATIONS, params = {&quot;erpCode&quot;})
     public ResponseEntity&lt;LocationVO&gt; findByErpCode(@RequestParam(&quot;erpCode&quot;) String erpCode) {
-<span class="nc" id="L133">        var location = locationService.findByErpCode(erpCode).orElseThrow(() -&gt; locationNotFound(erpCode));</span>
-<span class="nc" id="L134">        var result = mapper.convertToVO(location);</span>
-<span class="nc" id="L135">        addSelfLink(result);</span>
-<span class="nc" id="L136">        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);</span>
+<span class="nc" id="L145">        var location = locationService.findByErpCode(erpCode).orElseThrow(() -&gt; locationNotFound(erpCode));</span>
+<span class="nc" id="L146">        var result = mapper.convertToVO(location);</span>
+<span class="nc" id="L147">        addSelfLink(result);</span>
+<span class="nc" id="L148">        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);</span>
     }
 
     @GetMapping(value = API_LOCATIONS, params = {&quot;plcCode&quot;})
     public ResponseEntity&lt;LocationVO&gt; findByPlcCode(@RequestParam(&quot;plcCode&quot;) String plcCode) {
-<span class="nc" id="L141">        var location = locationService.findByPlcCode(plcCode)</span>
-<span class="nc" id="L142">                .orElseThrow(() -&gt; new NotFoundException(</span>
+<span class="nc" id="L153">        var location = locationService.findByPlcCode(plcCode)</span>
+<span class="nc" id="L154">                .orElseThrow(() -&gt; new NotFoundException(</span>
                         translator,
                         LOCATION_NOT_FOUND_BY_PLC_CODE,
                         new String[]{plcCode},
                         plcCode
                 ));
-<span class="nc" id="L148">        var result = mapper.convertToVO(location);</span>
-<span class="nc" id="L149">        addSelfLink(result);</span>
-<span class="nc" id="L150">        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);</span>
+<span class="nc" id="L160">        var result = mapper.convertToVO(location);</span>
+<span class="nc" id="L161">        addSelfLink(result);</span>
+<span class="nc" id="L162">        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);</span>
     }
 
     @GetMapping(value = API_LOCATIONS, params = {&quot;locationGroupNames&quot;})
     public ResponseEntity&lt;List&lt;LocationVO&gt;&gt; findForLocationGroups(
             @RequestParam(&quot;locationGroupNames&quot;) List&lt;String&gt; locationGroupNames) {
-<span class="nc" id="L156">        var locations = locationService.findAllOf(locationGroupNames);</span>
-<span class="nc" id="L157">        var result = mapper.convertToVO(locations);</span>
-<span class="nc" id="L158">        result.forEach(this::addSelfLink);</span>
-<span class="nc" id="L159">        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);</span>
+<span class="nc" id="L168">        var locations = locationService.findAllOf(locationGroupNames);</span>
+<span class="nc" id="L169">        var result = mapper.convertToVO(locations);</span>
+<span class="nc" id="L170">        result.forEach(this::addSelfLink);</span>
+<span class="nc" id="L171">        return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);</span>
     }
 
     @PatchMapping(value = API_LOCATION + &quot;/{pKey}&quot;, params = &quot;op=change-state&quot;)
@@ -165,8 +177,8 @@ public class LocationController extends AbstractWebController {
             @RequestParam(name = &quot;op&quot;) String op,
             @RequestBody ErrorCodeVO errorCode
     ) {
-<span class="nc" id="L168">        locationService.changeState(pKey, errorCode);</span>
-<span class="nc" id="L169">        return ResponseEntity.noContent().build();</span>
+<span class="nc" id="L180">        locationService.changeState(pKey, errorCode);</span>
+<span class="nc" id="L181">        return ResponseEntity.noContent().build();</span>
     }
 
     @PatchMapping(value = API_LOCATION, params = {&quot;locationId&quot;, &quot;op=change-state&quot;})
@@ -174,8 +186,8 @@ public class LocationController extends AbstractWebController {
             @RequestParam(name = &quot;locationId&quot;) String locationId,
             @RequestBody ErrorCodeVO errorCode
     ) {
-<span class="nc" id="L177">        locationService.changeState(LocationPK.fromString(locationId), errorCode);</span>
-<span class="nc" id="L178">        return ResponseEntity.noContent().build();</span>
+<span class="nc" id="L189">        locationService.changeState(LocationPK.fromString(locationId), errorCode);</span>
+<span class="nc" id="L190">        return ResponseEntity.noContent().build();</span>
     }
 
     /**
@@ -192,18 +204,18 @@ public class LocationController extends AbstractWebController {
             @RequestParam(&quot;mode&quot;) LockMode mode,
             @RequestParam(value = &quot;plcState&quot;, required = false) Integer plcState
     ) {
-<span class="nc" id="L195">        var location = locationService.findByErpCode(erpCode).orElseThrow(() -&gt; locationNotFound(erpCode));</span>
-<span class="nc bnc" id="L196" title="All 2 branches missed.">        if (type == LockType.ALLOCATION_LOCK) {</span>
-<span class="nc" id="L197">            changeLocation(</span>
+<span class="nc" id="L207">        var location = locationService.findByErpCode(erpCode).orElseThrow(() -&gt; locationNotFound(erpCode));</span>
+<span class="nc bnc" id="L208" title="All 2 branches missed.">        if (type == LockType.ALLOCATION_LOCK) {</span>
+<span class="nc" id="L209">            changeLocation(</span>
                     mode,
                     location,
                     plcState,
-<span class="nc" id="L201">                    (l, code) -&gt; locationService.changeState(l.getPersistentKey(), code)</span>
+<span class="nc" id="L213">                    (l, code) -&gt; locationService.changeState(l.getPersistentKey(), code)</span>
             );
         } else {
-<span class="nc" id="L204">            unsupportedOperation(type);</span>
+<span class="nc" id="L216">            unsupportedOperation(type);</span>
         }
-<span class="nc" id="L206">        return ResponseEntity.noContent().build();</span>
+<span class="nc" id="L218">        return ResponseEntity.noContent().build();</span>
     }
 
     @GetMapping(API_LOCATIONS)
@@ -214,68 +226,69 @@ public class LocationController extends AbstractWebController {
             @RequestParam(value = &quot;y&quot;, required = false, defaultValue = &quot;%&quot;) String y,
             @RequestParam(value = &quot;z&quot;, required = false, defaultValue = &quot;%&quot;) String z
     ) {
-<span class="nc" id="L217">        var pk = LocationPK.of(area, aisle, x, y, z);</span>
-<span class="nc" id="L218">        var result = mapper.convertToVO(locationService.findLocations(pk));</span>
-<span class="nc" id="L219">        result.forEach(this::addSelfLink);</span>
-<span class="nc bnc" id="L220" title="All 2 branches missed.">        return result.isEmpty()</span>
-<span class="nc" id="L221">                ? ResponseEntity.notFound().build()</span>
-<span class="nc" id="L222">                : ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);</span>
+<span class="nc" id="L229">        var pk = LocationPK.of(area, aisle, x, y, z);</span>
+<span class="nc" id="L230">        var result = mapper.convertToVO(locationService.findLocations(pk));</span>
+<span class="nc" id="L231">        result.forEach(this::addSelfLink);</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">        return result.isEmpty()</span>
+<span class="nc" id="L233">                ? ResponseEntity.notFound().build()</span>
+<span class="nc" id="L234">                : ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE).body(result);</span>
     }
 
     @GetMapping(API_LOCATIONS + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="nc" id="L227">        return ResponseEntity.ok(</span>
+<span class="nc" id="L239">        return ResponseEntity.ok(</span>
                 new Index(
-<span class="nc" id="L229">                        linkTo(methodOn(LocationController.class).createLocation(new LocationVO(&quot;locationId&quot;), null)).withRel(&quot;location-create&quot;),</span>
-<span class="nc" id="L230">                        linkTo(methodOn(LocationController.class).updateLocation(new LocationVO(&quot;locationId&quot;))).withRel(&quot;location-updatelocation&quot;),</span>
-<span class="nc" id="L231">                        linkTo(methodOn(LocationController.class).findByPKey(&quot;pKey&quot;)).withRel(&quot;location-findbypkey&quot;),</span>
-<span class="nc" id="L232">                        linkTo(methodOn(LocationController.class).findByCoordinate(&quot;AREA/AISLE/X/Y/Z&quot;)).withRel(&quot;location-findbycoordinate&quot;),</span>
-<span class="nc" id="L233">                        linkTo(methodOn(LocationController.class).findByCoordinate(&quot;area&quot;, &quot;aisle&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;)).withRel(&quot;location-findbycoordinate-wc&quot;),</span>
-<span class="nc" id="L234">                        linkTo(methodOn(LocationController.class).findByErpCode(&quot;ERP_CODE&quot;)).withRel(&quot;location-findbyerpcode&quot;),</span>
-<span class="nc" id="L235">                        linkTo(methodOn(LocationController.class).findByPlcCode(&quot;PLC_CODE&quot;)).withRel(&quot;location-findbyplccode&quot;),</span>
-<span class="nc" id="L236">                        linkTo(methodOn(LocationController.class).findForLocationGroups(asList(&quot;LG1&quot;, &quot;LG2&quot;))).withRel(&quot;location-forlocationgroup&quot;),</span>
-<span class="nc" id="L237">                        linkTo(methodOn(LocationController.class).changeState(&quot;pKey&quot;, &quot;change-state&quot;, ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel(&quot;location-changestate&quot;)</span>
+<span class="nc" id="L241">                        linkTo(methodOn(LocationController.class).createLocation(new LocationVO(&quot;locationId&quot;), null)).withRel(&quot;location-create&quot;),</span>
+<span class="nc" id="L242">                        linkTo(methodOn(LocationController.class).updateLocation(new LocationVO(&quot;locationId&quot;))).withRel(&quot;location-updatelocation&quot;),</span>
+<span class="nc" id="L243">                        linkTo(methodOn(LocationController.class).deleteLocation(&quot;pKey&quot;)).withRel(&quot;location-deletelocation&quot;),</span>
+<span class="nc" id="L244">                        linkTo(methodOn(LocationController.class).findByPKey(&quot;pKey&quot;)).withRel(&quot;location-findbypkey&quot;),</span>
+<span class="nc" id="L245">                        linkTo(methodOn(LocationController.class).findByCoordinate(&quot;AREA/AISLE/X/Y/Z&quot;)).withRel(&quot;location-findbycoordinate&quot;),</span>
+<span class="nc" id="L246">                        linkTo(methodOn(LocationController.class).findByCoordinate(&quot;area&quot;, &quot;aisle&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;)).withRel(&quot;location-findbycoordinate-wc&quot;),</span>
+<span class="nc" id="L247">                        linkTo(methodOn(LocationController.class).findByErpCode(&quot;ERP_CODE&quot;)).withRel(&quot;location-findbyerpcode&quot;),</span>
+<span class="nc" id="L248">                        linkTo(methodOn(LocationController.class).findByPlcCode(&quot;PLC_CODE&quot;)).withRel(&quot;location-findbyplccode&quot;),</span>
+<span class="nc" id="L249">                        linkTo(methodOn(LocationController.class).findForLocationGroups(asList(&quot;LG1&quot;, &quot;LG2&quot;))).withRel(&quot;location-forlocationgroup&quot;),</span>
+<span class="nc" id="L250">                        linkTo(methodOn(LocationController.class).changeState(&quot;pKey&quot;, &quot;change-state&quot;, ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel(&quot;location-changestate&quot;)</span>
                 )
         );
     }
 
     private void changeLocation(LockMode mode, Target target, Integer plcState, BiConsumer&lt;Target, ErrorCodeVO&gt; fnc) {
         ErrorCodeVO state;
-<span class="nc bnc" id="L244" title="All 5 branches missed.">        switch (mode) {</span>
+<span class="nc bnc" id="L257" title="All 5 branches missed.">        switch (mode) {</span>
             case IN -&gt; {
-<span class="nc" id="L246">                state = ErrorCodeVO.LOCK_STATE_IN;</span>
-<span class="nc" id="L247">                state.setPlcState(plcState);</span>
-<span class="nc" id="L248">                fnc.accept(target, state);</span>
-<span class="nc" id="L249">            }</span>
+<span class="nc" id="L259">                state = ErrorCodeVO.LOCK_STATE_IN;</span>
+<span class="nc" id="L260">                state.setPlcState(plcState);</span>
+<span class="nc" id="L261">                fnc.accept(target, state);</span>
+<span class="nc" id="L262">            }</span>
             case OUT -&gt; {
-<span class="nc" id="L251">                state = ErrorCodeVO.LOCK_STATE_OUT;</span>
-<span class="nc" id="L252">                state.setPlcState(plcState);</span>
-<span class="nc" id="L253">                fnc.accept(target, state);</span>
-<span class="nc" id="L254">            }</span>
+<span class="nc" id="L264">                state = ErrorCodeVO.LOCK_STATE_OUT;</span>
+<span class="nc" id="L265">                state.setPlcState(plcState);</span>
+<span class="nc" id="L266">                fnc.accept(target, state);</span>
+<span class="nc" id="L267">            }</span>
             case IN_AND_OUT -&gt; {
-<span class="nc" id="L256">                state = ErrorCodeVO.LOCK_STATE_IN_AND_OUT;</span>
-<span class="nc" id="L257">                state.setPlcState(plcState);</span>
-<span class="nc" id="L258">                fnc.accept(target, state);</span>
-<span class="nc" id="L259">            }</span>
+<span class="nc" id="L269">                state = ErrorCodeVO.LOCK_STATE_IN_AND_OUT;</span>
+<span class="nc" id="L270">                state.setPlcState(plcState);</span>
+<span class="nc" id="L271">                fnc.accept(target, state);</span>
+<span class="nc" id="L272">            }</span>
             case NONE -&gt; {
-<span class="nc" id="L261">                state = ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT;</span>
-<span class="nc" id="L262">                state.setPlcState(plcState);</span>
-<span class="nc" id="L263">                fnc.accept(target, state);</span>
-<span class="nc" id="L264">            }</span>
-<span class="nc" id="L265">            default -&gt; unsupportedOperation(mode);</span>
+<span class="nc" id="L274">                state = ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT;</span>
+<span class="nc" id="L275">                state.setPlcState(plcState);</span>
+<span class="nc" id="L276">                fnc.accept(target, state);</span>
+<span class="nc" id="L277">            }</span>
+<span class="nc" id="L278">            default -&gt; unsupportedOperation(mode);</span>
         }
-<span class="nc" id="L267">    }</span>
+<span class="nc" id="L280">    }</span>
 
     private NotFoundException locationNotFound(String erpCode) {
-<span class="nc" id="L270">        return new NotFoundException(translator, LOCATION_NOT_FOUND_BY_ERP_CODE, new String[]{erpCode}, erpCode);</span>
+<span class="nc" id="L283">        return new NotFoundException(translator, LOCATION_NOT_FOUND_BY_ERP_CODE, new String[]{erpCode}, erpCode);</span>
     }
 
     private void unsupportedOperation(LockMode mode) {
-<span class="nc" id="L274">        throw new BusinessRuntimeException(translator, LOCK_MODE_UNSUPPORTED, new Serializable[]{mode}, mode);</span>
+<span class="nc" id="L287">        throw new BusinessRuntimeException(translator, LOCK_MODE_UNSUPPORTED, new Serializable[]{mode}, mode);</span>
     }
 
     private void unsupportedOperation(LockType type) {
-<span class="nc" id="L278">        throw new BusinessRuntimeException(translator, LOCK_TYPE_UNSUPPORTED, new Serializable[]{type}, type);</span>
+<span class="nc" id="L291">        throw new BusinessRuntimeException(translator, LOCK_TYPE_UNSUPPORTED, new Serializable[]{type}, type);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

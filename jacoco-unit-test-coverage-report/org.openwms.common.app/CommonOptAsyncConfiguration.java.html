@@ -154,6 +154,7 @@ import static org.ameba.LoggingCategories.BOOT;
     TopicExchange commonLocCommandsExchange(@Value(&quot;${owms.commands.common.loc.exchange-name}&quot;) String exchangeName) {
 <span class="fc" id="L155">        return new TopicExchange(exchangeName, true, false);</span>
     }
+
     @RefreshScope
     @Bean
     Binding locCommandsBinding(
@@ -161,10 +162,38 @@ import static org.ameba.LoggingCategories.BOOT;
             @Qualifier(&quot;commonLocCommandsQueue&quot;) Queue commonLocCommandsQueue,
             @Value(&quot;${owms.commands.common.loc.routing-key}&quot;) String routingKey
     ) {
-<span class="fc" id="L164">        return BindingBuilder</span>
-<span class="fc" id="L165">                .bind(commonLocCommandsQueue)</span>
-<span class="fc" id="L166">                .to(commonLocCommandsExchange)</span>
-<span class="fc" id="L167">                .with(routingKey);</span>
+<span class="fc" id="L165">        return BindingBuilder</span>
+<span class="fc" id="L166">                .bind(commonLocCommandsQueue)</span>
+<span class="fc" id="L167">                .to(commonLocCommandsExchange)</span>
+<span class="fc" id="L168">                .with(routingKey);</span>
+    }
+
+    @RefreshScope
+    @Bean
+    Queue commonLocRegistrationCommandsQueue(@Value(&quot;${owms.commands.common.registration.queue-name}&quot;) String queueName, DirectExchange dlExchange) {
+<span class="fc" id="L174">        return QueueBuilder.durable(queueName)</span>
+<span class="fc" id="L175">                .withArgument(&quot;x-dead-letter-exchange&quot;, dlExchange.getName())</span>
+<span class="fc" id="L176">                .withArgument(&quot;x-dead-letter-routing-key&quot;, POISON_MESSAGE)</span>
+<span class="fc" id="L177">                .build();</span>
+    }
+
+    @RefreshScope
+    @Bean
+    TopicExchange commonLocRegistrationCommandsExchange(@Value(&quot;${owms.commands.common.registration.exchange-name}&quot;) String exchangeName) {
+<span class="fc" id="L183">        return new TopicExchange(exchangeName, true, false);</span>
+    }
+
+    @RefreshScope
+    @Bean
+    Binding locRegistrationCommandsBinding(
+            @Qualifier(&quot;commonLocRegistrationCommandsExchange&quot;) TopicExchange commonLocRegistrationCommandsExchange,
+            @Qualifier(&quot;commonLocRegistrationCommandsQueue&quot;) Queue commonLocRegistrationCommandsQueue,
+            @Value(&quot;${owms.commands.common.registration.routing-key}&quot;) String routingKey
+    ) {
+<span class="fc" id="L193">        return BindingBuilder</span>
+<span class="fc" id="L194">                .bind(commonLocRegistrationCommandsQueue)</span>
+<span class="fc" id="L195">                .to(commonLocRegistrationCommandsExchange)</span>
+<span class="fc" id="L196">                .with(routingKey);</span>
     }
 
     /* Dead Letter */
@@ -174,10 +203,10 @@ import static org.ameba.LoggingCategories.BOOT;
             @Value(&quot;${spring.application.name}&quot;) String applicationName,
             @Value(&quot;${owms.dead-letter.exchange-name:}&quot;) String exchangeName
     ) {
-<span class="pc bpc" id="L177" title="1 of 2 branches missed.">        if (exchangeName.isEmpty()) {</span>
-<span class="fc" id="L178">            return new DirectExchange(&quot;dle.&quot; + applicationName);</span>
+<span class="pc bpc" id="L206" title="1 of 2 branches missed.">        if (exchangeName.isEmpty()) {</span>
+<span class="fc" id="L207">            return new DirectExchange(&quot;dle.&quot; + applicationName);</span>
         }
-<span class="nc" id="L180">        return new DirectExchange(exchangeName);</span>
+<span class="nc" id="L209">        return new DirectExchange(exchangeName);</span>
     }
 
     @RefreshScope
@@ -186,10 +215,10 @@ import static org.ameba.LoggingCategories.BOOT;
             @Value(&quot;${spring.application.name}&quot;) String applicationName,
             @Value(&quot;${owms.dead-letter.queue-name:}&quot;) String queueName
     ) {
-<span class="pc bpc" id="L189" title="1 of 2 branches missed.">        if (queueName.isEmpty()) {</span>
-<span class="fc" id="L190">            return QueueBuilder.durable(applicationName + &quot;-dl-queue&quot;).build();</span>
+<span class="pc bpc" id="L218" title="1 of 2 branches missed.">        if (queueName.isEmpty()) {</span>
+<span class="fc" id="L219">            return QueueBuilder.durable(applicationName + &quot;-dl-queue&quot;).build();</span>
         }
-<span class="nc" id="L192">        return QueueBuilder.durable(queueName).build();</span>
+<span class="nc" id="L221">        return QueueBuilder.durable(queueName).build();</span>
     }
 
     @RefreshScope
@@ -198,10 +227,10 @@ import static org.ameba.LoggingCategories.BOOT;
             @Value(&quot;${owms.dead-letter.queue-name:}&quot;) String queueName,
             @Value(&quot;${owms.dead-letter.exchange-name:}&quot;) String exchangeName
     ) {
-<span class="fc" id="L201">        return BindingBuilder</span>
-<span class="fc" id="L202">                .bind(dlQueue(applicationName, queueName))</span>
-<span class="fc" id="L203">                .to(dlExchange(applicationName, exchangeName))</span>
-<span class="fc" id="L204">                .with(POISON_MESSAGE);</span>
+<span class="fc" id="L230">        return BindingBuilder</span>
+<span class="fc" id="L231">                .bind(dlQueue(applicationName, queueName))</span>
+<span class="fc" id="L232">                .to(dlExchange(applicationName, exchangeName))</span>
+<span class="fc" id="L233">                .with(POISON_MESSAGE);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

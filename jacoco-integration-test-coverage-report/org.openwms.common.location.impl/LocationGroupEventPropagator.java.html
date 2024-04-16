@@ -73,7 +73,7 @@ class LocationGroupEventPropagator {
 <span class="fc" id="L73">        }</span>
 <span class="fc" id="L74">    }</span>
 
-    @TransactionalEventListener(fallbackExecution = true)
+    @TransactionalEventListener
     public void onEvent(LocationGroupEvent event) {
 <span class="pc bpc" id="L78" title="2 of 5 branches missed.">        switch (event.getType()) {</span>
             case CREATED -&gt; {
@@ -98,7 +98,7 @@ class LocationGroupEventPropagator {
         }
 <span class="fc" id="L99">    }</span>
 
-    @TransactionalEventListener(fallbackExecution = true)
+    @TransactionalEventListener
     public void onLocationEvent(LocationEvent event) {
 <span class="pc bpc" id="L103" title="3 of 5 branches missed.">        switch (event.getType()) {</span>
             case CREATED -&gt; {

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<meta name="author" content="(2.1.0-SNAPSHOT-206)">
+<meta name="author" content="(2.1.0-SNAPSHOT-207)">
 <title>OpenWMS.org COMMON: RESTful API (Common Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -443,7 +443,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org COMMON: RESTful API (Common Service)</h1>
 <div class="details">
-<span id="author" class="author">(2.1.0-SNAPSHOT-206)</span><br>
+<span id="author" class="author">(2.1.0-SNAPSHOT-207)</span><br>
 <span id="revdate">Heiko Scherrer; Markus Schneider;</span>
 </div>
 <div id="toc" class="toc">
@@ -1205,7 +1205,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 1041
+Content-Length: 1139
 
 {
   "_links" : {
@@ -1214,6 +1214,9 @@ Content-Length: 1041
     },
     "location-updatelocation" : {
       "href" : "http://localhost:8080/v1/locations"
+    },
+    "location-deletelocation" : {
+      "href" : "http://localhost:8080/v1/locations/pKey"
     },
     "location-findbypkey" : {
       "href" : "http://localhost:8080/v1/locations/pKey"
@@ -1320,17 +1323,17 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/locations/485a0abd-a37b-4fde-899d-d8997410ea5a/
+Location: http://localhost:8080/v1/locations/b87d1c2d-8344-403d-aefb-a4f26c5a811b/
 Content-Type: application/vnd.openwms.common.location-v1+json
 Content-Length: 483
 
 {
   "links" : [ {
     "rel" : "location-findbypkey",
-    "href" : "http://localhost:8080/v1/locations/485a0abd-a37b-4fde-899d-d8997410ea5a"
+    "href" : "http://localhost:8080/v1/locations/b87d1c2d-8344-403d-aefb-a4f26c5a811b"
   } ],
   "ol" : 0,
-  "pKey" : "485a0abd-a37b-4fde-899d-d8997410ea5a",
+  "pKey" : "b87d1c2d-8344-403d-aefb-a4f26c5a811b",
   "locationId" : "FGIN/PICK/WORK/0010/0000",
   "plcCode" : "PICK_20",
   "erpCode" : "PICK_10",
@@ -1339,7 +1342,7 @@ Content-Length: 483
   "plcState" : 0,
   "type" : "PG",
   "locationGroupName" : "FGWORKPLACE9",
-  "createDt" : "2024-04-15T15:34:19.365000000Z"
+  "createDt" : "2024-04-16T13:13:55.329000000Z"
 }</code></pre>
 </div>
 </div>
@@ -1544,7 +1547,7 @@ Content-Length: 486
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "FGWORKPLACE9",
-  "createDt" : "2024-04-15T15:34:19.141362000Z"
+  "createDt" : "2024-04-16T13:13:55.097131000Z"
 }</code></pre>
 </div>
 </div>
@@ -1669,7 +1672,7 @@ Content-Length: 470
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "ZILE",
-  "createDt" : "2024-04-15T15:34:20.948036000Z"
+  "createDt" : "2024-04-16T13:13:57.069287000Z"
 }</code></pre>
 </div>
 </div>
@@ -1729,7 +1732,7 @@ Content-Length: 470
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "ZILE",
-  "createDt" : "2024-04-15T15:34:20.598444000Z"
+  "createDt" : "2024-04-16T13:13:56.716074000Z"
 }</code></pre>
 </div>
 </div>
@@ -1808,7 +1811,7 @@ Content-Length: 962
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "FGAISLE1LIFT",
-  "createDt" : "2024-04-15T15:34:20.537203000Z"
+  "createDt" : "2024-04-16T13:13:56.653030000Z"
 }, {
   "links" : [ {
     "rel" : "location-findbypkey",
@@ -1826,7 +1829,7 @@ Content-Length: 962
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "FGAISLE2LIFT",
-  "createDt" : "2024-04-15T15:34:20.537203000Z"
+  "createDt" : "2024-04-16T13:13:56.653030000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -1885,7 +1888,7 @@ Content-Length: 470
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "ZILE",
-  "createDt" : "2024-04-15T15:34:20.865142000Z"
+  "createDt" : "2024-04-16T13:13:57.006407000Z"
 }</code></pre>
 </div>
 </div>
@@ -1927,7 +1930,7 @@ Content-Length: 470
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "ZILE",
-  "createDt" : "2024-04-15T15:34:20.741136000Z"
+  "createDt" : "2024-04-16T13:13:56.860689000Z"
 }</code></pre>
 </div>
 </div>
@@ -1987,7 +1990,7 @@ Content-Length: 946
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "ZILE",
-  "createDt" : "2024-04-15T15:34:20.019202000Z"
+  "createDt" : "2024-04-16T13:13:56.098865000Z"
 }, {
   "links" : [ {
     "rel" : "location-findbypkey",
@@ -2005,7 +2008,7 @@ Content-Length: 946
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "ZILE",
-  "createDt" : "2024-04-15T15:34:20.019202000Z"
+  "createDt" : "2024-04-16T13:13:56.098865000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -2057,7 +2060,7 @@ Content-Length: 1424
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "FGRECEIVING",
-  "createDt" : "2024-04-15T15:34:20.195635000Z"
+  "createDt" : "2024-04-16T13:13:56.277360000Z"
 }, {
   "links" : [ {
     "rel" : "location-findbypkey",
@@ -2075,7 +2078,7 @@ Content-Length: 1424
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "ZILE",
-  "createDt" : "2024-04-15T15:34:20.195635000Z"
+  "createDt" : "2024-04-16T13:13:56.277360000Z"
 }, {
   "links" : [ {
     "rel" : "location-findbypkey",
@@ -2093,7 +2096,7 @@ Content-Length: 1424
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "ZILE",
-  "createDt" : "2024-04-15T15:34:20.195635000Z"
+  "createDt" : "2024-04-16T13:13:56.277360000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -2133,7 +2136,7 @@ Content-Length: 952
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "IPOINT1",
-  "createDt" : "2024-04-15T15:34:20.089852000Z"
+  "createDt" : "2024-04-16T13:13:56.162188000Z"
 }, {
   "links" : [ {
     "rel" : "location-findbypkey",
@@ -2151,7 +2154,7 @@ Content-Length: 952
   "plcState" : 0,
   "type" : "FG",
   "locationGroupName" : "IPOINT2",
-  "createDt" : "2024-04-15T15:34:20.089852000Z"
+  "createDt" : "2024-04-16T13:13:56.162188000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -2435,7 +2438,7 @@ Content-Length: 317
   "length" : 30,
   "width" : 50,
   "height" : 20,
-  "createDt" : "2024-04-15T15:34:08.224979000Z"
+  "createDt" : "2024-04-16T13:13:43.465134000Z"
 }</code></pre>
 </div>
 </div>
@@ -2541,7 +2544,7 @@ Content-Length: 317
   "length" : 30,
   "width" : 50,
   "height" : 20,
-  "createDt" : "2024-04-15T15:34:08.130701000Z"
+  "createDt" : "2024-04-16T13:13:43.369172000Z"
 }</code></pre>
 </div>
 </div>
@@ -2586,7 +2589,7 @@ Content-Length: 645
   "length" : 30,
   "width" : 50,
   "height" : 20,
-  "createDt" : "2024-04-15T15:34:07.741199000Z"
+  "createDt" : "2024-04-16T13:13:42.956551000Z"
 }, {
   "type" : "PG",
   "links" : [ {
@@ -2598,7 +2601,7 @@ Content-Length: 645
   "length" : 120,
   "width" : 120,
   "height" : 250,
-  "createDt" : "2024-04-15T15:34:07.741199000Z"
+  "createDt" : "2024-04-16T13:13:42.956551000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -2630,12 +2633,15 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 890
+Content-Length: 993
 
 {
   "_links" : {
     "location-groups-create" : {
       "href" : "http://localhost:8080/v1/location-groups"
+    },
+    "location-groups-delete" : {
+      "href" : "http://localhost:8080/v1/location-groups/UUID"
     },
     "location-groups-findbyname" : {
       "href" : "http://localhost:8080/v1/location-groups?name=FOO"
@@ -2711,17 +2717,17 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/location-groups/24aa3b02-e9be-4ed6-b5d9-95bcb846422c/
+Location: http://localhost:8080/v1/location-groups/a481b1cb-f66e-484b-8638-aedbc6551eb0/
 Content-Type: application/hal+json
 Content-Length: 231
 
 {
-  "pKey" : "24aa3b02-e9be-4ed6-b5d9-95bcb846422c",
+  "pKey" : "a481b1cb-f66e-484b-8638-aedbc6551eb0",
   "name" : "TEST_LG",
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.909000000Z"
+  "createDt" : "2024-04-16T13:13:45.078000000Z"
 }</code></pre>
 </div>
 </div>
@@ -2859,12 +2865,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/location-groups/bef6d534-e7db-4b65-9d5c-7da47028384c/
+Location: http://localhost:8080/v1/location-groups/04f1d5cb-e786-4502-b8ff-2a7a50b775b0/
 Content-Type: application/hal+json
 Content-Length: 595
 
 {
-  "pKey" : "bef6d534-e7db-4b65-9d5c-7da47028384c",
+  "pKey" : "04f1d5cb-e786-4502-b8ff-2a7a50b775b0",
   "name" : "TEST_LG",
   "accountId" : "A1",
   "groupType" : "Group1",
@@ -2873,14 +2879,14 @@ Content-Length: 595
   "groupStateIn" : "NOT_AVAILABLE",
   "groupStateOut" : "NOT_AVAILABLE",
   "childLocationGroups" : [ {
-    "pKey" : "6c33276e-f2f5-4d2e-82c0-399d6622ee3b",
+    "pKey" : "edc7ef6c-6104-4bfd-ac39-c37cba372d40",
     "name" : "TEST_LG_CHILD",
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.352000000Z"
+    "createDt" : "2024-04-16T13:13:44.953000000Z"
   } ],
-  "createDt" : "2024-04-15T15:34:09.346000000Z"
+  "createDt" : "2024-04-16T13:13:44.946000000Z"
 }</code></pre>
 </div>
 </div>
@@ -3015,7 +3021,7 @@ Content-Length: 1043
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.109658000Z"
+    "createDt" : "2024-04-16T13:13:45.439046000Z"
   }, {
     "pKey" : "782120388022",
     "name" : "IPOINT1",
@@ -3025,9 +3031,9 @@ Content-Length: 1043
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.109658000Z"
+    "createDt" : "2024-04-16T13:13:45.439046000Z"
   } ],
-  "createDt" : "2024-04-15T15:34:09.109658000Z"
+  "createDt" : "2024-04-16T13:13:45.439046000Z"
 }</code></pre>
 </div>
 </div>
@@ -3165,7 +3171,7 @@ Content-Length: 1467
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.556990000Z"
+  "createDt" : "2024-04-16T13:13:45.688551000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -3188,7 +3194,7 @@ Content-Length: 1467
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.556990000Z"
+    "createDt" : "2024-04-16T13:13:45.688551000Z"
   }, {
     "pKey" : "782120388022",
     "name" : "IPOINT1",
@@ -3198,9 +3204,9 @@ Content-Length: 1467
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.556990000Z"
+    "createDt" : "2024-04-16T13:13:45.688551000Z"
   } ],
-  "createDt" : "2024-04-15T15:34:09.556990000Z"
+  "createDt" : "2024-04-16T13:13:45.688551000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -3251,7 +3257,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "281343921750",
       "name" : "FGCANBAN",
@@ -3261,7 +3267,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "709819670512",
       "name" : "FGAUTOMATIC",
@@ -3280,7 +3286,7 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "585607846471",
         "name" : "FGSHIPPING",
@@ -3308,7 +3314,7 @@ Content-Length: 75424
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-04-15T15:34:09.402309000Z"
+            "createDt" : "2024-04-16T13:13:45.530672000Z"
           }, {
             "pKey" : "346661868774",
             "name" : "FGWORKPLACE3",
@@ -3318,7 +3324,7 @@ Content-Length: 75424
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-04-15T15:34:09.402309000Z"
+            "createDt" : "2024-04-16T13:13:45.530672000Z"
           }, {
             "pKey" : "925145263549",
             "name" : "FGWORKPLACE2",
@@ -3328,9 +3334,9 @@ Content-Length: 75424
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-04-15T15:34:09.402309000Z"
+            "createDt" : "2024-04-16T13:13:45.530672000Z"
           } ],
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         }, {
           "pKey" : "753422186594",
           "name" : "FGSHIPPING2",
@@ -3349,7 +3355,7 @@ Content-Length: 75424
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-04-15T15:34:09.402309000Z"
+            "createDt" : "2024-04-16T13:13:45.530672000Z"
           }, {
             "pKey" : "258953718288",
             "name" : "FGWORKPLACE4",
@@ -3359,7 +3365,7 @@ Content-Length: 75424
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-04-15T15:34:09.402309000Z"
+            "createDt" : "2024-04-16T13:13:45.530672000Z"
           }, {
             "pKey" : "687300567810",
             "name" : "FGWORKPLACE7",
@@ -3369,7 +3375,7 @@ Content-Length: 75424
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-04-15T15:34:09.402309000Z"
+            "createDt" : "2024-04-16T13:13:45.530672000Z"
           }, {
             "pKey" : "909419439040",
             "name" : "FGWORKPLACE6",
@@ -3379,7 +3385,7 @@ Content-Length: 75424
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-04-15T15:34:09.402309000Z"
+            "createDt" : "2024-04-16T13:13:45.530672000Z"
           }, {
             "pKey" : "224868263942",
             "name" : "FGWORKPLACE9",
@@ -3389,7 +3395,7 @@ Content-Length: 75424
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-04-15T15:34:09.402309000Z"
+            "createDt" : "2024-04-16T13:13:45.530672000Z"
           }, {
             "pKey" : "860334844801",
             "name" : "FGWORKPLACE8",
@@ -3399,11 +3405,11 @@ Content-Length: 75424
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-04-15T15:34:09.402309000Z"
+            "createDt" : "2024-04-16T13:13:45.530672000Z"
           } ],
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         } ],
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "212290962584",
         "name" : "FGSTOCK",
@@ -3431,7 +3437,7 @@ Content-Length: 75424
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-04-15T15:34:09.402309000Z"
+            "createDt" : "2024-04-16T13:13:45.530672000Z"
           }, {
             "pKey" : "209483120518",
             "name" : "FGAISLE2RIGHT",
@@ -3441,7 +3447,7 @@ Content-Length: 75424
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-04-15T15:34:09.402309000Z"
+            "createDt" : "2024-04-16T13:13:45.530672000Z"
           }, {
             "pKey" : "730288310794",
             "name" : "FGAISLE2LIFT",
@@ -3451,9 +3457,9 @@ Content-Length: 75424
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-04-15T15:34:09.402309000Z"
+            "createDt" : "2024-04-16T13:13:45.530672000Z"
           } ],
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         }, {
           "pKey" : "53242834266",
           "name" : "FGAISLE1",
@@ -3472,7 +3478,7 @@ Content-Length: 75424
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-04-15T15:34:09.402309000Z"
+            "createDt" : "2024-04-16T13:13:45.530672000Z"
           }, {
             "pKey" : "108758840458",
             "name" : "FGAISLE1RIGHT",
@@ -3482,7 +3488,7 @@ Content-Length: 75424
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-04-15T15:34:09.402309000Z"
+            "createDt" : "2024-04-16T13:13:45.530672000Z"
           }, {
             "pKey" : "154549927614",
             "name" : "FGAISLE1LEFT",
@@ -3492,11 +3498,11 @@ Content-Length: 75424
             "operationMode" : "INFEED_AND_OUTFEED",
             "groupStateIn" : "AVAILABLE",
             "groupStateOut" : "AVAILABLE",
-            "createDt" : "2024-04-15T15:34:09.402309000Z"
+            "createDt" : "2024-04-16T13:13:45.530672000Z"
           } ],
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         } ],
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "811754978035",
         "name" : "FGCONV",
@@ -3506,11 +3512,11 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       } ],
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     } ],
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "166982377557",
     "name" : "IPOINT",
@@ -3529,7 +3535,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "782120388022",
       "name" : "IPOINT1",
@@ -3539,9 +3545,9 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     } ],
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "878177817968",
     "name" : "PALLET_AREA",
@@ -3578,7 +3584,7 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         }, {
           "pKey" : "48562833846",
           "name" : "PAISLE2LEFT",
@@ -3588,7 +3594,7 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         }, {
           "pKey" : "673781181265",
           "name" : "PAISLE2RIGHT",
@@ -3598,9 +3604,9 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         } ],
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "500576747031",
         "name" : "PAISLE1",
@@ -3619,7 +3625,7 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         }, {
           "pKey" : "443011357014",
           "name" : "PAISLE1LEFT",
@@ -3629,7 +3635,7 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         }, {
           "pKey" : "483875811636",
           "name" : "PAISLE1LIFT",
@@ -3639,11 +3645,11 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         } ],
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       } ],
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "306784420810",
       "name" : "PPICKING",
@@ -3653,11 +3659,11 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     } ],
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   } ],
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -3680,7 +3686,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "281343921750",
     "name" : "FGCANBAN",
@@ -3690,7 +3696,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "709819670512",
     "name" : "FGAUTOMATIC",
@@ -3709,7 +3715,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "585607846471",
       "name" : "FGSHIPPING",
@@ -3737,7 +3743,7 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         }, {
           "pKey" : "346661868774",
           "name" : "FGWORKPLACE3",
@@ -3747,7 +3753,7 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         }, {
           "pKey" : "925145263549",
           "name" : "FGWORKPLACE2",
@@ -3757,9 +3763,9 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         } ],
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "753422186594",
         "name" : "FGSHIPPING2",
@@ -3778,7 +3784,7 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         }, {
           "pKey" : "258953718288",
           "name" : "FGWORKPLACE4",
@@ -3788,7 +3794,7 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         }, {
           "pKey" : "687300567810",
           "name" : "FGWORKPLACE7",
@@ -3798,7 +3804,7 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         }, {
           "pKey" : "909419439040",
           "name" : "FGWORKPLACE6",
@@ -3808,7 +3814,7 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         }, {
           "pKey" : "224868263942",
           "name" : "FGWORKPLACE9",
@@ -3818,7 +3824,7 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         }, {
           "pKey" : "860334844801",
           "name" : "FGWORKPLACE8",
@@ -3828,11 +3834,11 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         } ],
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       } ],
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "212290962584",
       "name" : "FGSTOCK",
@@ -3860,7 +3866,7 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         }, {
           "pKey" : "209483120518",
           "name" : "FGAISLE2RIGHT",
@@ -3870,7 +3876,7 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         }, {
           "pKey" : "730288310794",
           "name" : "FGAISLE2LIFT",
@@ -3880,9 +3886,9 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         } ],
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "53242834266",
         "name" : "FGAISLE1",
@@ -3901,7 +3907,7 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         }, {
           "pKey" : "108758840458",
           "name" : "FGAISLE1RIGHT",
@@ -3911,7 +3917,7 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         }, {
           "pKey" : "154549927614",
           "name" : "FGAISLE1LEFT",
@@ -3921,11 +3927,11 @@ Content-Length: 75424
           "operationMode" : "INFEED_AND_OUTFEED",
           "groupStateIn" : "AVAILABLE",
           "groupStateOut" : "AVAILABLE",
-          "createDt" : "2024-04-15T15:34:09.402309000Z"
+          "createDt" : "2024-04-16T13:13:45.530672000Z"
         } ],
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       } ],
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "811754978035",
       "name" : "FGCONV",
@@ -3935,11 +3941,11 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     } ],
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   } ],
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -3962,7 +3968,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "585607846471",
     "name" : "FGSHIPPING",
@@ -3990,7 +3996,7 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "346661868774",
         "name" : "FGWORKPLACE3",
@@ -4000,7 +4006,7 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "925145263549",
         "name" : "FGWORKPLACE2",
@@ -4010,9 +4016,9 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       } ],
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "753422186594",
       "name" : "FGSHIPPING2",
@@ -4031,7 +4037,7 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "258953718288",
         "name" : "FGWORKPLACE4",
@@ -4041,7 +4047,7 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "687300567810",
         "name" : "FGWORKPLACE7",
@@ -4051,7 +4057,7 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "909419439040",
         "name" : "FGWORKPLACE6",
@@ -4061,7 +4067,7 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "224868263942",
         "name" : "FGWORKPLACE9",
@@ -4071,7 +4077,7 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "860334844801",
         "name" : "FGWORKPLACE8",
@@ -4081,11 +4087,11 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       } ],
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     } ],
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "212290962584",
     "name" : "FGSTOCK",
@@ -4113,7 +4119,7 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "209483120518",
         "name" : "FGAISLE2RIGHT",
@@ -4123,7 +4129,7 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "730288310794",
         "name" : "FGAISLE2LIFT",
@@ -4133,9 +4139,9 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       } ],
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "53242834266",
       "name" : "FGAISLE1",
@@ -4154,7 +4160,7 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "108758840458",
         "name" : "FGAISLE1RIGHT",
@@ -4164,7 +4170,7 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "154549927614",
         "name" : "FGAISLE1LEFT",
@@ -4174,11 +4180,11 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       } ],
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     } ],
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "811754978035",
     "name" : "FGCONV",
@@ -4188,9 +4194,9 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   } ],
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4222,7 +4228,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "209483120518",
       "name" : "FGAISLE2RIGHT",
@@ -4232,7 +4238,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "730288310794",
       "name" : "FGAISLE2LIFT",
@@ -4242,9 +4248,9 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     } ],
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "53242834266",
     "name" : "FGAISLE1",
@@ -4263,7 +4269,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "108758840458",
       "name" : "FGAISLE1RIGHT",
@@ -4273,7 +4279,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "154549927614",
       "name" : "FGAISLE1LEFT",
@@ -4283,11 +4289,11 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     } ],
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   } ],
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4310,7 +4316,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "108758840458",
     "name" : "FGAISLE1RIGHT",
@@ -4320,7 +4326,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "154549927614",
     "name" : "FGAISLE1LEFT",
@@ -4330,9 +4336,9 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   } ],
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4355,7 +4361,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "209483120518",
     "name" : "FGAISLE2RIGHT",
@@ -4365,7 +4371,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "730288310794",
     "name" : "FGAISLE2LIFT",
@@ -4375,9 +4381,9 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   } ],
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4409,7 +4415,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "346661868774",
       "name" : "FGWORKPLACE3",
@@ -4419,7 +4425,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "925145263549",
       "name" : "FGWORKPLACE2",
@@ -4429,9 +4435,9 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     } ],
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "753422186594",
     "name" : "FGSHIPPING2",
@@ -4450,7 +4456,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "258953718288",
       "name" : "FGWORKPLACE4",
@@ -4460,7 +4466,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "687300567810",
       "name" : "FGWORKPLACE7",
@@ -4470,7 +4476,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "909419439040",
       "name" : "FGWORKPLACE6",
@@ -4480,7 +4486,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "224868263942",
       "name" : "FGWORKPLACE9",
@@ -4490,7 +4496,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "860334844801",
       "name" : "FGWORKPLACE8",
@@ -4500,11 +4506,11 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     } ],
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   } ],
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4527,7 +4533,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "346661868774",
     "name" : "FGWORKPLACE3",
@@ -4537,7 +4543,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "925145263549",
     "name" : "FGWORKPLACE2",
@@ -4547,9 +4553,9 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   } ],
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4572,7 +4578,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "258953718288",
     "name" : "FGWORKPLACE4",
@@ -4582,7 +4588,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "687300567810",
     "name" : "FGWORKPLACE7",
@@ -4592,7 +4598,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "909419439040",
     "name" : "FGWORKPLACE6",
@@ -4602,7 +4608,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "224868263942",
     "name" : "FGWORKPLACE9",
@@ -4612,7 +4618,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "860334844801",
     "name" : "FGWORKPLACE8",
@@ -4622,9 +4628,9 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   } ],
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4647,7 +4653,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "782120388022",
     "name" : "IPOINT1",
@@ -4657,9 +4663,9 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   } ],
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4700,7 +4706,7 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "48562833846",
         "name" : "PAISLE2LEFT",
@@ -4710,7 +4716,7 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "673781181265",
         "name" : "PAISLE2RIGHT",
@@ -4720,9 +4726,9 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       } ],
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "500576747031",
       "name" : "PAISLE1",
@@ -4741,7 +4747,7 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "443011357014",
         "name" : "PAISLE1LEFT",
@@ -4751,7 +4757,7 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       }, {
         "pKey" : "483875811636",
         "name" : "PAISLE1LIFT",
@@ -4761,11 +4767,11 @@ Content-Length: 75424
         "operationMode" : "INFEED_AND_OUTFEED",
         "groupStateIn" : "AVAILABLE",
         "groupStateOut" : "AVAILABLE",
-        "createDt" : "2024-04-15T15:34:09.402309000Z"
+        "createDt" : "2024-04-16T13:13:45.530672000Z"
       } ],
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     } ],
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "306784420810",
     "name" : "PPICKING",
@@ -4775,9 +4781,9 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   } ],
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4809,7 +4815,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "48562833846",
       "name" : "PAISLE2LEFT",
@@ -4819,7 +4825,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "673781181265",
       "name" : "PAISLE2RIGHT",
@@ -4829,9 +4835,9 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     } ],
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "500576747031",
     "name" : "PAISLE1",
@@ -4850,7 +4856,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "443011357014",
       "name" : "PAISLE1LEFT",
@@ -4860,7 +4866,7 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     }, {
       "pKey" : "483875811636",
       "name" : "PAISLE1LIFT",
@@ -4870,11 +4876,11 @@ Content-Length: 75424
       "operationMode" : "INFEED_AND_OUTFEED",
       "groupStateIn" : "AVAILABLE",
       "groupStateOut" : "AVAILABLE",
-      "createDt" : "2024-04-15T15:34:09.402309000Z"
+      "createDt" : "2024-04-16T13:13:45.530672000Z"
     } ],
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   } ],
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4897,7 +4903,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "443011357014",
     "name" : "PAISLE1LEFT",
@@ -4907,7 +4913,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "483875811636",
     "name" : "PAISLE1LIFT",
@@ -4917,9 +4923,9 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   } ],
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4942,7 +4948,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "48562833846",
     "name" : "PAISLE2LEFT",
@@ -4952,7 +4958,7 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   }, {
     "pKey" : "673781181265",
     "name" : "PAISLE2RIGHT",
@@ -4962,9 +4968,9 @@ Content-Length: 75424
     "operationMode" : "INFEED_AND_OUTFEED",
     "groupStateIn" : "AVAILABLE",
     "groupStateOut" : "AVAILABLE",
-    "createDt" : "2024-04-15T15:34:09.402309000Z"
+    "createDt" : "2024-04-16T13:13:45.530672000Z"
   } ],
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4978,7 +4984,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -4992,7 +4998,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5006,7 +5012,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5020,7 +5026,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5034,7 +5040,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5048,7 +5054,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5062,7 +5068,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5076,7 +5082,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5090,7 +5096,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5104,7 +5110,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5118,7 +5124,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5132,7 +5138,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5146,7 +5152,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5160,7 +5166,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5174,7 +5180,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5188,7 +5194,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5202,7 +5208,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5216,7 +5222,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5230,7 +5236,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5244,7 +5250,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5258,7 +5264,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5272,7 +5278,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5286,7 +5292,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5300,7 +5306,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5314,7 +5320,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5328,7 +5334,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5342,7 +5348,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 }, {
   "links" : [ {
     "rel" : "parent",
@@ -5356,7 +5362,7 @@ Content-Length: 75424
   "operationMode" : "INFEED_AND_OUTFEED",
   "groupStateIn" : "AVAILABLE",
   "groupStateOut" : "AVAILABLE",
-  "createDt" : "2024-04-15T15:34:09.402309000Z"
+  "createDt" : "2024-04-16T13:13:45.530672000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -6008,14 +6014,14 @@ newly created resource as HTTP <code>Location</code> header attribute</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/0b70c35b-50ff-4dbe-aa40-f3168ba9aebc/
+Location: http://localhost:8080/v1/transport-units/b7988e80-9cd5-41a9-a3ae-248c9b223d67/
 Content-Type: application/vnd.openwms.transport-unit-v1+json
 Content-Length: 1435
 
 {
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/v1/transport-units/0b70c35b-50ff-4dbe-aa40-f3168ba9aebc"
+    "href" : "http://localhost:8080/v1/transport-units/b7988e80-9cd5-41a9-a3ae-248c9b223d67"
   }, {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -6024,7 +6030,7 @@ Content-Length: 1435
     "href" : "http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"
   } ],
   "ol" : 0,
-  "pKey" : "0b70c35b-50ff-4dbe-aa40-f3168ba9aebc",
+  "pKey" : "b7988e80-9cd5-41a9-a3ae-248c9b223d67",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "links" : [ ],
@@ -6040,7 +6046,7 @@ Content-Length: 1435
     "plcState" : 0,
     "type" : "FG",
     "locationGroupName" : "ZILE",
-    "createDt" : "2024-04-15T15:34:22.586198000Z"
+    "createDt" : "2024-04-16T13:13:58.787891000Z"
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -6051,15 +6057,15 @@ Content-Length: 1435
     "height" : "102",
     "width" : "80",
     "length" : "120",
-    "createDt" : "2024-04-15T15:34:22.586198000Z"
+    "createDt" : "2024-04-16T13:13:58.787891000Z"
   },
   "weight" : {
     "@class" : "org.openwms.core.units.api.Weight",
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2024-04-15T15:34:22.645138829Z",
-  "createDt" : "2024-04-15T15:34:22.649000000Z"
+  "actualLocationDate" : "2024-04-16T13:13:58.836818665Z",
+  "createDt" : "2024-04-16T13:13:58.840000000Z"
 }</code></pre>
 </div>
 </div>
@@ -6113,7 +6119,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/b4e6bda7-fcf6-4497-a726-03c5d2f67654/</code></pre>
+Location: http://localhost:8080/v1/transport-units/b8b682a0-cb49-4023-9f55-07b59a293846/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -6217,7 +6223,7 @@ Content-Length: 1214
     "plcState" : 0,
     "type" : "FG",
     "locationGroupName" : "FGAISLE1LEFT",
-    "createDt" : "2024-04-15T15:34:23.554084000Z"
+    "createDt" : "2024-04-16T13:13:59.732456000Z"
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -6228,10 +6234,10 @@ Content-Length: 1214
     "height" : "102",
     "width" : "80",
     "length" : "120",
-    "createDt" : "2024-04-15T15:34:23.554084000Z"
+    "createDt" : "2024-04-16T13:13:59.732456000Z"
   },
-  "actualLocationDate" : "2024-04-15T15:34:23.596521064Z",
-  "createDt" : "2024-04-15T15:34:23.554084000Z"
+  "actualLocationDate" : "2024-04-16T13:13:59.781007333Z",
+  "createDt" : "2024-04-16T13:13:59.732456000Z"
 }</code></pre>
 </div>
 </div>
@@ -6322,7 +6328,7 @@ Content-Length: 1214
     "plcState" : 0,
     "type" : "FG",
     "locationGroupName" : "FGAISLE1LEFT",
-    "createDt" : "2024-04-15T15:34:22.956410000Z"
+    "createDt" : "2024-04-16T13:13:59.135875000Z"
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -6333,10 +6339,10 @@ Content-Length: 1214
     "height" : "102",
     "width" : "80",
     "length" : "120",
-    "createDt" : "2024-04-15T15:34:22.956410000Z"
+    "createDt" : "2024-04-16T13:13:59.135875000Z"
   },
-  "actualLocationDate" : "2024-04-15T15:34:23.042585440Z",
-  "createDt" : "2024-04-15T15:34:22.956410000Z"
+  "actualLocationDate" : "2024-04-16T13:13:59.209644523Z",
+  "createDt" : "2024-04-16T13:13:59.135875000Z"
 }</code></pre>
 </div>
 </div>
@@ -6427,7 +6433,7 @@ Content-Length: 1206
     "plcState" : 0,
     "type" : "FG",
     "locationGroupName" : "ZILE",
-    "createDt" : "2024-04-15T15:34:23.380319000Z"
+    "createDt" : "2024-04-16T13:13:59.551565000Z"
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -6438,10 +6444,10 @@ Content-Length: 1206
     "height" : "102",
     "width" : "80",
     "length" : "120",
-    "createDt" : "2024-04-15T15:34:23.380319000Z"
+    "createDt" : "2024-04-16T13:13:59.551565000Z"
   },
-  "actualLocationDate" : "2024-04-15T15:34:23.380319000Z",
-  "createDt" : "2024-04-15T15:34:23.380319000Z"
+  "actualLocationDate" : "2024-04-16T13:13:59.551565000Z",
+  "createDt" : "2024-04-16T13:13:59.551565000Z"
 }</code></pre>
 </div>
 </div>
@@ -6537,7 +6543,7 @@ Content-Length: 2421
     "plcState" : 0,
     "type" : "FG",
     "locationGroupName" : "ZILE",
-    "createDt" : "2024-04-15T15:34:22.397249000Z"
+    "createDt" : "2024-04-16T13:13:58.586376000Z"
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -6548,10 +6554,10 @@ Content-Length: 2421
     "height" : "102",
     "width" : "80",
     "length" : "120",
-    "createDt" : "2024-04-15T15:34:22.397249000Z"
+    "createDt" : "2024-04-16T13:13:58.586376000Z"
   },
-  "actualLocationDate" : "2024-04-15T15:34:22.397249000Z",
-  "createDt" : "2024-04-15T15:34:22.397249000Z"
+  "actualLocationDate" : "2024-04-16T13:13:58.586376000Z",
+  "createDt" : "2024-04-16T13:13:58.586376000Z"
 }, {
   "links" : [ {
     "rel" : "self",
@@ -6580,7 +6586,7 @@ Content-Length: 2421
     "plcState" : 0,
     "type" : "FG",
     "locationGroupName" : "IPOINT1",
-    "createDt" : "2024-04-15T15:34:22.397249000Z"
+    "createDt" : "2024-04-16T13:13:58.586376000Z"
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -6591,10 +6597,10 @@ Content-Length: 2421
     "height" : "102",
     "width" : "80",
     "length" : "120",
-    "createDt" : "2024-04-15T15:34:22.397249000Z"
+    "createDt" : "2024-04-16T13:13:58.586376000Z"
   },
-  "actualLocationDate" : "2024-04-15T15:34:22.397249000Z",
-  "createDt" : "2024-04-15T15:34:22.397249000Z"
+  "actualLocationDate" : "2024-04-16T13:13:58.586376000Z",
+  "createDt" : "2024-04-16T13:13:58.586376000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -6665,7 +6671,7 @@ Content-Length: 1213
     "plcState" : 0,
     "type" : "FG",
     "locationGroupName" : "IPOINT1",
-    "createDt" : "2024-04-15T15:34:23.725056000Z"
+    "createDt" : "2024-04-16T13:13:59.891420000Z"
   },
   "state" : "AVAILABLE",
   "transportUnitType" : {
@@ -6676,10 +6682,10 @@ Content-Length: 1213
     "height" : "102",
     "width" : "80",
     "length" : "120",
-    "createDt" : "2024-04-15T15:34:23.725056000Z"
+    "createDt" : "2024-04-16T13:13:59.891420000Z"
   },
-  "actualLocationDate" : "2024-04-15T15:34:23.725056000Z",
-  "createDt" : "2024-04-15T15:34:23.725056000Z"
+  "actualLocationDate" : "2024-04-16T13:13:59.891420000Z",
+  "createDt" : "2024-04-16T13:13:59.891420000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -6805,7 +6811,7 @@ Content-Length: 303
   "height" : "102",
   "width" : "80",
   "length" : "120",
-  "createDt" : "2024-04-15T15:34:22.264427000Z"
+  "createDt" : "2024-04-16T13:13:58.434632000Z"
 }</code></pre>
 </div>
 </div>
@@ -6860,7 +6866,7 @@ Content-Length: 303
   "height" : "102",
   "width" : "80",
   "length" : "120",
-  "createDt" : "2024-04-15T15:34:21.990370000Z"
+  "createDt" : "2024-04-16T13:13:58.160614000Z"
 }</code></pre>
 </div>
 </div>
@@ -6913,7 +6919,7 @@ Content-Length: 610
   "height" : "102",
   "width" : "80",
   "length" : "120",
-  "createDt" : "2024-04-15T15:34:22.158064000Z"
+  "createDt" : "2024-04-16T13:13:58.311317000Z"
 }, {
   "links" : [ {
     "rel" : "self",
@@ -6926,7 +6932,7 @@ Content-Length: 610
   "height" : "102",
   "width" : "80",
   "length" : "120",
-  "createDt" : "2024-04-15T15:34:22.158064000Z"
+  "createDt" : "2024-04-16T13:13:58.311317000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -6936,7 +6942,7 @@ Content-Length: 610
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-04-15 15:31:35 UTC
+Last updated 2024-04-16 13:10:45 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

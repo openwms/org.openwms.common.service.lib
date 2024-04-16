@@ -218,6 +218,28 @@
             <column ascending="true" name="c_pk"/>
          </index>
       </table>
+      <table name="com_replica_registry" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="6" id="1" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="2" name="c_created_by" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="3" name="c_updated_by" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="6" id="4" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="5" name="c_ol" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="6" name="c_pid" nullable="false" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="7" name="c_application_name" nullable="false" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="6" id="8" name="c_registered_at" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="9" name="c_removal_endpoint" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="10" name="c_request_removal_endpoint" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="11" name="c_state" nullable="false" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="6" id="12" name="c_unregistered_at" nullable="true" remarks="" size="29" type="timestamp"/>
+         <primaryKey column="c_pk" sequenceNumberInPK="1"/>
+         <index name="com_replica_registry_pkey" unique="true">
+            <column ascending="true" name="c_pk"/>
+         </index>
+         <index name="uk_hli5iaq3fgb6u76j262ygow5a" unique="true">
+            <column ascending="true" name="c_pid"/>
+         </index>
+      </table>
       <table name="com_srv_revision" numRows="0" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
             <child column="c_rev" foreignKey="fk7hgjsbhte1esjljdnkmxpkk78" implied="false" onDeleteCascade="false" table="com_transport_unit_log"/>

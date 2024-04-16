@@ -22,12 +22,16 @@ import org.ameba.exception.ResourceExistsException;
 import org.ameba.i18n.Translator;
 import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.account.AccountService;
+import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationGroup;
 import org.openwms.common.location.LocationGroupService;
+import org.openwms.common.location.LocationRemovalManager;
 import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.LocationGroupVO;
 import org.openwms.common.location.api.ValidationGroups;
 import org.openwms.common.location.api.events.LocationGroupEvent;
+import org.openwms.common.location.events.DeletionFailedEvent;
+import org.openwms.core.listener.RemovalNotAllowedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -41,6 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openwms.common.CommonMessageCodes.LOCATION_GROUP_EXISTS;
 import static org.openwms.common.CommonMessageCodes.LOCATION_GROUP_NOT_FOUND;
@@ -56,18 +61,20 @@ import static org.openwms.common.CommonMessageCodes.LOCATION_GROUP_NOT_FOUND_BY_
 @TxService
 class LocationGroupServiceImpl implements LocationGroupService {
 
-<span class="fc" id="L59">    private static final Logger LOGGER = LoggerFactory.getLogger(LocationGroupServiceImpl.class);</span>
+<span class="fc" id="L64">    private static final Logger LOGGER = LoggerFactory.getLogger(LocationGroupServiceImpl.class);</span>
     private final ApplicationContext ctx;
     private final Translator translator;
     private final LocationGroupRepository repository;
     private final AccountService accountService;
+    private final LocationRemovalManager locationRemovalManager;
 
-<span class="fc" id="L65">    LocationGroupServiceImpl(ApplicationContext ctx, Translator translator, LocationGroupRepository repository, AccountService accountService) {</span>
-<span class="fc" id="L66">        this.ctx = ctx;</span>
-<span class="fc" id="L67">        this.translator = translator;</span>
-<span class="fc" id="L68">        this.repository = repository;</span>
-<span class="fc" id="L69">        this.accountService = accountService;</span>
-<span class="fc" id="L70">    }</span>
+<span class="fc" id="L71">    LocationGroupServiceImpl(ApplicationContext ctx, Translator translator, LocationGroupRepository repository, AccountService accountService, LocationRemovalManager locationRemovalManager) {</span>
+<span class="fc" id="L72">        this.ctx = ctx;</span>
+<span class="fc" id="L73">        this.translator = translator;</span>
+<span class="fc" id="L74">        this.repository = repository;</span>
+<span class="fc" id="L75">        this.accountService = accountService;</span>
+<span class="fc" id="L76">        this.locationRemovalManager = locationRemovalManager;</span>
+<span class="fc" id="L77">    }</span>
 
     /**
      * {@inheritDoc}
@@ -75,52 +82,52 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public @NotNull LocationGroup create(@NotNull @Validated(ValidationGroups.Create.class) @Valid LocationGroupVO vo) {
-<span class="pc bpc" id="L78" title="1 of 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
-<span class="fc" id="L79">            LOGGER.debug(&quot;Create a LocationGroup with the VO [{}]&quot;, vo.allFieldsToString());</span>
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
+<span class="fc" id="L86">            LOGGER.debug(&quot;Create a LocationGroup with the VO [{}]&quot;, vo.allFieldsToString());</span>
         }
-<span class="fc" id="L81">        var eo = createLocationGroup(vo);</span>
-<span class="fc" id="L82">        var savedEo = repository.save(eo);</span>
-<span class="pc bpc" id="L83" title="1 of 2 branches missed.">        if (LOGGER.isInfoEnabled()) {</span>
-<span class="fc" id="L84">            LOGGER.info(&quot;Request to create a new LocationGroup [{}]&quot;, savedEo);</span>
+<span class="fc" id="L88">        var eo = createLocationGroup(vo);</span>
+<span class="fc" id="L89">        var savedEo = repository.save(eo);</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">        if (LOGGER.isInfoEnabled()) {</span>
+<span class="fc" id="L91">            LOGGER.info(&quot;Request to create a new LocationGroup [{}]&quot;, savedEo);</span>
         }
-<span class="fc" id="L86">        ctx.publishEvent(LocationGroupEvent.of(savedEo, LocationGroupEvent.LocationGroupEventType.CREATED));</span>
-<span class="fc" id="L87">        return savedEo;</span>
+<span class="fc" id="L93">        ctx.publishEvent(LocationGroupEvent.of(savedEo, LocationGroupEvent.LocationGroupEventType.CREATED));</span>
+<span class="fc" id="L94">        return savedEo;</span>
     }
 
     private LocationGroup createLocationGroup(LocationGroupVO vo) {
-<span class="fc" id="L91">        var eoOpt = repository.findByName(vo.getName());</span>
-<span class="pc bpc" id="L92" title="1 of 2 branches missed.">        if (eoOpt.isPresent()) {</span>
-<span class="nc" id="L93">            throw new ResourceExistsException(translator, LOCATION_GROUP_EXISTS, new String[]{vo.getName()}, vo.getName());</span>
+<span class="fc" id="L98">        var eoOpt = repository.findByName(vo.getName());</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">        if (eoOpt.isPresent()) {</span>
+<span class="nc" id="L100">            throw new ResourceExistsException(translator, LOCATION_GROUP_EXISTS, new String[]{vo.getName()}, vo.getName());</span>
         }
-<span class="fc" id="L95">        var eo = new LocationGroup(vo.getName());</span>
-<span class="pc bpc" id="L96" title="1 of 4 branches missed.">        if (vo.getAccountId() != null &amp;&amp; !vo.getAccountId().isEmpty()) {</span>
-<span class="fc" id="L97">            var accountOpt = accountService.findByIdentifier(vo.getAccountId());</span>
-<span class="pc bpc" id="L98" title="1 of 2 branches missed.">            if (accountOpt.isEmpty()) {</span>
-<span class="nc" id="L99">                throw new NotFoundException(translator, CommonMessageCodes.ACCOUNT_NOT_FOUND_BY_ID, new String[]{vo.getAccountId()}, vo.getAccountId());</span>
+<span class="fc" id="L102">        var eo = new LocationGroup(vo.getName());</span>
+<span class="pc bpc" id="L103" title="1 of 4 branches missed.">        if (vo.getAccountId() != null &amp;&amp; !vo.getAccountId().isEmpty()) {</span>
+<span class="fc" id="L104">            var accountOpt = accountService.findByIdentifier(vo.getAccountId());</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">            if (accountOpt.isEmpty()) {</span>
+<span class="nc" id="L106">                throw new NotFoundException(translator, CommonMessageCodes.ACCOUNT_NOT_FOUND_BY_ID, new String[]{vo.getAccountId()}, vo.getAccountId());</span>
             }
-<span class="fc" id="L101">            eo.setAccount(accountOpt.get());</span>
+<span class="fc" id="L108">            eo.setAccount(accountOpt.get());</span>
         }
-<span class="fc" id="L103">        eo.setGroupType(vo.getGroupType());</span>
-<span class="pc bpc" id="L104" title="1 of 4 branches missed.">        if (vo.getParent() != null &amp;&amp; !vo.getParent().isEmpty()) {</span>
-<span class="fc" id="L105">            var parentOpt = repository.findByName(vo.getParent());</span>
-<span class="pc bpc" id="L106" title="1 of 2 branches missed.">            if (parentOpt.isEmpty()) {</span>
-<span class="nc" id="L107">                throw new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{vo.getParent()}, vo.getParent());</span>
+<span class="fc" id="L110">        eo.setGroupType(vo.getGroupType());</span>
+<span class="pc bpc" id="L111" title="1 of 4 branches missed.">        if (vo.getParent() != null &amp;&amp; !vo.getParent().isEmpty()) {</span>
+<span class="fc" id="L112">            var parentOpt = repository.findByName(vo.getParent());</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">            if (parentOpt.isEmpty()) {</span>
+<span class="nc" id="L114">                throw new NotFoundException(translator, CommonMessageCodes.LOCATION_GROUP_NOT_FOUND, new String[]{vo.getParent()}, vo.getParent());</span>
             }
-<span class="fc" id="L109">            eo.setParent(parentOpt.get());</span>
+<span class="fc" id="L116">            eo.setParent(parentOpt.get());</span>
         }
-<span class="fc" id="L111">        eo.setOperationMode(vo.getOperationMode());</span>
+<span class="fc" id="L118">        eo.setOperationMode(vo.getOperationMode());</span>
 
-<span class="fc bfc" id="L113" title="All 2 branches covered.">        if (vo.getGroupStateIn() != null) {</span>
-<span class="fc" id="L114">            eo.changeGroupStateIn(vo.getGroupStateIn());</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        if (vo.getGroupStateIn() != null) {</span>
+<span class="fc" id="L121">            eo.changeGroupStateIn(vo.getGroupStateIn());</span>
         }
 
-<span class="fc bfc" id="L117" title="All 2 branches covered.">        if (vo.getGroupStateOut() != null) {</span>
-<span class="fc" id="L118">            eo.changeGroupStateOut(vo.getGroupStateOut());</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        if (vo.getGroupStateOut() != null) {</span>
+<span class="fc" id="L125">            eo.changeGroupStateOut(vo.getGroupStateOut());</span>
         }
-<span class="pc bpc" id="L120" title="1 of 4 branches missed.">        if (vo.getChildren() != null &amp;&amp; !vo.getChildren().isEmpty()) {</span>
-<span class="fc" id="L121">            eo.setLocationGroups(vo.getChildren().stream().map(this::createLocationGroup).collect(Collectors.toSet()));</span>
+<span class="pc bpc" id="L127" title="1 of 4 branches missed.">        if (vo.getChildren() != null &amp;&amp; !vo.getChildren().isEmpty()) {</span>
+<span class="fc" id="L128">            eo.setLocationGroups(vo.getChildren().stream().map(this::createLocationGroup).collect(Collectors.toSet()));</span>
         }
-<span class="fc" id="L123">        return eo;</span>
+<span class="fc" id="L130">        return eo;</span>
     }
 
     /**
@@ -129,10 +136,10 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public void changeGroupState(@NotBlank String pKey, @NotNull LocationGroupState stateIn, @NotNull LocationGroupState stateOut) {
-<span class="fc" id="L132">        var locationGroup = findInternalByPKey(pKey);</span>
-<span class="fc" id="L133">        locationGroup.changeState(stateIn, stateOut);</span>
-<span class="fc" id="L134">        ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));</span>
-<span class="fc" id="L135">    }</span>
+<span class="fc" id="L139">        var locationGroup = findInternalByPKey(pKey);</span>
+<span class="fc" id="L140">        locationGroup.changeState(stateIn, stateOut);</span>
+<span class="fc" id="L141">        ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));</span>
+<span class="fc" id="L142">    }</span>
 
     /**
      * {@inheritDoc}
@@ -140,13 +147,13 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public void changeGroupStates(@NotBlank String name, Optional&lt;LocationGroupState&gt; stateIn, Optional&lt;LocationGroupState&gt; stateOut) {
-<span class="fc" id="L143">        var locationGroup = findByNameOrThrowInternal(name);</span>
-<span class="fc" id="L144">        stateIn.ifPresent(locationGroup::changeGroupStateIn);</span>
-<span class="fc" id="L145">        stateOut.ifPresent(locationGroup::changeGroupStateOut);</span>
-<span class="pc bpc" id="L146" title="3 of 4 branches missed.">        if (stateIn.isPresent() || stateOut.isPresent()) {</span>
-<span class="fc" id="L147">            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));</span>
+<span class="fc" id="L150">        var locationGroup = findByNameOrThrowInternal(name);</span>
+<span class="fc" id="L151">        stateIn.ifPresent(locationGroup::changeGroupStateIn);</span>
+<span class="fc" id="L152">        stateOut.ifPresent(locationGroup::changeGroupStateOut);</span>
+<span class="pc bpc" id="L153" title="3 of 4 branches missed.">        if (stateIn.isPresent() || stateOut.isPresent()) {</span>
+<span class="fc" id="L154">            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.STATE_CHANGE));</span>
         }
-<span class="fc" id="L149">    }</span>
+<span class="fc" id="L156">    }</span>
 
     /**
      * {@inheritDoc}
@@ -154,10 +161,10 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public void changeOperationMode(@NotBlank String name, @NotBlank String mode) {
-<span class="fc" id="L157">        var locationGroup = findByNameOrThrowInternal(name);</span>
-<span class="fc" id="L158">        locationGroup.setOperationMode(mode);</span>
-<span class="fc" id="L159">        repository.save(locationGroup);</span>
-<span class="fc" id="L160">    }</span>
+<span class="fc" id="L164">        var locationGroup = findByNameOrThrowInternal(name);</span>
+<span class="fc" id="L165">        locationGroup.setOperationMode(mode);</span>
+<span class="fc" id="L166">        repository.save(locationGroup);</span>
+<span class="fc" id="L167">    }</span>
 
     /**
      * {@inheritDoc}
@@ -165,7 +172,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public Optional&lt;LocationGroup&gt; findByName(@NotBlank String name) {
-<span class="fc" id="L168">        return repository.findByName(name);</span>
+<span class="fc" id="L175">        return repository.findByName(name);</span>
     }
 
     /**
@@ -174,11 +181,11 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public @NotNull LocationGroup findByNameOrThrow(@NotBlank String name) {
-<span class="fc" id="L177">        return findByNameOrThrowInternal(name);</span>
+<span class="fc" id="L184">        return findByNameOrThrowInternal(name);</span>
     }
 
     private LocationGroup findByNameOrThrowInternal(String name) {
-<span class="fc" id="L181">        return repository.findByName(name).orElseThrow(() -&gt; new NotFoundException(</span>
+<span class="fc" id="L188">        return repository.findByName(name).orElseThrow(() -&gt; new NotFoundException(</span>
                 translator, LOCATION_GROUP_NOT_FOUND, new String[]{name}, name
         ));
     }
@@ -189,7 +196,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public @NotNull List&lt;LocationGroup&gt; findAll() {
-<span class="fc" id="L192">        return repository.findAll();</span>
+<span class="fc" id="L199">        return repository.findAll();</span>
     }
 
     /**
@@ -198,8 +205,8 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public @NotNull List&lt;LocationGroup&gt; findByNames(@NotEmpty List&lt;String&gt; locationGroupNames) {
-<span class="fc" id="L201">        var result = repository.findByNameIn(locationGroupNames);</span>
-<span class="pc bpc" id="L202" title="1 of 2 branches missed.">        return result == null ? new ArrayList&lt;&gt;(0) : result;</span>
+<span class="fc" id="L208">        var result = repository.findByNameIn(locationGroupNames);</span>
+<span class="pc bpc" id="L209" title="1 of 2 branches missed.">        return result == null ? new ArrayList&lt;&gt;(0) : result;</span>
     }
 
     /**
@@ -207,24 +214,87 @@ class LocationGroupServiceImpl implements LocationGroupService {
      */
     @Override
     @Measured
+    public void delete(@NotBlank String pKey) {
+<span class="pc" id="L218">        var locationGroup = repository.findBypKey(pKey).orElseThrow(() -&gt; new NotFoundException(</span>
+                translator, LOCATION_GROUP_NOT_FOUND_BY_PKEY, new String[]{pKey}, pKey
+        ));
+<span class="fc" id="L221">        delete(locationGroup);</span>
+<span class="fc" id="L222">    }</span>
+
+    private Stream&lt;String&gt; getLocationKeys(LocationGroup locationGroup) {
+<span class="fc" id="L225">        var result = locationGroup.getLocations().stream().map(Location::getPersistentKey);</span>
+<span class="fc bfc" id="L226" title="All 2 branches covered.">        if (locationGroup.hasLocationGroups()) {</span>
+<span class="fc bfc" id="L227" title="All 2 branches covered.">            for (var group : locationGroup.getLocationGroups()) {</span>
+<span class="fc" id="L228">                result = Stream.concat(result, getLocationKeys(group));</span>
+<span class="fc" id="L229">            }</span>
+        }
+<span class="fc" id="L231">        return result;</span>
+    }
+
+    private void delete(LocationGroup locationGroup) {
+<span class="fc" id="L235">        LOGGER.info(&quot;Going to delete LocationGroup [{}]&quot;, locationGroup.getName());</span>
+<span class="fc" id="L236">        var allLocationKeys = getLocationKeys(locationGroup).toList();</span>
+
+        // first check all Locations of all LocationGroups if they're allowed to be deleted.
+        // Check within the service if any TU is booked on the Locations and then ask foreign services if deletion is okay
+<span class="fc" id="L240">        var allowedToDelete = locationRemovalManager.allowedToDelete(allLocationKeys);</span>
+
+<span class="pc bpc" id="L242" title="1 of 2 branches missed.">        if (!allowedToDelete) {</span>
+<span class="nc" id="L243">           throw new RemovalNotAllowedException(&quot;At least one Location is not allowed to be deleted, therefore the LocationGroup [%s] cannot be deleted&quot;.formatted(locationGroup.getName()));</span>
+        }
+
+        // Go and mark all for deletion...
+<span class="fc" id="L247">        locationRemovalManager.markForDeletion(allLocationKeys);</span>
+
+        // Finally delete the LocationGroups...
+        try {
+<span class="fc" id="L251">            deleteOnlyGroups(locationGroup);</span>
+<span class="nc" id="L252">        } catch (Exception e) {</span>
+<span class="nc" id="L253">            LOGGER.error(e.getMessage(), e);</span>
+<span class="nc" id="L254">            LOGGER.debug(&quot;Deletion of LocationGroup [{}] went wrong, rolling back Location deletion&quot;, locationGroup.getPersistentKey());</span>
+            // if any failure occurs, send a persistent async message to release the deletion for everyone
+<span class="nc bnc" id="L256" title="All 2 branches missed.">            for (var pKey : allLocationKeys) {</span>
+<span class="nc" id="L257">                ctx.publishEvent(new DeletionFailedEvent(pKey));</span>
+<span class="nc" id="L258">            }</span>
+<span class="fc" id="L259">        }</span>
+<span class="fc" id="L260">    }</span>
+
+    private void deleteOnlyGroups(LocationGroup locationGroup) {
+<span class="pc bpc" id="L263" title="1 of 2 branches missed.">        if (locationGroup.hasLocationGroups()) {</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">            for (var group : locationGroup.getLocationGroups()) {</span>
+<span class="nc" id="L265">                deleteOnlyGroups(group);</span>
+<span class="nc" id="L266">            }</span>
+        }
+<span class="pc bpc" id="L268" title="1 of 2 branches missed.">        if (locationGroup.hasLocations()) {</span>
+<span class="nc" id="L269">            locationRemovalManager.deleteAll(locationGroup.getLocations());</span>
+        }
+<span class="fc" id="L271">        repository.delete(locationGroup);</span>
+<span class="fc" id="L272">        LOGGER.debug(&quot;LocationGroup deleted [{}]&quot;, locationGroup.getPersistentKey());</span>
+<span class="fc" id="L273">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
     public @NotNull LocationGroup update(@NotBlank String pKey, @NotNull LocationGroupVO locationGroupVO) {
-<span class="fc" id="L211">        var locationGroup = findInternalByPKey(pKey);</span>
-<span class="pc bpc" id="L212" title="1 of 4 branches missed.">        if (locationGroupVO.getDescription() != null &amp;&amp; !locationGroupVO.getDescription().equals(locationGroup.getDescription())) {</span>
-<span class="fc" id="L213">            locationGroup.setDescription(locationGroupVO.getDescription());</span>
-<span class="fc" id="L214">            locationGroup = repository.save(locationGroup);</span>
-<span class="fc" id="L215">            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.CHANGED));</span>
+<span class="fc" id="L281">        var locationGroup = findInternalByPKey(pKey);</span>
+<span class="pc bpc" id="L282" title="1 of 4 branches missed.">        if (locationGroupVO.getDescription() != null &amp;&amp; !locationGroupVO.getDescription().equals(locationGroup.getDescription())) {</span>
+<span class="fc" id="L283">            locationGroup.setDescription(locationGroupVO.getDescription());</span>
+<span class="fc" id="L284">            locationGroup = repository.save(locationGroup);</span>
+<span class="fc" id="L285">            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.CHANGED));</span>
         }
-<span class="pc bpc" id="L217" title="1 of 4 branches missed.">        if (locationGroupVO.hasParent() &amp;&amp; !locationGroupVO.getParent().equals(locationGroup.getParent().getName())) {</span>
-<span class="fc" id="L218">            var newParent = findByNameOrThrowInternal(locationGroupVO.getParent());</span>
-<span class="fc" id="L219">            locationGroup.setParent(newParent);</span>
-<span class="fc" id="L220">            locationGroup = repository.save(locationGroup);</span>
-<span class="fc" id="L221">            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.CHANGED));</span>
+<span class="pc bpc" id="L287" title="1 of 4 branches missed.">        if (locationGroupVO.hasParent() &amp;&amp; !locationGroupVO.getParent().equals(locationGroup.getParent().getName())) {</span>
+<span class="fc" id="L288">            var newParent = findByNameOrThrowInternal(locationGroupVO.getParent());</span>
+<span class="fc" id="L289">            locationGroup.setParent(newParent);</span>
+<span class="fc" id="L290">            locationGroup = repository.save(locationGroup);</span>
+<span class="fc" id="L291">            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.CHANGED));</span>
         }
-<span class="fc" id="L223">        return locationGroup;</span>
+<span class="fc" id="L293">        return locationGroup;</span>
     }
 
     private LocationGroup findInternalByPKey(String pKey) {
-<span class="pc" id="L227">        return repository.findBypKey(pKey).orElseThrow(() -&gt; new NotFoundException(</span>
+<span class="pc" id="L297">        return repository.findBypKey(pKey).orElseThrow(() -&gt; new NotFoundException(</span>
                 translator, LOCATION_GROUP_NOT_FOUND_BY_PKEY, new String[]{pKey}, pKey
         ));
     }
