@@ -99,7 +99,7 @@ OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,Locati
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,LocationServiceImpl,24,353,4,22,0,66,5,29,1,20
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.api.messages,TransportUnitTypeMO.Builder,0,45,0,0,0,17,0,9,0,9
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.api.messages,TransportUnitTypeMO,3,95,0,0,1,35,1,18,1,18
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.api.messages,TransportUnitMO,68,83,2,0,16,31,8,14,7,14
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.api.messages,TransportUnitMO,53,98,2,0,11,36,3,19,2,19
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.api.messages,TransportUnitMO.Builder,35,10,0,0,14,3,7,2,7,2
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.spi.transactions.commands,NoOpTransactionApiImpl,4,0,0,0,2,0,2,0,2,0
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.spi.transactions.commands,AsyncTransactionApiImpl,17,0,0,0,6,0,2,0,2,0
