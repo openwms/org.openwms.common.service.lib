@@ -15,6 +15,7 @@
  */
 package org.openwms.common.location.api.commands;
 
+import java.beans.ConstructorProperties;
 import java.io.Serializable;
 
 /**
@@ -26,6 +27,7 @@ public class RevokeLocationRemoveCommand implements Serializable {
 
     private String pKey;
 
+    @ConstructorProperties("pKey")
     public RevokeLocationRemoveCommand(String pKey) {
         this.pKey = pKey;
     }
