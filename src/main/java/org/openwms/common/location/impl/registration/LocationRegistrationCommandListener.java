@@ -15,7 +15,6 @@
  */
 package org.openwms.common.location.impl.registration;
 
-import org.ameba.annotation.Measured;
 import org.ameba.app.SpringProfiles;
 import org.openwms.common.location.api.commands.LocationReplicaRegistration;
 import org.slf4j.Logger;
@@ -43,7 +42,6 @@ public class LocationRegistrationCommandListener {
         this.registrationService = registrationService;
     }
 
-    @Measured
     @RabbitListener(queues = "${owms.commands.common.registration.queue-name}")
     public void onCommand(@Payload LocationReplicaRegistration command, @Header("amqp_receivedRoutingKey") String routingKey) {
         try {

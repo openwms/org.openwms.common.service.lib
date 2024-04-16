@@ -43,7 +43,6 @@ class RegistrationServiceImpl implements RegistrationService {
      * {@inheritDoc}
      */
     @Override
-    @Measured
     public void register(@NotNull LocationReplicaRegistration registration) {
         var replicaOpt = repository.findByApplicationName(registration.applicationName());
         ReplicaRegistry eo;
@@ -93,6 +92,6 @@ class RegistrationServiceImpl implements RegistrationService {
     @Override
     @Measured
     public @NotNull List<ReplicaRegistry> getAllRegistered() {
-        return repository.findAll();
+        return repository.findActiveOnes();
     }
 }

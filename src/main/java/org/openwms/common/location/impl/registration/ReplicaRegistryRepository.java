@@ -16,7 +16,9 @@
 package org.openwms.common.location.impl.registration;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -27,4 +29,7 @@ import java.util.Optional;
 public interface ReplicaRegistryRepository extends JpaRepository<ReplicaRegistry, Long> {
 
     Optional<ReplicaRegistry> findByApplicationName(String applicationName);
+
+    @Query("select rr from ReplicaRegistry rr where rr.state = 'REGISTERED' order by rr.registeredAt,rr.lastModifiedDt")
+    List<ReplicaRegistry> findActiveOnes();
 }
