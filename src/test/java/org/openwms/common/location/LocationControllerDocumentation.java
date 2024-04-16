@@ -258,6 +258,7 @@ class LocationControllerDocumentation {
     @Nested
     @DisplayName("ERP Code Tests")
     class ERPCodeTests {
+
         @Test void shall_findby_erpcode() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
                             .queryParam("erpCode", TestData.LOCATION_ERP_CODE_EXT))
@@ -321,8 +322,6 @@ class LocationControllerDocumentation {
     }
 
 
-        /* Depends on https://github.com/spring-projects/spring-framework/issues/19930
-         */
     @Nested
     @DisplayName("Find by ID Tests")
     class FindByIdTests {
@@ -396,6 +395,7 @@ class LocationControllerDocumentation {
     @Nested
     @DisplayName("Find by name Tests")
     class FindByNameTests {
+
         @Test void shall_findby_lgname() throws Exception {
             mockMvc.perform(get(LocationApiConstants.API_LOCATIONS)
                     .queryParam("locationGroupNames", TestData.LOCATION_GROUP_NAME_LG1))
@@ -433,6 +433,7 @@ class LocationControllerDocumentation {
     @Nested
     @DisplayName("State Change Tests")
     class StateChangeTests {
+
         @Test void shall_changeState_pkey_404() throws Exception {
             mockMvc.perform(patch(API_LOCATION + "/NOTEXISTS")
                     .content(mapper.writeValueAsString(ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT))
