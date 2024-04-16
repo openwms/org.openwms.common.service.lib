@@ -100,3 +100,16 @@ include::{generated}/lg/shall_change_state/request-parameters.adoc[]
 
 The server response is:
 include::{generated}/lg/shall_change_state/http-response.adoc[]
+
+[[location-groups-modify]]
+=== Modify fields of a LocationGroup
+Selected fields of an existing `LocationGroup` can be changed. Therefor the client sends a `PATCH` request to the identified primary resource with the minimum required fields in the request body.
+
+If the description shall be changed, the request looks like:
+include::{generated}/lg/shall_change_description/http-request.adoc[]
+
+If the parent `LocationGroup` shall be changed the request looks like:
+include::{generated}/lg/shall_change_parent/http-request.adoc[]
+
+In case the operation goes well, the server responds with:
+include::{generated}/lg/shall_change_description/http-response.adoc[]
