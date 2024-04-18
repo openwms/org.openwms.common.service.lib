@@ -100,7 +100,7 @@ class LocationGroupEventPropagator {
 
     @TransactionalEventListener
     public void onLocationEvent(LocationEvent event) {
-<span class="pc bpc" id="L103" title="3 of 5 branches missed.">        switch (event.getType()) {</span>
+<span class="pc bpc" id="L103" title="2 of 5 branches missed.">        switch (event.getType()) {</span>
             case CREATED -&gt; {
 <span class="fc" id="L105">                LOGGER.info(&quot;Location successfully created [{}]&quot;, event.getSource());</span>
 <span class="fc" id="L106">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.created&quot;, locationMapper.convertToMO((Location) event.getSource()));</span>
@@ -110,9 +110,9 @@ class LocationGroupEventPropagator {
 <span class="nc" id="L110">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.changed&quot;, locationMapper.convertToMO((Location) event.getSource()));</span>
 <span class="nc" id="L111">            }</span>
             case DELETED -&gt; {
-<span class="nc" id="L113">                LOGGER.info(&quot;Location successfully deleted [{}]&quot;, event.getSource());</span>
-<span class="nc" id="L114">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.deleted&quot;, locationMapper.convertToMO((Location) event.getSource()));</span>
-<span class="nc" id="L115">            }</span>
+<span class="fc" id="L113">                LOGGER.info(&quot;Location successfully deleted [{}]&quot;, event.getSource());</span>
+<span class="fc" id="L114">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.deleted&quot;, locationMapper.convertToMO((Location) event.getSource()));</span>
+<span class="fc" id="L115">            }</span>
             case STATE_CHANGE -&gt; {
 <span class="fc" id="L117">                LOGGER.info(&quot;Location changed state [{}]&quot;, event.getSource());</span>
 <span class="fc" id="L118">                amqpTemplate.convertAndSend(exchangeName, &quot;loc.event.state-changed&quot;, locationMapper.convertToMO((Location) event.getSource()));</span>

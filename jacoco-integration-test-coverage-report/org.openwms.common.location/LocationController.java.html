@@ -103,8 +103,8 @@ public class LocationController extends AbstractWebController {
 
     @DeleteMapping(value = API_LOCATIONS + &quot;/{pKey}&quot;)
     public ResponseEntity&lt;Void&gt; deleteLocation(@PathVariable(&quot;pKey&quot;) String pKey) {
-<span class="nc" id="L106">        locationRemovalManager.tryDelete(pKey);</span>
-<span class="nc" id="L107">        return ResponseEntity.noContent().build();</span>
+<span class="fc" id="L106">        locationRemovalManager.tryDelete(pKey);</span>
+<span class="fc" id="L107">        return ResponseEntity.noContent().build();</span>
     }
 
     @GetMapping(value = API_LOCATIONS + &quot;/{pKey}&quot;)
