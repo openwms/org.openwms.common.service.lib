@@ -280,21 +280,23 @@ class LocationGroupServiceImpl implements LocationGroupService {
     public @NotNull LocationGroup update(@NotBlank String pKey, @NotNull LocationGroupVO locationGroupVO) {
 <span class="nc" id="L281">        var locationGroup = findInternalByPKey(pKey);</span>
 <span class="nc bnc" id="L282" title="All 4 branches missed.">        if (locationGroupVO.getDescription() != null &amp;&amp; !locationGroupVO.getDescription().equals(locationGroup.getDescription())) {</span>
-<span class="nc" id="L283">            locationGroup.setDescription(locationGroupVO.getDescription());</span>
-<span class="nc" id="L284">            locationGroup = repository.save(locationGroup);</span>
-<span class="nc" id="L285">            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.CHANGED));</span>
+<span class="nc" id="L283">            LOGGER.debug(&quot;Description of LocationGroup changes from [{}] to [{}]&quot;, locationGroup.getDescription(), locationGroupVO.getDescription());</span>
+<span class="nc" id="L284">            locationGroup.setDescription(locationGroupVO.getDescription());</span>
+<span class="nc" id="L285">            locationGroup = repository.save(locationGroup);</span>
+<span class="nc" id="L286">            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.CHANGED));</span>
         }
-<span class="nc bnc" id="L287" title="All 4 branches missed.">        if (locationGroupVO.hasParent() &amp;&amp; !locationGroupVO.getParent().equals(locationGroup.getParent().getName())) {</span>
-<span class="nc" id="L288">            var newParent = findByNameOrThrowInternal(locationGroupVO.getParent());</span>
-<span class="nc" id="L289">            locationGroup.setParent(newParent);</span>
-<span class="nc" id="L290">            locationGroup = repository.save(locationGroup);</span>
-<span class="nc" id="L291">            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.CHANGED));</span>
+<span class="nc bnc" id="L288" title="All 4 branches missed.">        if (locationGroupVO.hasParent() &amp;&amp; !locationGroupVO.getParent().equals(locationGroup.getParent().getName())) {</span>
+<span class="nc" id="L289">            var newParent = findByNameOrThrowInternal(locationGroupVO.getParent());</span>
+<span class="nc" id="L290">            LOGGER.debug(&quot;Parent of LocationGroup changes from [{}] to [{}]&quot;, locationGroup.getParent(), newParent);</span>
+<span class="nc" id="L291">            locationGroup.setParent(newParent);</span>
+<span class="nc" id="L292">            locationGroup = repository.save(locationGroup);</span>
+<span class="nc" id="L293">            ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.CHANGED));</span>
         }
-<span class="nc" id="L293">        return locationGroup;</span>
+<span class="nc" id="L295">        return locationGroup;</span>
     }
 
     private LocationGroup findInternalByPKey(String pKey) {
-<span class="nc" id="L297">        return repository.findBypKey(pKey).orElseThrow(() -&gt; new NotFoundException(</span>
+<span class="nc" id="L299">        return repository.findBypKey(pKey).orElseThrow(() -&gt; new NotFoundException(</span>
                 translator, LOCATION_GROUP_NOT_FOUND_BY_PKEY, new String[]{pKey}, pKey
         ));
     }
