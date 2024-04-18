@@ -39,8 +39,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.persistence.EntityManager;
-
-import static java.util.Arrays.asList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -226,8 +224,8 @@ class LocationGroupControllerDocumentation {
         void shall_delete_LocationGroup_fail_because_of_TU() throws Exception {
             mockMvc.perform(
                             delete(LocationApiConstants.API_LOCATION_GROUPS + "/412130127821")
-                    ).andExpect(status().isUnauthorized())
-                    .andDo(document("lg/lg-deleted-401",
+                    ).andExpect(status().isForbidden())
+                    .andDo(document("lg/lg-deleted-403",
                             preprocessResponse(prettyPrint())
                     ))
             ;

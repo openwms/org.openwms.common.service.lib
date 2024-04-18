@@ -126,10 +126,10 @@ responds with:
 include::{generated}/lg/lg-deleted/http-response.adoc[]
 
 In the next example a client wants to delete a `LocationGroup` with a `Location` that is not allowed to be deleted because there is either a
-`TransportUnit` or a `PackagingUnit` booked on it, or it is used somehow else in the system (for example in routing definitions etc.)
+`TransportUnit` or a `PackagingUnit` booked onto it, or it is used somehow else in the system (for example in routing definitions etc.)
 
 The request is:
-include::{generated}/lg/lg-deleted-401/http-request.adoc[]
+include::{generated}/lg/lg-deleted-403/http-request.adoc[]
 
-Then the server permits to delete the `Location` and also the `LocationGroup` it belongs to and responds with:
-include::{generated}/lg/lg-deleted-401/http-response.adoc[]
+Then the server rejects to delete the `Location` and also the `LocationGroup` it belongs to and responds with:
+include::{generated}/lg/lg-deleted-403/http-response.adoc[]
