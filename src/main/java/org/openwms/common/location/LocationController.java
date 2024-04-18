@@ -24,7 +24,6 @@ import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.location.api.LockMode;
 import org.openwms.common.location.api.LockType;
 import org.openwms.common.location.api.ValidationGroups;
-import org.openwms.common.location.impl.registration.RegistrationService;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;
@@ -72,14 +71,12 @@ public class LocationController extends AbstractWebController {
     private final LocationMapper mapper;
     private final Translator translator;
     private final LocationService locationService;
-    private final RegistrationService registrationService;
     private final LocationRemovalManager locationRemovalManager;
 
-    LocationController(LocationService locationService, LocationMapper mapper, Translator translator, RegistrationService registrationService, LocationRemovalManager locationRemovalManager) {
+    LocationController(LocationService locationService, LocationMapper mapper, Translator translator, LocationRemovalManager locationRemovalManager) {
         this.locationService = locationService;
         this.mapper = mapper;
         this.translator = translator;
-        this.registrationService = registrationService;
         this.locationRemovalManager = locationRemovalManager;
     }
 

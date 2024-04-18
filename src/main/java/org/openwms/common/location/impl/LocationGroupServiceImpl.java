@@ -280,12 +280,14 @@ class LocationGroupServiceImpl implements LocationGroupService {
     public @NotNull LocationGroup update(@NotBlank String pKey, @NotNull LocationGroupVO locationGroupVO) {
         var locationGroup = findInternalByPKey(pKey);
         if (locationGroupVO.getDescription() != null && !locationGroupVO.getDescription().equals(locationGroup.getDescription())) {
+            LOGGER.debug("Description of LocationGroup changes from [{}] to [{}]", locationGroup.getDescription(), locationGroupVO.getDescription());
             locationGroup.setDescription(locationGroupVO.getDescription());
             locationGroup = repository.save(locationGroup);
             ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.CHANGED));
         }
         if (locationGroupVO.hasParent() && !locationGroupVO.getParent().equals(locationGroup.getParent().getName())) {
             var newParent = findByNameOrThrowInternal(locationGroupVO.getParent());
+            LOGGER.debug("Parent of LocationGroup changes from [{}] to [{}]", locationGroup.getParent(), newParent);
             locationGroup.setParent(newParent);
             locationGroup = repository.save(locationGroup);
             ctx.publishEvent(LocationGroupEvent.of(locationGroup, LocationGroupEvent.LocationGroupEventType.CHANGED));

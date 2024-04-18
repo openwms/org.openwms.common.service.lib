@@ -113,3 +113,23 @@ include::{generated}/lg/shall_change_parent/http-request.adoc[]
 
 In case the operation goes well, the server responds with:
 include::{generated}/lg/shall_change_description/http-response.adoc[]
+
+[[location-groups-delete]]
+=== Delete a LocationGroup
+An existing `LocationGroup` with all child `LocationGroups` and `Locations` can also be deleted via the API. Therefor a client sends a HTTP
+`DELETE` request to the identifying URI of the resource.
+
+include::{generated}/lg/lg-deleted/http-request.adoc[]
+
+The server tries to delete the resource and all embedded related resources. In this case all can be deleted successfully why the server
+responds with:
+include::{generated}/lg/lg-deleted/http-response.adoc[]
+
+In the next example a client wants to delete a `LocationGroup` with a `Location` that is not allowed to be deleted because there is either a
+`TransportUnit` or a `PackagingUnit` booked on it, or it is used somehow else in the system (for example in routing definitions etc.)
+
+The request is:
+include::{generated}/lg/lg-deleted-401/http-request.adoc[]
+
+Then the server permits to delete the `Location` and also the `LocationGroup` it belongs to and responds with:
+include::{generated}/lg/lg-deleted-401/http-response.adoc[]
