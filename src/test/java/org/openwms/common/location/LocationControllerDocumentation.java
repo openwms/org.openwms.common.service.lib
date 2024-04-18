@@ -39,6 +39,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.openwms.common.TestData.LOCATION_PKEY_EXT;
 import static org.openwms.common.location.api.LocationApiConstants.API_LOCATION;
 import static org.openwms.common.location.api.LocationApiConstants.API_LOCATIONS;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -50,6 +51,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -159,12 +161,12 @@ class LocationControllerDocumentation {
     @DisplayName("Find by PK Tests")
     class FindByPkTests {
         @Test void shall_findby_pKey() throws Exception {
-            mockMvc.perform(get(LocationApiConstants.API_LOCATIONS + "/" + TestData.LOCATION_PKEY_EXT)
+            mockMvc.perform(get(LocationApiConstants.API_LOCATIONS + "/" + LOCATION_PKEY_EXT)
                             .accept(LocationVO.MEDIA_TYPE)
                     )
                     .andExpect(status().isOk())
                     .andExpect(header().string(HttpHeaders.CONTENT_TYPE, LocationVO.MEDIA_TYPE))
-                    .andExpect(jsonPath("pKey", is(TestData.LOCATION_PKEY_EXT)))
+                    .andExpect(jsonPath("pKey", is(LOCATION_PKEY_EXT)))
                     .andExpect(jsonPath("locationId", is(TestData.LOCATION_ID_EXT)))
                     .andExpect(jsonPath("locationGroupName").exists())
                     .andExpect(jsonPath("plcCode", is(TestData.LOCATION_PLC_CODE_EXT)))
@@ -556,6 +558,33 @@ class LocationControllerDocumentation {
                     .andReturn();
 
             System.out.println(res);
+        }
+    }
+
+    @Nested
+    @DisplayName("Deletion Tests")
+    class DeletionTests {
+
+        @Test
+        void shall_delete_Location_fail_because_of_TU() throws Exception {
+            mockMvc.perform(
+                            delete(LocationApiConstants.API_LOCATIONS + "/" + LOCATION_PKEY_EXT)
+                    ).andExpect(status().isForbidden())
+                    .andDo(document("loc-deleted-403",
+                            preprocessResponse(prettyPrint())
+                    ))
+            ;
+        }
+
+        @Test
+        void shall_delete_Location_success() throws Exception {
+            mockMvc.perform(
+                            delete(API_LOCATIONS + "/262863398986")
+                    ).andExpect(status().isNoContent())
+                    .andDo(document("loc-deleted",
+                            preprocessResponse(prettyPrint())
+                    ))
+            ;
         }
     }
 }

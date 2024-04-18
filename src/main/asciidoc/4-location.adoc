@@ -208,3 +208,21 @@ include::{generated}/loc-plcstate-both/http-request.adoc[]
 
 If the server could set both states successfully the response is
 include::{generated}/loc-plcstate-both/http-response.adoc[]
+
+[[location-delete]]
+=== Delete a Location
+An existing `Location` can be deleted via the API. Therefor a client sends an HTTP `DELETE` request to the identifying URI of the resource.
+
+include::{generated}/loc-deleted/http-request.adoc[]
+
+The server tries to delete the resource and if successful the server responds with:
+include::{generated}/loc-deleted/http-response.adoc[]
+
+If a `Location` is not allowed to be deleted because there is either a `TransportUnit` or a `PackagingUnit` booked onto it, or it is used
+somehow else in the system (for example in routing definitions etc.) the server declines the request.
+
+In this case a request to a forbidden resource looks like:
+include::{generated}/loc-deleted-403/http-request.adoc[]
+
+The server rejects to delete the `Location` and responds with:
+include::{generated}/loc-deleted-403/http-response.adoc[]
