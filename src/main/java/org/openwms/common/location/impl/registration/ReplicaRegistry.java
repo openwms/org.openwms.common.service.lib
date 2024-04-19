@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * A ReplicaRegistry.
@@ -99,5 +100,28 @@ public class ReplicaRegistry extends ApplicationEntity implements Serializable {
 
     public void setUnRegisteredAt(LocalDateTime unRegisteredAt) {
         this.unRegisteredAt = unRegisteredAt;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReplicaRegistry that)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(applicationName, that.applicationName) && Objects.equals(requestRemovalEndpoint, that.requestRemovalEndpoint) && Objects.equals(removalEndpoint, that.removalEndpoint) && Objects.equals(state, that.state) && Objects.equals(registeredAt, that.registeredAt) && Objects.equals(unRegisteredAt, that.unRegisteredAt);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), applicationName, requestRemovalEndpoint, removalEndpoint, state, registeredAt, unRegisteredAt);
     }
 }
