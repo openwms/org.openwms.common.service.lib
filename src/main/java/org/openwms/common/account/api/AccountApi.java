@@ -30,7 +30,7 @@ import static org.openwms.common.account.api.AccountApiConstants.API_ACCOUNTS;
  *
  * @author Heiko Scherrer
  */
-@FeignClient(name = "common-service", decode404 = true, qualifiers = "accountApi")
+@FeignClient(name = "common-service", dismiss404 = true, qualifiers = "accountApi")
 public interface AccountApi {
 
     /**
