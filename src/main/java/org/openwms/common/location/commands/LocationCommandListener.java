@@ -15,6 +15,7 @@
  */
 package org.openwms.common.location.commands;
 
+import jakarta.validation.Validator;
 import org.ameba.annotation.Measured;
 import org.ameba.app.SpringProfiles;
 import org.openwms.common.location.LocationService;
@@ -28,8 +29,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
-
-import javax.validation.Validator;
 
 import static org.ameba.system.ValidationUtil.validate;
 import static org.openwms.common.location.api.LocationApiConstants.LOCATION_EMPTY;

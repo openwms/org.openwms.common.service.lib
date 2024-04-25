@@ -15,6 +15,7 @@
  */
 package org.openwms.common.account;
 
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
@@ -27,8 +28,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-
-import javax.persistence.EntityManager;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.openwms.common.account.api.AccountApiConstants.API_ACCOUNTS;

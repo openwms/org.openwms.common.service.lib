@@ -15,7 +15,8 @@
  */
 package org.openwms.common.location.api;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
+
 import java.util.Optional;
 
 /**

@@ -15,6 +15,8 @@
  */
 package org.openwms.common.transport.commands;
 
+import jakarta.validation.ValidationException;
+import jakarta.validation.Validator;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.core.SpringProfiles;
 import org.slf4j.Logger;
@@ -25,9 +27,6 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
-
-import javax.validation.ValidationException;
-import javax.validation.Validator;
 
 /**
  * A TransportUnitCommandPropagator propagates {@link TUCommand}s send by this service

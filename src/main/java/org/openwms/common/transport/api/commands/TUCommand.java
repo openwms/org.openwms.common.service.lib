@@ -15,10 +15,10 @@
  */
 package org.openwms.common.transport.api.commands;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.StringJoiner;

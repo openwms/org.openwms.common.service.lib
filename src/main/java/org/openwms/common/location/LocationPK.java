@@ -15,11 +15,11 @@
  */
 package org.openwms.common.location;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.Size;
 import org.springframework.util.Assert;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**

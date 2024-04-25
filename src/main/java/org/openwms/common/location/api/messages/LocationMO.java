@@ -16,9 +16,9 @@
 package org.openwms.common.location.api.messages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 import org.openwms.common.location.api.ValidationGroups;
 
-import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**

@@ -15,6 +15,7 @@
  */
 package org.openwms.common.location;
 
+import jakarta.validation.constraints.NotNull;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
@@ -23,7 +24,6 @@ import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.location.api.messages.LocationMO;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import static java.lang.String.format;

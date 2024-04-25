@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport.impl;
 
+import jakarta.transaction.Transactional;
 import org.ameba.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
@@ -29,8 +30,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.annotation.Rollback;
-
-import javax.transaction.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
