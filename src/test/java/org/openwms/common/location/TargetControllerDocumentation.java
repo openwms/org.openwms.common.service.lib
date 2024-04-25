@@ -39,7 +39,7 @@ import static org.springframework.restdocs.http.HttpDocumentation.httpResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -144,7 +144,7 @@ class TargetControllerDocumentation {
                     .queryParam("mode", "lock"))
                     .andExpect(status().isOk())
                     .andDo(document("lock-lg-IPOINT",
-                            requestParameters(
+                            queryParameters(
                                     parameterWithName("reallocation").description("*true* to trigger an order re-allocation, or *false* if not"),
                                     parameterWithName("type").description("The lock type"),
                                     parameterWithName("mode").description("The operation mode")
