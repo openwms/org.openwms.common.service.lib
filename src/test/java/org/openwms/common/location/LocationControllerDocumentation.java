@@ -152,7 +152,8 @@ class LocationControllerDocumentation {
                                 fieldWithPath("plcState").description("The current state, set by the PLC system (read-only)"),
                                 fieldWithPath("type").description("The name of the LocationType the Location belongs to"),
                                 fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to"),
-                                fieldWithPath("createDt").description("Timestamp when the Location has been created")
+                                fieldWithPath("createDt").description("Timestamp when the Location has been created"),
+                                fieldWithPath("lastModifiedDt").description("Timestamp when the entity has been updated the last time")
                         )
                 ));
     }
@@ -252,7 +253,8 @@ class LocationControllerDocumentation {
                                 fieldWithPath("plcState").description("The current state, set by the PLC system (read-only)"),
                                 fieldWithPath("type").description("The name of the LocationType the Location belongs to"),
                                 fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to"),
-                                fieldWithPath("createDt").description("Timestamp when the Location has been created")
+                                fieldWithPath("createDt").description("Timestamp when the Location has been created"),
+                                fieldWithPath("lastModifiedDt").description("Timestamp when the entity has been updated the last time")
                         )
                 ));
     }
