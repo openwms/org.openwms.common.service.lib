@@ -55,7 +55,7 @@ public abstract class TransportUnitMapper {
     @Mapping(target = "pKey", source = "eo.persistentKey")
     @Mapping(target = "barcode", source = "eo.barcode.value")
     @Mapping(target = "transportUnitType", source = "eo.transportUnitType.type")
-    @Mapping(target = "createDate", source = "eo.createDt")
+    @Mapping(target = "createDt", source = "eo.createDt")
     public abstract TransportUnitVO convertToVO(TransportUnit eo);
 
     public abstract List<TransportUnitVO> convertToVO(List<TransportUnit> eo);
