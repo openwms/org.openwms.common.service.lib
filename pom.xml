@@ -10,7 +10,7 @@
         <relativePath />
     </parent>
     <artifactId>org.openwms.common.service.lib</artifactId>
-    <version>2.1.0-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
     <name>OpenWMS.org COMMON: Base Service Library</name>
     <description>A library with essential functionality on common resources like Locations, LocationGroups and TransportUnits</description>
     <url>https://openwms.github.io/${project.artifactId}/index.html</url>
@@ -70,8 +70,7 @@
         <core.units.version>0.5.1-SNAPSHOT</core.units.version>
         <core.version>3.0.0-SNAPSHOT</core.version>
         <guava.version>32.0.0-jre</guava.version>
-        <indriya.version>2.0</indriya.version>
-        <spring-cloud-dependencies.version>2022.0.5</spring-cloud-dependencies.version>
+        <spring-cloud-dependencies.version>2023.0.1</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
     </properties>
 
@@ -185,12 +184,6 @@
                 <version>${guava.version}</version>
             </dependency>
             <dependency>
-                <!-- Clash between Guava and postgres driver -->
-                <groupId>org.checkerframework</groupId>
-                <artifactId>checker-qual</artifactId>
-                <version>${checker-qual.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.openwms</groupId>
                 <artifactId>org.openwms.core.units</artifactId>
                 <version>${core.units.version}</version>
@@ -206,11 +199,6 @@
                 <version>${spring-cloud-dependencies.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>tech.units</groupId>
-                <artifactId>indriya</artifactId>
-                <version>${indriya.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -426,11 +414,6 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>tech.units</groupId>
-            <artifactId>indriya</artifactId>
             <optional>true</optional>
         </dependency>
 
