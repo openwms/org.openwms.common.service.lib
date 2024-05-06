@@ -137,7 +137,7 @@ orders.
 include::{generated}/lock-lg-IPOINT/http-request.adoc[]
 
 Request parameters:
-include::{generated}/lock-lg-IPOINT/request-parameters.adoc[]
+include::{generated}/lock-lg-IPOINT/query-parameters.adoc[]
 
 To unlock the same `Target` with name `IPOINT`:
 
