@@ -18,6 +18,7 @@ package org.openwms.common.location.impl;
 import jakarta.persistence.EntityManager;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestBase;
@@ -29,6 +30,8 @@ import org.openwms.common.location.LocationTypeService;
 import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
+import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -55,6 +58,14 @@ class LocationServiceImplIT extends TestBase {
     private AsyncTransactionApi transactionApi;
     @Autowired
     private EntityManager em;
+
+    /**
+     * Specify the Locale explicitly because translated exception messages are verified.
+     */
+    @BeforeAll
+    static void onBeforeAll() {
+        Locale.setDefault(Locale.ENGLISH);
+    }
 
     @Test void shall_throw_create_with_null() {
         assertThatThrownBy(() -> testee.create(null)).isInstanceOf(ServiceLayerException.class);

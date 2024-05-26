@@ -66,6 +66,7 @@ public class LocationType extends ApplicationEntity implements Serializable {
     public static final int DEF_HEIGHT = 0;
 
     /*~ ----------------------------- constructors ------------------- */
+
     /**
      * Dear JPA...
      */

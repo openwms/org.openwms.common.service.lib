@@ -66,6 +66,7 @@ public interface LocationMapper {
     @Mapping(target = "id", expression = "java( eo.getLocationId().toString() )")
     @Mapping(target = "incomingActive", source = "eo.infeedActive")
     @Mapping(target = "outgoingActive", source = "eo.outfeedActive")
+    @Mapping(target = "locationGroupName", source = "eo.locationGroup.name")
     LocationMO convertToMO(Location eo);
 
     default Location copyForUpdate(Location source, @NotNull Location target) {

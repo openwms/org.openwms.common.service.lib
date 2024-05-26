@@ -270,6 +270,7 @@ public class Location extends Target implements Serializable {
 
     /**
      * Check if the Location has a {@code locationId} set.
+     *
      * @return {@literal true} if so
      */
     public boolean hasLocationId() {
