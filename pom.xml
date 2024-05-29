@@ -66,7 +66,7 @@
     </ciManagement>
 
     <properties>
-        <core.units.version>0.6.0-SNAPSHOT</core.units.version>
+        <core.units.version>0.7.0-SNAPSHOT</core.units.version>
         <core.version>3.0.0-SNAPSHOT</core.version>
         <guava.version>32.0.0-jre</guava.version>
         <spring-cloud-dependencies.version>2023.0.1</spring-cloud-dependencies.version>

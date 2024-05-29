@@ -21,7 +21,6 @@ import org.ameba.IDGenerator;
 import org.ameba.JdkIDGenerator;
 import org.ameba.annotation.EnableAspects;
 import org.ameba.app.SpringProfiles;
-import org.ameba.http.BaseClientHttpRequestInterceptor;
 import org.ameba.http.PermitAllCorsConfigurationSource;
 import org.ameba.http.RequestIDFilter;
 import org.ameba.http.identity.EnableIdentityAwareness;
@@ -36,7 +35,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -51,7 +49,6 @@ import org.springframework.data.envers.repository.support.EnversRevisionReposito
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -59,7 +56,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -93,14 +89,6 @@ public class CommonModuleConfiguration implements WebMvcConfigurer {
     @RefreshScope
     @Bean MeterRegistryCustomizer<MeterRegistry> metricsCommonTags(@Value("${spring.application.name}") String applicationName) {
         return registry -> registry.config().commonTags("application", applicationName);
-    }
-
-    @LoadBalanced
-    @Bean
-    RestTemplate aLoadBalanced(List<BaseClientHttpRequestInterceptor> baseInterceptors) {
-        var restTemplate = new RestTemplate();
-        restTemplate.getInterceptors().addAll(baseInterceptors);
-        return restTemplate;
     }
 
     public @Bean LocaleResolver localeResolver() {
