@@ -15,6 +15,7 @@
  */
 package org.openwms.common.location;
 
+import jakarta.validation.constraints.NotNull;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
@@ -23,7 +24,6 @@ import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.location.api.messages.LocationMO;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -66,6 +66,7 @@ public interface LocationMapper {
     @Mapping(target = "id", expression = "java( eo.getLocationId().toString() )")
     @Mapping(target = "incomingActive", source = "eo.infeedActive")
     @Mapping(target = "outgoingActive", source = "eo.outfeedActive")
+    @Mapping(target = "locationGroupName", source = "eo.locationGroup.name")
     LocationMO convertToMO(Location eo);
 
     default Location copyForUpdate(Location source, @NotNull Location target) {

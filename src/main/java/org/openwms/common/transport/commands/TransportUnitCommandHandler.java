@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport.commands;
 
+import jakarta.validation.Validator;
 import org.ameba.annotation.TxService;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitMapper;
@@ -28,8 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.validation.annotation.Validated;
-
-import javax.validation.Validator;
 
 import static org.ameba.system.ValidationUtil.validate;
 import static org.openwms.common.transport.api.commands.TUCommand.Type.UPDATE_CACHE;

@@ -15,9 +15,10 @@
  */
 package org.openwms.common.location;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.validation.constraints.NotEmpty;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotEmpty;
+
 import java.io.Serializable;
 
 /**

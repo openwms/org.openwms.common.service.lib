@@ -16,9 +16,9 @@
 package org.openwms.common.location.api.messages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 import org.openwms.common.location.api.ValidationGroups;
 
-import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -49,6 +49,10 @@ public record LocationMO (
         @JsonProperty("erpCode")
         String erpCode,
 
+        /* Name of the {@code LocationGroup} the {@code Location} belongs to. */
+        @JsonProperty("locationGroupName")
+        String locationGroupName,
+
         /* If the {@code Location} is available for inbound operations. */
         @JsonProperty("incomingActive")
         Boolean incomingActive,
@@ -64,14 +68,14 @@ public record LocationMO (
 ) implements Serializable {
 
     public static LocationMO ofPKey(String pKey) {
-        return new LocationMO(pKey, null, null, null, null, null, null, null);
+        return new LocationMO(pKey, null, null, null, null, null, null, null, null);
     }
 
     public static LocationMO ofId(String id) {
-        return new LocationMO(null, null, id, null, null, null, null, null);
+        return new LocationMO(null, null, id, null, null, null, null, null, null);
     }
 
     public static LocationMO ofErpCode(String erpCode) {
-        return new LocationMO(null, null, null, null, erpCode, null, null, null);
+        return new LocationMO(null, null, null, null, erpCode, null,  null, null, null);
     }
 }

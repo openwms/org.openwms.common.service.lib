@@ -15,9 +15,9 @@
  */
 package org.openwms.common.location.api.commands;
 
+import jakarta.validation.Valid;
 import org.openwms.common.location.api.messages.LocationMO;
 
-import javax.validation.Valid;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
 

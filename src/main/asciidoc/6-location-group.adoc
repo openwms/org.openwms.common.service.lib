@@ -39,7 +39,7 @@ Send a HTTP `GET` request with the unique name of the `LocationGroup`
 include::{generated}/lg/shall_findby_name/http-request.adoc[]
 
 Request parameters:
-include::{generated}/lg/shall_findby_name/request-parameters.adoc[]
+include::{generated}/lg/shall_findby_name/query-parameters.adoc[]
 
 If the `LocationGroup` exists the server responds with
 include::{generated}/lg/shall_findby_name/http-response.adoc[]
@@ -54,7 +54,7 @@ Send a HTTP `GET` request with a list of unique `LocationGroup` names
 include::{generated}/lg/shall_findby_names/http-request.adoc[]
 
 Request parameters:
-include::{generated}/lg/shall_findby_names/request-parameters.adoc[]
+include::{generated}/lg/shall_findby_names/query-parameters.adoc[]
 
 The server sends back a list of all `LocationGroups` or an empty list if no `LocationGroups` exist.
 include::{generated}/lg/shall_findby_names/http-response.adoc[]
@@ -82,7 +82,7 @@ Request path variables
 include::{generated}/lg/shall_change_state_p-key/path-parameters.adoc[]
 
 Request parameters
-include::{generated}/lg/shall_change_state_p-key/request-parameters.adoc[]
+include::{generated}/lg/shall_change_state_p-key/query-parameters.adoc[]
 
 If the state change operation could be processed successfully, the server responds with
 include::{generated}/lg/shall_change_state_p-key/http-response.adoc[]
@@ -96,7 +96,7 @@ is directly passed to the API.
 include::{generated}/lg/shall_change_state/http-request.adoc[]
 
 Request parameters:
-include::{generated}/lg/shall_change_state/request-parameters.adoc[]
+include::{generated}/lg/shall_change_state/query-parameters.adoc[]
 
 The server response is:
 include::{generated}/lg/shall_change_state/http-response.adoc[]

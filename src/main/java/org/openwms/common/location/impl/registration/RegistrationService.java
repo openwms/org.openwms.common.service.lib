@@ -15,9 +15,9 @@
  */
 package org.openwms.common.location.impl.registration;
 
+import jakarta.validation.constraints.NotNull;
 import org.openwms.common.location.api.commands.LocationReplicaRegistration;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**

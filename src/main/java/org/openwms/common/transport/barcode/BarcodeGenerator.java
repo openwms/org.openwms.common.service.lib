@@ -15,8 +15,8 @@
  */
 package org.openwms.common.transport.barcode;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * A BarcodeGenerator.

@@ -16,6 +16,7 @@
 package org.openwms.common.transport.impl;
 
 import org.ameba.exception.NotFoundException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestData;
@@ -28,9 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Profile;
-import org.springframework.test.annotation.Rollback;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -42,8 +41,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @CommonApplicationTest
-@Transactional
-@Rollback
 class TransportUnitServiceImplAsyncIT {
 
     @Autowired
@@ -52,9 +49,20 @@ class TransportUnitServiceImplAsyncIT {
     private TransportUnitService testee;
     @MockBean
     private AsyncTransactionApi transactionApi;
+    @Autowired
+    private TransactionTemplate txTemplate;
+
+    @BeforeEach
+    void onSetup() {
+        System.setProperty("org.openwms.common.transport.BarcodeFormatProvider", "org.openwms.common.transport.ConfiguredBarcodeFormat");
+        System.setProperty("owms.common.barcode.pattern", "%s");
+        System.setProperty("owms.common.barcode.padder", "0");
+    }
 
     @Test void shall_trigger_deletion() {
-        assertThat(testee.findByPKey(TestData.TU_1_PKEY)).isNotNull();
+        var tu = testee.findByPKey(TestData.TU_1_PKEY);
+        assertThat(tu).isNotNull();
+        txTemplate.execute(c -> {
         var command = TUCommand.newBuilder(TUCommand.Type.REMOVE)
                 .withTransportUnit(
                         TransportUnitMO.newBuilder().withPKey(TestData.TU_1_PKEY).build()
@@ -62,5 +70,8 @@ class TransportUnitServiceImplAsyncIT {
                 .build();
         publisher.publishEvent(command);
         assertThatThrownBy(() -> testee.findByPKey(TestData.TU_1_PKEY)).isInstanceOf(NotFoundException.class);
+            c.setRollbackOnly();
+            return c;
+        });
     }
 }

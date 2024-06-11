@@ -15,8 +15,10 @@
  */
 package org.openwms.common.location.impl;
 
+import jakarta.persistence.EntityManager;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.TestBase;
@@ -29,8 +31,7 @@ import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import javax.persistence.EntityManager;
-import java.util.Optional;
+import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -57,6 +58,14 @@ class LocationServiceImplIT extends TestBase {
     private AsyncTransactionApi transactionApi;
     @Autowired
     private EntityManager em;
+
+    /**
+     * Specify the Locale explicitly because translated exception messages are verified.
+     */
+    @BeforeAll
+    static void onBeforeAll() {
+        Locale.setDefault(Locale.ENGLISH);
+    }
 
     @Test void shall_throw_create_with_null() {
         assertThatThrownBy(() -> testee.create(null)).isInstanceOf(ServiceLayerException.class);
@@ -106,7 +115,7 @@ class LocationServiceImplIT extends TestBase {
     }
 
     @Test void shall_find_existing_by_ID() {
-        Optional<Location> byLocationId = testee.findByLocationPk(LocationPK.fromString(TestData.LOCATION_ID_EXT));
+        var byLocationId = testee.findByLocationPk(LocationPK.fromString(TestData.LOCATION_ID_EXT));
 
         assertThat(byLocationId).isNotEmpty();
         assertThat(byLocationId.get().getLocationId()).isEqualTo(LocationPK.fromString(TestData.LOCATION_ID_EXT));
@@ -119,12 +128,12 @@ class LocationServiceImplIT extends TestBase {
 
     @Test void shall_modify_existing_one() {
         // arrange
-        Location existing = em.find(Location.class, TestData.LOCATION_PK_EXT);
+        var existing = em.find(Location.class, TestData.LOCATION_PK_EXT);
         existing.setPlcState(111);
         existing = em.merge(existing);
 
         // act
-        Location updated = testee.save(existing);
+        var updated = testee.save(existing);
 
         // assert
         assertThat(updated.getPlcState()).isEqualTo(111);
@@ -132,7 +141,7 @@ class LocationServiceImplIT extends TestBase {
 
     @Test void shall_fail_modifying_new_one() {
         // arrange
-        Location newOne = Location.create(LocationPK.fromString("UNKOWN/UNKOWN/UNKOWN/UNKOWN/UNKOWN"));
+        var newOne = Location.create(LocationPK.fromString("UNKOWN/UNKOWN/UNKOWN/UNKOWN/UNKOWN"));
 
         // act & assert
         assertThrows(NotFoundException.class, () -> testee.save(newOne));

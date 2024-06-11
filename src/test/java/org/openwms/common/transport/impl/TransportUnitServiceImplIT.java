@@ -15,10 +15,12 @@
  */
 package org.openwms.common.transport.impl;
 
+import jakarta.persistence.EntityManager;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ResourceExistsException;
 import org.ameba.exception.ServiceLayerException;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonApplicationTest;
@@ -35,9 +37,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -59,6 +61,14 @@ class TransportUnitServiceImplIT {
     private BarcodeGenerator generator;
     @MockBean
     private AsyncTransactionApi transactionApi;
+
+    /**
+     * Specify the Locale explicitly because translated exception messages are verified.
+     */
+    @BeforeAll
+    static void onBeforeAll() {
+        Locale.setDefault(Locale.ENGLISH);
+    }
 
     @BeforeEach
     void onSetup() {

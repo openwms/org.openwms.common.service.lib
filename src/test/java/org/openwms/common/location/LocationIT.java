@@ -15,14 +15,13 @@
  */
 package org.openwms.common.location;
 
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.openwms.common.CommonDataTest;
 import org.openwms.common.location.impl.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
-
-import javax.validation.ConstraintViolationException;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;

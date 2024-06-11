@@ -53,7 +53,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -128,7 +128,7 @@ class TransportUnitControllerDocumentation {
                 .queryParam("strict", "false"))
                 .andDo(document("tu-create-simple",
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("bk").description("The identifying Barcode of the TransportUnit"),
                                 parameterWithName("actualLocation").description("The Location where to book on the TransportUnit initially"),
                                 parameterWithName("tut").description("The name of the TransportUnitType assigned to the TransportUnit"),
@@ -161,7 +161,7 @@ class TransportUnitControllerDocumentation {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(document("tu-create-full",
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("bk").description("The identifying Barcode of the TransportUnit"),
                                 parameterWithName("strict").description("If true, the service fails if the TransportUnit already exist, if false it does not fail and returns the existing one")
                         )
@@ -206,7 +206,7 @@ class TransportUnitControllerDocumentation {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(document("tu-update",
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("bk").description("The identifying Barcode of the TransportUnit")
                         )
                 ))
@@ -234,7 +234,7 @@ class TransportUnitControllerDocumentation {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(document("tu-update-404",
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("bk").description("The identifying Barcode of the TransportUnit")
                         )
                 ))
@@ -250,7 +250,7 @@ class TransportUnitControllerDocumentation {
                 )
                 .andDo(document("tu-move",
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("bk").description("The identifying Barcode of the TransportUnit"),
                                 parameterWithName("newLocation").description("The target Location where to move the TransportUnit to")
                         )
@@ -265,7 +265,7 @@ class TransportUnitControllerDocumentation {
                 .queryParam("errorCode", "bla"))
                 .andDo(document("tu-add-error",
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("bk").description("The identifying Barcode of the TransportUnit"),
                                 parameterWithName("errorCode").description("The error text")
                         )
@@ -300,7 +300,7 @@ class TransportUnitControllerDocumentation {
                 .queryParam("bk", TU_1_ID))
                 .andDo(document("tu-find-by-barcode",
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("bk").description("The identifying Barcode of the TransportUnit")
                         )
                 ))
@@ -314,7 +314,7 @@ class TransportUnitControllerDocumentation {
                 .queryParam("bk", "4711"))
                 .andDo(document("tu-find-by-barcode-short",
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("bk").description("The identifying Barcode of the TransportUnit")
                         )
                 ))
@@ -338,7 +338,7 @@ class TransportUnitControllerDocumentation {
                 .queryParam("bks", "00000000000000004713"))
                 .andDo(document("tu-find-by-barcodes",
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("bks").description("A set of identifying Barcodes of the TransportUnit to search for")
                                 )
                 ))
@@ -351,7 +351,7 @@ class TransportUnitControllerDocumentation {
                 .queryParam("actualLocation", "FGIN/IPNT/0001/0000/0000"))
                 .andDo(document("tu-find-on-location",
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("actualLocation").description("The Location to find all TransportUnits booked on")
                                 )
                 ))
@@ -367,7 +367,7 @@ class TransportUnitControllerDocumentation {
                 .queryParam("bk", TU_1_ID))
                 .andDo(document("tu-block",
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("bk").description("The identifying Barcode of the TransportUnit")
                         )
                 ))
@@ -381,7 +381,7 @@ class TransportUnitControllerDocumentation {
                 .queryParam("bk", TU_1_ID))
                 .andDo(document("tu-unblock",
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("bk").description("The identifying Barcode of the TransportUnit")
                                 )
                 ))
@@ -396,7 +396,7 @@ class TransportUnitControllerDocumentation {
                         .queryParam("bk", TU_1_ID))
                 .andDo(document("tu-quality-check",
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("bk").description("The identifying Barcode of the TransportUnit")
                         )
                 ))

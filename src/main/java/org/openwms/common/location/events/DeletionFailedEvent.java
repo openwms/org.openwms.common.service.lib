@@ -15,9 +15,9 @@
  */
 package org.openwms.common.location.events;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.context.ApplicationEvent;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**

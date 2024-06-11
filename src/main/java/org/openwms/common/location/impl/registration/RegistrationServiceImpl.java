@@ -15,12 +15,12 @@
  */
 package org.openwms.common.location.impl.registration;
 
+import jakarta.validation.constraints.NotNull;
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.openwms.common.location.api.commands.LocationReplicaRegistration;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 

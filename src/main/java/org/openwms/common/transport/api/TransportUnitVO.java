@@ -19,17 +19,15 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.ameba.http.AbstractBase;
 import org.openwms.common.location.api.LocationVO;
 import org.openwms.core.units.api.Weight;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
-
-import static org.openwms.common.transport.api.TransportApiConstants.DATETIME_FORMAT_ZULU;
 
 /**
  * A TransportUnitVO.
@@ -84,11 +82,6 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATETIME_FORMAT_ZULU) // required
     private LocalDateTime actualLocationDate;
 
-    /** Timestamp when the {@code TransportUnit} has been created. */
-    @JsonProperty("createDt")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATETIME_FORMAT_ZULU) // required
-    private LocalDateTime createDate;
-
     /*~-------------------- constructors --------------------*/
     @JsonCreator
     public TransportUnitVO() {}
@@ -110,7 +103,7 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
         actualLocation = builder.actualLocation;
         transportUnitType = builder.transportUnitType;
         actualLocationDate = builder.actualLocationDate;
-        createDate = builder.createDate;
+        super.setCreateDt(builder.createDate);
     }
 
     public static Builder newBuilder() {
@@ -194,15 +187,6 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
         this.actualLocationDate = actualLocationDate;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-
-
     /**
      * {@inheritDoc}
      *
@@ -214,7 +198,7 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
         if (!(o instanceof TransportUnitVO)) return false;
         if (!super.equals(o)) return false;
         var that = (TransportUnitVO) o;
-        return Objects.equals(pKey, that.pKey) && Objects.equals(barcode, that.barcode) && Objects.equals(groupId, that.groupId) && Objects.equals(actualLocation, that.actualLocation) && Objects.equals(targetLocation, that.targetLocation) && Objects.equals(state, that.state) && Objects.equals(transportUnitType, that.transportUnitType) && Objects.equals(weight, that.weight) && Objects.equals(actualLocationDate, that.actualLocationDate) && Objects.equals(createDate, that.createDate);
+        return Objects.equals(pKey, that.pKey) && Objects.equals(barcode, that.barcode) && Objects.equals(groupId, that.groupId) && Objects.equals(actualLocation, that.actualLocation) && Objects.equals(targetLocation, that.targetLocation) && Objects.equals(state, that.state) && Objects.equals(transportUnitType, that.transportUnitType) && Objects.equals(weight, that.weight) && Objects.equals(actualLocationDate, that.actualLocationDate);
     }
 
     /**
@@ -224,7 +208,7 @@ public class TransportUnitVO extends AbstractBase<TransportUnitVO> implements Se
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), pKey, barcode, groupId, actualLocation, targetLocation, state, transportUnitType, weight, actualLocationDate, createDate);
+        return Objects.hash(super.hashCode(), pKey, barcode, groupId, actualLocation, targetLocation, state, transportUnitType, weight, actualLocationDate);
     }
 
     /*~-------------------- Builder --------------------*/

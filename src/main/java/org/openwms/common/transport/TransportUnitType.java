@@ -15,17 +15,17 @@
  */
 package org.openwms.common.transport;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import org.ameba.integration.jpa.ApplicationEntity;
 import org.openwms.common.location.LocationType;
 import org.springframework.util.Assert;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collections;

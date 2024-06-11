@@ -6,11 +6,11 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>25</version>
+        <version>26</version>
         <relativePath />
     </parent>
     <artifactId>org.openwms.common.service.lib</artifactId>
-    <version>2.1.0-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
     <name>OpenWMS.org COMMON: Base Service Library</name>
     <description>A library with essential functionality on common resources like Locations, LocationGroups and TransportUnits</description>
     <url>https://openwms.github.io/${project.artifactId}/index.html</url>
@@ -66,12 +66,10 @@
     </ciManagement>
 
     <properties>
-        <checker-qual.version>3.33.0</checker-qual.version>
-        <core.units.version>0.5.1-SNAPSHOT</core.units.version>
-        <core.version>2.1.0-SNAPSHOT</core.version>
+        <core.units.version>0.7.0-SNAPSHOT</core.units.version>
+        <core.version>3.0.0-SNAPSHOT</core.version>
         <guava.version>32.0.0-jre</guava.version>
-        <indriya.version>2.0</indriya.version>
-        <spring-cloud-dependencies.version>2021.0.8</spring-cloud-dependencies.version>
+        <spring-cloud-dependencies.version>2023.0.1</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
     </properties>
 
@@ -185,12 +183,6 @@
                 <version>${guava.version}</version>
             </dependency>
             <dependency>
-                <!-- Clash between Guava and postgres driver -->
-                <groupId>org.checkerframework</groupId>
-                <artifactId>checker-qual</artifactId>
-                <version>${checker-qual.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.openwms</groupId>
                 <artifactId>org.openwms.core.units</artifactId>
                 <version>${core.units.version}</version>
@@ -206,11 +198,6 @@
                 <version>${spring-cloud-dependencies.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>tech.units</groupId>
-                <artifactId>indriya</artifactId>
-                <version>${indriya.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -300,16 +287,6 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-envers</artifactId>
             <optional>true</optional>
@@ -332,6 +309,16 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
             <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-reporter-brave</artifactId>
             <optional>true</optional>
         </dependency>
 
@@ -361,27 +348,27 @@
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.querydsl</groupId>
-			<artifactId>querydsl-apt</artifactId>
-			<scope>provided</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.querydsl</groupId>
-			<artifactId>querydsl-collections</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.querydsl</groupId>
-			<artifactId>querydsl-core</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.querydsl</groupId>
-			<artifactId>querydsl-jpa</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-collections</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-core</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -426,11 +413,6 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>tech.units</groupId>
-            <artifactId>indriya</artifactId>
             <optional>true</optional>
         </dependency>
 

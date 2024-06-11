@@ -15,9 +15,11 @@
  */
 package org.openwms.common.app;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * A CommonSecurityConfiguration.
@@ -25,18 +27,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * @author Heiko Scherrer
  */
 @Configuration
-class CommonSecurityConfiguration extends WebSecurityConfigurerAdapter {
+class CommonSecurityConfiguration {
 
     /**
      * {@inheritDoc}
      * <p>
-     * API is for non browser clients!
+     * API is for non browser clients and access control is handled at the API Gateway!
      */
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests().anyRequest().permitAll()
-                .and()
-                .csrf().disable();
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(x -> x.anyRequest().permitAll()).csrf(AbstractHttpConfigurer::disable);
+        return http.build();
     }
 }

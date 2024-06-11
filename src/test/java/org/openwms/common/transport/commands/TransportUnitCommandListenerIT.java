@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport.commands;
 
+import jakarta.transaction.Transactional;
 import org.ameba.exception.NotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +41,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;

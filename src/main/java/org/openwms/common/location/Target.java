@@ -15,11 +15,10 @@
  */
 package org.openwms.common.location;
 
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.MappedSuperclass;
 import org.ameba.integration.jpa.ApplicationEntity;
-
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
 
 /**
  * A Target is either a physical or a logical endpoint of any kind of warehouse order. A {@code TransportOrder} has a Target assigned, where

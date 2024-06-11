@@ -15,9 +15,9 @@
  */
 package org.openwms.common.transport.api.messages;
 
+import jakarta.validation.constraints.NotNull;
 import org.openwms.common.transport.api.ValidationGroups;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 

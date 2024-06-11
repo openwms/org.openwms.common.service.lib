@@ -16,6 +16,7 @@
 package org.openwms.common.location;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -38,7 +39,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -62,7 +62,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -139,7 +139,7 @@ class LocationGroupControllerDocumentation {
                     .andExpect(jsonPath("createDt").exists())
                     .andDo(
                             documentationResultHandler.document(
-                                    requestParameters(
+                                    queryParameters(
                                             parameterWithName("name").description("The unique name of the LocationGroup")
                                     ),
                                     responseFields(
@@ -198,7 +198,7 @@ class LocationGroupControllerDocumentation {
                     .andExpect(jsonPath("$[1].links").exists())
                     .andDo(
                             documentationResultHandler.document(
-                                    requestParameters(
+                                    queryParameters(
                                             parameterWithName("names").description("A list of unique names to identify the LocationGroups")
                                     ),
                                     httpRequest(), httpResponse()
@@ -358,7 +358,7 @@ class LocationGroupControllerDocumentation {
                     .andExpect(status().isOk())
                     .andDo(
                             documentationResultHandler.document(
-                                    requestParameters(
+                                    queryParameters(
                                             parameterWithName("name").description("The unique name of the LocationGroup"),
                                             parameterWithName("op").description("The operation mode must be set to 'change-state'")
                                     ),
@@ -383,7 +383,7 @@ class LocationGroupControllerDocumentation {
                                     pathParameters(
                                             parameterWithName("pKey").description("The persistent key of the LocationGroup")
                                     ),
-                                    requestParameters(
+                                    queryParameters(
                                             parameterWithName("statein").description("The infeed state to set"),
                                             parameterWithName("stateout").description("The outfeed state to set"),
                                             parameterWithName("op").description("The operation mode must be set to 'change-state'")

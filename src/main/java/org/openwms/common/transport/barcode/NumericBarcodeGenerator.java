@@ -15,10 +15,10 @@
  */
 package org.openwms.common.transport.barcode;
 
+import jakarta.validation.constraints.NotNull;
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 
-import javax.validation.constraints.NotNull;
 import java.util.Optional;
 import java.util.ServiceLoader;
 
