@@ -15,8 +15,9 @@
  */
 package org.openwms.common.transport.api.commands;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -28,9 +29,9 @@ import java.time.LocalDateTime;
  */
 public class MessageCommand implements Command&lt;MessageCommand.Type&gt;, Serializable {
 
-<span class="nc" id="L31">    public enum Type {</span>
+<span class="nc" id="L32">    public enum Type {</span>
         /** Add a message to a TransportUnit. */
-<span class="nc" id="L33">        ADD_TO_TU</span>
+<span class="nc" id="L34">        ADD_TO_TU</span>
     }
 
     @NotNull
@@ -44,64 +45,64 @@ public class MessageCommand implements Command&lt;MessageCommand.Type&gt;, Seria
 
     /*~-------------------- constructors --------------------*/
     @ConstructorProperties({&quot;type&quot;, &quot;messageText&quot;})
-<span class="nc" id="L47">    protected MessageCommand(Type type, String messageText) {</span>
-<span class="nc" id="L48">        this.type = type;</span>
-<span class="nc" id="L49">        this.messageText = messageText;</span>
-<span class="nc" id="L50">    }</span>
+<span class="nc" id="L48">    protected MessageCommand(Type type, String messageText) {</span>
+<span class="nc" id="L49">        this.type = type;</span>
+<span class="nc" id="L50">        this.messageText = messageText;</span>
+<span class="nc" id="L51">    }</span>
 
-<span class="nc" id="L52">    private MessageCommand(Builder builder) {</span>
-<span class="nc" id="L53">        type = builder.type;</span>
-<span class="nc" id="L54">        transportUnitId = builder.transportUnitId;</span>
-<span class="nc" id="L55">        messageText = builder.messageText;</span>
-<span class="nc" id="L56">        messageNumber = builder.messageNumber;</span>
-<span class="nc" id="L57">        messageOccurred = builder.messageOccurred;</span>
-<span class="nc" id="L58">    }</span>
+<span class="nc" id="L53">    private MessageCommand(Builder builder) {</span>
+<span class="nc" id="L54">        type = builder.type;</span>
+<span class="nc" id="L55">        transportUnitId = builder.transportUnitId;</span>
+<span class="nc" id="L56">        messageText = builder.messageText;</span>
+<span class="nc" id="L57">        messageNumber = builder.messageNumber;</span>
+<span class="nc" id="L58">        messageOccurred = builder.messageOccurred;</span>
+<span class="nc" id="L59">    }</span>
 
     /*~-------------------- methods --------------------*/
     public static Builder newBuilder(Type type) {
-<span class="nc" id="L62">        return new Builder(type);</span>
+<span class="nc" id="L63">        return new Builder(type);</span>
     }
 
     /*~-------------------- accessors --------------------*/
     public Type getType() {
-<span class="nc" id="L67">        return type;</span>
+<span class="nc" id="L68">        return type;</span>
     }
 
     public void setType(Type type) {
-<span class="nc" id="L71">        this.type = type;</span>
-<span class="nc" id="L72">    }</span>
+<span class="nc" id="L72">        this.type = type;</span>
+<span class="nc" id="L73">    }</span>
 
     public String getTransportUnitId() {
-<span class="nc" id="L75">        return transportUnitId;</span>
+<span class="nc" id="L76">        return transportUnitId;</span>
     }
 
     public void setTransportUnitId(String transportUnitId) {
-<span class="nc" id="L79">        this.transportUnitId = transportUnitId;</span>
-<span class="nc" id="L80">    }</span>
+<span class="nc" id="L80">        this.transportUnitId = transportUnitId;</span>
+<span class="nc" id="L81">    }</span>
 
     public String getMessageText() {
-<span class="nc" id="L83">        return messageText;</span>
+<span class="nc" id="L84">        return messageText;</span>
     }
 
     public void setMessageText(String messageText) {
-<span class="nc" id="L87">        this.messageText = messageText;</span>
-<span class="nc" id="L88">    }</span>
+<span class="nc" id="L88">        this.messageText = messageText;</span>
+<span class="nc" id="L89">    }</span>
 
     public String getMessageNumber() {
-<span class="nc" id="L91">        return messageNumber;</span>
+<span class="nc" id="L92">        return messageNumber;</span>
     }
 
     public void setMessageNumber(String messageNumber) {
-<span class="nc" id="L95">        this.messageNumber = messageNumber;</span>
-<span class="nc" id="L96">    }</span>
+<span class="nc" id="L96">        this.messageNumber = messageNumber;</span>
+<span class="nc" id="L97">    }</span>
 
     public LocalDateTime getMessageOccurred() {
-<span class="nc" id="L99">        return messageOccurred;</span>
+<span class="nc" id="L100">        return messageOccurred;</span>
     }
 
     public void setMessageOccurred(LocalDateTime messageOccurred) {
-<span class="nc" id="L103">        this.messageOccurred = messageOccurred;</span>
-<span class="nc" id="L104">    }</span>
+<span class="nc" id="L104">        this.messageOccurred = messageOccurred;</span>
+<span class="nc" id="L105">    }</span>
 
     public static final class Builder {
         private Type type;
@@ -110,32 +111,32 @@ public class MessageCommand implements Command&lt;MessageCommand.Type&gt;, Seria
         private String messageNumber;
         private LocalDateTime messageOccurred;
 
-<span class="nc" id="L113">        private Builder(Type type) {</span>
-<span class="nc" id="L114">            this.type = type;</span>
-<span class="nc" id="L115">        }</span>
+<span class="nc" id="L114">        private Builder(Type type) {</span>
+<span class="nc" id="L115">            this.type = type;</span>
+<span class="nc" id="L116">        }</span>
 
         public Builder withTransportUnitId(String val) {
-<span class="nc" id="L118">            transportUnitId = val;</span>
-<span class="nc" id="L119">            return this;</span>
+<span class="nc" id="L119">            transportUnitId = val;</span>
+<span class="nc" id="L120">            return this;</span>
         }
 
         public Builder withMessageText(@NotEmpty String val) {
-<span class="nc" id="L123">            messageText = val;</span>
-<span class="nc" id="L124">            return this;</span>
+<span class="nc" id="L124">            messageText = val;</span>
+<span class="nc" id="L125">            return this;</span>
         }
 
         public Builder withMessageNumber(String val) {
-<span class="nc" id="L128">            messageNumber = val;</span>
-<span class="nc" id="L129">            return this;</span>
+<span class="nc" id="L129">            messageNumber = val;</span>
+<span class="nc" id="L130">            return this;</span>
         }
 
         public Builder withMessageOccurred(LocalDateTime val) {
-<span class="nc" id="L133">            messageOccurred = val;</span>
-<span class="nc" id="L134">            return this;</span>
+<span class="nc" id="L134">            messageOccurred = val;</span>
+<span class="nc" id="L135">            return this;</span>
         }
 
         public MessageCommand build() {
-<span class="nc" id="L138">            return new MessageCommand(this);</span>
+<span class="nc" id="L139">            return new MessageCommand(this);</span>
         }
     }
 }

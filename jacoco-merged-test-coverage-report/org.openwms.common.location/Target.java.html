@@ -15,11 +15,10 @@
  */
 package org.openwms.common.location;
 
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.MappedSuperclass;
 import org.ameba.integration.jpa.ApplicationEntity;
-
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
 
 /**
  * A Target is either a physical or a logical endpoint of any kind of warehouse order. A {@code TransportOrder} has a Target assigned, where
@@ -30,6 +29,6 @@ import javax.persistence.MappedSuperclass;
  */
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-<span class="fc" id="L33">public abstract class Target extends ApplicationEntity {</span>
+<span class="fc" id="L32">public abstract class Target extends ApplicationEntity {</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

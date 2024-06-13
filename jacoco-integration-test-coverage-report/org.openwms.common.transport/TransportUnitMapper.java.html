@@ -55,7 +55,7 @@ import java.util.List;
     @Mapping(target = &quot;pKey&quot;, source = &quot;eo.persistentKey&quot;)
     @Mapping(target = &quot;barcode&quot;, source = &quot;eo.barcode.value&quot;)
     @Mapping(target = &quot;transportUnitType&quot;, source = &quot;eo.transportUnitType.type&quot;)
-    @Mapping(target = &quot;createDate&quot;, source = &quot;eo.createDt&quot;)
+    @Mapping(target = &quot;createDt&quot;, source = &quot;eo.createDt&quot;)
     public abstract TransportUnitVO convertToVO(TransportUnit eo);
 
     public abstract List&lt;TransportUnitVO&gt; convertToVO(List&lt;TransportUnit&gt; eo);

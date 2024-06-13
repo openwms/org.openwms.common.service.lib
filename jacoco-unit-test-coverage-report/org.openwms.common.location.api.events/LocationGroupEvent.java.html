@@ -15,10 +15,10 @@
  */
 package org.openwms.common.location.api.events;
 
+import jakarta.validation.constraints.NotNull;
 import org.openwms.core.event.RootApplicationEvent;
 import org.springframework.util.Assert;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**

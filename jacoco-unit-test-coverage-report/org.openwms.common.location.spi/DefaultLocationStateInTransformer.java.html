@@ -15,13 +15,13 @@
  */
 package org.openwms.common.location.spi;
 
+import jakarta.validation.constraints.NotEmpty;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import javax.validation.constraints.NotEmpty;
 import java.util.Optional;
 
 /**

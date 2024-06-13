@@ -15,17 +15,17 @@
  */
 package org.openwms.common.transport;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import org.ameba.integration.jpa.ApplicationEntity;
 import org.openwms.common.location.LocationType;
 import org.springframework.util.Assert;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -322,8 +322,8 @@ public class TransportUnitType extends ApplicationEntity implements Serializable
      * @return {@literal true} when the rule was removed gracefully, otherwise {@literal false}
      */
     public boolean removeTypePlacingRule(TypePlacingRule typePlacingRule) {
-<span class="nc" id="L325">        Assert.notNull(typePlacingRule, &quot;typePlacingRule to remove is null, this: &quot; + this);</span>
-<span class="nc" id="L326">        return typePlacingRules.remove(typePlacingRule);</span>
+<span class="fc" id="L325">        Assert.notNull(typePlacingRule, &quot;typePlacingRule to remove is null, this: &quot; + this);</span>
+<span class="fc" id="L326">        return typePlacingRules.remove(typePlacingRule);</span>
     }
 
     /**
@@ -431,7 +431,7 @@ public class TransportUnitType extends ApplicationEntity implements Serializable
      */
     @Override
     public boolean equals(Object o) {
-<span class="pc bpc" id="L434" title="1 of 2 branches missed.">        if (this == o) return true;</span>
+<span class="fc bfc" id="L434" title="All 2 branches covered.">        if (this == o) return true;</span>
 <span class="pc bpc" id="L435" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
 <span class="fc" id="L436">        TransportUnitType that = (TransportUnitType) o;</span>
 <span class="fc" id="L437">        return Objects.equals(type, that.type);</span>

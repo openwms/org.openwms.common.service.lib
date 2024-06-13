@@ -15,16 +15,16 @@
  */
 package org.openwms.common.transport;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import org.ameba.integration.jpa.BaseEntity;
 import org.openwms.common.location.LocationType;
 import org.springframework.util.Assert;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -129,12 +129,12 @@ public class TypePlacingRule extends BaseEntity implements Serializable, Rule {
      */
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L132" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L133" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L134">        TypePlacingRule that = (TypePlacingRule) o;</span>
-<span class="nc bnc" id="L135" title="All 2 branches missed.">        return privilegeLevel == that.privilegeLevel &amp;&amp;</span>
-<span class="nc bnc" id="L136" title="All 2 branches missed.">                Objects.equals(transportUnitType, that.transportUnitType) &amp;&amp;</span>
-<span class="nc bnc" id="L137" title="All 2 branches missed.">                Objects.equals(allowedLocationType, that.allowedLocationType);</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L133" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L134">        TypePlacingRule that = (TypePlacingRule) o;</span>
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">        return privilegeLevel == that.privilegeLevel &amp;&amp;</span>
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">                Objects.equals(transportUnitType, that.transportUnitType) &amp;&amp;</span>
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">                Objects.equals(allowedLocationType, that.allowedLocationType);</span>
     }
 
     /**

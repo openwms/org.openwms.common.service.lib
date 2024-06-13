@@ -15,13 +15,13 @@
  */
 package org.openwms.common.account;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotEmpty;
 import org.ameba.integration.jpa.ApplicationEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -95,12 +95,12 @@ import java.util.Objects;
      */
     @Override
     public boolean equals(Object o) {
-<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        if (this == o) return true;</span>
-<span class="pc bpc" id="L99" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="fc" id="L100">        Account account = (Account) o;</span>
-<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        return defaultAccount == account.defaultAccount &amp;&amp;</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L99" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L100">        Account account = (Account) o;</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        return defaultAccount == account.defaultAccount &amp;&amp;</span>
 <span class="nc bnc" id="L102" title="All 2 branches missed.">                Objects.equals(identifier, account.identifier) &amp;&amp;</span>
-<span class="pc bnc" id="L103" title="All 2 branches missed.">                Objects.equals(name, account.name);</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">                Objects.equals(name, account.name);</span>
     }
 
     /**

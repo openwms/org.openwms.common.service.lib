@@ -15,11 +15,11 @@
  */
 package org.openwms.common.transport.barcode;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 

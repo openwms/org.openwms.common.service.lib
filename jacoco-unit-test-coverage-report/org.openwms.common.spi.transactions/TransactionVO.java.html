@@ -17,11 +17,11 @@ package org.openwms.common.spi.transactions;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Size;
 import org.ameba.http.AbstractBase;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Null;
-import javax.validation.constraints.Size;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

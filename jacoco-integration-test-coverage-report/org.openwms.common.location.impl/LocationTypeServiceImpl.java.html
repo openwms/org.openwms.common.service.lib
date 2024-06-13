@@ -15,6 +15,8 @@
  */
 package org.openwms.common.location.impl;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
@@ -24,8 +26,6 @@ import org.openwms.common.location.LocationTypeService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,11 +91,11 @@ class LocationTypeServiceImpl implements LocationTypeService {
     @Override
     @Measured
     public void delete(@NotNull List&lt;LocationType&gt; locationTypes) {
-<span class="nc" id="L94">        locationTypes.forEach(</span>
-<span class="nc" id="L95">                locationType -&gt; repository</span>
-<span class="nc" id="L96">                        .findByType(locationType.getType())</span>
-<span class="nc" id="L97">                        .ifPresent(t -&gt; repository.deleteById(t.getPk())));</span>
-<span class="nc" id="L98">    }</span>
+<span class="fc" id="L94">        locationTypes.forEach(</span>
+<span class="fc" id="L95">                locationType -&gt; repository</span>
+<span class="fc" id="L96">                        .findByType(locationType.getType())</span>
+<span class="fc" id="L97">                        .ifPresent(t -&gt; repository.deleteById(t.getPk())));</span>
+<span class="fc" id="L98">    }</span>
 
     /**
      * {@inheritDoc}
@@ -103,7 +103,7 @@ class LocationTypeServiceImpl implements LocationTypeService {
     @Override
     @Measured
     public @NotNull LocationType save(@NotNull LocationType locationType) {
-<span class="nc" id="L106">        return repository.save(locationType);</span>
+<span class="fc" id="L106">        return repository.save(locationType);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

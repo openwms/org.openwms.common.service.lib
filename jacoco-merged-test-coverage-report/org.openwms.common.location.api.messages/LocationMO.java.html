@@ -16,9 +16,9 @@
 package org.openwms.common.location.api.messages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 import org.openwms.common.location.api.ValidationGroups;
 
-import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -49,6 +49,10 @@ import java.io.Serializable;
         @JsonProperty(&quot;erpCode&quot;)
         String erpCode,
 
+        /* Name of the {@code LocationGroup} the {@code Location} belongs to. */
+        @JsonProperty(&quot;locationGroupName&quot;)
+        String locationGroupName,
+
         /* If the {@code Location} is available for inbound operations. */
         @JsonProperty(&quot;incomingActive&quot;)
         Boolean incomingActive,
@@ -64,15 +68,15 @@ import java.io.Serializable;
 ) implements Serializable {
 
     public static LocationMO ofPKey(String pKey) {
-<span class="nc" id="L67">        return new LocationMO(pKey, null, null, null, null, null, null, null);</span>
+<span class="nc" id="L71">        return new LocationMO(pKey, null, null, null, null, null, null, null, null);</span>
     }
 
     public static LocationMO ofId(String id) {
-<span class="nc" id="L71">        return new LocationMO(null, null, id, null, null, null, null, null);</span>
+<span class="nc" id="L75">        return new LocationMO(null, null, id, null, null, null, null, null, null);</span>
     }
 
     public static LocationMO ofErpCode(String erpCode) {
-<span class="nc" id="L75">        return new LocationMO(null, null, null, null, erpCode, null, null, null);</span>
+<span class="nc" id="L79">        return new LocationMO(null, null, null, null, erpCode, null,  null, null, null);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

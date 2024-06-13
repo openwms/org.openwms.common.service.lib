@@ -15,6 +15,7 @@
  */
 package org.openwms.common.location;
 
+import jakarta.validation.constraints.NotNull;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
@@ -23,7 +24,6 @@ import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.location.api.messages.LocationMO;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -66,40 +66,41 @@ public interface LocationMapper {
     @Mapping(target = &quot;id&quot;, expression = &quot;java( eo.getLocationId().toString() )&quot;)
     @Mapping(target = &quot;incomingActive&quot;, source = &quot;eo.infeedActive&quot;)
     @Mapping(target = &quot;outgoingActive&quot;, source = &quot;eo.outfeedActive&quot;)
+    @Mapping(target = &quot;locationGroupName&quot;, source = &quot;eo.locationGroup.name&quot;)
     LocationMO convertToMO(Location eo);
 
     default Location copyForUpdate(Location source, @NotNull Location target) {
-<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        if ( source == null ) {</span>
-<span class="nc" id="L73">            return target;</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        if ( source == null ) {</span>
+<span class="nc" id="L74">            return target;</span>
         }
 
-<span class="pc bpc" id="L76" title="1 of 2 branches missed.">        if (!source.getLocationId().equals(target.getLocationId())) {</span>
-<span class="nc" id="L77">            throw new IllegalArgumentException(format(&quot;Not allowed to change the LocationId from [%s] to [%s]&quot;, source.getLocationId(),</span>
-<span class="nc" id="L78">                    target.getLocationId()));</span>
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if (!source.getLocationId().equals(target.getLocationId())) {</span>
+<span class="nc" id="L78">            throw new IllegalArgumentException(format(&quot;Not allowed to change the LocationId from [%s] to [%s]&quot;, source.getLocationId(),</span>
+<span class="nc" id="L79">                    target.getLocationId()));</span>
         }
 
-<span class="fc" id="L81">        var builder = Location.LocationBuilder.aLocation(target);</span>
+<span class="fc" id="L82">        var builder = Location.LocationBuilder.aLocation(target);</span>
 
-<span class="fc" id="L83">        builder.withAccount( source.getAccount() )</span>
-<span class="fc" id="L84">                .withPlcCode( source.getPlcCode() )</span>
-<span class="fc" id="L85">                .withErpCode( source.getErpCode() )</span>
-<span class="fc" id="L86">                .withDescription( source.getDescription() )</span>
-<span class="fc" id="L87">                .withSortOrder( source.getSortOrder() )</span>
-<span class="fc" id="L88">                .withStockZone( source.getStockZone() )</span>
-<span class="fc" id="L89">                .withLabels( source.getLabels() )</span>
-<span class="fc" id="L90">                .withNoMaxTransportUnits( source.getNoMaxTransportUnits() )</span>
-<span class="fc" id="L91">                .withMaximumWeight( source.getMaximumWeight() )</span>
-<span class="fc" id="L92">                .withLastMovement( source.getLastMovement() )</span>
-<span class="fc" id="L93">                .withLocationType( source.getLocationType() )</span>
-<span class="fc" id="L94">                .withLocationGroupCountingActive( source.isLocationGroupCountingActive() )</span>
-<span class="fc" id="L95">                .withConsideredInAllocation( source.isConsideredInAllocation() )</span>
-<span class="fc" id="L96">                .withLocationType( source.getLocationType() )</span>
-<span class="fc" id="L97">                .withGroup( source.getGroup() )</span>
-<span class="fc" id="L98">                .withClassification( source.getClassification() )</span>
-<span class="fc" id="L99">                .withLocationGroup( source.getLocationGroup() )</span>
-<span class="fc" id="L100">                .withMessages( source.getMessages() );</span>
+<span class="fc" id="L84">        builder.withAccount( source.getAccount() )</span>
+<span class="fc" id="L85">                .withPlcCode( source.getPlcCode() )</span>
+<span class="fc" id="L86">                .withErpCode( source.getErpCode() )</span>
+<span class="fc" id="L87">                .withDescription( source.getDescription() )</span>
+<span class="fc" id="L88">                .withSortOrder( source.getSortOrder() )</span>
+<span class="fc" id="L89">                .withStockZone( source.getStockZone() )</span>
+<span class="fc" id="L90">                .withLabels( source.getLabels() )</span>
+<span class="fc" id="L91">                .withNoMaxTransportUnits( source.getNoMaxTransportUnits() )</span>
+<span class="fc" id="L92">                .withMaximumWeight( source.getMaximumWeight() )</span>
+<span class="fc" id="L93">                .withLastMovement( source.getLastMovement() )</span>
+<span class="fc" id="L94">                .withLocationType( source.getLocationType() )</span>
+<span class="fc" id="L95">                .withLocationGroupCountingActive( source.isLocationGroupCountingActive() )</span>
+<span class="fc" id="L96">                .withConsideredInAllocation( source.isConsideredInAllocation() )</span>
+<span class="fc" id="L97">                .withLocationType( source.getLocationType() )</span>
+<span class="fc" id="L98">                .withGroup( source.getGroup() )</span>
+<span class="fc" id="L99">                .withClassification( source.getClassification() )</span>
+<span class="fc" id="L100">                .withLocationGroup( source.getLocationGroup() )</span>
+<span class="fc" id="L101">                .withMessages( source.getMessages() );</span>
 
-<span class="fc" id="L102">        return builder.build();</span>
+<span class="fc" id="L103">        return builder.build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

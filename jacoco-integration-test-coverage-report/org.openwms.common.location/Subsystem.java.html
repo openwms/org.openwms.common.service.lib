@@ -15,9 +15,10 @@
  */
 package org.openwms.common.location;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.validation.constraints.NotEmpty;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotEmpty;
+
 import java.io.Serializable;
 
 /**
@@ -45,16 +46,16 @@ public class Subsystem implements Serializable {
 
     /*~ ----------------------------- constructors ------------------- */
     /** Dear JPA... */
-<span class="nc" id="L48">    protected Subsystem() { }</span>
+<span class="nc" id="L49">    protected Subsystem() { }</span>
 
-<span class="nc" id="L50">    public Subsystem(@NotEmpty String systemName) {</span>
-<span class="nc" id="L51">        this.systemName = systemName;</span>
-<span class="nc" id="L52">    }</span>
+<span class="nc" id="L51">    public Subsystem(@NotEmpty String systemName) {</span>
+<span class="nc" id="L52">        this.systemName = systemName;</span>
+<span class="nc" id="L53">    }</span>
 
-<span class="nc" id="L54">    public Subsystem(@NotEmpty String systemName, @NotEmpty String systemCode) {</span>
-<span class="nc" id="L55">        this.systemName = systemName;</span>
-<span class="nc" id="L56">        this.systemCode = systemCode;</span>
-<span class="nc" id="L57">    }</span>
+<span class="nc" id="L55">    public Subsystem(@NotEmpty String systemName, @NotEmpty String systemCode) {</span>
+<span class="nc" id="L56">        this.systemName = systemName;</span>
+<span class="nc" id="L57">        this.systemCode = systemCode;</span>
+<span class="nc" id="L58">    }</span>
 
     /*~ ----------------------------- accessors ------------------- */
     /**
@@ -63,7 +64,7 @@ public class Subsystem implements Serializable {
      * @return The systemName
      */
     public String getSystemName() {
-<span class="nc" id="L66">        return systemName;</span>
+<span class="nc" id="L67">        return systemName;</span>
     }
 
     /**
@@ -72,8 +73,8 @@ public class Subsystem implements Serializable {
      * @param systemName The systemName to set
      */
     public void setSystemName(String systemName) {
-<span class="nc" id="L75">        this.systemName = systemName;</span>
-<span class="nc" id="L76">    }</span>
+<span class="nc" id="L76">        this.systemName = systemName;</span>
+<span class="nc" id="L77">    }</span>
 
     /**
      * Returns the systemCode.
@@ -81,7 +82,7 @@ public class Subsystem implements Serializable {
      * @return The systemCode
      */
     public String getSystemCode() {
-<span class="nc" id="L84">        return systemCode;</span>
+<span class="nc" id="L85">        return systemCode;</span>
     }
 
     /**
@@ -90,8 +91,8 @@ public class Subsystem implements Serializable {
      * @param systemCode The systemCode to set
      */
     public void setSystemCode(String systemCode) {
-<span class="nc" id="L93">        this.systemCode = systemCode;</span>
-<span class="nc" id="L94">    }</span>
+<span class="nc" id="L94">        this.systemCode = systemCode;</span>
+<span class="nc" id="L95">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
