@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport.events;
 
+import org.ameba.annotation.Measured;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.TransportUnitTypeMapper;
 import org.openwms.core.SpringProfiles;
@@ -25,6 +26,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 /**
@@ -38,7 +41,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Component
 class TransportUnitTypeEventPropagator {
 
-<span class="fc" id="L41">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitTypeEventPropagator.class);</span>
+<span class="fc" id="L44">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitTypeEventPropagator.class);</span>
     private final AmqpTemplate amqpTemplate;
     private final String exchangeName;
     private final TransportUnitTypeMapper mapper;
@@ -46,20 +49,22 @@ class TransportUnitTypeEventPropagator {
     TransportUnitTypeEventPropagator(
             AmqpTemplate amqpTemplate,
             @Value(&quot;${owms.events.common.tut.exchange-name}&quot;) String exchangeName,
-<span class="fc" id="L49">            TransportUnitTypeMapper mapper) {</span>
-<span class="fc" id="L50">        this.amqpTemplate = amqpTemplate;</span>
-<span class="fc" id="L51">        this.exchangeName = exchangeName;</span>
-<span class="fc" id="L52">        this.mapper = mapper;</span>
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L52">            TransportUnitTypeMapper mapper) {</span>
+<span class="fc" id="L53">        this.amqpTemplate = amqpTemplate;</span>
+<span class="fc" id="L54">        this.exchangeName = exchangeName;</span>
+<span class="fc" id="L55">        this.mapper = mapper;</span>
+<span class="fc" id="L56">    }</span>
 
+    @Measured
     @TransactionalEventListener(fallbackExecution = true)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void onEvent(TransportUnitTypeEvent event) {
-<span class="nc bnc" id="L57" title="All 4 branches missed.">        switch (event.getType()) {</span>
-<span class="nc" id="L58">            case CREATED -&gt; amqpTemplate.convertAndSend(exchangeName, &quot;tut.event.created&quot;, mapper.convertToMO((TransportUnitType) event.getSource()));</span>
-<span class="nc" id="L59">            case CHANGED -&gt; amqpTemplate.convertAndSend(exchangeName, &quot;tut.event.changed&quot;, mapper.convertToMO((TransportUnitType) event.getSource()));</span>
-<span class="nc" id="L60">            case DELETED -&gt; amqpTemplate.convertAndSend(exchangeName, &quot;tut.event.deleted&quot;, mapper.convertToMO((TransportUnitType) event.getSource()));</span>
-<span class="nc" id="L61">            default -&gt; LOGGER.warn(&quot;TransportUnitTypeEvent [{}] not supported&quot;, event.getType());</span>
+<span class="nc bnc" id="L62" title="All 4 branches missed.">        switch (event.getType()) {</span>
+<span class="nc" id="L63">            case CREATED -&gt; amqpTemplate.convertAndSend(exchangeName, &quot;tut.event.created&quot;, mapper.convertToMO((TransportUnitType) event.getSource()));</span>
+<span class="nc" id="L64">            case CHANGED -&gt; amqpTemplate.convertAndSend(exchangeName, &quot;tut.event.changed&quot;, mapper.convertToMO((TransportUnitType) event.getSource()));</span>
+<span class="nc" id="L65">            case DELETED -&gt; amqpTemplate.convertAndSend(exchangeName, &quot;tut.event.deleted&quot;, mapper.convertToMO((TransportUnitType) event.getSource()));</span>
+<span class="nc" id="L66">            default -&gt; LOGGER.warn(&quot;TransportUnitTypeEvent [{}] not supported&quot;, event.getType());</span>
         }
-<span class="nc" id="L63">    }</span>
+<span class="nc" id="L68">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

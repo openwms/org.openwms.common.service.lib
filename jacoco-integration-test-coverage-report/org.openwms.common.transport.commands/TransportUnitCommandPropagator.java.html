@@ -17,6 +17,7 @@ package org.openwms.common.transport.commands;
 
 import jakarta.validation.ValidationException;
 import jakarta.validation.Validator;
+import org.ameba.annotation.Measured;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.core.SpringProfiles;
 import org.slf4j.Logger;
@@ -26,6 +27,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 /**
@@ -39,36 +42,38 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Component
 class TransportUnitCommandPropagator {
 
-<span class="fc" id="L42">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandPropagator.class);</span>
+<span class="fc" id="L45">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitCommandPropagator.class);</span>
     private final AmqpTemplate amqpTemplate;
     private final Validator validator;
     private final String exchangeName;
 
     TransportUnitCommandPropagator(AmqpTemplate amqpTemplate, Validator validator,
-<span class="fc" id="L48">            @Value(&quot;${owms.commands.common.tu.exchange-name}&quot;) String exchangeName) {</span>
-<span class="fc" id="L49">        this.amqpTemplate = amqpTemplate;</span>
-<span class="fc" id="L50">        this.validator = validator;</span>
-<span class="fc" id="L51">        this.exchangeName = exchangeName;</span>
-<span class="fc" id="L52">    }</span>
+<span class="fc" id="L51">            @Value(&quot;${owms.commands.common.tu.exchange-name}&quot;) String exchangeName) {</span>
+<span class="fc" id="L52">        this.amqpTemplate = amqpTemplate;</span>
+<span class="fc" id="L53">        this.validator = validator;</span>
+<span class="fc" id="L54">        this.exchangeName = exchangeName;</span>
+<span class="fc" id="L55">    }</span>
 
+    @Measured
     @TransactionalEventListener(fallbackExecution = true)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void onEvent(TUCommand command) {
-<span class="nc bnc" id="L56" title="All 3 branches missed.">        switch (command.getType()) {</span>
+<span class="nc bnc" id="L61" title="All 3 branches missed.">        switch (command.getType()) {</span>
             case REMOVING -&gt; {
-<span class="nc" id="L58">                var violations = validator.validate(command);</span>
-<span class="nc bnc" id="L59" title="All 2 branches missed.">                if (!violations.isEmpty()) {</span>
-<span class="nc" id="L60">                    throw new ValidationException(violations.iterator().next().getMessage());</span>
+<span class="nc" id="L63">                var violations = validator.validate(command);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                if (!violations.isEmpty()) {</span>
+<span class="nc" id="L65">                    throw new ValidationException(violations.iterator().next().getMessage());</span>
                 }
-<span class="nc bnc" id="L62" title="All 2 branches missed.">                if (command.getType() == TUCommand.Type.REMOVING) {</span>
-<span class="nc bnc" id="L63" title="All 2 branches missed.">                    if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L64">                        LOGGER.debug(&quot;Sending REMOVING command to announce the TransportUnit [{}] is going to be removed&quot;, command.getTransportUnit().getpKey());</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                if (command.getType() == TUCommand.Type.REMOVING) {</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">                    if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L69">                        LOGGER.debug(&quot;Sending REMOVING command to announce the TransportUnit [{}] is going to be removed&quot;, command.getTransportUnit().getpKey());</span>
                     }
-<span class="nc" id="L66">                    amqpTemplate.convertAndSend(exchangeName, &quot;common.tu.command.out.removing&quot;, command);</span>
+<span class="nc" id="L71">                    amqpTemplate.convertAndSend(exchangeName, &quot;common.tu.command.out.removing&quot;, command);</span>
                 }
-<span class="nc" id="L68">            }</span>
-<span class="nc" id="L69">            case UPDATE_CACHE -&gt; amqpTemplate.convertAndSend(exchangeName, &quot;common.tu.command.out.update-cache&quot;, command);</span>
-<span class="nc" id="L70">            default -&gt; LOGGER.warn(&quot;Not supported TUCommand [{}]&quot;, command.getType());</span>
+<span class="nc" id="L73">            }</span>
+<span class="nc" id="L74">            case UPDATE_CACHE -&gt; amqpTemplate.convertAndSend(exchangeName, &quot;common.tu.command.out.update-cache&quot;, command);</span>
+<span class="nc" id="L75">            default -&gt; LOGGER.warn(&quot;Not supported TUCommand [{}]&quot;, command.getType());</span>
         }
-<span class="nc" id="L72">    }</span>
+<span class="nc" id="L77">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

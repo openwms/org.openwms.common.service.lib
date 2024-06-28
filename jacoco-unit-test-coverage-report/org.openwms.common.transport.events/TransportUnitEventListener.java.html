@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport.events;
 
+import org.ameba.annotation.Measured;
 import org.ameba.http.identity.IdentityContextHolder;
 import org.ameba.i18n.Translator;
 import org.openwms.common.spi.transactions.TransactionBuilder;
@@ -25,6 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import static org.openwms.common.CommonMessageCodes.MSG_TU_MOVED;
@@ -38,44 +41,46 @@ import static org.openwms.common.CommonMessageCodes.MSG_TU_MOVED;
 @Component
 class TransportUnitEventListener {
 
-<span class="fc" id="L41">    private static final Logger LOGGER = LoggerFactory.getLogger(&quot;BUSINESS_EVENTS&quot;);</span>
+<span class="fc" id="L44">    private static final Logger LOGGER = LoggerFactory.getLogger(&quot;BUSINESS_EVENTS&quot;);</span>
     private final Translator translator;
     private final AsyncTransactionApi transactionApi;
 
-<span class="fc" id="L45">    TransportUnitEventListener(Translator translator, AsyncTransactionApi transactionApi) {</span>
-<span class="fc" id="L46">        this.translator = translator;</span>
-<span class="fc" id="L47">        this.transactionApi = transactionApi;</span>
-<span class="fc" id="L48">    }</span>
+<span class="fc" id="L48">    TransportUnitEventListener(Translator translator, AsyncTransactionApi transactionApi) {</span>
+<span class="fc" id="L49">        this.translator = translator;</span>
+<span class="fc" id="L50">        this.transactionApi = transactionApi;</span>
+<span class="fc" id="L51">    }</span>
 
+    @Measured
     @TransactionalEventListener(fallbackExecution = true)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void onEvent(TransportUnitEvent event) {
-<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (event.getType() == TransportUnitEvent.TransportUnitEventType.MOVED) {</span>
-<span class="nc" id="L53">            var tu = (TransportUnit) event.getSource();</span>
-<span class="nc" id="L54">            var description = translator.translate(MSG_TU_MOVED,</span>
-<span class="nc" id="L55">                    tu.getBarcode().getValue(),</span>
-<span class="nc" id="L56">                    event.getPreviousLocation().getLocationId(),</span>
-<span class="nc" id="L57">                    tu.getActualLocation().getLocationId()</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (event.getType() == TransportUnitEvent.TransportUnitEventType.MOVED) {</span>
+<span class="nc" id="L58">            var tu = (TransportUnit) event.getSource();</span>
+<span class="nc" id="L59">            var description = translator.translate(MSG_TU_MOVED,</span>
+<span class="nc" id="L60">                    tu.getBarcode().getValue(),</span>
+<span class="nc" id="L61">                    event.getPreviousLocation().getLocationId(),</span>
+<span class="nc" id="L62">                    tu.getActualLocation().getLocationId()</span>
             );
-<span class="nc" id="L59">            LOGGER.info(description);</span>
-<span class="nc" id="L60">            transactionApi.process(TransactionCommand.of(TransactionCommand.Type.CREATE,</span>
-<span class="nc" id="L61">                    createDefaultBuilder().withType(MSG_TU_MOVED)</span>
-<span class="nc" id="L62">                            .withDescription(description)</span>
-<span class="nc" id="L63">                            .withDetail(&quot;transportUnitBK&quot;, tu.getBarcode().getValue())</span>
-<span class="nc" id="L64">                            .withDetail(&quot;previousLocation&quot;, event.getPreviousLocation().getLocationId().toString())</span>
-<span class="nc" id="L65">                            .withDetail(&quot;previousLocationErpCode&quot;, event.getPreviousLocation().getErpCode())</span>
-<span class="nc" id="L66">                            .withDetail(&quot;previousLocationPlcCode&quot;, event.getPreviousLocation().getPlcCode())</span>
-<span class="nc" id="L67">                            .withDetail(&quot;actualLocation&quot;, tu.getActualLocation().getLocationId().toString())</span>
-<span class="nc" id="L68">                            .withDetail(&quot;actualLocationErpCode&quot;, tu.getActualLocation().getErpCode())</span>
-<span class="nc" id="L69">                            .withDetail(&quot;actualLocationPlcCode&quot;, tu.getActualLocation().getPlcCode())</span>
-<span class="nc" id="L70">                            .build()</span>
+<span class="nc" id="L64">            LOGGER.info(description);</span>
+<span class="nc" id="L65">            transactionApi.process(TransactionCommand.of(TransactionCommand.Type.CREATE,</span>
+<span class="nc" id="L66">                    createDefaultBuilder().withType(MSG_TU_MOVED)</span>
+<span class="nc" id="L67">                            .withDescription(description)</span>
+<span class="nc" id="L68">                            .withDetail(&quot;transportUnitBK&quot;, tu.getBarcode().getValue())</span>
+<span class="nc" id="L69">                            .withDetail(&quot;previousLocation&quot;, event.getPreviousLocation().getLocationId().toString())</span>
+<span class="nc" id="L70">                            .withDetail(&quot;previousLocationErpCode&quot;, event.getPreviousLocation().getErpCode())</span>
+<span class="nc" id="L71">                            .withDetail(&quot;previousLocationPlcCode&quot;, event.getPreviousLocation().getPlcCode())</span>
+<span class="nc" id="L72">                            .withDetail(&quot;actualLocation&quot;, tu.getActualLocation().getLocationId().toString())</span>
+<span class="nc" id="L73">                            .withDetail(&quot;actualLocationErpCode&quot;, tu.getActualLocation().getErpCode())</span>
+<span class="nc" id="L74">                            .withDetail(&quot;actualLocationPlcCode&quot;, tu.getActualLocation().getPlcCode())</span>
+<span class="nc" id="L75">                            .build()</span>
             ));
         }
-<span class="nc" id="L73">    }</span>
+<span class="nc" id="L78">    }</span>
 
     private TransactionBuilder createDefaultBuilder() {
-<span class="nc" id="L76">        return TransactionBuilder.aTransactionVO()</span>
-<span class="nc" id="L77">                .withCreatedByUser(IdentityContextHolder.getCurrentIdentity())</span>
-<span class="nc" id="L78">                .withSender(&quot;common-service&quot;);</span>
+<span class="nc" id="L81">        return TransactionBuilder.aTransactionVO()</span>
+<span class="nc" id="L82">                .withCreatedByUser(IdentityContextHolder.getCurrentIdentity())</span>
+<span class="nc" id="L83">                .withSender(&quot;common-service&quot;);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
