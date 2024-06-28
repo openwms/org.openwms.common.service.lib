@@ -17,6 +17,7 @@ package org.openwms.common.location.impl;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Validator;
+import org.ameba.annotation.Measured;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationGroup;
 import org.openwms.common.location.LocationGroupMapper;
@@ -31,6 +32,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import static java.lang.String.format;
@@ -72,7 +75,9 @@ class LocationGroupEventPropagator {
         }
     }
 
+    @Measured
     @TransactionalEventListener
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void onEvent(LocationGroupEvent event) {
         switch (event.getType()) {
             case CREATED -> {
@@ -97,7 +102,9 @@ class LocationGroupEventPropagator {
         }
     }
 
+    @Measured
     @TransactionalEventListener
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void onLocationEvent(LocationEvent event) {
         switch (event.getType()) {
             case CREATED -> {

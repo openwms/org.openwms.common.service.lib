@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport.events;
 
+import org.ameba.annotation.Measured;
 import org.ameba.http.identity.IdentityContextHolder;
 import org.ameba.i18n.Translator;
 import org.openwms.common.spi.transactions.TransactionBuilder;
@@ -25,6 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import static org.openwms.common.CommonMessageCodes.MSG_TU_MOVED;
@@ -47,7 +50,9 @@ class TransportUnitEventListener {
         this.transactionApi = transactionApi;
     }
 
+    @Measured
     @TransactionalEventListener(fallbackExecution = true)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void onEvent(TransportUnitEvent event) {
         if (event.getType() == TransportUnitEvent.TransportUnitEventType.MOVED) {
             var tu = (TransportUnit) event.getSource();

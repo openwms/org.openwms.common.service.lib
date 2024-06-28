@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport.events;
 
+import org.ameba.annotation.Measured;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.TransportUnitTypeMapper;
 import org.openwms.core.SpringProfiles;
@@ -25,6 +26,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 /**
@@ -52,7 +55,9 @@ class TransportUnitTypeEventPropagator {
         this.mapper = mapper;
     }
 
+    @Measured
     @TransactionalEventListener(fallbackExecution = true)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void onEvent(TransportUnitTypeEvent event) {
         switch (event.getType()) {
             case CREATED -> amqpTemplate.convertAndSend(exchangeName, "tut.event.created", mapper.convertToMO((TransportUnitType) event.getSource()));
