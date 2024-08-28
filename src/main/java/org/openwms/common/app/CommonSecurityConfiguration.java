@@ -15,11 +15,13 @@
  */
 package org.openwms.common.app;
 
+import org.ameba.http.PermitAllCorsConfigurationSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.filter.CorsFilter;
 
 /**
  * A CommonSecurityConfiguration.
@@ -34,9 +36,13 @@ class CommonSecurityConfiguration {
      * <p>
      * API is for non browser clients and access control is handled at the API Gateway!
      */
+    @SuppressWarnings("java:S4502")
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(x -> x.anyRequest().permitAll()).csrf(AbstractHttpConfigurer::disable);
+        http.authorizeHttpRequests(x -> x.anyRequest().permitAll())
+            .csrf(AbstractHttpConfigurer::disable)
+            .addFilter(new CorsFilter(new PermitAllCorsConfigurationSource()));
         return http.build();
     }
+
 }

@@ -40,13 +40,13 @@ import static org.openwms.common.location.api.LocationApiConstants.LOCATION_EMPT
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Component
-public class LocationCommandListener {
+class LocationCommandListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LocationCommandListener.class);
     private final Validator validator;
     private final LocationService locationService;
 
-    public LocationCommandListener(Validator validator, LocationService locationService) {
+    LocationCommandListener(Validator validator, LocationService locationService) {
         this.validator = validator;
         this.locationService = locationService;
     }

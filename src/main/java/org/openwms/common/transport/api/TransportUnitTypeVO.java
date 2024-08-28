@@ -26,8 +26,6 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import static org.openwms.common.transport.api.TransportApiConstants.DATETIME_FORMAT_ZULU;
-
 /**
  * A TransportUnitTypeVO.
  *
@@ -129,10 +127,12 @@ public class TransportUnitTypeVO extends AbstractBase<TransportUnitTypeVO> imple
         this.length = length;
     }
 
+    @Override
     public LocalDateTime getCreateDt() {
         return createDt;
     }
 
+    @Override
     public void setCreateDt(LocalDateTime createDt) {
         this.createDt = createDt;
     }

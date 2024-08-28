@@ -153,7 +153,7 @@ class LocationControllerDocumentation {
                                 fieldWithPath("type").description("The name of the LocationType the Location belongs to"),
                                 fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to"),
                                 fieldWithPath("createDt").description("Timestamp when the Location has been created"),
-                                fieldWithPath("lastModifiedDt").description("Timestamp when the entity has been updated the last time")
+                                fieldWithPath("lastModifiedDt").description("Timestamp when the record has been updated the last time")
                         )
                 ));
     }
@@ -254,7 +254,7 @@ class LocationControllerDocumentation {
                                 fieldWithPath("type").description("The name of the LocationType the Location belongs to"),
                                 fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to"),
                                 fieldWithPath("createDt").description("Timestamp when the Location has been created"),
-                                fieldWithPath("lastModifiedDt").description("Timestamp when the entity has been updated the last time")
+                                fieldWithPath("lastModifiedDt").description("Timestamp when the record has been updated the last time")
                         )
                 ));
     }

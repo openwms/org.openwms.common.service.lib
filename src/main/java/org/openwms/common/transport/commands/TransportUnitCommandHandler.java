@@ -17,13 +17,10 @@ package org.openwms.common.transport.commands;
 
 import jakarta.validation.Validator;
 import org.ameba.annotation.TxService;
-import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitMapper;
 import org.openwms.common.transport.TransportUnitService;
-import org.openwms.common.transport.TransportUnitState;
 import org.openwms.common.transport.api.ValidationGroups;
 import org.openwms.common.transport.api.commands.TUCommand;
-import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,8 +88,8 @@ class TransportUnitCommandHandler {
                     LOGGER.debug("Got a request command for a TransportUnit");
                 }
                 validate(validator, command, ValidationGroups.TransportUnit.Request.class);
-                TransportUnit tu = service.findByPKey(command.getTransportUnit().getpKey());
-                TransportUnitMO mo = mapper.convertToMO(tu);
+                var tu = service.findByPKey(command.getTransportUnit().getpKey());
+                var mo = mapper.convertToMO(tu);
                 ctx.publishEvent(TUCommand.newBuilder(UPDATE_CACHE).withTransportUnit(mo).build());
                 break;
             case CREATE:
@@ -116,7 +113,7 @@ class TransportUnitCommandHandler {
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Got a command to BLOCK a TransportUnit");
                 }
-                service.setState(mo.getBarcode(), TransportUnitState.valueOf(mo.getState()));
+                service.setState(mo.getBarcode(), mo.getState());
                 break;
             default:
                 LOGGER.error("TUCommand [{}] not supported", command.getType());

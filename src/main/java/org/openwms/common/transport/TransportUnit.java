@@ -20,8 +20,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -97,8 +95,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
 
     /** State of the {@code TransportUnit}. */
     @Column(name = "C_STATE")
-    @Enumerated(EnumType.STRING)
-    private TransportUnitState state = TransportUnitState.AVAILABLE;
+    private String state = TransportUnitState.AVAILABLE.name();
 
     /** The current {@link Location} of the {@code TransportUnit}. */
     @ManyToOne
@@ -363,7 +360,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      *
      * @return The current state of the {@code TransportUnit}
      */
-    public TransportUnitState getState() {
+    public String getState() {
         return this.state;
     }
 
@@ -372,7 +369,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      *
      * @param state The state to set on the {@code TransportUnit}
      */
-    public void setState(TransportUnitState state) {
+    public void setState(String state) {
         this.state = state;
     }
 

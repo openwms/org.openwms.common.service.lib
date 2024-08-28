@@ -27,13 +27,13 @@ import org.ameba.exception.ResourceExistsException;
 import org.ameba.exception.ServiceLayerException;
 import org.ameba.i18n.Translator;
 import org.openwms.common.CommonMessageCodes;
+import org.openwms.common.StateChangeException;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitMapper;
 import org.openwms.common.transport.TransportUnitService;
-import org.openwms.common.transport.TransportUnitState;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.UnitError;
 import org.openwms.common.transport.api.ValidationGroups;
@@ -42,9 +42,13 @@ import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.openwms.common.transport.events.TransportUnitEvent;
+import org.openwms.common.transport.spi.NotApprovedException;
+import org.openwms.common.transport.spi.TransportUnitMoveApproval;
+import org.openwms.common.transport.spi.TransportUnitStateChangeApproval;
 import org.openwms.core.exception.IllegalConfigurationValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
@@ -76,30 +80,35 @@ class TransportUnitServiceImpl implements TransportUnitService {
     private static final String NO_BARCODE = "The barcode must be given in order to create a TransportUnit";
     private static final String NO_TRANSPORT_UNIT_TYPE = "The transportUnitType must be given in order to create a TransportUnit";
 
-    private final TransportUnitRepository repository;
-    private final BarcodeGenerator barcodeGenerator;
-    private final LocationService locationService;
-    private final TransportUnitTypeRepository transportUnitTypeRepository;
-    private final Translator translator;
-    private final TransportUnitMapper mapper;
-    private final Validator validator;
     private final ApplicationEventPublisher publisher;
+    private final Validator validator;
+    private final Translator translator;
+    private final BarcodeGenerator barcodeGenerator;
+    private final TransportUnitMapper mapper;
+    private final TransportUnitRepository repository;
+    private final TransportUnitTypeRepository transportUnitTypeRepository;
+    private final TransportUnitStateChangeApproval stateChangeApproval;
+    private final TransportUnitMoveApproval moveApproval;
+    private final LocationService locationService;
     private final String deleteTransportUnitMode;
 
     @SuppressWarnings("squid:S107")
-    TransportUnitServiceImpl(Translator translator,
+    TransportUnitServiceImpl(ApplicationEventPublisher publisher, Validator validator, Translator translator,
+            BarcodeGenerator barcodeGenerator, TransportUnitMapper mapper, TransportUnitRepository repository,
             TransportUnitTypeRepository transportUnitTypeRepository,
-            LocationService locationService, TransportUnitRepository repository,
-            BarcodeGenerator barcodeGenerator, TransportUnitMapper mapper, Validator validator,
-            ApplicationEventPublisher publisher, @Value("${owms.common.delete-transport-unit-mode}") String deleteTransportUnitMode) {
+            @Autowired(required = false) TransportUnitStateChangeApproval stateChangeApproval,
+            @Autowired(required = false) TransportUnitMoveApproval moveApproval,
+            LocationService locationService, @Value("${owms.common.delete-transport-unit-mode}") String deleteTransportUnitMode) {
+        this.publisher = publisher;
+        this.validator = validator;
         this.translator = translator;
-        this.transportUnitTypeRepository = transportUnitTypeRepository;
-        this.locationService = locationService;
-        this.repository = repository;
         this.barcodeGenerator = barcodeGenerator;
         this.mapper = mapper;
-        this.validator = validator;
-        this.publisher = publisher;
+        this.repository = repository;
+        this.transportUnitTypeRepository = transportUnitTypeRepository;
+        this.stateChangeApproval = stateChangeApproval;
+        this.moveApproval = moveApproval;
+        this.locationService = locationService;
         this.deleteTransportUnitMode = deleteTransportUnitMode;
     }
 
@@ -206,13 +215,49 @@ class TransportUnitServiceImpl implements TransportUnitService {
         updated.setTransportUnitType(existing.getTransportUnitType());
         mapper.copy(existing, updated);
         if (tu.getActualLocation() !=  null && tu.getActualLocation().isNew()) {
-            existing.setActualLocation(this.locationService.findByLocationPk(tu.getActualLocation().getLocationId()).orElseThrow(() -> new NotFoundException(format("Location [%s] not found", tu.getActualLocation()))));
+            moveInternal(existing, this.locationService.findByLocationPk(tu.getActualLocation().getLocationId())
+                    .orElseThrow(() -> new NotFoundException(format("Location [%s] not found", tu.getActualLocation()))));
         }
         var saved = repository.save(existing);
         publisher.publishEvent(TransportUnitEvent.newBuilder()
                 .tu(saved)
                 .type(TransportUnitEvent.TransportUnitEventType.CHANGED)
                 .build()
+        );
+        return saved;
+    }
+
+    private void approveMove(TransportUnit transportUnit, Location newLocation) {
+        if (moveApproval == null) {
+            return;
+        }
+        try {
+            moveApproval.approve(transportUnit, newLocation);
+        } catch (NotApprovedException nae) {
+            LOGGER.error(nae.getMessage(), nae);
+            throw new StateChangeException("Not allowed to move the TransportUnit [%s] to [%s]".formatted(transportUnit.getBarcode(), newLocation));
+        }
+    }
+
+    private TransportUnit moveInternal(TransportUnit transportUnit, Location target) {
+        if (transportUnit.getActualLocation().getLocationId().equals(target.getLocationId())) {
+            LOGGER.debug("TransportUnit [{}] is already booked on Location [{}]", transportUnit.getBarcode(), target.getLocationId());
+            return transportUnit;
+        }
+        approveMove(transportUnit, target);
+        transportUnit.setActualLocation(target);
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Moving TransportUnit with barcode [{}] from Location [{}] to Location [{}]", transportUnit.getBarcode(),
+                    transportUnit.getActualLocation(), target.getLocationId());
+        }
+        var saved = repository.save(transportUnit);
+        publisher.publishEvent(
+                TransportUnitEvent.newBuilder()
+                        .tu(saved)
+                        .type(TransportUnitEvent.TransportUnitEventType.MOVED)
+                        .previousLocation(transportUnit.getActualLocation())
+                        .actualLocation(transportUnit.getActualLocation())
+                        .build()
         );
         return saved;
     }
@@ -225,33 +270,12 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Measured
     public @NotNull TransportUnit moveTransportUnit(@NotNull Barcode barcode, @NotBlank String targetLocation) {
         var transportUnit = findByBarcodeInternal(barcode);
-        var previousLocation = transportUnit.getActualLocation();
-
         var target = LocationPK.isValid(targetLocation)
                 ? locationService.findByLocationPk(LocationPK.fromString(targetLocation))
                 .orElseThrow(() -> new NotFoundException(format("No Location with LocationPk [%s] found", LocationPK.fromString(targetLocation))))
                 : locationService.findByErpCode(targetLocation).orElseGet(() -> locationService.findByPlcCode(targetLocation)
                 .orElseThrow(() -> new NotFoundException(format("No Location with LocationPk [%s] found", LocationPK.fromString(targetLocation)))));
-
-        if (previousLocation.getLocationId().equals(target.getLocationId())) {
-            LOGGER.debug("TransportUnit [{}] is already booked on Location [{}]", barcode, target.getLocationId());
-            return transportUnit;
-        }
-        transportUnit.setActualLocation(target);
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Moving TransportUnit with barcode [{}] from Location [{}] to Location [{}]", barcode, previousLocation,
-                    target.getLocationId());
-        }
-        var saved = repository.save(transportUnit);
-        publisher.publishEvent(
-                TransportUnitEvent.newBuilder()
-                        .tu(saved)
-                        .type(TransportUnitEvent.TransportUnitEventType.MOVED)
-                        .previousLocation(previousLocation)
-                        .actualLocation(transportUnit.getActualLocation())
-                        .build()
-        );
-        return saved;
+        return moveInternal(transportUnit, target);
     }
 
     /**
@@ -402,15 +426,28 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public void setState(@NotBlank String transportUnitBK, @NotNull TransportUnitState state) {
+    public void setState(@NotBlank String transportUnitBK, @NotBlank String newState) {
         var transportUnit = findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));
-        LOGGER.debug("Setting TransportUnit [{}] to state [{}]", transportUnitBK, state);
-        transportUnit.setState(state);
+        approveStateChange(transportUnit, newState);
+        LOGGER.debug("Setting state of TransportUnit [{}] to [{}]", transportUnitBK, newState);
+        transportUnit.setState(newState);
         publisher.publishEvent(TransportUnitEvent.newBuilder()
                 .tu(transportUnit)
                 .type(TransportUnitEvent.TransportUnitEventType.STATE_CHANGE).build()
         );
         repository.save(transportUnit);
+    }
+
+    private void approveStateChange(TransportUnit transportUnit, String newState) {
+        if (stateChangeApproval == null) {
+            return;
+        }
+        try {
+            stateChangeApproval.approve(transportUnit, newState);
+        } catch (NotApprovedException nae) {
+            LOGGER.error(nae.getMessage(), nae);
+            throw new StateChangeException("Not allowed to change the state of TransportUnit [%s] to [%s]".formatted(transportUnit.getBarcode(), newState));
+        }
     }
 
     /**

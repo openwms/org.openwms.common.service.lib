@@ -74,7 +74,7 @@ class TransportUnitTest {
             assertThat(tu.getActualLocationDate()).isNotNull();
             assertThat(tu.getTargetLocation()).isNull();
             assertThat(tu.getWeight()).isEqualTo(Weight.ZERO);
-            assertThat(tu.getState()).isEqualTo(TransportUnitState.AVAILABLE);
+            assertThat(tu.getState()).isEqualTo(TransportUnitState.AVAILABLE.name());
             assertThat(tu.getChildren()).isEmpty();
             assertThat(tu.getNoTransportUnits()).isZero();
             assertThat(tu.getInventoryDate()).isNotNull();
