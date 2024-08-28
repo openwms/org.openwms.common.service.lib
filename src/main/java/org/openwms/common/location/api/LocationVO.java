@@ -26,8 +26,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import static org.openwms.common.location.api.LocationApiConstants.DATETIME_FORMAT_ZULU;
-
 /**
  * A LocationVO represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a conveyor
  * location. Even error locations can be represented with the LocationVO. Multiple locations with same characteristics are grouped in
@@ -229,10 +227,12 @@ public class LocationVO extends AbstractBase<LocationVO> implements TargetVO, Se
         this.stockZone = stockZone;
     }
 
+    @Override
     public LocalDateTime getCreateDt() {
         return createDt;
     }
 
+    @Override
     public void setCreateDt(LocalDateTime createDt) {
         this.createDt = createDt;
     }

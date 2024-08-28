@@ -36,6 +36,7 @@ class CommonSecurityConfiguration {
      * <p>
      * API is for non browser clients and access control is handled at the API Gateway!
      */
+    @SuppressWarnings("java:S4502")
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(x -> x.anyRequest().permitAll())

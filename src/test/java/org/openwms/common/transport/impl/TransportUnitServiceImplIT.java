@@ -105,7 +105,6 @@ class TransportUnitServiceImplIT {
 
     @Test
     void create_primitive_with_strict() {
-        Barcode barcode = generator.convert(TestData.TU_1_ID);
         assertThatExceptionOfType(ResourceExistsException.class)
                 .isThrownBy(() -> testee.create(TestData.TU_1_ID, TestData.TUT_TYPE_PALLET, TestData.LOCATION_ID_EXT, true))
                 .withMessageContaining("already exists");
