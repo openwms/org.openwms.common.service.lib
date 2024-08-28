@@ -27,13 +27,13 @@ import org.ameba.exception.ResourceExistsException;
 import org.ameba.exception.ServiceLayerException;
 import org.ameba.i18n.Translator;
 import org.openwms.common.CommonMessageCodes;
+import org.openwms.common.StateChangeException;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationPK;
 import org.openwms.common.location.LocationService;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitMapper;
 import org.openwms.common.transport.TransportUnitService;
-import org.openwms.common.transport.TransportUnitState;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.UnitError;
 import org.openwms.common.transport.api.ValidationGroups;
@@ -42,9 +42,12 @@ import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.openwms.common.transport.events.TransportUnitEvent;
+import org.openwms.common.transport.spi.NotApprovedException;
+import org.openwms.common.transport.spi.TransportUnitStateChangeApproval;
 import org.openwms.core.exception.IllegalConfigurationValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
@@ -71,37 +74,38 @@ import static org.openwms.common.transport.api.commands.TUCommand.Type.REMOVING;
 @TxService
 class TransportUnitServiceImpl implements TransportUnitService {
 
-<span class="fc" id="L74">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitServiceImpl.class);</span>
+<span class="fc" id="L77">    private static final Logger LOGGER = LoggerFactory.getLogger(TransportUnitServiceImpl.class);</span>
     private static final String NO_LOCATION_SET = &quot;The actualLocation must be given in order to create a TransportUnit&quot;;
     private static final String NO_BARCODE = &quot;The barcode must be given in order to create a TransportUnit&quot;;
     private static final String NO_TRANSPORT_UNIT_TYPE = &quot;The transportUnitType must be given in order to create a TransportUnit&quot;;
 
-    private final TransportUnitRepository repository;
-    private final BarcodeGenerator barcodeGenerator;
-    private final LocationService locationService;
-    private final TransportUnitTypeRepository transportUnitTypeRepository;
-    private final Translator translator;
-    private final TransportUnitMapper mapper;
-    private final Validator validator;
     private final ApplicationEventPublisher publisher;
+    private final Validator validator;
+    private final Translator translator;
+    private final BarcodeGenerator barcodeGenerator;
+    private final TransportUnitMapper mapper;
+    private final TransportUnitRepository repository;
+    private final TransportUnitTypeRepository transportUnitTypeRepository;
+    private final TransportUnitStateChangeApproval stateChangeApproval;
+    private final LocationService locationService;
     private final String deleteTransportUnitMode;
 
     @SuppressWarnings(&quot;squid:S107&quot;)
-    TransportUnitServiceImpl(Translator translator,
-            TransportUnitTypeRepository transportUnitTypeRepository,
-            LocationService locationService, TransportUnitRepository repository,
-            BarcodeGenerator barcodeGenerator, TransportUnitMapper mapper, Validator validator,
-<span class="fc" id="L94">            ApplicationEventPublisher publisher, @Value(&quot;${owms.common.delete-transport-unit-mode}&quot;) String deleteTransportUnitMode) {</span>
-<span class="fc" id="L95">        this.translator = translator;</span>
-<span class="fc" id="L96">        this.transportUnitTypeRepository = transportUnitTypeRepository;</span>
-<span class="fc" id="L97">        this.locationService = locationService;</span>
-<span class="fc" id="L98">        this.repository = repository;</span>
-<span class="fc" id="L99">        this.barcodeGenerator = barcodeGenerator;</span>
-<span class="fc" id="L100">        this.mapper = mapper;</span>
-<span class="fc" id="L101">        this.validator = validator;</span>
-<span class="fc" id="L102">        this.publisher = publisher;</span>
-<span class="fc" id="L103">        this.deleteTransportUnitMode = deleteTransportUnitMode;</span>
-<span class="fc" id="L104">    }</span>
+    TransportUnitServiceImpl(ApplicationEventPublisher publisher, Validator validator, Translator translator,
+            BarcodeGenerator barcodeGenerator, TransportUnitMapper mapper, TransportUnitRepository repository,
+            TransportUnitTypeRepository transportUnitTypeRepository, @Autowired(required = false) TransportUnitStateChangeApproval stateChangeApproval,
+<span class="fc" id="L97">            LocationService locationService, @Value(&quot;${owms.common.delete-transport-unit-mode}&quot;) String deleteTransportUnitMode) {</span>
+<span class="fc" id="L98">        this.publisher = publisher;</span>
+<span class="fc" id="L99">        this.validator = validator;</span>
+<span class="fc" id="L100">        this.translator = translator;</span>
+<span class="fc" id="L101">        this.barcodeGenerator = barcodeGenerator;</span>
+<span class="fc" id="L102">        this.mapper = mapper;</span>
+<span class="fc" id="L103">        this.repository = repository;</span>
+<span class="fc" id="L104">        this.transportUnitTypeRepository = transportUnitTypeRepository;</span>
+<span class="fc" id="L105">        this.stateChangeApproval = stateChangeApproval;</span>
+<span class="fc" id="L106">        this.locationService = locationService;</span>
+<span class="fc" id="L107">        this.deleteTransportUnitMode = deleteTransportUnitMode;</span>
+<span class="fc" id="L108">    }</span>
 
     /**
      * {@inheritDoc}
@@ -111,15 +115,15 @@ class TransportUnitServiceImpl implements TransportUnitService {
     public @NotNull TransportUnit create(
             @NotBlank String transportUnitBK, @NotNull TransportUnitType transportUnitType,
             @NotNull LocationPK actualLocation, Boolean strict) {
-<span class="nc" id="L114">        Assert.notNull(transportUnitBK, NO_BARCODE);</span>
-<span class="nc" id="L115">        Assert.notNull(transportUnitType, NO_TRANSPORT_UNIT_TYPE);</span>
-<span class="nc" id="L116">        Assert.notNull(actualLocation, NO_LOCATION_SET);</span>
-<span class="nc" id="L117">        return createInternal(</span>
-<span class="nc" id="L118">                barcodeGenerator.convert(transportUnitBK),</span>
-<span class="nc" id="L119">                transportUnitType.getType(),</span>
+<span class="nc" id="L118">        Assert.notNull(transportUnitBK, NO_BARCODE);</span>
+<span class="nc" id="L119">        Assert.notNull(transportUnitType, NO_TRANSPORT_UNIT_TYPE);</span>
+<span class="nc" id="L120">        Assert.notNull(actualLocation, NO_LOCATION_SET);</span>
+<span class="nc" id="L121">        return createInternal(</span>
+<span class="nc" id="L122">                barcodeGenerator.convert(transportUnitBK),</span>
+<span class="nc" id="L123">                transportUnitType.getType(),</span>
                 strict,
-<span class="nc" id="L121">                () -&gt; locationService.findByLocationPk(actualLocation)</span>
-<span class="nc" id="L122">                        .orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with locationPk [%s] found&quot;, actualLocation)))</span>
+<span class="nc" id="L125">                () -&gt; locationService.findByLocationPk(actualLocation)</span>
+<span class="nc" id="L126">                        .orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with locationPk [%s] found&quot;, actualLocation)))</span>
         );
     }
 
@@ -131,14 +135,14 @@ class TransportUnitServiceImpl implements TransportUnitService {
     public @NotNull TransportUnit create(
             @NotBlank String transportUnitBK, @NotBlank String transportUnitType,
             @NotBlank String actualLocation, Boolean strict) {
-<span class="nc" id="L134">        Assert.notNull(actualLocation, NO_LOCATION_SET);</span>
+<span class="nc" id="L138">        Assert.notNull(actualLocation, NO_LOCATION_SET);</span>
 
-<span class="nc" id="L136">        return createInternal(</span>
-<span class="nc" id="L137">                barcodeGenerator.convert(transportUnitBK),</span>
+<span class="nc" id="L140">        return createInternal(</span>
+<span class="nc" id="L141">                barcodeGenerator.convert(transportUnitBK),</span>
                 transportUnitType,
                 strict,
-<span class="nc" id="L140">                () -&gt; locationService.findByLocationId(actualLocation)</span>
-<span class="nc" id="L141">                        .orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with actual location [%s] found&quot;, actualLocation)))</span>
+<span class="nc" id="L144">                () -&gt; locationService.findByLocationId(actualLocation)</span>
+<span class="nc" id="L145">                        .orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with actual location [%s] found&quot;, actualLocation)))</span>
         );
     }
 
@@ -148,47 +152,47 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public @NotNull TransportUnit createNew(@NotBlank String transportUnitType, @NotBlank String actualLocation) {
-<span class="nc" id="L151">        var nextBarcode = barcodeGenerator.generate(transportUnitType, actualLocation);</span>
-<span class="nc" id="L152">        return createInternal(</span>
+<span class="nc" id="L155">        var nextBarcode = barcodeGenerator.generate(transportUnitType, actualLocation);</span>
+<span class="nc" id="L156">        return createInternal(</span>
                 nextBarcode,
                 transportUnitType,
-<span class="nc" id="L155">                false,</span>
-<span class="nc" id="L156">                () -&gt; locationService.findByLocationId(actualLocation)</span>
-<span class="nc" id="L157">                        .orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with actual location [%s] found&quot;, actualLocation)))</span>
+<span class="nc" id="L159">                false,</span>
+<span class="nc" id="L160">                () -&gt; locationService.findByLocationId(actualLocation)</span>
+<span class="nc" id="L161">                        .orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with actual location [%s] found&quot;, actualLocation)))</span>
         );
     }
 
     private TransportUnit createInternal(Barcode barcode, String transportUnitType, Boolean strict, Supplier&lt;Location&gt; locationResolver) {
-<span class="nc" id="L162">        Assert.notNull(barcode, NO_BARCODE);</span>
-<span class="nc" id="L163">        Assert.hasText(transportUnitType, NO_TRANSPORT_UNIT_TYPE);</span>
+<span class="nc" id="L166">        Assert.notNull(barcode, NO_BARCODE);</span>
+<span class="nc" id="L167">        Assert.hasText(transportUnitType, NO_TRANSPORT_UNIT_TYPE);</span>
 
-<span class="nc" id="L165">        var optTransportUnit = repository.findByBarcode(barcode);</span>
-<span class="nc bnc" id="L166" title="All 4 branches missed.">        if (strict == null || Boolean.FALSE.equals(strict)) {</span>
-<span class="nc bnc" id="L167" title="All 2 branches missed.">            if (optTransportUnit.isPresent()) {</span>
-<span class="nc bnc" id="L168" title="All 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L169">                    LOGGER.debug(&quot;TransportUnit with Barcode [{}] already exists, silently returning the existing one&quot;, barcode);</span>
+<span class="nc" id="L169">        var optTransportUnit = repository.findByBarcode(barcode);</span>
+<span class="nc bnc" id="L170" title="All 4 branches missed.">        if (strict == null || Boolean.FALSE.equals(strict)) {</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">            if (optTransportUnit.isPresent()) {</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L173">                    LOGGER.debug(&quot;TransportUnit with Barcode [{}] already exists, silently returning the existing one&quot;, barcode);</span>
                 }
-<span class="nc" id="L171">                return optTransportUnit.get();</span>
+<span class="nc" id="L175">                return optTransportUnit.get();</span>
             }
         } else {
-<span class="nc" id="L174">            optTransportUnit.ifPresent(tu -&gt; {</span>
-<span class="nc" id="L175">                throw new ResourceExistsException(format(&quot;TransportUnit with id [%s] already exists&quot;, barcode));</span>
+<span class="nc" id="L178">            optTransportUnit.ifPresent(tu -&gt; {</span>
+<span class="nc" id="L179">                throw new ResourceExistsException(format(&quot;TransportUnit with id [%s] already exists&quot;, barcode));</span>
             });
         }
 
-<span class="nc" id="L179">        var actualLocation = locationResolver.get();</span>
-<span class="nc" id="L180">        var type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -&gt; new NotFoundException(format(&quot;TransportUnitType [%s] not found&quot;, transportUnitType)));</span>
-<span class="nc bnc" id="L181" title="All 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L182">            LOGGER.debug(&quot;Creating a TransportUnit with Barcode [{}] of Type [{}] on Location [{}]&quot;, barcode, transportUnitType, actualLocation);</span>
+<span class="nc" id="L183">        var actualLocation = locationResolver.get();</span>
+<span class="nc" id="L184">        var type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -&gt; new NotFoundException(format(&quot;TransportUnitType [%s] not found&quot;, transportUnitType)));</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L186">            LOGGER.debug(&quot;Creating a TransportUnit with Barcode [{}] of Type [{}] on Location [{}]&quot;, barcode, transportUnitType, actualLocation);</span>
         }
-<span class="nc" id="L184">        var transportUnit = repository.save(new TransportUnit(barcode, type, actualLocation));</span>
-<span class="nc" id="L185">        publisher.publishEvent(</span>
-<span class="nc" id="L186">                TransportUnitEvent.newBuilder()</span>
-<span class="nc" id="L187">                        .tu(transportUnit)</span>
-<span class="nc" id="L188">                        .type(TransportUnitEvent.TransportUnitEventType.CREATED)</span>
-<span class="nc" id="L189">                        .build()</span>
+<span class="nc" id="L188">        var transportUnit = repository.save(new TransportUnit(barcode, type, actualLocation));</span>
+<span class="nc" id="L189">        publisher.publishEvent(</span>
+<span class="nc" id="L190">                TransportUnitEvent.newBuilder()</span>
+<span class="nc" id="L191">                        .tu(transportUnit)</span>
+<span class="nc" id="L192">                        .type(TransportUnitEvent.TransportUnitEventType.CREATED)</span>
+<span class="nc" id="L193">                        .build()</span>
         );
-<span class="nc" id="L191">        return transportUnit;</span>
+<span class="nc" id="L195">        return transportUnit;</span>
     }
 
     /**
@@ -198,23 +202,23 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Validated(ValidationGroups.TransportUnit.Update.class)
     @Measured
     public @NotNull TransportUnit update(@NotNull Barcode barcode, final @Valid @NotNull TransportUnit tu) {
-<span class="nc bnc" id="L201" title="All 2 branches missed.">        if (!barcode.equals(tu.getBarcode())) {</span>
-<span class="nc" id="L202">            throw new ServiceLayerException(&quot;Mismatch between Barcode and tu.Barcode in API&quot;);</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">        if (!barcode.equals(tu.getBarcode())) {</span>
+<span class="nc" id="L206">            throw new ServiceLayerException(&quot;Mismatch between Barcode and tu.Barcode in API&quot;);</span>
         }
-<span class="nc" id="L204">        var existing = findByBarcodeInternal(barcode);</span>
-<span class="nc" id="L205">        var updated = new TransportUnit(barcode);</span>
-<span class="nc" id="L206">        updated.setTransportUnitType(existing.getTransportUnitType());</span>
-<span class="nc" id="L207">        mapper.copy(existing, updated);</span>
-<span class="nc bnc" id="L208" title="All 4 branches missed.">        if (tu.getActualLocation() !=  null &amp;&amp; tu.getActualLocation().isNew()) {</span>
-<span class="nc" id="L209">            existing.setActualLocation(this.locationService.findByLocationPk(tu.getActualLocation().getLocationId()).orElseThrow(() -&gt; new NotFoundException(format(&quot;Location [%s] not found&quot;, tu.getActualLocation()))));</span>
+<span class="nc" id="L208">        var existing = findByBarcodeInternal(barcode);</span>
+<span class="nc" id="L209">        var updated = new TransportUnit(barcode);</span>
+<span class="nc" id="L210">        updated.setTransportUnitType(existing.getTransportUnitType());</span>
+<span class="nc" id="L211">        mapper.copy(existing, updated);</span>
+<span class="nc bnc" id="L212" title="All 4 branches missed.">        if (tu.getActualLocation() !=  null &amp;&amp; tu.getActualLocation().isNew()) {</span>
+<span class="nc" id="L213">            existing.setActualLocation(this.locationService.findByLocationPk(tu.getActualLocation().getLocationId()).orElseThrow(() -&gt; new NotFoundException(format(&quot;Location [%s] not found&quot;, tu.getActualLocation()))));</span>
         }
-<span class="nc" id="L211">        var saved = repository.save(existing);</span>
-<span class="nc" id="L212">        publisher.publishEvent(TransportUnitEvent.newBuilder()</span>
-<span class="nc" id="L213">                .tu(saved)</span>
-<span class="nc" id="L214">                .type(TransportUnitEvent.TransportUnitEventType.CHANGED)</span>
-<span class="nc" id="L215">                .build()</span>
+<span class="nc" id="L215">        var saved = repository.save(existing);</span>
+<span class="nc" id="L216">        publisher.publishEvent(TransportUnitEvent.newBuilder()</span>
+<span class="nc" id="L217">                .tu(saved)</span>
+<span class="nc" id="L218">                .type(TransportUnitEvent.TransportUnitEventType.CHANGED)</span>
+<span class="nc" id="L219">                .build()</span>
         );
-<span class="nc" id="L217">        return saved;</span>
+<span class="nc" id="L221">        return saved;</span>
     }
 
     /**
@@ -224,34 +228,34 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public @NotNull TransportUnit moveTransportUnit(@NotNull Barcode barcode, @NotBlank String targetLocation) {
-<span class="nc" id="L227">        var transportUnit = findByBarcodeInternal(barcode);</span>
-<span class="nc" id="L228">        var previousLocation = transportUnit.getActualLocation();</span>
+<span class="nc" id="L231">        var transportUnit = findByBarcodeInternal(barcode);</span>
+<span class="nc" id="L232">        var currentLocation = transportUnit.getActualLocation();</span>
 
-<span class="nc bnc" id="L230" title="All 2 branches missed.">        var target = LocationPK.isValid(targetLocation)</span>
-<span class="nc" id="L231">                ? locationService.findByLocationPk(LocationPK.fromString(targetLocation))</span>
-<span class="nc" id="L232">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with LocationPk [%s] found&quot;, LocationPK.fromString(targetLocation))))</span>
-<span class="nc" id="L233">                : locationService.findByErpCode(targetLocation).orElseGet(() -&gt; locationService.findByPlcCode(targetLocation)</span>
-<span class="nc" id="L234">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with LocationPk [%s] found&quot;, LocationPK.fromString(targetLocation)))));</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">        var target = LocationPK.isValid(targetLocation)</span>
+<span class="nc" id="L235">                ? locationService.findByLocationPk(LocationPK.fromString(targetLocation))</span>
+<span class="nc" id="L236">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with LocationPk [%s] found&quot;, LocationPK.fromString(targetLocation))))</span>
+<span class="nc" id="L237">                : locationService.findByErpCode(targetLocation).orElseGet(() -&gt; locationService.findByPlcCode(targetLocation)</span>
+<span class="nc" id="L238">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;No Location with LocationPk [%s] found&quot;, LocationPK.fromString(targetLocation)))));</span>
 
-<span class="nc bnc" id="L236" title="All 2 branches missed.">        if (previousLocation.getLocationId().equals(target.getLocationId())) {</span>
-<span class="nc" id="L237">            LOGGER.debug(&quot;TransportUnit [{}] is already booked on Location [{}]&quot;, barcode, target.getLocationId());</span>
-<span class="nc" id="L238">            return transportUnit;</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">        if (currentLocation.getLocationId().equals(target.getLocationId())) {</span>
+<span class="nc" id="L241">            LOGGER.debug(&quot;TransportUnit [{}] is already booked on Location [{}]&quot;, barcode, target.getLocationId());</span>
+<span class="nc" id="L242">            return transportUnit;</span>
         }
-<span class="nc" id="L240">        transportUnit.setActualLocation(target);</span>
-<span class="nc bnc" id="L241" title="All 2 branches missed.">        if (LOGGER.isInfoEnabled()) {</span>
-<span class="nc" id="L242">            LOGGER.info(&quot;Moving TransportUnit with barcode [{}] from Location [{}] to Location [{}]&quot;, barcode, previousLocation,</span>
-<span class="nc" id="L243">                    target.getLocationId());</span>
+<span class="nc" id="L244">        transportUnit.setActualLocation(target);</span>
+<span class="nc bnc" id="L245" title="All 2 branches missed.">        if (LOGGER.isInfoEnabled()) {</span>
+<span class="nc" id="L246">            LOGGER.info(&quot;Moving TransportUnit with barcode [{}] from Location [{}] to Location [{}]&quot;, barcode, currentLocation,</span>
+<span class="nc" id="L247">                    target.getLocationId());</span>
         }
-<span class="nc" id="L245">        var saved = repository.save(transportUnit);</span>
-<span class="nc" id="L246">        publisher.publishEvent(</span>
-<span class="nc" id="L247">                TransportUnitEvent.newBuilder()</span>
-<span class="nc" id="L248">                        .tu(saved)</span>
-<span class="nc" id="L249">                        .type(TransportUnitEvent.TransportUnitEventType.MOVED)</span>
-<span class="nc" id="L250">                        .previousLocation(previousLocation)</span>
-<span class="nc" id="L251">                        .actualLocation(transportUnit.getActualLocation())</span>
-<span class="nc" id="L252">                        .build()</span>
+<span class="nc" id="L249">        var saved = repository.save(transportUnit);</span>
+<span class="nc" id="L250">        publisher.publishEvent(</span>
+<span class="nc" id="L251">                TransportUnitEvent.newBuilder()</span>
+<span class="nc" id="L252">                        .tu(saved)</span>
+<span class="nc" id="L253">                        .type(TransportUnitEvent.TransportUnitEventType.MOVED)</span>
+<span class="nc" id="L254">                        .previousLocation(currentLocation)</span>
+<span class="nc" id="L255">                        .actualLocation(transportUnit.getActualLocation())</span>
+<span class="nc" id="L256">                        .build()</span>
         );
-<span class="nc" id="L254">        return saved;</span>
+<span class="nc" id="L258">        return saved;</span>
     }
 
     /**
@@ -260,62 +264,62 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public void deleteTransportUnits(@NotNull List&lt;TransportUnit&gt; transportUnits) {
-<span class="nc bnc" id="L263" title="All 2 branches missed.">        if (!transportUnits.isEmpty()) {</span>
-<span class="nc" id="L264">            var tus = new ArrayList&lt;&gt;(transportUnits);</span>
-<span class="nc" id="L265">            tus.sort((o1, o2) -&gt; {</span>
-<span class="nc bnc" id="L266" title="All 4 branches missed.">                if (o1.hasChildren() &amp;&amp; o2.hasChildren() ||</span>
-<span class="nc bnc" id="L267" title="All 4 branches missed.">                        !o1.hasChildren() &amp;&amp; !o2.hasChildren()) {</span>
-<span class="nc" id="L268">                    return 0;</span>
-<span class="nc bnc" id="L269" title="All 4 branches missed.">                } else if (!o1.hasChildren() &amp;&amp; o2.hasChildren()) {</span>
-<span class="nc" id="L270">                    return -1;</span>
+<span class="nc bnc" id="L267" title="All 2 branches missed.">        if (!transportUnits.isEmpty()) {</span>
+<span class="nc" id="L268">            var tus = new ArrayList&lt;&gt;(transportUnits);</span>
+<span class="nc" id="L269">            tus.sort((o1, o2) -&gt; {</span>
+<span class="nc bnc" id="L270" title="All 4 branches missed.">                if (o1.hasChildren() &amp;&amp; o2.hasChildren() ||</span>
+<span class="nc bnc" id="L271" title="All 4 branches missed.">                        !o1.hasChildren() &amp;&amp; !o2.hasChildren()) {</span>
+<span class="nc" id="L272">                    return 0;</span>
+<span class="nc bnc" id="L273" title="All 4 branches missed.">                } else if (!o1.hasChildren() &amp;&amp; o2.hasChildren()) {</span>
+<span class="nc" id="L274">                    return -1;</span>
                 } else {
-<span class="nc" id="L272">                    return 1;</span>
+<span class="nc" id="L276">                    return 1;</span>
                 }
             });
-<span class="nc" id="L275">            tus.forEach(this::delete);</span>
+<span class="nc" id="L279">            tus.forEach(this::delete);</span>
         }
-<span class="nc" id="L277">    }</span>
+<span class="nc" id="L281">    }</span>
 
     /* we expect that the calling service spans the TX here, because the EL advice may come differently in the chain. */
     @Transactional(propagation = Propagation.MANDATORY)
     @EventListener
     public void onEvent(TUCommand command) {
-<span class="nc bnc" id="L283" title="All 2 branches missed.">        if (command.getType() == TUCommand.Type.REMOVE) {</span>
-<span class="nc" id="L284">            validate(validator, command, ValidationGroups.TransportUnit.Remove.class);</span>
-<span class="nc bnc" id="L285" title="All 2 branches missed.">            if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L286">                LOGGER.debug(&quot;Got command to REMOVE TransportUnit with pKey [{}]&quot;, command.getTransportUnit().getpKey());</span>
+<span class="nc bnc" id="L287" title="All 2 branches missed.">        if (command.getType() == TUCommand.Type.REMOVE) {</span>
+<span class="nc" id="L288">            validate(validator, command, ValidationGroups.TransportUnit.Remove.class);</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">            if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L290">                LOGGER.debug(&quot;Got command to REMOVE TransportUnit with pKey [{}]&quot;, command.getTransportUnit().getpKey());</span>
             }
-<span class="nc" id="L288">            deleteDefinitely(command.getTransportUnit().getpKey());</span>
+<span class="nc" id="L292">            deleteDefinitely(command.getTransportUnit().getpKey());</span>
         }
-<span class="nc" id="L290">    }</span>
+<span class="nc" id="L294">    }</span>
 
     private void deleteDefinitely(String pKey) {
-<span class="nc" id="L293">        repository.findByPKey(pKey).ifPresent(tu -&gt; {</span>
-<span class="nc" id="L294">            repository.delete(tu);</span>
-<span class="nc" id="L295">            publisher.publishEvent(</span>
-<span class="nc" id="L296">                    TransportUnitEvent.newBuilder()</span>
-<span class="nc" id="L297">                            .tu(tu)</span>
-<span class="nc" id="L298">                            .type(TransportUnitEvent.TransportUnitEventType.DELETED)</span>
-<span class="nc" id="L299">                            .build());</span>
-<span class="nc" id="L300">        });</span>
-<span class="nc" id="L301">    }</span>
+<span class="nc" id="L297">        repository.findByPKey(pKey).ifPresent(tu -&gt; {</span>
+<span class="nc" id="L298">            repository.delete(tu);</span>
+<span class="nc" id="L299">            publisher.publishEvent(</span>
+<span class="nc" id="L300">                    TransportUnitEvent.newBuilder()</span>
+<span class="nc" id="L301">                            .tu(tu)</span>
+<span class="nc" id="L302">                            .type(TransportUnitEvent.TransportUnitEventType.DELETED)</span>
+<span class="nc" id="L303">                            .build());</span>
+<span class="nc" id="L304">        });</span>
+<span class="nc" id="L305">    }</span>
 
     private void delete(TransportUnit transportUnit) {
-<span class="nc bnc" id="L304" title="All 2 branches missed.">        if (&quot;strict&quot;.equalsIgnoreCase(deleteTransportUnitMode)) {</span>
-<span class="nc" id="L305">            deleteDefinitely(transportUnit.getPersistentKey());</span>
-<span class="nc bnc" id="L306" title="All 2 branches missed.">        } else if (&quot;on-accept&quot;.equalsIgnoreCase(deleteTransportUnitMode)) {</span>
-<span class="nc" id="L307">            var mo = TransportUnitMO.newBuilder()</span>
-<span class="nc" id="L308">                    .withPKey(transportUnit.getPersistentKey())</span>
-<span class="nc" id="L309">                    .withBarcode(transportUnit.getBarcode().getValue())</span>
-<span class="nc" id="L310">                    .build();</span>
-<span class="nc" id="L311">            publisher.publishEvent(TUCommand.newBuilder(REMOVING)</span>
-<span class="nc" id="L312">                    .withTransportUnit(mo)</span>
-<span class="nc" id="L313">                    .build()</span>
+<span class="nc bnc" id="L308" title="All 2 branches missed.">        if (&quot;strict&quot;.equalsIgnoreCase(deleteTransportUnitMode)) {</span>
+<span class="nc" id="L309">            deleteDefinitely(transportUnit.getPersistentKey());</span>
+<span class="nc bnc" id="L310" title="All 2 branches missed.">        } else if (&quot;on-accept&quot;.equalsIgnoreCase(deleteTransportUnitMode)) {</span>
+<span class="nc" id="L311">            var mo = TransportUnitMO.newBuilder()</span>
+<span class="nc" id="L312">                    .withPKey(transportUnit.getPersistentKey())</span>
+<span class="nc" id="L313">                    .withBarcode(transportUnit.getBarcode().getValue())</span>
+<span class="nc" id="L314">                    .build();</span>
+<span class="nc" id="L315">            publisher.publishEvent(TUCommand.newBuilder(REMOVING)</span>
+<span class="nc" id="L316">                    .withTransportUnit(mo)</span>
+<span class="nc" id="L317">                    .build()</span>
             );
-<span class="nc" id="L315">        } else {</span>
-<span class="nc" id="L316">            throw new IllegalConfigurationValueException(format(&quot;Configuration value [owms.common.delete-transport-unit-mode] is configured with invalid value [%s]&quot;, deleteTransportUnitMode));</span>
+<span class="nc" id="L319">        } else {</span>
+<span class="nc" id="L320">            throw new IllegalConfigurationValueException(format(&quot;Configuration value [owms.common.delete-transport-unit-mode] is configured with invalid value [%s]&quot;, deleteTransportUnitMode));</span>
         }
-<span class="nc" id="L318">    }</span>
+<span class="nc" id="L322">    }</span>
 
     /**
      * {@inheritDoc}
@@ -323,12 +327,12 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public @NotNull TransportUnit findByBarcode(@NotBlank String transportUnitBK) {
-<span class="nc" id="L326">        return findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));</span>
+<span class="nc" id="L330">        return findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));</span>
     }
 
     private TransportUnit findByBarcodeInternal(Barcode barcode) {
-<span class="nc" id="L330">        return repository.findByBarcode(barcode)</span>
-<span class="nc" id="L331">                .orElseThrow(() -&gt; new NotFoundException(translator, CommonMessageCodes.TU_BARCODE_NOT_FOUND, new Serializable[]{barcode}, barcode));</span>
+<span class="nc" id="L334">        return repository.findByBarcode(barcode)</span>
+<span class="nc" id="L335">                .orElseThrow(() -&gt; new NotFoundException(translator, CommonMessageCodes.TU_BARCODE_NOT_FOUND, new Serializable[]{barcode}, barcode));</span>
     }
 
     /**
@@ -337,8 +341,8 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public @NotNull List&lt;TransportUnit&gt; findByBarcodes(@NotEmpty List&lt;Barcode&gt; barcodes) {
-<span class="nc" id="L340">        var tus = repository.findByBarcodeIn(barcodes);</span>
-<span class="nc bnc" id="L341" title="All 2 branches missed.">        return tus == null ? new ArrayList&lt;&gt;(0) : tus;</span>
+<span class="nc" id="L344">        var tus = repository.findByBarcodeIn(barcodes);</span>
+<span class="nc bnc" id="L345" title="All 2 branches missed.">        return tus == null ? new ArrayList&lt;&gt;(0) : tus;</span>
     }
 
     /**
@@ -347,9 +351,9 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public @NotNull List&lt;TransportUnit&gt; findOnLocation(@NotBlank String actualLocation) {
-<span class="nc" id="L350">        Assert.hasText(actualLocation, NO_LOCATION_SET);</span>
-<span class="nc" id="L351">        var location = locationService.findByLocationIdOrThrow(actualLocation);</span>
-<span class="nc" id="L352">        return repository.findByActualLocationOrderByActualLocationDate(location);</span>
+<span class="nc" id="L354">        Assert.hasText(actualLocation, NO_LOCATION_SET);</span>
+<span class="nc" id="L355">        var location = locationService.findByLocationIdOrThrow(actualLocation);</span>
+<span class="nc" id="L356">        return repository.findByActualLocationOrderByActualLocationDate(location);</span>
     }
 
     /**
@@ -358,7 +362,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public @NotNull TransportUnit findByPKey(@NotBlank String pKey) {
-<span class="nc" id="L361">        return repository.findByPKey(pKey).orElseThrow(() -&gt; new NotFoundException(format(&quot;No TransportUnit with pKey [%s] found&quot;, pKey)));</span>
+<span class="nc" id="L365">        return repository.findByPKey(pKey).orElseThrow(() -&gt; new NotFoundException(format(&quot;No TransportUnit with pKey [%s] found&quot;, pKey)));</span>
     }
 
     /**
@@ -367,9 +371,9 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public void addError(@NotBlank String transportUnitBK, @NotNull UnitError unitError) {
-<span class="nc" id="L370">        var tu = this.findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));</span>
-<span class="nc" id="L371">        tu.addError(unitError);</span>
-<span class="nc" id="L372">    }</span>
+<span class="nc" id="L374">        var tu = this.findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));</span>
+<span class="nc" id="L375">        tu.addError(unitError);</span>
+<span class="nc" id="L376">    }</span>
 
     /**
      * {@inheritDoc}
@@ -377,7 +381,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public @NotNull List&lt;TransportUnit&gt; findAll() {
-<span class="nc" id="L380">        return repository.findAll();</span>
+<span class="nc" id="L384">        return repository.findAll();</span>
     }
 
     /**
@@ -386,15 +390,15 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public TransportUnit changeTarget(@NotNull Barcode barcode, @NotBlank String targetLocation) {
-<span class="nc" id="L389">        var transportUnit = findByBarcodeInternal(barcode);</span>
-<span class="nc" id="L390">        var location = locationService.findByLocationIdOrThrow(targetLocation);</span>
-<span class="nc" id="L391">        transportUnit.setTargetLocation(location);</span>
-<span class="nc" id="L392">        var saved = repository.save(transportUnit);</span>
-<span class="nc" id="L393">        publisher.publishEvent(TransportUnitEvent.newBuilder()</span>
-<span class="nc" id="L394">                .tu(saved)</span>
-<span class="nc" id="L395">                .type(TransportUnitEvent.TransportUnitEventType.CHANGED).build()</span>
+<span class="nc" id="L393">        var transportUnit = findByBarcodeInternal(barcode);</span>
+<span class="nc" id="L394">        var location = locationService.findByLocationIdOrThrow(targetLocation);</span>
+<span class="nc" id="L395">        transportUnit.setTargetLocation(location);</span>
+<span class="nc" id="L396">        var saved = repository.save(transportUnit);</span>
+<span class="nc" id="L397">        publisher.publishEvent(TransportUnitEvent.newBuilder()</span>
+<span class="nc" id="L398">                .tu(saved)</span>
+<span class="nc" id="L399">                .type(TransportUnitEvent.TransportUnitEventType.CHANGED).build()</span>
         );
-<span class="nc" id="L397">        return saved;</span>
+<span class="nc" id="L401">        return saved;</span>
     }
 
     /**
@@ -402,16 +406,29 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public void setState(@NotBlank String transportUnitBK, @NotNull TransportUnitState state) {
-<span class="nc" id="L406">        var transportUnit = findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));</span>
-<span class="nc" id="L407">        LOGGER.debug(&quot;Setting TransportUnit [{}] to state [{}]&quot;, transportUnitBK, state);</span>
-<span class="nc" id="L408">        transportUnit.setState(state);</span>
-<span class="nc" id="L409">        publisher.publishEvent(TransportUnitEvent.newBuilder()</span>
-<span class="nc" id="L410">                .tu(transportUnit)</span>
-<span class="nc" id="L411">                .type(TransportUnitEvent.TransportUnitEventType.STATE_CHANGE).build()</span>
+    public void setState(@NotBlank String transportUnitBK, @NotBlank String newState) {
+<span class="nc" id="L410">        var transportUnit = findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));</span>
+<span class="nc" id="L411">        approveStateChange(transportUnit, newState);</span>
+<span class="nc" id="L412">        LOGGER.debug(&quot;Setting state of TransportUnit [{}] to [{}]&quot;, transportUnitBK, newState);</span>
+<span class="nc" id="L413">        transportUnit.setState(newState);</span>
+<span class="nc" id="L414">        publisher.publishEvent(TransportUnitEvent.newBuilder()</span>
+<span class="nc" id="L415">                .tu(transportUnit)</span>
+<span class="nc" id="L416">                .type(TransportUnitEvent.TransportUnitEventType.STATE_CHANGE).build()</span>
         );
-<span class="nc" id="L413">        repository.save(transportUnit);</span>
-<span class="nc" id="L414">    }</span>
+<span class="nc" id="L418">        repository.save(transportUnit);</span>
+<span class="nc" id="L419">    }</span>
+
+    private void approveStateChange(TransportUnit transportUnit, String newState) {
+<span class="nc bnc" id="L422" title="All 2 branches missed.">        if (stateChangeApproval == null) {</span>
+<span class="nc" id="L423">            return;</span>
+        }
+        try {
+<span class="nc" id="L426">            stateChangeApproval.approve(transportUnit, newState);</span>
+<span class="nc" id="L427">        } catch (NotApprovedException nae) {</span>
+<span class="nc" id="L428">            LOGGER.error(nae.getMessage(), nae);</span>
+<span class="nc" id="L429">            throw new StateChangeException(&quot;Not allowed to change the state of TransportUnit [%s] to [%s]&quot;.formatted(transportUnit.getBarcode(), newState));</span>
+<span class="nc" id="L430">        }</span>
+<span class="nc" id="L431">    }</span>
 
     /**
      * {@inheritDoc}
@@ -419,13 +436,13 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public void synchronizeTransportUnits() {
-<span class="nc" id="L422">        var all = repository.findAll();</span>
-<span class="nc" id="L423">        all.forEach(tu -&gt; publisher.publishEvent(</span>
-<span class="nc" id="L424">                TransportUnitEvent.newBuilder()</span>
-<span class="nc" id="L425">                        .tu(tu)</span>
-<span class="nc" id="L426">                        .type(TransportUnitEvent.TransportUnitEventType.CREATED)</span>
-<span class="nc" id="L427">                        .build()</span>
+<span class="nc" id="L439">        var all = repository.findAll();</span>
+<span class="nc" id="L440">        all.forEach(tu -&gt; publisher.publishEvent(</span>
+<span class="nc" id="L441">                TransportUnitEvent.newBuilder()</span>
+<span class="nc" id="L442">                        .tu(tu)</span>
+<span class="nc" id="L443">                        .type(TransportUnitEvent.TransportUnitEventType.CREATED)</span>
+<span class="nc" id="L444">                        .build()</span>
         ));
-<span class="nc" id="L429">    }</span>
+<span class="nc" id="L446">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

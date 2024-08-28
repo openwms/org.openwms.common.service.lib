@@ -554,14 +554,14 @@ newly created resource as HTTP <code>Location</code> header attribute</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/a7feb2f7-0b9d-4c6f-a15d-71340e2c08ae
+Location: http://localhost:8080/v1/transport-units/03bef167-a838-48ce-bcff-afccacddbf0f
 Content-Type: application/vnd.openwms.transport-unit-v1+json
 Content-Length: 1547
 
 {
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/v1/transport-units/a7feb2f7-0b9d-4c6f-a15d-71340e2c08ae"
+    "href" : "http://localhost:8080/v1/transport-units/03bef167-a838-48ce-bcff-afccacddbf0f"
   }, {
     "rel" : "transport-unit-type",
     "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -570,15 +570,15 @@ Content-Length: 1547
     "href" : "http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"
   } ],
   "ol" : 0,
-  "createDt" : "2024-06-28T19:29:33.860893327Z",
-  "lastModifiedDt" : "2024-06-28T19:29:33.860893327Z",
-  "pKey" : "a7feb2f7-0b9d-4c6f-a15d-71340e2c08ae",
+  "createDt" : "2024-08-28T13:12:58.779269855Z",
+  "lastModifiedDt" : "2024-08-28T13:12:58.779269855Z",
+  "pKey" : "03bef167-a838-48ce-bcff-afccacddbf0f",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "links" : [ ],
     "ol" : 30,
-    "createDt" : "2024-06-28T19:29:33.763362000Z",
-    "lastModifiedDt" : "2024-06-28T19:29:33.891203168Z",
+    "createDt" : "2024-08-28T13:12:58.714076000Z",
+    "lastModifiedDt" : "2024-08-28T13:12:58.780857994Z",
     "pKey" : "113646454019",
     "locationId" : "EXT_/0000/0000/0000/0000",
     "accountId" : "D",
@@ -594,7 +594,7 @@ Content-Length: 1547
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-06-28T19:29:33.763362000Z",
+    "createDt" : "2024-08-28T13:12:58.714076000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -607,7 +607,7 @@ Content-Length: 1547
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2024-06-28T19:29:33.835550779Z"
+  "actualLocationDate" : "2024-08-28T13:12:58.778472900Z"
 }</code></pre>
 </div>
 </div>
@@ -661,7 +661,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/d1312462-d93d-433f-97a8-2d137bec0ef0</code></pre>
+Location: http://localhost:8080/v1/transport-units/2d7e2819-30cb-4021-9873-2c1eb5c3c6f2</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -750,15 +750,15 @@ Content-Length: 1326
     "href" : "http://localhost:8080/v1/locations?locationId=FGIN%2F0001%2FLEFT%2F0000%2F0000"
   } ],
   "ol" : 2,
-  "createDt" : "2024-06-28T19:29:35.103922000Z",
-  "lastModifiedDt" : "2024-06-28T19:29:35.162128113Z",
+  "createDt" : "2024-08-28T13:12:59.764240000Z",
+  "lastModifiedDt" : "2024-08-28T13:12:59.826505215Z",
   "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
     "links" : [ ],
     "ol" : 13,
-    "createDt" : "2024-06-28T19:29:35.103922000Z",
-    "lastModifiedDt" : "2024-06-28T19:29:35.162773257Z",
+    "createDt" : "2024-08-28T13:12:59.764240000Z",
+    "lastModifiedDt" : "2024-08-28T13:12:59.826821478Z",
     "pKey" : "896384899357",
     "locationId" : "FGIN/0001/LEFT/0000/0000",
     "accountId" : "D",
@@ -774,7 +774,7 @@ Content-Length: 1326
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-06-28T19:29:35.103922000Z",
+    "createDt" : "2024-08-28T13:12:59.764240000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -782,7 +782,7 @@ Content-Length: 1326
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-06-28T19:29:35.156432490Z"
+  "actualLocationDate" : "2024-08-28T13:12:59.821454471Z"
 }</code></pre>
 </div>
 </div>
@@ -790,9 +790,9 @@ Content-Length: 1326
 <div class="sect2">
 <h3 id="transportunits-modify">Modify a TransportUnit</h3>
 <div class="paragraph">
-<p>Already existing <code>TransportUnits</code> can be modified by some degree. Not every attribute is allowed to change but most of the non-identifying
-ones can be changed. For example it is not foreseen to change the Barcode of an existing <code>TransportUnit</code>, nor the internal persistent key.
-The date when the <code>TransportUnit</code> has been recently moved is only changed together with the <code>actualLocation</code>.</p>
+<p>Already existing <code>TransportUnits</code> can be modified to some degree. Not every attribute is allowed to change but most of the non-identifying
+ones can be changed. For example, it is not allowed to change the Barcode of an existing <code>TransportUnit</code>, nor the internal persistent key.
+The timestamp when the <code>TransportUnit</code> has been moved recently is only changed along with the <code>actualLocation</code>.</p>
 </div>
 <div class="paragraph">
 <p>Send a HTTP <code>PUT</code> request to the server together with the <code>TransportUnit</code> as part of the request body</p>
@@ -857,15 +857,15 @@ Content-Length: 1326
     "href" : "http://localhost:8080/v1/locations?locationId=FGIN%2F0001%2FLEFT%2F0000%2F0000"
   } ],
   "ol" : 2,
-  "createDt" : "2024-06-28T19:29:34.289094000Z",
-  "lastModifiedDt" : "2024-06-28T19:29:34.452373201Z",
+  "createDt" : "2024-08-28T13:12:59.027145000Z",
+  "lastModifiedDt" : "2024-08-28T13:12:59.166743110Z",
   "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
     "links" : [ ],
     "ol" : 13,
-    "createDt" : "2024-06-28T19:29:34.289094000Z",
-    "lastModifiedDt" : "2024-06-28T19:29:34.452913610Z",
+    "createDt" : "2024-08-28T13:12:59.027145000Z",
+    "lastModifiedDt" : "2024-08-28T13:12:59.167149723Z",
     "pKey" : "896384899357",
     "locationId" : "FGIN/0001/LEFT/0000/0000",
     "accountId" : "D",
@@ -881,7 +881,7 @@ Content-Length: 1326
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-06-28T19:29:34.289094000Z",
+    "createDt" : "2024-08-28T13:12:59.027145000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -889,7 +889,7 @@ Content-Length: 1326
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-06-28T19:29:34.448412097Z"
+  "actualLocationDate" : "2024-08-28T13:12:59.165425719Z"
 }</code></pre>
 </div>
 </div>
@@ -910,6 +910,154 @@ Content-Length: 244
   } ],
   "httpStatus" : "404",
   "class" : "Barcode"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="transportunits-changestate">Change the state of a TransportUnit</h3>
+<div class="paragraph">
+<p>A <code>TransportUnit</code> is always in a certain state, for example <code>AVAILABLE</code>, <code>BLOCKED</code> or <code>QUALITY_CHECK</code>. A state change can be triggered
+through the API by sending an HTTP <code>POST</code> request to the resource with the new state as action part of the URI.</p>
+</div>
+<div class="paragraph">
+<p>To block a <code>TransportUnit</code> a caller might call the <code>/block</code> action:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/transport-units/block?bk=00000000000000004711 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>To unblock a <code>TransportUnit</code> a caller might call the <code>/available</code> action:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/transport-units/available?bk=00000000000000004711 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>And to mark the <code>TransportUnit</code> in state <code>QUALITY_CHECK</code> the caller might call the <code>/quality-check</code> action:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/transport-units/quality-check?bk=00000000000000004711 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Additionally, a generic API endpoint exist, beside the three dedicated ones. This is especially useful when the list of possible states has
+been extended in a project by arbitrary states. Then a caller can request a state change by calling the HTTP <code>POST</code> API:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/transport-units?bk=00000000000000004711&amp;state=NOT_ACCEPTED HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The identifying Barcode of the TransportUnit</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>state</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The new state the TransportUnit shall be changed to</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If the server accepts a state change and performs it accordingly the response looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server might have a state change approval registered to validate each state change. So, if a <code>TransportUnitStateChangeApproval</code>
+instance is registered and the server rejects to change the state of the <code>TransportUnit</code> then the response looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 409 Conflict
+Content-Type: application/hal+json
+Content-Length: 142
+
+{
+  "message" : "Not allowed to change the state of TransportUnit [00000000000000004711] to [NOT_ACCEPTED]",
+  "httpStatus" : "409 CONFLICT"
 }</code></pre>
 </div>
 </div>
@@ -964,13 +1112,13 @@ Content-Length: 1206
     "href" : "http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"
   } ],
   "ol" : 1,
-  "createDt" : "2024-06-28T19:29:34.904937000Z",
+  "createDt" : "2024-08-28T13:12:59.493312000Z",
   "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
     "links" : [ ],
     "ol" : 29,
-    "createDt" : "2024-06-28T19:29:34.904937000Z",
+    "createDt" : "2024-08-28T13:12:59.493312000Z",
     "pKey" : "113646454019",
     "locationId" : "EXT_/0000/0000/0000/0000",
     "accountId" : "D",
@@ -986,7 +1134,7 @@ Content-Length: 1206
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-06-28T19:29:34.904937000Z",
+    "createDt" : "2024-08-28T13:12:59.493312000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -994,7 +1142,7 @@ Content-Length: 1206
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-06-28T19:29:34.904937000Z"
+  "actualLocationDate" : "2024-08-28T13:12:59.493312000Z"
 }</code></pre>
 </div>
 </div>
@@ -1074,13 +1222,13 @@ Content-Length: 2421
     "href" : "http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"
   } ],
   "ol" : 1,
-  "createDt" : "2024-06-28T19:29:33.439727000Z",
+  "createDt" : "2024-08-28T13:12:58.516366000Z",
   "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
     "links" : [ ],
     "ol" : 29,
-    "createDt" : "2024-06-28T19:29:33.439727000Z",
+    "createDt" : "2024-08-28T13:12:58.516366000Z",
     "pKey" : "113646454019",
     "locationId" : "EXT_/0000/0000/0000/0000",
     "accountId" : "D",
@@ -1096,7 +1244,7 @@ Content-Length: 2421
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-06-28T19:29:33.439727000Z",
+    "createDt" : "2024-08-28T13:12:58.516366000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -1104,7 +1252,7 @@ Content-Length: 2421
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-06-28T19:29:33.439727000Z"
+  "actualLocationDate" : "2024-08-28T13:12:58.516366000Z"
 }, {
   "links" : [ {
     "rel" : "self",
@@ -1117,13 +1265,13 @@ Content-Length: 2421
     "href" : "http://localhost:8080/v1/locations?locationId=FGIN%2FIPNT%2F0001%2F0000%2F0000"
   } ],
   "ol" : 1,
-  "createDt" : "2024-06-28T19:29:33.439727000Z",
+  "createDt" : "2024-08-28T13:12:58.516366000Z",
   "pKey" : "2",
   "barcode" : "00000000000000004712",
   "actualLocation" : {
     "links" : [ ],
     "ol" : 30,
-    "createDt" : "2024-06-28T19:29:33.439727000Z",
+    "createDt" : "2024-08-28T13:12:58.516366000Z",
     "pKey" : "439649733836",
     "locationId" : "FGIN/IPNT/0001/0000/0000",
     "accountId" : "D",
@@ -1139,7 +1287,7 @@ Content-Length: 2421
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-06-28T19:29:33.439727000Z",
+    "createDt" : "2024-08-28T13:12:58.516366000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -1147,7 +1295,7 @@ Content-Length: 2421
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-06-28T19:29:33.439727000Z"
+  "actualLocationDate" : "2024-08-28T13:12:58.516366000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -1202,13 +1350,13 @@ Content-Length: 1213
     "href" : "http://localhost:8080/v1/locations?locationId=FGIN%2FIPNT%2F0001%2F0000%2F0000"
   } ],
   "ol" : 1,
-  "createDt" : "2024-06-28T19:29:35.271278000Z",
+  "createDt" : "2024-08-28T13:12:59.917019000Z",
   "pKey" : "2",
   "barcode" : "00000000000000004712",
   "actualLocation" : {
     "links" : [ ],
     "ol" : 30,
-    "createDt" : "2024-06-28T19:29:35.271278000Z",
+    "createDt" : "2024-08-28T13:12:59.917019000Z",
     "pKey" : "439649733836",
     "locationId" : "FGIN/IPNT/0001/0000/0000",
     "accountId" : "D",
@@ -1224,7 +1372,7 @@ Content-Length: 1213
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-06-28T19:29:35.271278000Z",
+    "createDt" : "2024-08-28T13:12:59.917019000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -1232,7 +1380,7 @@ Content-Length: 1213
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-06-28T19:29:35.271278000Z"
+  "actualLocationDate" : "2024-08-28T13:12:59.917019000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -1287,7 +1435,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-06-28 19:27:02 UTC
+Last updated 2024-08-28 13:10:00 UTC
 </div>
 </div>
 </body>

@@ -15,12 +15,14 @@
  */
 package org.openwms.common;
 
+import org.ameba.exception.BusinessRuntimeException;
+
 /**
  * A StateChangeException signals that the request to change the state of an entity was not allowed.
  *
  * @author Heiko Scherrer
  */
-public class StateChangeException extends RuntimeException {
+public class StateChangeException extends BusinessRuntimeException {
 
     /**
      * Create a new with a message text.
@@ -28,7 +30,7 @@ public class StateChangeException extends RuntimeException {
      * @param message The message text
      */
     public StateChangeException(String message) {
-<span class="fc" id="L31">        super(message);</span>
-<span class="fc" id="L32">    }</span>
+<span class="fc" id="L33">        super(message);</span>
+<span class="fc" id="L34">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

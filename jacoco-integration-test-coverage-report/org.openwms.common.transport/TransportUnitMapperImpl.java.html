@@ -78,108 +78,102 @@ public class TransportUnitMapperImpl extends TransportUnitMapper {
 <span class="fc" id="L78">        transportUnit.setActualLocation( locationMapper.convertVO( vo.getActualLocation() ) );</span>
 <span class="fc" id="L79">        transportUnit.setTargetLocation( locationMapper.convertVO( vo.getTargetLocation() ) );</span>
 <span class="fc" id="L80">        transportUnit.setWeight( vo.getWeight() );</span>
-<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        if ( vo.getState() != null ) {</span>
-<span class="fc" id="L82">            transportUnit.setState( Enum.valueOf( TransportUnitState.class, vo.getState() ) );</span>
-        }
-<span class="fc" id="L84">        transportUnit.setTransportUnitType( transportUnitTypeMapper.convert( vo.getTransportUnitType() ) );</span>
+<span class="fc" id="L81">        transportUnit.setState( vo.getState() );</span>
+<span class="fc" id="L82">        transportUnit.setTransportUnitType( transportUnitTypeMapper.convert( vo.getTransportUnitType() ) );</span>
 
-<span class="fc" id="L86">        return transportUnit;</span>
+<span class="fc" id="L84">        return transportUnit;</span>
     }
 
     @Override
     public TransportUnitVO convertToVO(TransportUnit eo) {
-<span class="pc bpc" id="L91" title="1 of 2 branches missed.">        if ( eo == null ) {</span>
-<span class="nc" id="L92">            return null;</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        if ( eo == null ) {</span>
+<span class="nc" id="L90">            return null;</span>
         }
 
-<span class="fc" id="L95">        TransportUnitVO transportUnitVO = new TransportUnitVO();</span>
+<span class="fc" id="L93">        TransportUnitVO transportUnitVO = new TransportUnitVO();</span>
 
-<span class="pc bpc" id="L97" title="1 of 2 branches missed.">        if ( eo.hasPersistentKey() ) {</span>
-<span class="fc" id="L98">            transportUnitVO.setpKey( eo.getPersistentKey() );</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        if ( eo.hasPersistentKey() ) {</span>
+<span class="fc" id="L96">            transportUnitVO.setpKey( eo.getPersistentKey() );</span>
         }
-<span class="fc" id="L100">        transportUnitVO.setBarcode( eoBarcodeValue( eo ) );</span>
-<span class="fc" id="L101">        transportUnitVO.setTransportUnitType( transportUnitTypeMapper.convertToVO( transportUnitTypeMapper.convert( eoTransportUnitTypeType( eo ) ) ) );</span>
-<span class="fc" id="L102">        transportUnitVO.setCreateDt( eo.getCreateDt() );</span>
-<span class="fc" id="L103">        transportUnitVO.setOl( eo.getOl() );</span>
-<span class="fc" id="L104">        transportUnitVO.setLastModifiedDt( eo.getLastModifiedDt() );</span>
-<span class="fc" id="L105">        transportUnitVO.setActualLocation( locationMapper.convertToVO( eo.getActualLocation() ) );</span>
-<span class="fc" id="L106">        transportUnitVO.setTargetLocation( locationMapper.convertToVO( eo.getTargetLocation() ) );</span>
-<span class="pc bpc" id="L107" title="1 of 2 branches missed.">        if ( eo.getState() != null ) {</span>
-<span class="fc" id="L108">            transportUnitVO.setState( eo.getState().name() );</span>
-        }
-<span class="fc" id="L110">        transportUnitVO.setWeight( eo.getWeight() );</span>
-<span class="fc" id="L111">        transportUnitVO.setActualLocationDate( eo.getActualLocationDate() );</span>
+<span class="fc" id="L98">        transportUnitVO.setBarcode( eoBarcodeValue( eo ) );</span>
+<span class="fc" id="L99">        transportUnitVO.setTransportUnitType( transportUnitTypeMapper.convertToVO( transportUnitTypeMapper.convert( eoTransportUnitTypeType( eo ) ) ) );</span>
+<span class="fc" id="L100">        transportUnitVO.setCreateDt( eo.getCreateDt() );</span>
+<span class="fc" id="L101">        transportUnitVO.setOl( eo.getOl() );</span>
+<span class="fc" id="L102">        transportUnitVO.setLastModifiedDt( eo.getLastModifiedDt() );</span>
+<span class="fc" id="L103">        transportUnitVO.setActualLocation( locationMapper.convertToVO( eo.getActualLocation() ) );</span>
+<span class="fc" id="L104">        transportUnitVO.setTargetLocation( locationMapper.convertToVO( eo.getTargetLocation() ) );</span>
+<span class="fc" id="L105">        transportUnitVO.setState( eo.getState() );</span>
+<span class="fc" id="L106">        transportUnitVO.setWeight( eo.getWeight() );</span>
+<span class="fc" id="L107">        transportUnitVO.setActualLocationDate( eo.getActualLocationDate() );</span>
 
-<span class="fc" id="L113">        return transportUnitVO;</span>
+<span class="fc" id="L109">        return transportUnitVO;</span>
     }
 
     @Override
     public List&lt;TransportUnitVO&gt; convertToVO(List&lt;TransportUnit&gt; eo) {
-<span class="nc bnc" id="L118" title="All 2 branches missed.">        if ( eo == null ) {</span>
-<span class="nc" id="L119">            return null;</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if ( eo == null ) {</span>
+<span class="nc" id="L115">            return null;</span>
         }
 
-<span class="nc" id="L122">        List&lt;TransportUnitVO&gt; list = new ArrayList&lt;TransportUnitVO&gt;( eo.size() );</span>
-<span class="nc bnc" id="L123" title="All 2 branches missed.">        for ( TransportUnit transportUnit : eo ) {</span>
-<span class="nc" id="L124">            list.add( convertToVO( transportUnit ) );</span>
-<span class="nc" id="L125">        }</span>
+<span class="nc" id="L118">        List&lt;TransportUnitVO&gt; list = new ArrayList&lt;TransportUnitVO&gt;( eo.size() );</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        for ( TransportUnit transportUnit : eo ) {</span>
+<span class="nc" id="L120">            list.add( convertToVO( transportUnit ) );</span>
+<span class="nc" id="L121">        }</span>
 
-<span class="nc" id="L127">        return list;</span>
+<span class="nc" id="L123">        return list;</span>
     }
 
     @Override
     public TransportUnitMO convertToMO(TransportUnit eo) {
-<span class="pc bpc" id="L132" title="1 of 2 branches missed.">        if ( eo == null ) {</span>
-<span class="nc" id="L133">            return null;</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">        if ( eo == null ) {</span>
+<span class="nc" id="L129">            return null;</span>
         }
 
-<span class="fc" id="L136">        TransportUnitMO transportUnitMO = new TransportUnitMO();</span>
+<span class="fc" id="L132">        TransportUnitMO transportUnitMO = new TransportUnitMO();</span>
 
-<span class="pc bpc" id="L138" title="1 of 2 branches missed.">        if ( eo.hasPersistentKey() ) {</span>
-<span class="fc" id="L139">            transportUnitMO.setpKey( eo.getPersistentKey() );</span>
+<span class="pc bpc" id="L134" title="1 of 2 branches missed.">        if ( eo.hasPersistentKey() ) {</span>
+<span class="fc" id="L135">            transportUnitMO.setpKey( eo.getPersistentKey() );</span>
         }
-<span class="fc" id="L141">        transportUnitMO.setActualLocation( locationMapper.convertToMO( eo.getActualLocation() ) );</span>
-<span class="fc" id="L142">        transportUnitMO.setTargetLocation( locationMapper.convertToMO( eo.getTargetLocation() ) );</span>
-<span class="fc" id="L143">        transportUnitMO.setActualLocationDate( eo.getActualLocationDate() );</span>
-<span class="pc bpc" id="L144" title="1 of 2 branches missed.">        if ( eo.getState() != null ) {</span>
-<span class="fc" id="L145">            transportUnitMO.setState( eo.getState().name() );</span>
-        }
-<span class="fc" id="L147">        transportUnitMO.setTransportUnitType( transportUnitTypeMapper.convertToMO( eo.getTransportUnitType() ) );</span>
+<span class="fc" id="L137">        transportUnitMO.setActualLocation( locationMapper.convertToMO( eo.getActualLocation() ) );</span>
+<span class="fc" id="L138">        transportUnitMO.setTargetLocation( locationMapper.convertToMO( eo.getTargetLocation() ) );</span>
+<span class="fc" id="L139">        transportUnitMO.setActualLocationDate( eo.getActualLocationDate() );</span>
+<span class="fc" id="L140">        transportUnitMO.setState( eo.getState() );</span>
+<span class="fc" id="L141">        transportUnitMO.setTransportUnitType( transportUnitTypeMapper.convertToMO( eo.getTransportUnitType() ) );</span>
 
-<span class="fc" id="L149">        transportUnitMO.setBarcode( eo.getBarcode().getValue() );</span>
-<span class="pc bpc" id="L150" title="1 of 2 branches missed.">        transportUnitMO.setParent( eo.getParent() == null ? null : eo.getParent().getBarcode().getValue() );</span>
+<span class="fc" id="L143">        transportUnitMO.setBarcode( eo.getBarcode().getValue() );</span>
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">        transportUnitMO.setParent( eo.getParent() == null ? null : eo.getParent().getBarcode().getValue() );</span>
 
-<span class="fc" id="L152">        return transportUnitMO;</span>
+<span class="fc" id="L146">        return transportUnitMO;</span>
     }
 
     private String eoBarcodeValue(TransportUnit transportUnit) {
-<span class="pc bpc" id="L156" title="1 of 2 branches missed.">        if ( transportUnit == null ) {</span>
-<span class="nc" id="L157">            return null;</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">        if ( transportUnit == null ) {</span>
+<span class="nc" id="L151">            return null;</span>
         }
-<span class="fc" id="L159">        Barcode barcode = transportUnit.getBarcode();</span>
-<span class="pc bpc" id="L160" title="1 of 2 branches missed.">        if ( barcode == null ) {</span>
-<span class="nc" id="L161">            return null;</span>
+<span class="fc" id="L153">        Barcode barcode = transportUnit.getBarcode();</span>
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">        if ( barcode == null ) {</span>
+<span class="nc" id="L155">            return null;</span>
         }
-<span class="fc" id="L163">        String value = barcode.getValue();</span>
-<span class="pc bpc" id="L164" title="1 of 2 branches missed.">        if ( value == null ) {</span>
-<span class="nc" id="L165">            return null;</span>
+<span class="fc" id="L157">        String value = barcode.getValue();</span>
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">        if ( value == null ) {</span>
+<span class="nc" id="L159">            return null;</span>
         }
-<span class="fc" id="L167">        return value;</span>
+<span class="fc" id="L161">        return value;</span>
     }
 
     private String eoTransportUnitTypeType(TransportUnit transportUnit) {
-<span class="pc bpc" id="L171" title="1 of 2 branches missed.">        if ( transportUnit == null ) {</span>
-<span class="nc" id="L172">            return null;</span>
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">        if ( transportUnit == null ) {</span>
+<span class="nc" id="L166">            return null;</span>
         }
-<span class="fc" id="L174">        TransportUnitType transportUnitType = transportUnit.getTransportUnitType();</span>
-<span class="pc bpc" id="L175" title="1 of 2 branches missed.">        if ( transportUnitType == null ) {</span>
-<span class="nc" id="L176">            return null;</span>
+<span class="fc" id="L168">        TransportUnitType transportUnitType = transportUnit.getTransportUnitType();</span>
+<span class="pc bpc" id="L169" title="1 of 2 branches missed.">        if ( transportUnitType == null ) {</span>
+<span class="nc" id="L170">            return null;</span>
         }
-<span class="fc" id="L178">        String type = transportUnitType.getType();</span>
-<span class="pc bpc" id="L179" title="1 of 2 branches missed.">        if ( type == null ) {</span>
-<span class="nc" id="L180">            return null;</span>
+<span class="fc" id="L172">        String type = transportUnitType.getType();</span>
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">        if ( type == null ) {</span>
+<span class="nc" id="L174">            return null;</span>
         }
-<span class="fc" id="L182">        return type;</span>
+<span class="fc" id="L176">        return type;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -14,6 +14,7 @@ org.openwms.common.location.events
 org.openwms.common.location.impl
 org.openwms.common.location.impl.registration
 org.openwms.common.location.spi
+org.openwms.common.spi
 org.openwms.common.spi.transactions
 org.openwms.common.spi.transactions.commands
 org.openwms.common.transport
@@ -24,3 +25,4 @@ org.openwms.common.transport.barcode
 org.openwms.common.transport.commands
 org.openwms.common.transport.events
 org.openwms.common.transport.impl
+org.openwms.common.transport.spi

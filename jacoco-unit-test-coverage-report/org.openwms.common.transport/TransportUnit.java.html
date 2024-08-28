@@ -20,8 +20,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -90,15 +88,14 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     private LocalDateTime actualLocationDate;
 
     /** Weight of the {@code TransportUnit}. */
-<span class="pc" id="L93">    @Embedded</span>
+<span class="pc" id="L91">    @Embedded</span>
     @AttributeOverride(name = &quot;unitType&quot;, column = @Column(name = &quot;C_WEIGHT_UOM&quot;, length = CoreTypeDefinitions.QUANTITY_LENGTH))
     @AttributeOverride(name = &quot;magnitude&quot;, column = @Column(name = &quot;C_WEIGHT&quot;))
     private Weight weight = Weight.ZERO;
 
     /** State of the {@code TransportUnit}. */
-<span class="pc" id="L99">    @Column(name = &quot;C_STATE&quot;)</span>
-    @Enumerated(EnumType.STRING)
-    private TransportUnitState state = TransportUnitState.AVAILABLE;
+<span class="pc" id="L97">    @Column(name = &quot;C_STATE&quot;)</span>
+<span class="pc" id="L98">    private String state = TransportUnitState.AVAILABLE.name();</span>
 
     /** The current {@link Location} of the {@code TransportUnit}. */
     @ManyToOne
@@ -129,26 +126,26 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     private LocalDateTime inventoryDate;
 
     /** A set of all child {@code TransportUnit}s, ordered by id. */
-<span class="pc" id="L132">    @OneToMany(mappedBy = &quot;parent&quot;, cascade = {CascadeType.MERGE, CascadeType.PERSIST})</span>
+<span class="pc" id="L129">    @OneToMany(mappedBy = &quot;parent&quot;, cascade = {CascadeType.MERGE, CascadeType.PERSIST})</span>
     @OrderBy(&quot;actualLocationDate DESC&quot;)
     private Set&lt;TransportUnit&gt; children = new HashSet&lt;&gt;();
 
     /** A List of errors occurred on the {@code TransportUnit}. */
-<span class="pc" id="L137">    @OneToMany(mappedBy = &quot;transportUnit&quot;, cascade = {CascadeType.ALL})</span>
+<span class="pc" id="L134">    @OneToMany(mappedBy = &quot;transportUnit&quot;, cascade = {CascadeType.ALL})</span>
     @NotAudited
     private List&lt;UnitError&gt; errors = new ArrayList&lt;&gt;(0);
 
     /*~ ----------------------------- constructors ------------------- */
     /** Dear JPA... */
-<span class="fc" id="L143">    protected TransportUnit() { }</span>
+<span class="fc" id="L140">    protected TransportUnit() { }</span>
 
     @Default
     @ConstructorProperties({&quot;barcode&quot;})
-<span class="nc" id="L147">    public TransportUnit(@NotNull Barcode barcode) {</span>
-<span class="nc" id="L148">        Assert.notNull(barcode, &quot;Barcode must not be null&quot;);</span>
-<span class="nc" id="L149">        this.barcode = barcode;</span>
-<span class="nc" id="L150">        initInventory();</span>
-<span class="nc" id="L151">    }</span>
+<span class="nc" id="L144">    public TransportUnit(@NotNull Barcode barcode) {</span>
+<span class="nc" id="L145">        Assert.notNull(barcode, &quot;Barcode must not be null&quot;);</span>
+<span class="nc" id="L146">        this.barcode = barcode;</span>
+<span class="nc" id="L147">        initInventory();</span>
+<span class="nc" id="L148">    }</span>
 
     /**
      * Create a new {@code TransportUnit} with an unique {@link Barcode}.
@@ -159,22 +156,22 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @throws IllegalArgumentException when one of the params is {@literal null}
      */
     @ConstructorProperties({&quot;barcode&quot;, &quot;transportUnitType&quot;, &quot;actualLocation&quot;})
-<span class="fc" id="L162">    public TransportUnit(@NotNull Barcode barcode, @NotNull TransportUnitType transportUnitType, @NotNull Location actualLocation) {</span>
-<span class="fc" id="L163">        Assert.notNull(barcode, &quot;Barcode must not be null&quot;);</span>
-<span class="fc" id="L164">        Assert.notNull(transportUnitType, &quot;TransportUnitType must not be null&quot;);</span>
-<span class="fc" id="L165">        Assert.notNull(actualLocation, &quot;ActualLocation must not be null&quot;);</span>
-<span class="fc" id="L166">        this.barcode = barcode;</span>
-<span class="fc" id="L167">        setTransportUnitType(transportUnitType);</span>
-<span class="fc" id="L168">        setActualLocation(actualLocation);</span>
-<span class="fc" id="L169">        initInventory();</span>
-<span class="fc" id="L170">    }</span>
+<span class="fc" id="L159">    public TransportUnit(@NotNull Barcode barcode, @NotNull TransportUnitType transportUnitType, @NotNull Location actualLocation) {</span>
+<span class="fc" id="L160">        Assert.notNull(barcode, &quot;Barcode must not be null&quot;);</span>
+<span class="fc" id="L161">        Assert.notNull(transportUnitType, &quot;TransportUnitType must not be null&quot;);</span>
+<span class="fc" id="L162">        Assert.notNull(actualLocation, &quot;ActualLocation must not be null&quot;);</span>
+<span class="fc" id="L163">        this.barcode = barcode;</span>
+<span class="fc" id="L164">        setTransportUnitType(transportUnitType);</span>
+<span class="fc" id="L165">        setActualLocation(actualLocation);</span>
+<span class="fc" id="L166">        initInventory();</span>
+<span class="fc" id="L167">    }</span>
 
     /*~ ----------------------------- methods ------------------- */
     /** Required for the Mapper. */
     @Override
     public void setPersistentKey(String pKey) {
-<span class="nc" id="L176">        super.setPersistentKey(pKey);</span>
-<span class="nc" id="L177">    }</span>
+<span class="nc" id="L173">        super.setPersistentKey(pKey);</span>
+<span class="nc" id="L174">    }</span>
 
     /**
      * Get the actual {@link Location} of the {@code TransportUnit}.
@@ -182,7 +179,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return The {@link Location} where the {@code TransportUnit} is placed on
      */
     public Location getActualLocation() {
-<span class="fc" id="L185">        return actualLocation;</span>
+<span class="fc" id="L182">        return actualLocation;</span>
     }
 
     /**
@@ -192,22 +189,22 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @throws IllegalArgumentException when {@code actualLocation} is {@literal null}
      */
     public void setActualLocation(Location actualLocation) {
-<span class="fc" id="L195">        Assert.notNull(actualLocation, &quot;ActualLocation must not be null, this: &quot; + this);</span>
-<span class="fc" id="L196">        this.actualLocation = actualLocation;</span>
-<span class="fc" id="L197">        this.actualLocationDate = LocalDateTime.now();</span>
-<span class="fc" id="L198">        this.actualLocation.setLastMovement(this.actualLocationDate);</span>
-<span class="pc bpc" id="L199" title="1 of 2 branches missed.">        if (this.getChildren() != null) {</span>
-<span class="pc" id="L200">            this.getChildren().forEach(child -&gt; child.setActualLocation(actualLocation));</span>
+<span class="fc" id="L192">        Assert.notNull(actualLocation, &quot;ActualLocation must not be null, this: &quot; + this);</span>
+<span class="fc" id="L193">        this.actualLocation = actualLocation;</span>
+<span class="fc" id="L194">        this.actualLocationDate = LocalDateTime.now();</span>
+<span class="fc" id="L195">        this.actualLocation.setLastMovement(this.actualLocationDate);</span>
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">        if (this.getChildren() != null) {</span>
+<span class="pc" id="L197">            this.getChildren().forEach(child -&gt; child.setActualLocation(actualLocation));</span>
         }
-<span class="fc" id="L202">    }</span>
+<span class="fc" id="L199">    }</span>
 
     /**
      * Initialize inventory info of the {@code TransportUnit}.
      */
     public void initInventory() {
-<span class="fc" id="L208">        setInventoryUser(&quot;init&quot;);</span>
-<span class="fc" id="L209">        setInventoryDate(LocalDateTime.now());</span>
-<span class="fc" id="L210">    }</span>
+<span class="fc" id="L205">        setInventoryUser(&quot;init&quot;);</span>
+<span class="fc" id="L206">        setInventoryDate(LocalDateTime.now());</span>
+<span class="fc" id="L207">    }</span>
 
     /**
      * Get the target {@link Location} of the {@code TransportUnit}. This property can not be {@literal null} when an active {@code
@@ -216,7 +213,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return The target location
      */
     public Location getTargetLocation() {
-<span class="fc" id="L219">        return this.targetLocation;</span>
+<span class="fc" id="L216">        return this.targetLocation;</span>
     }
 
     /**
@@ -226,8 +223,8 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @param targetLocation The target {@link Location} where this {@code TransportUnit} shall be transported to
      */
     public void setTargetLocation(Location targetLocation) {
-<span class="nc" id="L229">        this.targetLocation = targetLocation;</span>
-<span class="nc" id="L230">    }</span>
+<span class="nc" id="L226">        this.targetLocation = targetLocation;</span>
+<span class="nc" id="L227">    }</span>
 
     /**
      * Indicates whether the {@code TransportUnit} is empty or not.
@@ -235,7 +232,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return {@literal true} if empty, {@literal false} if not empty, {@literal null} when not defined
      */
     public Boolean getEmpty() {
-<span class="fc" id="L238">        return this.empty;</span>
+<span class="fc" id="L235">        return this.empty;</span>
     }
 
     /**
@@ -245,8 +242,8 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * for no definition
      */
     public void setEmpty(Boolean empty) {
-<span class="nc" id="L248">        this.empty = empty;</span>
-<span class="nc" id="L249">    }</span>
+<span class="nc" id="L245">        this.empty = empty;</span>
+<span class="nc" id="L246">    }</span>
 
     /**
      * Get the groupId.
@@ -254,7 +251,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return The groupId
      */
     public String getGroupName() {
-<span class="nc" id="L257">        return groupName;</span>
+<span class="nc" id="L254">        return groupName;</span>
     }
 
     /**
@@ -263,8 +260,8 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @param groupId The groupId
      */
     public void setGroupName(String groupId) {
-<span class="nc" id="L266">        this.groupName = groupId;</span>
-<span class="nc" id="L267">    }</span>
+<span class="nc" id="L263">        this.groupName = groupId;</span>
+<span class="nc" id="L264">    }</span>
 
     /**
      * Returns the username of the User who performed the last inventory action on the {@code TransportUnit}.
@@ -272,7 +269,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return The username who did the last inventory check
      */
     public String getInventoryUser() {
-<span class="fc" id="L275">        return this.inventoryUser;</span>
+<span class="fc" id="L272">        return this.inventoryUser;</span>
     }
 
     /**
@@ -281,8 +278,8 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @param inventoryUser The username who did the last inventory check
      */
     public void setInventoryUser(String inventoryUser) {
-<span class="fc" id="L284">        this.inventoryUser = inventoryUser;</span>
-<span class="fc" id="L285">    }</span>
+<span class="fc" id="L281">        this.inventoryUser = inventoryUser;</span>
+<span class="fc" id="L282">    }</span>
 
     /**
      * Number of {@code TransportUnit}s belonging to the {@code TransportUnit}.
@@ -290,7 +287,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return The number of all {@code TransportUnit}s belonging to this one
      */
     public int getNoTransportUnits() {
-<span class="fc" id="L293">        return this.children.size();</span>
+<span class="fc" id="L290">        return this.children.size();</span>
     }
 
     /**
@@ -299,7 +296,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return The timestamp when the {@code TransportUnit} moved the last time
      */
     public LocalDateTime getActualLocationDate() {
-<span class="fc" id="L302">        return actualLocationDate;</span>
+<span class="fc" id="L299">        return actualLocationDate;</span>
     }
 
     /**
@@ -308,7 +305,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return The timestamp of the last inventory check of the {@code TransportUnit}.
      */
     public LocalDateTime getInventoryDate() {
-<span class="fc" id="L311">        return inventoryDate;</span>
+<span class="fc" id="L308">        return inventoryDate;</span>
     }
 
     /**
@@ -318,9 +315,9 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @throws IllegalArgumentException when {@code inventoryDate} is {@literal null}
      */
     public void setInventoryDate(LocalDateTime inventoryDate) {
-<span class="fc" id="L321">        Assert.notNull(inventoryDate, () -&gt; &quot;InventoryDate must not be null, this: &quot; + this);</span>
-<span class="fc" id="L322">        this.inventoryDate = inventoryDate;</span>
-<span class="fc" id="L323">    }</span>
+<span class="fc" id="L318">        Assert.notNull(inventoryDate, () -&gt; &quot;InventoryDate must not be null, this: &quot; + this);</span>
+<span class="fc" id="L319">        this.inventoryDate = inventoryDate;</span>
+<span class="fc" id="L320">    }</span>
 
     /**
      * Returns the current weight of the {@code TransportUnit}.
@@ -328,7 +325,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return The current weight of the {@code TransportUnit}
      */
     public Weight getWeight() {
-<span class="fc" id="L331">        return weight;</span>
+<span class="fc" id="L328">        return weight;</span>
     }
 
     /**
@@ -337,11 +334,11 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @param weight The current weight of the {@code TransportUnit}
      */
     public void setWeight(Weight weight) {
-<span class="nc" id="L340">        this.weight = weight;</span>
-<span class="nc" id="L341">    }</span>
+<span class="nc" id="L337">        this.weight = weight;</span>
+<span class="nc" id="L338">    }</span>
 
     public List&lt;UnitError&gt; getErrors() {
-<span class="fc" id="L344">        return this.errors;</span>
+<span class="fc" id="L341">        return this.errors;</span>
     }
 
     /**
@@ -352,10 +349,10 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @throws IllegalArgumentException when {@code error} is {@literal null}
      */
     public UnitError addError(UnitError error) {
-<span class="fc" id="L355">        Assert.notNull(error, () -&gt; &quot;Error must not be null, this: &quot; + this);</span>
-<span class="fc" id="L356">        error.setTransportUnit(this);</span>
-<span class="fc" id="L357">        this.errors.add(error);</span>
-<span class="fc" id="L358">        return error;</span>
+<span class="fc" id="L352">        Assert.notNull(error, () -&gt; &quot;Error must not be null, this: &quot; + this);</span>
+<span class="fc" id="L353">        error.setTransportUnit(this);</span>
+<span class="fc" id="L354">        this.errors.add(error);</span>
+<span class="fc" id="L355">        return error;</span>
     }
 
     /**
@@ -363,8 +360,8 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      *
      * @return The current state of the {@code TransportUnit}
      */
-    public TransportUnitState getState() {
-<span class="fc" id="L367">        return this.state;</span>
+    public String getState() {
+<span class="fc" id="L364">        return this.state;</span>
     }
 
     /**
@@ -372,9 +369,9 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      *
      * @param state The state to set on the {@code TransportUnit}
      */
-    public void setState(TransportUnitState state) {
-<span class="nc" id="L376">        this.state = state;</span>
-<span class="nc" id="L377">    }</span>
+    public void setState(String state) {
+<span class="nc" id="L373">        this.state = state;</span>
+<span class="nc" id="L374">    }</span>
 
     /**
      * Return the {@link TransportUnitType} of the {@code TransportUnit}.
@@ -382,7 +379,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return The {@link TransportUnitType} the {@code TransportUnit} belongs to
      */
     public TransportUnitType getTransportUnitType() {
-<span class="fc" id="L385">        return this.transportUnitType;</span>
+<span class="fc" id="L382">        return this.transportUnitType;</span>
     }
 
     /**
@@ -391,9 +388,9 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @param transportUnitType The type of the {@code TransportUnit}
      */
     public void setTransportUnitType(TransportUnitType transportUnitType) {
-<span class="fc" id="L394">        Assert.notNull(transportUnitType, () -&gt; &quot;TransportUnitType must not be null, this: &quot; + this);</span>
-<span class="fc" id="L395">        this.transportUnitType = transportUnitType;</span>
-<span class="fc" id="L396">    }</span>
+<span class="fc" id="L391">        Assert.notNull(transportUnitType, () -&gt; &quot;TransportUnitType must not be null, this: &quot; + this);</span>
+<span class="fc" id="L392">        this.transportUnitType = transportUnitType;</span>
+<span class="fc" id="L393">    }</span>
 
     /**
      * Return the {@link Barcode} of the {@code TransportUnit}.
@@ -401,7 +398,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return The current {@link Barcode}
      */
     public Barcode getBarcode() {
-<span class="fc" id="L404">        return barcode;</span>
+<span class="fc" id="L401">        return barcode;</span>
     }
 
     /**
@@ -410,7 +407,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return the parent.
      */
     public TransportUnit getParent() {
-<span class="fc" id="L413">        return parent;</span>
+<span class="fc" id="L410">        return parent;</span>
     }
 
     /**
@@ -419,8 +416,8 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @param parent The parent to set.
      */
     public void setParent(TransportUnit parent) {
-<span class="fc" id="L422">        this.parent = parent;</span>
-<span class="fc" id="L423">    }</span>
+<span class="fc" id="L419">        this.parent = parent;</span>
+<span class="fc" id="L420">    }</span>
 
     /**
      * Get all child {@code TransportUnit}s.
@@ -428,7 +425,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return the transportUnits.
      */
     public Set&lt;TransportUnit&gt; getChildren() {
-<span class="fc" id="L431">        return this.children;</span>
+<span class="fc" id="L428">        return this.children;</span>
     }
 
     /**
@@ -438,22 +435,22 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @throws IllegalArgumentException when transportUnit is {@literal null}
      */
     public void addChild(TransportUnit transportUnit) {
-<span class="fc" id="L441">        Assert.notNull(transportUnit, () -&gt; &quot;TransportUnitType must not be null, this: &quot; + this);</span>
-<span class="fc bfc" id="L442" title="All 2 branches covered.">        if (transportUnit.hasParent()) {</span>
-<span class="fc bfc" id="L443" title="All 2 branches covered.">            if (transportUnit.getParent().equals(this)) {</span>
+<span class="fc" id="L438">        Assert.notNull(transportUnit, () -&gt; &quot;TransportUnitType must not be null, this: &quot; + this);</span>
+<span class="fc bfc" id="L439" title="All 2 branches covered.">        if (transportUnit.hasParent()) {</span>
+<span class="fc bfc" id="L440" title="All 2 branches covered.">            if (transportUnit.getParent().equals(this)) {</span>
 
                 // if this instance is already the parent, we just return
-<span class="fc" id="L446">                return;</span>
+<span class="fc" id="L443">                return;</span>
             }
 
             // disconnect post from it's current relationship
-<span class="fc" id="L450">            transportUnit.getParent().removeChild(transportUnit);</span>
+<span class="fc" id="L447">            transportUnit.getParent().removeChild(transportUnit);</span>
         }
 
         // make this instance the new parent
-<span class="fc" id="L454">        transportUnit.setParent(this);</span>
-<span class="fc" id="L455">        this.children.add(transportUnit);</span>
-<span class="fc" id="L456">    }</span>
+<span class="fc" id="L451">        transportUnit.setParent(this);</span>
+<span class="fc" id="L452">        this.children.add(transportUnit);</span>
+<span class="fc" id="L453">    }</span>
 
     /**
      * Checks whether this {@code TransportUnit} has a parent {@code TransportUnit} or not.
@@ -461,7 +458,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return {@code true} it has a parent, otherwise {@code false}
      */
     public boolean hasParent() {
-<span class="fc bfc" id="L464" title="All 2 branches covered.">        return parent != null;</span>
+<span class="fc bfc" id="L461" title="All 2 branches covered.">        return parent != null;</span>
     }
 
     /**
@@ -470,7 +467,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @return {@code true} it has children, otherwise {@code false}
      */
     public boolean hasChildren() {
-<span class="nc bnc" id="L473" title="All 4 branches missed.">        return this.children != null &amp;&amp; !this.children.isEmpty();</span>
+<span class="nc bnc" id="L470" title="All 4 branches missed.">        return this.children != null &amp;&amp; !this.children.isEmpty();</span>
     }
 
     /**
@@ -480,14 +477,14 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      * @throws IllegalArgumentException when {@code transportUnit} is {@literal null} or not a child of this instance
      */
     public void removeChild(TransportUnit transportUnit) {
-<span class="fc" id="L483">        Assert.notNull(transportUnit, () -&gt; &quot;TransportUnit must not be null, this: &quot; + this);</span>
+<span class="fc" id="L480">        Assert.notNull(transportUnit, () -&gt; &quot;TransportUnit must not be null, this: &quot; + this);</span>
         // make sure this is the parent before we break the relationship
-<span class="fc bfc" id="L485" title="All 4 branches covered.">        if (transportUnit.parent == null || !transportUnit.parent.equals(this)) {</span>
-<span class="fc" id="L486">            throw new IllegalArgumentException(&quot;Child TransportUnit not associated with this instance, this: &quot; + this);</span>
+<span class="fc bfc" id="L482" title="All 4 branches covered.">        if (transportUnit.parent == null || !transportUnit.parent.equals(this)) {</span>
+<span class="fc" id="L483">            throw new IllegalArgumentException(&quot;Child TransportUnit not associated with this instance, this: &quot; + this);</span>
         }
-<span class="fc" id="L488">        transportUnit.setParent(null);</span>
-<span class="fc" id="L489">        this.children.remove(transportUnit);</span>
-<span class="fc" id="L490">    }</span>
+<span class="fc" id="L485">        transportUnit.setParent(null);</span>
+<span class="fc" id="L486">        this.children.remove(transportUnit);</span>
+<span class="fc" id="L487">    }</span>
 
     /**
      * {@inheritDoc}
@@ -496,7 +493,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      */
     @Override
     public String toString() {
-<span class="fc" id="L499">        return barcode.toString();</span>
+<span class="fc" id="L496">        return barcode.toString();</span>
     }
 
     /**
@@ -506,10 +503,10 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-<span class="fc bfc" id="L509" title="All 2 branches covered.">        if (this == o) return true;</span>
-<span class="pc bpc" id="L510" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="fc" id="L511">        TransportUnit that = (TransportUnit) o;</span>
-<span class="fc" id="L512">        return barcode.equals(that.barcode);</span>
+<span class="fc bfc" id="L506" title="All 2 branches covered.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L507" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L508">        TransportUnit that = (TransportUnit) o;</span>
+<span class="fc" id="L509">        return barcode.equals(that.barcode);</span>
     }
 
     /**
@@ -519,7 +516,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
      */
     @Override
     public int hashCode() {
-<span class="fc" id="L522">        return Objects.hash(barcode);</span>
+<span class="fc" id="L519">        return Objects.hash(barcode);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

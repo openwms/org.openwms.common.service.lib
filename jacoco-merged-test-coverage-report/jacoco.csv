@@ -36,6 +36,7 @@ OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.api.comman
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.account.impl,AccountMapperImpl,31,26,6,2,8,8,5,2,1,2
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.account.impl,AccountMapper,21,25,2,2,2,9,2,4,0,4
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.account.impl,AccountServiceImpl,0,57,0,0,0,10,0,7,0,7
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.spi,NotApprovedException,0,4,0,0,0,2,0,1,0,1
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.spi.transactions,TransactionVO,160,34,18,2,24,13,20,7,11,6
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.spi.transactions,TransactionBuilder,28,46,0,0,3,15,2,8,2,8
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl.registration,RegistrationServiceImpl,76,10,4,0,20,4,4,2,2,2
@@ -44,7 +45,7 @@ OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl.regist
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.commands,MessageCommandHandlerImpl,32,10,4,0,9,4,3,2,1,2
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.commands,TransportUnitCommandListener,35,13,4,0,9,5,3,2,1,2
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.commands,TransportUnitCommandPropagator,60,16,9,0,12,6,6,2,1,2
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.commands,TransportUnitCommandHandler,206,22,19,0,45,8,13,2,1,2
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.commands,TransportUnitCommandHandler,205,22,19,0,45,8,13,2,1,2
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.events,TransportUnitEventPropagator,26,75,2,4,2,11,2,5,0,2
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.events,TransportUnitTypeEvent.Builder,0,15,0,0,0,5,0,3,0,3
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.events,TransportUnitEvent.Builder,5,32,1,3,1,10,1,6,0,5
@@ -60,7 +61,7 @@ OpenWMS.org COMMON: Base Service Library,org.openwms.common,IndexController,0,70
 OpenWMS.org COMMON: Base Service Library,org.openwms.common,SimpleLink,0,7,0,0,0,2,0,1,0,1
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api.messages,LocationMO,39,30,0,0,3,1,3,1,3,1
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api.messages,LocationGroupMO,28,45,8,0,4,19,6,13,2,13
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.app,CommonSecurityConfiguration,0,19,0,0,0,3,0,3,0,3
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.app,CommonSecurityConfiguration,0,26,0,0,0,5,0,3,0,3
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.app,CommonOptAsyncConfiguration,18,177,3,3,5,54,4,18,1,18
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.app,CommonModuleConfiguration,7,95,0,0,1,20,1,10,1,10
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.app,CommonModuleConfiguration.new AbstractSpringTranslator() {...},0,10,0,0,0,2,0,2,0,2
@@ -75,7 +76,7 @@ OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api.events,
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api.events,TargetEvent.Builder,5,31,1,1,1,11,1,6,0,6
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.events,DeletionFailedEvent,0,8,0,0,0,3,0,2,0,2
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.events,DeletionFailedEventListener,0,21,0,0,0,6,0,2,0,2
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.impl,TransportUnitServiceImpl,196,588,25,21,25,138,31,31,10,29
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.impl,TransportUnitServiceImpl,203,622,25,23,28,145,31,33,10,30
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl,19,272,2,14,0,62,3,21,1,15
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.jpa,AuditableRevisionEntity,4,7,0,0,2,3,1,2,1,2
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.jpa,AuditableEntityListener,10,24,2,2,2,7,2,2,0,2
@@ -122,11 +123,11 @@ OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TransportU
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TransportUnitTypeController,0,134,0,0,0,22,0,9,0,9
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TransportUnitTypeMapperImpl,50,134,11,7,13,36,10,4,1,4
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TransportUnitType,2,321,2,4,0,81,2,37,0,36
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TransportUnitMapperImpl,65,296,26,22,20,77,25,7,1,7
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TransportUnitMapperImpl,65,282,23,19,20,74,22,7,1,7
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TypePlacingRule,2,108,3,9,0,23,3,12,0,9
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,UnitError.Builder,5,15,0,0,2,5,1,3,1,3
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TransportUnitController,16,463,3,9,5,68,4,21,1,18
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TransportUnitController,16,500,3,9,5,74,4,24,1,21
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TypeStackingRule,4,94,3,9,0,20,3,11,0,8
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TransportUnit,8,352,5,17,0,92,6,49,1,43
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TransportUnit,8,355,5,17,0,93,6,49,1,43
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,UnitError,4,84,3,7,0,19,3,12,0,10
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TransportUnitState,0,21,0,0,0,4,0,1,0,1

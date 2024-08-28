@@ -33,12 +33,12 @@ import org.springframework.stereotype.Component;
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Component
-public class LocationRegistrationCommandListener {
+class LocationRegistrationCommandListener {
 
 <span class="fc" id="L38">    private static final Logger LOGGER = LoggerFactory.getLogger(LocationRegistrationCommandListener.class);</span>
     private final RegistrationService registrationService;
 
-<span class="fc" id="L41">    public LocationRegistrationCommandListener(RegistrationService registrationService) {</span>
+<span class="fc" id="L41">    LocationRegistrationCommandListener(RegistrationService registrationService) {</span>
 <span class="fc" id="L42">        this.registrationService = registrationService;</span>
 <span class="fc" id="L43">    }</span>
 
@@ -54,7 +54,6 @@ public class LocationRegistrationCommandListener {
 <span class="nc" id="L54">            LOGGER.error(&quot;Processing command rejected [{}]&quot;, command);</span>
 <span class="nc" id="L55">            throw new AmqpRejectAndDontRequeueException(e.getMessage(), e);</span>
 <span class="nc" id="L56">        }</span>
-
-<span class="nc" id="L58">    }</span>
+<span class="nc" id="L57">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

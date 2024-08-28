@@ -15,11 +15,13 @@
  */
 package org.openwms.common.app;
 
+import org.ameba.http.PermitAllCorsConfigurationSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.filter.CorsFilter;
 
 /**
  * A CommonSecurityConfiguration.
@@ -27,7 +29,7 @@ import org.springframework.security.web.SecurityFilterChain;
  * @author Heiko Scherrer
  */
 @Configuration
-<span class="fc" id="L30">class CommonSecurityConfiguration {</span>
+<span class="fc" id="L32">class CommonSecurityConfiguration {</span>
 
     /**
      * {@inheritDoc}
@@ -36,8 +38,11 @@ import org.springframework.security.web.SecurityFilterChain;
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-<span class="fc" id="L39">        http.authorizeHttpRequests(x -&gt; x.anyRequest().permitAll()).csrf(AbstractHttpConfigurer::disable);</span>
-<span class="fc" id="L40">        return http.build();</span>
+<span class="fc" id="L41">        http.authorizeHttpRequests(x -&gt; x.anyRequest().permitAll())</span>
+<span class="fc" id="L42">            .csrf(AbstractHttpConfigurer::disable)</span>
+<span class="fc" id="L43">            .addFilter(new CorsFilter(new PermitAllCorsConfigurationSource()));</span>
+<span class="fc" id="L44">        return http.build();</span>
     }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
