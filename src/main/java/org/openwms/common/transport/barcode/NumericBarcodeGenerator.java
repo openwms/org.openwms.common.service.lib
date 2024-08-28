@@ -17,6 +17,7 @@ package org.openwms.common.transport.barcode;
 
 import jakarta.validation.constraints.NotNull;
 import org.ameba.annotation.Measured;
+import org.ameba.annotation.Public;
 import org.ameba.annotation.TxService;
 
 import java.util.Optional;
@@ -29,6 +30,7 @@ import static org.openwms.common.CommonConstants.DEFAULT_ACCOUNT_NAME;
  *
  * @author Heiko Scherrer
  */
+@Public("Because this class is also be instantiated by ServiceLoader not only by Spring")
 @TxService
 public class NumericBarcodeGenerator implements BarcodeGenerator {
 

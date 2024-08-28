@@ -13,23 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common;
-
-import org.ameba.exception.BusinessRuntimeException;
+package org.openwms.common.transport.spi;
 
 /**
- * A StateChangeException signals that the request to change the state of an entity was not allowed.
+ * A NotApprovedException.
  *
  * @author Heiko Scherrer
  */
-public class StateChangeException extends BusinessRuntimeException {
+public class NotApprovedException extends Exception {
 
-    /**
-     * Create a new with a message text.
-     *
-     * @param message The message text
-     */
-    public StateChangeException(String message) {
+    public NotApprovedException(String message) {
         super(message);
     }
 }

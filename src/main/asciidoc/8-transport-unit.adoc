@@ -57,9 +57,9 @@ include::{generated}/tu-move/http-response.adoc[]
 
 [[transportunits-modify]]
 === Modify a TransportUnit
-Already existing `TransportUnits` can be modified by some degree. Not every attribute is allowed to change but most of the non-identifying
-ones can be changed. For example it is not foreseen to change the Barcode of an existing `TransportUnit`, nor the internal persistent key.
-The date when the `TransportUnit` has been recently moved is only changed together with the `actualLocation`.
+Already existing `TransportUnits` can be modified to some degree. Not every attribute is allowed to change but most of the non-identifying
+ones can be changed. For example, it is not allowed to change the Barcode of an existing `TransportUnit`, nor the internal persistent key.
+The timestamp when the `TransportUnit` has been moved recently is only changed along with the `actualLocation`.
 
 Send a HTTP `PUT` request to the server together with the `TransportUnit` as part of the request body
 include::{generated}/tu-update/http-request.adoc[]
@@ -70,6 +70,35 @@ include::{generated}/tu-update/http-response.adoc[]
 
 In case no `TransportUnit` with the Barcode exists the server returns an error
 include::{generated}/tu-update-404/http-response.adoc[]
+
+[[transportunits-changestate]]
+=== Change the state of a TransportUnit
+A `TransportUnit` is always in a certain state, for example `AVAILABLE`, `BLOCKED` or `QUALITY_CHECK`. A state change can be triggered
+through the API by sending an HTTP `POST` request to the resource with the new state as action part of the URI.
+
+To block a `TransportUnit` a caller might call the `/block` action:
+include::{generated}/tu-block/http-request.adoc[]
+include::{generated}/tu-block/query-parameters.adoc[]
+
+To unblock a `TransportUnit` a caller might call the `/available` action:
+include::{generated}/tu-unblock/http-request.adoc[]
+include::{generated}/tu-unblock/query-parameters.adoc[]
+
+And to mark the `TransportUnit` in state `QUALITY_CHECK` the caller might call the `/quality-check` action:
+include::{generated}/tu-quality-check/http-request.adoc[]
+include::{generated}/tu-quality-check/query-parameters.adoc[]
+
+Additionally, a generic API endpoint exist, beside the three dedicated ones. This is especially useful when the list of possible states has
+been extended in a project by arbitrary states. Then a caller can request a state change by calling the HTTP `POST` API:
+include::{generated}/tu-state-change-na/http-request.adoc[]
+include::{generated}/tu-state-change-na/query-parameters.adoc[]
+
+If the server accepts a state change and performs it accordingly the response looks like:
+include::{generated}/tu-state-change/http-response.adoc[]
+
+The server might have a state change approval registered to validate each state change. So, if a `TransportUnitStateChangeApproval`
+instance is registered and the server rejects to change the state of the `TransportUnit` then the response looks like:
+include::{generated}/tu-state-change-na/http-response.adoc[]
 
 [[transportunits-findbybarcode]]
 === Find by Barcode

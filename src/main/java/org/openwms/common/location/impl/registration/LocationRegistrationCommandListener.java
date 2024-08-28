@@ -33,12 +33,12 @@ import org.springframework.stereotype.Component;
  */
 @Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Component
-public class LocationRegistrationCommandListener {
+class LocationRegistrationCommandListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LocationRegistrationCommandListener.class);
     private final RegistrationService registrationService;
 
-    public LocationRegistrationCommandListener(RegistrationService registrationService) {
+    LocationRegistrationCommandListener(RegistrationService registrationService) {
         this.registrationService = registrationService;
     }
 
@@ -54,6 +54,5 @@ public class LocationRegistrationCommandListener {
             LOGGER.error("Processing command rejected [{}]", command);
             throw new AmqpRejectAndDontRequeueException(e.getMessage(), e);
         }
-
     }
 }
