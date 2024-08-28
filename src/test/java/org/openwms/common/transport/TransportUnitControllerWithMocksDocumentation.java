@@ -21,6 +21,7 @@ import org.mockito.Mockito;
 import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.openwms.common.transport.spi.NotApprovedException;
+import org.openwms.common.transport.spi.TransportUnitMoveApproval;
 import org.openwms.common.transport.spi.TransportUnitStateChangeApproval;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -33,11 +34,15 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.openwms.common.TestData.LOCATION_ID_EXT;
+import static org.openwms.common.TestData.LOCATION_ID_FGIN0001LEFT;
 import static org.openwms.common.TestData.TU_1_ID;
 import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPORT_UNITS;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -71,6 +76,13 @@ class TransportUnitControllerWithMocksDocumentation {
     @TestConfiguration
     public static class ExtensionPointsConfiguration {
         @Bean
+        public TransportUnitMoveApproval moveApproval() {
+            return (transportUnit, targetLocation) -> {
+                throw new NotApprovedException("");
+            };
+        }
+
+        @Bean
         public TransportUnitStateChangeApproval stateChangeApproval() {
             return (transportUnit, newState) -> {
                 throw new NotApprovedException("");
@@ -81,8 +93,8 @@ class TransportUnitControllerWithMocksDocumentation {
     @Test void shall_reject_state_change() throws Exception {
         // arrange
         var tu = service.findByBarcode(TU_1_ID);
-        TransportUnitStateChangeApproval stateChangeApproval = mock(TransportUnitStateChangeApproval.class);
-        Mockito.doThrow(new NotApprovedException("Not allowed to move TransportUnit [%s] into state [%s]"
+        var stateChangeApproval = mock(TransportUnitStateChangeApproval.class);
+        Mockito.doThrow(new NotApprovedException("Not allowed to change TransportUnit [%s] into state [%s]"
                         .formatted(TU_1_ID, "NOT_ACCEPTED")))
                 .when(stateChangeApproval)
                 .approve(tu, "NOT_ACCEPTED");
@@ -106,5 +118,35 @@ class TransportUnitControllerWithMocksDocumentation {
         // assert
         tu = service.findByBarcode(TU_1_ID);
         assertThat(tu.getState()).isEqualTo("AVAILABLE");
+    }
+
+    @Test void shall_reject_move() throws Exception {
+        // arrange
+        var tu = service.findByBarcode(TU_1_ID);
+        var moveApproval = mock(TransportUnitMoveApproval.class);
+        Mockito.doThrow(new NotApprovedException("Not allowed to move TransportUnit [%s] to Location [%s]"
+                        .formatted(TU_1_ID, LOCATION_ID_FGIN0001LEFT)))
+                .when(moveApproval)
+                .approve(any(), any());
+
+        assertThat(tu.getActualLocation().getLocationId().toString()).isEqualTo(LOCATION_ID_EXT);
+
+        // act
+        mockMvc.perform(patch(API_TRANSPORT_UNITS)
+                        .queryParam("bk", TU_1_ID)
+                        .queryParam("newLocation", LOCATION_ID_FGIN0001LEFT))
+                .andDo(document("tu-move-na",
+                        preprocessResponse(prettyPrint()),
+                        queryParameters(
+                                parameterWithName("bk").description("The identifying Barcode of the TransportUnit"),
+                                parameterWithName("newLocation").description("The new Location where the TransportUnit shall be moved to")
+                        )
+                ))
+                .andExpect(status().isConflict())
+        ;
+
+        // assert
+        tu = service.findByBarcode(TU_1_ID);
+        assertThat(tu.getActualLocation().getLocationId().toString()).isEqualTo(LOCATION_ID_EXT);
     }
 }
