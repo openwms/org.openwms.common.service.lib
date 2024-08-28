@@ -30,7 +30,6 @@ import org.openwms.common.location.impl.registration.ReplicaRegistry;
 import org.openwms.core.listener.RemovalNotAllowedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -58,15 +57,14 @@ class LocationRemovalManagerImpl implements LocationRemovalManager {
     private final RestTemplate aLoadBalanced;
     private final LocationRepository repository;
     private final RegistrationService registrationService;
-    private final DiscoveryClient dc;
 
-    LocationRemovalManagerImpl(ApplicationEventPublisher eventPublisher, Translator translator, RestTemplate aLoadBalanced, LocationRepository repository, RegistrationService registrationService, DiscoveryClient dc) {
+    LocationRemovalManagerImpl(ApplicationEventPublisher eventPublisher, Translator translator, RestTemplate aLoadBalanced,
+            LocationRepository repository, RegistrationService registrationService) {
         this.eventPublisher = eventPublisher;
         this.translator = translator;
         this.aLoadBalanced = aLoadBalanced;
         this.repository = repository;
         this.registrationService = registrationService;
-        this.dc = dc;
     }
 
     /**
@@ -83,7 +81,6 @@ class LocationRemovalManagerImpl implements LocationRemovalManager {
         try {
             deleteInternal(locationOpt.get());
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
             // if any failure occurs, send a persistent async message to release the deletion for everyone
             eventPublisher.publishEvent(new DeletionFailedEvent(locationOpt.get().getPersistentKey()));
             throw new RemovalNotAllowedException(e.getMessage());

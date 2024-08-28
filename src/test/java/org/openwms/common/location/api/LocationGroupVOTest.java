@@ -18,7 +18,6 @@ package org.openwms.common.location.api;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,7 +42,7 @@ class LocationGroupVOTest {
         l2.addChild(l4);
         l1.addChild(l2);
 
-        List<String> all = l1.streamLocationGroups().map(LocationGroupVO::getName).collect(Collectors.toList());
+        List<String> all = l1.streamLocationGroups().map(LocationGroupVO::getName).toList();
         assertThat(all).contains("L1", "L2", "L3", "L4", "L5", "L6");
     }
 }

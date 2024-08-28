@@ -62,6 +62,8 @@ class CommonOptAsyncConfiguration {
 
     private static final Logger BOOT_LOGGER = LoggerFactory.getLogger(BOOT);
     public static final String POISON_MESSAGE = "poison-message";
+    public static final String DEAD_LETTER_EXCHANGE = "x-dead-letter-exchange";
+    public static final String DEAD_LETTER_ROUTING_KEY = "x-dead-letter-routing-key";
 
     @ConditionalOnExpression("'${owms.common.serialization}'=='json'")
     @Bean
@@ -116,8 +118,8 @@ class CommonOptAsyncConfiguration {
     @Bean
     Queue commandsQueue(@Value("${owms.commands.common.tu.queue-name}") String queueName, DirectExchange dlExchange) {
         return QueueBuilder.durable(queueName)
-                .withArgument("x-dead-letter-exchange", dlExchange.getName())
-                .withArgument("x-dead-letter-routing-key", POISON_MESSAGE)
+                .withArgument(DEAD_LETTER_EXCHANGE, dlExchange.getName())
+                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)
                 .build();
     }
 
@@ -144,8 +146,8 @@ class CommonOptAsyncConfiguration {
     @Bean
     Queue commonLocCommandsQueue(@Value("${owms.commands.common.loc.queue-name}") String queueName, DirectExchange dlExchange) {
         return QueueBuilder.durable(queueName)
-                .withArgument("x-dead-letter-exchange", dlExchange.getName())
-                .withArgument("x-dead-letter-routing-key", POISON_MESSAGE)
+                .withArgument(DEAD_LETTER_EXCHANGE, dlExchange.getName())
+                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)
                 .build();
     }
 
@@ -172,8 +174,8 @@ class CommonOptAsyncConfiguration {
     @Bean
     Queue commonLocRegistrationCommandsQueue(@Value("${owms.commands.common.registration.queue-name}") String queueName, DirectExchange dlExchange) {
         return QueueBuilder.durable(queueName)
-                .withArgument("x-dead-letter-exchange", dlExchange.getName())
-                .withArgument("x-dead-letter-routing-key", POISON_MESSAGE)
+                .withArgument(DEAD_LETTER_EXCHANGE, dlExchange.getName())
+                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)
                 .build();
     }
 

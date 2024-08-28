@@ -68,10 +68,10 @@ class TargetControllerDocumentation {
     }
 
     /* Depends on https://github.com/spring-projects/spring-framework/issues/19930
+     */
     @Nested
     @DisplayName("Allocation Locks")
     class AllocationLockTests {
-     */
         @Test
         void shall_lock_LocationGroup_IN() throws Exception {
             mockMvc.perform(post(API_TARGETS + "/IPOINT")
@@ -129,8 +129,8 @@ class TargetControllerDocumentation {
             assertThat(ipoint.isInfeedAllowed()).isTrue();
             assertThat(ipoint.isOutfeedAllowed()).isTrue();
         }
-        /*
     }
+        /*
 
          */
 
