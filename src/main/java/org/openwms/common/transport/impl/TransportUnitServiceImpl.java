@@ -34,7 +34,6 @@ import org.openwms.common.location.LocationService;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitMapper;
 import org.openwms.common.transport.TransportUnitService;
-import org.openwms.common.transport.TransportUnitState;
 import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.UnitError;
 import org.openwms.common.transport.api.ValidationGroups;
@@ -48,6 +47,7 @@ import org.openwms.common.transport.spi.TransportUnitStateChangeApproval;
 import org.openwms.core.exception.IllegalConfigurationValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
@@ -93,7 +93,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @SuppressWarnings("squid:S107")
     TransportUnitServiceImpl(ApplicationEventPublisher publisher, Validator validator, Translator translator,
             BarcodeGenerator barcodeGenerator, TransportUnitMapper mapper, TransportUnitRepository repository,
-            TransportUnitTypeRepository transportUnitTypeRepository, TransportUnitStateChangeApproval stateChangeApproval,
+            TransportUnitTypeRepository transportUnitTypeRepository, @Autowired(required = false) TransportUnitStateChangeApproval stateChangeApproval,
             LocationService locationService, @Value("${owms.common.delete-transport-unit-mode}") String deleteTransportUnitMode) {
         this.publisher = publisher;
         this.validator = validator;
@@ -406,21 +406,28 @@ class TransportUnitServiceImpl implements TransportUnitService {
      */
     @Override
     @Measured
-    public void setState(@NotBlank String transportUnitBK, @NotNull TransportUnitState state) {
+    public void setState(@NotBlank String transportUnitBK, @NotBlank String newState) {
         var transportUnit = findByBarcodeInternal(barcodeGenerator.convert(transportUnitBK));
-        try {
-            stateChangeApproval.approve(transportUnit, state);
-        } catch (NotApprovedException nae) {
-            LOGGER.error(nae.getMessage(), nae);
-            throw new StateChangeException("Not allowed to change the state of TransportUnit [%s] to [%s]".formatted(transportUnitBK, state.name()));
-        }
-        LOGGER.debug("Setting state of TransportUnit [{}] to [{}]", transportUnitBK, state);
-        transportUnit.setState(state);
+        approveStateChange(transportUnit, newState);
+        LOGGER.debug("Setting state of TransportUnit [{}] to [{}]", transportUnitBK, newState);
+        transportUnit.setState(newState);
         publisher.publishEvent(TransportUnitEvent.newBuilder()
                 .tu(transportUnit)
                 .type(TransportUnitEvent.TransportUnitEventType.STATE_CHANGE).build()
         );
         repository.save(transportUnit);
+    }
+
+    private void approveStateChange(TransportUnit transportUnit, String newState) {
+        if (stateChangeApproval == null) {
+            return;
+        }
+        try {
+            stateChangeApproval.approve(transportUnit, newState);
+        } catch (NotApprovedException nae) {
+            LOGGER.error(nae.getMessage(), nae);
+            throw new StateChangeException("Not allowed to change the state of TransportUnit [%s] to [%s]".formatted(transportUnit.getBarcode(), newState));
+        }
     }
 
     /**

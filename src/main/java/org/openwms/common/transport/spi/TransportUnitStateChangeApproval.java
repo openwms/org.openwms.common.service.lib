@@ -15,8 +15,9 @@
  */
 package org.openwms.common.transport.spi;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.openwms.common.transport.TransportUnit;
-import org.openwms.common.transport.TransportUnitState;
 
 /**
  * A TransportUnitStateChangeApproval implementation validates a requested state change of a {@link TransportUnit} and can prevent it.
@@ -33,5 +34,5 @@ public interface TransportUnitStateChangeApproval {
      * @param newState The new state to set
      * @throws NotApprovedException If not allowed to change
      */
-    void approve(TransportUnit transportUnit, TransportUnitState newState) throws NotApprovedException;
+    void approve(@NotNull TransportUnit transportUnit, @NotBlank String newState) throws NotApprovedException;
 }

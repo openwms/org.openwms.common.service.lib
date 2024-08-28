@@ -19,11 +19,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import org.ameba.LoggingCategories;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ResourceExistsException;
 import org.ameba.http.MeasuredRestController;
+import org.ameba.http.Response;
 import org.ameba.i18n.Translator;
 import org.openwms.common.SimpleLink;
+import org.openwms.common.StateChangeException;
 import org.openwms.common.location.LocationController;
 import org.openwms.common.transport.api.TransportApiConstants;
 import org.openwms.common.transport.api.TransportUnitVO;
@@ -32,9 +35,13 @@ import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.openwms.core.SpringProfiles;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,6 +71,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @MeasuredRestController
 public class TransportUnitController extends AbstractWebController {
 
+    private static final Logger EXC_LOGGER = LoggerFactory.getLogger(LoggingCategories.PRESENTATION_LAYER_EXCEPTION);
     private final TransportUnitMapper mapper;
     private final Translator translator;
     private final BarcodeGenerator barcodeGenerator;
@@ -74,6 +82,13 @@ public class TransportUnitController extends AbstractWebController {
         this.translator = translator;
         this.barcodeGenerator = barcodeGenerator;
         this.service = service;
+    }
+
+    @ExceptionHandler({ StateChangeException.class })
+    private ResponseEntity<?> handleStateChangeException(StateChangeException e) {
+        EXC_LOGGER.error("[P] Presentation Layer Exception: {}", e.getLocalizedMessage(), e);
+        return new ResponseEntity<>(Response.newBuilder().withMessage(e.getMessage()).withMessageKey(e.getMessageKey())
+                .withHttpStatus(HttpStatus.CONFLICT.toString()).build(), HttpStatus.CONFLICT);
     }
 
     @GetMapping(value = API_TRANSPORT_UNITS + "/{pKey}", produces = MEDIA_TYPE)
@@ -132,7 +147,7 @@ public class TransportUnitController extends AbstractWebController {
                 service.findByBarcode(transportUnitBK);
                 throw new ResourceExistsException(translator.translate(TU_EXISTS, transportUnitBK), TU_EXISTS, transportUnitBK);
             } catch (NotFoundException nfe) {
-                // thats fine we just cast the exception thrown by the service
+                // that's fine we just cast the exception thrown by the service
             }
         }
         var created = service.create(transportUnitBK, tu.getTransportUnitType().getType(), tu.getActualLocation().getLocationId(), strict);
@@ -227,19 +242,27 @@ public class TransportUnitController extends AbstractWebController {
 
     @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/block", params = {"bk"})
     public ResponseEntity<Void> blockTransportUnit(@NotBlank @RequestParam("bk") String transportUnitBK) {
-        service.setState(transportUnitBK, TransportUnitState.BLOCKED);
+        service.setState(transportUnitBK, TransportUnitState.BLOCKED.name());
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/available", params = {"bk"})
     public ResponseEntity<Void> unblockTransportUnit(@NotBlank @RequestParam("bk") String transportUnitBK) {
-        service.setState(transportUnitBK, TransportUnitState.AVAILABLE);
+        service.setState(transportUnitBK, TransportUnitState.AVAILABLE.name());
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS + "/quality-check", params = {"bk"})
     public ResponseEntity<Void> qcTransportUnit(@NotBlank @RequestParam("bk") String transportUnitBK) {
-        service.setState(transportUnitBK, TransportUnitState.QUALITY_CHECK);
+        service.setState(transportUnitBK, TransportUnitState.QUALITY_CHECK.name());
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(value = TransportApiConstants.API_TRANSPORT_UNITS, params = {"bk", "state"})
+    public ResponseEntity<Void> changeState(
+            @NotBlank @RequestParam("bk") String transportUnitBK,
+            @NotBlank @RequestParam("state") String newState) {
+        service.setState(transportUnitBK, newState);
         return ResponseEntity.noContent().build();
     }
 

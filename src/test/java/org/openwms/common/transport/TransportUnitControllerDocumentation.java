@@ -199,7 +199,7 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_update_existing() throws Exception {
-        var transportUnit = createValidTU(TU_1_ID, TU_1_PKEY, TestData.LOCATION_ID_FGIN0001LEFT);
+        var transportUnit = createValidTU(TU_1_ID, TU_1_PKEY);
         mockMvc.perform(put(API_TRANSPORT_UNITS)
                 .queryParam("bk", TU_1_ID)
                 .content(om.writeValueAsString(transportUnit))
@@ -216,10 +216,10 @@ class TransportUnitControllerDocumentation {
         assertThat(tu.getActualLocation().getLocationId()).isEqualTo(LocationPK.fromString(TestData.LOCATION_ID_FGIN0001LEFT));
     }
 
-    private TransportUnitVO createValidTU(String barcode, String pKey, String actualLocation) {
+    private TransportUnitVO createValidTU(String barcode, String pKey) {
         var tut = new TransportUnitTypeVO("PL");
         var transportUnit = new TransportUnitVO(barcode);
-        transportUnit.setActualLocation(new LocationVO(actualLocation));
+        transportUnit.setActualLocation(new LocationVO(TestData.LOCATION_ID_FGIN0001LEFT));
         transportUnit.setState("AVAILABLE");
         transportUnit.setTransportUnitType(tut);
         transportUnit.setpKey(pKey);
@@ -227,7 +227,7 @@ class TransportUnitControllerDocumentation {
     }
 
     @Test void shall_update_404() throws Exception {
-        var transportUnit = createValidTU("00000000000000004710", "UNKNOWN", TestData.LOCATION_ID_FGIN0001LEFT);
+        var transportUnit = createValidTU("00000000000000004710", "UNKNOWN");
         mockMvc.perform(put(API_TRANSPORT_UNITS)
                 .queryParam("bk", "00000000000000004710")
                 .content(om.writeValueAsString(transportUnit))
@@ -361,7 +361,7 @@ class TransportUnitControllerDocumentation {
 
     @Test void shall_block_and_unblock_TU() throws Exception {
         var tu = service.findByBarcode(TU_1_ID);
-        assertThat(tu.getState()).isEqualTo(TransportUnitState.AVAILABLE);
+        assertThat(tu.getState()).isEqualTo(TransportUnitState.AVAILABLE.name());
 
         mockMvc.perform(post(API_TRANSPORT_UNITS + "/block")
                 .queryParam("bk", TU_1_ID))
@@ -375,7 +375,7 @@ class TransportUnitControllerDocumentation {
         ;
         
         tu = service.findByBarcode(TU_1_ID);
-        assertThat(tu.getState()).isEqualTo(TransportUnitState.BLOCKED);
+        assertThat(tu.getState()).isEqualTo(TransportUnitState.BLOCKED.name());
 
         mockMvc.perform(post(API_TRANSPORT_UNITS + "/available")
                 .queryParam("bk", TU_1_ID))
@@ -389,7 +389,7 @@ class TransportUnitControllerDocumentation {
         ;
 
         tu = service.findByBarcode(TU_1_ID);
-        assertThat(tu.getState()).isEqualTo(TransportUnitState.AVAILABLE);
+        assertThat(tu.getState()).isEqualTo(TransportUnitState.AVAILABLE.name());
 
         // Set to quality-check
         mockMvc.perform(post(API_TRANSPORT_UNITS + "/quality-check")
@@ -404,6 +404,24 @@ class TransportUnitControllerDocumentation {
         ;
 
         tu = service.findByBarcode(TU_1_ID);
-        assertThat(tu.getState()).isEqualTo(TransportUnitState.QUALITY_CHECK);
+        assertThat(tu.getState()).isEqualTo(TransportUnitState.QUALITY_CHECK.name());
+    }
+
+    @Test void shall_state_change() throws Exception {
+        // arrange
+        var tu = service.findByBarcode(TU_1_ID);
+        assertThat(tu.getState()).isEqualTo(TransportUnitState.AVAILABLE.name());
+
+        // act
+        mockMvc.perform(post(API_TRANSPORT_UNITS)
+                        .queryParam("bk", TU_1_ID)
+                        .queryParam("state", "IN_QUARANTINE"))
+                .andDo(document("tu-state-change"))
+                .andExpect(status().isNoContent())
+        ;
+
+        // assert
+        tu = service.findByBarcode(TU_1_ID);
+        assertThat(tu.getState()).isEqualTo("IN_QUARANTINE");
     }
 }
