@@ -26,8 +26,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import static org.openwms.common.location.api.LocationApiConstants.DATETIME_FORMAT_ZULU;
-
 /**
  * A LocationVO represents a physical or virtual place in a warehouse. Could be something like a storage location in the stock or a conveyor
  * location. Even error locations can be represented with the LocationVO. Multiple locations with same characteristics are grouped in
@@ -103,13 +101,13 @@ public class LocationVO extends AbstractBase&lt;LocationVO&gt; implements Target
 
     /*~-------------------- constructors --------------------*/
     protected LocationVO() {
-<span class="fc" id="L106">        super();</span>
-<span class="fc" id="L107">    }</span>
+<span class="fc" id="L104">        super();</span>
+<span class="fc" id="L105">    }</span>
 
     public LocationVO(String locationId) {
-<span class="fc" id="L110">        super();</span>
-<span class="fc" id="L111">        this.locationId = locationId;</span>
-<span class="fc" id="L112">    }</span>
+<span class="fc" id="L108">        super();</span>
+<span class="fc" id="L109">        this.locationId = locationId;</span>
+<span class="fc" id="L110">    }</span>
 
     /*~-------------------- methods --------------------*/
     /**
@@ -119,7 +117,7 @@ public class LocationVO extends AbstractBase&lt;LocationVO&gt; implements Target
      */
     @JsonIgnore
     public boolean isInfeedBlocked() {
-<span class="nc bnc" id="L122" title="All 2 branches missed.">        return !incomingActive;</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        return !incomingActive;</span>
     }
 
     /**
@@ -129,110 +127,112 @@ public class LocationVO extends AbstractBase&lt;LocationVO&gt; implements Target
      */
     @JsonIgnore
     public boolean isOutfeedBlocked() {
-<span class="nc bnc" id="L132" title="All 2 branches missed.">        return !outgoingActive;</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        return !outgoingActive;</span>
     }
 
     /*~-------------------- accessors --------------------*/
     public String getAccountId() {
-<span class="fc" id="L137">        return accountId;</span>
+<span class="fc" id="L135">        return accountId;</span>
     }
 
     public void setAccountId(String accountId) {
-<span class="fc" id="L141">        this.accountId = accountId;</span>
-<span class="fc" id="L142">    }</span>
+<span class="fc" id="L139">        this.accountId = accountId;</span>
+<span class="fc" id="L140">    }</span>
 
     public String getLocationGroupName() {
-<span class="fc" id="L145">        return locationGroupName;</span>
+<span class="fc" id="L143">        return locationGroupName;</span>
     }
 
     public void setLocationGroupName(String locationGroupName) {
-<span class="fc" id="L149">        this.locationGroupName = locationGroupName;</span>
-<span class="fc" id="L150">    }</span>
+<span class="fc" id="L147">        this.locationGroupName = locationGroupName;</span>
+<span class="fc" id="L148">    }</span>
 
     public String getpKey() {
-<span class="fc" id="L153">        return pKey;</span>
+<span class="fc" id="L151">        return pKey;</span>
     }
 
     public void setpKey(String pKey) {
-<span class="fc" id="L157">        this.pKey = pKey;</span>
-<span class="fc" id="L158">    }</span>
+<span class="fc" id="L155">        this.pKey = pKey;</span>
+<span class="fc" id="L156">    }</span>
 
     public String getLocationId() {
-<span class="fc" id="L161">        return locationId;</span>
+<span class="fc" id="L159">        return locationId;</span>
     }
 
     public void setLocationId(String locationId) {
-<span class="fc" id="L165">        this.locationId = locationId;</span>
-<span class="fc" id="L166">    }</span>
+<span class="fc" id="L163">        this.locationId = locationId;</span>
+<span class="fc" id="L164">    }</span>
 
     public String getType() {
-<span class="fc" id="L169">        return type;</span>
+<span class="fc" id="L167">        return type;</span>
     }
 
     public void setType(String type) {
-<span class="fc" id="L173">        this.type = type;</span>
-<span class="fc" id="L174">    }</span>
+<span class="fc" id="L171">        this.type = type;</span>
+<span class="fc" id="L172">    }</span>
 
     public String getErpCode() {
-<span class="fc" id="L177">        return erpCode;</span>
+<span class="fc" id="L175">        return erpCode;</span>
     }
 
     public void setErpCode(String erpCode) {
-<span class="fc" id="L181">        this.erpCode = erpCode;</span>
-<span class="fc" id="L182">    }</span>
+<span class="fc" id="L179">        this.erpCode = erpCode;</span>
+<span class="fc" id="L180">    }</span>
 
     public String getPlcCode() {
-<span class="fc" id="L185">        return plcCode;</span>
+<span class="fc" id="L183">        return plcCode;</span>
     }
 
     public void setPlcCode(String plcCode) {
-<span class="fc" id="L189">        this.plcCode = plcCode;</span>
-<span class="fc" id="L190">    }</span>
+<span class="fc" id="L187">        this.plcCode = plcCode;</span>
+<span class="fc" id="L188">    }</span>
 
     public Integer getSortOrder() {
-<span class="fc" id="L193">        return sortOrder;</span>
+<span class="fc" id="L191">        return sortOrder;</span>
     }
 
     public void setSortOrder(Integer sortOrder) {
-<span class="fc" id="L197">        this.sortOrder = sortOrder;</span>
-<span class="fc" id="L198">    }</span>
+<span class="fc" id="L195">        this.sortOrder = sortOrder;</span>
+<span class="fc" id="L196">    }</span>
 
     public Boolean getIncomingActive() {
-<span class="fc" id="L201">        return incomingActive;</span>
+<span class="fc" id="L199">        return incomingActive;</span>
     }
 
     public void setIncomingActive(Boolean incomingActive) {
-<span class="fc" id="L205">        this.incomingActive = incomingActive;</span>
-<span class="fc" id="L206">    }</span>
+<span class="fc" id="L203">        this.incomingActive = incomingActive;</span>
+<span class="fc" id="L204">    }</span>
 
     public Boolean getOutgoingActive() {
-<span class="fc" id="L209">        return outgoingActive;</span>
+<span class="fc" id="L207">        return outgoingActive;</span>
     }
 
     public void setOutgoingActive(Boolean outgoingActive) {
-<span class="fc" id="L213">        this.outgoingActive = outgoingActive;</span>
-<span class="fc" id="L214">    }</span>
+<span class="fc" id="L211">        this.outgoingActive = outgoingActive;</span>
+<span class="fc" id="L212">    }</span>
 
     public Integer getPlcState() {
-<span class="fc" id="L217">        return plcState;</span>
+<span class="fc" id="L215">        return plcState;</span>
     }
 
     public void setPlcState(Integer plcState) {
-<span class="fc" id="L221">        this.plcState = plcState;</span>
-<span class="fc" id="L222">    }</span>
+<span class="fc" id="L219">        this.plcState = plcState;</span>
+<span class="fc" id="L220">    }</span>
 
     public String getStockZone() {
-<span class="fc" id="L225">        return stockZone;</span>
+<span class="fc" id="L223">        return stockZone;</span>
     }
 
     public void setStockZone(String stockZone) {
-<span class="fc" id="L229">        this.stockZone = stockZone;</span>
-<span class="fc" id="L230">    }</span>
+<span class="fc" id="L227">        this.stockZone = stockZone;</span>
+<span class="fc" id="L228">    }</span>
 
+    @Override
     public LocalDateTime getCreateDt() {
-<span class="fc" id="L233">        return createDt;</span>
+<span class="fc" id="L232">        return createDt;</span>
     }
 
+    @Override
     public void setCreateDt(LocalDateTime createDt) {
 <span class="fc" id="L237">        this.createDt = createDt;</span>
 <span class="fc" id="L238">    }</span>

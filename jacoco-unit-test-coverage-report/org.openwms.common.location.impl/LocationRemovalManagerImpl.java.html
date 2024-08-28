@@ -30,7 +30,6 @@ import org.openwms.common.location.impl.registration.ReplicaRegistry;
 import org.openwms.core.listener.RemovalNotAllowedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -52,22 +51,21 @@ import static org.openwms.common.CommonMessageCodes.LOCATION_NOT_FOUND_BY_PKEY;
 @TxService
 class LocationRemovalManagerImpl implements LocationRemovalManager {
 
-<span class="fc" id="L55">    private static final Logger LOGGER = LoggerFactory.getLogger(LocationRemovalManagerImpl.class);</span>
+<span class="fc" id="L54">    private static final Logger LOGGER = LoggerFactory.getLogger(LocationRemovalManagerImpl.class);</span>
     private final ApplicationEventPublisher eventPublisher;
     private final Translator translator;
     private final RestTemplate aLoadBalanced;
     private final LocationRepository repository;
     private final RegistrationService registrationService;
-    private final DiscoveryClient dc;
 
-<span class="fc" id="L63">    LocationRemovalManagerImpl(ApplicationEventPublisher eventPublisher, Translator translator, RestTemplate aLoadBalanced, LocationRepository repository, RegistrationService registrationService, DiscoveryClient dc) {</span>
-<span class="fc" id="L64">        this.eventPublisher = eventPublisher;</span>
-<span class="fc" id="L65">        this.translator = translator;</span>
-<span class="fc" id="L66">        this.aLoadBalanced = aLoadBalanced;</span>
-<span class="fc" id="L67">        this.repository = repository;</span>
-<span class="fc" id="L68">        this.registrationService = registrationService;</span>
-<span class="fc" id="L69">        this.dc = dc;</span>
-<span class="fc" id="L70">    }</span>
+    LocationRemovalManagerImpl(ApplicationEventPublisher eventPublisher, Translator translator, RestTemplate aLoadBalanced,
+<span class="fc" id="L62">            LocationRepository repository, RegistrationService registrationService) {</span>
+<span class="fc" id="L63">        this.eventPublisher = eventPublisher;</span>
+<span class="fc" id="L64">        this.translator = translator;</span>
+<span class="fc" id="L65">        this.aLoadBalanced = aLoadBalanced;</span>
+<span class="fc" id="L66">        this.repository = repository;</span>
+<span class="fc" id="L67">        this.registrationService = registrationService;</span>
+<span class="fc" id="L68">    }</span>
 
     /**
      * {@inheritDoc}
@@ -75,20 +73,19 @@ class LocationRemovalManagerImpl implements LocationRemovalManager {
     @Override
     @Measured
     public void tryDelete(@NotBlank String pKey) {
-<span class="nc" id="L78">        var locationOpt = repository.findBypKey(pKey);</span>
-<span class="nc bnc" id="L79" title="All 2 branches missed.">        if (locationOpt.isEmpty()) {</span>
-<span class="nc" id="L80">            LOGGER.warn(&quot;Location with pKey [{}] shall be deleted but it does not exist&quot;, pKey);</span>
-<span class="nc" id="L81">            throw new NotFoundException(translator, LOCATION_NOT_FOUND_BY_PKEY, new String[]{pKey}, pKey);</span>
+<span class="nc" id="L76">        var locationOpt = repository.findBypKey(pKey);</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (locationOpt.isEmpty()) {</span>
+<span class="nc" id="L78">            LOGGER.warn(&quot;Location with pKey [{}] shall be deleted but it does not exist&quot;, pKey);</span>
+<span class="nc" id="L79">            throw new NotFoundException(translator, LOCATION_NOT_FOUND_BY_PKEY, new String[]{pKey}, pKey);</span>
         }
         try {
-<span class="nc" id="L84">            deleteInternal(locationOpt.get());</span>
-<span class="nc" id="L85">        } catch (Exception e) {</span>
-<span class="nc" id="L86">            LOGGER.error(e.getMessage(), e);</span>
+<span class="nc" id="L82">            deleteInternal(locationOpt.get());</span>
+<span class="nc" id="L83">        } catch (Exception e) {</span>
             // if any failure occurs, send a persistent async message to release the deletion for everyone
-<span class="nc" id="L88">            eventPublisher.publishEvent(new DeletionFailedEvent(locationOpt.get().getPersistentKey()));</span>
-<span class="nc" id="L89">            throw new RemovalNotAllowedException(e.getMessage());</span>
-<span class="nc" id="L90">        }</span>
-<span class="nc" id="L91">    }</span>
+<span class="nc" id="L85">            eventPublisher.publishEvent(new DeletionFailedEvent(locationOpt.get().getPersistentKey()));</span>
+<span class="nc" id="L86">            throw new RemovalNotAllowedException(e.getMessage());</span>
+<span class="nc" id="L87">        }</span>
+<span class="nc" id="L88">    }</span>
 
     /**
      * {@inheritDoc}
@@ -96,49 +93,49 @@ class LocationRemovalManagerImpl implements LocationRemovalManager {
     @Override
     @Measured
     public void deleteAll(@NotNull Collection&lt;Location&gt; locations) {
-<span class="nc" id="L99">        repository.deleteAll(locations);</span>
-<span class="nc" id="L100">    }</span>
+<span class="nc" id="L96">        repository.deleteAll(locations);</span>
+<span class="nc" id="L97">    }</span>
 
     private void deleteInternal(Location location) {
-<span class="nc" id="L103">        verifyNoTransportUnitsOn(location);</span>
-<span class="nc" id="L104">        var registeredServices = registrationService.getAllRegistered();</span>
+<span class="nc" id="L100">        verifyNoTransportUnitsOn(location);</span>
+<span class="nc" id="L101">        var registeredServices = registrationService.getAllRegistered();</span>
 
-<span class="nc bnc" id="L106" title="All 2 branches missed.">        if (registeredServices.isEmpty()) {</span>
-<span class="nc" id="L107">            LOGGER.info(&quot;No services registered that are requested for removal&quot;);</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if (registeredServices.isEmpty()) {</span>
+<span class="nc" id="L104">            LOGGER.info(&quot;No services registered that are requested for removal&quot;);</span>
         }
         // first ask all services and call the requestRemovalEndpoint
         // might throw RemovalNotAllowedException and exit
-<span class="nc bnc" id="L111" title="All 2 branches missed.">        for (var srv : registeredServices) {</span>
-<span class="nc" id="L112">            askForRemoval(srv, List.of(location.getPersistentKey()));</span>
-<span class="nc" id="L113">        }</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        for (var srv : registeredServices) {</span>
+<span class="nc" id="L109">            askForRemoval(srv, List.of(location.getPersistentKey()));</span>
+<span class="nc" id="L110">        }</span>
 
         // if all are fine then call the removeEndpoint to mark the Location as deleted and not be visible in the foreign service
-<span class="nc bnc" id="L116" title="All 2 branches missed.">        for (var srv : registeredServices) {</span>
-<span class="nc" id="L117">            removeLocation(srv, List.of(location.getPersistentKey()));</span>
-<span class="nc" id="L118">        }</span>
-<span class="nc" id="L119">        deleteLocation(location);</span>
-<span class="nc" id="L120">    }</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        for (var srv : registeredServices) {</span>
+<span class="nc" id="L114">            removeLocation(srv, List.of(location.getPersistentKey()));</span>
+<span class="nc" id="L115">        }</span>
+<span class="nc" id="L116">        deleteLocation(location);</span>
+<span class="nc" id="L117">    }</span>
 
     private void verifyNoTransportUnitsOn(Location location) {
-<span class="nc bnc" id="L123" title="All 2 branches missed.">        if (repository.doesTUonLocationExists(location.getPk())) {</span>
-<span class="nc" id="L124">            throw new RemovalNotAllowedException(&quot;TransportUnit exist on Location [%s]&quot;.formatted(location.getLocationId()));</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        if (repository.doesTUonLocationExists(location.getPk())) {</span>
+<span class="nc" id="L121">            throw new RemovalNotAllowedException(&quot;TransportUnit exist on Location [%s]&quot;.formatted(location.getLocationId()));</span>
         }
-<span class="nc" id="L126">        LOGGER.info(&quot;No TransportUnits exist on Location [{}]&quot;, location.getLocationId());</span>
-<span class="nc" id="L127">    }</span>
+<span class="nc" id="L123">        LOGGER.info(&quot;No TransportUnits exist on Location [{}]&quot;, location.getLocationId());</span>
+<span class="nc" id="L124">    }</span>
 
     private void verifyNoTransportUnitsOn(Collection&lt;String&gt; pKeys) {
-<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (repository.doesTUonLocationExists(pKeys)) {</span>
-<span class="nc" id="L131">            throw new RemovalNotAllowedException(&quot;TransportUnit exist on one or more Locations&quot;);</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        if (repository.doesTUonLocationExists(pKeys)) {</span>
+<span class="nc" id="L128">            throw new RemovalNotAllowedException(&quot;TransportUnit exist on one or more Locations&quot;);</span>
         }
-<span class="nc" id="L133">    }</span>
+<span class="nc" id="L130">    }</span>
 
     private void deleteLocation(Location location) {
-<span class="nc" id="L136">        verifyNoTransportUnitsOn(location);</span>
+<span class="nc" id="L133">        verifyNoTransportUnitsOn(location);</span>
         // if ALL still agree, then send a persistent async message to commit the deletion after the transaction
-<span class="nc" id="L138">        eventPublisher.publishEvent(LocationEvent.of(location, LocationEvent.LocationEventType.DELETED));</span>
+<span class="nc" id="L135">        eventPublisher.publishEvent(LocationEvent.of(location, LocationEvent.LocationEventType.DELETED));</span>
         // and finally delete the Location
-<span class="nc" id="L140">        repository.delete(location);</span>
-<span class="nc" id="L141">    }</span>
+<span class="nc" id="L137">        repository.delete(location);</span>
+<span class="nc" id="L138">    }</span>
 
     /**
      * {@inheritDoc}
@@ -149,20 +146,20 @@ class LocationRemovalManagerImpl implements LocationRemovalManager {
     @Override
     @Measured
     public boolean allowedToDelete(@NotNull Collection&lt;String&gt; pKeys) {
-<span class="nc" id="L152">        verifyNoTransportUnitsOn(pKeys);</span>
-<span class="nc" id="L153">        var registeredServices = registrationService.getAllRegistered();</span>
+<span class="nc" id="L149">        verifyNoTransportUnitsOn(pKeys);</span>
+<span class="nc" id="L150">        var registeredServices = registrationService.getAllRegistered();</span>
         try {
             // first ask all services and call the requestRemovalEndpoint
             // might throw RemovalNotAllowedException and exit
-<span class="nc bnc" id="L157" title="All 2 branches missed.">            for (var srv : registeredServices) {</span>
-<span class="nc" id="L158">                askForRemoval(srv, pKeys);</span>
-<span class="nc" id="L159">            }</span>
-<span class="nc" id="L160">            LOGGER.debug(&quot;It's allowed to delete the given Locations&quot;);</span>
-<span class="nc" id="L161">            return true;</span>
-<span class="nc" id="L162">        } catch (Exception e) {</span>
-<span class="nc" id="L163">            LOGGER.warn(e.getMessage(), e);</span>
-<span class="nc" id="L164">            LOGGER.debug(&quot;It's NOT allowed to delete the given Locations&quot;);</span>
-<span class="nc" id="L165">            return false;</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">            for (var srv : registeredServices) {</span>
+<span class="nc" id="L155">                askForRemoval(srv, pKeys);</span>
+<span class="nc" id="L156">            }</span>
+<span class="nc" id="L157">            LOGGER.debug(&quot;It's allowed to delete the given Locations&quot;);</span>
+<span class="nc" id="L158">            return true;</span>
+<span class="nc" id="L159">        } catch (Exception e) {</span>
+<span class="nc" id="L160">            LOGGER.warn(e.getMessage(), e);</span>
+<span class="nc" id="L161">            LOGGER.debug(&quot;It's NOT allowed to delete the given Locations&quot;);</span>
+<span class="nc" id="L162">            return false;</span>
         }
    }
 
@@ -174,68 +171,68 @@ class LocationRemovalManagerImpl implements LocationRemovalManager {
     @Override
     @Measured
     public void markForDeletion(@NotNull Collection&lt;String&gt; pKeys) {
-<span class="nc" id="L177">        var registeredServices = registrationService.getAllRegistered();</span>
+<span class="nc" id="L174">        var registeredServices = registrationService.getAllRegistered();</span>
         try {
-<span class="nc bnc" id="L179" title="All 2 branches missed.">            for (var srv : registeredServices) {</span>
-<span class="nc" id="L180">                removeLocation(srv, pKeys);</span>
-<span class="nc" id="L181">            }</span>
-<span class="nc" id="L182">            LOGGER.debug(&quot;All Locations marked for deletion&quot;);</span>
-<span class="nc" id="L183">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">            for (var srv : registeredServices) {</span>
+<span class="nc" id="L177">                removeLocation(srv, pKeys);</span>
+<span class="nc" id="L178">            }</span>
+<span class="nc" id="L179">            LOGGER.debug(&quot;All Locations marked for deletion&quot;);</span>
+<span class="nc" id="L180">        } catch (Exception e) {</span>
             // if any failure occurs, send a persistent async message to release the deletion for everyone
-<span class="nc" id="L185">            LOGGER.debug(&quot;Location cannot be marked for deletion, sending events to rollback&quot;);</span>
-<span class="nc bnc" id="L186" title="All 2 branches missed.">            for (var pKey : pKeys) {</span>
-<span class="nc" id="L187">                eventPublisher.publishEvent(new DeletionFailedEvent(pKey));</span>
-<span class="nc" id="L188">            }</span>
-<span class="nc" id="L189">            throw e;</span>
-<span class="nc" id="L190">        }</span>
-<span class="nc" id="L191">    }</span>
+<span class="nc" id="L182">            LOGGER.debug(&quot;Location cannot be marked for deletion, sending events to rollback&quot;);</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">            for (var pKey : pKeys) {</span>
+<span class="nc" id="L184">                eventPublisher.publishEvent(new DeletionFailedEvent(pKey));</span>
+<span class="nc" id="L185">            }</span>
+<span class="nc" id="L186">            throw e;</span>
+<span class="nc" id="L187">        }</span>
+<span class="nc" id="L188">    }</span>
 
     private void askForRemoval(ReplicaRegistry srv, Collection&lt;String&gt; pKeys) {
-<span class="nc" id="L194">        var headers = new HttpHeaders();</span>
+<span class="nc" id="L191">        var headers = new HttpHeaders();</span>
         boolean result;
-<span class="nc" id="L196">        var endpoint = &quot;http://&quot; + srv.getApplicationName() + srv.getRequestRemovalEndpoint();</span>
-<span class="nc bnc" id="L197" title="All 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L198">            LOGGER.debug(&quot;Request for removal to the service with API [{}]&quot;, endpoint);</span>
+<span class="nc" id="L193">        var endpoint = &quot;http://&quot; + srv.getApplicationName() + srv.getRequestRemovalEndpoint();</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L195">            LOGGER.debug(&quot;Request for removal to the service with API [{}]&quot;, endpoint);</span>
         }
         try {
-<span class="nc" id="L201">            var response = aLoadBalanced.exchange(</span>
+<span class="nc" id="L198">            var response = aLoadBalanced.exchange(</span>
                     endpoint,
                     HttpMethod.POST,
                     new HttpEntity&lt;List&lt;String&gt;&gt;(new ArrayList&lt;&gt;(pKeys), headers),
                     Boolean.class
             );
-<span class="nc bnc" id="L207" title="All 4 branches missed.">            result = response.getBody() != null &amp;&amp; response.getBody();</span>
-<span class="nc bnc" id="L208" title="All 2 branches missed.">            if (result) {</span>
-<span class="nc" id="L209">                LOGGER.info(&quot;Service [{}] allows to remove all Locations&quot;, srv.getApplicationName());</span>
+<span class="nc bnc" id="L204" title="All 4 branches missed.">            result = response.getBody() != null &amp;&amp; response.getBody();</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">            if (result) {</span>
+<span class="nc" id="L206">                LOGGER.info(&quot;Service [{}] allows to remove all Locations&quot;, srv.getApplicationName());</span>
             } else {
-<span class="nc" id="L211">                LOGGER.info(&quot;Service [{}] does not allow to remove Locations&quot;, srv.getApplicationName());</span>
+<span class="nc" id="L208">                LOGGER.info(&quot;Service [{}] does not allow to remove Locations&quot;, srv.getApplicationName());</span>
             }
-<span class="nc" id="L213">        } catch (Exception e) {</span>
-<span class="nc" id="L214">            LOGGER.error(e.getMessage(), e);</span>
-<span class="nc" id="L215">            throw new RemovalNotAllowedException(&quot;Exception. Removal of Locations is declined by service [%s]&quot;.formatted(srv.getApplicationName()));</span>
-<span class="nc" id="L216">        }</span>
-<span class="nc bnc" id="L217" title="All 2 branches missed.">        if (!result) {</span>
-<span class="nc" id="L218">            throw new RemovalNotAllowedException(&quot;Removal of Locations has been declined by service [%s]&quot;.formatted(srv.getApplicationName()));</span>
+<span class="nc" id="L210">        } catch (Exception e) {</span>
+<span class="nc" id="L211">            LOGGER.error(e.getMessage(), e);</span>
+<span class="nc" id="L212">            throw new RemovalNotAllowedException(&quot;Exception. Removal of Locations is declined by service [%s]&quot;.formatted(srv.getApplicationName()));</span>
+<span class="nc" id="L213">        }</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">        if (!result) {</span>
+<span class="nc" id="L215">            throw new RemovalNotAllowedException(&quot;Removal of Locations has been declined by service [%s]&quot;.formatted(srv.getApplicationName()));</span>
         }
-<span class="nc" id="L220">    }</span>
+<span class="nc" id="L217">    }</span>
 
     private void removeLocation(ReplicaRegistry srv, Collection&lt;String&gt; pKeys) {
-<span class="nc" id="L223">        var headers = new HttpHeaders();</span>
-<span class="nc" id="L224">        var endpoint = &quot;http://&quot; + srv.getApplicationName() + srv.getRemovalEndpoint();</span>
-<span class="nc bnc" id="L225" title="All 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L226">            LOGGER.debug(&quot;Ask for removal the service with API [{}]&quot;, endpoint);</span>
+<span class="nc" id="L220">        var headers = new HttpHeaders();</span>
+<span class="nc" id="L221">        var endpoint = &quot;http://&quot; + srv.getApplicationName() + srv.getRemovalEndpoint();</span>
+<span class="nc bnc" id="L222" title="All 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L223">            LOGGER.debug(&quot;Ask for removal the service with API [{}]&quot;, endpoint);</span>
         }
         try {
-<span class="nc" id="L229">            aLoadBalanced.exchange(</span>
+<span class="nc" id="L226">            aLoadBalanced.exchange(</span>
                     endpoint,
                     HttpMethod.DELETE,
                     new HttpEntity&lt;List&lt;String&gt;&gt;(new ArrayList&lt;&gt;(pKeys), headers),
                     Void.class
             );
-<span class="nc" id="L235">            LOGGER.info(&quot;Service [{}] removed Locations&quot;, srv.getApplicationName());</span>
-<span class="nc" id="L236">        } catch (Exception e) {</span>
-<span class="nc" id="L237">            throw new RemovalNotAllowedException(format(&quot;Exception. Removal of Locations is declined by service [%s]&quot;, srv.getApplicationName()));</span>
-<span class="nc" id="L238">        }</span>
-<span class="nc" id="L239">    }</span>
+<span class="nc" id="L232">            LOGGER.info(&quot;Service [{}] removed Locations&quot;, srv.getApplicationName());</span>
+<span class="nc" id="L233">        } catch (Exception e) {</span>
+<span class="nc" id="L234">            throw new RemovalNotAllowedException(format(&quot;Exception. Removal of Locations is declined by service [%s]&quot;, srv.getApplicationName()));</span>
+<span class="nc" id="L235">        }</span>
+<span class="nc" id="L236">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

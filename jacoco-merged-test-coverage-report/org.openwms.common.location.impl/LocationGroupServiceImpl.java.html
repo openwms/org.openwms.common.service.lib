@@ -83,12 +83,12 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Measured
     public @NotNull LocationGroup create(@NotNull @Validated(ValidationGroups.Create.class) @Valid LocationGroupVO vo) {
 <span class="pc bpc" id="L85" title="1 of 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
-<span class="fc" id="L86">            LOGGER.debug(&quot;Create a LocationGroup with the VO [{}]&quot;, vo.allFieldsToString());</span>
+<span class="nc" id="L86">            LOGGER.debug(&quot;Create a LocationGroup with the VO [{}]&quot;, vo.allFieldsToString());</span>
         }
 <span class="fc" id="L88">        var eo = createLocationGroup(vo);</span>
 <span class="fc" id="L89">        var savedEo = repository.save(eo);</span>
 <span class="pc bpc" id="L90" title="1 of 2 branches missed.">        if (LOGGER.isInfoEnabled()) {</span>
-<span class="fc" id="L91">            LOGGER.info(&quot;Request to create a new LocationGroup [{}]&quot;, savedEo);</span>
+<span class="nc" id="L91">            LOGGER.info(&quot;Request to create a new LocationGroup [{}]&quot;, savedEo);</span>
         }
 <span class="fc" id="L93">        ctx.publishEvent(LocationGroupEvent.of(savedEo, LocationGroupEvent.LocationGroupEventType.CREATED));</span>
 <span class="fc" id="L94">        return savedEo;</span>

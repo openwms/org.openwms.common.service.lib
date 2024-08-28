@@ -26,8 +26,6 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import static org.openwms.common.transport.api.TransportApiConstants.DATETIME_FORMAT_ZULU;
-
 /**
  * A TransportUnitTypeVO.
  *
@@ -74,65 +72,67 @@ public class TransportUnitTypeVO extends AbstractBase&lt;TransportUnitTypeVO&gt;
 
     /*~-------------------- constructors --------------------*/
     @JsonCreator
-<span class="nc" id="L77">    protected TransportUnitTypeVO() { }</span>
+<span class="nc" id="L75">    protected TransportUnitTypeVO() { }</span>
 
-<span class="nc" id="L79">    public TransportUnitTypeVO(String type) {</span>
-<span class="nc" id="L80">        this.type = type;</span>
-<span class="nc" id="L81">    }</span>
+<span class="nc" id="L77">    public TransportUnitTypeVO(String type) {</span>
+<span class="nc" id="L78">        this.type = type;</span>
+<span class="nc" id="L79">    }</span>
 
     /*~-------------------- accessors --------------------*/
     public String getpKey() {
-<span class="nc" id="L85">        return pKey;</span>
+<span class="nc" id="L83">        return pKey;</span>
     }
 
     public void setpKey(String pKey) {
-<span class="nc" id="L89">        this.pKey = pKey;</span>
-<span class="nc" id="L90">    }</span>
+<span class="nc" id="L87">        this.pKey = pKey;</span>
+<span class="nc" id="L88">    }</span>
 
     public String getType() {
-<span class="nc" id="L93">        return type;</span>
+<span class="nc" id="L91">        return type;</span>
     }
 
     public void setType(String type) {
-<span class="nc" id="L97">        this.type = type;</span>
-<span class="nc" id="L98">    }</span>
+<span class="nc" id="L95">        this.type = type;</span>
+<span class="nc" id="L96">    }</span>
 
     public String getDescription() {
-<span class="nc" id="L101">        return description;</span>
+<span class="nc" id="L99">        return description;</span>
     }
 
     public void setDescription(String description) {
-<span class="nc" id="L105">        this.description = description;</span>
-<span class="nc" id="L106">    }</span>
+<span class="nc" id="L103">        this.description = description;</span>
+<span class="nc" id="L104">    }</span>
 
     public String getHeight() {
-<span class="nc" id="L109">        return height;</span>
+<span class="nc" id="L107">        return height;</span>
     }
 
     public void setHeight(String height) {
-<span class="nc" id="L113">        this.height = height;</span>
-<span class="nc" id="L114">    }</span>
+<span class="nc" id="L111">        this.height = height;</span>
+<span class="nc" id="L112">    }</span>
 
     public String getWidth() {
-<span class="nc" id="L117">        return width;</span>
+<span class="nc" id="L115">        return width;</span>
     }
 
     public void setWidth(String width) {
-<span class="nc" id="L121">        this.width = width;</span>
-<span class="nc" id="L122">    }</span>
+<span class="nc" id="L119">        this.width = width;</span>
+<span class="nc" id="L120">    }</span>
 
     public String getLength() {
-<span class="nc" id="L125">        return length;</span>
+<span class="nc" id="L123">        return length;</span>
     }
 
     public void setLength(String length) {
-<span class="nc" id="L129">        this.length = length;</span>
-<span class="nc" id="L130">    }</span>
+<span class="nc" id="L127">        this.length = length;</span>
+<span class="nc" id="L128">    }</span>
 
+    @Override
     public LocalDateTime getCreateDt() {
-<span class="nc" id="L133">        return createDt;</span>
+<span class="nc" id="L132">        return createDt;</span>
     }
 
+    @Override
     public void setCreateDt(LocalDateTime createDt) {
 <span class="nc" id="L137">        this.createDt = createDt;</span>
 <span class="nc" id="L138">    }</span>

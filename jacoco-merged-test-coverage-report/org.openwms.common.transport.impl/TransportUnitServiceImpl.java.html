@@ -170,7 +170,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
 <span class="pc bpc" id="L170" title="1 of 4 branches missed.">        if (strict == null || Boolean.FALSE.equals(strict)) {</span>
 <span class="fc bfc" id="L171" title="All 2 branches covered.">            if (optTransportUnit.isPresent()) {</span>
 <span class="pc bpc" id="L172" title="1 of 2 branches missed.">                if (LOGGER.isDebugEnabled()) {</span>
-<span class="fc" id="L173">                    LOGGER.debug(&quot;TransportUnit with Barcode [{}] already exists, silently returning the existing one&quot;, barcode);</span>
+<span class="nc" id="L173">                    LOGGER.debug(&quot;TransportUnit with Barcode [{}] already exists, silently returning the existing one&quot;, barcode);</span>
                 }
 <span class="fc" id="L175">                return optTransportUnit.get();</span>
             }
@@ -183,7 +183,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
 <span class="fc" id="L183">        var actualLocation = locationResolver.get();</span>
 <span class="pc" id="L184">        var type = transportUnitTypeRepository.findByType(transportUnitType).orElseThrow(() -&gt; new NotFoundException(format(&quot;TransportUnitType [%s] not found&quot;, transportUnitType)));</span>
 <span class="pc bpc" id="L185" title="1 of 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
-<span class="fc" id="L186">            LOGGER.debug(&quot;Creating a TransportUnit with Barcode [{}] of Type [{}] on Location [{}]&quot;, barcode, transportUnitType, actualLocation);</span>
+<span class="nc" id="L186">            LOGGER.debug(&quot;Creating a TransportUnit with Barcode [{}] of Type [{}] on Location [{}]&quot;, barcode, transportUnitType, actualLocation);</span>
         }
 <span class="fc" id="L188">        var transportUnit = repository.save(new TransportUnit(barcode, type, actualLocation));</span>
 <span class="fc" id="L189">        publisher.publishEvent(</span>
@@ -243,8 +243,8 @@ class TransportUnitServiceImpl implements TransportUnitService {
         }
 <span class="fc" id="L244">        transportUnit.setActualLocation(target);</span>
 <span class="pc bpc" id="L245" title="1 of 2 branches missed.">        if (LOGGER.isInfoEnabled()) {</span>
-<span class="fc" id="L246">            LOGGER.info(&quot;Moving TransportUnit with barcode [{}] from Location [{}] to Location [{}]&quot;, barcode, currentLocation,</span>
-<span class="fc" id="L247">                    target.getLocationId());</span>
+<span class="nc" id="L246">            LOGGER.info(&quot;Moving TransportUnit with barcode [{}] from Location [{}] to Location [{}]&quot;, barcode, currentLocation,</span>
+<span class="nc" id="L247">                    target.getLocationId());</span>
         }
 <span class="fc" id="L249">        var saved = repository.save(transportUnit);</span>
 <span class="fc" id="L250">        publisher.publishEvent(</span>
@@ -287,7 +287,7 @@ class TransportUnitServiceImpl implements TransportUnitService {
 <span class="pc bpc" id="L287" title="1 of 2 branches missed.">        if (command.getType() == TUCommand.Type.REMOVE) {</span>
 <span class="fc" id="L288">            validate(validator, command, ValidationGroups.TransportUnit.Remove.class);</span>
 <span class="pc bpc" id="L289" title="1 of 2 branches missed.">            if (LOGGER.isDebugEnabled()) {</span>
-<span class="fc" id="L290">                LOGGER.debug(&quot;Got command to REMOVE TransportUnit with pKey [{}]&quot;, command.getTransportUnit().getpKey());</span>
+<span class="nc" id="L290">                LOGGER.debug(&quot;Got command to REMOVE TransportUnit with pKey [{}]&quot;, command.getTransportUnit().getpKey());</span>
             }
 <span class="fc" id="L292">            deleteDefinitely(command.getTransportUnit().getpKey());</span>
         }

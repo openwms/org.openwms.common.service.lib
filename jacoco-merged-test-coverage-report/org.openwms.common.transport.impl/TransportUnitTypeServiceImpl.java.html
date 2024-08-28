@@ -142,7 +142,7 @@ class TransportUnitTypeServiceImpl implements TransportUnitTypeService {
     public TransportUnitType save(@NotNull TransportUnitType transportUnitType) {
 <span class="fc" id="L143">        var tut = transportUnitTypeRepository.save(transportUnitType);</span>
 <span class="pc bpc" id="L144" title="1 of 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
-<span class="fc" id="L145">            LOGGER.debug(&quot;Save a TransportUnitType with a list of TypePlacingRules [{}]&quot;, tut.getTypePlacingRules().size());</span>
+<span class="nc" id="L145">            LOGGER.debug(&quot;Save a TransportUnitType with a list of TypePlacingRules [{}]&quot;, tut.getTypePlacingRules().size());</span>
         }
 <span class="fc" id="L147">        publisher.publishEvent(TransportUnitTypeEvent.newBuilder()</span>
 <span class="fc" id="L148">                .tut(tut)</span>

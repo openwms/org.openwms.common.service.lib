@@ -254,7 +254,7 @@ class LocationServiceImpl implements LocationService {
 <span class="fc" id="L254">        var existing = findInternal(location.getPersistentKey());</span>
 <span class="fc" id="L255">        var modified = locationMapper.copyForUpdate(location, existing);</span>
 <span class="pc bpc" id="L256" title="1 of 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
-<span class="fc" id="L257">            LOGGER.debug(&quot;Saving Location [{}]&quot;, modified);</span>
+<span class="nc" id="L257">            LOGGER.debug(&quot;Saving Location [{}]&quot;, modified);</span>
         }
 <span class="fc" id="L259">        return repository.save(modified);</span>
     }
