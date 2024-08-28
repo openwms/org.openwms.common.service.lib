@@ -97,47 +97,48 @@
 <h1>Purpose</h1>
 <p>This service provides essential functionality to deal with <code>Locations</code>, <code>LocationGroups</code> and <code>TransportUnits</code>. An often referred example is
 the ability to move a <code>TransportUnit</code> from a <code>Location</code> A to a <code>Location</code> B.</p>
-<p><img src="images/class-overview.png" alt="ClassDiagram" /></p></section><section>
-<h1>Resources</h1>
+<p><img src="images/class-overview.png" alt="ClassDiagram" /></p><section>
+<h2>Resources</h2>
 <p><a href="https://github.com/openwms/org.openwms.common.service.lib/actions/workflows/master-build.yml" class="externalLink"><img src="https://github.com/openwms/org.openwms.common.service.lib/actions/workflows/master-build.yml/badge.svg" alt="Build status" /></a>
 <a href="https://sonarcloud.io/dashboard?id=org.openwms:org.openwms.common.service.lib" class="externalLink"><img src="https://sonarcloud.io/api/project_badges/measure?project=org.openwms:org.openwms.common.service.lib&amp;metric=alert_status" alt="Quality" /></a>
 <a href="../../../LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License" /></a>
 <a href="https://search.maven.org/search?q=a:org.openwms.common.service.lib" class="externalLink"><img src="https://img.shields.io/maven-central/v/org.openwms/org.openwms.common.service.lib" alt="Maven central" /></a>
-<a href="https://gitter.im/openwms/org.openwms?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge" class="externalLink"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/openwms/org.openwms" /></a></p></section><section>
-<h1>Build</h1>
-<p>The module depends on OpenWMS.org CORE dependencies and one additional optional COMMON dependency that is only used in the enterprise
-version and offers an additional API for the UI.</p>
-<p><img src="images/maven-deps.drawio.png" alt="MavenDependencies" /></p>
-<p>Build a runnable fat jar with the execution of all unit and in-memory database integration tests, but without a required <a href="https://www.rabbitmq.com" class="externalLink">RabbitMQ</a>
-server to run:</p>
-
-<div class="verbatim">
-<pre><code>$ ./mvnw package
-</code></pre></div>
-<p>To also build and run with <a href="https://www.rabbitmq.com" class="externalLink">RabbitMQ</a> support call:</p>
-
-<div class="verbatim">
-<pre><code>$ ./mvnw package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
-</code></pre></div>
-<p>This requires a <a href="https://www.rabbitmq.com" class="externalLink">RabbitMQ</a> server running locally with default settings.</p></section><section>
+<a href="https://gitter.im/openwms/org.openwms?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge" class="externalLink"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/openwms/org.openwms" /></a></p></section></section><section>
 <h1>Run</h1>
 <p>This is a library not a standalone microservice that runs on the JVM. This library is part of the OpenWMS.org Common Service, that is
 distributed as Docker image and can be instantiated as Docker container.</p><section>
 <h2>Run as Docker Container</h2>
-<p>Instead of building the software from the sources and run it as Java program on the JVM it must be fetched as a Docker image from
+<p>Instead of building the software from the sources and run it as Java program on the JVM it must be pulled as a Docker image from
 <a href="https://hub.docker.com/repository/docker/openwms/org.openwms.common.service" class="externalLink">Docker Hub</a> and started as a Docker container.</p>
 
 <div class="verbatim">
 <pre><code>$ docker run openwms/org.openwms.common.service:latest
 </code></pre></div></section></section><section>
-<h1>Release</h1>
+<h1>Development</h1><section>
+<h2>Build</h2>
+<p>The module depends on OpenWMS.org CORE dependencies and one optional COMMON dependency that is only used in the enterprise version and
+offers additional API for the UI.</p>
+<p><img src="images/maven-deps.drawio.png" alt="MavenDependencies" /></p>
+<p>Build a runnable fat jar with the execution of all unit and integration tests, but without a required <a href="https://www.rabbitmq.com" class="externalLink">RabbitMQ</a>
+server to run:</p>
+
+<div class="verbatim">
+<pre><code>$ ./mvnw package
+</code></pre></div>
+<p>To also build and run integration tests against a running <a href="https://www.rabbitmq.com" class="externalLink">RabbitMQ</a> instance call:</p>
+
+<div class="verbatim">
+<pre><code>$ ./mvnw package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
+</code></pre></div>
+<p>This requires a <a href="https://www.rabbitmq.com" class="externalLink">RabbitMQ</a> server running locally with default settings.</p></section><section>
+<h2>Release Binaries</h2>
 <p>Releasing a new stable version of the software to <a href="https://search.maven.org/" class="externalLink">Maven Central</a> is usually done by the service maintainers
 only. To build an optimized and signed binary version and upload it to the Sonatype Staging Repository call:</p>
 
 <div class="verbatim">
 <pre><code>$ ./mvnw deploy -Prelease,gpg
 </code></pre></div>
-<p>After it is uploaded, Sonatype runs a couple of quality checks before it can be manually released to <a href="https://search.maven.org/" class="externalLink">Maven Central</a>.</p><section>
+<p>After it is uploaded, Sonatype runs a couple of quality checks before it can be manually released to <a href="https://search.maven.org/" class="externalLink">Maven Central</a>.</p></section><section>
 <h2>Release Documentation</h2>
 <p>To release the API documentation as a static website manually just call the following two Maven commands. This is integrated into the
 automated build pipeline as well.</p>
@@ -145,7 +146,14 @@ automated build pipeline as well.</p>
 <div class="verbatim">
 <pre><code>$ ./mvnw package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
 $ ./mvnw site scm-publish:publish-scm
-</code></pre></div></section></section>
+</code></pre></div></section><section>
+<h2>Extension Points</h2><section>
+<h3>State Change Approval</h3>
+<p>By extending the interface <code>org.openwms.common.transport.spi.TransportUnitStateChangeApproval</code> a custom implementation can hook into the
+state change lifecycle and either approve or deny a state change of a <code>TransportUnit</code>.</p></section><section>
+<h3>Movement Approval</h3>
+<p>By extending the interface <code>org.openwms.common.transport.spi.TransportUnitMoveApproval</code> a custom implementation can hook into the logic that
+controls movements of <code>TransportUnits</code> and can either approve or deny all movements.</p></section></section></section>
         </main>
     </div>
     <hr/>

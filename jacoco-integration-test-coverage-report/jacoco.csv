@@ -5,10 +5,10 @@ OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api,Locatio
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api,LocationGroupState,0,15,0,0,0,3,0,1,0,1
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api,LockMode,0,27,0,0,0,5,0,1,0,1
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api,LocationVO,180,100,34,0,20,44,23,28,6,28
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api,LocationGroupVO,294,122,44,6,37,45,35,29,11,28
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api,LocationGroupVO,233,183,44,6,23,59,33,31,9,30
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,StringListConverter,20,41,1,7,2,11,1,8,0,5
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,Message,83,3,10,0,18,1,13,1,8,1
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationGroup,235,324,59,33,48,73,55,40,16,33
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationGroup,232,327,59,33,47,74,54,41,15,34
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationTypeController,0,125,0,0,0,20,0,10,0,10
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationController,52,625,2,9,4,90,6,25,4,20
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationPK,7,178,8,14,2,25,8,16,0,13
@@ -22,7 +22,7 @@ OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationGro
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,Subsystem,32,0,0,0,14,0,7,0,7,0
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationTypeMapper,19,27,1,3,1,10,1,5,0,4
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationMapper,20,70,2,2,3,22,2,1,0,1
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,Location,111,263,15,7,21,71,19,41,10,39
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,Location,107,267,15,7,20,72,18,42,9,40
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationGroupController,0,332,2,4,0,50,2,14,0,13
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationMapperImpl,18,316,11,25,9,95,11,15,0,8
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,Location.LocationBuilder,18,118,0,0,6,39,3,20,3,20
@@ -76,8 +76,8 @@ OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api.events,
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api.events,TargetEvent.Builder,5,31,1,1,1,11,1,6,0,6
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.events,DeletionFailedEvent,0,8,0,0,0,3,0,2,0,2
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.events,DeletionFailedEventListener,0,21,0,0,0,6,0,2,0,2
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.impl,TransportUnitServiceImpl,248,577,25,23,33,140,31,33,10,30
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl,26,265,2,14,1,61,3,21,1,15
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.impl,TransportUnitServiceImpl,211,664,25,25,31,153,31,36,10,32
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.impl,TransportUnitTypeServiceImpl,19,272,2,14,0,62,3,21,1,15
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.jpa,AuditableRevisionEntity,4,7,0,0,2,3,1,2,1,2
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.jpa,AuditableEntityListener,10,24,2,2,2,7,2,2,0,2
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.barcode,ConfiguredBarcodeFormatter,152,0,16,0,30,0,11,0,3,0
@@ -96,8 +96,8 @@ OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,Locati
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,LocationGroupStateConverter,24,0,8,0,6,0,6,0,2,0
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,LocationGroupEventPropagator,63,162,4,6,9,35,4,9,0,5
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,LocationRemovalManagerImpl,253,166,20,10,48,45,16,11,3,9
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,LocationGroupServiceImpl,180,421,21,33,16,90,20,28,2,19
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,LocationServiceImpl,28,349,4,22,1,65,5,29,1,20
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,LocationGroupServiceImpl,171,430,21,33,14,92,20,28,2,19
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,LocationServiceImpl,24,353,4,22,0,66,5,29,1,20
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.api.messages,TransportUnitTypeMO.Builder,0,45,0,0,0,17,0,9,0,9
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.api.messages,TransportUnitTypeMO,3,95,0,0,1,35,1,18,1,18
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.api.messages,TransportUnitMO,53,98,2,0,11,36,3,19,2,19
