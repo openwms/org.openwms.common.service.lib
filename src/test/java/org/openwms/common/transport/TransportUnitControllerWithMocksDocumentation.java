@@ -129,7 +129,7 @@ class TransportUnitControllerWithMocksDocumentation {
                 .when(moveApproval)
                 .approve(any(), any());
 
-        assertThat(tu.getActualLocation().getLocationId().toString()).isEqualTo(LOCATION_ID_EXT);
+        assertThat(tu.getActualLocation().getLocationId()).hasToString(LOCATION_ID_EXT);
 
         // act
         mockMvc.perform(patch(API_TRANSPORT_UNITS)
@@ -147,6 +147,6 @@ class TransportUnitControllerWithMocksDocumentation {
 
         // assert
         tu = service.findByBarcode(TU_1_ID);
-        assertThat(tu.getActualLocation().getLocationId().toString()).isEqualTo(LOCATION_ID_EXT);
+        assertThat(tu.getActualLocation().getLocationId()).hasToString(LOCATION_ID_EXT);
     }
 }
