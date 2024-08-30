@@ -103,105 +103,7 @@ class CommonOptAsyncConfiguration {
 
     /*~ --------------- Exchanges --------------- */
     @RefreshScope
-    @Bean
-    TopicExchange commonTuExchange(@Value("${owms.events.common.tu.exchange-name}") String exchangeName) {
-        return new TopicExchange(exchangeName, true, false);
-    }
-    @RefreshScope
-    @Bean
-    TopicExchange commonTuTExchange(@Value("${owms.events.common.tut.exchange-name}") String exchangeName) {
-        return new TopicExchange(exchangeName, true, false);
-    }
-
-    /*~ ------------ Queues ------------- */
-    @RefreshScope
-    @Bean
-    Queue commandsQueue(@Value("${owms.commands.common.tu.queue-name}") String queueName, DirectExchange dlExchange) {
-        return QueueBuilder.durable(queueName)
-                .withArgument(DEAD_LETTER_EXCHANGE, dlExchange.getName())
-                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)
-                .build();
-    }
-
-    @RefreshScope
-    @Bean
-    TopicExchange commonTuCommandsExchange(@Value("${owms.commands.common.tu.exchange-name}") String exchangeName) {
-        return new TopicExchange(exchangeName, true, false);
-    }
-
-    @RefreshScope
-    @Bean
-    Binding commandsBinding(
-            @Qualifier("commonTuCommandsExchange") TopicExchange commonTuCommandsExchange,
-            @Qualifier("commandsQueue") Queue commandsQueue,
-            @Value("${owms.commands.common.tu.routing-key}") String routingKey
-    ) {
-        return BindingBuilder
-                .bind(commandsQueue)
-                .to(commonTuCommandsExchange)
-                .with(routingKey);
-    }
-
-    @RefreshScope
-    @Bean
-    Queue commonLocCommandsQueue(@Value("${owms.commands.common.loc.queue-name}") String queueName, DirectExchange dlExchange) {
-        return QueueBuilder.durable(queueName)
-                .withArgument(DEAD_LETTER_EXCHANGE, dlExchange.getName())
-                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)
-                .build();
-    }
-
-    @RefreshScope
-    @Bean
-    TopicExchange commonLocCommandsExchange(@Value("${owms.commands.common.loc.exchange-name}") String exchangeName) {
-        return new TopicExchange(exchangeName, true, false);
-    }
-
-    @RefreshScope
-    @Bean
-    Binding locCommandsBinding(
-            @Qualifier("commonLocCommandsExchange") TopicExchange commonLocCommandsExchange,
-            @Qualifier("commonLocCommandsQueue") Queue commonLocCommandsQueue,
-            @Value("${owms.commands.common.loc.routing-key}") String routingKey
-    ) {
-        return BindingBuilder
-                .bind(commonLocCommandsQueue)
-                .to(commonLocCommandsExchange)
-                .with(routingKey);
-    }
-
-    @RefreshScope
-    @Bean
-    Queue commonLocRegistrationCommandsQueue(@Value("${owms.commands.common.registration.queue-name}") String queueName, DirectExchange dlExchange) {
-        return QueueBuilder.durable(queueName)
-                .withArgument(DEAD_LETTER_EXCHANGE, dlExchange.getName())
-                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)
-                .build();
-    }
-
-    @RefreshScope
-    @Bean
-    TopicExchange commonLocRegistrationCommandsExchange(@Value("${owms.commands.common.registration.exchange-name}") String exchangeName) {
-        return new TopicExchange(exchangeName, true, false);
-    }
-
-    @RefreshScope
-    @Bean
-    Binding locRegistrationCommandsBinding(
-            @Qualifier("commonLocRegistrationCommandsExchange") TopicExchange commonLocRegistrationCommandsExchange,
-            @Qualifier("commonLocRegistrationCommandsQueue") Queue commonLocRegistrationCommandsQueue,
-            @Value("${owms.commands.common.registration.routing-key}") String routingKey
-    ) {
-        return BindingBuilder
-                .bind(commonLocRegistrationCommandsQueue)
-                .to(commonLocRegistrationCommandsExchange)
-                .with(routingKey);
-    }
-
-    /* Dead Letter */
-    @RefreshScope
-    @Bean
-    DirectExchange dlExchange(
+    @Bean DirectExchange dlExchange(
             @Value("${spring.application.name}") String applicationName,
             @Value("${owms.dead-letter.exchange-name:}") String exchangeName
     ) {
@@ -210,10 +112,34 @@ class CommonOptAsyncConfiguration {
         }
         return new DirectExchange(exchangeName);
     }
-
     @RefreshScope
-    @Bean
-    Queue dlQueue(
+    @Bean TopicExchange commonTuExchange(@Value("${owms.events.common.tu.exchange-name}") String exchangeName) {
+        return new TopicExchange(exchangeName, true, false);
+    }
+    @RefreshScope
+    @Bean TopicExchange commonTuTExchange(@Value("${owms.events.common.tut.exchange-name}") String exchangeName) {
+        return new TopicExchange(exchangeName, true, false);
+    }
+    @RefreshScope
+    @Bean TopicExchange commonTuCommandsExchange(@Value("${owms.commands.common.tu.exchange-name}") String exchangeName) {
+        return new TopicExchange(exchangeName, true, false);
+    }
+    @RefreshScope
+    @Bean TopicExchange commonLocCommandsExchange(@Value("${owms.commands.common.loc.exchange-name}") String exchangeName) {
+        return new TopicExchange(exchangeName, true, false);
+    }
+    @RefreshScope
+    @Bean TopicExchange commonLocRegistrationCommandsExchange(@Value("${owms.commands.common.registration.exchange-name}") String exchangeName) {
+        return new TopicExchange(exchangeName, true, false);
+    }
+    @RefreshScope
+    @Bean TopicExchange shippingExchange(@Value("${owms.events.shipping.exchange-name}") String exchangeName) {
+        return new TopicExchange(exchangeName, true, false);
+    }
+
+    /*~ ------------ Queues ------------- */
+    @RefreshScope
+    @Bean Queue dlQueue(
             @Value("${spring.application.name}") String applicationName,
             @Value("${owms.dead-letter.queue-name:}") String queueName
     ) {
@@ -222,7 +148,39 @@ class CommonOptAsyncConfiguration {
         }
         return QueueBuilder.durable(queueName).build();
     }
+    @RefreshScope
+    @Bean Queue commandsQueue(@Value("${owms.commands.common.tu.queue-name}") String queueName, DirectExchange dlExchange) {
+        return QueueBuilder.durable(queueName)
+                .withArgument(DEAD_LETTER_EXCHANGE, dlExchange.getName())
+                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)
+                .build();
+    }
+    @RefreshScope
+    @Bean Queue commonLocCommandsQueue(@Value("${owms.commands.common.loc.queue-name}") String queueName, DirectExchange dlExchange) {
+        return QueueBuilder.durable(queueName)
+                .withArgument(DEAD_LETTER_EXCHANGE, dlExchange.getName())
+                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)
+                .build();
+    }
+    @RefreshScope
+    @Bean Queue commonLocRegistrationCommandsQueue(@Value("${owms.commands.common.registration.queue-name}") String queueName, DirectExchange dlExchange) {
+        return QueueBuilder.durable(queueName)
+                .withArgument(DEAD_LETTER_EXCHANGE, dlExchange.getName())
+                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)
+                .build();
+    }
+    @RefreshScope
+    @Bean Queue shippingSplitQueue(
+            @Value("${owms.events.shipping.split.queue-name}") String queueName,
+            @Value("${owms.dead-letter.exchange-name}") String exchangeName
+    ) {
+        return QueueBuilder.durable(queueName)
+                .withArgument(DEAD_LETTER_EXCHANGE, exchangeName)
+                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)
+                .build();
+    }
 
+    /*~ ------------ Bindings ------------- */
     @RefreshScope
     @Bean Binding dlBinding(
             @Value("${spring.application.name}") String applicationName,
@@ -233,5 +191,49 @@ class CommonOptAsyncConfiguration {
                 .bind(dlQueue(applicationName, queueName))
                 .to(dlExchange(applicationName, exchangeName))
                 .with(POISON_MESSAGE);
+    }
+    @RefreshScope
+    @Bean Binding commandsBinding(
+            @Qualifier("commonTuCommandsExchange") TopicExchange commonTuCommandsExchange,
+            @Qualifier("commandsQueue") Queue commandsQueue,
+            @Value("${owms.commands.common.tu.routing-key}") String routingKey
+    ) {
+        return BindingBuilder
+                .bind(commandsQueue)
+                .to(commonTuCommandsExchange)
+                .with(routingKey);
+    }
+    @RefreshScope
+    @Bean Binding locCommandsBinding(
+            @Qualifier("commonLocCommandsExchange") TopicExchange commonLocCommandsExchange,
+            @Qualifier("commonLocCommandsQueue") Queue commonLocCommandsQueue,
+            @Value("${owms.commands.common.loc.routing-key}") String routingKey
+    ) {
+        return BindingBuilder
+                .bind(commonLocCommandsQueue)
+                .to(commonLocCommandsExchange)
+                .with(routingKey);
+    }
+    @RefreshScope
+    @Bean Binding locRegistrationCommandsBinding(
+            @Qualifier("commonLocRegistrationCommandsExchange") TopicExchange commonLocRegistrationCommandsExchange,
+            @Qualifier("commonLocRegistrationCommandsQueue") Queue commonLocRegistrationCommandsQueue,
+            @Value("${owms.commands.common.registration.routing-key}") String routingKey
+    ) {
+        return BindingBuilder
+                .bind(commonLocRegistrationCommandsQueue)
+                .to(commonLocRegistrationCommandsExchange)
+                .with(routingKey);
+    }
+    @RefreshScope
+    @Bean Binding splitBinding(
+            @Qualifier("shippingExchange") TopicExchange shippingExchange,
+            @Qualifier("shippingSplitQueue") Queue shippingSplitQueue,
+            @Value("${owms.events.shipping.split.routing-key}") String routingKey
+    ) {
+        return BindingBuilder
+                .bind(shippingSplitQueue)
+                .to(shippingExchange)
+                .with(routingKey);
     }
 }
