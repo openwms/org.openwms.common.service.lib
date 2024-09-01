@@ -91,6 +91,10 @@ public class CommonModuleConfiguration implements WebMvcConfigurer {
         return registry -> registry.config().commonTags("application", applicationName);
     }
 
+    @Bean OtlpGrpcSpanExporter otlpHttpSpanExporter(@Value("${owms.tracing.url}") String url) {
+        return OtlpGrpcSpanExporter.builder().setEndpoint(url).build();
+    }
+
     public @Bean LocaleResolver localeResolver() {
         var slr = new SessionLocaleResolver();
         slr.setDefaultLocale(Locale.US);
