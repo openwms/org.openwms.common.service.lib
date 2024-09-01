@@ -166,6 +166,11 @@ owms:
         exchange-name: common.tu
       tut:
         exchange-name: common.tu
+    shipping:
+      exchange-name: shipping
+      split:
+        queue-name: common-split-queue
+        routing-key: split.event.created
 
 ---
 # Might run in standalone or distributed environment
