@@ -60,15 +60,20 @@ class SimpleGenericAllocator implements GenericAllocator {
         var transportUnitBKOpt = searchAttributes.stream().filter(sa -> "transportUnitBK".equals(sa.key())).findFirst();
         var result = new ArrayList<TransportUnitAllocation>(0);
         if (transportUnitBKOpt.isPresent()) {
+            var transportUnit = transportUnitService.findByBarcode(transportUnitBKOpt.get().valueAs(String.class));
             if (ALLOCATION_LOGGER.isDebugEnabled()) {
                 ALLOCATION_LOGGER.debug("Found TransportUnit with transportUnitBK [{}] for allocation", transportUnitBKOpt.get().key());
             }
-            var transportUnit = transportUnitService.findByBarcode(transportUnitBKOpt.get().valueAs(String.class));
+            if (transportUnit.hasReservations()) {
+                ALLOCATION_LOGGER.error("TransportUnit [{}] has reservation and cannot be allocated", transportUnit.getBarcode());
+                return result;
+            }
             var reservation = new TransportUnitReservation(transportUnit, UUID.randomUUID().toString());
             reservationService.saveReservation(reservation);
             ALLOCATION_LOGGER.debug("A reservation [{}] has been added for the TransportUnit [{}]", reservation, transportUnit);
             result.add(TransportUnitAllocation.AllocationBuilder.anAllocation()
                     .transportUnit(transportUnit)
+                    .actualLocation(transportUnit.getActualLocation())
                     .reservationId(reservation.getReservedBy())
                     .build()
             );
