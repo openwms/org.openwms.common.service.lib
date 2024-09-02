@@ -41,6 +41,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -159,6 +160,12 @@ public class TransportUnitController extends AbstractWebController {
         service.synchronizeTransportUnits();
     }
 
+    @DeleteMapping(value = API_TRANSPORT_UNITS + "/{pKey}")
+    public ResponseEntity<Void> deleteTU(@PathVariable("pKey") String pKey) {
+        service.delete(pKey);
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping(value = API_TRANSPORT_UNITS, params = {"actualLocation", "tut"}, produces = MEDIA_TYPE)
     public ResponseEntity<TransportUnitVO> createTU(
             @RequestParam(value = "bk", required = false) String transportUnitBK,
@@ -229,6 +236,7 @@ public class TransportUnitController extends AbstractWebController {
                 new Index(
                         linkTo(methodOn(TransportUnitController.class).createTU("{transportUnitBK}", null, true, null)).withRel("transport-unit-createtuwithbody"),
                         linkTo(methodOn(TransportUnitController.class).createTU("{transportUnitBK}", "{actualLocation}", "{transportUnitType}", true, null)).withRel("transport-unit-createtuwithparams"),
+                        linkTo(methodOn(TransportUnitController.class).deleteTU("{pKey}")).withRel("transport-unit-deletebypkey"),
                         linkTo(methodOn(TransportUnitController.class).findTransportUnitByPKey("1")).withRel("transport-unit-findbypkey"),
                         linkTo(methodOn(TransportUnitController.class).findTransportUnit("{transportUnitBK}")).withRel("transport-unit-findbybarcode"),
                         linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList("{transportUnitBK-1}", "{transportUnitBK-n}"))).withRel("transport-unit-findbybarcodes"),

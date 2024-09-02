@@ -300,6 +300,16 @@ class TransportUnitServiceImpl implements TransportUnitService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public void delete(String pKey) {
+        var existing = this.findByPKeyInternal(pKey);
+        this.delete(existing);
+    }
+
     /* we expect that the calling service spans the TX here, because the EL advice may come differently in the chain. */
     @Transactional(propagation = Propagation.MANDATORY)
     @EventListener
@@ -382,6 +392,10 @@ class TransportUnitServiceImpl implements TransportUnitService {
     @Override
     @Measured
     public @NotNull TransportUnit findByPKey(@NotBlank String pKey) {
+        return this.findByPKeyInternal(pKey);
+    }
+
+    private TransportUnit findByPKeyInternal(String pKey) {
         return repository.findByPKey(pKey).orElseThrow(() -> new NotFoundException(format("No TransportUnit with pKey [%s] found", pKey)));
     }
 

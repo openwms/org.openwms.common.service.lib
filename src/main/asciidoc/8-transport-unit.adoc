@@ -102,6 +102,17 @@ The server might have a state change approval registered to validate each state 
 instance is registered and the server rejects to change the state of the `TransportUnit` then the response looks like:
 include::{generated}/tu-state-change-na/http-response.adoc[]
 
+[[transport-unit-deletebypkey]]
+=== Delete a TransportUnit
+A client might want to delete an existing `TransportUnit` and call the HTTP `DELETE` endpoint of the primary resource.
+include::{generated}/tu-delete-ok/http-request.adoc[]
+
+If the server accepts the request to delete the `TransportUnit` the response looks like:
+include::{generated}/tu-delete-ok/http-response.adoc[]
+
+If the resource exist does not exist the response is like:
+include::{generated}/tu-delete-404/http-response.adoc[]
+
 [[transportunits-findbybarcode]]
 === Find by Barcode
 Find a `TransportUnit` by its unique `Barcode`.
