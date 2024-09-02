@@ -236,6 +236,7 @@ public class TransportUnitController extends AbstractWebController {
                 new Index(
                         linkTo(methodOn(TransportUnitController.class).createTU("{transportUnitBK}", null, true, null)).withRel("transport-unit-createtuwithbody"),
                         linkTo(methodOn(TransportUnitController.class).createTU("{transportUnitBK}", "{actualLocation}", "{transportUnitType}", true, null)).withRel("transport-unit-createtuwithparams"),
+                        linkTo(methodOn(TransportUnitController.class).deleteTU("{pKey}")).withRel("transport-unit-deletebypkey"),
                         linkTo(methodOn(TransportUnitController.class).findTransportUnitByPKey("1")).withRel("transport-unit-findbypkey"),
                         linkTo(methodOn(TransportUnitController.class).findTransportUnit("{transportUnitBK}")).withRel("transport-unit-findbybarcode"),
                         linkTo(methodOn(TransportUnitController.class).findTransportUnits(asList("{transportUnitBK-1}", "{transportUnitBK-n}"))).withRel("transport-unit-findbybarcodes"),
