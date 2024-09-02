@@ -25,6 +25,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import static org.openwms.common.CommonProfiles.SHIPPING_SUPPORT;
 import static org.openwms.core.SpringProfiles.ASYNCHRONOUS_PROFILE;
 import static org.openwms.core.SpringProfiles.NOT_MANAGED;
 
@@ -33,7 +34,7 @@ import static org.openwms.core.SpringProfiles.NOT_MANAGED;
  *
  * @author Heiko Scherrer
  */
-@Profile(ASYNCHRONOUS_PROFILE + " && " + NOT_MANAGED)
+@Profile(ASYNCHRONOUS_PROFILE + " && " + SHIPPING_SUPPORT + " && " + NOT_MANAGED)
 @Component
 class ReservationMessageListener {
 

@@ -47,6 +47,7 @@ import org.springframework.retry.support.RetryTemplate;
 import java.util.Objects;
 
 import static org.ameba.LoggingCategories.BOOT;
+import static org.openwms.common.CommonProfiles.SHIPPING_SUPPORT;
 
 /**
  * A CommonOptAsyncConfiguration contains the modules asynchronous configuration that is
@@ -132,6 +133,7 @@ class CommonOptAsyncConfiguration {
     @Bean TopicExchange commonLocRegistrationCommandsExchange(@Value("${owms.commands.common.registration.exchange-name}") String exchangeName) {
         return new TopicExchange(exchangeName, true, false);
     }
+    @Profile(SHIPPING_SUPPORT)
     @RefreshScope
     @Bean TopicExchange shippingExchange(@Value("${owms.events.shipping.exchange-name}") String exchangeName) {
         return new TopicExchange(exchangeName, true, false);
@@ -169,6 +171,7 @@ class CommonOptAsyncConfiguration {
                 .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)
                 .build();
     }
+    @Profile(SHIPPING_SUPPORT)
     @RefreshScope
     @Bean Queue shippingSplitQueue(
             @Value("${owms.events.shipping.split.queue-name}") String queueName,
@@ -225,6 +228,7 @@ class CommonOptAsyncConfiguration {
                 .to(commonLocRegistrationCommandsExchange)
                 .with(routingKey);
     }
+    @Profile(SHIPPING_SUPPORT)
     @RefreshScope
     @Bean Binding splitBinding(
             @Qualifier("shippingExchange") TopicExchange shippingExchange,

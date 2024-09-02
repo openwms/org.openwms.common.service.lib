@@ -26,6 +26,7 @@ import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.LocationGroupVO;
 import org.openwms.common.location.api.ValidationGroups;
+import org.openwms.core.SpringProfiles;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -55,7 +56,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  *
  * @author Heiko Scherrer
  */
-@Profile("!INMEM")
+@Profile("!" + SpringProfiles.IN_MEMORY)
 @Validated
 @RefreshScope
 @MeasuredRestController

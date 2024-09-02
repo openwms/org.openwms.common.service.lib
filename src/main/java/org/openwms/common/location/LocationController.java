@@ -26,6 +26,7 @@ import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.location.api.LockMode;
 import org.openwms.common.location.api.LockType;
 import org.openwms.common.location.api.ValidationGroups;
+import org.openwms.core.SpringProfiles;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;
@@ -63,7 +64,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  *
  * @author Heiko Scherrer
  */
-@Profile("!INMEM")
+@Profile("!" + SpringProfiles.IN_MEMORY)
 @Validated
 @MeasuredRestController
 public class LocationController extends AbstractWebController {
