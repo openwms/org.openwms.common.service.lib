@@ -19,6 +19,7 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.http.MeasuredRestController;
 import org.openwms.common.SimpleLink;
 import org.openwms.common.transport.api.TransportUnitTypeVO;
+import org.openwms.core.SpringProfiles;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;
@@ -41,67 +42,67 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  *
  * @author Heiko Scherrer
  */
-@Profile(&quot;!INMEM&quot;)
+@Profile(&quot;!&quot; + SpringProfiles.IN_MEMORY)
 @MeasuredRestController
 public class TransportUnitTypeController extends AbstractWebController {
 
     private final TransportUnitTypeService service;
     private final TransportUnitTypeMapper mapper;
 
-<span class="fc" id="L51">    TransportUnitTypeController(TransportUnitTypeService service, TransportUnitTypeMapper mapper) {</span>
-<span class="fc" id="L52">        this.service = service;</span>
-<span class="fc" id="L53">        this.mapper = mapper;</span>
-<span class="fc" id="L54">    }</span>
+<span class="fc" id="L52">    TransportUnitTypeController(TransportUnitTypeService service, TransportUnitTypeMapper mapper) {</span>
+<span class="fc" id="L53">        this.service = service;</span>
+<span class="fc" id="L54">        this.mapper = mapper;</span>
+<span class="fc" id="L55">    }</span>
 
     @GetMapping(value = API_TRANSPORT_UNIT_TYPES + &quot;/{pKey}&quot;, produces = MEDIA_TYPE)
     @ResponseBody
     public ResponseEntity&lt;TransportUnitTypeVO&gt; findByPKey(@PathVariable(&quot;pKey&quot;) String pKey) {
-<span class="nc" id="L59">        return ResponseEntity.ok(convertAndLinks(service.findByPKey(pKey)));</span>
+<span class="nc" id="L60">        return ResponseEntity.ok(convertAndLinks(service.findByPKey(pKey)));</span>
     }
 
     @GetMapping(value = API_TRANSPORT_UNIT_TYPES, params = {&quot;type&quot;}, produces = MEDIA_TYPE)
     @ResponseBody
     public ResponseEntity&lt;TransportUnitTypeVO&gt; findTransportUnitType(@RequestParam(&quot;type&quot;) String type) {
-<span class="nc" id="L65">        var optType = service.findByType(type)</span>
-<span class="nc" id="L66">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;No TransportUniType with type [%s] found&quot;, type)));</span>
-<span class="nc" id="L67">        return ResponseEntity.ok(convertAndLinks(optType));</span>
+<span class="nc" id="L66">        var optType = service.findByType(type)</span>
+<span class="nc" id="L67">                .orElseThrow(() -&gt; new NotFoundException(format(&quot;No TransportUniType with type [%s] found&quot;, type)));</span>
+<span class="nc" id="L68">        return ResponseEntity.ok(convertAndLinks(optType));</span>
     }
 
     @GetMapping(value = API_TRANSPORT_UNIT_TYPES, produces = MEDIA_TYPE)
     @ResponseBody
     public ResponseEntity&lt;List&lt;TransportUnitTypeVO&gt;&gt; findTransportUnitTypes() {
-<span class="nc" id="L73">        return ResponseEntity.ok(convertAndLinks(service.findAll()));</span>
+<span class="nc" id="L74">        return ResponseEntity.ok(convertAndLinks(service.findAll()));</span>
     }
 
     @GetMapping(API_TRANSPORT_UNIT_TYPES + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="nc" id="L78">        return ResponseEntity.ok(</span>
+<span class="nc" id="L79">        return ResponseEntity.ok(</span>
             new Index(
-<span class="nc" id="L80">                linkTo(methodOn(TransportUnitTypeController.class).findByPKey(&quot;{pKey}&quot;)).withRel(&quot;transport-unit-types-findbypkey&quot;),</span>
-<span class="nc" id="L81">                linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitType(&quot;PALLET&quot;)).withRel(&quot;transport-unit-types-findtransportunittype&quot;),</span>
-<span class="nc" id="L82">                linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitTypes()).withRel(&quot;transport-unit-types-findall&quot;)</span>
+<span class="nc" id="L81">                linkTo(methodOn(TransportUnitTypeController.class).findByPKey(&quot;{pKey}&quot;)).withRel(&quot;transport-unit-types-findbypkey&quot;),</span>
+<span class="nc" id="L82">                linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitType(&quot;PALLET&quot;)).withRel(&quot;transport-unit-types-findtransportunittype&quot;),</span>
+<span class="nc" id="L83">                linkTo(methodOn(TransportUnitTypeController.class).findTransportUnitTypes()).withRel(&quot;transport-unit-types-findall&quot;)</span>
             )
         );
     }
 
     private TransportUnitTypeVO addLinks(TransportUnitTypeVO result) {
-<span class="nc" id="L88">        result.add(</span>
-<span class="nc" id="L89">                new SimpleLink(linkTo(methodOn(TransportUnitTypeController.class).findByPKey(result.getpKey())).withSelfRel())</span>
+<span class="nc" id="L89">        result.add(</span>
+<span class="nc" id="L90">                new SimpleLink(linkTo(methodOn(TransportUnitTypeController.class).findByPKey(result.getpKey())).withSelfRel())</span>
         );
-<span class="nc" id="L91">        return result;</span>
+<span class="nc" id="L92">        return result;</span>
     }
 
     private TransportUnitTypeVO convertAndLinks(TransportUnitType entity) {
-<span class="nc" id="L95">        return addLinks(</span>
-<span class="nc" id="L96">                mapper.convertToVO(entity)</span>
+<span class="nc" id="L96">        return addLinks(</span>
+<span class="nc" id="L97">                mapper.convertToVO(entity)</span>
         );
     }
 
     private List&lt;TransportUnitTypeVO&gt; convertAndLinks(List&lt;TransportUnitType&gt; entities) {
-<span class="nc" id="L101">        return entities.stream()</span>
-<span class="nc" id="L102">                .map(mapper::convertToVO)</span>
-<span class="nc" id="L103">                .map(this::addLinks)</span>
-<span class="nc" id="L104">                .toList();</span>
+<span class="nc" id="L102">        return entities.stream()</span>
+<span class="nc" id="L103">                .map(mapper::convertToVO)</span>
+<span class="nc" id="L104">                .map(this::addLinks)</span>
+<span class="nc" id="L105">                .toList();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

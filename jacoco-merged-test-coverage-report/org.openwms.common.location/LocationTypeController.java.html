@@ -17,6 +17,7 @@ package org.openwms.common.location;
 
 import org.ameba.http.MeasuredRestController;
 import org.openwms.common.location.api.LocationTypeVO;
+import org.openwms.core.SpringProfiles;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;
@@ -36,60 +37,60 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  *
  * @author Heiko Scherrer
  */
-@Profile(&quot;!INMEM&quot;)
+@Profile(&quot;!&quot; + SpringProfiles.IN_MEMORY)
 @MeasuredRestController
 public class LocationTypeController extends AbstractWebController {
 
     private final LocationTypeService locationTypeService;
     private final LocationTypeMapper mapper;
 
-<span class="fc" id="L46">    LocationTypeController(LocationTypeService locationTypeService, LocationTypeMapper mapper) {</span>
-<span class="fc" id="L47">        this.locationTypeService = locationTypeService;</span>
-<span class="fc" id="L48">        this.mapper = mapper;</span>
-<span class="fc" id="L49">    }</span>
+<span class="fc" id="L47">    LocationTypeController(LocationTypeService locationTypeService, LocationTypeMapper mapper) {</span>
+<span class="fc" id="L48">        this.locationTypeService = locationTypeService;</span>
+<span class="fc" id="L49">        this.mapper = mapper;</span>
+<span class="fc" id="L50">    }</span>
 
     @GetMapping(value = API_LOCATION_TYPES + &quot;/{pKey}&quot;, produces = LocationTypeVO.MEDIA_TYPE)
     public ResponseEntity&lt;LocationTypeVO&gt; findByPKey(@PathVariable(&quot;pKey&quot;) String pKey) {
-<span class="fc" id="L53">        return ResponseEntity.ok(convertAndLinks(locationTypeService.findByPKey(pKey)));</span>
+<span class="fc" id="L54">        return ResponseEntity.ok(convertAndLinks(locationTypeService.findByPKey(pKey)));</span>
     }
 
     @GetMapping(value = API_LOCATION_TYPES, params = &quot;typeName&quot;, produces = LocationTypeVO.MEDIA_TYPE)
     public ResponseEntity&lt;LocationTypeVO&gt; findByName(@RequestParam(&quot;typeName&quot;) String typeName) {
-<span class="fc" id="L58">        return locationTypeService.findByTypeName(typeName)</span>
-<span class="fc" id="L59">                .map(locationType -&gt; ResponseEntity.ok(convertAndLinks(locationType)))</span>
-<span class="fc" id="L60">                .orElseGet(() -&gt; ResponseEntity.notFound().build());</span>
+<span class="fc" id="L59">        return locationTypeService.findByTypeName(typeName)</span>
+<span class="fc" id="L60">                .map(locationType -&gt; ResponseEntity.ok(convertAndLinks(locationType)))</span>
+<span class="fc" id="L61">                .orElseGet(() -&gt; ResponseEntity.notFound().build());</span>
     }
 
     @GetMapping(value = API_LOCATION_TYPES, produces = LocationTypeVO.MEDIA_TYPE)
     public ResponseEntity&lt;List&lt;LocationTypeVO&gt;&gt; findAll() {
-<span class="fc" id="L65">        return ResponseEntity.ok(convertAndLinks(locationTypeService.findAll()));</span>
+<span class="fc" id="L66">        return ResponseEntity.ok(convertAndLinks(locationTypeService.findAll()));</span>
     }
 
     @GetMapping(API_LOCATION_TYPES + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="fc" id="L70">        return ResponseEntity.ok(</span>
+<span class="fc" id="L71">        return ResponseEntity.ok(</span>
             new Index(
-<span class="fc" id="L72">                linkTo(methodOn(LocationTypeController.class).findByPKey(&quot;pKey&quot;)).withRel(&quot;location-types-findbypkey&quot;),</span>
-<span class="fc" id="L73">                linkTo(methodOn(LocationTypeController.class).findByName(&quot;typeName&quot;)).withRel(&quot;location-types-findbytypename&quot;),</span>
-<span class="fc" id="L74">                linkTo(methodOn(LocationTypeController.class).findAll()).withRel(&quot;location-types-findall&quot;)</span>
+<span class="fc" id="L73">                linkTo(methodOn(LocationTypeController.class).findByPKey(&quot;pKey&quot;)).withRel(&quot;location-types-findbypkey&quot;),</span>
+<span class="fc" id="L74">                linkTo(methodOn(LocationTypeController.class).findByName(&quot;typeName&quot;)).withRel(&quot;location-types-findbytypename&quot;),</span>
+<span class="fc" id="L75">                linkTo(methodOn(LocationTypeController.class).findAll()).withRel(&quot;location-types-findall&quot;)</span>
             )
         );
     }
 
     private LocationTypeVO convertAndLinks(LocationType resource) {
-<span class="fc" id="L80">        return addSelfLink(mapper.convertToVO(resource));</span>
+<span class="fc" id="L81">        return addSelfLink(mapper.convertToVO(resource));</span>
     }
 
     private List&lt;LocationTypeVO&gt; convertAndLinks(List&lt;LocationType&gt; resources) {
-<span class="fc" id="L84">        return resources.stream()</span>
-<span class="fc" id="L85">                .map(mapper::convertToVO)</span>
-<span class="fc" id="L86">                .map(this::addSelfLink)</span>
-<span class="fc" id="L87">                .toList();</span>
+<span class="fc" id="L85">        return resources.stream()</span>
+<span class="fc" id="L86">                .map(mapper::convertToVO)</span>
+<span class="fc" id="L87">                .map(this::addSelfLink)</span>
+<span class="fc" id="L88">                .toList();</span>
     }
 
     private LocationTypeVO addSelfLink(LocationTypeVO result) {
-<span class="fc" id="L91">        result.add(linkTo(methodOn(LocationTypeController.class).findByPKey(result.getpKey())).withRel(&quot;location-types-findbypkey&quot;));</span>
-<span class="fc" id="L92">        return result;</span>
+<span class="fc" id="L92">        result.add(linkTo(methodOn(LocationTypeController.class).findByPKey(result.getpKey())).withRel(&quot;location-types-findbypkey&quot;));</span>
+<span class="fc" id="L93">        return result;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -26,6 +26,7 @@ import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.LocationGroupVO;
 import org.openwms.common.location.api.ValidationGroups;
+import org.openwms.core.SpringProfiles;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -55,7 +56,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  *
  * @author Heiko Scherrer
  */
-@Profile(&quot;!INMEM&quot;)
+@Profile(&quot;!&quot; + SpringProfiles.IN_MEMORY)
 @Validated
 @RefreshScope
 @MeasuredRestController
@@ -70,13 +71,13 @@ public class LocationGroupController extends AbstractWebController {
 
     LocationGroupController(Translator translator, LocationGroupService locationGroupService, LocationGroupMapper mapper,
                             ErrorCodeTransformers.GroupStateIn groupStateIn,
-<span class="fc" id="L73">                            ErrorCodeTransformers.GroupStateOut groupStateOut) {</span>
-<span class="fc" id="L74">        this.translator = translator;</span>
-<span class="fc" id="L75">        this.locationGroupService = locationGroupService;</span>
-<span class="fc" id="L76">        this.mapper = mapper;</span>
-<span class="fc" id="L77">        this.groupStateIn = groupStateIn;</span>
-<span class="fc" id="L78">        this.groupStateOut = groupStateOut;</span>
-<span class="fc" id="L79">    }</span>
+<span class="fc" id="L74">                            ErrorCodeTransformers.GroupStateOut groupStateOut) {</span>
+<span class="fc" id="L75">        this.translator = translator;</span>
+<span class="fc" id="L76">        this.locationGroupService = locationGroupService;</span>
+<span class="fc" id="L77">        this.mapper = mapper;</span>
+<span class="fc" id="L78">        this.groupStateIn = groupStateIn;</span>
+<span class="fc" id="L79">        this.groupStateOut = groupStateOut;</span>
+<span class="fc" id="L80">    }</span>
 
     /**
      * Creates a new location group.
@@ -88,9 +89,9 @@ public class LocationGroupController extends AbstractWebController {
      */
     @PostMapping(API_LOCATION_GROUPS)
     public ResponseEntity&lt;LocationGroupVO&gt; create(@Validated(ValidationGroups.Create.class) @Valid @RequestBody LocationGroupVO vo, HttpServletRequest req) {
-<span class="fc" id="L91">        var result = locationGroupService.create(vo);</span>
-<span class="fc" id="L92">        var location = getLocationURIForCreatedResource(req, result.getPersistentKey());</span>
-<span class="fc" id="L93">        return ResponseEntity.created(location).body(mapper.convertToVO(result));</span>
+<span class="fc" id="L92">        var result = locationGroupService.create(vo);</span>
+<span class="fc" id="L93">        var location = getLocationURIForCreatedResource(req, result.getPersistentKey());</span>
+<span class="fc" id="L94">        return ResponseEntity.created(location).body(mapper.convertToVO(result));</span>
     }
 
     @Transactional(readOnly = true)
@@ -98,14 +99,14 @@ public class LocationGroupController extends AbstractWebController {
     public LocationGroupVO findByName(
             @RequestParam(&quot;name&quot;) String name
     ) {
-<span class="fc" id="L101">        var locationGroup = locationGroupService.findByName(name)</span>
-<span class="fc" id="L102">                .orElseThrow(() -&gt; new NotFoundException(translator, LOCATION_GROUP_NOT_FOUND, new String[]{name}, name));</span>
-<span class="fc" id="L103">        var result = mapper.convertToVO(locationGroup);</span>
-<span class="pc bpc" id="L104" title="1 of 2 branches missed.">        if (locationGroup.hasParent()) {</span>
-<span class="fc" id="L105">            result.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class)</span>
-<span class="fc" id="L106">                    .findByName(locationGroup.getParent().getName())).withRel(PARENT)));</span>
+<span class="fc" id="L102">        var locationGroup = locationGroupService.findByName(name)</span>
+<span class="fc" id="L103">                .orElseThrow(() -&gt; new NotFoundException(translator, LOCATION_GROUP_NOT_FOUND, new String[]{name}, name));</span>
+<span class="fc" id="L104">        var result = mapper.convertToVO(locationGroup);</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">        if (locationGroup.hasParent()) {</span>
+<span class="fc" id="L106">            result.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class)</span>
+<span class="fc" id="L107">                    .findByName(locationGroup.getParent().getName())).withRel(PARENT)));</span>
         }
-<span class="fc" id="L108">        return result;</span>
+<span class="fc" id="L109">        return result;</span>
     }
 
     @Transactional(readOnly = true)
@@ -113,28 +114,28 @@ public class LocationGroupController extends AbstractWebController {
     public List&lt;LocationGroupVO&gt; findByNames(
             @RequestParam(&quot;names&quot;) List&lt;String&gt; names
     ) {
-<span class="fc" id="L116">        var vos = mapper.convertToVO(locationGroupService.findByNames(names));</span>
-<span class="fc" id="L117">        vos.forEach(lg -&gt; {</span>
-<span class="pc bpc" id="L118" title="1 of 2 branches missed.">            if (lg.hasParent()) {</span>
-<span class="fc" id="L119">                lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class)</span>
-<span class="fc" id="L120">                        .findByName(lg.getParent())).withRel(PARENT)));</span>
+<span class="fc" id="L117">        var vos = mapper.convertToVO(locationGroupService.findByNames(names));</span>
+<span class="fc" id="L118">        vos.forEach(lg -&gt; {</span>
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">            if (lg.hasParent()) {</span>
+<span class="fc" id="L120">                lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class)</span>
+<span class="fc" id="L121">                        .findByName(lg.getParent())).withRel(PARENT)));</span>
             }
-<span class="fc" id="L122">        });</span>
-<span class="fc" id="L123">        return vos;</span>
+<span class="fc" id="L123">        });</span>
+<span class="fc" id="L124">        return vos;</span>
     }
 
     @Transactional(readOnly = true)
     @GetMapping(API_LOCATION_GROUPS)
     public List&lt;LocationGroupVO&gt; findAll() {
-<span class="fc" id="L129">        var result = mapper.convertToVO(locationGroupService.findAll());</span>
-<span class="fc" id="L130">        result.forEach(lg -&gt; {</span>
-<span class="fc bfc" id="L131" title="All 2 branches covered.">                    if (lg.hasParent()) {</span>
-<span class="fc" id="L132">                        lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class)</span>
-<span class="fc" id="L133">                                .findByName(lg.getParent())).withRel(PARENT)));</span>
+<span class="fc" id="L130">        var result = mapper.convertToVO(locationGroupService.findAll());</span>
+<span class="fc" id="L131">        result.forEach(lg -&gt; {</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">                    if (lg.hasParent()) {</span>
+<span class="fc" id="L133">                        lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class)</span>
+<span class="fc" id="L134">                                .findByName(lg.getParent())).withRel(PARENT)));</span>
                     }
-<span class="fc" id="L135">                }</span>
+<span class="fc" id="L136">                }</span>
         );
-<span class="fc" id="L137">        return result;</span>
+<span class="fc" id="L138">        return result;</span>
     }
 
     @PatchMapping(value = API_LOCATION_GROUPS, params = {&quot;name&quot;, &quot;op=change-state&quot;})
@@ -143,12 +144,12 @@ public class LocationGroupController extends AbstractWebController {
             @RequestParam(name = &quot;op&quot;) String op,
             @RequestBody ErrorCodeVO errorCode
     ) {
-<span class="fc" id="L146">        locationGroupService.changeGroupStates(</span>
+<span class="fc" id="L147">        locationGroupService.changeGroupStates(</span>
                 name,
-<span class="fc" id="L148">                groupStateIn.available(errorCode.getErrorCode()),</span>
-<span class="fc" id="L149">                groupStateOut.available(errorCode.getErrorCode())</span>
+<span class="fc" id="L149">                groupStateIn.available(errorCode.getErrorCode()),</span>
+<span class="fc" id="L150">                groupStateOut.available(errorCode.getErrorCode())</span>
         );
-<span class="fc" id="L151">        return ResponseEntity.ok().build();</span>
+<span class="fc" id="L152">        return ResponseEntity.ok().build();</span>
     }
 
     @PatchMapping(value = API_LOCATION_GROUP + &quot;/{pKey}&quot;, params = &quot;op=change-state&quot;)
@@ -158,14 +159,14 @@ public class LocationGroupController extends AbstractWebController {
             @RequestParam(name = &quot;statein&quot;) LocationGroupState stateIn,
             @RequestParam(name = &quot;stateout&quot;) LocationGroupState stateOut
     ) {
-<span class="fc" id="L161">        locationGroupService.changeGroupState(pKey, stateIn, stateOut);</span>
-<span class="fc" id="L162">        return ResponseEntity.ok().build();</span>
+<span class="fc" id="L162">        locationGroupService.changeGroupState(pKey, stateIn, stateOut);</span>
+<span class="fc" id="L163">        return ResponseEntity.ok().build();</span>
     }
 
     @DeleteMapping(value = API_LOCATION_GROUPS + &quot;/{pKey}&quot;)
     public ResponseEntity&lt;Void&gt; deleteLocationGroup(@PathVariable(&quot;pKey&quot;) String pKey) {
-<span class="fc" id="L167">        locationGroupService.delete(pKey);</span>
-<span class="fc" id="L168">        return ResponseEntity.noContent().build();</span>
+<span class="fc" id="L168">        locationGroupService.delete(pKey);</span>
+<span class="fc" id="L169">        return ResponseEntity.noContent().build();</span>
     }
 
     @PatchMapping(value = API_LOCATION_GROUPS + &quot;/{pKey}&quot;)
@@ -173,22 +174,22 @@ public class LocationGroupController extends AbstractWebController {
             @PathVariable String pKey,
             @RequestBody LocationGroupVO locationGroupVO
     ) {
-<span class="fc" id="L176">        locationGroupService.update(pKey, locationGroupVO);</span>
-<span class="fc" id="L177">        return ResponseEntity.ok().build();</span>
+<span class="fc" id="L177">        locationGroupService.update(pKey, locationGroupVO);</span>
+<span class="fc" id="L178">        return ResponseEntity.ok().build();</span>
     }
 
     @GetMapping(API_LOCATION_GROUPS + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="fc" id="L182">        return ResponseEntity.ok(</span>
+<span class="fc" id="L183">        return ResponseEntity.ok(</span>
                 new Index(
-<span class="fc" id="L184">                        linkTo(methodOn(LocationGroupController.class).create(LocationGroupVO.create(&quot;FOO&quot;, &quot;INFEED_AND_OUTFEED&quot;), null)).withRel(&quot;location-groups-create&quot;),</span>
-<span class="fc" id="L185">                        linkTo(methodOn(LocationGroupController.class).deleteLocationGroup(&quot;UUID&quot;)).withRel(&quot;location-groups-delete&quot;),</span>
-<span class="fc" id="L186">                        linkTo(methodOn(LocationGroupController.class).findByName(&quot;FOO&quot;)).withRel(&quot;location-groups-findbyname&quot;),</span>
-<span class="fc" id="L187">                        linkTo(methodOn(LocationGroupController.class).findByNames(asList(&quot;FOO&quot;, &quot;BAR&quot;))).withRel(&quot;location-groups-findbynames&quot;),</span>
-<span class="fc" id="L188">                        linkTo(methodOn(LocationGroupController.class).findAll()).withRel(&quot;location-groups-findall&quot;),</span>
-<span class="fc" id="L189">                        linkTo(methodOn(LocationGroupController.class).changeGroupState(&quot;UUID&quot;, &quot;change-state&quot;, LocationGroupState.AVAILABLE, LocationGroupState.NOT_AVAILABLE)).withRel(&quot;location-groups-changestate&quot;),</span>
-<span class="fc" id="L190">                        linkTo(methodOn(LocationGroupController.class).changeGroupState(&quot;FOO&quot;, &quot;change-state&quot;, ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel(&quot;location-groups-changestate-with-bitmap&quot;),</span>
-<span class="fc" id="L191">                        linkTo(methodOn(LocationGroupController.class).modifyLocationGroup(&quot;FOO&quot;, null)).withRel(&quot;location-groups-modify&quot;)</span>
+<span class="fc" id="L185">                        linkTo(methodOn(LocationGroupController.class).create(LocationGroupVO.create(&quot;FOO&quot;, &quot;INFEED_AND_OUTFEED&quot;), null)).withRel(&quot;location-groups-create&quot;),</span>
+<span class="fc" id="L186">                        linkTo(methodOn(LocationGroupController.class).deleteLocationGroup(&quot;UUID&quot;)).withRel(&quot;location-groups-delete&quot;),</span>
+<span class="fc" id="L187">                        linkTo(methodOn(LocationGroupController.class).findByName(&quot;FOO&quot;)).withRel(&quot;location-groups-findbyname&quot;),</span>
+<span class="fc" id="L188">                        linkTo(methodOn(LocationGroupController.class).findByNames(asList(&quot;FOO&quot;, &quot;BAR&quot;))).withRel(&quot;location-groups-findbynames&quot;),</span>
+<span class="fc" id="L189">                        linkTo(methodOn(LocationGroupController.class).findAll()).withRel(&quot;location-groups-findall&quot;),</span>
+<span class="fc" id="L190">                        linkTo(methodOn(LocationGroupController.class).changeGroupState(&quot;UUID&quot;, &quot;change-state&quot;, LocationGroupState.AVAILABLE, LocationGroupState.NOT_AVAILABLE)).withRel(&quot;location-groups-changestate&quot;),</span>
+<span class="fc" id="L191">                        linkTo(methodOn(LocationGroupController.class).changeGroupState(&quot;FOO&quot;, &quot;change-state&quot;, ErrorCodeVO.LOCK_STATE_IN_AND_OUT)).withRel(&quot;location-groups-changestate-with-bitmap&quot;),</span>
+<span class="fc" id="L192">                        linkTo(methodOn(LocationGroupController.class).modifyLocationGroup(&quot;FOO&quot;, null)).withRel(&quot;location-groups-modify&quot;)</span>
                 )
         );
     }

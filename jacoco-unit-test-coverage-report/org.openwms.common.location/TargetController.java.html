@@ -24,6 +24,7 @@ import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.LockMode;
 import org.openwms.common.location.api.LockType;
 import org.openwms.common.location.api.events.TargetEvent;
+import org.openwms.core.SpringProfiles;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Profile;
@@ -48,7 +49,7 @@ import static org.openwms.common.location.api.LocationGroupState.NOT_AVAILABLE;
  *
  * @author Heiko Scherrer
  */
-@Profile(&quot;!INMEM&quot;)
+@Profile(&quot;!&quot; + SpringProfiles.IN_MEMORY)
 @Validated
 @MeasuredRestController
 class TargetController extends AbstractWebController {
@@ -59,12 +60,12 @@ class TargetController extends AbstractWebController {
     private final ApplicationContext ctx;
 
     TargetController(Translator translator, LocationService locationService, LocationGroupService locationGroupService,
-<span class="fc" id="L62">                     ApplicationContext ctx) {</span>
-<span class="fc" id="L63">        this.translator = translator;</span>
-<span class="fc" id="L64">        this.locationService = locationService;</span>
-<span class="fc" id="L65">        this.locationGroupService = locationGroupService;</span>
-<span class="fc" id="L66">        this.ctx = ctx;</span>
-<span class="fc" id="L67">    }</span>
+<span class="fc" id="L63">                     ApplicationContext ctx) {</span>
+<span class="fc" id="L64">        this.translator = translator;</span>
+<span class="fc" id="L65">        this.locationService = locationService;</span>
+<span class="fc" id="L66">        this.locationGroupService = locationGroupService;</span>
+<span class="fc" id="L67">        this.ctx = ctx;</span>
+<span class="fc" id="L68">    }</span>
 
     /**
      * Change the current {@code mode} a {@code Target}, identified by {@code targetBK} operates in.
@@ -80,73 +81,73 @@ class TargetController extends AbstractWebController {
             @RequestParam(&quot;mode&quot;) LockMode mode
     ) {
 
-<span class="nc bnc" id="L83" title="All 2 branches missed.">            if (LocationPK.isValid(targetBK)) {</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">            if (LocationPK.isValid(targetBK)) {</span>
 
-<span class="nc" id="L85">                var location = locationService.findByLocationIdOrThrow(targetBK);</span>
-<span class="nc bnc" id="L86" title="All 3 branches missed.">                switch (type) {</span>
-<span class="nc" id="L87">                    case ALLOCATION_LOCK -&gt; changeLocation(</span>
+<span class="nc" id="L86">                var location = locationService.findByLocationIdOrThrow(targetBK);</span>
+<span class="nc bnc" id="L87" title="All 3 branches missed.">                switch (type) {</span>
+<span class="nc" id="L88">                    case ALLOCATION_LOCK -&gt; changeLocation(</span>
                             mode,
                             location,
-<span class="nc" id="L90">                            (l, code) -&gt; locationService.changeState(l.getPersistentKey(), code)</span>
+<span class="nc" id="L91">                            (l, code) -&gt; locationService.changeState(l.getPersistentKey(), code)</span>
                     );
-<span class="nc" id="L92">                    case OPERATION_LOCK -&gt; throw new UnsupportedOperationException(&quot;Changing the operation mode of Locations is currently not supported in the API&quot;);</span>
-<span class="nc" id="L93">                    default -&gt; unsupportedOperation(type);</span>
+<span class="nc" id="L93">                    case OPERATION_LOCK -&gt; throw new UnsupportedOperationException(&quot;Changing the operation mode of Locations is currently not supported in the API&quot;);</span>
+<span class="nc" id="L94">                    default -&gt; unsupportedOperation(type);</span>
                 }
-<span class="nc" id="L95">            } else {</span>
+<span class="nc" id="L96">            } else {</span>
 
-<span class="nc" id="L97">                var locationGroup = locationGroupService.findByNameOrThrow(targetBK);</span>
-<span class="nc bnc" id="L98" title="All 3 branches missed.">                switch (type) {</span>
-<span class="nc" id="L99">                    case ALLOCATION_LOCK -&gt; changeLocationGroupState(</span>
+<span class="nc" id="L98">                var locationGroup = locationGroupService.findByNameOrThrow(targetBK);</span>
+<span class="nc bnc" id="L99" title="All 3 branches missed.">                switch (type) {</span>
+<span class="nc" id="L100">                    case ALLOCATION_LOCK -&gt; changeLocationGroupState(</span>
                             mode,
                             locationGroup,
-<span class="nc" id="L102">                            (lg, states) -&gt; locationGroupService.changeGroupState(lg.getPersistentKey(), states[0], states[1])</span>
+<span class="nc" id="L103">                            (lg, states) -&gt; locationGroupService.changeGroupState(lg.getPersistentKey(), states[0], states[1])</span>
                     );
-<span class="nc" id="L104">                    case OPERATION_LOCK -&gt; changeLocationGroupMode(</span>
+<span class="nc" id="L105">                    case OPERATION_LOCK -&gt; changeLocationGroupMode(</span>
                             mode,
                             locationGroup,
-<span class="nc" id="L107">                            (lg, m) -&gt; locationGroupService.changeOperationMode(lg.getName(), m)</span>
+<span class="nc" id="L108">                            (lg, m) -&gt; locationGroupService.changeOperationMode(lg.getName(), m)</span>
                     );
-<span class="nc" id="L109">                    default -&gt; unsupportedOperation(type);</span>
+<span class="nc" id="L110">                    default -&gt; unsupportedOperation(type);</span>
                 }
             }
-<span class="nc" id="L112">    }</span>
+<span class="nc" id="L113">    }</span>
 
     private void changeLocation(LockMode mode, Target target, BiConsumer&lt;Target, ErrorCodeVO&gt; fnc) {
-<span class="nc bnc" id="L115" title="All 5 branches missed.">        switch (mode) {</span>
-<span class="nc" id="L116">            case IN -&gt; fnc.accept(target, ErrorCodeVO.LOCK_STATE_IN);</span>
-<span class="nc" id="L117">            case OUT -&gt; fnc.accept(target, ErrorCodeVO.LOCK_STATE_OUT);</span>
-<span class="nc" id="L118">            case IN_AND_OUT -&gt; fnc.accept(target, ErrorCodeVO.LOCK_STATE_IN_AND_OUT);</span>
-<span class="nc" id="L119">            case NONE -&gt; fnc.accept(target, ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT);</span>
-<span class="nc" id="L120">            default -&gt; unsupportedOperation(mode);</span>
+<span class="nc bnc" id="L116" title="All 5 branches missed.">        switch (mode) {</span>
+<span class="nc" id="L117">            case IN -&gt; fnc.accept(target, ErrorCodeVO.LOCK_STATE_IN);</span>
+<span class="nc" id="L118">            case OUT -&gt; fnc.accept(target, ErrorCodeVO.LOCK_STATE_OUT);</span>
+<span class="nc" id="L119">            case IN_AND_OUT -&gt; fnc.accept(target, ErrorCodeVO.LOCK_STATE_IN_AND_OUT);</span>
+<span class="nc" id="L120">            case NONE -&gt; fnc.accept(target, ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT);</span>
+<span class="nc" id="L121">            default -&gt; unsupportedOperation(mode);</span>
         }
-<span class="nc" id="L122">    }</span>
+<span class="nc" id="L123">    }</span>
 
     private void changeLocationGroupState(LockMode mode, Target target, BiConsumer&lt;Target, LocationGroupState[]&gt; fnc) {
-<span class="nc bnc" id="L125" title="All 5 branches missed.">        switch (mode) {</span>
-<span class="nc" id="L126">            case IN -&gt; fnc.accept(target, new LocationGroupState[]{NOT_AVAILABLE, AVAILABLE});</span>
-<span class="nc" id="L127">            case OUT -&gt; fnc.accept(target, new LocationGroupState[]{AVAILABLE, NOT_AVAILABLE});</span>
-<span class="nc" id="L128">            case IN_AND_OUT -&gt; fnc.accept(target, new LocationGroupState[]{NOT_AVAILABLE, NOT_AVAILABLE});</span>
-<span class="nc" id="L129">            case NONE -&gt; fnc.accept(target, new LocationGroupState[]{AVAILABLE, AVAILABLE});</span>
-<span class="nc" id="L130">            default -&gt; unsupportedOperation(mode);</span>
+<span class="nc bnc" id="L126" title="All 5 branches missed.">        switch (mode) {</span>
+<span class="nc" id="L127">            case IN -&gt; fnc.accept(target, new LocationGroupState[]{NOT_AVAILABLE, AVAILABLE});</span>
+<span class="nc" id="L128">            case OUT -&gt; fnc.accept(target, new LocationGroupState[]{AVAILABLE, NOT_AVAILABLE});</span>
+<span class="nc" id="L129">            case IN_AND_OUT -&gt; fnc.accept(target, new LocationGroupState[]{NOT_AVAILABLE, NOT_AVAILABLE});</span>
+<span class="nc" id="L130">            case NONE -&gt; fnc.accept(target, new LocationGroupState[]{AVAILABLE, AVAILABLE});</span>
+<span class="nc" id="L131">            default -&gt; unsupportedOperation(mode);</span>
         }
-<span class="nc" id="L132">    }</span>
+<span class="nc" id="L133">    }</span>
 
     private void changeLocationGroupMode(LockMode mode, LocationGroup target, BiConsumer&lt;LocationGroup, String&gt; fnc) {
-<span class="nc bnc" id="L135" title="All 5 branches missed.">        switch (mode) {</span>
-<span class="nc" id="L136">            case IN -&gt; fnc.accept(target, LocationGroupMode.OUTFEED);</span>
-<span class="nc" id="L137">            case OUT -&gt; fnc.accept(target, LocationGroupMode.INFEED);</span>
-<span class="nc" id="L138">            case IN_AND_OUT -&gt; fnc.accept(target, LocationGroupMode.NO_OPERATION);</span>
-<span class="nc" id="L139">            case NONE -&gt; fnc.accept(target, LocationGroupMode.INFEED_AND_OUTFEED);</span>
-<span class="nc" id="L140">            default -&gt; unsupportedOperation(mode);</span>
+<span class="nc bnc" id="L136" title="All 5 branches missed.">        switch (mode) {</span>
+<span class="nc" id="L137">            case IN -&gt; fnc.accept(target, LocationGroupMode.OUTFEED);</span>
+<span class="nc" id="L138">            case OUT -&gt; fnc.accept(target, LocationGroupMode.INFEED);</span>
+<span class="nc" id="L139">            case IN_AND_OUT -&gt; fnc.accept(target, LocationGroupMode.NO_OPERATION);</span>
+<span class="nc" id="L140">            case NONE -&gt; fnc.accept(target, LocationGroupMode.INFEED_AND_OUTFEED);</span>
+<span class="nc" id="L141">            default -&gt; unsupportedOperation(mode);</span>
         }
-<span class="nc" id="L142">    }</span>
+<span class="nc" id="L143">    }</span>
 
     private void unsupportedOperation(LockMode mode) {
-<span class="nc" id="L145">        throw new BusinessRuntimeException(translator, LOCK_MODE_UNSUPPORTED, new Serializable[]{mode}, mode);</span>
+<span class="nc" id="L146">        throw new BusinessRuntimeException(translator, LOCK_MODE_UNSUPPORTED, new Serializable[]{mode}, mode);</span>
     }
 
     private void unsupportedOperation(LockType type) {
-<span class="nc" id="L149">        throw new BusinessRuntimeException(translator, LOCK_TYPE_UNSUPPORTED, new Serializable[]{type}, type);</span>
+<span class="nc" id="L150">        throw new BusinessRuntimeException(translator, LOCK_TYPE_UNSUPPORTED, new Serializable[]{type}, type);</span>
     }
 
     /**
@@ -160,21 +161,21 @@ class TargetController extends AbstractWebController {
             @PathVariable(&quot;targetBK&quot;) String targetBK,
             @RequestParam(value = &quot;reallocation&quot;, required = false) Boolean reAllocation
     ) {
-<span class="nc bnc" id="L163" title="All 2 branches missed.">        if (LocationPK.isValid(targetBK)) {</span>
-<span class="nc" id="L164">            var location = locationService.findByLocationIdOrThrow(targetBK);</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">        if (LocationPK.isValid(targetBK)) {</span>
+<span class="nc" id="L165">            var location = locationService.findByLocationIdOrThrow(targetBK);</span>
 
             // Okay we have a Location as Target
-<span class="nc" id="L167">            locationService.changeState(location.getPersistentKey(), ErrorCodeVO.LOCK_STATE_IN_AND_OUT);</span>
-<span class="nc" id="L168">            raiseEvent(targetBK, reAllocation, LockMode.NONE);</span>
-<span class="nc" id="L169">            return;</span>
+<span class="nc" id="L168">            locationService.changeState(location.getPersistentKey(), ErrorCodeVO.LOCK_STATE_IN_AND_OUT);</span>
+<span class="nc" id="L169">            raiseEvent(targetBK, reAllocation, LockMode.NONE);</span>
+<span class="nc" id="L170">            return;</span>
         }
 
-<span class="nc" id="L172">        var locationGroup = locationGroupService.findByNameOrThrow(targetBK);</span>
+<span class="nc" id="L173">        var locationGroup = locationGroupService.findByNameOrThrow(targetBK);</span>
         // The Target is a LocationGroup
-<span class="nc" id="L174">        locationGroupService.changeGroupState(locationGroup.getPersistentKey(), NOT_AVAILABLE, NOT_AVAILABLE);</span>
-<span class="nc" id="L175">        locationGroupService.changeOperationMode(targetBK, LocationGroupMode.NO_OPERATION);</span>
-<span class="nc" id="L176">        raiseEvent(targetBK, reAllocation, LockMode.NONE);</span>
-<span class="nc" id="L177">    }</span>
+<span class="nc" id="L175">        locationGroupService.changeGroupState(locationGroup.getPersistentKey(), NOT_AVAILABLE, NOT_AVAILABLE);</span>
+<span class="nc" id="L176">        locationGroupService.changeOperationMode(targetBK, LocationGroupMode.NO_OPERATION);</span>
+<span class="nc" id="L177">        raiseEvent(targetBK, reAllocation, LockMode.NONE);</span>
+<span class="nc" id="L178">    }</span>
 
     /**
      * Unlock or release the {@code Target} identified by {@code targetBK}.
@@ -186,32 +187,32 @@ class TargetController extends AbstractWebController {
     public void release(
             @PathVariable(&quot;targetBK&quot;) String targetBK
     ) {
-<span class="nc bnc" id="L189" title="All 2 branches missed.">        if (LocationPK.isValid(targetBK)) {</span>
-<span class="nc" id="L190">            var location = locationService.findByLocationIdOrThrow(targetBK);</span>
+<span class="nc bnc" id="L190" title="All 2 branches missed.">        if (LocationPK.isValid(targetBK)) {</span>
+<span class="nc" id="L191">            var location = locationService.findByLocationIdOrThrow(targetBK);</span>
 
             // Okay we have a Location as Target
-<span class="nc" id="L193">            locationService.changeState(location.getPersistentKey(), ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT);</span>
-<span class="nc" id="L194">            raiseEvent(targetBK, null, LockMode.IN_AND_OUT);</span>
-<span class="nc" id="L195">            return;</span>
+<span class="nc" id="L194">            locationService.changeState(location.getPersistentKey(), ErrorCodeVO.UNLOCK_STATE_IN_AND_OUT);</span>
+<span class="nc" id="L195">            raiseEvent(targetBK, null, LockMode.IN_AND_OUT);</span>
+<span class="nc" id="L196">            return;</span>
         }
 
-<span class="nc" id="L198">        var locationGroup = locationGroupService.findByNameOrThrow(targetBK);</span>
+<span class="nc" id="L199">        var locationGroup = locationGroupService.findByNameOrThrow(targetBK);</span>
         // The Target is a LocationGroup
-<span class="nc" id="L200">        locationGroupService.changeGroupState(locationGroup.getPersistentKey(), AVAILABLE, AVAILABLE);</span>
-<span class="nc" id="L201">        locationGroupService.changeOperationMode(targetBK, LocationGroupMode.INFEED_AND_OUTFEED);</span>
-<span class="nc" id="L202">        raiseEvent(targetBK, null, LockMode.IN_AND_OUT);</span>
-<span class="nc" id="L203">    }</span>
+<span class="nc" id="L201">        locationGroupService.changeGroupState(locationGroup.getPersistentKey(), AVAILABLE, AVAILABLE);</span>
+<span class="nc" id="L202">        locationGroupService.changeOperationMode(targetBK, LocationGroupMode.INFEED_AND_OUTFEED);</span>
+<span class="nc" id="L203">        raiseEvent(targetBK, null, LockMode.IN_AND_OUT);</span>
+<span class="nc" id="L204">    }</span>
 
     private void raiseEvent(String targetBK, Boolean reAllocation, LockMode mode) {
-<span class="nc" id="L206">        ctx.publishEvent(</span>
+<span class="nc" id="L207">        ctx.publishEvent(</span>
                 TargetEvent
-<span class="nc" id="L208">                        .newBuilder()</span>
-<span class="nc" id="L209">                        .targetBK(targetBK)</span>
-<span class="nc" id="L210">                        .lockType(LockType.PERMANENT_LOCK)</span>
-<span class="nc" id="L211">                        .operationMode(mode)</span>
-<span class="nc" id="L212">                        .reAllocation(reAllocation)</span>
-<span class="nc" id="L213">                        .build()</span>
+<span class="nc" id="L209">                        .newBuilder()</span>
+<span class="nc" id="L210">                        .targetBK(targetBK)</span>
+<span class="nc" id="L211">                        .lockType(LockType.PERMANENT_LOCK)</span>
+<span class="nc" id="L212">                        .operationMode(mode)</span>
+<span class="nc" id="L213">                        .reAllocation(reAllocation)</span>
+<span class="nc" id="L214">                        .build()</span>
         );
-<span class="nc" id="L215">    }</span>
+<span class="nc" id="L216">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

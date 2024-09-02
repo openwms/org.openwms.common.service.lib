@@ -23,6 +23,7 @@ import org.ameba.http.MeasuredRestController;
 import org.ameba.i18n.Translator;
 import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.location.api.ValidationGroups;
+import org.openwms.core.SpringProfiles;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +47,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  *
  * @author Heiko Scherrer
  */
-@Profile(&quot;!INMEM&quot;)
+@Profile(&quot;!&quot; + SpringProfiles.IN_MEMORY)
 @Validated
 @MeasuredRestController
 public class WorkflowApi extends AbstractWebController {
@@ -55,24 +56,24 @@ public class WorkflowApi extends AbstractWebController {
     private final Translator translator;
     private final LocationService locationService;
 
-<span class="fc" id="L58">    WorkflowApi(LocationService locationService, LocationMapper mapper, Translator translator) {</span>
-<span class="fc" id="L59">        this.locationService = locationService;</span>
-<span class="fc" id="L60">        this.mapper = mapper;</span>
-<span class="fc" id="L61">        this.translator = translator;</span>
-<span class="fc" id="L62">    }</span>
+<span class="fc" id="L59">    WorkflowApi(LocationService locationService, LocationMapper mapper, Translator translator) {</span>
+<span class="fc" id="L60">        this.locationService = locationService;</span>
+<span class="fc" id="L61">        this.mapper = mapper;</span>
+<span class="fc" id="L62">        this.translator = translator;</span>
+<span class="fc" id="L63">    }</span>
 
     @PostMapping(value = API_LOCATIONS, produces = LocationVO.MEDIA_TYPE_OPT)
     @Validated(ValidationGroups.Create.class)
     public ResponseEntity&lt;Optional&lt;LocationVO&gt;&gt; createLocation(@Valid @RequestBody LocationVO location, HttpServletRequest req) {
         try {
-<span class="nc" id="L68">            var created = locationService.create(mapper.convertVO(location));</span>
-<span class="nc" id="L69">            var result = mapper.convertToVO(created);</span>
-<span class="nc" id="L70">            addSelfLink(result);</span>
-<span class="nc" id="L71">            return ResponseEntity</span>
-<span class="nc" id="L72">                    .created(super.getLocationURIForCreatedResource(req, created.getPersistentKey()))</span>
-<span class="nc" id="L73">                    .body(Optional.of(result));</span>
-<span class="nc" id="L74">        } catch (ResourceExistsException e) {</span>
-<span class="nc" id="L75">            return ResponseEntity.ok(Optional.empty());</span>
+<span class="nc" id="L69">            var created = locationService.create(mapper.convertVO(location));</span>
+<span class="nc" id="L70">            var result = mapper.convertToVO(created);</span>
+<span class="nc" id="L71">            addSelfLink(result);</span>
+<span class="nc" id="L72">            return ResponseEntity</span>
+<span class="nc" id="L73">                    .created(super.getLocationURIForCreatedResource(req, created.getPersistentKey()))</span>
+<span class="nc" id="L74">                    .body(Optional.of(result));</span>
+<span class="nc" id="L75">        } catch (ResourceExistsException e) {</span>
+<span class="nc" id="L76">            return ResponseEntity.ok(Optional.empty());</span>
         }
     }
 
@@ -80,66 +81,66 @@ public class WorkflowApi extends AbstractWebController {
     @Validated(ValidationGroups.Update.class)
     public ResponseEntity&lt;Optional&lt;LocationVO&gt;&gt; updateLocation(@Valid @RequestBody LocationVO location) {
         try {
-<span class="nc" id="L83">            var updated = locationService.save(mapper.convertVO(location));</span>
-<span class="nc" id="L84">            var result = mapper.convertToVO(updated);</span>
-<span class="nc" id="L85">            addSelfLink(result);</span>
-<span class="nc" id="L86">            return ResponseEntity.ok(Optional.of(result));</span>
-<span class="nc" id="L87">        } catch (NotFoundException e) {</span>
-<span class="nc" id="L88">            return ResponseEntity.ok(Optional.empty());</span>
+<span class="nc" id="L84">            var updated = locationService.save(mapper.convertVO(location));</span>
+<span class="nc" id="L85">            var result = mapper.convertToVO(updated);</span>
+<span class="nc" id="L86">            addSelfLink(result);</span>
+<span class="nc" id="L87">            return ResponseEntity.ok(Optional.of(result));</span>
+<span class="nc" id="L88">        } catch (NotFoundException e) {</span>
+<span class="nc" id="L89">            return ResponseEntity.ok(Optional.empty());</span>
         }
     }
 
     @GetMapping(value = API_LOCATIONS + &quot;/{pKey}&quot;, produces = LocationVO.MEDIA_TYPE_OPT)
     public ResponseEntity&lt;Optional&lt;LocationVO&gt;&gt; findByPKeyOpt(@PathVariable(&quot;pKey&quot;) String pKey) {
         try {
-<span class="nc" id="L95">            var location = locationService.findByPKey(pKey);</span>
-<span class="nc" id="L96">            var result = mapper.convertToVO(location);</span>
-<span class="nc" id="L97">            addSelfLink(result);</span>
-<span class="nc" id="L98">            return ResponseEntity.ok(Optional.of(result));</span>
-<span class="nc" id="L99">        } catch (NotFoundException e) {</span>
-<span class="nc" id="L100">            return ResponseEntity.ok(Optional.empty());</span>
+<span class="nc" id="L96">            var location = locationService.findByPKey(pKey);</span>
+<span class="nc" id="L97">            var result = mapper.convertToVO(location);</span>
+<span class="nc" id="L98">            addSelfLink(result);</span>
+<span class="nc" id="L99">            return ResponseEntity.ok(Optional.of(result));</span>
+<span class="nc" id="L100">        } catch (NotFoundException e) {</span>
+<span class="nc" id="L101">            return ResponseEntity.ok(Optional.empty());</span>
         }
     }
 
     private void addSelfLink(LocationVO result) {
-<span class="nc" id="L105">        result.add(linkTo(methodOn(WorkflowApi.class).findByPKeyOpt(result.getpKey())).withRel(&quot;location-findbypkey&quot;));</span>
-<span class="nc" id="L106">    }</span>
+<span class="nc" id="L106">        result.add(linkTo(methodOn(WorkflowApi.class).findByPKeyOpt(result.getpKey())).withRel(&quot;location-findbypkey&quot;));</span>
+<span class="nc" id="L107">    }</span>
 
     @GetMapping(value = API_LOCATIONS, params = {&quot;locationId&quot;}, produces = LocationVO.MEDIA_TYPE_OPT)
     public ResponseEntity&lt;Optional&lt;LocationVO&gt;&gt; findByIdOpt(@RequestParam(&quot;locationId&quot;) String locationId) {
-<span class="nc bnc" id="L110" title="All 2 branches missed.">        if (!LocationPK.isValid(locationId)) {</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (!LocationPK.isValid(locationId)) {</span>
             // here we need to throw an NFE because Feign needs to cast it into an Optional. IAE won't work!
-<span class="nc" id="L112">            throw new NotFoundException(translator, LOCATION_ID_INVALID, new String[]{locationId}, locationId);</span>
+<span class="nc" id="L113">            throw new NotFoundException(translator, LOCATION_ID_INVALID, new String[]{locationId}, locationId);</span>
         }
-<span class="nc" id="L114">        var locationOpt = locationService.findByLocationPk(LocationPK.fromString(locationId));</span>
-<span class="nc bnc" id="L115" title="All 2 branches missed.">        if (locationOpt.isPresent()) {</span>
-<span class="nc" id="L116">            var result = mapper.convertToVO(locationOpt.get());</span>
-<span class="nc" id="L117">            addSelfLink(result);</span>
-<span class="nc" id="L118">            return ResponseEntity.ok(Optional.of(result));</span>
+<span class="nc" id="L115">        var locationOpt = locationService.findByLocationPk(LocationPK.fromString(locationId));</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        if (locationOpt.isPresent()) {</span>
+<span class="nc" id="L117">            var result = mapper.convertToVO(locationOpt.get());</span>
+<span class="nc" id="L118">            addSelfLink(result);</span>
+<span class="nc" id="L119">            return ResponseEntity.ok(Optional.of(result));</span>
         }
-<span class="nc" id="L120">        return ResponseEntity.ok(Optional.empty());</span>
+<span class="nc" id="L121">        return ResponseEntity.ok(Optional.empty());</span>
     }
 
     @GetMapping(value = API_LOCATIONS, params = {&quot;erpCode&quot;}, produces = LocationVO.MEDIA_TYPE_OPT)
     public ResponseEntity&lt;Optional&lt;LocationVO&gt;&gt; findByErpCodeOpt(@RequestParam(&quot;erpCode&quot;) String erpCode) {
-<span class="nc" id="L125">        var locationOpt = locationService.findByErpCode(erpCode);</span>
-<span class="nc bnc" id="L126" title="All 2 branches missed.">        if (locationOpt.isPresent()) {</span>
-<span class="nc" id="L127">            var result = mapper.convertToVO(locationOpt.get());</span>
-<span class="nc" id="L128">            addSelfLink(result);</span>
-<span class="nc" id="L129">            return ResponseEntity.ok(Optional.of(result));</span>
+<span class="nc" id="L126">        var locationOpt = locationService.findByErpCode(erpCode);</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        if (locationOpt.isPresent()) {</span>
+<span class="nc" id="L128">            var result = mapper.convertToVO(locationOpt.get());</span>
+<span class="nc" id="L129">            addSelfLink(result);</span>
+<span class="nc" id="L130">            return ResponseEntity.ok(Optional.of(result));</span>
         }
-<span class="nc" id="L131">        return ResponseEntity.ok(Optional.empty());</span>
+<span class="nc" id="L132">        return ResponseEntity.ok(Optional.empty());</span>
     }
 
     @GetMapping(value = API_LOCATIONS, params = {&quot;plcCode&quot;}, produces = LocationVO.MEDIA_TYPE_OPT)
     public ResponseEntity&lt;Optional&lt;LocationVO&gt;&gt; findByPlcCodeOpt(@RequestParam(&quot;plcCode&quot;) String plcCode) {
-<span class="nc" id="L136">        var locationOpt = locationService.findByPlcCode(plcCode);</span>
-<span class="nc bnc" id="L137" title="All 2 branches missed.">        if (locationOpt.isPresent()) {</span>
-<span class="nc" id="L138">            var result = mapper.convertToVO(locationOpt.get());</span>
-<span class="nc" id="L139">            addSelfLink(result);</span>
-<span class="nc" id="L140">            return ResponseEntity.ok(Optional.of(result));</span>
+<span class="nc" id="L137">        var locationOpt = locationService.findByPlcCode(plcCode);</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        if (locationOpt.isPresent()) {</span>
+<span class="nc" id="L139">            var result = mapper.convertToVO(locationOpt.get());</span>
+<span class="nc" id="L140">            addSelfLink(result);</span>
+<span class="nc" id="L141">            return ResponseEntity.ok(Optional.of(result));</span>
         }
-<span class="nc" id="L142">        return ResponseEntity.ok(Optional.empty());</span>
+<span class="nc" id="L143">        return ResponseEntity.ok(Optional.empty());</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

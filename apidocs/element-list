@@ -18,6 +18,9 @@ org.openwms.common.spi
 org.openwms.common.spi.transactions
 org.openwms.common.spi.transactions.commands
 org.openwms.common.transport
+org.openwms.common.transport.allocation
+org.openwms.common.transport.allocation.api
+org.openwms.common.transport.allocation.spi
 org.openwms.common.transport.api
 org.openwms.common.transport.api.commands
 org.openwms.common.transport.api.messages
@@ -25,4 +28,5 @@ org.openwms.common.transport.barcode
 org.openwms.common.transport.commands
 org.openwms.common.transport.events
 org.openwms.common.transport.impl
+org.openwms.common.transport.reservation
 org.openwms.common.transport.spi

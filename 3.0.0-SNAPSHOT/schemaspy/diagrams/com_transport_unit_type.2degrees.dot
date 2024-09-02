@@ -23,6 +23,7 @@ digraph "twoDegreesRelationshipsDiagram" {
   "com_transport_unit":"c_actual_location":w -> "com_location":"elipses":e [arrowhead=none dir=back arrowtail=crowodot];
   "com_transport_unit":"c_target_location":w -> "com_location":"elipses":e [arrowhead=none dir=back arrowtail=crowodot];
   "com_transport_unit":"c_transport_unit_type":w -> "com_transport_unit_type":"c_pk.type":e [arrowhead=none dir=back arrowtail=crowodot];
+  "com_tu_reservation":"elipses":w -> "com_transport_unit":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
   "com_type_placing_rule":"c_allowed_location_type":w -> "com_location_type":"elipses":e [arrowhead=none dir=back arrowtail=crowodot];
   "com_type_placing_rule":"c_tut_id":w -> "com_transport_unit_type":"c_pk.type":e [arrowhead=none dir=back arrowtail=crowodot];
   "com_type_stacking_rule":"c_allowed_transport_unit_type":w -> "com_transport_unit_type":"c_pk.type":e [arrowhead=none dir=back arrowtail=crowodot];
@@ -72,7 +73,7 @@ digraph "twoDegreesRelationshipsDiagram" {
       <TR><TD PORT="c_parent" COLSPAN="3" ALIGN="LEFT">c_parent</TD></TR>
       <TR><TD PORT="c_target_location" COLSPAN="3" ALIGN="LEFT">c_target_location</TD></TR>
       <TR><TD PORT="c_transport_unit_type" COLSPAN="3" ALIGN="LEFT">c_transport_unit_type</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 4</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 4</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">3 &gt;</TD></TR>
     </TABLE>>
     URL="com_transport_unit.html"
     tooltip="com_transport_unit"
@@ -101,6 +102,16 @@ digraph "twoDegreesRelationshipsDiagram" {
     </TABLE>>
     URL="com_transport_unit_type.html"
     tooltip="com_transport_unit_type"
+  ];
+  "com_tu_reservation" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">com_tu_reservation</TD></TR>
+      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+    </TABLE>>
+    URL="com_tu_reservation.html"
+    tooltip="com_tu_reservation"
   ];
   "com_type_placing_rule" [
     label=<

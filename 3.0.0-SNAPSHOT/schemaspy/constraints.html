@@ -31,7 +31,7 @@
 <div class='indent'>
 <table width='100%'>
 <tr><td class='container' valign='bottom'><b>
-19 Foreign Key Constraints:</b>
+21 Foreign Key Constraints:</b>
 </td><td class='container' align='right'>
 <table>
 <tr><td class='container'>
@@ -172,16 +172,30 @@
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='odd'>
+  <td class='detail'>fk_tureservation_pk</td>
+  <td class='detail'><a href='tables/com_tu_reservation.html'>com_tu_reservation</a>.c_transport_unit_pk</td>
+  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_pk</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='even'>
   <td class='detail'>fkb1he5781gaupx0napfkoy09iy</td>
   <td class='detail'><a href='tables/com_type_placing_rule.html'>com_type_placing_rule</a>.c_allowed_location_type</td>
   <td class='detail'><a href='tables/com_location_type.html'>com_location_type</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
-  <tr class='even'>
+  <tr class='odd'>
   <td class='detail'>fkexme0g9srxcxt8m3jv2101k1d</td>
   <td class='detail'><a href='tables/com_type_placing_rule.html'>com_type_placing_rule</a>.c_tut_id</td>
   <td class='detail'><a href='tables/com_transport_unit_type.html'>com_transport_unit_type</a>.c_pk</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='even'>
+  <td class='detail'>fkpytlbvxglik830qw889qt5t6</td>
+  <td class='detail'><a href='tables/com_tu_reservation_log.html'>com_tu_reservation_log</a>.c_rev</td>
+  <td class='detail'><a href='tables/com_srv_revision.html'>com_srv_revision</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>

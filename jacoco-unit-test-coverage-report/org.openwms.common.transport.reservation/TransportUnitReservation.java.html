@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransportUnitReservation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Service Library</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.transport.reservation</a> &gt; <span class="el_source">TransportUnitReservation.java</span></div><h1>TransportUnitReservation.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2024 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.transport.reservation;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import org.ameba.integration.jpa.ApplicationEntity;
+import org.ameba.integration.jpa.BaseEntity;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+import org.openwms.common.transport.TransportUnit;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Objects;
+
+import static org.openwms.core.time.TimeProvider.DATE_TIME_WITH_TIMEZONE_FORMAT;
+
+/**
+ * A TransportUnitReservation.
+ *
+ * @author Heiko Scherrer
+ */
+@Audited
+@AuditOverride(forClass = ApplicationEntity.class)
+@AuditOverride(forClass = BaseEntity.class)
+@Entity
+@Table(name = &quot;COM_TU_RESERVATION&quot;)
+public class TransportUnitReservation extends ApplicationEntity implements Serializable {
+
+    /** An arbitrary field to store User, PickOrderPositionSplit etc. */
+    @Column(name = &quot;C_RESERVED_BY&quot;)
+    private String reservedBy;
+
+    @DateTimeFormat(pattern = DATE_TIME_WITH_TIMEZONE_FORMAT)
+    @Column(name = &quot;C_RESERVED_AT&quot;, columnDefinition = &quot;timestamp(0)&quot;)
+    private ZonedDateTime reservedAt;
+
+    /** The {@code TransportUnit} instance, the {@code Reservation} belongs to. */
+    @NotAudited
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = &quot;C_TRANSPORT_UNIT_PK&quot;, referencedColumnName = &quot;C_PK&quot;, nullable = false, foreignKey = @ForeignKey(name = &quot;FK_TURESERVATION_PK&quot;))
+    private TransportUnit transportUnit;
+
+    /** Dear JPA... */
+<span class="fc" id="L68">    protected TransportUnitReservation() { }</span>
+
+<span class="nc" id="L70">    public TransportUnitReservation(TransportUnit transportUnit, String reservedBy) {</span>
+<span class="nc" id="L71">        this.reservedBy = reservedBy;</span>
+<span class="nc" id="L72">        this.reservedAt = ZonedDateTime.of(LocalDateTime.now(), ZoneId.systemDefault());</span>
+<span class="nc" id="L73">        this.transportUnit = transportUnit;</span>
+<span class="nc" id="L74">    }</span>
+
+    public TransportUnit getTransportUnit() {
+<span class="nc" id="L77">        return transportUnit;</span>
+    }
+
+    public void setTransportUnit(TransportUnit transportUnit) {
+<span class="nc" id="L81">        this.transportUnit = transportUnit;</span>
+<span class="nc" id="L82">    }</span>
+
+    public String getReservedBy() {
+<span class="nc" id="L85">        return reservedBy;</span>
+    }
+
+    public void setReservedBy(String reservedBy) {
+<span class="nc" id="L89">        this.reservedBy = reservedBy;</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        if (reservedBy != null) {</span>
+<span class="nc" id="L91">            this.reservedAt = ZonedDateTime.of(LocalDateTime.now(), ZoneId.systemDefault());</span>
+        }
+<span class="nc" id="L93">    }</span>
+
+    public ZonedDateTime getReservedAt() {
+<span class="nc" id="L96">        return reservedAt;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L101">        return &quot;TransportUnitReservation{transportUnit=&quot; + transportUnit+&quot;}&quot;;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L112" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
+<span class="nc" id="L114">        TransportUnitReservation that = (TransportUnitReservation) o;</span>
+<span class="nc bnc" id="L115" title="All 6 branches missed.">        return Objects.equals(reservedBy, that.reservedBy) &amp;&amp; Objects.equals(reservedAt, that.reservedAt) &amp;&amp; Objects.equals(transportUnit, that.transportUnit);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public int hashCode() {
+<span class="nc" id="L125">        return Objects.hash(super.hashCode(), reservedBy, reservedAt, transportUnit);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

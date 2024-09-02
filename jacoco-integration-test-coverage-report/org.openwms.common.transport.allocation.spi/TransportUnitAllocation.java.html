@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransportUnitAllocation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org COMMON: Base Service Library</a> &gt; <a href="index.source.html" class="el_package">org.openwms.common.transport.allocation.spi</a> &gt; <span class="el_source">TransportUnitAllocation.java</span></div><h1>TransportUnitAllocation.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2024 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.common.transport.allocation.spi;
+
+import org.openwms.common.location.Location;
+import org.openwms.common.transport.TransportUnit;
+
+import java.util.StringJoiner;
+
+/**
+ * An TransportUnitAllocation.
+ *
+ * @author Heiko Scherrer
+ */
+<span class="nc" id="L28">public class TransportUnitAllocation {</span>
+
+    private TransportUnit transportUnit;
+    private Location actualLocation;
+    private String reservationId;
+
+    public TransportUnit getTransportUnit() {
+<span class="nc" id="L35">        return transportUnit;</span>
+    }
+
+    public void setTransportUnit(TransportUnit transportUnit) {
+<span class="nc" id="L39">        this.transportUnit = transportUnit;</span>
+<span class="nc" id="L40">    }</span>
+
+    public Location getActualLocation() {
+<span class="nc" id="L43">        return actualLocation;</span>
+    }
+
+    public void setActualLocation(Location actualLocation) {
+<span class="nc" id="L47">        this.actualLocation = actualLocation;</span>
+<span class="nc" id="L48">    }</span>
+
+    public String getReservationId() {
+<span class="nc" id="L51">        return reservationId;</span>
+    }
+
+    public void setReservationId(String reservationId) {
+<span class="nc" id="L55">        this.reservationId = reservationId;</span>
+<span class="nc" id="L56">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L60">        return new StringJoiner(&quot;, &quot;, TransportUnitAllocation.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L61">                .add(&quot;transportUnit=&quot; + transportUnit)</span>
+<span class="nc" id="L62">                .add(&quot;actualLocation=&quot; + actualLocation)</span>
+<span class="nc" id="L63">                .add(&quot;reservationId='&quot; + reservationId + &quot;'&quot;)</span>
+<span class="nc" id="L64">                .toString();</span>
+    }
+
+    public static final class AllocationBuilder {
+        private TransportUnit transportUnit;
+        private Location actualLocation;
+        private String reservationId;
+
+        private AllocationBuilder() {
+        }
+
+        public static AllocationBuilder anAllocation() {
+<span class="nc" id="L76">            return new AllocationBuilder();</span>
+        }
+
+        public AllocationBuilder transportUnit(TransportUnit transportUnit) {
+<span class="nc" id="L80">            this.transportUnit = transportUnit;</span>
+<span class="nc" id="L81">            return this;</span>
+        }
+
+        public AllocationBuilder actualLocation(Location actualLocation) {
+<span class="nc" id="L85">            this.actualLocation = actualLocation;</span>
+<span class="nc" id="L86">            return this;</span>
+        }
+
+        public AllocationBuilder reservationId(String reservationId) {
+<span class="nc" id="L90">            this.reservationId = reservationId;</span>
+<span class="nc" id="L91">            return this;</span>
+        }
+
+        public TransportUnitAllocation build() {
+<span class="nc" id="L95">            var allocation = new TransportUnitAllocation();</span>
+<span class="nc" id="L96">            allocation.setTransportUnit(transportUnit);</span>
+<span class="nc" id="L97">            allocation.setActualLocation(actualLocation);</span>
+<span class="nc" id="L98">            allocation.setReservationId(reservationId);</span>
+<span class="nc" id="L99">            return allocation;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
