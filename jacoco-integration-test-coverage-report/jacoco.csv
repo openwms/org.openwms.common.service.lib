@@ -78,8 +78,8 @@ OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api.events,
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api.events,LocationEvent,6,26,0,0,1,8,1,4,1,4
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api.events,TargetEvent,71,25,10,0,12,7,12,2,7,2
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api.events,LocationGroupEvent,0,32,0,0,0,9,0,5,0,5
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api.events,LocationEvent.LocationEventType,0,33,0,0,0,2,0,1,0,1
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api.events,TargetEvent.Builder,5,31,1,1,1,11,1,6,0,6
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api.events,LocationEvent.LocationEventType,0,33,0,0,0,2,0,1,0,1
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.account.api,AccountVO,104,24,14,0,12,10,10,7,3,7
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.events,DeletionFailedEvent,0,8,0,0,0,3,0,2,0,2
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.events,DeletionFailedEventListener,0,21,0,0,0,6,0,2,0,2
