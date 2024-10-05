@@ -140,6 +140,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     @OneToMany(mappedBy = "transportUnit", cascade = {CascadeType.ALL})
     private List<TransportUnitReservation> reservations;
 
+    
     /*~ ----------------------------- constructors ------------------- */
     /** Dear JPA... */
     protected TransportUnit() { }
