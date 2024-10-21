@@ -24,6 +24,7 @@ import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.LockMode;
 import org.openwms.common.location.api.LockType;
 import org.openwms.common.location.api.events.TargetEvent;
+import org.openwms.core.SpringProfiles;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Profile;
@@ -48,7 +49,7 @@ import static org.openwms.common.location.api.LocationGroupState.NOT_AVAILABLE;
  *
  * @author Heiko Scherrer
  */
-@Profile("!INMEM")
+@Profile("!" + SpringProfiles.IN_MEMORY)
 @Validated
 @MeasuredRestController
 class TargetController extends AbstractWebController {

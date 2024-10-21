@@ -126,6 +126,13 @@ public interface TransportUnitService {
     void deleteTransportUnits(@NotNull List<TransportUnit> transportUnits);
 
     /**
+     * Delete a {@link TransportUnit} after requesting all parties for removal.
+     *
+     * @param pKey The persistent key
+     */
+    void delete(@NotBlank String pKey);
+
+    /**
      * Find and return a {@link TransportUnit} by it's {@code transportUnitBK}.
      *
      * @param transportUnitBK The business identifier of the TransportUnit

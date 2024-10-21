@@ -19,6 +19,7 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.http.MeasuredRestController;
 import org.openwms.common.SimpleLink;
 import org.openwms.common.transport.api.TransportUnitTypeVO;
+import org.openwms.core.SpringProfiles;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.context.annotation.Profile;
@@ -41,7 +42,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  *
  * @author Heiko Scherrer
  */
-@Profile("!INMEM")
+@Profile("!" + SpringProfiles.IN_MEMORY)
 @MeasuredRestController
 public class TransportUnitTypeController extends AbstractWebController {
 

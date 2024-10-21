@@ -36,6 +36,7 @@ import org.hibernate.envers.NotAudited;
 import org.openwms.common.app.Default;
 import org.openwms.common.location.Location;
 import org.openwms.common.transport.barcode.Barcode;
+import org.openwms.common.transport.reservation.TransportUnitReservation;
 import org.openwms.core.units.api.Weight;
 import org.openwms.core.values.CoreTypeDefinitions;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -135,6 +136,11 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     @NotAudited
     private List<UnitError> errors = new ArrayList<>(0);
 
+    /** Tracks all active {@link TransportUnitReservation}s on this {@link TransportUnit}. */
+    @OneToMany(mappedBy = "transportUnit", cascade = {CascadeType.ALL})
+    private List<TransportUnitReservation> reservations;
+
+    
     /*~ ----------------------------- constructors ------------------- */
     /** Dear JPA... */
     protected TransportUnit() { }
@@ -353,6 +359,15 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
         error.setTransportUnit(this);
         this.errors.add(error);
         return error;
+    }
+
+    /**
+     * Checks whether this {@code TransportUnit} has one or more reservations.
+     *
+     * @return {@literal true} if so
+     */
+    public boolean hasReservations() {
+        return this.reservations != null && !this.reservations.isEmpty();
     }
 
     /**
