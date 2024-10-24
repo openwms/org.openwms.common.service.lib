@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.common.account.impl;
+package org.openwms.common.account;
 
 import org.ameba.exception.NotFoundException;
 import org.ameba.i18n.Translator;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.openwms.common.account.Account;
-import org.openwms.common.account.AccountService;
 import org.openwms.common.account.api.AccountVO;
 import org.springframework.beans.factory.annotation.Autowired;
 
