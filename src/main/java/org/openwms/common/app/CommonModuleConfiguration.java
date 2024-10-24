@@ -43,7 +43,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
-import org.springframework.core.Ordered;
 import org.springframework.data.envers.repository.config.EnableEnversRepositories;
 import org.springframework.data.envers.repository.support.EnversRevisionRepositoryFactoryBean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -91,10 +90,6 @@ public class CommonModuleConfiguration implements WebMvcConfigurer {
         return registry -> registry.config().commonTags("application", applicationName);
     }
 
-    @Bean OtlpGrpcSpanExporter otlpHttpSpanExporter(@Value("${owms.tracing.url}") String url) {
-        return OtlpGrpcSpanExporter.builder().setEndpoint(url).build();
-    }
-
     public @Bean LocaleResolver localeResolver() {
         var slr = new SessionLocaleResolver();
         slr.setDefaultLocale(Locale.US);
@@ -139,7 +134,7 @@ public class CommonModuleConfiguration implements WebMvcConfigurer {
 
     public @Bean FilterRegistrationBean<RequestIDFilter> requestIDFilter(IDGenerator<String> uuidGenerator) {
         var frb = new FilterRegistrationBean<>(new RequestIDFilter(uuidGenerator));
-        frb.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
+        //frb.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
         return frb;
     }
 }
