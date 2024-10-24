@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 
     @Override
     public TransportUnitType convert(TransportUnitTypeVO vo) {
-<span class="pc bpc" id="L18" title="1 of 2 branches missed.">        if ( vo == null ) {</span>
-<span class="nc" id="L19">            return null;</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        if ( vo == null ) {</span>
+<span class="fc" id="L19">            return null;</span>
         }
 
 <span class="fc" id="L22">        String type = null;</span>
@@ -26,14 +26,14 @@ import org.springframework.stereotype.Component;
 <span class="fc" id="L26">        TransportUnitType transportUnitType = new TransportUnitType( type );</span>
 
 <span class="fc" id="L28">        transportUnitType.setPersistentKey( vo.getpKey() );</span>
-<span class="pc bpc" id="L29" title="1 of 2 branches missed.">        if ( vo.getWidth() != null ) {</span>
-<span class="nc" id="L30">            transportUnitType.setWidth( Integer.parseInt( vo.getWidth() ) );</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if ( vo.getWidth() != null ) {</span>
+<span class="fc" id="L30">            transportUnitType.setWidth( Integer.parseInt( vo.getWidth() ) );</span>
         }
-<span class="pc bpc" id="L32" title="1 of 2 branches missed.">        if ( vo.getHeight() != null ) {</span>
-<span class="nc" id="L33">            transportUnitType.setHeight( Integer.parseInt( vo.getHeight() ) );</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if ( vo.getHeight() != null ) {</span>
+<span class="fc" id="L33">            transportUnitType.setHeight( Integer.parseInt( vo.getHeight() ) );</span>
         }
-<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        if ( vo.getLength() != null ) {</span>
-<span class="nc" id="L36">            transportUnitType.setLength( Integer.parseInt( vo.getLength() ) );</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if ( vo.getLength() != null ) {</span>
+<span class="fc" id="L36">            transportUnitType.setLength( Integer.parseInt( vo.getLength() ) );</span>
         }
 <span class="fc" id="L38">        transportUnitType.setDescription( vo.getDescription() );</span>
 
@@ -42,8 +42,8 @@ import org.springframework.stereotype.Component;
 
     @Override
     public TransportUnitTypeMO convertToMO(TransportUnitType eo) {
-<span class="pc bpc" id="L45" title="1 of 2 branches missed.">        if ( eo == null ) {</span>
-<span class="nc" id="L46">            return null;</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if ( eo == null ) {</span>
+<span class="fc" id="L46">            return null;</span>
         }
 
 <span class="fc" id="L49">        TransportUnitTypeMO.Builder transportUnitTypeMO = TransportUnitTypeMO.newBuilder();</span>
@@ -62,8 +62,8 @@ import org.springframework.stereotype.Component;
 
     @Override
     public TransportUnitTypeVO convertToVO(TransportUnitType eo) {
-<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        if ( eo == null ) {</span>
-<span class="nc" id="L66">            return null;</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if ( eo == null ) {</span>
+<span class="fc" id="L66">            return null;</span>
         }
 
 <span class="fc" id="L69">        String type = null;</span>

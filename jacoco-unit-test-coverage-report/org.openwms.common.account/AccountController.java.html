@@ -19,7 +19,6 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.http.MeasuredRestController;
 import org.ameba.i18n.Translator;
 import org.openwms.common.account.api.AccountVO;
-import org.openwms.common.account.impl.AccountMapper;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.http.ResponseEntity;
@@ -50,83 +49,83 @@ public class AccountController extends AbstractWebController {
     private final AccountMapper mapper;
     private final Translator translator;
 
-<span class="fc" id="L53">    public AccountController(AccountService service, AccountMapper mapper, Translator translator) {</span>
-<span class="fc" id="L54">        this.service = service;</span>
-<span class="fc" id="L55">        this.mapper = mapper;</span>
-<span class="fc" id="L56">        this.translator = translator;</span>
-<span class="fc" id="L57">    }</span>
+<span class="fc" id="L52">    public AccountController(AccountService service, AccountMapper mapper, Translator translator) {</span>
+<span class="fc" id="L53">        this.service = service;</span>
+<span class="fc" id="L54">        this.mapper = mapper;</span>
+<span class="fc" id="L55">        this.translator = translator;</span>
+<span class="fc" id="L56">    }</span>
 
     @GetMapping(value = API_ACCOUNTS, produces = AccountVO.MEDIA_TYPE)
     public ResponseEntity&lt;List&lt;AccountVO&gt;&gt; findAll() {
-<span class="nc" id="L61">        return ResponseEntity.ok(</span>
-<span class="nc" id="L62">            convertAndLinks(service.findAll()</span>
+<span class="nc" id="L60">        return ResponseEntity.ok(</span>
+<span class="nc" id="L61">            convertAndLinks(service.findAll()</span>
         ));
     }
 
     @GetMapping(value = API_ACCOUNTS + &quot;/{pKey}&quot;, produces = AccountVO.MEDIA_TYPE)
     public ResponseEntity&lt;AccountVO&gt; findByPKey(@PathVariable(&quot;pKey&quot;) String pKey) {
-<span class="nc" id="L68">        return ResponseEntity.ok(</span>
-<span class="nc" id="L69">            convertAndLinks(</span>
-<span class="nc" id="L70">                service.findByPKey(pKey)</span>
+<span class="nc" id="L67">        return ResponseEntity.ok(</span>
+<span class="nc" id="L68">            convertAndLinks(</span>
+<span class="nc" id="L69">                service.findByPKey(pKey)</span>
         ));
     }
 
     @GetMapping(value = API_ACCOUNTS, params = &quot;default&quot;, produces = AccountVO.MEDIA_TYPE)
     public ResponseEntity&lt;AccountVO&gt; findDefault() {
-<span class="nc" id="L76">        return ResponseEntity.ok(</span>
-<span class="nc" id="L77">            convertAndLinks(</span>
-<span class="nc" id="L78">                service.findDefault().orElseThrow(</span>
-<span class="nc" id="L79">                    ()-&gt; new NotFoundException(translator, ACCOUNT_NO_DEFAULT))</span>
+<span class="nc" id="L75">        return ResponseEntity.ok(</span>
+<span class="nc" id="L76">            convertAndLinks(</span>
+<span class="nc" id="L77">                service.findDefault().orElseThrow(</span>
+<span class="nc" id="L78">                    ()-&gt; new NotFoundException(translator, ACCOUNT_NO_DEFAULT))</span>
         ));
     }
 
     @GetMapping(value = API_ACCOUNTS, params = &quot;identifier&quot;, produces = AccountVO.MEDIA_TYPE)
     public ResponseEntity&lt;AccountVO&gt; findByIdentifier(@RequestParam(&quot;identifier&quot;) String identifier) {
-<span class="nc" id="L85">        return ResponseEntity.ok(</span>
-<span class="nc" id="L86">            convertAndLinks(</span>
-<span class="nc" id="L87">                service.findByIdentifier(identifier).orElseThrow(</span>
-<span class="nc" id="L88">                    () -&gt; new NotFoundException(translator, ACCOUNT_NOT_FOUND,</span>
+<span class="nc" id="L84">        return ResponseEntity.ok(</span>
+<span class="nc" id="L85">            convertAndLinks(</span>
+<span class="nc" id="L86">                service.findByIdentifier(identifier).orElseThrow(</span>
+<span class="nc" id="L87">                    () -&gt; new NotFoundException(translator, ACCOUNT_NOT_FOUND,</span>
                         new Serializable[]{identifier}, identifier))
         ));
     }
 
     @GetMapping(value = API_ACCOUNTS, params = &quot;name&quot;, produces = AccountVO.MEDIA_TYPE)
     public ResponseEntity&lt;AccountVO&gt; findByName(@RequestParam(&quot;name&quot;) String name) {
-<span class="nc" id="L95">        return ResponseEntity.ok(</span>
-<span class="nc" id="L96">            convertAndLinks(</span>
-<span class="nc" id="L97">                service.findByName(name).orElseThrow(</span>
-<span class="nc" id="L98">                    ()-&gt; new NotFoundException(translator, ACCOUNT_NOT_FOUND,</span>
+<span class="nc" id="L94">        return ResponseEntity.ok(</span>
+<span class="nc" id="L95">            convertAndLinks(</span>
+<span class="nc" id="L96">                service.findByName(name).orElseThrow(</span>
+<span class="nc" id="L97">                    ()-&gt; new NotFoundException(translator, ACCOUNT_NOT_FOUND,</span>
                         new Serializable[]{name}, name))
         ));
     }
 
     private AccountVO convertAndLinks(Account account) {
-<span class="nc" id="L104">        return addSelfLink(</span>
-<span class="nc" id="L105">                mapper.convertToVO(account)</span>
+<span class="nc" id="L103">        return addSelfLink(</span>
+<span class="nc" id="L104">                mapper.convertToVO(account)</span>
         );
     }
 
     private List&lt;AccountVO&gt; convertAndLinks(List&lt;Account&gt; accounts) {
-<span class="nc" id="L110">        return accounts.stream()</span>
-<span class="nc" id="L111">                .map(mapper::convertToVO)</span>
-<span class="nc" id="L112">                .map(this::addSelfLink)</span>
-<span class="nc" id="L113">                .toList();</span>
+<span class="nc" id="L109">        return accounts.stream()</span>
+<span class="nc" id="L110">                .map(mapper::convertToVO)</span>
+<span class="nc" id="L111">                .map(this::addSelfLink)</span>
+<span class="nc" id="L112">                .toList();</span>
     }
 
     private AccountVO addSelfLink(AccountVO result) {
-<span class="nc" id="L117">        result.add(linkTo(methodOn(AccountController.class).findByPKey(result.getpKey())).withRel(&quot;accounts-findbypkey&quot;));</span>
-<span class="nc" id="L118">        return result;</span>
+<span class="nc" id="L116">        result.add(linkTo(methodOn(AccountController.class).findByPKey(result.getpKey())).withRel(&quot;accounts-findbypkey&quot;));</span>
+<span class="nc" id="L117">        return result;</span>
     }
 
     @GetMapping(API_ACCOUNTS + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="nc" id="L123">        return ResponseEntity.ok(</span>
+<span class="nc" id="L122">        return ResponseEntity.ok(</span>
             new Index(
-<span class="nc" id="L125">                linkTo(methodOn(AccountController.class).findByPKey(&quot;pKey&quot;)).withRel(&quot;accounts-findbypkey&quot;),</span>
-<span class="nc" id="L126">                linkTo(methodOn(AccountController.class).findByIdentifier(&quot;identifier&quot;)).withRel(&quot;accounts-findbyidentifier&quot;),</span>
-<span class="nc" id="L127">                linkTo(methodOn(AccountController.class).findByName(&quot;name&quot;)).withRel(&quot;accounts-findbyname&quot;),</span>
-<span class="nc" id="L128">                linkTo(methodOn(AccountController.class).findDefault()).withRel(&quot;accounts-finddefault&quot;),</span>
-<span class="nc" id="L129">                linkTo(methodOn(AccountController.class).findAll()).withRel(&quot;accounts-findall&quot;)</span>
+<span class="nc" id="L124">                linkTo(methodOn(AccountController.class).findByPKey(&quot;pKey&quot;)).withRel(&quot;accounts-findbypkey&quot;),</span>
+<span class="nc" id="L125">                linkTo(methodOn(AccountController.class).findByIdentifier(&quot;identifier&quot;)).withRel(&quot;accounts-findbyidentifier&quot;),</span>
+<span class="nc" id="L126">                linkTo(methodOn(AccountController.class).findByName(&quot;name&quot;)).withRel(&quot;accounts-findbyname&quot;),</span>
+<span class="nc" id="L127">                linkTo(methodOn(AccountController.class).findDefault()).withRel(&quot;accounts-finddefault&quot;),</span>
+<span class="nc" id="L128">                linkTo(methodOn(AccountController.class).findAll()).withRel(&quot;accounts-findall&quot;)</span>
             )
         );
     }

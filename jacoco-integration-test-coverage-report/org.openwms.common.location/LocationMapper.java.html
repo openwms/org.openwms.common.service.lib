@@ -19,7 +19,7 @@ import jakarta.validation.constraints.NotNull;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
-import org.openwms.common.account.impl.AccountMapper;
+import org.openwms.common.account.AccountMapper;
 import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.location.api.messages.LocationMO;
 import org.springframework.validation.annotation.Validated;

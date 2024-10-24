@@ -19,7 +19,7 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.i18n.Translator;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.openwms.common.account.impl.AccountMapper;
+import org.openwms.common.account.AccountMapper;
 import org.openwms.common.location.api.LocationTypeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 

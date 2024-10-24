@@ -15,75 +15,75 @@ import org.springframework.stereotype.Component;
 
     @Override
     public TransportUnitType convert(TransportUnitTypeVO vo) {
-<span class="nc bnc" id="L18" title="All 2 branches missed.">        if ( vo == null ) {</span>
-<span class="nc" id="L19">            return null;</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        if ( vo == null ) {</span>
+<span class="fc" id="L19">            return null;</span>
         }
 
-<span class="nc" id="L22">        String type = null;</span>
+<span class="fc" id="L22">        String type = null;</span>
 
-<span class="nc" id="L24">        type = vo.getType();</span>
+<span class="fc" id="L24">        type = vo.getType();</span>
 
-<span class="nc" id="L26">        TransportUnitType transportUnitType = new TransportUnitType( type );</span>
+<span class="fc" id="L26">        TransportUnitType transportUnitType = new TransportUnitType( type );</span>
 
-<span class="nc" id="L28">        transportUnitType.setPersistentKey( vo.getpKey() );</span>
-<span class="nc bnc" id="L29" title="All 2 branches missed.">        if ( vo.getWidth() != null ) {</span>
-<span class="nc" id="L30">            transportUnitType.setWidth( Integer.parseInt( vo.getWidth() ) );</span>
+<span class="fc" id="L28">        transportUnitType.setPersistentKey( vo.getpKey() );</span>
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">        if ( vo.getWidth() != null ) {</span>
+<span class="fc" id="L30">            transportUnitType.setWidth( Integer.parseInt( vo.getWidth() ) );</span>
         }
-<span class="nc bnc" id="L32" title="All 2 branches missed.">        if ( vo.getHeight() != null ) {</span>
-<span class="nc" id="L33">            transportUnitType.setHeight( Integer.parseInt( vo.getHeight() ) );</span>
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">        if ( vo.getHeight() != null ) {</span>
+<span class="fc" id="L33">            transportUnitType.setHeight( Integer.parseInt( vo.getHeight() ) );</span>
         }
-<span class="nc bnc" id="L35" title="All 2 branches missed.">        if ( vo.getLength() != null ) {</span>
-<span class="nc" id="L36">            transportUnitType.setLength( Integer.parseInt( vo.getLength() ) );</span>
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        if ( vo.getLength() != null ) {</span>
+<span class="fc" id="L36">            transportUnitType.setLength( Integer.parseInt( vo.getLength() ) );</span>
         }
-<span class="nc" id="L38">        transportUnitType.setDescription( vo.getDescription() );</span>
+<span class="fc" id="L38">        transportUnitType.setDescription( vo.getDescription() );</span>
 
-<span class="nc" id="L40">        return transportUnitType;</span>
+<span class="fc" id="L40">        return transportUnitType;</span>
     }
 
     @Override
     public TransportUnitTypeMO convertToMO(TransportUnitType eo) {
-<span class="nc bnc" id="L45" title="All 2 branches missed.">        if ( eo == null ) {</span>
-<span class="nc" id="L46">            return null;</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if ( eo == null ) {</span>
+<span class="fc" id="L46">            return null;</span>
         }
 
-<span class="nc" id="L49">        TransportUnitTypeMO.Builder transportUnitTypeMO = TransportUnitTypeMO.newBuilder();</span>
+<span class="fc" id="L49">        TransportUnitTypeMO.Builder transportUnitTypeMO = TransportUnitTypeMO.newBuilder();</span>
 
-<span class="nc" id="L51">        transportUnitTypeMO.type( eo.getType() );</span>
-<span class="nc" id="L52">        transportUnitTypeMO.length( eo.getLength() );</span>
-<span class="nc" id="L53">        transportUnitTypeMO.width( eo.getWidth() );</span>
-<span class="nc" id="L54">        transportUnitTypeMO.height( eo.getHeight() );</span>
-<span class="nc" id="L55">        transportUnitTypeMO.weightTare( eo.getWeightTare() );</span>
-<span class="nc" id="L56">        transportUnitTypeMO.weightMax( eo.getWeightMax() );</span>
-<span class="nc" id="L57">        transportUnitTypeMO.payload( eo.getPayload() );</span>
-<span class="nc" id="L58">        transportUnitTypeMO.compatibility( eo.getCompatibility() );</span>
+<span class="fc" id="L51">        transportUnitTypeMO.type( eo.getType() );</span>
+<span class="fc" id="L52">        transportUnitTypeMO.length( eo.getLength() );</span>
+<span class="fc" id="L53">        transportUnitTypeMO.width( eo.getWidth() );</span>
+<span class="fc" id="L54">        transportUnitTypeMO.height( eo.getHeight() );</span>
+<span class="fc" id="L55">        transportUnitTypeMO.weightTare( eo.getWeightTare() );</span>
+<span class="fc" id="L56">        transportUnitTypeMO.weightMax( eo.getWeightMax() );</span>
+<span class="fc" id="L57">        transportUnitTypeMO.payload( eo.getPayload() );</span>
+<span class="fc" id="L58">        transportUnitTypeMO.compatibility( eo.getCompatibility() );</span>
 
-<span class="nc" id="L60">        return transportUnitTypeMO.build();</span>
+<span class="fc" id="L60">        return transportUnitTypeMO.build();</span>
     }
 
     @Override
     public TransportUnitTypeVO convertToVO(TransportUnitType eo) {
-<span class="nc bnc" id="L65" title="All 2 branches missed.">        if ( eo == null ) {</span>
-<span class="nc" id="L66">            return null;</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if ( eo == null ) {</span>
+<span class="fc" id="L66">            return null;</span>
         }
 
-<span class="nc" id="L69">        String type = null;</span>
+<span class="fc" id="L69">        String type = null;</span>
 
-<span class="nc" id="L71">        type = eo.getType();</span>
+<span class="fc" id="L71">        type = eo.getType();</span>
 
-<span class="nc" id="L73">        TransportUnitTypeVO transportUnitTypeVO = new TransportUnitTypeVO( type );</span>
+<span class="fc" id="L73">        TransportUnitTypeVO transportUnitTypeVO = new TransportUnitTypeVO( type );</span>
 
-<span class="nc bnc" id="L75" title="All 2 branches missed.">        if ( eo.hasPersistentKey() ) {</span>
-<span class="nc" id="L76">            transportUnitTypeVO.setpKey( eo.getPersistentKey() );</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        if ( eo.hasPersistentKey() ) {</span>
+<span class="fc" id="L76">            transportUnitTypeVO.setpKey( eo.getPersistentKey() );</span>
         }
-<span class="nc" id="L78">        transportUnitTypeVO.setOl( eo.getOl() );</span>
-<span class="nc" id="L79">        transportUnitTypeVO.setLastModifiedDt( eo.getLastModifiedDt() );</span>
-<span class="nc" id="L80">        transportUnitTypeVO.setDescription( eo.getDescription() );</span>
-<span class="nc" id="L81">        transportUnitTypeVO.setHeight( String.valueOf( eo.getHeight() ) );</span>
-<span class="nc" id="L82">        transportUnitTypeVO.setWidth( String.valueOf( eo.getWidth() ) );</span>
-<span class="nc" id="L83">        transportUnitTypeVO.setLength( String.valueOf( eo.getLength() ) );</span>
-<span class="nc" id="L84">        transportUnitTypeVO.setCreateDt( eo.getCreateDt() );</span>
+<span class="fc" id="L78">        transportUnitTypeVO.setOl( eo.getOl() );</span>
+<span class="fc" id="L79">        transportUnitTypeVO.setLastModifiedDt( eo.getLastModifiedDt() );</span>
+<span class="fc" id="L80">        transportUnitTypeVO.setDescription( eo.getDescription() );</span>
+<span class="fc" id="L81">        transportUnitTypeVO.setHeight( String.valueOf( eo.getHeight() ) );</span>
+<span class="fc" id="L82">        transportUnitTypeVO.setWidth( String.valueOf( eo.getWidth() ) );</span>
+<span class="fc" id="L83">        transportUnitTypeVO.setLength( String.valueOf( eo.getLength() ) );</span>
+<span class="fc" id="L84">        transportUnitTypeVO.setCreateDt( eo.getCreateDt() );</span>
 
-<span class="nc" id="L86">        return transportUnitTypeVO;</span>
+<span class="fc" id="L86">        return transportUnitTypeVO;</span>
     }
 
     @Override
