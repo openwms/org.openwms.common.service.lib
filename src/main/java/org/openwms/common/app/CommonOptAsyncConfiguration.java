@@ -109,6 +109,7 @@ class CommonOptAsyncConfiguration {
             @Value("${owms.dead-letter.exchange-name:}") String exchangeName
     ) {
         if (exchangeName.isEmpty()) {
+            BOOT_LOGGER.warn("No dead letter exchange configured, falling back to: [{}]", applicationName);
             return new DirectExchange("dle." + applicationName);
         }
         return new DirectExchange(exchangeName);
