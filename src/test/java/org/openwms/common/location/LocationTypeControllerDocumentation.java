@@ -86,8 +86,9 @@ class LocationTypeControllerDocumentation {
                 .andDo(document("loctype-findbypkey",
                         preprocessResponse(prettyPrint()),
                         responseFields(
-                                fieldWithPath("links[]").ignored(),
-                                fieldWithPath("links[].*").ignored(),
+                                fieldWithPath("_links").description("An array with hyperlinks to corresponding resources"),
+                                fieldWithPath("_links.location-types-findbypkey").description("A link to get the resource by persistent key"),
+                                fieldWithPath("_links.location-types-findbypkey.*").ignored(),
                                 fieldWithPath("pKey").description("The persistent technical key of the LocationType"),
                                 fieldWithPath("type").description("Unique natural key"),
                                 fieldWithPath("description").description("A descriptive text of the LocationType"),
