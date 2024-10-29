@@ -35,7 +35,7 @@ public class CommonOtlpConfiguration {
     @ConditionalOnClass(name = "io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporter")
     public static class OtelConfiguration {
         @ConditionalOnClass(name = "io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporter")
-        @Bean OtlpGrpcSpanExporter otlpHttpSpanExporter(@Value("${owms.tracing.url}") String url) {
+        public @Bean OtlpGrpcSpanExporter otlpHttpSpanExporter(@Value("${owms.tracing.url}") String url) {
             return OtlpGrpcSpanExporter.builder().setEndpoint(url).build();
         }
     }
