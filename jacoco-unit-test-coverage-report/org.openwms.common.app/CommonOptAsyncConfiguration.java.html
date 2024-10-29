@@ -88,18 +88,19 @@ import static org.openwms.common.CommonProfiles.SHIPPING_SUPPORT;
             ObjectProvider&lt;MessageConverter&gt; messageConverter,
             @Autowired(required = false) RabbitTemplateConfigurable rabbitTemplateConfigurable) {
 <span class="fc" id="L90">        var rabbitTemplate = new RabbitTemplate(connectionFactory);</span>
-<span class="fc" id="L91">        var backOffPolicy = new ExponentialBackOffPolicy();</span>
-<span class="fc" id="L92">        backOffPolicy.setMultiplier(2);</span>
-<span class="fc" id="L93">        backOffPolicy.setMaxInterval(15000);</span>
-<span class="fc" id="L94">        backOffPolicy.setInitialInterval(500);</span>
-<span class="fc" id="L95">        var retryTemplate = new RetryTemplate();</span>
-<span class="fc" id="L96">        retryTemplate.setBackOffPolicy(backOffPolicy);</span>
-<span class="fc" id="L97">        rabbitTemplate.setRetryTemplate(retryTemplate);</span>
-<span class="fc" id="L98">        rabbitTemplate.setMessageConverter(Objects.requireNonNull(messageConverter.getIfUnique()));</span>
-<span class="pc bpc" id="L99" title="1 of 2 branches missed.">        if (rabbitTemplateConfigurable != null) {</span>
-<span class="fc" id="L100">            rabbitTemplateConfigurable.configure(rabbitTemplate);</span>
+<span class="fc" id="L91">        rabbitTemplate.setObservationEnabled(true);</span>
+<span class="fc" id="L92">        var backOffPolicy = new ExponentialBackOffPolicy();</span>
+<span class="fc" id="L93">        backOffPolicy.setMultiplier(2);</span>
+<span class="fc" id="L94">        backOffPolicy.setMaxInterval(15000);</span>
+<span class="fc" id="L95">        backOffPolicy.setInitialInterval(500);</span>
+<span class="fc" id="L96">        var retryTemplate = new RetryTemplate();</span>
+<span class="fc" id="L97">        retryTemplate.setBackOffPolicy(backOffPolicy);</span>
+<span class="fc" id="L98">        rabbitTemplate.setRetryTemplate(retryTemplate);</span>
+<span class="fc" id="L99">        rabbitTemplate.setMessageConverter(Objects.requireNonNull(messageConverter.getIfUnique()));</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">        if (rabbitTemplateConfigurable != null) {</span>
+<span class="fc" id="L101">            rabbitTemplateConfigurable.configure(rabbitTemplate);</span>
         }
-<span class="fc" id="L102">        return rabbitTemplate;</span>
+<span class="fc" id="L103">        return rabbitTemplate;</span>
     }
 
     /*~ --------------- Exchanges --------------- */
@@ -108,35 +109,35 @@ import static org.openwms.common.CommonProfiles.SHIPPING_SUPPORT;
             @Value(&quot;${spring.application.name}&quot;) String applicationName,
             @Value(&quot;${owms.dead-letter.exchange-name:}&quot;) String exchangeName
     ) {
-<span class="pc bpc" id="L111" title="1 of 2 branches missed.">        if (exchangeName.isEmpty()) {</span>
-<span class="fc" id="L112">            return new DirectExchange(&quot;dle.&quot; + applicationName);</span>
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">        if (exchangeName.isEmpty()) {</span>
+<span class="fc" id="L113">            return new DirectExchange(&quot;dle.&quot; + applicationName);</span>
         }
-<span class="nc" id="L114">        return new DirectExchange(exchangeName);</span>
+<span class="nc" id="L115">        return new DirectExchange(exchangeName);</span>
     }
     @RefreshScope
     @Bean TopicExchange commonTuExchange(@Value(&quot;${owms.events.common.tu.exchange-name}&quot;) String exchangeName) {
-<span class="fc" id="L118">        return new TopicExchange(exchangeName, true, false);</span>
+<span class="fc" id="L119">        return new TopicExchange(exchangeName, true, false);</span>
     }
     @RefreshScope
     @Bean TopicExchange commonTuTExchange(@Value(&quot;${owms.events.common.tut.exchange-name}&quot;) String exchangeName) {
-<span class="fc" id="L122">        return new TopicExchange(exchangeName, true, false);</span>
+<span class="fc" id="L123">        return new TopicExchange(exchangeName, true, false);</span>
     }
     @RefreshScope
     @Bean TopicExchange commonTuCommandsExchange(@Value(&quot;${owms.commands.common.tu.exchange-name}&quot;) String exchangeName) {
-<span class="fc" id="L126">        return new TopicExchange(exchangeName, true, false);</span>
+<span class="fc" id="L127">        return new TopicExchange(exchangeName, true, false);</span>
     }
     @RefreshScope
     @Bean TopicExchange commonLocCommandsExchange(@Value(&quot;${owms.commands.common.loc.exchange-name}&quot;) String exchangeName) {
-<span class="fc" id="L130">        return new TopicExchange(exchangeName, true, false);</span>
+<span class="fc" id="L131">        return new TopicExchange(exchangeName, true, false);</span>
     }
     @RefreshScope
     @Bean TopicExchange commonLocRegistrationCommandsExchange(@Value(&quot;${owms.commands.common.registration.exchange-name}&quot;) String exchangeName) {
-<span class="fc" id="L134">        return new TopicExchange(exchangeName, true, false);</span>
+<span class="fc" id="L135">        return new TopicExchange(exchangeName, true, false);</span>
     }
     @Profile(SHIPPING_SUPPORT)
     @RefreshScope
     @Bean TopicExchange shippingExchange(@Value(&quot;${owms.events.shipping.exchange-name}&quot;) String exchangeName) {
-<span class="nc" id="L139">        return new TopicExchange(exchangeName, true, false);</span>
+<span class="nc" id="L140">        return new TopicExchange(exchangeName, true, false);</span>
     }
 
     /*~ ------------ Queues ------------- */
@@ -145,31 +146,31 @@ import static org.openwms.common.CommonProfiles.SHIPPING_SUPPORT;
             @Value(&quot;${spring.application.name}&quot;) String applicationName,
             @Value(&quot;${owms.dead-letter.queue-name:}&quot;) String queueName
     ) {
-<span class="pc bpc" id="L148" title="1 of 2 branches missed.">        if (queueName.isEmpty()) {</span>
-<span class="fc" id="L149">            return QueueBuilder.durable(applicationName + &quot;-dl-queue&quot;).build();</span>
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">        if (queueName.isEmpty()) {</span>
+<span class="fc" id="L150">            return QueueBuilder.durable(applicationName + &quot;-dl-queue&quot;).build();</span>
         }
-<span class="nc" id="L151">        return QueueBuilder.durable(queueName).build();</span>
+<span class="nc" id="L152">        return QueueBuilder.durable(queueName).build();</span>
     }
     @RefreshScope
     @Bean Queue commandsQueue(@Value(&quot;${owms.commands.common.tu.queue-name}&quot;) String queueName, DirectExchange dlExchange) {
-<span class="fc" id="L155">        return QueueBuilder.durable(queueName)</span>
-<span class="fc" id="L156">                .withArgument(DEAD_LETTER_EXCHANGE, dlExchange.getName())</span>
-<span class="fc" id="L157">                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)</span>
-<span class="fc" id="L158">                .build();</span>
+<span class="fc" id="L156">        return QueueBuilder.durable(queueName)</span>
+<span class="fc" id="L157">                .withArgument(DEAD_LETTER_EXCHANGE, dlExchange.getName())</span>
+<span class="fc" id="L158">                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)</span>
+<span class="fc" id="L159">                .build();</span>
     }
     @RefreshScope
     @Bean Queue commonLocCommandsQueue(@Value(&quot;${owms.commands.common.loc.queue-name}&quot;) String queueName, DirectExchange dlExchange) {
-<span class="fc" id="L162">        return QueueBuilder.durable(queueName)</span>
-<span class="fc" id="L163">                .withArgument(DEAD_LETTER_EXCHANGE, dlExchange.getName())</span>
-<span class="fc" id="L164">                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)</span>
-<span class="fc" id="L165">                .build();</span>
+<span class="fc" id="L163">        return QueueBuilder.durable(queueName)</span>
+<span class="fc" id="L164">                .withArgument(DEAD_LETTER_EXCHANGE, dlExchange.getName())</span>
+<span class="fc" id="L165">                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)</span>
+<span class="fc" id="L166">                .build();</span>
     }
     @RefreshScope
     @Bean Queue commonLocRegistrationCommandsQueue(@Value(&quot;${owms.commands.common.registration.queue-name}&quot;) String queueName, DirectExchange dlExchange) {
-<span class="fc" id="L169">        return QueueBuilder.durable(queueName)</span>
-<span class="fc" id="L170">                .withArgument(DEAD_LETTER_EXCHANGE, dlExchange.getName())</span>
-<span class="fc" id="L171">                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)</span>
-<span class="fc" id="L172">                .build();</span>
+<span class="fc" id="L170">        return QueueBuilder.durable(queueName)</span>
+<span class="fc" id="L171">                .withArgument(DEAD_LETTER_EXCHANGE, dlExchange.getName())</span>
+<span class="fc" id="L172">                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)</span>
+<span class="fc" id="L173">                .build();</span>
     }
     @Profile(SHIPPING_SUPPORT)
     @RefreshScope
@@ -177,10 +178,10 @@ import static org.openwms.common.CommonProfiles.SHIPPING_SUPPORT;
             @Value(&quot;${owms.events.shipping.split.queue-name}&quot;) String queueName,
             @Value(&quot;${owms.dead-letter.exchange-name}&quot;) String exchangeName
     ) {
-<span class="nc" id="L180">        return QueueBuilder.durable(queueName)</span>
-<span class="nc" id="L181">                .withArgument(DEAD_LETTER_EXCHANGE, exchangeName)</span>
-<span class="nc" id="L182">                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)</span>
-<span class="nc" id="L183">                .build();</span>
+<span class="nc" id="L181">        return QueueBuilder.durable(queueName)</span>
+<span class="nc" id="L182">                .withArgument(DEAD_LETTER_EXCHANGE, exchangeName)</span>
+<span class="nc" id="L183">                .withArgument(DEAD_LETTER_ROUTING_KEY, POISON_MESSAGE)</span>
+<span class="nc" id="L184">                .build();</span>
     }
 
     /*~ ------------ Bindings ------------- */
@@ -190,10 +191,10 @@ import static org.openwms.common.CommonProfiles.SHIPPING_SUPPORT;
             @Value(&quot;${owms.dead-letter.queue-name:}&quot;) String queueName,
             @Value(&quot;${owms.dead-letter.exchange-name:}&quot;) String exchangeName
     ) {
-<span class="fc" id="L193">        return BindingBuilder</span>
-<span class="fc" id="L194">                .bind(dlQueue(applicationName, queueName))</span>
-<span class="fc" id="L195">                .to(dlExchange(applicationName, exchangeName))</span>
-<span class="fc" id="L196">                .with(POISON_MESSAGE);</span>
+<span class="fc" id="L194">        return BindingBuilder</span>
+<span class="fc" id="L195">                .bind(dlQueue(applicationName, queueName))</span>
+<span class="fc" id="L196">                .to(dlExchange(applicationName, exchangeName))</span>
+<span class="fc" id="L197">                .with(POISON_MESSAGE);</span>
     }
     @RefreshScope
     @Bean Binding commandsBinding(
@@ -201,10 +202,10 @@ import static org.openwms.common.CommonProfiles.SHIPPING_SUPPORT;
             @Qualifier(&quot;commandsQueue&quot;) Queue commandsQueue,
             @Value(&quot;${owms.commands.common.tu.routing-key}&quot;) String routingKey
     ) {
-<span class="fc" id="L204">        return BindingBuilder</span>
-<span class="fc" id="L205">                .bind(commandsQueue)</span>
-<span class="fc" id="L206">                .to(commonTuCommandsExchange)</span>
-<span class="fc" id="L207">                .with(routingKey);</span>
+<span class="fc" id="L205">        return BindingBuilder</span>
+<span class="fc" id="L206">                .bind(commandsQueue)</span>
+<span class="fc" id="L207">                .to(commonTuCommandsExchange)</span>
+<span class="fc" id="L208">                .with(routingKey);</span>
     }
     @RefreshScope
     @Bean Binding locCommandsBinding(
@@ -212,10 +213,10 @@ import static org.openwms.common.CommonProfiles.SHIPPING_SUPPORT;
             @Qualifier(&quot;commonLocCommandsQueue&quot;) Queue commonLocCommandsQueue,
             @Value(&quot;${owms.commands.common.loc.routing-key}&quot;) String routingKey
     ) {
-<span class="fc" id="L215">        return BindingBuilder</span>
-<span class="fc" id="L216">                .bind(commonLocCommandsQueue)</span>
-<span class="fc" id="L217">                .to(commonLocCommandsExchange)</span>
-<span class="fc" id="L218">                .with(routingKey);</span>
+<span class="fc" id="L216">        return BindingBuilder</span>
+<span class="fc" id="L217">                .bind(commonLocCommandsQueue)</span>
+<span class="fc" id="L218">                .to(commonLocCommandsExchange)</span>
+<span class="fc" id="L219">                .with(routingKey);</span>
     }
     @RefreshScope
     @Bean Binding locRegistrationCommandsBinding(
@@ -223,10 +224,10 @@ import static org.openwms.common.CommonProfiles.SHIPPING_SUPPORT;
             @Qualifier(&quot;commonLocRegistrationCommandsQueue&quot;) Queue commonLocRegistrationCommandsQueue,
             @Value(&quot;${owms.commands.common.registration.routing-key}&quot;) String routingKey
     ) {
-<span class="fc" id="L226">        return BindingBuilder</span>
-<span class="fc" id="L227">                .bind(commonLocRegistrationCommandsQueue)</span>
-<span class="fc" id="L228">                .to(commonLocRegistrationCommandsExchange)</span>
-<span class="fc" id="L229">                .with(routingKey);</span>
+<span class="fc" id="L227">        return BindingBuilder</span>
+<span class="fc" id="L228">                .bind(commonLocRegistrationCommandsQueue)</span>
+<span class="fc" id="L229">                .to(commonLocRegistrationCommandsExchange)</span>
+<span class="fc" id="L230">                .with(routingKey);</span>
     }
     @Profile(SHIPPING_SUPPORT)
     @RefreshScope
@@ -235,10 +236,10 @@ import static org.openwms.common.CommonProfiles.SHIPPING_SUPPORT;
             @Qualifier(&quot;shippingSplitQueue&quot;) Queue shippingSplitQueue,
             @Value(&quot;${owms.events.shipping.split.routing-key}&quot;) String routingKey
     ) {
-<span class="nc" id="L238">        return BindingBuilder</span>
-<span class="nc" id="L239">                .bind(shippingSplitQueue)</span>
-<span class="nc" id="L240">                .to(shippingExchange)</span>
-<span class="nc" id="L241">                .with(routingKey);</span>
+<span class="nc" id="L239">        return BindingBuilder</span>
+<span class="nc" id="L240">                .bind(shippingSplitQueue)</span>
+<span class="nc" id="L241">                .to(shippingExchange)</span>
+<span class="nc" id="L242">                .with(routingKey);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -507,16 +507,17 @@ Content-Length: 317
 
 {
   "type" : "FG",
-  "links" : [ {
-    "rel" : "location-types-findbypkey",
-    "href" : "http://localhost:8080/v1/location-types/326981811784"
-  } ],
+  "_links" : {
+    "location-types-findbypkey" : {
+      "href" : "http://localhost:8080/v1/location-types/326981811784"
+    }
+  },
   "pKey" : "326981811784",
   "description" : "Flat Good Location",
   "length" : 30,
   "width" : 50,
   "height" : 20,
-  "createDt" : "2024-10-24T22:26:40.341612000Z"
+  "createDt" : "2024-10-29T19:21:19.115474000Z"
 }</code></pre>
 </div>
 </div>
@@ -534,6 +535,16 @@ Content-Length: 317
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_links</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An array with hyperlinks to corresponding resources</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_links.location-types-findbypkey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A link to get the resource by persistent key</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
@@ -613,16 +624,17 @@ Content-Length: 317
 
 {
   "type" : "FG",
-  "links" : [ {
-    "rel" : "location-types-findbypkey",
-    "href" : "http://localhost:8080/v1/location-types/326981811784"
-  } ],
+  "_links" : {
+    "location-types-findbypkey" : {
+      "href" : "http://localhost:8080/v1/location-types/326981811784"
+    }
+  },
   "pKey" : "326981811784",
   "description" : "Flat Good Location",
   "length" : 30,
   "width" : 50,
   "height" : 20,
-  "createDt" : "2024-10-24T22:26:40.292922000Z"
+  "createDt" : "2024-10-29T19:21:19.044886000Z"
 }</code></pre>
 </div>
 </div>
@@ -667,7 +679,7 @@ Content-Length: 645
   "length" : 30,
   "width" : 50,
   "height" : 20,
-  "createDt" : "2024-10-24T22:26:40.146999000Z"
+  "createDt" : "2024-10-29T19:21:18.872263000Z"
 }, {
   "type" : "PG",
   "links" : [ {
@@ -679,7 +691,7 @@ Content-Length: 645
   "length" : 120,
   "width" : 120,
   "height" : 250,
-  "createDt" : "2024-10-24T22:26:40.146999000Z"
+  "createDt" : "2024-10-29T19:21:18.872263000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -689,7 +701,7 @@ Content-Length: 645
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-10-24 22:22:27 UTC
+Last updated 2024-10-29 19:13:22 UTC
 </div>
 </div>
 </body>

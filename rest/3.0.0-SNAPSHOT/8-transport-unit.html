@@ -557,31 +557,31 @@ newly created resource as HTTP <code>Location</code> header attribute</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/77600e29-5362-42fa-90bd-ec7953ed87a4
+Location: http://localhost:8080/v1/transport-units/59fba91e-e4e1-4e70-b04a-9bf34fb140b1
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1547
+Content-Length: 1522
 
 {
-  "links" : [ {
-    "rel" : "self",
-    "href" : "http://localhost:8080/v1/transport-units/77600e29-5362-42fa-90bd-ec7953ed87a4"
-  }, {
-    "rel" : "transport-unit-type",
-    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
-  }, {
-    "rel" : "actual-location",
-    "href" : "http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"
-  } ],
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/v1/transport-units/59fba91e-e4e1-4e70-b04a-9bf34fb140b1"
+    },
+    "transport-unit-type" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+    },
+    "actual-location" : {
+      "href" : "http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"
+    }
+  },
   "ol" : 0,
-  "createDt" : "2024-10-24T22:26:44.356025122Z",
-  "lastModifiedDt" : "2024-10-24T22:26:44.356025122Z",
-  "pKey" : "77600e29-5362-42fa-90bd-ec7953ed87a4",
+  "createDt" : "2024-10-29T19:21:23.471069116Z",
+  "lastModifiedDt" : "2024-10-29T19:21:23.471069116Z",
+  "pKey" : "59fba91e-e4e1-4e70-b04a-9bf34fb140b1",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
-    "links" : [ ],
     "ol" : 30,
-    "createDt" : "2024-10-24T22:26:44.302101000Z",
-    "lastModifiedDt" : "2024-10-24T22:26:44.360529560Z",
+    "createDt" : "2024-10-29T19:21:23.411014000Z",
+    "lastModifiedDt" : "2024-10-29T19:21:23.476585946Z",
     "pKey" : "113646454019",
     "locationId" : "EXT_/0000/0000/0000/0000",
     "accountId" : "D",
@@ -597,7 +597,7 @@ Content-Length: 1547
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-10-24T22:26:44.302101000Z",
+    "createDt" : "2024-10-29T19:21:23.411014000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -610,7 +610,7 @@ Content-Length: 1547
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2024-10-24T22:26:44.353329900Z"
+  "actualLocationDate" : "2024-10-29T19:21:23.468630262Z"
 }</code></pre>
 </div>
 </div>
@@ -664,7 +664,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/2232fd01-0d72-4704-be52-e59c2d30366d</code></pre>
+Location: http://localhost:8080/v1/transport-units/24e46076-c9d1-4845-a19a-1f592d44b09c</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -739,29 +739,29 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1326
+Content-Length: 1301
 
 {
-  "links" : [ {
-    "rel" : "self",
-    "href" : "http://localhost:8080/v1/transport-units/1"
-  }, {
-    "rel" : "transport-unit-type",
-    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
-  }, {
-    "rel" : "actual-location",
-    "href" : "http://localhost:8080/v1/locations?locationId=FGIN%2F0001%2FLEFT%2F0000%2F0000"
-  } ],
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/v1/transport-units/1"
+    },
+    "transport-unit-type" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+    },
+    "actual-location" : {
+      "href" : "http://localhost:8080/v1/locations?locationId=FGIN%2F0001%2FLEFT%2F0000%2F0000"
+    }
+  },
   "ol" : 2,
-  "createDt" : "2024-10-24T22:26:45.218680000Z",
-  "lastModifiedDt" : "2024-10-24T22:26:45.270113740Z",
+  "createDt" : "2024-10-29T19:21:24.370677000Z",
+  "lastModifiedDt" : "2024-10-29T19:21:24.419893288Z",
   "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
-    "links" : [ ],
     "ol" : 13,
-    "createDt" : "2024-10-24T22:26:45.218680000Z",
-    "lastModifiedDt" : "2024-10-24T22:26:45.270385829Z",
+    "createDt" : "2024-10-29T19:21:24.370677000Z",
+    "lastModifiedDt" : "2024-10-29T19:21:24.420098792Z",
     "pKey" : "896384899357",
     "locationId" : "FGIN/0001/LEFT/0000/0000",
     "accountId" : "D",
@@ -777,7 +777,7 @@ Content-Length: 1326
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-10-24T22:26:45.218680000Z",
+    "createDt" : "2024-10-29T19:21:24.370677000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -785,7 +785,7 @@ Content-Length: 1326
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-10-24T22:26:45.265488967Z"
+  "actualLocationDate" : "2024-10-29T19:21:24.415510706Z"
 }</code></pre>
 </div>
 </div>
@@ -862,29 +862,29 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1326
+Content-Length: 1301
 
 {
-  "links" : [ {
-    "rel" : "self",
-    "href" : "http://localhost:8080/v1/transport-units/1"
-  }, {
-    "rel" : "transport-unit-type",
-    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
-  }, {
-    "rel" : "actual-location",
-    "href" : "http://localhost:8080/v1/locations?locationId=FGIN%2F0001%2FLEFT%2F0000%2F0000"
-  } ],
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/v1/transport-units/1"
+    },
+    "transport-unit-type" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+    },
+    "actual-location" : {
+      "href" : "http://localhost:8080/v1/locations?locationId=FGIN%2F0001%2FLEFT%2F0000%2F0000"
+    }
+  },
   "ol" : 2,
-  "createDt" : "2024-10-24T22:26:44.567374000Z",
-  "lastModifiedDt" : "2024-10-24T22:26:44.639443466Z",
+  "createDt" : "2024-10-29T19:21:23.687138000Z",
+  "lastModifiedDt" : "2024-10-29T19:21:23.768019436Z",
   "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
-    "links" : [ ],
     "ol" : 13,
-    "createDt" : "2024-10-24T22:26:44.567374000Z",
-    "lastModifiedDt" : "2024-10-24T22:26:44.639657807Z",
+    "createDt" : "2024-10-29T19:21:23.687138000Z",
+    "lastModifiedDt" : "2024-10-29T19:21:23.768215602Z",
     "pKey" : "896384899357",
     "locationId" : "FGIN/0001/LEFT/0000/0000",
     "accountId" : "D",
@@ -900,7 +900,7 @@ Content-Length: 1326
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-10-24T22:26:44.567374000Z",
+    "createDt" : "2024-10-29T19:21:23.687138000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -908,7 +908,7 @@ Content-Length: 1326
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-10-24T22:26:44.638224685Z"
+  "actualLocationDate" : "2024-10-29T19:21:23.766750737Z"
 }</code></pre>
 </div>
 </div>
@@ -1153,27 +1153,27 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.transport-unit-v1+json
-Content-Length: 1206
+Content-Length: 1181
 
 {
-  "links" : [ {
-    "rel" : "self",
-    "href" : "http://localhost:8080/v1/transport-units/1"
-  }, {
-    "rel" : "transport-unit-type",
-    "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
-  }, {
-    "rel" : "actual-location",
-    "href" : "http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"
-  } ],
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/v1/transport-units/1"
+    },
+    "transport-unit-type" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+    },
+    "actual-location" : {
+      "href" : "http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"
+    }
+  },
   "ol" : 1,
-  "createDt" : "2024-10-24T22:26:44.907283000Z",
+  "createDt" : "2024-10-29T19:21:24.073769000Z",
   "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
-    "links" : [ ],
     "ol" : 29,
-    "createDt" : "2024-10-24T22:26:44.907283000Z",
+    "createDt" : "2024-10-29T19:21:24.073769000Z",
     "pKey" : "113646454019",
     "locationId" : "EXT_/0000/0000/0000/0000",
     "accountId" : "D",
@@ -1189,7 +1189,7 @@ Content-Length: 1206
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-10-24T22:26:44.907283000Z",
+    "createDt" : "2024-10-29T19:21:24.073769000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -1197,7 +1197,7 @@ Content-Length: 1206
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-10-24T22:26:44.907283000Z"
+  "actualLocationDate" : "2024-10-29T19:21:24.073769000Z"
 }</code></pre>
 </div>
 </div>
@@ -1277,13 +1277,13 @@ Content-Length: 2421
     "href" : "http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"
   } ],
   "ol" : 1,
-  "createDt" : "2024-10-24T22:26:44.048296000Z",
+  "createDt" : "2024-10-29T19:21:23.121796000Z",
   "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
     "links" : [ ],
     "ol" : 29,
-    "createDt" : "2024-10-24T22:26:44.048296000Z",
+    "createDt" : "2024-10-29T19:21:23.121796000Z",
     "pKey" : "113646454019",
     "locationId" : "EXT_/0000/0000/0000/0000",
     "accountId" : "D",
@@ -1299,7 +1299,7 @@ Content-Length: 2421
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-10-24T22:26:44.048296000Z",
+    "createDt" : "2024-10-29T19:21:23.121796000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -1307,7 +1307,7 @@ Content-Length: 2421
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-10-24T22:26:44.048296000Z"
+  "actualLocationDate" : "2024-10-29T19:21:23.121796000Z"
 }, {
   "links" : [ {
     "rel" : "self",
@@ -1320,13 +1320,13 @@ Content-Length: 2421
     "href" : "http://localhost:8080/v1/locations?locationId=FGIN%2FIPNT%2F0001%2F0000%2F0000"
   } ],
   "ol" : 1,
-  "createDt" : "2024-10-24T22:26:44.048296000Z",
+  "createDt" : "2024-10-29T19:21:23.121796000Z",
   "pKey" : "2",
   "barcode" : "00000000000000004712",
   "actualLocation" : {
     "links" : [ ],
     "ol" : 30,
-    "createDt" : "2024-10-24T22:26:44.048296000Z",
+    "createDt" : "2024-10-29T19:21:23.121796000Z",
     "pKey" : "439649733836",
     "locationId" : "FGIN/IPNT/0001/0000/0000",
     "accountId" : "D",
@@ -1342,7 +1342,7 @@ Content-Length: 2421
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-10-24T22:26:44.048296000Z",
+    "createDt" : "2024-10-29T19:21:23.121796000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -1350,7 +1350,7 @@ Content-Length: 2421
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-10-24T22:26:44.048296000Z"
+  "actualLocationDate" : "2024-10-29T19:21:23.121796000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -1405,13 +1405,13 @@ Content-Length: 1213
     "href" : "http://localhost:8080/v1/locations?locationId=FGIN%2FIPNT%2F0001%2F0000%2F0000"
   } ],
   "ol" : 1,
-  "createDt" : "2024-10-24T22:26:45.348060000Z",
+  "createDt" : "2024-10-29T19:21:24.493180000Z",
   "pKey" : "2",
   "barcode" : "00000000000000004712",
   "actualLocation" : {
     "links" : [ ],
     "ol" : 30,
-    "createDt" : "2024-10-24T22:26:45.348060000Z",
+    "createDt" : "2024-10-29T19:21:24.493180000Z",
     "pKey" : "439649733836",
     "locationId" : "FGIN/IPNT/0001/0000/0000",
     "accountId" : "D",
@@ -1427,7 +1427,7 @@ Content-Length: 1213
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-10-24T22:26:45.348060000Z",
+    "createDt" : "2024-10-29T19:21:24.493180000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -1435,7 +1435,7 @@ Content-Length: 1213
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-10-24T22:26:45.348060000Z"
+  "actualLocationDate" : "2024-10-29T19:21:24.493180000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -1490,7 +1490,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-10-24 22:22:27 UTC
+Last updated 2024-10-29 19:13:22 UTC
 </div>
 </div>
 </body>

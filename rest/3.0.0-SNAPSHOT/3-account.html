@@ -515,10 +515,11 @@ Content-Type: application/vnd.openwms.common.account-v1+json
 Content-Length: 177
 
 {
-  "links" : [ {
-    "rel" : "accounts-findbypkey",
-    "href" : "http://localhost:8080/v1/accounts/1000"
-  } ],
+  "_links" : {
+    "accounts-findbypkey" : {
+      "href" : "http://localhost:8080/v1/accounts/1000"
+    }
+  },
   "pKey" : "1000",
   "identifier" : "D",
   "name" : "Default"
@@ -539,6 +540,16 @@ Content-Length: 177
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_links</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An array with hyperlinks to corresponding resources</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_links.accounts-findbypkey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A link to get the resource by persistent key</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
@@ -608,10 +619,11 @@ Content-Type: application/vnd.openwms.common.account-v1+json
 Content-Length: 177
 
 {
-  "links" : [ {
-    "rel" : "accounts-findbypkey",
-    "href" : "http://localhost:8080/v1/accounts/1000"
-  } ],
+  "_links" : {
+    "accounts-findbypkey" : {
+      "href" : "http://localhost:8080/v1/accounts/1000"
+    }
+  },
   "pKey" : "1000",
   "identifier" : "D",
   "name" : "Default"
@@ -659,10 +671,11 @@ Content-Type: application/vnd.openwms.common.account-v1+json
 Content-Length: 177
 
 {
-  "links" : [ {
-    "rel" : "accounts-findbypkey",
-    "href" : "http://localhost:8080/v1/accounts/1000"
-  } ],
+  "_links" : {
+    "accounts-findbypkey" : {
+      "href" : "http://localhost:8080/v1/accounts/1000"
+    }
+  },
   "pKey" : "1000",
   "identifier" : "D",
   "name" : "Default"
@@ -731,7 +744,7 @@ Content-Length: 369
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-10-24 22:22:27 UTC
+Last updated 2024-10-29 19:13:22 UTC
 </div>
 </div>
 </body>

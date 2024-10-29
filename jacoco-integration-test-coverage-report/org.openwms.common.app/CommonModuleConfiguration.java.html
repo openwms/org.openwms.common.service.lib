@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -43,12 +44,12 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
-import org.springframework.core.Ordered;
 import org.springframework.data.envers.repository.config.EnableEnversRepositories;
 import org.springframework.data.envers.repository.support.EnversRevisionRepositoryFactoryBean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -79,64 +80,68 @@ import java.util.Properties;
 @EnableMultiTenancy
 @EnableTransactionManagement
 @Import(JSONConfiguration.class)
-<span class="fc" id="L82">public class CommonModuleConfiguration implements WebMvcConfigurer {</span>
+<span class="fc" id="L83">public class CommonModuleConfiguration implements WebMvcConfigurer {</span>
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-<span class="fc" id="L86">        registry.addInterceptor(localeChangeInterceptor());</span>
-<span class="fc" id="L87">    }</span>
+<span class="fc" id="L87">        registry.addInterceptor(localeChangeInterceptor());</span>
+<span class="fc" id="L88">    }</span>
+
+    public @Bean RestTemplate restTemplate(RestTemplateBuilder builder) {
+<span class="fc" id="L91">        return builder.build();</span>
+    }
 
     @RefreshScope
     @Bean MeterRegistryCustomizer&lt;MeterRegistry&gt; metricsCommonTags(@Value(&quot;${spring.application.name}&quot;) String applicationName) {
-<span class="fc" id="L91">        return registry -&gt; registry.config().commonTags(&quot;application&quot;, applicationName);</span>
+<span class="fc" id="L96">        return registry -&gt; registry.config().commonTags(&quot;application&quot;, applicationName);</span>
     }
 
     public @Bean LocaleResolver localeResolver() {
-<span class="fc" id="L95">        var slr = new SessionLocaleResolver();</span>
-<span class="fc" id="L96">        slr.setDefaultLocale(Locale.US);</span>
-<span class="fc" id="L97">        return slr;</span>
+<span class="fc" id="L100">        var slr = new SessionLocaleResolver();</span>
+<span class="fc" id="L101">        slr.setDefaultLocale(Locale.US);</span>
+<span class="fc" id="L102">        return slr;</span>
     }
 
     public @Bean LocaleChangeInterceptor localeChangeInterceptor() {
-<span class="fc" id="L101">        var lci = new LocaleChangeInterceptor();</span>
-<span class="fc" id="L102">        lci.setParamName(&quot;lang&quot;);</span>
-<span class="fc" id="L103">        return lci;</span>
+<span class="fc" id="L106">        var lci = new LocaleChangeInterceptor();</span>
+<span class="fc" id="L107">        lci.setParamName(&quot;lang&quot;);</span>
+<span class="fc" id="L108">        return lci;</span>
     }
 
     public @Bean Translator translator() {
-<span class="fc" id="L107">        return new AbstractSpringTranslator() {</span>
+<span class="fc" id="L112">        return new AbstractSpringTranslator() {</span>
             @Override
             protected MessageSource getMessageSource() {
-<span class="fc" id="L110">                return messageSource();</span>
+<span class="fc" id="L115">                return messageSource();</span>
             }
         };
     }
 
     public @Bean MessageSource messageSource() {
-<span class="fc" id="L116">        var nrrbm = new NestedReloadableResourceBundleMessageSource();</span>
-<span class="fc" id="L117">        nrrbm.setBasenames(</span>
+<span class="fc" id="L121">        var nrrbm = new NestedReloadableResourceBundleMessageSource();</span>
+<span class="fc" id="L122">        nrrbm.setBasenames(</span>
                 &quot;classpath:META-INF/i18n/common&quot;,
                 &quot;classpath:META-INF/i18n/common-val&quot;
         );
-<span class="fc" id="L121">        nrrbm.setDefaultEncoding(&quot;UTF-8&quot;);</span>
-<span class="fc" id="L122">        nrrbm.setCommonMessages(new Properties());</span>
-<span class="fc" id="L123">        return nrrbm;</span>
+<span class="fc" id="L126">        nrrbm.setDefaultEncoding(&quot;UTF-8&quot;);</span>
+<span class="fc" id="L127">        nrrbm.setCommonMessages(new Properties());</span>
+<span class="fc" id="L128">        return nrrbm;</span>
     }
 
     @Profile(SpringProfiles.DEVELOPMENT_PROFILE)
     public @Bean Filter corsFiler() {
-<span class="nc" id="L128">        return new CorsFilter(new PermitAllCorsConfigurationSource());</span>
+<span class="nc" id="L133">        return new CorsFilter(new PermitAllCorsConfigurationSource());</span>
     }
 
     /*~ ------------- Request ID handling ----------- */
     public @Bean IDGenerator&lt;String&gt; uuidGenerator() {
-<span class="fc" id="L133">        return new JdkIDGenerator();</span>
+<span class="fc" id="L138">        return new JdkIDGenerator();</span>
     }
 
     public @Bean FilterRegistrationBean&lt;RequestIDFilter&gt; requestIDFilter(IDGenerator&lt;String&gt; uuidGenerator) {
-<span class="fc" id="L137">        var frb = new FilterRegistrationBean&lt;&gt;(new RequestIDFilter(uuidGenerator));</span>
-<span class="fc" id="L138">        frb.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);</span>
-<span class="fc" id="L139">        return frb;</span>
+<span class="fc" id="L142">        var frb = new FilterRegistrationBean&lt;&gt;(new RequestIDFilter(uuidGenerator));</span>
+        //frb.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
+<span class="fc" id="L144">        return frb;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
