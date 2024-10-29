@@ -141,7 +141,9 @@ class LocationControllerDocumentation {
                                 fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to")
                         ),
                         responseFields(
-                                fieldWithPath("links[].*").ignored(),
+                                fieldWithPath("_links").description("An array with hyperlinks to corresponding resources"),
+                                fieldWithPath("_links.location-findbypkey").description("A link to get the resource by persistent key"),
+                                fieldWithPath("_links.location-findbypkey.*").ignored(),
                                 fieldWithPath("ol").ignored(),
                                 fieldWithPath("pKey").description("The persistent technical key of the Location"),
                                 fieldWithPath("locationId").description("Unique natural key"),
@@ -239,7 +241,9 @@ class LocationControllerDocumentation {
                                 fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to")
                         ),
                         responseFields(
-                                fieldWithPath("links[].*").ignored(),
+                                fieldWithPath("_links").description("An array with hyperlinks to corresponding resources"),
+                                fieldWithPath("_links.location-findbypkey").description("A link to get the resource by persistent key"),
+                                fieldWithPath("_links.location-findbypkey.*").ignored(),
                                 fieldWithPath("ol").ignored(),
                                 fieldWithPath("pKey").description("The persistent technical key of the Location"),
                                 fieldWithPath("locationId").description("Unique natural key"),

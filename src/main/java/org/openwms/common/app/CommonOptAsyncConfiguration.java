@@ -88,6 +88,7 @@ class CommonOptAsyncConfiguration {
             ObjectProvider<MessageConverter> messageConverter,
             @Autowired(required = false) RabbitTemplateConfigurable rabbitTemplateConfigurable) {
         var rabbitTemplate = new RabbitTemplate(connectionFactory);
+        rabbitTemplate.setObservationEnabled(true);
         var backOffPolicy = new ExponentialBackOffPolicy();
         backOffPolicy.setMultiplier(2);
         backOffPolicy.setMaxInterval(15000);

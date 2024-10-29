@@ -80,15 +80,17 @@ class AccountControllerDocumentation {
     @Test void shall_findByPKey() throws Exception {
         mockMvc.perform(get(API_ACCOUNTS + "/1000"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.links[0].rel", is("accounts-findbypkey")))
-                .andExpect(jsonPath("$.links[0].href").exists())
+//                .andExpect(jsonPath("$.links[0].rel", is("accounts-findbypkey")))
+//                .andExpect(jsonPath("$.links[0].href").exists())
                 .andExpect(jsonPath("$.pKey", is("1000")))
                 .andExpect(jsonPath("$.identifier", is("D")))
                 .andExpect(jsonPath("$.name", is("Default")))
                 .andDo(document("acc-find-byPKey",
                     preprocessResponse(prettyPrint()),
                     responseFields(
-                            fieldWithPath("links[].*").ignored(),
+                            fieldWithPath("_links").description("An array with hyperlinks to corresponding resources"),
+                            fieldWithPath("_links.accounts-findbypkey").description("A link to get the resource by persistent key"),
+                            fieldWithPath("_links.accounts-findbypkey.*").ignored(),
                             fieldWithPath("pKey").description("The persistent technical key of the Account"),
                             fieldWithPath("identifier").description("Unique natural key"),
                             fieldWithPath("name").description("Unique Account name")
