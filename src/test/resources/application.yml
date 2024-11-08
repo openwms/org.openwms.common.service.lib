@@ -41,9 +41,6 @@ feign:
   httpclient:
     connection-timeout: 30000
     connection-timer-repeat: 30000
-ribbon:
-  connectTimeout: 30000
-  ReadTimeout: 30000
 
 owms:
   common:
@@ -222,11 +219,6 @@ spring:
     show-sql: false
   main:
     banner-mode: "off"
-  zipkin:
-    enabled: false
-    discovery-client-enabled: false
-    sender:
-      type: rabbit
 
 ---
 spring:
@@ -265,8 +257,3 @@ spring:
       ddl-auto: update
   main:
     banner-mode: "off"
-  zipkin:
-    enabled: false
-    discovery-client-enabled: false
-    sender:
-      type: rabbit
