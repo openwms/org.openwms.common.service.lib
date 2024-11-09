@@ -36,7 +36,7 @@ import java.util.Objects;
 @Embeddable
 public class Barcode implements Serializable {
 
-    /** Length of a Barcode field. */
+    /** Length of a standard 1D Barcode field. */
     public static final int BARCODE_LENGTH = 20;
 
     /**
