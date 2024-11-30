@@ -27,7 +27,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 /**
- * A LocationRegistrationCommandListener.
+ * A LocationRegistrationCommandListener registers service instances that needs to be considered as voters on Location changes.
  *
  * @author Heiko Scherrer
  */
