@@ -142,48 +142,27 @@ public class LocationMapperImpl implements LocationMapper {
     }
 
     private String eoAccountIdentifier(Location location) {
-<span class="pc bpc" id="L145" title="1 of 2 branches missed.">        if ( location == null ) {</span>
-<span class="nc" id="L146">            return null;</span>
+<span class="fc" id="L145">        Account account = location.getAccount();</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        if ( account == null ) {</span>
+<span class="fc" id="L147">            return null;</span>
         }
-<span class="fc" id="L148">        Account account = location.getAccount();</span>
-<span class="fc bfc" id="L149" title="All 2 branches covered.">        if ( account == null ) {</span>
-<span class="fc" id="L150">            return null;</span>
-        }
-<span class="fc" id="L152">        String identifier = account.getIdentifier();</span>
-<span class="pc bpc" id="L153" title="1 of 2 branches missed.">        if ( identifier == null ) {</span>
-<span class="nc" id="L154">            return null;</span>
-        }
-<span class="fc" id="L156">        return identifier;</span>
+<span class="fc" id="L149">        return account.getIdentifier();</span>
     }
 
     private String eoLocationTypeType(Location location) {
-<span class="pc bpc" id="L160" title="1 of 2 branches missed.">        if ( location == null ) {</span>
-<span class="nc" id="L161">            return null;</span>
+<span class="fc" id="L153">        LocationType locationType = location.getLocationType();</span>
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">        if ( locationType == null ) {</span>
+<span class="nc" id="L155">            return null;</span>
         }
-<span class="fc" id="L163">        LocationType locationType = location.getLocationType();</span>
-<span class="pc bpc" id="L164" title="1 of 2 branches missed.">        if ( locationType == null ) {</span>
-<span class="nc" id="L165">            return null;</span>
-        }
-<span class="fc" id="L167">        String type = locationType.getType();</span>
-<span class="pc bpc" id="L168" title="1 of 2 branches missed.">        if ( type == null ) {</span>
-<span class="nc" id="L169">            return null;</span>
-        }
-<span class="fc" id="L171">        return type;</span>
+<span class="fc" id="L157">        return locationType.getType();</span>
     }
 
     private String eoLocationGroupName(Location location) {
-<span class="pc bpc" id="L175" title="1 of 2 branches missed.">        if ( location == null ) {</span>
-<span class="nc" id="L176">            return null;</span>
+<span class="fc" id="L161">        LocationGroup locationGroup = location.getLocationGroup();</span>
+<span class="pc bpc" id="L162" title="1 of 2 branches missed.">        if ( locationGroup == null ) {</span>
+<span class="nc" id="L163">            return null;</span>
         }
-<span class="fc" id="L178">        LocationGroup locationGroup = location.getLocationGroup();</span>
-<span class="pc bpc" id="L179" title="1 of 2 branches missed.">        if ( locationGroup == null ) {</span>
-<span class="nc" id="L180">            return null;</span>
-        }
-<span class="fc" id="L182">        String name = locationGroup.getName();</span>
-<span class="pc bpc" id="L183" title="1 of 2 branches missed.">        if ( name == null ) {</span>
-<span class="nc" id="L184">            return null;</span>
-        }
-<span class="fc" id="L186">        return name;</span>
+<span class="fc" id="L165">        return locationGroup.getName();</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

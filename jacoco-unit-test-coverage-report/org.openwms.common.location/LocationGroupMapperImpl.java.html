@@ -82,46 +82,32 @@ import org.springframework.stereotype.Component;
     }
 
     private String eoAccountIdentifier(LocationGroup locationGroup) {
-<span class="nc bnc" id="L85" title="All 2 branches missed.">        if ( locationGroup == null ) {</span>
-<span class="nc" id="L86">            return null;</span>
+<span class="nc" id="L85">        Account account = locationGroup.getAccount();</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if ( account == null ) {</span>
+<span class="nc" id="L87">            return null;</span>
         }
-<span class="nc" id="L88">        Account account = locationGroup.getAccount();</span>
-<span class="nc bnc" id="L89" title="All 2 branches missed.">        if ( account == null ) {</span>
-<span class="nc" id="L90">            return null;</span>
-        }
-<span class="nc" id="L92">        String identifier = account.getIdentifier();</span>
-<span class="nc bnc" id="L93" title="All 2 branches missed.">        if ( identifier == null ) {</span>
-<span class="nc" id="L94">            return null;</span>
-        }
-<span class="nc" id="L96">        return identifier;</span>
+<span class="nc" id="L89">        return account.getIdentifier();</span>
     }
 
     private String eoParentName(LocationGroup locationGroup) {
-<span class="nc bnc" id="L100" title="All 2 branches missed.">        if ( locationGroup == null ) {</span>
-<span class="nc" id="L101">            return null;</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        if ( !locationGroup.hasParent() ) {</span>
+<span class="nc" id="L94">            return null;</span>
         }
-<span class="nc bnc" id="L103" title="All 2 branches missed.">        if ( !locationGroup.hasParent() ) {</span>
-<span class="nc" id="L104">            return null;</span>
-        }
-<span class="nc" id="L106">        LocationGroup parent = locationGroup.getParent();</span>
-<span class="nc" id="L107">        String name = parent.getName();</span>
-<span class="nc bnc" id="L108" title="All 2 branches missed.">        if ( name == null ) {</span>
-<span class="nc" id="L109">            return null;</span>
-        }
-<span class="nc" id="L111">        return name;</span>
+<span class="nc" id="L96">        LocationGroup parent = locationGroup.getParent();</span>
+<span class="nc" id="L97">        return parent.getName();</span>
     }
 
     protected List&lt;LocationGroupVO&gt; locationGroupSetToLocationGroupVOList(Set&lt;LocationGroup&gt; set) {
-<span class="nc bnc" id="L115" title="All 2 branches missed.">        if ( set == null ) {</span>
-<span class="nc" id="L116">            return null;</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if ( set == null ) {</span>
+<span class="nc" id="L102">            return null;</span>
         }
 
-<span class="nc" id="L119">        List&lt;LocationGroupVO&gt; list = new ArrayList&lt;LocationGroupVO&gt;( set.size() );</span>
-<span class="nc bnc" id="L120" title="All 2 branches missed.">        for ( LocationGroup locationGroup : set ) {</span>
-<span class="nc" id="L121">            list.add( convertToVO( locationGroup ) );</span>
-<span class="nc" id="L122">        }</span>
+<span class="nc" id="L105">        List&lt;LocationGroupVO&gt; list = new ArrayList&lt;LocationGroupVO&gt;( set.size() );</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        for ( LocationGroup locationGroup : set ) {</span>
+<span class="nc" id="L107">            list.add( convertToVO( locationGroup ) );</span>
+<span class="nc" id="L108">        }</span>
 
-<span class="nc" id="L124">        return list;</span>
+<span class="nc" id="L110">        return list;</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

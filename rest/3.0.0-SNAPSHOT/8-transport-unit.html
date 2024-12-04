@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.17">
+<meta name="generator" content="Asciidoctor 2.0.23">
 <title>TransportUnit</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -84,10 +84,10 @@ code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;
 ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
 ul,ol{margin-left:1.5em}
 ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
-ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
-ul.square{list-style-type:square}
 ul.circle{list-style-type:circle}
 ul.disc{list-style-type:disc}
+ul.square{list-style-type:square}
+ul.circle ul:not([class]),ul.disc ul:not([class]),ul.square ul:not([class]){list-style:inherit}
 ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
 dl dt{margin-bottom:.3125em;font-weight:bold}
 dl dd{margin-bottom:1.25em}
@@ -140,7 +140,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #content::before{content:none}
 #header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
 #header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
-#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
 #header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
 #header .details span:first-child{margin-left:-.125em}
 #header .details span.email a{color:rgba(0,0,0,.85)}
@@ -162,6 +162,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
 #toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
@@ -208,13 +209,10 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
 .admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
 .exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
-.exampleblock>.content>:first-child{margin-top:0}
-.exampleblock>.content>:last-child{margin-bottom:0}
 .sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
-.sidebarblock>:first-child{margin-top:0}
-.sidebarblock>:last-child{margin-bottom:0}
 .sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
-.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
 .literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
 @media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
 @media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
@@ -330,7 +328,7 @@ a.image{text-decoration:none;display:inline-block}
 a.image object{pointer-events:none}
 sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
 sup.footnote a,sup.footnoteref a{text-decoration:none}
-sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
 #footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
@@ -393,7 +391,7 @@ b.conum *{color:inherit!important}
 dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
 h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
 p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
-p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
+p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
 p{margin-bottom:1.25rem}
 .sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
 .exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
@@ -557,14 +555,14 @@ newly created resource as HTTP <code>Location</code> header attribute</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/02c02ec9-12c3-4cfd-b9ef-317bfeab9d66
+Location: http://localhost:8080/v1/transport-units/4909e7a8-0f88-4ed5-8ba6-7c247e30b878
 Content-Type: application/vnd.openwms.transport-unit-v1+json
 Content-Length: 1522
 
 {
   "_links" : {
     "self" : {
-      "href" : "http://localhost:8080/v1/transport-units/02c02ec9-12c3-4cfd-b9ef-317bfeab9d66"
+      "href" : "http://localhost:8080/v1/transport-units/4909e7a8-0f88-4ed5-8ba6-7c247e30b878"
     },
     "transport-unit-type" : {
       "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
@@ -574,14 +572,14 @@ Content-Length: 1522
     }
   },
   "ol" : 0,
-  "createDt" : "2024-12-03T17:50:38.922164302Z",
-  "lastModifiedDt" : "2024-12-03T17:50:38.922164302Z",
-  "pKey" : "02c02ec9-12c3-4cfd-b9ef-317bfeab9d66",
+  "createDt" : "2024-12-04T13:44:33.676328723Z",
+  "lastModifiedDt" : "2024-12-04T13:44:33.676328723Z",
+  "pKey" : "4909e7a8-0f88-4ed5-8ba6-7c247e30b878",
   "barcode" : "00000000000000004710",
   "actualLocation" : {
     "ol" : 30,
-    "createDt" : "2024-12-03T17:50:38.876372000Z",
-    "lastModifiedDt" : "2024-12-03T17:50:38.925742901Z",
+    "createDt" : "2024-12-04T13:44:33.617713000Z",
+    "lastModifiedDt" : "2024-12-04T13:44:33.680761669Z",
     "pKey" : "113646454019",
     "locationId" : "EXT_/0000/0000/0000/0000",
     "accountId" : "D",
@@ -597,7 +595,7 @@ Content-Length: 1522
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-12-03T17:50:38.876372000Z",
+    "createDt" : "2024-12-04T13:44:33.617713000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -610,7 +608,7 @@ Content-Length: 1522
     "unitType" : [ "org.openwms.core.units.api.WeightUnit", "G" ],
     "magnitude" : 0
   },
-  "actualLocationDate" : "2024-12-03T17:50:38.919857474Z"
+  "actualLocationDate" : "2024-12-04T13:44:33.672986295Z"
 }</code></pre>
 </div>
 </div>
@@ -664,7 +662,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/v1/transport-units/0424cb30-eb48-41e9-b3d1-bb1ce8f10801</code></pre>
+Location: http://localhost:8080/v1/transport-units/51b9c4e0-83fe-45b0-82b1-107548d898b8</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -754,14 +752,14 @@ Content-Length: 1301
     }
   },
   "ol" : 2,
-  "createDt" : "2024-12-03T17:50:39.706209000Z",
-  "lastModifiedDt" : "2024-12-03T17:50:39.754180404Z",
+  "createDt" : "2024-12-04T13:44:34.647032000Z",
+  "lastModifiedDt" : "2024-12-04T13:44:34.698528552Z",
   "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
     "ol" : 13,
-    "createDt" : "2024-12-03T17:50:39.706209000Z",
-    "lastModifiedDt" : "2024-12-03T17:50:39.754396889Z",
+    "createDt" : "2024-12-04T13:44:34.647032000Z",
+    "lastModifiedDt" : "2024-12-04T13:44:34.698818191Z",
     "pKey" : "896384899357",
     "locationId" : "FGIN/0001/LEFT/0000/0000",
     "accountId" : "D",
@@ -777,7 +775,7 @@ Content-Length: 1301
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-12-03T17:50:39.706209000Z",
+    "createDt" : "2024-12-04T13:44:34.647032000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -785,7 +783,7 @@ Content-Length: 1301
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-12-03T17:50:39.749575794Z"
+  "actualLocationDate" : "2024-12-04T13:44:34.693567403Z"
 }</code></pre>
 </div>
 </div>
@@ -877,14 +875,14 @@ Content-Length: 1301
     }
   },
   "ol" : 2,
-  "createDt" : "2024-12-03T17:50:39.117657000Z",
-  "lastModifiedDt" : "2024-12-03T17:50:39.183603206Z",
+  "createDt" : "2024-12-04T13:44:33.918702000Z",
+  "lastModifiedDt" : "2024-12-04T13:44:33.991591633Z",
   "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
     "ol" : 13,
-    "createDt" : "2024-12-03T17:50:39.117657000Z",
-    "lastModifiedDt" : "2024-12-03T17:50:39.183781050Z",
+    "createDt" : "2024-12-04T13:44:33.918702000Z",
+    "lastModifiedDt" : "2024-12-04T13:44:33.991780584Z",
     "pKey" : "896384899357",
     "locationId" : "FGIN/0001/LEFT/0000/0000",
     "accountId" : "D",
@@ -900,7 +898,7 @@ Content-Length: 1301
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-12-03T17:50:39.117657000Z",
+    "createDt" : "2024-12-04T13:44:33.918702000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -908,7 +906,7 @@ Content-Length: 1301
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-12-03T17:50:39.182570493Z"
+  "actualLocationDate" : "2024-12-04T13:44:33.990285814Z"
 }</code></pre>
 </div>
 </div>
@@ -1168,12 +1166,12 @@ Content-Length: 1181
     }
   },
   "ol" : 1,
-  "createDt" : "2024-12-03T17:50:39.433303000Z",
+  "createDt" : "2024-12-04T13:44:34.325488000Z",
   "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
     "ol" : 29,
-    "createDt" : "2024-12-03T17:50:39.433303000Z",
+    "createDt" : "2024-12-04T13:44:34.325488000Z",
     "pKey" : "113646454019",
     "locationId" : "EXT_/0000/0000/0000/0000",
     "accountId" : "D",
@@ -1189,7 +1187,7 @@ Content-Length: 1181
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-12-03T17:50:39.433303000Z",
+    "createDt" : "2024-12-04T13:44:34.325488000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -1197,7 +1195,7 @@ Content-Length: 1181
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-12-03T17:50:39.433303000Z"
+  "actualLocationDate" : "2024-12-04T13:44:34.325488000Z"
 }</code></pre>
 </div>
 </div>
@@ -1277,13 +1275,13 @@ Content-Length: 2421
     "href" : "http://localhost:8080/v1/locations?locationId=EXT_%2F0000%2F0000%2F0000%2F0000"
   } ],
   "ol" : 1,
-  "createDt" : "2024-12-03T17:50:38.574981000Z",
+  "createDt" : "2024-12-04T13:44:33.330889000Z",
   "pKey" : "1",
   "barcode" : "00000000000000004711",
   "actualLocation" : {
     "links" : [ ],
     "ol" : 29,
-    "createDt" : "2024-12-03T17:50:38.574981000Z",
+    "createDt" : "2024-12-04T13:44:33.330889000Z",
     "pKey" : "113646454019",
     "locationId" : "EXT_/0000/0000/0000/0000",
     "accountId" : "D",
@@ -1299,7 +1297,7 @@ Content-Length: 2421
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-12-03T17:50:38.574981000Z",
+    "createDt" : "2024-12-04T13:44:33.330889000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -1307,7 +1305,7 @@ Content-Length: 2421
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-12-03T17:50:38.574981000Z"
+  "actualLocationDate" : "2024-12-04T13:44:33.330889000Z"
 }, {
   "links" : [ {
     "rel" : "self",
@@ -1320,13 +1318,13 @@ Content-Length: 2421
     "href" : "http://localhost:8080/v1/locations?locationId=FGIN%2FIPNT%2F0001%2F0000%2F0000"
   } ],
   "ol" : 1,
-  "createDt" : "2024-12-03T17:50:38.574981000Z",
+  "createDt" : "2024-12-04T13:44:33.330889000Z",
   "pKey" : "2",
   "barcode" : "00000000000000004712",
   "actualLocation" : {
     "links" : [ ],
     "ol" : 30,
-    "createDt" : "2024-12-03T17:50:38.574981000Z",
+    "createDt" : "2024-12-04T13:44:33.330889000Z",
     "pKey" : "439649733836",
     "locationId" : "FGIN/IPNT/0001/0000/0000",
     "accountId" : "D",
@@ -1342,7 +1340,7 @@ Content-Length: 2421
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-12-03T17:50:38.574981000Z",
+    "createDt" : "2024-12-04T13:44:33.330889000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -1350,7 +1348,7 @@ Content-Length: 2421
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-12-03T17:50:38.574981000Z"
+  "actualLocationDate" : "2024-12-04T13:44:33.330889000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -1405,13 +1403,13 @@ Content-Length: 1213
     "href" : "http://localhost:8080/v1/locations?locationId=FGIN%2FIPNT%2F0001%2F0000%2F0000"
   } ],
   "ol" : 1,
-  "createDt" : "2024-12-03T17:50:39.823259000Z",
+  "createDt" : "2024-12-04T13:44:34.791805000Z",
   "pKey" : "2",
   "barcode" : "00000000000000004712",
   "actualLocation" : {
     "links" : [ ],
     "ol" : 30,
-    "createDt" : "2024-12-03T17:50:39.823259000Z",
+    "createDt" : "2024-12-04T13:44:34.791805000Z",
     "pKey" : "439649733836",
     "locationId" : "FGIN/IPNT/0001/0000/0000",
     "accountId" : "D",
@@ -1427,7 +1425,7 @@ Content-Length: 1213
   "state" : "AVAILABLE",
   "transportUnitType" : {
     "ol" : 0,
-    "createDt" : "2024-12-03T17:50:39.823259000Z",
+    "createDt" : "2024-12-04T13:44:34.791805000Z",
     "pKey" : "1000",
     "type" : "PALLET",
     "description" : "Euro pallet",
@@ -1435,7 +1433,7 @@ Content-Length: 1213
     "width" : "80",
     "length" : "120"
   },
-  "actualLocationDate" : "2024-12-03T17:50:39.823259000Z"
+  "actualLocationDate" : "2024-12-04T13:44:34.791805000Z"
 } ]</code></pre>
 </div>
 </div>
@@ -1490,7 +1488,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-12-03 17:46:54 UTC
+Last updated 2024-12-04 13:41:40 UTC
 </div>
 </div>
 </body>

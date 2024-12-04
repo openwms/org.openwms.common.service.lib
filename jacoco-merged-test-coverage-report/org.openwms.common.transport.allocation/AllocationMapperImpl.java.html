@@ -46,37 +46,23 @@ import org.springframework.stereotype.Component;
     }
 
     private String entityTransportUnitBarcodeValue(TransportUnitAllocation transportUnitAllocation) {
-<span class="nc bnc" id="L49" title="All 2 branches missed.">        if ( transportUnitAllocation == null ) {</span>
-<span class="nc" id="L50">            return null;</span>
+<span class="nc" id="L49">        TransportUnit transportUnit = transportUnitAllocation.getTransportUnit();</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if ( transportUnit == null ) {</span>
+<span class="nc" id="L51">            return null;</span>
         }
-<span class="nc" id="L52">        TransportUnit transportUnit = transportUnitAllocation.getTransportUnit();</span>
-<span class="nc bnc" id="L53" title="All 2 branches missed.">        if ( transportUnit == null ) {</span>
-<span class="nc" id="L54">            return null;</span>
+<span class="nc" id="L53">        Barcode barcode = transportUnit.getBarcode();</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if ( barcode == null ) {</span>
+<span class="nc" id="L55">            return null;</span>
         }
-<span class="nc" id="L56">        Barcode barcode = transportUnit.getBarcode();</span>
-<span class="nc bnc" id="L57" title="All 2 branches missed.">        if ( barcode == null ) {</span>
-<span class="nc" id="L58">            return null;</span>
-        }
-<span class="nc" id="L60">        String value = barcode.getValue();</span>
-<span class="nc bnc" id="L61" title="All 2 branches missed.">        if ( value == null ) {</span>
-<span class="nc" id="L62">            return null;</span>
-        }
-<span class="nc" id="L64">        return value;</span>
+<span class="nc" id="L57">        return barcode.getValue();</span>
     }
 
     private String entityActualLocationErpCode(TransportUnitAllocation transportUnitAllocation) {
-<span class="nc bnc" id="L68" title="All 2 branches missed.">        if ( transportUnitAllocation == null ) {</span>
-<span class="nc" id="L69">            return null;</span>
+<span class="nc" id="L61">        Location actualLocation = transportUnitAllocation.getActualLocation();</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if ( actualLocation == null ) {</span>
+<span class="nc" id="L63">            return null;</span>
         }
-<span class="nc" id="L71">        Location actualLocation = transportUnitAllocation.getActualLocation();</span>
-<span class="nc bnc" id="L72" title="All 2 branches missed.">        if ( actualLocation == null ) {</span>
-<span class="nc" id="L73">            return null;</span>
-        }
-<span class="nc" id="L75">        String erpCode = actualLocation.getErpCode();</span>
-<span class="nc bnc" id="L76" title="All 2 branches missed.">        if ( erpCode == null ) {</span>
-<span class="nc" id="L77">            return null;</span>
-        }
-<span class="nc" id="L79">        return erpCode;</span>
+<span class="nc" id="L65">        return actualLocation.getErpCode();</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

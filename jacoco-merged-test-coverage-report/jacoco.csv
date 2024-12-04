@@ -17,13 +17,13 @@ OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,StringListC
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationTypeController,0,125,0,0,0,20,0,10,0,10
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationController,52,625,2,9,4,90,6,25,4,20
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationType,2,100,2,4,0,29,2,15,0,14
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationMapperImpl,18,316,11,25,9,95,11,15,0,8
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationMapperImpl,6,298,5,19,3,86,5,15,0,8
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,Location.LocationBuilder,18,118,0,0,6,39,3,20,3,20
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,Message,2,84,2,8,0,19,2,12,0,9
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationGroup,54,505,32,60,8,113,29,66,2,47
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationGroup,54,503,32,60,8,112,29,66,2,47
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationPK,7,178,8,14,2,25,8,16,0,13
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,Message.Builder,0,15,0,0,0,5,0,3,0,3
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationGroupMapperImpl,16,196,9,23,8,56,9,14,0,7
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationGroupMapperImpl,8,184,5,19,4,50,5,14,0,7
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,Target,0,3,0,0,0,1,0,1,0,1
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationTypeMapperImpl,31,44,6,2,8,13,5,2,1,2
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,WorkflowApi,188,12,8,0,42,5,11,1,7,1
@@ -32,7 +32,7 @@ OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,Subsystem,3
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationTypeMapper,19,27,1,3,1,10,1,5,0,4
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationMapper,20,70,2,2,3,22,2,1,0,1
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,Location,21,353,7,15,1,91,6,54,0,49
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationGroupController,0,332,2,4,0,50,2,14,0,13
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,LocationGroupController,8,332,2,4,3,50,2,14,0,13
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location,TargetController,143,216,14,13,27,46,16,16,4,9
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.api.commands,MessageCommand,72,0,0,0,27,0,13,0,13,0
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.api.commands,TUCommand.Builder,0,16,0,0,0,6,0,3,0,3
@@ -100,7 +100,7 @@ OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.api,Transp
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.api,TransportUnitVO,167,80,24,0,17,34,18,20,6,20
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.allocation.api,AllocationVO.Builder,20,0,0,0,7,0,4,0,4,0
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.allocation.api,AllocationVO,40,0,0,0,15,0,8,0,8,0
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.allocation,AllocationMapperImpl,102,3,20,0,35,1,14,1,4,1
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.allocation,AllocationMapperImpl,82,3,12,0,25,1,10,1,4,1
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport.allocation,AllocationController,22,13,2,0,4,5,2,2,1,2
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,LocationRemovalManagerImpl,253,166,20,10,48,45,16,11,3,9
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.impl,LocationGroupStateConverterImpl,0,3,0,0,0,1,0,1,0,1
@@ -133,7 +133,7 @@ OpenWMS.org COMMON: Base Service Library,org.openwms.common.location.api.command
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TransportUnitMapper,0,7,0,0,0,3,0,2,0,2
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TransportUnitTypeMapperImpl,29,155,5,13,7,42,4,10,1,4
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TransportUnitType,2,321,2,4,0,81,2,37,0,36
-OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TransportUnitMapperImpl,65,282,23,19,20,74,22,7,1,7
+OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TransportUnitMapperImpl,57,270,19,15,16,68,18,7,1,7
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TypePlacingRule,2,108,3,9,0,23,3,12,0,9
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,UnitError.Builder,5,15,0,0,2,5,1,3,1,3
 OpenWMS.org COMMON: Base Service Library,org.openwms.common.transport,TransportUnit,19,355,9,17,1,93,9,49,2,43

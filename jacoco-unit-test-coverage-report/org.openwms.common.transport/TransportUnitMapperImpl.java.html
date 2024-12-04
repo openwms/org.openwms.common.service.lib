@@ -147,33 +147,19 @@ public class TransportUnitMapperImpl extends TransportUnitMapper {
     }
 
     private String eoBarcodeValue(TransportUnit transportUnit) {
-<span class="nc bnc" id="L150" title="All 2 branches missed.">        if ( transportUnit == null ) {</span>
-<span class="nc" id="L151">            return null;</span>
+<span class="nc" id="L150">        Barcode barcode = transportUnit.getBarcode();</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        if ( barcode == null ) {</span>
+<span class="nc" id="L152">            return null;</span>
         }
-<span class="nc" id="L153">        Barcode barcode = transportUnit.getBarcode();</span>
-<span class="nc bnc" id="L154" title="All 2 branches missed.">        if ( barcode == null ) {</span>
-<span class="nc" id="L155">            return null;</span>
-        }
-<span class="nc" id="L157">        String value = barcode.getValue();</span>
-<span class="nc bnc" id="L158" title="All 2 branches missed.">        if ( value == null ) {</span>
-<span class="nc" id="L159">            return null;</span>
-        }
-<span class="nc" id="L161">        return value;</span>
+<span class="nc" id="L154">        return barcode.getValue();</span>
     }
 
     private String eoTransportUnitTypeType(TransportUnit transportUnit) {
-<span class="nc bnc" id="L165" title="All 2 branches missed.">        if ( transportUnit == null ) {</span>
-<span class="nc" id="L166">            return null;</span>
+<span class="nc" id="L158">        TransportUnitType transportUnitType = transportUnit.getTransportUnitType();</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">        if ( transportUnitType == null ) {</span>
+<span class="nc" id="L160">            return null;</span>
         }
-<span class="nc" id="L168">        TransportUnitType transportUnitType = transportUnit.getTransportUnitType();</span>
-<span class="nc bnc" id="L169" title="All 2 branches missed.">        if ( transportUnitType == null ) {</span>
-<span class="nc" id="L170">            return null;</span>
-        }
-<span class="nc" id="L172">        String type = transportUnitType.getType();</span>
-<span class="nc bnc" id="L173" title="All 2 branches missed.">        if ( type == null ) {</span>
-<span class="nc" id="L174">            return null;</span>
-        }
-<span class="nc" id="L176">        return type;</span>
+<span class="nc" id="L162">        return transportUnitType.getType();</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
