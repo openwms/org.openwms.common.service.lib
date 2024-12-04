@@ -29,10 +29,10 @@ import org.openwms.common.location.api.LocationApiConstants;
 import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -73,7 +73,7 @@ class LocationControllerDocumentation {
     private ObjectMapper mapper;
     @Autowired
     private LocationService service;
-    @MockBean
+    @MockitoBean
     private AsyncTransactionApi transactionApi;
     private MockMvc mockMvc;
 
@@ -141,7 +141,9 @@ class LocationControllerDocumentation {
                                 fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to")
                         ),
                         responseFields(
-                                fieldWithPath("links[].*").ignored(),
+                                fieldWithPath("_links").description("An array with hyperlinks to corresponding resources"),
+                                fieldWithPath("_links.location-findbypkey").description("A link to get the resource by persistent key"),
+                                fieldWithPath("_links.location-findbypkey.*").ignored(),
                                 fieldWithPath("ol").ignored(),
                                 fieldWithPath("pKey").description("The persistent technical key of the Location"),
                                 fieldWithPath("locationId").description("Unique natural key"),
@@ -239,7 +241,9 @@ class LocationControllerDocumentation {
                                 fieldWithPath("locationGroupName").description("The LocationGroup the Location belongs to")
                         ),
                         responseFields(
-                                fieldWithPath("links[].*").ignored(),
+                                fieldWithPath("_links").description("An array with hyperlinks to corresponding resources"),
+                                fieldWithPath("_links.location-findbypkey").description("A link to get the resource by persistent key"),
+                                fieldWithPath("_links.location-findbypkey.*").ignored(),
                                 fieldWithPath("ol").ignored(),
                                 fieldWithPath("pKey").description("The persistent technical key of the Location"),
                                 fieldWithPath("locationId").description("Unique natural key"),

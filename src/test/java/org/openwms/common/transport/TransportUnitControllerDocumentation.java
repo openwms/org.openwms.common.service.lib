@@ -29,10 +29,10 @@ import org.openwms.common.transport.api.TransportUnitTypeVO;
 import org.openwms.common.transport.api.TransportUnitVO;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -46,6 +46,7 @@ import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPO
 import static org.openwms.common.transport.api.TransportApiConstants.API_TRANSPORT_UNITS;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -73,7 +74,7 @@ class TransportUnitControllerDocumentation {
     private TransportUnitService service;
     @Autowired
     private BarcodeGenerator generator;
-    @MockBean
+    @MockitoBean
     private AsyncTransactionApi transactionApi;
 
     @BeforeEach
@@ -93,13 +94,14 @@ class TransportUnitControllerDocumentation {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$._links.transport-unit-createtuwithbody").exists())
                 .andExpect(jsonPath("$._links.transport-unit-createtuwithparams").exists())
+                .andExpect(jsonPath("$._links.transport-unit-deletebypkey").exists())
                 .andExpect(jsonPath("$._links.transport-unit-findbypkey").exists())
                 .andExpect(jsonPath("$._links.transport-unit-findbybarcode").exists())
                 .andExpect(jsonPath("$._links.transport-unit-findbybarcodes").exists())
                 .andExpect(jsonPath("$._links.transport-unit-findonlocation").exists())
                 .andExpect(jsonPath("$._links.transport-unit-block").exists())
                 .andExpect(jsonPath("$._links.transport-unit-unblock").exists())
-                .andExpect(jsonPath("$._links.length()", is(9)))
+                .andExpect(jsonPath("$._links.length()", is(10)))
         ;
     }
 
@@ -195,6 +197,20 @@ class TransportUnitControllerDocumentation {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(document("tu-create-error", preprocessResponse(prettyPrint())))
                 .andExpect(status().isConflict())
+        ;
+    }
+
+    @Test void shall_delete_existing() throws Exception {
+        mockMvc.perform(delete(API_TRANSPORT_UNITS + "/" + TU_1_PKEY))
+                .andDo(document("tu-delete-ok", preprocessResponse(prettyPrint())))
+                .andExpect(status().isNoContent())
+        ;
+    }
+
+    @Test void shall_delete_not_existing() throws Exception {
+        mockMvc.perform(delete(API_TRANSPORT_UNITS + "/UNKNOWN"))
+                .andDo(document("tu-delete-404", preprocessResponse(prettyPrint())))
+                .andExpect(status().isNotFound())
         ;
     }
 

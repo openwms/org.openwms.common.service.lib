@@ -25,10 +25,10 @@ import org.openwms.common.transport.spi.TransportUnitMoveApproval;
 import org.openwms.common.transport.spi.TransportUnitStateChangeApproval;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -62,7 +62,7 @@ class TransportUnitControllerWithMocksDocumentation {
     private MockMvc mockMvc;
     @Autowired
     private TransportUnitService service;
-    @MockBean
+    @MockitoBean
     private AsyncTransactionApi transactionApi;
 
     @BeforeEach
@@ -129,7 +129,7 @@ class TransportUnitControllerWithMocksDocumentation {
                 .when(moveApproval)
                 .approve(any(), any());
 
-        assertThat(tu.getActualLocation().getLocationId().toString()).isEqualTo(LOCATION_ID_EXT);
+        assertThat(tu.getActualLocation().getLocationId()).hasToString(LOCATION_ID_EXT);
 
         // act
         mockMvc.perform(patch(API_TRANSPORT_UNITS)
@@ -147,6 +147,6 @@ class TransportUnitControllerWithMocksDocumentation {
 
         // assert
         tu = service.findByBarcode(TU_1_ID);
-        assertThat(tu.getActualLocation().getLocationId().toString()).isEqualTo(LOCATION_ID_EXT);
+        assertThat(tu.getActualLocation().getLocationId()).hasToString(LOCATION_ID_EXT);
     }
 }

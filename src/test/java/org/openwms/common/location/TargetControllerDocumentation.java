@@ -25,8 +25,8 @@ import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.location.api.LocationGroupMode;
 import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -57,7 +57,7 @@ class TargetControllerDocumentation {
     private WebApplicationContext context;
     @Autowired
     private LocationGroupService locationGroupService;
-    @MockBean
+    @MockitoBean
     private AsyncTransactionApi transactionApi;
     private MockMvc mockMvc;
 

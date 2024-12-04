@@ -22,9 +22,9 @@ import org.openwms.common.location.LocationType;
 import org.openwms.common.location.LocationTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Collections;
 import java.util.List;
@@ -53,7 +53,7 @@ class LocationTypeServiceImplIT {
 
     @Autowired
     private LocationTypeService testee;
-    @MockBean
+    @MockitoBean
     private Translator translator;
 
     @Test void findAll() {

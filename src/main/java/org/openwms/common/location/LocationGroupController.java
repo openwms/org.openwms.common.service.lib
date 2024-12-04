@@ -26,6 +26,7 @@ import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.LocationGroupVO;
 import org.openwms.common.location.api.ValidationGroups;
+import org.openwms.core.SpringProfiles;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -55,7 +56,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  *
  * @author Heiko Scherrer
  */
-@Profile("!INMEM")
+@Profile("!" + SpringProfiles.IN_MEMORY)
 @Validated
 @RefreshScope
 @MeasuredRestController
@@ -126,15 +127,20 @@ public class LocationGroupController extends AbstractWebController {
     @Transactional(readOnly = true)
     @GetMapping(API_LOCATION_GROUPS)
     public List<LocationGroupVO> findAll() {
-        var result = mapper.convertToVO(locationGroupService.findAll());
-        result.forEach(lg -> {
-                    if (lg.hasParent()) {
-                        lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class)
-                                .findByName(lg.getParent())).withRel(PARENT)));
+        try {
+            var result = mapper.convertToVO(locationGroupService.findAll());
+            result.forEach(lg -> {
+                        if (lg.hasParent()) {
+                            lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class)
+                                    .findByName(lg.getParent())).withRel(PARENT)));
+                        }
                     }
-                }
-        );
-        return result;
+            );
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     @PatchMapping(value = API_LOCATION_GROUPS, params = {"name", "op=change-state"})

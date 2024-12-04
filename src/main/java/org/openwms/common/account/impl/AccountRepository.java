@@ -25,7 +25,7 @@ import java.util.Optional;
  *
  * @author Heiko Scherrer
  */
-public interface AccountRepository extends JpaRepository<Account, Long> {
+interface AccountRepository extends JpaRepository<Account, Long> {
 
     Optional<Account> findBypKey(String persistentKey);
 

@@ -17,7 +17,7 @@ package org.openwms.common;
 
 import org.junit.jupiter.api.Test;
 import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @CommonApplicationTest
 class RunSchemaGenerationTest {
 
-    @MockBean
+    @MockitoBean
     private AsyncTransactionApi transactionApi;
 
     @Test

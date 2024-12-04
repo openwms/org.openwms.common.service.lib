@@ -44,5 +44,4 @@ class CommonSecurityConfiguration {
             .addFilter(new CorsFilter(new PermitAllCorsConfigurationSource()));
         return http.build();
     }
-
 }

@@ -36,17 +36,11 @@ spring:
       date-time: "yyyy-MM-dd'T'HH:mm:ssXXX" # Must match the pattern how of @JsonFormat field annotation patterns
       date: yyyy-MM-dd
       time: HH:mm:ss
-  zipkin:
-    sender:
-      type: web
 
 feign:
   httpclient:
     connection-timeout: 30000
     connection-timer-repeat: 30000
-ribbon:
-  connectTimeout: 30000
-  ReadTimeout: 30000
 
 owms:
   common:
@@ -59,6 +53,8 @@ owms:
   srv:
     hostname: localhost
     protocol: http
+  tracing:
+    url: http://localhost:4317
 
 server:
   port: ${PORT:8120}
@@ -166,6 +162,11 @@ owms:
         exchange-name: common.tu
       tut:
         exchange-name: common.tu
+    shipping:
+      exchange-name: shipping
+      split:
+        queue-name: common-split-queue
+        routing-key: split.event.created
 
 ---
 # Might run in standalone or distributed environment
@@ -218,11 +219,6 @@ spring:
     show-sql: false
   main:
     banner-mode: "off"
-  zipkin:
-    enabled: false
-    discovery-client-enabled: false
-    sender:
-      type: rabbit
 
 ---
 spring:
@@ -261,8 +257,3 @@ spring:
       ddl-auto: update
   main:
     banner-mode: "off"
-  zipkin:
-    enabled: false
-    discovery-client-enabled: false
-    sender:
-      type: rabbit

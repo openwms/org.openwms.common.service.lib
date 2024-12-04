@@ -22,8 +22,8 @@ import org.openwms.common.CommonApplicationTest;
 import org.openwms.common.CommonMessageCodes;
 import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,7 +52,7 @@ class AccountControllerDocumentation {
     private MockMvc mockMvc;
     @Autowired
     private EntityManager em;
-    @MockBean
+    @MockitoBean
     private AsyncTransactionApi transactionApi;
 
     @BeforeEach
@@ -80,15 +80,17 @@ class AccountControllerDocumentation {
     @Test void shall_findByPKey() throws Exception {
         mockMvc.perform(get(API_ACCOUNTS + "/1000"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.links[0].rel", is("accounts-findbypkey")))
-                .andExpect(jsonPath("$.links[0].href").exists())
+//                .andExpect(jsonPath("$.links[0].rel", is("accounts-findbypkey")))
+//                .andExpect(jsonPath("$.links[0].href").exists())
                 .andExpect(jsonPath("$.pKey", is("1000")))
                 .andExpect(jsonPath("$.identifier", is("D")))
                 .andExpect(jsonPath("$.name", is("Default")))
                 .andDo(document("acc-find-byPKey",
                     preprocessResponse(prettyPrint()),
                     responseFields(
-                            fieldWithPath("links[].*").ignored(),
+                            fieldWithPath("_links").description("An array with hyperlinks to corresponding resources"),
+                            fieldWithPath("_links.accounts-findbypkey").description("A link to get the resource by persistent key"),
+                            fieldWithPath("_links.accounts-findbypkey.*").ignored(),
                             fieldWithPath("pKey").description("The persistent technical key of the Account"),
                             fieldWithPath("identifier").description("Unique natural key"),
                             fieldWithPath("name").description("Unique Account name")

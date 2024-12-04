@@ -29,7 +29,7 @@ import org.openwms.common.location.LocationService;
 import org.openwms.common.location.LocationTypeService;
 import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Locale;
 
@@ -54,7 +54,7 @@ class LocationServiceImplIT extends TestBase {
     private LocationTypeService locationTypeService;
     @Autowired
     private LocationService testee;
-    @MockBean
+    @MockitoBean
     private AsyncTransactionApi transactionApi;
     @Autowired
     private EntityManager em;

@@ -34,7 +34,7 @@ import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.barcode.Barcode;
 import org.openwms.common.transport.barcode.BarcodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
@@ -59,7 +59,7 @@ class TransportUnitServiceImplIT {
     private TransportUnitService testee;
     @Autowired
     private BarcodeGenerator generator;
-    @MockBean
+    @MockitoBean
     private AsyncTransactionApi transactionApi;
 
     /**
