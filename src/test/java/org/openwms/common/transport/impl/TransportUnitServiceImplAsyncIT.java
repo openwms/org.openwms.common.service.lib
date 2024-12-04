@@ -26,9 +26,9 @@ import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
 import org.openwms.core.SpringProfiles;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,7 +47,7 @@ class TransportUnitServiceImplAsyncIT {
     private ApplicationEventPublisher publisher;
     @Autowired
     private TransportUnitService testee;
-    @MockBean
+    @MockitoBean
     private AsyncTransactionApi transactionApi;
     @Autowired
     private TransactionTemplate txTemplate;

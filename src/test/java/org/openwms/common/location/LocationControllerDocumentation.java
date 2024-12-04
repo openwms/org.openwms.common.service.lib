@@ -29,10 +29,10 @@ import org.openwms.common.location.api.LocationApiConstants;
 import org.openwms.common.location.api.LocationVO;
 import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -73,7 +73,7 @@ class LocationControllerDocumentation {
     private ObjectMapper mapper;
     @Autowired
     private LocationService service;
-    @MockBean
+    @MockitoBean
     private AsyncTransactionApi transactionApi;
     private MockMvc mockMvc;
 

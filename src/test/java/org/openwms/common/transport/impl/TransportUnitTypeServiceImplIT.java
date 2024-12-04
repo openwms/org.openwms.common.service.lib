@@ -26,7 +26,7 @@ import org.openwms.common.transport.TransportUnitType;
 import org.openwms.common.transport.TypePlacingRule;
 import org.openwms.common.transport.TypeStackingRule;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ class TransportUnitTypeServiceImplIT {
     private TransportUnitTypeServiceImpl service;
     @Autowired
     private EntityManager em;
-    @MockBean
+    @MockitoBean
     private AsyncTransactionApi transactionApi;
 
     @Test

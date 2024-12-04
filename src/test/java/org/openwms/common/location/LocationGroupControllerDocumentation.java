@@ -31,10 +31,10 @@ import org.openwms.common.location.api.LocationGroupState;
 import org.openwms.common.location.api.LocationGroupVO;
 import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -86,7 +86,7 @@ class LocationGroupControllerDocumentation {
     private EntityManager em;
     @Autowired
     private LocationGroupService service;
-    @MockBean
+    @MockitoBean
     private AsyncTransactionApi transactionApi;
     private MockMvc mockMvc;
     private RestDocumentationResultHandler documentationResultHandler;

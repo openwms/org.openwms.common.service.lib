@@ -127,15 +127,20 @@ public class LocationGroupController extends AbstractWebController {
     @Transactional(readOnly = true)
     @GetMapping(API_LOCATION_GROUPS)
     public List<LocationGroupVO> findAll() {
-        var result = mapper.convertToVO(locationGroupService.findAll());
-        result.forEach(lg -> {
-                    if (lg.hasParent()) {
-                        lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class)
-                                .findByName(lg.getParent())).withRel(PARENT)));
+        try {
+            var result = mapper.convertToVO(locationGroupService.findAll());
+            result.forEach(lg -> {
+                        if (lg.hasParent()) {
+                            lg.add(new SimpleLink(linkTo(methodOn(LocationGroupController.class)
+                                    .findByName(lg.getParent())).withRel(PARENT)));
+                        }
                     }
-                }
-        );
-        return result;
+            );
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     @PatchMapping(value = API_LOCATION_GROUPS, params = {"name", "op=change-state"})

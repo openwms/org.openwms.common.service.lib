@@ -15,9 +15,9 @@
  */
 package org.openwms.common.location;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
-import jakarta.persistence.MappedSuperclass;
 import org.ameba.integration.jpa.ApplicationEntity;
 
 /**
@@ -27,7 +27,7 @@ import org.ameba.integration.jpa.ApplicationEntity;
  * @GlossaryTerm
  * @author Heiko Scherrer
  */
-@MappedSuperclass
+@Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Target extends ApplicationEntity {
 }
