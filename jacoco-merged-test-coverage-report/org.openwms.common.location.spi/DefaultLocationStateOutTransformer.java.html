@@ -15,12 +15,13 @@
  */
 package org.openwms.common.location.spi;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Optional;
 
@@ -30,21 +31,22 @@ import java.util.Optional;
  * @author Heiko Scherrer
  */
 @Order(5)
+@Validated
 @Component
-<span class="fc" id="L34">class DefaultLocationStateOutTransformer implements ErrorCodeTransformers.LocationStateOut {</span>
+<span class="fc" id="L36">class DefaultLocationStateOutTransformer implements ErrorCodeTransformers.LocationStateOut {</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Optional&lt;Boolean&gt; available(@NotEmpty String errorCode) {
-<span class="fc" id="L41">        Assert.hasText(errorCode, &quot;ErrorCode must be applied&quot;);</span>
-<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (errorCode.charAt(ErrorCodeVO.STATE_OUT_POSITION) == 42 /* '*' */) {</span>
-<span class="fc" id="L43">            return Optional.empty();</span>
+    public Optional&lt;Boolean&gt; available(@NotBlank String errorCode) {
+<span class="fc" id="L43">        Assert.hasText(errorCode, &quot;ErrorCode must be applied&quot;);</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (errorCode.charAt(ErrorCodeVO.STATE_OUT_POSITION) == 42 /* '*' */) {</span>
+<span class="fc" id="L45">            return Optional.empty();</span>
         }
 
         // A Zero in the errorCode means no errors
-<span class="fc bfc" id="L47" title="All 2 branches covered.">        return Optional.of(errorCode.charAt(ErrorCodeVO.STATE_OUT_POSITION) == 48 /* 0 */);</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        return Optional.of(errorCode.charAt(ErrorCodeVO.STATE_OUT_POSITION) == 48 /* 0 */);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
