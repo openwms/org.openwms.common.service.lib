@@ -15,7 +15,6 @@
  */
 package org.openwms.common.location;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import org.ameba.integration.jpa.ApplicationEntity;
@@ -27,8 +26,7 @@ import org.ameba.integration.jpa.ApplicationEntity;
  * @GlossaryTerm
  * @author Heiko Scherrer
  */
-@Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-<span class="fc" id="L32">public abstract class Target extends ApplicationEntity {</span>
+<span class="fc" id="L30">public abstract class Target extends ApplicationEntity {</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

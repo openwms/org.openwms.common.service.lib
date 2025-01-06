@@ -195,7 +195,7 @@ public class LocationController extends AbstractWebController {
      * @param type The type of lock to apply to the Location
      * @param mode The mode to apply to the Locations lock
      */
-    @PostMapping(path = API_LOCATIONS , params = {&quot;erpCode&quot;, &quot;type!=PERMANENT_LOCK&quot;, &quot;mode&quot;})
+    @PostMapping(path = API_LOCATIONS , params = {&quot;erpCode&quot;, &quot;type&quot;, &quot;mode&quot;})
     public ResponseEntity&lt;Void&gt; changeState(
             @RequestParam(&quot;erpCode&quot;) String erpCode,
             @RequestParam(&quot;type&quot;) LockType type,
