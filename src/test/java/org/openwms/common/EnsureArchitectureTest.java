@@ -19,11 +19,10 @@ import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchIgnore;
 import com.tngtech.archunit.junit.ArchTest;
+import com.tngtech.archunit.junit.CacheMode;
 import com.tngtech.archunit.lang.ArchRule;
-import org.slf4j.Logger;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
-import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.fields;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices;
 
@@ -32,16 +31,26 @@ import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.sli
  *
  * @author Heiko Scherrer
  */
-@AnalyzeClasses(packages = "org.openwms.common", importOptions = {ImportOption.DoNotIncludeTests.class})
+@AnalyzeClasses(packages = "org.openwms", cacheMode = CacheMode.PER_CLASS, importOptions = {
+        ImportOption.DoNotIncludeTests.class,
+        ImportOption.DoNotIncludeJars.class,
+        ImportOption.DoNotIncludeArchives.class
+})
 class EnsureArchitectureTest {
 
     @ArchTest
-    public static final ArchRule verify_logger_definition =
-            fields().that().haveRawType(Logger.class)
-                    .should().bePrivate()
-                    .andShould().beStatic()
-                    .andShould().beFinal()
-                    .because("This a an agreed convention")
+    public static final ArchRule verify_account_api_package =
+            classes().that()
+                    .resideInAPackage("..account.api..")
+                    .should()
+                    .onlyDependOnClassesThat()
+                    .resideInAnyPackage("..account.api..",
+                            "org.ameba..",
+                            "org.openwms.core..",
+                            "java..", "javax..", "jakarta..",
+                            "org.springframework..",
+                            "com..")
+                    .because("The API package is separated and the only package accessible by the client")
             ;
 
     @ArchTest

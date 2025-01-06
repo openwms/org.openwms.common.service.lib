@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>27</version>
+        <version>27.1</version>
         <relativePath/>
     </parent>
     <artifactId>org.openwms.common.service.lib</artifactId>
@@ -34,6 +34,7 @@
     </developers>
 
     <properties>
+        <core.test.arch.version>1.0.0-SNAPSHOT</core.test.arch.version>
         <core.units.version>0.7.0-SNAPSHOT</core.units.version>
         <core.version>3.0.0-SNAPSHOT</core.version>
         <guava.version>32.0.0-jre</guava.version>
@@ -161,6 +162,11 @@
                 <version>${core.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.openwms</groupId>
+                <artifactId>org.openwms.core.test.arch</artifactId>
+                <version>${core.test.arch.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud-dependencies.version}</version>
@@ -182,7 +188,11 @@
             <artifactId>org.openwms.core.util</artifactId>
             <optional>true</optional>
         </dependency>
-
+        <dependency>
+            <groupId>org.openwms</groupId>
+            <artifactId>org.openwms.core.test.arch</artifactId>
+            <scope>test</scope>
+        </dependency>
         <!-- Spring Dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
