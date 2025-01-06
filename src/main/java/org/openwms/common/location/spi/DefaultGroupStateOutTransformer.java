@@ -15,13 +15,14 @@
  */
 package org.openwms.common.location.spi;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import org.openwms.common.location.api.ErrorCodeTransformers;
 import org.openwms.common.location.api.ErrorCodeVO;
 import org.openwms.common.location.api.LocationGroupState;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ import java.util.Optional;
  * @author Heiko Scherrer
  */
 @Order(5)
+@Validated
 @Component
 class DefaultGroupStateOutTransformer implements ErrorCodeTransformers.GroupStateOut {
 
@@ -38,7 +40,7 @@ class DefaultGroupStateOutTransformer implements ErrorCodeTransformers.GroupStat
      * {@inheritDoc}
      */
     @Override
-    public Optional<LocationGroupState> available(@NotEmpty String errorCode) {
+    public Optional<LocationGroupState> available(@NotBlank String errorCode) {
         Assert.hasText(errorCode, "ErrorCode must be applied");
         if (errorCode.charAt(ErrorCodeVO.STATE_OUT_POSITION) == 42 /* '*' */) {
             return Optional.empty();

@@ -15,7 +15,7 @@
  */
 package org.openwms.common.location.api;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.Optional;
 
@@ -33,7 +33,7 @@ public interface ErrorCodeTransformers {
      */
     @FunctionalInterface
     interface GroupStateIn {
-        Optional<LocationGroupState> available(@NotEmpty String errorCode);
+        Optional<LocationGroupState> available(@NotBlank String errorCode);
     }
 
     /**
@@ -41,7 +41,7 @@ public interface ErrorCodeTransformers {
      */
     @FunctionalInterface
     interface GroupStateOut {
-        Optional<LocationGroupState> available(@NotEmpty String errorCode);
+        Optional<LocationGroupState> available(@NotBlank String errorCode);
     }
 
     /**
@@ -49,7 +49,7 @@ public interface ErrorCodeTransformers {
      */
     @FunctionalInterface
     interface LocationStateIn {
-        Optional<Boolean> available(@NotEmpty String errorCode);
+        Optional<Boolean> available(@NotBlank String errorCode);
     }
 
     /**
@@ -57,6 +57,6 @@ public interface ErrorCodeTransformers {
      */
     @FunctionalInterface
     interface LocationStateOut {
-        Optional<Boolean> available(@NotEmpty String errorCode);
+        Optional<Boolean> available(@NotBlank String errorCode);
     }
 }
