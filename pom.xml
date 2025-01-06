@@ -37,7 +37,6 @@
         <core.test.arch.version>1.0.0-SNAPSHOT</core.test.arch.version>
         <core.units.version>0.7.0-SNAPSHOT</core.units.version>
         <core.version>3.0.0-SNAPSHOT</core.version>
-        <guava.version>32.0.0-jre</guava.version>
         <spring-cloud-dependencies.version>2024.0.0</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
     </properties>
@@ -145,12 +144,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-				<!-- Clash in spring-cloud-starter-netflix-eureka-client -->
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.openwms</groupId>
                 <artifactId>org.openwms.core.units</artifactId>
