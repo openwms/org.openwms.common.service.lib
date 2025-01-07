@@ -75,7 +75,6 @@
                             <version>${org.mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
-                    <enablePreview>false</enablePreview>
                     <compilerArgs>
                         <arg>
                             -Amapstruct.defaultComponentModel=spring
@@ -93,6 +92,7 @@
                             -Amapstruct.verbose=true
                         </arg>
                     </compilerArgs>
+                    <enablePreview>false</enablePreview>
                     <showWarnings>true</showWarnings>
                 </configuration>
             </plugin>
@@ -186,6 +186,7 @@
             <artifactId>org.openwms.core.test.arch</artifactId>
             <scope>test</scope>
         </dependency>
+
         <!-- Spring Dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

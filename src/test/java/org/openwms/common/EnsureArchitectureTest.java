@@ -64,7 +64,8 @@ class EnsureArchitectureTest {
                             "org.openwms.core..",
                             "java..", "javax..", "jakarta..",
                             "org.springframework..",
-                            "com..")
+                            "com.."
+                    )
                     .because("The API package is separated and the only package accessible by the client")
             ;
 
