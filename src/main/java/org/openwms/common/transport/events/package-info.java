@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2024 the original author or authors.
+ * Copyright 2005-2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 /**
- * This package contains all types required for asynchronous Event handling.
+ * This package contains all types required for asynchronous event handling.
  */
 package org.openwms.common.transport.events;
