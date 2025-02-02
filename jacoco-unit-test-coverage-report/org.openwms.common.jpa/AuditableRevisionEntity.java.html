@@ -26,6 +26,7 @@ import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A AuditableRevisionEntity is mapped onto Hibernate Envers Revision table and extended about the current user.
@@ -35,7 +36,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = &quot;COM_SRV_REVISION&quot;)
 @RevisionEntity(AuditableEntityListener.class)
-<span class="fc" id="L38">class AuditableRevisionEntity implements Serializable {</span>
+<span class="fc" id="L39">class AuditableRevisionEntity implements Serializable {</span>
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = &quot;generator&quot;)
@@ -54,11 +55,33 @@ import java.io.Serializable;
     private String traceId;
 
     public void setUserName(String userName) {
-<span class="nc" id="L57">        this.userName = userName;</span>
-<span class="nc" id="L58">    }</span>
+<span class="nc" id="L58">        this.userName = userName;</span>
+<span class="nc" id="L59">    }</span>
 
     void setTraceId(String traceId) {
-<span class="nc" id="L61">        this.traceId = traceId;</span>
-<span class="nc" id="L62">    }</span>
+<span class="nc" id="L62">        this.traceId = traceId;</span>
+<span class="nc" id="L63">    }</span>
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L72" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L73">        AuditableRevisionEntity that = (AuditableRevisionEntity) o;</span>
+<span class="nc bnc" id="L74" title="All 8 branches missed.">        return timestamp == that.timestamp &amp;&amp; Objects.equals(pk, that.pk) &amp;&amp; Objects.equals(userName, that.userName) &amp;&amp; Objects.equals(traceId, that.traceId);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public int hashCode() {
+<span class="nc" id="L84">        return Objects.hash(pk, timestamp, userName, traceId);</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

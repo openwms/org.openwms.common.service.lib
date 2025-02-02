@@ -520,7 +520,7 @@ public class TransportUnit extends ApplicationEntity implements Serializable {
     public boolean equals(Object o) {
 <span class="fc bfc" id="L521" title="All 2 branches covered.">        if (this == o) return true;</span>
 <span class="pc bpc" id="L522" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="fc" id="L523">        TransportUnit that = (TransportUnit) o;</span>
+<span class="fc" id="L523">        var that = (TransportUnit) o;</span>
 <span class="fc" id="L524">        return barcode.equals(that.barcode);</span>
     }
 
