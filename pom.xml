@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>27.1</version>
+        <version>27.2</version>
         <relativePath/>
     </parent>
     <artifactId>org.openwms.common.service.lib</artifactId>
@@ -34,9 +34,9 @@
     </developers>
 
     <properties>
-        <core.test.arch.version>1.0.0-SNAPSHOT</core.test.arch.version>
-        <core.units.version>0.7.0-SNAPSHOT</core.units.version>
-        <core.version>3.0.0-SNAPSHOT</core.version>
+        <core.test.arch.version>1.0.0</core.test.arch.version>
+        <core.units.version>0.7.0</core.units.version>
+        <core.version>3.0.0</core.version>
         <spring-cloud-dependencies.version>2024.0.0</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
     </properties>
@@ -369,6 +369,7 @@
         <dependency>
             <groupId>org.jolokia</groupId>
             <artifactId>jolokia-core</artifactId>
+            <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
