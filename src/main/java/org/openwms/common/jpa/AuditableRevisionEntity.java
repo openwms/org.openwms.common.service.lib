@@ -26,6 +26,7 @@ import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A AuditableRevisionEntity is mapped onto Hibernate Envers Revision table and extended about the current user.
@@ -59,5 +60,27 @@ class AuditableRevisionEntity implements Serializable {
 
     void setTraceId(String traceId) {
         this.traceId = traceId;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        AuditableRevisionEntity that = (AuditableRevisionEntity) o;
+        return timestamp == that.timestamp && Objects.equals(pk, that.pk) && Objects.equals(userName, that.userName) && Objects.equals(traceId, that.traceId);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(pk, timestamp, userName, traceId);
     }
 }
