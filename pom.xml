@@ -10,7 +10,7 @@
         <relativePath/>
     </parent>
     <artifactId>org.openwms.common.service.lib</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1-SNAPSHOT</version>
     <name>OpenWMS.org COMMON: Base Service Library</name>
     <description>A library with essential functionality on common resources like Locations, LocationGroups and TransportUnits</description>
     <url>https://openwms.github.io/${project.artifactId}/index.html</url>
