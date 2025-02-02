@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>Interaction Map</title>
+<title>Account</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -434,37 +434,315 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body id="section-sitemap" class="book">
+<body class="book">
 <div id="header">
-<h1>Interaction Map</h1>
 </div>
 <div id="content">
-<div id="preamble">
+<div class="sect1">
+<h2 id="section-account">Account</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This chapter describes the actions, respectively the flow of actions, an API consumer can perform to achieve the use cases. The COMMON
-Service API deals essentially with <code>Locations</code>, <code>LocationGroups</code> and <code>TransportUnits</code> therefore those entities are centric elements in the
-interaction model and can be referenced from the main index page.</p>
+<p>An <code>Account</code> reflects to a customers cost center. A project may know about several cost centers - <code>Accounts</code>. The <code>Account</code> information is
+usually defined at project setup and does not change at runtime. So it is not foreseen that <code>Account</code> instances are created or deleted
+through the API.</p>
 </div>
+<div class="sect2">
+<h3 id="account-index">Account Index</h3>
 <div class="paragraph">
-<p>Like human readable websites provide a sitemap, a machine readable API can be visualized with an interaction map. A fully automated RESTful
-maturity-level-3 API offers index resources beside typical business resources. The API entry point is the top-level index resource that is
-used to navigate to all possible entities with their operations.</p>
+<p>The index with all possible operations on <code>Account</code> resources can be retrieved with an <code>GET</code> request:</p>
 </div>
-<div class="imageblock">
+<div class="listingblock">
 <div class="content">
-<img src="images/common-service-index.svg" alt="common service index">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts/index HTTP/1.1
+Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>This top-level, or root, index page offers further links to primary resources, like <code>Locations</code>, <code>LocationGroups</code> and <code>TransportUnits</code>.</p>
+<p>The response lists all the operations with a name and the corresponding href link:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 502
+
+{
+  "_links" : {
+    "accounts-findbypkey" : {
+      "href" : "http://localhost:8080/v1/accounts/pKey"
+    },
+    "accounts-findbyidentifier" : {
+      "href" : "http://localhost:8080/v1/accounts?identifier=identifier"
+    },
+    "accounts-findbyname" : {
+      "href" : "http://localhost:8080/v1/accounts?name=name"
+    },
+    "accounts-finddefault" : {
+      "href" : "http://localhost:8080/v1/accounts"
+    },
+    "accounts-findall" : {
+      "href" : "http://localhost:8080/v1/accounts"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="accounts-findbypkey">Find an Account by Persistent Id (pKey)</h3>
+<div class="paragraph">
+<p>To look up an <code>Account</code> with its unique persistent identifier, a client needs to send a <code>GET</code> request with the persistent identifier as part
+of the URI.</p>
+</div>
+<div class="paragraph">
+<p>Find an <code>Account</code> by pKey:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts/1000 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with the <code>Account</code> resource if it exists:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.account-v1+json
+Content-Length: 177
+
+{
+  "_links" : {
+    "accounts-findbypkey" : {
+      "href" : "http://localhost:8080/v1/accounts/1000"
+    }
+  },
+  "pKey" : "1000",
+  "identifier" : "D",
+  "name" : "Default"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_links</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An array with hyperlinks to corresponding resources</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_links.accounts-findbypkey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A link to get the resource by persistent key</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The persistent technical key of the Account</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>identifier</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique natural key</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique Account name</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>or with a <code>404-NOT FOUND</code> if no <code>Account</code> with that persistent identifier exists:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 189
+
+{
+  "message" : "Account with PKey [2000] does not exist",
+  "messageKey" : "owms.common.common.account.notFoundByPKey",
+  "obj" : [ "2000" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="accounts-findbyidentifier">Find an Account by business key</h3>
+<div class="paragraph">
+<p>The <code>name</code> and the <code>identifier</code> of the <code>Account</code> are unique and mandatory attributes. So an <code>Account</code> can be searched for both fields.</p>
+</div>
+<div class="paragraph">
+<p>Find an <code>Account</code> by name:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts?name=Default HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or find an <code>Account</code> by identifier:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts?identifier=D HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with the <code>Account</code> resource if it exists:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.account-v1+json
+Content-Length: 177
+
+{
+  "_links" : {
+    "accounts-findbypkey" : {
+      "href" : "http://localhost:8080/v1/accounts/1000"
+    }
+  },
+  "pKey" : "1000",
+  "identifier" : "D",
+  "name" : "Default"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or with a <code>404-NOT FOUND</code> if no <code>Account</code> exists:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 189
+
+{
+  "message" : "Account with name [UNKNOWN] does not exist",
+  "messageKey" : "owms.common.common.account.notFound",
+  "obj" : [ "UNKNOWN" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="accounts-finddefault">Find the default Account</h3>
+<div class="paragraph">
+<p>At least one <code>Account</code> must exist in the system and must be defined as the default <code>Account</code>. This <code>Account</code> is used when no other account
+information is available. To get the default <code>Account</code> a <code>GET</code> request must be send to the server</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts?default=true HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server sends back the <code>Account</code> resource if it exists</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.account-v1+json
+Content-Length: 177
+
+{
+  "_links" : {
+    "accounts-findbypkey" : {
+      "href" : "http://localhost:8080/v1/accounts/1000"
+    }
+  },
+  "pKey" : "1000",
+  "identifier" : "D",
+  "name" : "Default"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Otherwise a <code>404-NOT FOUND</code> if it doesn&#8217;t exist</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 133
+
+{
+  "message" : "No default Account exists",
+  "messageKey" : "owms.common.common.account.noDefaultAccount",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="accounts-findall">Find all Accounts</h3>
+<div class="paragraph">
+<p>To retrieve a list of all existing <code>Accounts</code> a client must send a <code>GET</code> request to the server</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/accounts HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response contains all existing <code>Accounts</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.account-v1+json
+Content-Length: 369
+
+[ {
+  "links" : [ {
+    "rel" : "accounts-findbypkey",
+    "href" : "http://localhost:8080/v1/accounts/1000"
+  } ],
+  "pKey" : "1000",
+  "identifier" : "D",
+  "name" : "Default"
+}, {
+  "links" : [ {
+    "rel" : "accounts-findbypkey",
+    "href" : "http://localhost:8080/v1/accounts/1001"
+  } ],
+  "pKey" : "1001",
+  "identifier" : "A1",
+  "name" : "Cost Center FIN"
+} ]</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-02 19:13:30 UTC
+Last updated 2025-02-02 20:01:10 UTC
 </div>
 </div>
 </body>

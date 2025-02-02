@@ -5,7 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>LocationType</title>
+<meta name="author" content="Basically JSON is used as representation format by default if not otherwise requested or mentioned below. XML format is supported for the">
+<title>Representation Formats</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -434,90 +435,174 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="book">
+<body id="section-representation" class="book">
 <div id="header">
+<h1>Representation Formats</h1>
+<div class="details">
+<span id="author" class="author">Basically JSON is used as representation format by default if not otherwise requested or mentioned below. XML format is supported for the</span><br>
+<span id="revnumber">version ,</span>
+<span id="revdate">but must be requested explicitly. Furthermore a vendor specific JSON format is used to represent resource</span>
+</div>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="section-locationtype">LocationType</h2>
+<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>A <code>LocationType</code> represents the type of a <code>Location</code>. Each <code>Location</code> must belong to one and only one specific <code>LocationType</code>. The type
-definition basically defines physical dimensions of all <code>Location`s of this type. Usually `LocationTypes</code> are created statically when a
-project is set up. Types may be changed, but not deleted at runtime, because every <code>Location</code> is assigned to one <code>LocationType</code> only.</p>
+<p>representations. Therefore it is absolutely required that the <code>Accept</code> header denotes the demanded type. Find the type in the examples
+below.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dates_in_json">Dates in JSON</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Date or datetime fields are not treated specially in JSON. Within the scope of this API a date or datetime field is always expected and
+rendered as JSON String in ISO8601 format with timezone information and milliseconds: <code>yyyy-MM-dd&#8217;T&#8217;HH:mm:ss.SSSTZD</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_embedded_entities">Embedded Entities</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For the sake of convenience some response entities may included embedded entities or even parts of it. A reference to the actual entity is
+provided as HAL link as well.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_error_responses">Error Responses</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Beside the actual representation of resources, the server may result an error response in JSON format that contains basic information about
+the error occurred. This information is additional to the standard HTTP status code and may help clients to identify the error cause in
+order to re-phrase and send the request again.</p>
+</div>
+<div class="paragraph">
+<p>Currently there are two types of errors with their own response formats.</p>
 </div>
 <div class="sect2">
-<h3 id="loctype-index">LocationType Index</h3>
+<h3 id="_server_declined_errors">Server Declined Errors</h3>
 <div class="paragraph">
-<p>The <code>LocationType</code> Index with all possible operations can be retrieved with the following GET request:</p>
+<p>This kind of errors are sent by the server runtime environment even before the request had a chance to be processed.</p>
+</div>
+<div class="paragraph">
+<p>An example response looks like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-types/index HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The response lists all the operations with a name and the corresponding href link:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 345
-
-{
-  "_links" : {
-    "location-types-findbypkey" : {
-      "href" : "http://localhost:8080/v1/location-types/pKey"
-    },
-    "location-types-findbytypename" : {
-      "href" : "http://localhost:8080/v1/location-types?typeName=typeName"
-    },
-    "location-types-findall" : {
-      "href" : "http://localhost:8080/v1/location-types"
-    }
-  }
+<pre class="highlight"><code>{
+    "timestamp": 1512400854941,
+    "status": 500,
+    "error": "Internal Server Error",
+    "exception": "org.ameba.oauth2.InvalidTokenException",
+    "message": "JWT expired at 2017-12-04T15:04:43Z. Current time: 2017-12-04T15:20:54Z, ...",
+    "path": "/v1/transport-units?bk=00000000000000004711"
 }</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>The JSON structure contains the following fields.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">timestamp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When the error occurred on server side</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The http status of the error</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">error</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A short error text</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">exception</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Internal class name of the Java exception type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A more descriptive error text describing the error in detail</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The part of the URI for the REST resource that was queried</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
-<h3 id="loctype-findbypkey">Find a LocationType by its Persistent Id (pKey)</h3>
+<h3 id="_api_declined_errors">API Declined Errors</h3>
 <div class="paragraph">
-<p>To query a <code>LocationType</code> by it&#8217;s technical persistent identifier, a <code>GET</code> request is send to the <code>LocationType</code> resource along with the
-<code>pKey</code> as part of the URI.</p>
+<p>Those errors are thrown within the REST API validation and processing logic. For example, if a client request does not match the expected
+format or has produced an error on server side, the API will decline the request and return a response with status client-side error (4xx).</p>
+</div>
+<div class="paragraph">
+<p>The structure of the response is aligned to the RFC7808. An example response looks like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-types/326981811784 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The server responds with the existing <code>LocationType</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.common.location-type-v1+json
-Content-Length: 317
-
-{
-  "type" : "FG",
-  "_links" : {
-    "location-types-findbypkey" : {
-      "href" : "http://localhost:8080/v1/location-types/326981811784"
-    }
-  },
-  "pKey" : "326981811784",
-  "description" : "Flat Good Location",
-  "length" : 30,
-  "width" : 50,
-  "height" : 20,
-  "createDt" : "2025-02-02T19:17:55.005983000Z"
+<pre class="highlight"><code>{
+    "message": "LocationGroup with name [NOT_EXISTS] not found",
+    "messageKey": "owms.common.common.lg.notFoundByName",
+    "obj" : [ "NOT_EXISTS" ],
+    "httpStatus" : "404",
+    "class" : "String"
 }</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>The JSON structure contains the following fields.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A short error text</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messageKey</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An unique identifier across the API that can be used to identify and translate the error message on the client side</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">obj</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An array of possible passed arguments to the message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">httpStatus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The http status of the error</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">class</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The arguments type</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Following message keys are currently used:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -527,179 +612,47 @@ Content-Length: 317
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Message Key</th>
 <th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Action</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_links</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An array with hyperlinks to corresponding resources</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not.found</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The requested resource has not been found</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The resource does not exist anymore or has never existed. The resource identifier must be verified</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_links.location-types-findbypkey</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A link to get the resource by persistent key</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">owms.common.common.tu.notFoundByBK</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The TransportUnit does not exist</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Verify the identifying attribute passed to the API</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The persistent technical key of the LocationType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">owms.common.common.loc.notFoundByName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The requested Location does not exist</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Verify the identifying attribute passed to the API</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>type</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Unique natural key</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">owms.common.common.lg.notFoundByName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The requested LocationGroup does not exist</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Verify the identifying attribute passed to the API</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>description</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A descriptive text of the LocationType</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>length</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The typical length of a Location belonging to this type</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>width</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The typical width of a Location belonging to this type</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>height</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The typical height of a Location belonging to this type</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createDt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Timestamp when the LocationType has been created</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">owms.common.common.tut.notFoundByName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The requested TransportUnitType does not exist</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Verify the identifying attribute passed to the API</p></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>If no <code>LocationType</code> with the given <code>name</code> exists the response looks like</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 193
-
-{
-  "message" : "LocationType with ID [UNKNOWN] does not exist",
-  "messageKey" : "owms.common.common.lt.notFoundByPKey",
-  "obj" : [ "UNKNOWN" ],
-  "httpStatus" : "404",
-  "class" : "String"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="loctype-findbytypename">Find a LocationType by its name</h3>
-<div class="paragraph">
-<p>To query a <code>LocationType</code> by it&#8217;s unique name, a <code>GET</code> request is sent to the <code>LocationType</code> resource along with the <code>name</code> as query
-parameter.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-types?typeName=FG HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The server responds with the existing <code>LocationType</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.common.location-type-v1+json
-Content-Length: 317
-
-{
-  "type" : "FG",
-  "_links" : {
-    "location-types-findbypkey" : {
-      "href" : "http://localhost:8080/v1/location-types/326981811784"
-    }
-  },
-  "pKey" : "326981811784",
-  "description" : "Flat Good Location",
-  "length" : 30,
-  "width" : 50,
-  "height" : 20,
-  "createDt" : "2025-02-02T19:17:54.954663000Z"
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If no <code>LocationType</code> with the given <code>name</code> exists the response looks like</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="loctype-findall">Find all existing LocationTypes</h3>
-<div class="paragraph">
-<p>If a client wants to get a list of all existing <code>LocationTypes</code>, a simple <code>GET</code> request to the plural resource is required. Notice that no
-paging nor sorting is implemented in the API, because the expected retrieved data is less than a hundred entries.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-types HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The server responds with the existing <code>LocationTypes</code> or an empty list:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.common.location-type-v1+json
-Content-Length: 645
-
-[ {
-  "type" : "FG",
-  "links" : [ {
-    "rel" : "location-types-findbypkey",
-    "href" : "http://localhost:8080/v1/location-types/326981811784"
-  } ],
-  "pKey" : "326981811784",
-  "description" : "Flat Good Location",
-  "length" : 30,
-  "width" : 50,
-  "height" : 20,
-  "createDt" : "2025-02-02T19:17:54.798396000Z"
-}, {
-  "type" : "PG",
-  "links" : [ {
-    "rel" : "location-types-findbypkey",
-    "href" : "http://localhost:8080/v1/location-types/404376159041"
-  } ],
-  "pKey" : "404376159041",
-  "description" : "Pallet Good Location",
-  "length" : 120,
-  "width" : 120,
-  "height" : 250,
-  "createDt" : "2025-02-02T19:17:54.798396000Z"
-} ]</code></pre>
-</div>
-</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-02 19:13:30 UTC
+Version <br>
+Last updated 2025-02-02 20:01:10 UTC
 </div>
 </div>
 </body>

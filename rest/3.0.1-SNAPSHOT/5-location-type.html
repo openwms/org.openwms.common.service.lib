@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>Target</title>
+<title>LocationType</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,349 +439,258 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="section-target">Target</h2>
+<h2 id="section-locationtype">LocationType</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A <code>Target</code> is a <code>Location</code> or a group of <code>Locations</code> (<code>LocationGroup</code>) where a <code>TransportUnit</code> may be sent to.</p>
-</div>
-<div class="paragraph">
-<p>A <code>Target</code> can be locked for <strong>inbound</strong>/<strong>outbound</strong>, for <strong>operation</strong> or permanently. When the <code>Target</code> is locked for inbound, no new
-<code>TransportUnit</code> movements (<code>TransportOrders</code> in automatic warehouses) are created to this <code>Target</code> (like a Putaway lock).
-In contrast, no movements can be created away from this <code>Target</code> if it is locked for outbound (like Allocation). Locking inbound/outbound
-has no impact on the operation mode of the <code>Target</code>. So the <code>Target</code> may <em>still process</em> existing orders, even if it is locked for
-inbound/outbound.</p>
-</div>
-<div class="paragraph">
-<p>The operation mode of a <code>Target</code> is controlled separately. If the <code>Targets</code> is in PERMANENT operation mode it stops all operations and does
-no longer process any commands or telegrams.</p>
+<p>A <code>LocationType</code> represents the type of a <code>Location</code>. Each <code>Location</code> must belong to one and only one specific <code>LocationType</code>. The type
+definition basically defines physical dimensions of all <code>Location`s of this type. Usually `LocationTypes</code> are created statically when a
+project is set up. Types may be changed, but not deleted at runtime, because every <code>Location</code> is assigned to one <code>LocationType</code> only.</p>
 </div>
 <div class="sect2">
-<h3 id="targets-inbound-outbound-locking">Inbound/Outbound Locking</h3>
+<h3 id="loctype-index">LocationType Index</h3>
 <div class="paragraph">
-<p>Locking a <code>Target</code> for Inbound/Outbound operation is controlled with a HTTP <code>POST</code> request against the URI <code>/v1/targets/ALLOCATION_LOCK</code>
-with a set of query parameters.</p>
+<p>The <code>LocationType</code> Index with all possible operations can be retrieved with the following GET request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-types/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response lists all the operations with a name and the corresponding href link:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 345
+
+{
+  "_links" : {
+    "location-types-findbypkey" : {
+      "href" : "http://localhost:8080/v1/location-types/pKey"
+    },
+    "location-types-findbytypename" : {
+      "href" : "http://localhost:8080/v1/location-types?typeName=typeName"
+    },
+    "location-types-findall" : {
+      "href" : "http://localhost:8080/v1/location-types"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="loctype-findbypkey">Find a LocationType by its Persistent Id (pKey)</h3>
+<div class="paragraph">
+<p>To query a <code>LocationType</code> by it&#8217;s technical persistent identifier, a <code>GET</code> request is send to the <code>LocationType</code> resource along with the
+<code>pKey</code> as part of the URI.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-types/326981811784 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with the existing <code>LocationType</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.location-type-v1+json
+Content-Length: 317
+
+{
+  "type" : "FG",
+  "_links" : {
+    "location-types-findbypkey" : {
+      "href" : "http://localhost:8080/v1/location-types/326981811784"
+    }
+  },
+  "pKey" : "326981811784",
+  "description" : "Flat Good Location",
+  "length" : 30,
+  "width" : 50,
+  "height" : 20,
+  "createDt" : "2025-02-02T20:03:53.235802000Z"
+}</code></pre>
+</div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">HTTP Verb</th>
-<th class="tableblock halign-left valign-top">Query Param <code>type</code></th>
-<th class="tableblock halign-left valign-top">Query Param <code>mode</code></th>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for Inbound allocation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_links</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An array with hyperlinks to corresponding resources</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OUT</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for Outbound allocation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_links.location-types-findbypkey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A link to get the resource by persistent key</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN_AND_OUT</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for Inbound and Outbound allocation</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALLOCATION_LOCK</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NONE</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Release the <code>Target</code> for all kind of allocation</p></td>
-</tr>
-</tbody>
-</table>
-<div class="sect3">
-<h4 id="targets-inbound-lock">Lock Inbound (Putaway, Infeed)</h4>
-<div class="paragraph">
-<p>To lock a <code>Target</code> to be not considered in inbound, like Putaway, the server expects a HTTP <code>POST</code> request with the lock type
-<code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=ALLOCATION_LOCK&amp;mode=IN HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="targets-outbound-lock">Lock Outbound (Dispatching, Allocation, Outfeed)</h4>
-<div class="paragraph">
-<p>To lock a <code>Target</code> for outbound, like Allocation and Outfeed, the server expects a HTTP <code>POST</code> request with the lock type
-<code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=ALLOCATION_LOCK&amp;mode=OUT HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="targets-inbound-outbound-lock">Lock Inbound &amp; Outbound</h4>
-<div class="paragraph">
-<p>To lock a <code>Target</code> for inbound and outbound, like Putaway and Allocation, the server expects a HTTP <code>POST</code> request with the
-lock type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=ALLOCATION_LOCK&amp;mode=IN_AND_OUT HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="targets-release-lock">Release Lock</h4>
-<div class="paragraph">
-<p>To release all locks on a <code>Target</code> and allow any inbound and outbound operation, the server expects a HTTP <code>POST</code> request with the lock
-type <code>type=ALLOCATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=ALLOCATION_LOCK&amp;mode=NONE HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_response_success">Response: Success</h4>
-<div class="paragraph">
-<p>In any of the previous cases the server responds with the following success message.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="targets-operational-locking">Locking Operational Processing</h3>
-<div class="paragraph">
-<p>A <code>Target</code> could also be locked for operation only but not for further Allocation. This means, the <code>Target</code> is active and looks available
-in warehouse counting and order allocation but is currently out-of-order and not ready to execute any (physical) operation. This is useful
-for planned short term locks, where a <code>Target</code> is taken out of operation but should still be considered by the system.</p>
-</div>
-<div class="paragraph">
-<p>Like the infeed/outfeed locking an <strong>operational lock</strong> can be set to different modes.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">HTTP Verb</th>
-<th class="tableblock halign-left valign-top">Query Param <code>type</code></th>
-<th class="tableblock halign-left valign-top">Query Param <code>mode</code></th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for all inbound operations</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OUT</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for all outbound operations</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IN_AND_OUT</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lock the <code>Target</code> for all inbound and outbound operations</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_LOCK</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NONE</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Release the <code>Target</code> for all kind of operations</p></td>
-</tr>
-</tbody>
-</table>
-<div class="sect3">
-<h4 id="targets-inbound-operational-lock">Lock for inbound Operations</h4>
-<div class="paragraph">
-<p>To lock a <code>Target</code> for inbound operations only, the server expects a HTTP <code>POST</code> request with the lock type
-<code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN</strong></code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?reallocation=true&amp;type=OPERATION_LOCK&amp;mode=IN HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="targets-outbound-operational-lock">Lock for outbound Operations</h4>
-<div class="paragraph">
-<p>To lock a <code>Target</code> for outbound operations only, the server expects a HTTP <code>POST</code> request with the lock type
-<code>type=OPERATION_LOCK</code> and the <code><strong>mode=OUT</strong></code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=OPERATION_LOCK&amp;mode=OUT HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="targets-inbound-outbound-operational-lock">Lock inbound &amp; outbound Operations</h4>
-<div class="paragraph">
-<p>To lock a <code>Target</code> for inbound and outbound operations, the server expects a HTTP <code>POST</code> request with the
-lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=IN_AND_OUT</strong></code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=OPERATION_LOCK&amp;mode=IN_AND_OUT HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="targets-release-operational-lock">Release Lock</h4>
-<div class="paragraph">
-<p>To release all operational locks on a <code>Target</code> and allow any inbound and outbound operation, the server expects a HTTP <code>POST</code> request with
-the lock type <code>type=OPERATION_LOCK</code> and the <code><strong>mode=NONE</strong></code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=OPERATION_LOCK&amp;mode=NONE HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_response_success_2">Response: Success</h4>
-<div class="paragraph">
-<p>In any of the previous cases the server responds with the following success message.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="targets-processing-locking">Locking / Unlocking a Target for Allocation and Processing</h3>
-<div class="paragraph">
-<p>If a <code>Target</code> is locked for operation it does not process requests anymore. In case of a physical <code>Target</code>, like a Crane, no new movements
-are accepted and the Crane will stop working. This depends on the implemented Crane strategy. The Crane could stop immediately or after it
-has finished the current operation.</p>
-</div>
-<div class="paragraph">
-<p>To permanently lock or unlock a <code>Target</code> for allocation <em>and</em> processing send a HTTP <code>POST</code> request with the name of the <code>Target</code> to the
-server. Locking  the <code>Target</code> allows an optional flag to signal a re-allocation of already assigned movements and orders.</p>
-</div>
-<div class="paragraph">
-<p>In this example the <code>Target</code> is a <code>LocationGroup</code> with the name <code>IPOINT</code> that gets locked. The server is requested to re-allocate existing
-orders.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?reallocation=true&amp;type=PERMANENT_LOCK&amp;mode=lock HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Request parameters:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reallocation</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>true</strong> to trigger an order re-allocation, or <strong>false</strong> if not</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The persistent technical key of the LocationType</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>type</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The lock type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique natural key</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mode</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The operation mode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A descriptive text of the LocationType</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>length</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The typical length of a Location belonging to this type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>width</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The typical width of a Location belonging to this type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>height</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The typical height of a Location belonging to this type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createDt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timestamp when the LocationType has been created</p></td>
 </tr>
 </tbody>
 </table>
 <div class="paragraph">
-<p>To unlock the same <code>Target</code> with name <code>IPOINT</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/targets/IPOINT?type=PERMANENT_LOCK&amp;mode=unlock HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_response_success_3">Response: Success</h4>
-<div class="paragraph">
-<p>If the server has successfully locked or unlocked the <code>Target</code> the response is:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_response_target_does_not_exist">Response: Target does not exist</h4>
-<div class="paragraph">
-<p>If the given <code>Target</code> (FOO) does not exist the server responds with:</p>
+<p>If no <code>LocationType</code> with the given <code>name</code> exists the response looks like</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 188
+Content-Length: 193
 
 {
-  "message" : "LocationGroup with name [FOO] does not exist",
-  "messageKey" : "owms.common.common.lg.notFoundByName",
-  "obj" : [ "FOO" ],
+  "message" : "LocationType with ID [UNKNOWN] does not exist",
+  "messageKey" : "owms.common.common.lt.notFoundByPKey",
+  "obj" : [ "UNKNOWN" ],
   "httpStatus" : "404",
   "class" : "String"
 }</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="loctype-findbytypename">Find a LocationType by its name</h3>
+<div class="paragraph">
+<p>To query a <code>LocationType</code> by it&#8217;s unique name, a <code>GET</code> request is sent to the <code>LocationType</code> resource along with the <code>name</code> as query
+parameter.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-types?typeName=FG HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with the existing <code>LocationType</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.location-type-v1+json
+Content-Length: 317
+
+{
+  "type" : "FG",
+  "_links" : {
+    "location-types-findbypkey" : {
+      "href" : "http://localhost:8080/v1/location-types/326981811784"
+    }
+  },
+  "pKey" : "326981811784",
+  "description" : "Flat Good Location",
+  "length" : 30,
+  "width" : 50,
+  "height" : 20,
+  "createDt" : "2025-02-02T20:03:53.189937000Z"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no <code>LocationType</code> with the given <code>name</code> exists the response looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="loctype-findall">Find all existing LocationTypes</h3>
+<div class="paragraph">
+<p>If a client wants to get a list of all existing <code>LocationTypes</code>, a simple <code>GET</code> request to the plural resource is required. Notice that no
+paging nor sorting is implemented in the API, because the expected retrieved data is less than a hundred entries.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/location-types HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with the existing <code>LocationTypes</code> or an empty list:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.common.location-type-v1+json
+Content-Length: 645
+
+[ {
+  "type" : "FG",
+  "links" : [ {
+    "rel" : "location-types-findbypkey",
+    "href" : "http://localhost:8080/v1/location-types/326981811784"
+  } ],
+  "pKey" : "326981811784",
+  "description" : "Flat Good Location",
+  "length" : 30,
+  "width" : 50,
+  "height" : 20,
+  "createDt" : "2025-02-02T20:03:53.039824000Z"
+}, {
+  "type" : "PG",
+  "links" : [ {
+    "rel" : "location-types-findbypkey",
+    "href" : "http://localhost:8080/v1/location-types/404376159041"
+  } ],
+  "pKey" : "404376159041",
+  "description" : "Pallet Good Location",
+  "length" : 120,
+  "width" : 120,
+  "height" : 250,
+  "createDt" : "2025-02-02T20:03:53.039824000Z"
+} ]</code></pre>
 </div>
 </div>
 </div>
@@ -790,7 +699,7 @@ Content-Length: 188
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-02 19:13:30 UTC
+Last updated 2025-02-02 20:01:10 UTC
 </div>
 </div>
 </body>

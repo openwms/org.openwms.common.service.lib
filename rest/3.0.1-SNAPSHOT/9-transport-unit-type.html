@@ -5,8 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<meta name="author" content="Basically JSON is used as representation format by default if not otherwise requested or mentioned below. XML format is supported for the">
-<title>Representation Formats</title>
+<title>TransportUnitType</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -435,224 +434,219 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body id="section-representation" class="book">
+<body class="book">
 <div id="header">
-<h1>Representation Formats</h1>
-<div class="details">
-<span id="author" class="author">Basically JSON is used as representation format by default if not otherwise requested or mentioned below. XML format is supported for the</span><br>
-<span id="revnumber">version ,</span>
-<span id="revdate">but must be requested explicitly. Furthermore a vendor specific JSON format is used to represent resource</span>
-</div>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>representations. Therefore it is absolutely required that the <code>Accept</code> header denotes the demanded type. Find the type in the examples
-below.</p>
-</div>
-</div>
-</div>
 <div class="sect1">
-<h2 id="_dates_in_json">Dates in JSON</h2>
+<h2 id="section-transportunittype">TransportUnitType</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Date or datetime fields are not treated specially in JSON. Within the scope of this API a date or datetime field is always expected and
-rendered as JSON String in ISO8601 format with timezone information and milliseconds: <code>yyyy-MM-dd&#8217;T&#8217;HH:mm:ss.SSSTZD</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_embedded_entities">Embedded Entities</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>For the sake of convenience some response entities may included embedded entities or even parts of it. A reference to the actual entity is
-provided as HAL link as well.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_error_responses">Error Responses</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Beside the actual representation of resources, the server may result an error response in JSON format that contains basic information about
-the error occurred. This information is additional to the standard HTTP status code and may help clients to identify the error cause in
-order to re-phrase and send the request again.</p>
-</div>
-<div class="paragraph">
-<p>Currently there are two types of errors with their own response formats.</p>
+<p>A <code>TransportUnitType</code> is a type of a certain <code>TransportUnit</code>. Typically to store some static attributes of <code>TransportUnits</code>, such as the
+length, the height, or the weight of <code>TransportUnits</code>. This way it is possible to group and characterize <code>TransportUnits</code>.</p>
 </div>
 <div class="sect2">
-<h3 id="_server_declined_errors">Server Declined Errors</h3>
+<h3 id="transportunittypes-index">TransportUnitType Index</h3>
 <div class="paragraph">
-<p>This kind of errors are sent by the server runtime environment even before the request had a chance to be processed.</p>
-</div>
-<div class="paragraph">
-<p>An example response looks like this:</p>
+<p>The index with all possible operations can be retrieved with the following <code>GET</code> request</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>{
-    "timestamp": 1512400854941,
-    "status": 500,
-    "error": "Internal Server Error",
-    "exception": "org.ameba.oauth2.InvalidTokenException",
-    "message": "JWT expired at 2017-12-04T15:04:43Z. Current time: 2017-12-04T15:20:54Z, ...",
-    "path": "/v1/transport-units?bk=00000000000000004711"
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/transport-unit-types/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response lists all the operations with a name and the corresponding link</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 388
+
+{
+  "_links" : {
+    "transport-unit-types-findbypkey" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types/%7BpKey%7D"
+    },
+    "transport-unit-types-findtransportunittype" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types?type=PALLET"
+    },
+    "transport-unit-types-findall" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="transportunittypes-findbypkey">Find a TransportUnitType by Persistent Id (pKey)</h3>
+<div class="paragraph">
+<p>An existing <code>TransportUnitType</code> can be looked up by it&#8217;s persistent key (pKey)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/transport-unit-types/1000 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>TransportUnitType</code> exists the response is</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.transport-unit-type-v1+json
+Content-Length: 303
+
+{
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types/1000"
+    }
+  },
+  "ol" : 0,
+  "createDt" : "2025-02-02T20:03:40.451874000Z",
+  "pKey" : "1000",
+  "type" : "PALLET",
+  "description" : "Euro pallet",
+  "height" : "102",
+  "width" : "80",
+  "length" : "120"
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The JSON structure contains the following fields.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">timestamp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">When the error occurred on server side</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The http status of the error</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">error</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A short error text</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">exception</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Internal class name of the Java exception type</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A more descriptive error text describing the error in detail</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">path</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The part of the URI for the REST resource that was queried</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_api_declined_errors">API Declined Errors</h3>
-<div class="paragraph">
-<p>Those errors are thrown within the REST API validation and processing logic. For example, if a client request does not match the expected
-format or has produced an error on server side, the API will decline the request and return a response with status client-side error (4xx).</p>
-</div>
-<div class="paragraph">
-<p>The structure of the response is aligned to the RFC7808. An example response looks like this:</p>
+<p>If no <code>TransportUnitType</code> with the given pKey exist the server responds with</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>{
-    "message": "LocationGroup with name [NOT_EXISTS] not found",
-    "messageKey": "owms.common.common.lg.notFoundByName",
-    "obj" : [ "NOT_EXISTS" ],
-    "httpStatus" : "404",
-    "class" : "String"
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 199
+
+{
+  "message" : "TransportUnitType with ID [UNKNOWN] does not exist",
+  "messageKey" : "owms.common.common.tut.notFoundByPKey",
+  "obj" : [ "UNKNOWN" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="transportunittypes-findbyname">Find a TransportUnitType by Name</h3>
+<div class="paragraph">
+<p>Each <code>TransportUnitType</code> has an unique name with that it can be identified. Query the resource with a <code>type</code> parameter</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/transport-unit-types?type=PALLET HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>TransportUnitType</code> exists the response looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.transport-unit-type-v1+json
+Content-Length: 303
+
+{
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/v1/transport-unit-types/1000"
+    }
+  },
+  "ol" : 0,
+  "createDt" : "2025-02-02T20:03:40.192651000Z",
+  "pKey" : "1000",
+  "type" : "PALLET",
+  "description" : "Euro pallet",
+  "height" : "102",
+  "width" : "80",
+  "length" : "120"
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The JSON structure contains the following fields.</p>
+<p>If no <code>TransportUnitType</code> with the given name exist the server sends a <code>404-NOT FOUND</code></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A short error text</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messageKey</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An unique identifier across the API that can be used to identify and translate the error message on the client side</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">obj</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An array of possible passed arguments to the message</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">httpStatus</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The http status of the error</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">class</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The arguments type</p></td>
-</tr>
-</tbody>
-</table>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 122
+
+{
+  "message" : "No TransportUniType with type [NOT_EXISTS] found",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="transportunittypes-findall">Find all TransportUnitTypes</h3>
 <div class="paragraph">
-<p>Following message keys are currently used:</p>
+<p>To retrieve a list of all existing <code>TransportUnitTypes</code> a client must send a <code>GET</code> request to the server</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Message Key</th>
-<th class="tableblock halign-left valign-top">Description</th>
-<th class="tableblock halign-left valign-top">Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">not.found</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The requested resource has not been found</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The resource does not exist anymore or has never existed. The resource identifier must be verified</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">owms.common.common.tu.notFoundByBK</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The TransportUnit does not exist</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Verify the identifying attribute passed to the API</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">owms.common.common.loc.notFoundByName</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The requested Location does not exist</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Verify the identifying attribute passed to the API</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">owms.common.common.lg.notFoundByName</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The requested LocationGroup does not exist</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Verify the identifying attribute passed to the API</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">owms.common.common.tut.notFoundByName</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The requested TransportUnitType does not exist</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Verify the identifying attribute passed to the API</p></td>
-</tr>
-</tbody>
-</table>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/transport-unit-types HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response contains all existing <code>TransportUnitTypes</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.transport-unit-type-v1+json
+Content-Length: 610
+
+[ {
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/v1/transport-unit-types/1000"
+  } ],
+  "ol" : 0,
+  "createDt" : "2025-02-02T20:03:40.318365000Z",
+  "pKey" : "1000",
+  "type" : "PALLET",
+  "description" : "Euro pallet",
+  "height" : "102",
+  "width" : "80",
+  "length" : "120"
+}, {
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/v1/transport-unit-types/1001"
+  } ],
+  "ol" : 0,
+  "createDt" : "2025-02-02T20:03:40.318365000Z",
+  "pKey" : "1001",
+  "type" : "BIN",
+  "description" : "Plastic bins",
+  "height" : "102",
+  "width" : "80",
+  "length" : "120"
+} ]</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version <br>
-Last updated 2025-02-02 19:13:30 UTC
+Last updated 2025-02-02 20:01:10 UTC
 </div>
 </div>
 </body>
