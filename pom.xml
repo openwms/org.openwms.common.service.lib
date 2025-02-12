@@ -34,9 +34,10 @@
     </developers>
 
     <properties>
-        <core.test.arch.version>1.0.0</core.test.arch.version>
+        <core.test.arch.version>1.0.1</core.test.arch.version>
         <core.units.version>0.7.0</core.units.version>
         <core.version>3.0.0</core.version>
+        <schemaspy-maven-plugin.version>5.3.1</schemaspy-maven-plugin.version>
         <spring-cloud-dependencies.version>2024.0.0</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
     </properties>
