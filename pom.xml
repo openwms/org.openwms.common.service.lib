@@ -34,7 +34,7 @@
     </developers>
 
     <properties>
-        <core.test.arch.version>1.0.1</core.test.arch.version>
+        <core.test.arch.version>1.0.2</core.test.arch.version>
         <core.units.version>0.7.0</core.units.version>
         <core.version>3.0.0</core.version>
         <schemaspy-maven-plugin.version>5.3.1</schemaspy-maven-plugin.version>
@@ -152,13 +152,13 @@
             </dependency>
             <dependency>
                 <groupId>org.openwms</groupId>
-                <artifactId>org.openwms.core.util</artifactId>
-                <version>${core.version}</version>
+                <artifactId>org.openwms.core.test.arch</artifactId>
+                <version>${core.test.arch.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openwms</groupId>
-                <artifactId>org.openwms.core.test.arch</artifactId>
-                <version>${core.test.arch.version}</version>
+                <artifactId>org.openwms.core.util</artifactId>
+                <version>${core.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
