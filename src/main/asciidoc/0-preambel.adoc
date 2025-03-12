@@ -49,6 +49,7 @@ The JSON structure contains the following fields.
 | path          | The part of the URI for the REST resource that was queried
 |===
 
+[[api-errors]]
 === API Declined Errors
 Those errors are thrown within the REST API validation and processing logic. For example, if a client request does not match the expected
 format or has produced an error on server side, the API will decline the request and return a response with status client-side error (4xx).
@@ -78,7 +79,6 @@ The JSON structure contains the following fields.
 |===
 
 Following message keys are currently used:
-
 
 |===
 | Message Key | Description | Action
