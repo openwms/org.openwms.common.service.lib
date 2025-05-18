@@ -63,7 +63,7 @@
     </reporting>
 
     <build>
-        <finalName>openwms-common-service</finalName>
+        <finalName>openwms-common-service-lib</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
