@@ -2,7 +2,7 @@
 = Representation Formats
 Basically JSON is used as representation format by default if not otherwise requested or mentioned below. XML format is supported for the
 index pages as well, but must be requested explicitly. Furthermore a vendor specific JSON format is used to represent resource
-representations. Therefore it is absolutely required that the `Accept` header denotes the demanded type. Find the type in the examples
+representations. Therefore, it is absolutely required that the `Accept` header denotes the demanded type. Find the type in the examples
 below.
 
 == Dates in JSON
@@ -18,10 +18,10 @@ Beside the actual representation of resources, the server may result an error re
 the error occurred. This information is additional to the standard HTTP status code and may help clients to identify the error cause in
 order to re-phrase and send the request again.
 
-Currently there are two types of errors with their own response formats.
+Currently, there are two types of errors with their own response formats.
 
 === Server Declined Errors
-This kind of errors are sent by the server runtime environment even before the request had a chance to be processed.
+These kind of errors are sent by the server runtime environment even before the request had a chance to be processed.
 
 An example response looks like this:
 
