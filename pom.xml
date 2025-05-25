@@ -151,13 +151,13 @@
             </dependency>
             <dependency>
                 <groupId>org.openwms</groupId>
-                <artifactId>org.openwms.core.test.arch</artifactId>
-                <version>${core.test.arch.version}</version>
+                <artifactId>org.openwms.core.util</artifactId>
+                <version>${core.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openwms</groupId>
-                <artifactId>org.openwms.core.util</artifactId>
-                <version>${core.version}</version>
+                <artifactId>org.openwms.core.test.arch</artifactId>
+                <version>${core.test.arch.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
