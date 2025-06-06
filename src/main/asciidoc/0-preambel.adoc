@@ -72,7 +72,7 @@ The JSON structure contains the following fields.
 | Property Name | Description
 
 | message       | A short error text
-| messageKey    | An unique identifier across the API that can be used to identify and translate the error message on the client side
+| messageKey    | A unique identifier across the API that can be used to identify and translate the error message on the client side
 | obj           | An array of possible passed arguments to the message
 | httpStatus    | The http status of the error
 | class         | The arguments type
