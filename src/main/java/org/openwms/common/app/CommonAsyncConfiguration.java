@@ -15,7 +15,7 @@
  */
 package org.openwms.common.app;
 
-import org.openwms.core.SpringProfiles;
+import org.ameba.app.SpringProfiles;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,11 +26,11 @@ import org.springframework.context.annotation.Profile;
 
 /**
  * A CommonAsyncConfiguration contains the microservice' asynchronous configuration that is activated on Spring Profile
- * {@link SpringProfiles#ASYNCHRONOUS_PROFILE}.
+ * {@link SpringProfiles#AMQP}.
  *
  * @author Heiko Scherrer
  */
-@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
+@Profile(SpringProfiles.AMQP)
 @Configuration
 @RefreshScope
 @EnableRabbit

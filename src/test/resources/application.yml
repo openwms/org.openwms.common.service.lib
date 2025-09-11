@@ -37,11 +37,6 @@ spring:
       date: yyyy-MM-dd
       time: HH:mm:ss
 
-feign:
-  httpclient:
-    connection-timeout: 30000
-    connection-timer-repeat: 30000
-
 owms:
   common:
     # strict: TransportUnits are directly deleted without

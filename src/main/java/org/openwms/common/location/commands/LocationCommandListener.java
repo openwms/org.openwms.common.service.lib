@@ -38,7 +38,7 @@ import static org.openwms.common.location.api.LocationApiConstants.LOCATION_EMPT
  *
  * @author Heiko Scherrer
  */
-@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
+@Profile(SpringProfiles.AMQP)
 @Component
 class LocationCommandListener {
 

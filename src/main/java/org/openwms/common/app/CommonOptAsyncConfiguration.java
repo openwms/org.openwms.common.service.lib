@@ -16,7 +16,7 @@
 package org.openwms.common.app;
 
 import org.ameba.amqp.RabbitTemplateConfigurable;
-import org.openwms.core.SpringProfiles;
+import org.ameba.app.SpringProfiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Binding;
@@ -55,7 +55,7 @@ import static org.openwms.common.CommonProfiles.SHIPPING_SUPPORT;
  *
  * @author Heiko Scherrer
  */
-@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
+@Profile(SpringProfiles.AMQP)
 @Configuration
 @RefreshScope
 @EnableRabbit

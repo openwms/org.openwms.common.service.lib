@@ -16,10 +16,10 @@
 package org.openwms.common.transport.commands;
 
 import org.ameba.annotation.Measured;
+import org.ameba.app.SpringProfiles;
 import org.openwms.common.transport.api.commands.Command;
 import org.openwms.common.transport.api.commands.MessageCommand;
 import org.openwms.common.transport.api.commands.TUCommand;
-import org.openwms.core.SpringProfiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component;
  * @author Heiko Scherrer
  * @see TUCommand
  */
-@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
+@Profile(SpringProfiles.AMQP)
 @Component
 class TransportUnitCommandListener {
 

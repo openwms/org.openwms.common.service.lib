@@ -101,7 +101,7 @@ class LocationTest {
         @Test void shall_fail_when_remove_message_null() {
             Location l = new Location(ID1);
             assertThatThrownBy(
-                    () -> l.removeMessages(null))
+                    () -> l.removeMessages((Message[]) null))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }

@@ -16,6 +16,7 @@
 package org.openwms.common.transport.reservation;
 
 import org.ameba.annotation.Measured;
+import org.ameba.app.SpringProfiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
@@ -26,7 +27,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import static org.openwms.common.CommonProfiles.SHIPPING_SUPPORT;
-import static org.openwms.core.SpringProfiles.ASYNCHRONOUS_PROFILE;
 import static org.openwms.core.SpringProfiles.NOT_MANAGED;
 
 /**
@@ -34,7 +34,7 @@ import static org.openwms.core.SpringProfiles.NOT_MANAGED;
  *
  * @author Heiko Scherrer
  */
-@Profile(ASYNCHRONOUS_PROFILE + " && " + SHIPPING_SUPPORT + " && " + NOT_MANAGED)
+@Profile(SpringProfiles.AMQP + " && " + SHIPPING_SUPPORT + " && " + NOT_MANAGED)
 @Component
 class ReservationMessageListener {
 

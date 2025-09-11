@@ -18,8 +18,8 @@ package org.openwms.common.transport.commands;
 import jakarta.validation.ValidationException;
 import jakarta.validation.Validator;
 import org.ameba.annotation.Measured;
+import org.ameba.app.SpringProfiles;
 import org.openwms.common.transport.api.commands.TUCommand;
-import org.openwms.core.SpringProfiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -37,7 +37,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
  *
  * @author Heiko Scherrer
  */
-@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
+@Profile(SpringProfiles.AMQP)
 @RefreshScope
 @Component
 class TransportUnitCommandPropagator {

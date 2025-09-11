@@ -18,13 +18,13 @@ package org.openwms.common.location.impl;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Validator;
 import org.ameba.annotation.Measured;
+import org.ameba.app.SpringProfiles;
 import org.openwms.common.location.Location;
 import org.openwms.common.location.LocationGroup;
 import org.openwms.common.location.LocationGroupMapper;
 import org.openwms.common.location.LocationMapper;
 import org.openwms.common.location.api.events.LocationEvent;
 import org.openwms.common.location.api.events.LocationGroupEvent;
-import org.openwms.core.SpringProfiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -44,7 +44,7 @@ import static org.ameba.system.ValidationUtil.validate;
  *
  * @author Heiko Scherrer
  */
-@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
+@Profile(SpringProfiles.AMQP)
 @RefreshScope
 @Component
 class LocationGroupEventPropagator {

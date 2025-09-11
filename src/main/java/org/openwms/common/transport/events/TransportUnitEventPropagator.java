@@ -16,9 +16,9 @@
 package org.openwms.common.transport.events;
 
 import org.ameba.annotation.Measured;
+import org.ameba.app.SpringProfiles;
 import org.openwms.common.transport.TransportUnit;
 import org.openwms.common.transport.TransportUnitMapper;
-import org.openwms.core.SpringProfiles;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -35,7 +35,7 @@ import static java.lang.String.format;
  *
  * @author Heiko Scherrer
  */
-@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
+@Profile(SpringProfiles.AMQP)
 @RefreshScope
 @Component
 class TransportUnitEventPropagator {

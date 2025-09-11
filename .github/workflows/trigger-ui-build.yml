@@ -1,7 +1,7 @@
 name: "Trigger UI Build"
 on:
   workflow_run:
-    workflows: ["master_docs"]
+    workflows: ["master_build"]
     branches: [ master ]
     types:
       - completed

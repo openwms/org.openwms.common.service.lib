@@ -15,7 +15,7 @@
  */
 package org.openwms.common.spi.transactions.commands;
 
-import org.openwms.core.SpringProfiles;
+import org.ameba.app.SpringProfiles;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
  *
  * @author Heiko Scherrer
  */
-@Profile("!" + SpringProfiles.ASYNCHRONOUS_PROFILE)
+@Profile("!" + SpringProfiles.AMQP)
 @Component
 class NoOpTransactionApiImpl implements AsyncTransactionApi {
 

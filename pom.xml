@@ -6,11 +6,11 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>27.3</version>
+        <version>27.6</version>
         <relativePath/>
     </parent>
     <artifactId>org.openwms.common.service.lib</artifactId>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>3.1.0-SNAPSHOT</version>
     <name>OpenWMS.org COMMON: Base Service Library</name>
     <description>A library with essential functionality on common resources like Locations, LocationGroups and TransportUnits</description>
     <url>https://openwms.github.io/${project.artifactId}/index.html</url>
@@ -34,10 +34,10 @@
     </developers>
 
     <properties>
-        <core.test.arch.version>1.0.2</core.test.arch.version>
+        <core.test.arch.version>1.1.0-SNAPSHOT</core.test.arch.version>
         <core.units.version>0.7.0</core.units.version>
-        <core.version>3.0.0</core.version>
-        <spring-cloud-dependencies.version>2024.0.1</spring-cloud-dependencies.version>
+        <core.version>3.1.0-SNAPSHOT</core.version>
+        <spring-cloud-dependencies.version>2025.0.0</spring-cloud-dependencies.version>
         <surefireArgs>-Dspring.profiles.active=TEST</surefireArgs>
     </properties>
 
@@ -240,6 +240,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bus-amqp</artifactId>
             <optional>true</optional>
         </dependency>
@@ -404,14 +409,14 @@
 
     <repositories>
         <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Staging Repository</name>
-            <url>https://oss.sonatype.org/content/groups/staging/</url>
+            <id>central-portal-snapshots</id>
+            <name>Central Portal Snapshots</name>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
             <snapshots>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </snapshots>
             <releases>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </releases>
         </repository>
     </repositories>

@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
  *
  * @author Heiko Scherrer
  */
-@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
+@Profile(SpringProfiles.AMQP)
 @Component
 class LocationRegistrationCommandListener {
 

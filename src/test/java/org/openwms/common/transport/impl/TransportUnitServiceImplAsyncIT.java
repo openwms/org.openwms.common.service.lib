@@ -15,6 +15,7 @@
  */
 package org.openwms.common.transport.impl;
 
+import org.ameba.app.SpringProfiles;
 import org.ameba.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,6 @@ import org.openwms.common.spi.transactions.commands.AsyncTransactionApi;
 import org.openwms.common.transport.TransportUnitService;
 import org.openwms.common.transport.api.commands.TUCommand;
 import org.openwms.common.transport.api.messages.TransportUnitMO;
-import org.openwms.core.SpringProfiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Profile;
@@ -39,7 +39,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Heiko Scherrer
  */
-@Profile(SpringProfiles.ASYNCHRONOUS_PROFILE)
+@Profile(SpringProfiles.AMQP)
 @CommonApplicationTest
 class TransportUnitServiceImplAsyncIT {
 
