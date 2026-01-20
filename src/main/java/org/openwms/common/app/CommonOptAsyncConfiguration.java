@@ -50,8 +50,8 @@ import static org.ameba.LoggingCategories.BOOT;
 import static org.openwms.common.CommonProfiles.SHIPPING_SUPPORT;
 
 /**
- * A CommonOptAsyncConfiguration contains the modules asynchronous configuration that is
- * only active when Springs ASYNCHRONOUS profile is set.
+ * A CommonOptAsyncConfiguration contains the modules asynchronous configuration that is only active when {@value SpringProfiles#AMQP}
+ * profile is set.
  *
  * @author Heiko Scherrer
  */

@@ -30,13 +30,13 @@ $ ./mvnw package
 To also build and run with [RabbitMQ](https://www.rabbitmq.com) support call:
 
 ```
-$ ./mvnw package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
+$ ./mvnw package -DsurefireArgs=-Dspring.profiles.active=AMQP,TEST
 ```
 
 This requires a [RabbitMQ](https://www.rabbitmq.com) server running locally with default settings.
 
 # Run
-This is a library not a standalone microservice that runs on the JVM. This library is part of the OpenWMS.org Common Service, that is 
+This is a library, not a standalone microservice that runs on the JVM. This library is part of the OpenWMS.org Common Service, that is 
 distributed as Docker image and can be instantiated as Docker container.
 
 ## Run as Docker Container
@@ -57,11 +57,11 @@ $ ./mvnw deploy -Prelease,gpg
 After it is uploaded, Sonatype runs a couple of quality checks before it can be manually released to [Maven Central](https://search.maven.org/).
 
 ## Release Documentation
-To release the API documentation as a static website manually just call the following two Maven commands. This is integrated into the
-automated build pipeline as well.
+To release the API documentation as a static website, call the following two Maven commands manually. This is integrated into the automated
+build pipeline as well.
 
 ```
-$ ./mvnw package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
+$ ./mvnw package -DsurefireArgs=-Dspring.profiles.active=AMQP,TEST
 $ ./mvnw site scm-publish:publish-scm
 ```
 

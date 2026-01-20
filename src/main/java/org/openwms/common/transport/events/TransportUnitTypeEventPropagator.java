@@ -32,7 +32,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 
 /**
  * A TransportUnitTypeEventPropagator is a Spring managed component to publish {@link TransportUnitTypeEvent}s over AQMP. This component is
- * only active with the {@value SpringProfiles#ASYNCHRONOUS_PROFILE} profile.
+ * only active with the {@value SpringProfiles#AMQP} profile.
  *
  * @author Heiko Scherrer
  */

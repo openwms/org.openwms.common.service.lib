@@ -40,7 +40,7 @@ $ ./mvnw package
 
 To also build and run integration tests against a running [RabbitMQ](https://www.rabbitmq.com) instance call:
 ```
-$ ./mvnw package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
+$ ./mvnw package -DsurefireArgs=-Dspring.profiles.active=AMQP,TEST
 ```
 This requires a [RabbitMQ](https://www.rabbitmq.com) server running locally with default settings.
 
@@ -56,7 +56,7 @@ After it is uploaded, Sonatype runs a couple of quality checks before it can be 
 To release the API documentation as a static website manually just call the following two Maven commands. This is integrated into the
 automated build pipeline as well.
 ```
-$ ./mvnw package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
+$ ./mvnw package -DsurefireArgs=-Dspring.profiles.active=AMQP,TEST
 $ ./mvnw site scm-publish:publish-scm
 ```
 
