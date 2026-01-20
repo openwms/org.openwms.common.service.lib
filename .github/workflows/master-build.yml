@@ -35,19 +35,16 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-
       - name: Set up JDK 21
         uses: actions/setup-java@v1
         with:
           java-version: 21
-
       - name: Cache Maven packages
         uses: actions/cache@v3
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-
       - name: Check version
         if: github.event_name != 'pull_request'
         id: version-check
@@ -63,7 +60,6 @@ jobs:
             echo "should_publish=true" >> $GITHUB_OUTPUT
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-
       - uses: s4u/maven-settings-action@v4.0.0
         with:
           servers: |
@@ -77,7 +73,6 @@ jobs:
               "username": "${{ secrets.OSSRH_USERNAME }}",
               "password": "${{ secrets.OSSRH_PASSWORD }}"
             }]
-
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v6
         with:
@@ -85,7 +80,6 @@ jobs:
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
           git_user_signingkey: true
           git_commit_gpgsign: true
-
       - name: Build & Deploy
         run: >
           ./mvnw deploy
@@ -93,7 +87,6 @@ jobs:
           -Dspring.rabbitmq.host=localhost
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
           -U -B -Prelease,release-central,gpg $MAVEN_OPTS
-
       - name: Install tools
         if: steps.version-check.outputs.should_publish == 'true'
         run: |
@@ -101,7 +94,6 @@ jobs:
           sudo apt-get install graphviz gsfonts graphviz-doc
           git config --global user.email "ci@example.com"
           git config --global user.name "CI Server"
-
       - name: Site
         if: steps.version-check.outputs.should_publish == 'true'
         run: >
@@ -141,26 +133,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
       - name: Set up JDK 21
         uses: actions/setup-java@v1
         with:
           java-version: 21
-
       - name: Cache SonarQube packages
         uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
-
       - name: Cache Maven packages
         uses: actions/cache@v3
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-
       - name: Sonar
         run: >
           ./mvnw clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar
