@@ -146,6 +146,11 @@
         <dependencies>
             <dependency>
                 <groupId>org.openwms</groupId>
+                <artifactId>org.openwms.core.test.arch</artifactId>
+                <version>${core.test.arch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openwms</groupId>
                 <artifactId>org.openwms.core.units</artifactId>
                 <version>${core.units.version}</version>
             </dependency>
@@ -153,11 +158,6 @@
                 <groupId>org.openwms</groupId>
                 <artifactId>org.openwms.core.util</artifactId>
                 <version>${core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openwms</groupId>
-                <artifactId>org.openwms.core.test.arch</artifactId>
-                <version>${core.test.arch.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -173,6 +173,11 @@
         <!-- Project Dependencies -->
         <dependency>
             <groupId>org.openwms</groupId>
+            <artifactId>org.openwms.core.test.arch</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openwms</groupId>
             <artifactId>org.openwms.core.units</artifactId>
             <optional>true</optional>
         </dependency>
@@ -180,11 +185,6 @@
             <groupId>org.openwms</groupId>
             <artifactId>org.openwms.core.util</artifactId>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.openwms</groupId>
-            <artifactId>org.openwms.core.test.arch</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <!-- Spring Dependencies -->

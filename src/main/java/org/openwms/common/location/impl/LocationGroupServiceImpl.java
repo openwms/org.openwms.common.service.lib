@@ -39,6 +39,7 @@ import org.openwms.core.listener.RemovalNotAllowedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.Sort;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
@@ -196,7 +197,7 @@ class LocationGroupServiceImpl implements LocationGroupService {
     @Override
     @Measured
     public @NotNull List<LocationGroup> findAll() {
-        return repository.findAll();
+        return repository.findAll(Sort.by(Sort.Direction.ASC, "pk"));
     }
 
     /**

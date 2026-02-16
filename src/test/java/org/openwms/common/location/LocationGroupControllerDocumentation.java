@@ -53,7 +53,6 @@ import static org.springframework.restdocs.http.HttpDocumentation.httpRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -65,7 +64,9 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -399,7 +400,7 @@ class LocationGroupControllerDocumentation {
         @Test void shall_change_description() throws Exception {
         var lg = service.findByName(LOCATION_GROUP_NAME_LG2).get();
             mockMvc.perform(
-                            patch(API_LOCATION_GROUPS + "/{pKey}", lg.getPersistentKey())
+                            put(API_LOCATION_GROUPS + "/{pKey}", lg.getPersistentKey())
                                     .contentType(MediaType.APPLICATION_JSON)
                                     .content("{\"name\":\""+lg.getName()+"\",\"description\":\"foo\"}"))
                     .andExpect(status().isOk())
@@ -418,7 +419,7 @@ class LocationGroupControllerDocumentation {
         @Test void shall_change_parent() throws Exception {
             var lg = service.findByName(LOCATION_GROUP_NAME_LG2).get();
             mockMvc.perform(
-                            patch(API_LOCATION_GROUPS + "/{pKey}", lg.getPersistentKey())
+                            put(API_LOCATION_GROUPS + "/{pKey}", lg.getPersistentKey())
                                     .contentType(MediaType.APPLICATION_JSON)
                                     .content("{\"name\":\""+lg.getName()+"\",\"parentName\":\"IPOINT\"}"))
                     .andExpect(status().isOk())
