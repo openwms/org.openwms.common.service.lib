@@ -130,7 +130,7 @@ jobs:
     steps:
       - name: Trigger
         run: |
-          curl -X POST https://api.github.com/repos/interface21-io/org.openwms.common.service.ui/dispatches \
+          curl --fail -X POST https://api.github.com/repos/interface21-io/org.openwms.common.service.ui/dispatches \
           -H 'Accept: application/vnd.github.everest-preview+json' \
           -u ${{ secrets.PAT }} \
           --data '{"event_type": "Remote Trigger", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
